@@ -1,9 +1,4 @@
----
-layout: home
-name: Home
-title: null
-permalink: /
----
+# Robert J. Hardwick
 
 [![Github](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/umbralcalc)
 [![Orchid](https://img.shields.io/badge/orcid-A6CE39?style=for-the-badge&logo=orcid&logoColor=white)](https://orcid.org/0000-0001-8778-006X)
