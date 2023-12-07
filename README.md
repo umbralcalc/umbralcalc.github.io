@@ -5,7 +5,7 @@
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://uk.linkedin.com/in/robert-hardwick-1179041aa)
 [![Google Scholar](https://img.shields.io/badge/Google%20Scholar-4285F4?style=for-the-badge&logo=google-scholar&logoColor=white)](https://scholar.google.com/citations?user=YA2x6REAAAAJ&hl=en)
 
-**Hello there!** :wave:
+**Hello there!** &#128075;
 
 * I'm a professional research engineer and simulation builder with experience in many problem domains.
 * My expertise is in Bayesian statistics, machine learning methods and all things stochastic.
