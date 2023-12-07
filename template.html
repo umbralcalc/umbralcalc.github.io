@@ -18,7 +18,7 @@ $endif$
       margin: 0 auto;
       padding: 45px;
       color: #1F2328;
-      background-color: #F5F5F5;
+      background-color: #ffff;
       font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
       line-height: 1.5;
       word-wrap: break-word;
@@ -44,6 +44,12 @@ $endif$
       color: rgb(42, 65, 83);
     }
 
+    .body a {
+      color: #0969da;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
     .sourceCode {
       padding: .2em .4em;
       margin: .2em;
@@ -51,7 +57,25 @@ $endif$
       color: #F5F5F5;
       background-color: rgb(42, 65, 83);
       border-radius: 6px;
-      word-wrap: break-word;
+      overflow: auto;
+    }
+
+    .articleHeader {
+      padding: .2em .4em;
+      margin: 1em;
+      font-size: 95%;
+      color: rgb(79, 97, 114);
+      background-color: #ffff;
+      border-radius: 6px;
+      overflow: auto;
+    }
+
+    .articleHeader strong {
+      font-size: 95%;
+      color: rgb(79, 97, 114);
+      background-color: #ffff;
+      border-radius: 6px;
+      overflow: auto;
     }
 
     @media (max-width: 767px) {
@@ -70,15 +94,21 @@ $endfor$
 <link rel="icon" type="image/x-icon" href="images/favicon.ico">
 </head>
 <article class="body">
-$for(include-before)$
-$include-before$
-$endfor$
-$if(title)$
+<h1>$title$</h1>
+$if(author)$
+<div class="articleHeader">
+<strong> Author. </strong> $author$
+</br>
+$endif$
+$if(date)$
+<strong> Date. </strong> $date$
+</br>
+$endif$
+$if(concept)$
+<strong> Concept. </strong> $concept$
+</div>
 $endif$
 $body$
-$for(include-after)$
-$include-after$
-$endfor$
 <script>
 // Used to toggle the menu on small screens when clicking on the menu button
 function myFunction() {

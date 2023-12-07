@@ -14,4 +14,4 @@ pandoc --template template.html \
 -f markdown \
 -t html \
 -o text.html \
-_posts/2023-12-06-solving-non-Markovian-master-equations-with-Libtorch.md;
+_posts/2023-12-08-solving-non-Markovian-master-equations-with-Libtorch.md;

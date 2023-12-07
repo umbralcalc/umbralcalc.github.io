@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="dcterms.date" content="2023-12-08" />
   <style>
     .body {
       box-sizing: border-box;
@@ -12,7 +13,7 @@
       margin: 0 auto;
       padding: 45px;
       color: #1F2328;
-      background-color: #F5F5F5;
+      background-color: #ffff;
       font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
       line-height: 1.5;
       word-wrap: break-word;
@@ -38,6 +39,12 @@
       color: rgb(42, 65, 83);
     }
 
+    .body a {
+      color: #0969da;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
     .sourceCode {
       padding: .2em .4em;
       margin: .2em;
@@ -45,7 +52,25 @@
       color: #F5F5F5;
       background-color: rgb(42, 65, 83);
       border-radius: 6px;
-      word-wrap: break-word;
+      overflow: auto;
+    }
+
+    .articleHeader {
+      padding: .2em .4em;
+      margin: 1em;
+      font-size: 95%;
+      color: rgb(79, 97, 114);
+      background-color: #ffff;
+      border-radius: 6px;
+      overflow: auto;
+    }
+
+    .articleHeader strong {
+      font-size: 95%;
+      color: rgb(79, 97, 114);
+      background-color: #ffff;
+      border-radius: 6px;
+      overflow: auto;
     }
 
     @media (max-width: 767px) {
@@ -59,9 +84,14 @@
 <link rel="icon" type="image/x-icon" href="images/favicon.ico">
 </head>
 <article class="body">
-<h1 id="solving-non-markovian-master-equations-with-libtorch">Solving non-Markovian master equations with Libtorch</h1>
-<p><strong>author:</strong> Robert J. Hardwick</p>
-<p><strong>date:</strong> 2023-12-06</p>
+<h1>Solving non-Markovian master equations with Libtorch</h1>
+<div class="articleHeader">
+<strong> Author. </strong> Robert J. Hardwick
+</br>
+<strong> Date. </strong> 2023-12-08
+</br>
+<strong> Concept. </strong> To study a variety of numerical solutions to non-Markovian phenomena using Libtorch.
+</div>
 <h2 id="formalism-recap">Formalism recap</h2>
 <p>Let’s recap the formalism introduced in <a href="https://umbralcalc.github.io/worlds-of-observation/understanding_the_time_evolution_of_probabilities/chapter.pdf">this book chapter</a> which considers what happens to the probability that the state history matrix takes a particular set of values over time. To do this, we write down what is known as a <em>master equation</em>, which fully describes the time evolution of the <em>probability density function</em> <span class="math inline">\(P_{{\sf t}+1}(X\vert z)\)</span> of <span class="math inline">\(X_{0:{\sf t}+1}=X\)</span> given that the parameters of the process are <span class="math inline">\(z\)</span>. This can be written as</p>
 <p><span class="math display">\[

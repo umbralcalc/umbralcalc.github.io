@@ -1,8 +1,9 @@
-# Solving non-Markovian master equations with Libtorch
-
-**author:** Robert J. Hardwick
-
-**date:** 2023-12-06
+---
+title: Solving non-Markovian master equations with Libtorch
+author: Robert J. Hardwick
+date: 2023-12-08
+concept: To study a variety of numerical solutions to non-Markovian phenomena using Libtorch.
+---
 
 ## Formalism recap
 
