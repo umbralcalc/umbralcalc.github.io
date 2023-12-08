@@ -2,7 +2,10 @@
 title: Solving non-Markovian master equations with Libtorch
 author: Robert J. Hardwick
 date: 2023-12-08
-concept: To study a variety of numerical solutions to non-Markovian phenomena using Libtorch.
+concept: To study a variety of numerical solutions to non-Markovian phenomena. We do this by revealing different orders of temporal correlation that are present in the full master equation of a generalised non-Markovian process. By relating higher-order correlations to a form of time dependence in the pairwise correlation we then show how to numerically solve the system to obtain the time evolution of state probabilities. Since this computation can become very numerically intensive, the algorithm we discuss is implemented in C++ using the Libtorch library to achieve as much performance as possible.
+bibtexId: hardwick-2023-12-08
+year: 2023
+howPublished: https://umbralcalc.github.io/2023-12-08-solving-non-Markovian-master-equations-with-Libtorch.html
 ---
 
 ## Formalism recap
@@ -157,14 +160,3 @@ P_{({\sf t}+1){\sf t}''}^{ii''} &= \frac{1}{{\sf t}}\sum_{{\sf t}'=1}^{{\sf t}}\
 $$
 
 The code is being developed here: [https://github.com/umbralcalc/dennm-torch](https://github.com/umbralcalc/dennm-torch).
-
-You can cite this post using the following BibTeX
-
-```bibtex
-@misc{hardwick-06-12-2023,
-  title        = {Solving non-Markovian master equations with Libtorch},
-  author       = {Hardwick, Robert J.},
-  year         = {2023},
-  howpublished = {https://umbralcalc.github.io/2023-12-06-solving-non-Markovian-master-equations-with-Libtorch.html},
-}
-```

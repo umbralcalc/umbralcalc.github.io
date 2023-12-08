@@ -63,6 +63,7 @@
       background-color: #ffff;
       border-radius: 6px;
       overflow: auto;
+      text-align: justify;
     }
 
     .articleHeader strong {
@@ -85,13 +86,17 @@
 </head>
 <article class="body">
 <h1>Solving non-Markovian master equations with Libtorch</h1>
+</br>
+<hr color="LightGray">
 <div class="articleHeader">
 <strong> Author. </strong> Robert J. Hardwick
 </br>
 <strong> Date. </strong> 2023-12-08
 </br>
-<strong> Concept. </strong> To study a variety of numerical solutions to non-Markovian phenomena using Libtorch.
+<strong> Concept. </strong> To study a variety of numerical solutions to non-Markovian phenomena. We do this by revealing different orders of temporal correlation that are present in the full master equation of a generalised non-Markovian process. By relating higher-order correlations to a form of time dependence in the pairwise correlation we then show how to numerically solve the system to obtain the time evolution of state probabilities. Since this computation can become very numerically intensive, the algorithm we discuss is implemented in C++ using the Libtorch library to achieve as much performance as possible.
 </div>
+<hr color="LightGray">
+</br>
 <h2 id="formalism-recap">Formalism recap</h2>
 <p>Let’s recap the formalism introduced in <a href="https://umbralcalc.github.io/worlds-of-observation/understanding_the_time_evolution_of_probabilities/chapter.pdf">this book chapter</a> which considers what happens to the probability that the state history matrix takes a particular set of values over time. To do this, we write down what is known as a <em>master equation</em>, which fully describes the time evolution of the <em>probability density function</em> <span class="math inline">\(P_{{\sf t}+1}(X\vert z)\)</span> of <span class="math inline">\(X_{0:{\sf t}+1}=X\)</span> given that the parameters of the process are <span class="math inline">\(z\)</span>. This can be written as</p>
 <p><span class="math display">\[
@@ -204,13 +209,16 @@ P_{({\sf t}+1){\sf t}&#39;&#39;}^{ii&#39;&#39;} &amp;= \frac{1}{{\sf t}}\sum_{{\
 \end{aligned}
 \]</span></p>
 <p>The code is being developed here: <a href="https://github.com/umbralcalc/dennm-torch">https://github.com/umbralcalc/dennm-torch</a>.</p>
-<p>You can cite this post using the following BibTeX</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bibtex"><code class="sourceCode bibtex"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="va">@misc</span>{<span class="ot">hardwick</span>-<span class="ot">06</span>-<span class="ot">12</span>-<span class="ot">2023</span>,</span>
+<hr color="LightGray">
+<div class="articleHeader">You can cite this post using the following BibTeX:
+<div class="sourceCode" id="cb1"><pre class="sourceCode bibtex"><code class="sourceCode bibtex"><span id="cb1-1"><span class="va">@misc</span>{<span class="ot">hardwick-2023-12-08</span><span>,</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>  <span class="dt">title</span>        = {Solving non-Markovian master equations with Libtorch},</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>  <span class="dt">author</span>       = {Hardwick, Robert J.},</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>  <span class="dt">author</span>       = {Robert J. Hardwick},</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>  <span class="dt">year</span>         = {2023},</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>  <span class="dt">howpublished</span> = {https://umbralcalc.github.io/2023-12-06-solving-non-Markovian-master-equations-with-Libtorch.html},</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>  <span class="dt">howpublished</span> = {https://umbralcalc.github.io/2023-12-08-solving-non-Markovian-master-equations-with-Libtorch.html},</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>}</span></code></pre></div>
+</div>
+<script>
 <script>
 // Used to toggle the menu on small screens when clicking on the menu button
 function myFunction() {
