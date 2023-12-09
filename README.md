@@ -12,21 +12,5 @@ title: Robert J. Hardwick
 * I'm a professional research engineer and simulation builder with experience in many problem domains.
 * My expertise is in Bayesian statistics, machine learning methods and all things stochastic.
 * My domain knowledge includes statistics, physics (cosmology), epidemiology, sports betting and traffic control.
+* In my free time I develop code and write in this technical article repository.
 * I also like to [create some human art](https://umbralcalc.github.io/human-art/) 🖌️ every now and then.
-
-**What am I doing on GitHub at the moment?**
-
-[![ReadMe Card](https://github-readme-stats.vercel.app/api/pin/?username=umbralcalc&repo=worlds-of-observation)](https://umbralcalc.github.io/worlds-of-observation)
-
-**Here are some of my past projects:**
-
-[![ReadMe Card](https://github-readme-stats.vercel.app/api/pin/?username=umbralcalc&repo=nfield)](https://github.com/umbralcalc/nfield)
-[![ReadMe Card](https://github-readme-stats.vercel.app/api/pin/?username=umbralcalc&repo=foxi)](https://github.com/umbralcalc/foxi)
-[![ReadMe Card](https://github-readme-stats.vercel.app/api/pin/?username=umbralcalc&repo=helmpy)](https://github.com/umbralcalc/helmpy)
-[![ReadMe Card](https://github-readme-stats.vercel.app/api/pin/?username=umbralcalc&repo=covid-simple)](https://github.com/umbralcalc/covid-simple)
-[![ReadMe Card](https://github-readme-stats.vercel.app/api/pin/?username=umbralcalc&repo=pneumoinfer)](https://github.com/umbralcalc/pneumoinfer)
-[![ReadMe Card](https://github-readme-stats.vercel.app/api/pin/?username=umbralcalc&repo=bants)](https://github.com/umbralcalc/bants)
-[![ReadMe Card](https://github-readme-stats.vercel.app/api/pin/?username=umbralcalc&repo=lobsim)](https://github.com/umbralcalc/lobsim)
-[![ReadMe Card](https://github-readme-stats.vercel.app/api/pin/?username=umbralcalc&repo=stochadex)](https://github.com/umbralcalc/stochadex)
-[![ReadMe Card](https://github-readme-stats.vercel.app/api/pin/?username=umbralcalc&repo=learnadex)](https://github.com/umbralcalc/learnadex)
-[![ReadMe Card](https://github-readme-stats.vercel.app/api/pin/?username=umbralcalc&repo=dennm-torch)](https://github.com/umbralcalc/dennm-torch)
