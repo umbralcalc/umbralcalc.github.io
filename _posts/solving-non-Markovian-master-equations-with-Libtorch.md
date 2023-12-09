@@ -5,7 +5,7 @@ date: 2023-12-08
 concept: To study a variety of numerical solutions to non-Markovian phenomena. We do this by revealing different orders of temporal correlation that are present in the full master equation of a generalised non-Markovian process. By relating higher-order correlations to a form of time dependence in the pairwise correlation we then show how to numerically solve the system to obtain the time evolution of state probabilities. Since this computation can become very numerically intensive, the algorithm we discuss is implemented in C++ using the Libtorch library to achieve as much performance as possible.
 bibtexId: hardwick-2023-12-08
 year: 2023
-howPublished: https://umbralcalc.github.io/solving-non-Markovian-master-equations-with-Libtorch.html
+howPublished: https://umbralcalc.github.io/posts/solving-non-markovian-master-equations-with-libtorch.html
 ---
 
 ## Formalism recap

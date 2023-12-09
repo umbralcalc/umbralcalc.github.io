@@ -1,17 +1,23 @@
 #!/bin/bash
 
-# generate home page
+# generate about page
 pandoc --template template.html \
 --mathjax \
 -f markdown \
 -t html \
--o index.html \
+-o about.html \
 README.md;
 
 # generate other posts
-pandoc --template template.html \
---mathjax \
--f markdown \
--t html \
--o text.html \
-_posts/solving-non-Markovian-master-equations-with-Libtorch.md;
+for filename in _posts/*.md; do
+    prefix="_posts/"
+    suffix=".md"
+    newFilename=${filename%"$suffix"}
+    newFilename=${newFilename#"$prefix"}
+    pandoc --template template.html \
+    --mathjax \
+    -f markdown \
+    -t html \
+    -o posts/${newFilename}.html \
+    ${filename};
+done

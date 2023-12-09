@@ -1,1 +1,0 @@
-<meta http-equiv="Refresh" content="0; url='https://umbralcalc.github.io/worlds-of-observation'" />

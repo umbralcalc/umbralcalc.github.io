@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <link rel="icon" type="image/x-icon" href="./assets/favicon.ico">
   <style>
     .body {
       box-sizing: border-box;
@@ -57,8 +58,9 @@
       display: block;
     }
 
-    .span.math.display {
-      overflow: auto;
+    p {
+      overflow-x: auto;
+      overflow-y: hidden;
     }
 
     .articleHeader {
@@ -72,12 +74,46 @@
       text-align: justify;
     }
 
+    a.articleTitle h1 {
+      color: rgb(79, 97, 114);
+    }
+
+    a.articleTitle h1:hover {
+      color: LightGrey;
+    }
+
     .articleHeader strong {
       font-size: 95%;
       color: rgb(79, 97, 114);
       background-color: #ffff;
       border-radius: 6px;
       overflow: auto;
+    }
+
+    .body .navbar {
+      padding:8px 16px;
+      float:right;
+      width:auto;
+      border:none;
+      display:block;
+      outline:0;
+      color: LightGrey;
+    }
+
+    .body .repotitle {
+      padding:8px 0px;
+      float: left;
+      color: LightGrey;
+      font-weight: bold;
+      font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+    }
+
+    strong.nameRepo {
+      color: rgb(42, 65, 83);
+    }
+
+    .body .navbar:hover {
+      color: rgb(42, 65, 83);
     }
 
     @media (max-width: 767px) {
@@ -90,31 +126,40 @@
 <link rel="icon" type="image/x-icon" href="images/favicon.ico">
 </head>
 <article class="body">
-<h1>Robert J. Hardwick</h1>
-<p><a href="https://github.com/umbralcalc"><img src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&amp;logo=github&amp;logoColor=white" alt="Github" /></a> <a href="https://orcid.org/0000-0001-8778-006X"><img src="https://img.shields.io/badge/orcid-A6CE39?style=for-the-badge&amp;logo=orcid&amp;logoColor=white" alt="Orchid" /></a> <a href="https://uk.linkedin.com/in/robert-hardwick-1179041aa"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&amp;logo=linkedin&amp;logoColor=white" alt="LinkedIn" /></a> <a href="https://scholar.google.com/citations?user=YA2x6REAAAAJ&amp;hl=en"><img src="https://img.shields.io/badge/Google%20Scholar-4285F4?style=for-the-badge&amp;logo=google-scholar&amp;logoColor=white" alt="Google Scholar" /></a></p>
-<p><strong>Hello there!</strong> 👋</p>
-<ul>
-<li>I’m a professional research engineer and simulation builder with experience in many problem domains.</li>
-<li>My expertise is in Bayesian statistics, machine learning methods and all things stochastic.</li>
-<li>My domain knowledge includes statistics, physics (cosmology), epidemiology, sports betting and traffic control.</li>
-<li>I also like to <a href="https://umbralcalc.github.io/human-art/">create some human art</a> 🖌️ every now and then.</li>
-</ul>
-<p><strong>What am I doing on GitHub at the moment?</strong></p>
-<p><a href="https://umbralcalc.github.io/worlds-of-observation"><img src="https://github-readme-stats.vercel.app/api/pin/?username=umbralcalc&amp;repo=worlds-of-observation" alt="ReadMe Card" /></a></p>
-<p><strong>Here are some of my past projects:</strong></p>
-<p><a href="https://github.com/umbralcalc/nfield"><img src="https://github-readme-stats.vercel.app/api/pin/?username=umbralcalc&amp;repo=nfield" alt="ReadMe Card" /></a> <a href="https://github.com/umbralcalc/foxi"><img src="https://github-readme-stats.vercel.app/api/pin/?username=umbralcalc&amp;repo=foxi" alt="ReadMe Card" /></a> <a href="https://github.com/umbralcalc/helmpy"><img src="https://github-readme-stats.vercel.app/api/pin/?username=umbralcalc&amp;repo=helmpy" alt="ReadMe Card" /></a> <a href="https://github.com/umbralcalc/covid-simple"><img src="https://github-readme-stats.vercel.app/api/pin/?username=umbralcalc&amp;repo=covid-simple" alt="ReadMe Card" /></a> <a href="https://github.com/umbralcalc/pneumoinfer"><img src="https://github-readme-stats.vercel.app/api/pin/?username=umbralcalc&amp;repo=pneumoinfer" alt="ReadMe Card" /></a> <a href="https://github.com/umbralcalc/bants"><img src="https://github-readme-stats.vercel.app/api/pin/?username=umbralcalc&amp;repo=bants" alt="ReadMe Card" /></a> <a href="https://github.com/umbralcalc/lobsim"><img src="https://github-readme-stats.vercel.app/api/pin/?username=umbralcalc&amp;repo=lobsim" alt="ReadMe Card" /></a> <a href="https://github.com/umbralcalc/stochadex"><img src="https://github-readme-stats.vercel.app/api/pin/?username=umbralcalc&amp;repo=stochadex" alt="ReadMe Card" /></a> <a href="https://github.com/umbralcalc/learnadex"><img src="https://github-readme-stats.vercel.app/api/pin/?username=umbralcalc&amp;repo=learnadex" alt="ReadMe Card" /></a> <a href="https://github.com/umbralcalc/dennm-torch"><img src="https://github-readme-stats.vercel.app/api/pin/?username=umbralcalc&amp;repo=dennm-torch" alt="ReadMe Card" /></a></p>
-<script>
-// Used to toggle the menu on small screens when clicking on the menu button
-function myFunction() {
-  var x = document.getElementById("navDemo");
-  if (x.className.indexOf("w3-show") == -1) {
-    x.className += " w3-show";
-  } else { 
-    x.className = x.className.replace(" w3-show", "");
-  }
-}
-</script>
-<script type="text/javascript" id="MathJax-script" async
-  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<a class="navbar" href="https://umbralcalc.github.io/">
+Home
+</a>
+<a class="navbar" href="https://umbralcalc.github.io/about.html">
+About
+</a>
+<div class="repotitle">
+&#129518; <strong class="nameRepo">umbralcalculations:</strong> Technical Article Repository
+</div>
+</br>
+</br>
+</br>
+
+<!-- Article -->
+<div class="articleHeader">
+<a class="articleTitle" href="https://umbralcalc.github.io/posts/solving-non-markovian-master-equations-with-libtorch.html"><h1>Solving non-Markovian master equations with Libtorch</h1></a>
+<hr color="LightGray">
+<strong> Author. </strong> Robert J. Hardwick
+</br>
+<strong> Date. </strong> [WIP]
+</br>
+<strong> Concept. </strong> To study a variety of numerical solutions to non-Markovian phenomena. We do this by revealing different orders of temporal correlation that are present in the full master equation of a generalised non-Markovian process. By relating higher-order correlations to a form of time dependence in the pairwise correlation we then show how to numerically solve the system to obtain the time evolution of state probabilities. Since this computation can become very numerically intensive, the algorithm we discuss is implemented in C++ using the Libtorch library to achieve as much performance as possible.
+</div>
+
+<!-- Article -->
+<div class="articleHeader">
+<a class="articleTitle" href="https://umbralcalc.github.io/worlds-of-observation/"><h1>Worlds Of Observation: Building more realistic systems for machine learning</h1></a>
+<hr color="LightGray">
+<strong> Author. </strong> Robert J. Hardwick
+</br>
+<strong> Date. </strong> [WIP]
+</br>
+<strong> Concept. </strong> Worlds Of Observation is a book about building more realistic training environments for machine learning algorithms to control systems in the real world. While model-free reinforcement learning is a popular and very powerful approach to generating such algorithms (especially when there is plenty of data and the system is fully observable), this book will primarily explore how to create environments for control algorithms using a more model-based approach. Those readers who are data scientists, research engineers, statistical programmers or computational scientists may find our mathematically descriptive, yet practically-minded, approach in this book quite interesting and maybe a little different to the usual perspectives.
+</div>
+
 </article>
 </html>
