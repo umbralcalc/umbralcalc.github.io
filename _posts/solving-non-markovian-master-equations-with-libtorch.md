@@ -1,6 +1,6 @@
 ---
 title: Solving non-Markovian master equations with Libtorch
-author: Robert J. Hardwick
+author: Hardwick, Robert J.
 date: [WIP]
 concept: To study a variety of numerical solutions to non-Markovian phenomena. We do this by revealing different orders of temporal correlation that are present in the full master equation of a generalised non-Markovian process. By relating higher-order correlations to a form of time dependence in the pairwise correlation we then show how to numerically solve the system to obtain the time evolution of state probabilities. Since this computation can become very numerically intensive, the algorithm we discuss is implemented in C++ using the Libtorch library to achieve as much performance as possible.
 bibtexId: hardwick-[WIP]
@@ -10,7 +10,7 @@ howPublished: https://umbralcalc.github.io/posts/solving-non-markovian-master-eq
 
 ## Formalism recap
 
-Let's recap the formalism introduced in [this book chapter](https://umbralcalc.github.io/worlds-of-observation/understanding_the_time_evolution_of_probabilities/chapter.pdf) which considers what happens to the probability that the state history matrix takes a particular set of values over time. To do this, we write down what is known as a _master equation_, which fully describes the time evolution of the _probability density function_ $P_{{\sf t}+1}(X\vert z)$ of $X_{0:{\sf t}+1}=X$ given that the parameters of the process are $z$. This can be written as
+Let's recap the formalism introduced in [@worlds-of-observation-2023], which considers what happens to the probability that the state history matrix takes a particular set of values over time. To do this, we write down what is known as a _master equation_, which fully describes the time evolution of the _probability density function_ $P_{{\sf t}+1}(X\vert z)$ of $X_{0:{\sf t}+1}=X$ given that the parameters of the process are $z$. This can be written as
 
 $$
 \begin{aligned}
@@ -38,7 +38,7 @@ P_{{\sf t}+1}(x\vert z) &= \int_{\omega_{\sf t}}{\rm d}^nx' \, P_{\sf t}(x'\vert
 \end{aligned}
 $$
 
-By performing a Kramers-Moyal expansion on the $P_{({\sf t}+1){\sf t}}(x\vert x',z)$ distribution up to second order (limited by the [Pawula theorem](https://ieeexplore.ieee.org/document/1053955)), we can approximate the right hand side of the Markovian master equation like this
+By performing a Kramers-Moyal expansion on the $P_{({\sf t}+1){\sf t}}(x\vert x',z)$ distribution up to second order (limited by the Pawula theorem [@pawula1967generalizations]), we can approximate the right hand side of the Markovian master equation like this
 
 $$
 \begin{aligned}
@@ -160,3 +160,5 @@ P_{({\sf t}+1){\sf t}''}^{ii''} &= \frac{1}{{\sf t}}\sum_{{\sf t}'=1}^{{\sf t}}\
 $$
 
 The code is being developed here: [https://github.com/umbralcalc/dennm-torch](https://github.com/umbralcalc/dennm-torch).
+
+## References

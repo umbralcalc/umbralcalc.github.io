@@ -45,6 +45,10 @@
       text-decoration: none;
     }
 
+    .body a:hover {
+      color: LightGrey;
+    }
+
     pre {
       padding: .5em 1em;
       font-size: 95%;
@@ -145,7 +149,7 @@ About
 </br>
 <hr color="LightGray">
 <div class="articleHeader">
-<strong> Author. </strong> Robert J. Hardwick
+<strong> Author. </strong> Hardwick, Robert J.
 </br>
 <strong> Date. </strong> WIP
 </br>
@@ -154,7 +158,7 @@ About
 <hr color="LightGray">
 </br>
 <h2 id="formalism-recap">Formalism recap</h2>
-<p>Let’s recap the formalism introduced in <a href="https://umbralcalc.github.io/worlds-of-observation/understanding_the_time_evolution_of_probabilities/chapter.pdf">this book chapter</a> which considers what happens to the probability that the state history matrix takes a particular set of values over time. To do this, we write down what is known as a <em>master equation</em>, which fully describes the time evolution of the <em>probability density function</em> <span class="math inline">\(P_{{\sf t}+1}(X\vert z)\)</span> of <span class="math inline">\(X_{0:{\sf t}+1}=X\)</span> given that the parameters of the process are <span class="math inline">\(z\)</span>. This can be written as</p>
+<p>Let’s recap the formalism introduced in <span class="citation" data-cites="worlds-of-observation-2023">(Hardwick 2023)</span>, which considers what happens to the probability that the state history matrix takes a particular set of values over time. To do this, we write down what is known as a <em>master equation</em>, which fully describes the time evolution of the <em>probability density function</em> <span class="math inline">\(P_{{\sf t}+1}(X\vert z)\)</span> of <span class="math inline">\(X_{0:{\sf t}+1}=X\)</span> given that the parameters of the process are <span class="math inline">\(z\)</span>. This can be written as</p>
 <p><span class="math display">\[
 \begin{aligned}
 P_{{\sf t}+1}(X\vert z) &amp;= P_{{\sf t}}(X&#39;\vert z) P_{({\sf t}+1){\sf t}}(x\vert X&#39;,z)\,,
@@ -174,7 +178,7 @@ P_{{\sf t}+1}(x\vert z) &amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;&#39;=0}^{{\sf
 P_{{\sf t}+1}(x\vert z) &amp;= \int_{\omega_{\sf t}}{\rm d}^nx&#39; \, P_{\sf t}(x&#39;\vert z) P_{({\sf t}+1){\sf t}}(x\vert x&#39;,z)  \,.
 \end{aligned}
 \]</span></p>
-<p>By performing a Kramers-Moyal expansion on the <span class="math inline">\(P_{({\sf t}+1){\sf t}}(x\vert x&#39;,z)\)</span> distribution up to second order (limited by the <a href="https://ieeexplore.ieee.org/document/1053955">Pawula theorem</a>), we can approximate the right hand side of the Markovian master equation like this</p>
+<p>By performing a Kramers-Moyal expansion on the <span class="math inline">\(P_{({\sf t}+1){\sf t}}(x\vert x&#39;,z)\)</span> distribution up to second order (limited by the Pawula theorem <span class="citation" data-cites="pawula1967generalizations">(Pawula 1967)</span>), we can approximate the right hand side of the Markovian master equation like this</p>
 <p><span class="math display">\[
 \begin{aligned}
 P_{({\sf t}+1)}(x\vert z) &amp;\simeq P_{{\sf t}}(x\vert z) - \sum_{i=0}^n\frac{\partial}{\partial x^i}\bigg[ f_{{\sf t}}(x,z)P_{{\sf t}}(x\vert z)\bigg] + \frac{1}{2}\sum_{i=0}^n\sum_{j=0}^n\frac{\partial}{\partial x^i}\frac{\partial}{\partial x^j}\bigg[ K_{{\sf t}}(x,z)P_{{\sf t}}(x\vert z)\bigg]  \,,
@@ -265,13 +269,23 @@ P_{({\sf t}+1){\sf t}&#39;&#39;}^{ii&#39;&#39;} &amp;= \frac{1}{{\sf t}}\sum_{{\
 \end{aligned}
 \]</span></p>
 <p>The code is being developed here: <a href="https://github.com/umbralcalc/dennm-torch">https://github.com/umbralcalc/dennm-torch</a>.</p>
+<h2 class="unnumbered" id="references">References</h2>
+<div id="refs" class="references hanging-indent" role="doc-bibliography">
+<div id="ref-worlds-of-observation-2023">
+<p>Hardwick, Robert J. 2023. <em>Worlds of Observation: Building More Realistic Environments for Machine Learning</em>. umbralcalculations: Technical Article Repository. <a href="https://umbralcalc.github.io/worlds-of-observation/book.pdf">https://umbralcalc.github.io/worlds-of-observation/book.pdf</a>.</p>
+</div>
+<div id="ref-pawula1967generalizations">
+<p>Pawula, R. 1967. “Generalizations and Extensions of the Fokker-Planck-Kolmogorov Equations.” <em>IEEE Transactions on Information Theory</em> 13 (1): 33–41.</p>
+</div>
+</div>
 <hr color="LightGray">
 <div class="articleHeader">You can cite this post using the following BibTeX:
 <code><pre>@misc{hardwick-[WIP],
-  title = {Solving non-Markovian master equations with Libtorch},
-  author = {Robert J. Hardwick},
-  year = {WIP},
-  howpublished = {https://umbralcalc.github.io/posts/solving-non-markovian-master-equations-with-libtorch.html},
+  title = "Solving non-Markovian master equations with Libtorch",
+  author = "{Hardwick, Robert J.}",
+  year = WIP,
+  howpublished = {
+    \url{https://umbralcalc.github.io/posts/solving-non-markovian-master-equations-with-libtorch.html}},
 }</pre></code>
 <script type="text/javascript" id="MathJax-script" async
   src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>

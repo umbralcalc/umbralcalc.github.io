@@ -2,6 +2,7 @@
 
 # generate about page
 pandoc --template template.html \
+--bibliography=biblio.bib \
 --mathjax \
 -f markdown \
 -t html \
@@ -15,6 +16,7 @@ for filename in _posts/*.md; do
     newFilename=${filename%"$suffix"}
     newFilename=${newFilename#"$prefix"}
     pandoc --template template.html \
+    --bibliography=biblio.bib \
     --mathjax \
     -f markdown \
     -t html \
