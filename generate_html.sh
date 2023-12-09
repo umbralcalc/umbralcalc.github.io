@@ -2,6 +2,7 @@
 
 # generate about page
 pandoc --template template.html \
+--csl=ieee.csl \
 --bibliography=biblio.bib \
 --mathjax \
 -f markdown \
@@ -16,6 +17,7 @@ for filename in _posts/*.md; do
     newFilename=${filename%"$suffix"}
     newFilename=${newFilename#"$prefix"}
     pandoc --template template.html \
+    --csl=ieee.csl \
     --bibliography=biblio.bib \
     --mathjax \
     -f markdown \
