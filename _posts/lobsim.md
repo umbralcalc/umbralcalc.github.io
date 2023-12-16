@@ -7,6 +7,8 @@ articleId: lobsim
 year: 2021
 ---
 
+## Introduction
+
 The simulation of financial markets through the use of agent-based models is an increasingly popular technique to understand the microstructure of their dynamics from the bottom up. See, for some examples:
 
 - [Raberto et al. (2001)](https://www.sciencedirect.com/science/article/abs/pii/S0378437101003120?via%3Dihub) is a basic model of a financial market with constant total cash being conserved.
@@ -108,3 +110,11 @@ $$
 $$
 
 These moments can be used to construct a price time series emulator. For example, one could replace $P(b, a, t)$ with a Gaussian process approximation.
+
+## Additional details
+
+The code for this article was developed here: [https://github.com/umbralcalc/lobsim](https://github.com/umbralcalc/lobsim).
+
+Shared by the author under an [MIT License](../LICENSE)
+
+## References

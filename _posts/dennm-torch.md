@@ -158,7 +158,9 @@ P_{({\sf t}+1){\sf t}''}^{ii''} &= \frac{1}{{\sf t}}\sum_{{\sf t}'=1}^{{\sf t}}\
 \end{aligned}
 $$
 
-The code is being developed here: [https://github.com/umbralcalc/dennm-torch](https://github.com/umbralcalc/dennm-torch).
+## Additional details
+
+The code for this article was developed here: [https://github.com/umbralcalc/dennm-torch](https://github.com/umbralcalc/dennm-torch).
 
 Shared by the author under an [MIT License](../LICENSE)
 

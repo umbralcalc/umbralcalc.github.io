@@ -240,3 +240,11 @@ The method proposed from here would be something like:
 - Integrate over ${\sf h}(t)$ and $\frac{\partial}{\partial \Theta}{\sf M}_\Theta (t)$ to determine the gradient in the last expression.
 
 Seems like overkill, but could be interesting to implement in future if a large number of states/parameters are varied, e.g., for HMC sampling of the model posterior from a decent data set.
+
+## Additional details
+
+**Code:** The code for this article was developed here: [https://github.com/umbralcalc/pneumoinfer](https://github.com/umbralcalc/pneumoinfer).
+
+**License:** Shared by the author under an [MIT License](../LICENSE)
+
+## References

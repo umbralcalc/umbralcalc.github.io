@@ -17,7 +17,7 @@ p(x_{t},x_{t-1},\dots ,x_{1}) = \prod_{n=0}^{t-1}p[x_{t-n}\vert {\rm pa}(x_{t-n}
 \end{equation}
 $$
 
-where ${\rm pa}(x_{t})$ denotes the parent nodes of $x_{t}$ which are defined by $G$. Choosing a set of parameters $\Theta$ (defined within their prior domain $\Omega_\Theta$), graph $G$, and an observation of $x_t$, Bayes' rule yields the following for the posterior distribution over $\Theta$ at timepoint $t$, given the data $x_{t}, x_{t-1}, \dots $
+where ${\rm pa}(x_{t})$ denotes the parent nodes of $x_{t}$ which are defined by $G$. Choosing a set of parameters $\Theta$ (defined within their prior domain $\Omega_\Theta$), graph $G$, and an observation of $x_t$, Bayes' rule yields the following for the posterior distribution over $\Theta$ at timepoint $t$, given the data $x_{t}, x_{t-1}, \dots$
 
 $$
 \begin{equation}
@@ -25,9 +25,9 @@ $$
 \end{equation}
 $$
 
-where we have assumed that each data point $x_t$ is an independent observation from its predecessor $x_{t-1}$ and, as usual, ${\cal L}_G$ is the likelihood, $\pi_G$ is the prior and ${\cal E}_G$ is the evidence. 
+where we have assumed that each data point $x_t$ is an independent observation from its predecessor $x_{t-1}$ and, as usual, ${\cal L}_G$ is the likelihood, $\pi_G$ is the prior and ${\cal E}_G$ is the evidence.
 
-In [empirical Bayes](https://en.wikipedia.org/wiki/Empirical_Bayes_method), one may define an auxiliary time-dependent vector variable $m_t$ (which $\pi_G$ and ${\cal E}_G$ are typically conditioned on) to marginalise over in this posterior definition like so 
+From an empirical Bayes [@carlin2000empirical] standpoint, one may define an auxiliary time-dependent vector variable $m_t$ (which $\pi_G$ and ${\cal E}_G$ are typically conditioned on) to marginalise over in this posterior definition like so
 
 $$
 \begin{equation}
@@ -35,13 +35,13 @@ $$
 \end{equation}
 $$
 
-The vector variable $m_t$, which will form an intermediate layer in our network, acts as a compression of $x_{t}, x_{t-1}, \dots $ into the mean vector of a Gaussian at time $t$ which we will importantly assume to be _Markovian_ (note that this assumption will clearly not always hold well for the best compressions). For some references on Gaussian processes (a related, but different kind of inference model), see, e.g., [Friedman & Nachman (2000)](https://arxiv.org/abs/1301.3857), [Titsias & Lawrence (2010)](http://proceedings.mlr.press/v9/titsias10a/titsias10a.pdf), [Damianou & Lawrence (2013)](http://proceedings.mlr.press/v31/damianou13a.pdf) or [Frigola-Alcalde (2015)](http://mlg.eng.cam.ac.uk/pub/pdf/Fri15.pdf). 
+The vector variable $m_t$, which will form an intermediate layer in our network, acts as a compression of the time series $x_{t}, x_{t-1}, \dots$ into the mean vector of a Gaussian at time $t$ which we will importantly assume to be _Markovian_ (note that this assumption will clearly not always hold well for the best compressions). For some references on Gaussian processes (a related, but different kind of inference model), see, e.g., [@friedman2013gaussian], [@titsias2010bayesian], [@damianou2013deep] or [@frigola2015bayesian].
 
-Up until this point, the technique used for compressing $x_{t}, x_{t-1}, \dots  \rightarrow m_t$ is still undetermined.
+Up until this point in our study, the technique used for compressing $x_{t}, x_{t-1}, \dots \rightarrow m_t$ is still undetermined.
 
-## `'AR-G'`: a simple Gaussian model with autoregressive kernel convolution compression
+## 'AR-G': a simple Gaussian model with autoregressive kernel convolution compression
 
-A simple nonparametric way to obtain $m_t$ is through autoregressive techniques with convolution kernels. This models the whole vector process as 
+A simple nonparametric way to obtain $m_t$ is through autoregressive techniques with convolution kernels. This models the whole vector process as
 
 $$
 \begin{align}
@@ -51,13 +51,15 @@ M^i_t[{\rm pa}(x^i_{t}) \vert h^i] &= \sum_{n=1}^{t-1}\frac{x^i_{t-n}}{H^i}\exp 
 \end{align}
 $$
 
+where the kernel we are using requires the following additional set of definitions
+
 $$
 \begin{equation}
-H^i = \sum_{n=1}^{t-1}\exp \left[ -\frac{A^i(n)}{(h^i)^2}\right]\,, \quad A^i(n) = \begin{cases} \frac{n^2}{2} \,\, ({\rm and}\,\, f^i_t=0) &  {\rm Squared}\,\,{\rm exponential}\\ 2\sin^2\big( \big\vert \frac{\pi n}{n^i}\big\vert \big) \,\, ({\rm and}\,\, f^i_t=\sin (\frac{\pi t}{n^i} + \pi s^i) ) & {\rm Periodic}\end{cases}\,, 
+H^i = \sum_{n=1}^{t-1}\exp \left[ -\frac{A^i(n)}{(h^i)^2}\right]\,, \quad A^i(n) = \begin{cases} \frac{n^2}{2} \,\, ({\rm and}\,\, f^i_t=0) &  {\rm Squared}\,\,{\rm exponential}\\ 2\sin^2\big( \big\vert \frac{\pi n}{n^i}\big\vert \big) \,\, ({\rm and}\,\, f^i_t=\sin (\frac{\pi t}{n^i} + \pi s^i) ) & {\rm Periodic}\end{cases}\,.
 \end{equation}
 $$
 
-where ${\cal N}(\mu , \Sigma )$ is a multivariate normal distribution with mean vector $\mu$ and covariance matrix $\Sigma$. The likelihood of data point $x_t$ is therefore very simply
+In the expressions above, ${\cal N}(\mu , \Sigma )$ is a multivariate normal distribution with mean vector $\mu$ and covariance matrix $\Sigma$. The likelihood of data point $x_t$ is therefore very simply
 
 $$
 \begin{equation}
@@ -65,7 +67,7 @@ $$
 \end{equation}
 $$
 
-The graph displayed below illustrates the structure of this graphical model, where shaded nodes are observed at time $t$.
+The graph displayed below illustrates the structure of this graphical model, where shaded nodes are observed at time $t$ and the edges of the graph indicate functional dependencies (either deterministic or stochastic).
 
 <img src="../assets/bants/ARG.png" width="600"/>
 
@@ -74,12 +76,13 @@ It is clear that investigating the data for evidence of seasonality (by, e.g., e
 Not all of the graph edges should be strongly weighted by the data so we can (and should) select graph structures based on their combined Bayesian evidence over all of the past observations of the process $Z_t=\prod_{n=0}^{t-1}{\cal E}_G(x_{t-n})$. In order to convert the evaluation of $Z_t$ into an optimisation problem, we can choose an appropriate prior over $\tilde{\Sigma}$ that parameterises the family of posterior distributions. For a multivariate normal with fixed mean (assuming that the priors over $h$ and $f_t$ are independent) and unknown covariance, the conjugate prior is just the inverse-Wishart distribution ${\cal W}^{-1}$ so from the definition of the posterior, we have simply
 
 $$
-\begin{equation}
-P_G(x_{t}, \Theta ) \propto {\cal N}\big[ x_{t};\tilde{M}_t(f_t,h),\tilde{\Sigma} \big]{\cal W}^{-1}(\tilde{\Sigma};\Psi , \nu) \quad \Longleftrightarrow \quad Z_t=\prod_{n=0}^{t-1}{\cal E}_G(x_{t-n}) \propto \prod_{n=0}^{t-1}{\sf t}_{\nu - N +1}\bigg[ x_{t-n};\tilde{M}_{t-n}(f_{t-n},h),\frac{\Psi}{\nu - N + 1} \bigg] \,, 
-\end{equation}
+\begin{aligned}
+&P_G(x_{t}, \Theta ) \propto {\cal N}\big[ x_{t};\tilde{M}_t(f_t,h),\tilde{\Sigma} \big]{\cal W}^{-1}(\tilde{\Sigma};\Psi , \nu) \\
+&\Longleftrightarrow Z_t=\prod_{n=0}^{t-1}{\cal E}_G(x_{t-n}) \propto \prod_{n=0}^{t-1}{\sf t}_{\nu - N +1}\bigg[ x_{t-n};\tilde{M}_{t-n}(f_{t-n},h),\frac{\Psi}{\nu - N + 1} \bigg] \,,
+\end{aligned}
 $$
 
-where ${\sf t}_{\nu}(\mu , \Sigma)$ is a multivariate t-distribution and the latter expression is obtained by marginalisation over the degrees of freedom in $\tilde{\Sigma}$. It is preferable at this point to define the priors over $h$ and $f_t$ as simply Dirac delta distributions centered on single parameter values (or $n^i$ and $s^i$ in the case of the $f_t^i$ functions) so that all of the epistemic uncertainty is propagated to the hidden-to-output layer weights. Using this prior one may replace the proportionalities above with exact equalities, which correspond to the method that is actually implemented within the `bants` class. Note also that one may choose a non-informative prior over the covariance matrix by setting the degrees of freedom $\nu = N$.
+where ${\sf t}_{\nu}(\mu , \Sigma)$ is a multivariate t-distribution and the latter expression is obtained by marginalisation over the degrees of freedom in $\tilde{\Sigma}$. It is preferable at this point to define the priors over $h$ and $f_t$ as simply Dirac delta distributions centered on single parameter values (or $n^i$ and $s^i$ in the case of the $f_t^i$ functions) so that all of the epistemic uncertainty is propagated to the hidden-to-output layer weights. Using this prior one may replace the proportionalities above with exact equalities, which correspond to the method that is actually implemented within the 'bants' class we've written [here](https://github.com/umbralcalc/bants/blob/master/source/bants.py). Note also that one may choose a non-informative prior over the covariance matrix by setting the degrees of freedom $\nu = N$.
 
 In case a gradient descent algorithm is used to optimise $\ln Z_t$, it first derivatives (and other relevant quantities) are
 
@@ -97,9 +100,9 @@ $$
 \end{align}
 $$
 
-### `'KM-G'`: a simple Gaussian model with $k$-means clustering compression
+### 'KM-G': a simple Gaussian model with $k$-means clustering compression
 
-Let us now consider an alternative method to perform the compression $x_t, x_{t-1}, \dots \rightarrow m_t$. In particular, the method we shall choose for the compression in this case is [$k$-means clustering with dynamic time warping](https://tslearn.readthedocs.io/en/stable/user_guide/clustering.html#k-means-and-dynamic-time-warping). The graph below illustrates the structure of this alternative graphical model, where, once again, the shaded nodes are observed at time $t$.
+Let us now consider an alternative method to perform the compression $x_t, x_{t-1}, \dots \rightarrow m_t$. In particular, the method we shall choose for the compression in this case is [$k$-means clustering with dynamic time warping](https://tslearn.readthedocs.io/en/stable/user_guide/clustering.html#k-means-and-dynamic-time-warping) (implemented using the brilliant tslearn package [@JMLR:v21:20-091]). The graph below illustrates the structure of this alternative graphical model, where, once again, the shaded nodes are observed at time $t$.
 
 <img src="../assets/bants/KMG.png" width="500"/>
 
@@ -139,3 +142,11 @@ $$
 &\qquad \qquad \qquad \times m^j_{t-n} \sum_{j'=1}^N\big( \Psi^{-1}\big)^i_{j'}\big[ x^{j'}_{t-n}-\tilde{M}^{j'}_{t-n}(f^{j'}_{t-n},m_{t-n},{\sf U},u^{j'}) \big] \,.
 \end{align}
 $$
+
+## Additional details
+
+**Code:** The code for this article was developed here: [https://github.com/umbralcalc/bants](https://github.com/umbralcalc/bants).
+
+**License:** Shared by the author under an [MIT License](../LICENSE)
+
+## References
