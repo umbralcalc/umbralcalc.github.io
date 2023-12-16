@@ -11,15 +11,15 @@ year: 2021
 
 The simulation of financial markets through the use of agent-based models is an increasingly popular technique to understand the microstructure of their dynamics from the bottom up. See, for some examples:
 
-- [Raberto et al. (2001)](https://www.sciencedirect.com/science/article/abs/pii/S0378437101003120?via%3Dihub) is a basic model of a financial market with constant total cash being conserved.
-- [Alfarano, Lux & Wagner (2005)](https://link.springer.com/article/10.1007/s10614-005-6415-1) details the construction of a market microsimulation with asymmetric herding to explain the fat tails in the distribution of returns while also showing how it follows a Fokker-Planck equation up to second-order corrections.
-- [Smith et al. (2006)](https://www.tandfonline.com/doi/abs/10.1088/1469-7688/3/6/307) is the original Santa Fe model for LOB simulations.
-- [Tóth et al. (2011)](https://journals.aps.org/prx/abstract/10.1103/PhysRevX.1.021006) extends the original Santa Fe models to become '$\epsilon$-intelligence' models.
-- [Mastromatteo, Tóth & Bouchaud (2014)](https://journals.aps.org/pre/abstract/10.1103/PhysRevE.89.042805) develops the $\epsilon$-intelligence model further by including non-unit market and limit meta-orders.
-- [Chen, Tan & Zheng (2015)](https://www.nature.com/articles/srep08399) looks at multi-level herding in agent-based market simulation. This is able to maintain both sector-level structure of markets and clustering between them at the same time as their respective temporal correlation structures.
-- [Bouchaud et al. (2018)](https://doi.org/10.1017/9781316659335) is a detailed textbook on market microstructure.
-- [Chen et al. (2017)](https://link.springer.com/article/10.1007/s11467-017-0661-2) looks at the 'information driving force' as a way to calibrate their specific form of agent-based model empirically.
-- [Marcaccioli, Bouchaud, Benzaquen (2021)](https://arxiv.org/abs/2106.07040) shows how endogenous (self-exciting) and exogeneous (driven by external factors like sudden news breaks) price jumps belong to different dynamical classes as their relaxation profiles can be inferred to be different.
+- [Raberto et al. (2001)](https://www.sciencedirect.com/science/article/abs/pii/S0378437101003120?via%3Dihub) is a basic model of a financial market with constant total cash being conserved [@raberto2001agent].
+- [Alfarano, Lux & Wagner (2005)](https://link.springer.com/article/10.1007/s10614-005-6415-1) details the construction of a market microsimulation with asymmetric herding to explain the fat tails in the distribution of returns while also showing how it follows a Fokker-Planck equation up to second-order corrections [@alfarano2005estimation].
+- [Smith et al. (2006)](https://www.tandfonline.com/doi/abs/10.1088/1469-7688/3/6/307) is the original Santa Fe model for limit order book (LOB) simulations [@smith2003statistical].
+- [Tóth et al. (2011)](https://journals.aps.org/prx/abstract/10.1103/PhysRevX.1.021006) extends the original Santa Fe models to become '$\epsilon$-intelligence' models [@toth2011anomalous].
+- [Mastromatteo, Tóth & Bouchaud (2014)](https://journals.aps.org/pre/abstract/10.1103/PhysRevE.89.042805) develops the $\epsilon$-intelligence model further by including non-unit market and limit meta-orders [@mastromatteo2014agent].
+- [Chen, Tan & Zheng (2015)](https://www.nature.com/articles/srep08399) looks at multi-level herding in agent-based market simulation. This is able to maintain both sector-level structure of markets and clustering between them at the same time as their respective temporal correlation structures [@chen2015agent].
+- [Bouchaud et al. (2018)](https://doi.org/10.1017/9781316659335) is a detailed textbook on market microstructure [@bouchaud2018trades].
+- [Chen et al. (2017)](https://link.springer.com/article/10.1007/s11467-017-0661-2) looks at the 'information driving force' as a way to calibrate their specific form of agent-based model empirically [@chen2017new].
+- [Marcaccioli, Bouchaud, Benzaquen (2021)](https://arxiv.org/abs/2106.07040) shows how endogenous (self-exciting) and exogeneous (driven by external factors like sudden news breaks) price jumps belong to different dynamical classes as their relaxation profiles can be inferred to be different [@marcaccioli2022exogenous].
 
 In this post, we'll build an example LOB simulation which replicates many of the key empirical stylised facts in real-world financial markets.
 
@@ -64,7 +64,7 @@ $$
 \end{align}
 $$
 
-where $\epsilon_i$ denotes the market order 'sign' of each liquidity-taking agent, which can change according to the strategy adopted. The $\epsilon_i$ values for each of these agents are autocorrelated in time and are generated according to the power-law latent volume distribution suggested in [Mastromatteo, Tóth & Bouchaud (2014)](https://journals.aps.org/pre/abstract/10.1103/PhysRevE.89.042805).
+where $\epsilon_i$ denotes the market order 'sign' of each liquidity-taking agent, which can change according to the strategy adopted. The $\epsilon_i$ values for each of these agents are autocorrelated in time and are generated according to the power-law latent volume distribution suggested in [@mastromatteo2014agent].
 
 ## Running simulations
 

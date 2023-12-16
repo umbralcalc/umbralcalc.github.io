@@ -167,15 +167,15 @@ About
 <h2 id="introduction">Introduction</h2>
 <p>The simulation of financial markets through the use of agent-based models is an increasingly popular technique to understand the microstructure of their dynamics from the bottom up. See, for some examples:</p>
 <ul>
-<li><a href="https://www.sciencedirect.com/science/article/abs/pii/S0378437101003120?via%3Dihub">Raberto et al. (2001)</a> is a basic model of a financial market with constant total cash being conserved.</li>
-<li><a href="https://link.springer.com/article/10.1007/s10614-005-6415-1">Alfarano, Lux &amp; Wagner (2005)</a> details the construction of a market microsimulation with asymmetric herding to explain the fat tails in the distribution of returns while also showing how it follows a Fokker-Planck equation up to second-order corrections.</li>
-<li><a href="https://www.tandfonline.com/doi/abs/10.1088/1469-7688/3/6/307">Smith et al. (2006)</a> is the original Santa Fe model for LOB simulations.</li>
-<li><a href="https://journals.aps.org/prx/abstract/10.1103/PhysRevX.1.021006">Tóth et al. (2011)</a> extends the original Santa Fe models to become ‘<span class="math inline">\(\epsilon\)</span>-intelligence’ models.</li>
-<li><a href="https://journals.aps.org/pre/abstract/10.1103/PhysRevE.89.042805">Mastromatteo, Tóth &amp; Bouchaud (2014)</a> develops the <span class="math inline">\(\epsilon\)</span>-intelligence model further by including non-unit market and limit meta-orders.</li>
-<li><a href="https://www.nature.com/articles/srep08399">Chen, Tan &amp; Zheng (2015)</a> looks at multi-level herding in agent-based market simulation. This is able to maintain both sector-level structure of markets and clustering between them at the same time as their respective temporal correlation structures.</li>
-<li><a href="https://doi.org/10.1017/9781316659335">Bouchaud et al. (2018)</a> is a detailed textbook on market microstructure.</li>
-<li><a href="https://link.springer.com/article/10.1007/s11467-017-0661-2">Chen et al. (2017)</a> looks at the ‘information driving force’ as a way to calibrate their specific form of agent-based model empirically.</li>
-<li><a href="https://arxiv.org/abs/2106.07040">Marcaccioli, Bouchaud, Benzaquen (2021)</a> shows how endogenous (self-exciting) and exogeneous (driven by external factors like sudden news breaks) price jumps belong to different dynamical classes as their relaxation profiles can be inferred to be different.</li>
+<li><a href="https://www.sciencedirect.com/science/article/abs/pii/S0378437101003120?via%3Dihub">Raberto et al. (2001)</a> is a basic model of a financial market with constant total cash being conserved <span class="citation" data-cites="raberto2001agent">[1]</span>.</li>
+<li><a href="https://link.springer.com/article/10.1007/s10614-005-6415-1">Alfarano, Lux &amp; Wagner (2005)</a> details the construction of a market microsimulation with asymmetric herding to explain the fat tails in the distribution of returns while also showing how it follows a Fokker-Planck equation up to second-order corrections <span class="citation" data-cites="alfarano2005estimation">[2]</span>.</li>
+<li><a href="https://www.tandfonline.com/doi/abs/10.1088/1469-7688/3/6/307">Smith et al. (2006)</a> is the original Santa Fe model for limit order book (LOB) simulations <span class="citation" data-cites="smith2003statistical">[3]</span>.</li>
+<li><a href="https://journals.aps.org/prx/abstract/10.1103/PhysRevX.1.021006">Tóth et al. (2011)</a> extends the original Santa Fe models to become ‘<span class="math inline">\(\epsilon\)</span>-intelligence’ models <span class="citation" data-cites="toth2011anomalous">[4]</span>.</li>
+<li><a href="https://journals.aps.org/pre/abstract/10.1103/PhysRevE.89.042805">Mastromatteo, Tóth &amp; Bouchaud (2014)</a> develops the <span class="math inline">\(\epsilon\)</span>-intelligence model further by including non-unit market and limit meta-orders <span class="citation" data-cites="mastromatteo2014agent">[5]</span>.</li>
+<li><a href="https://www.nature.com/articles/srep08399">Chen, Tan &amp; Zheng (2015)</a> looks at multi-level herding in agent-based market simulation. This is able to maintain both sector-level structure of markets and clustering between them at the same time as their respective temporal correlation structures <span class="citation" data-cites="chen2015agent">[6]</span>.</li>
+<li><a href="https://doi.org/10.1017/9781316659335">Bouchaud et al. (2018)</a> is a detailed textbook on market microstructure <span class="citation" data-cites="bouchaud2018trades">[7]</span>.</li>
+<li><a href="https://link.springer.com/article/10.1007/s11467-017-0661-2">Chen et al. (2017)</a> looks at the ‘information driving force’ as a way to calibrate their specific form of agent-based model empirically <span class="citation" data-cites="chen2017new">[8]</span>.</li>
+<li><a href="https://arxiv.org/abs/2106.07040">Marcaccioli, Bouchaud, Benzaquen (2021)</a> shows how endogenous (self-exciting) and exogeneous (driven by external factors like sudden news breaks) price jumps belong to different dynamical classes as their relaxation profiles can be inferred to be different <span class="citation" data-cites="marcaccioli2022exogenous">[9]</span>.</li>
 </ul>
 <p>In this post, we’ll build an example LOB simulation which replicates many of the key empirical stylised facts in real-world financial markets.</p>
 <h2 id="a-synchronous-ensemble-version-of-the-epsilon-intelligence-model">A synchronous ensemble version of the <span class="math inline">\(\epsilon\)</span>-intelligence model</h2>
@@ -208,7 +208,7 @@ About
 \mu^A_{pi}({\cal V}, t) &amp;= \sum_{\epsilon_i\in\{-1, 1\}}(1-\epsilon_i)P_i(\epsilon_i\vert {\cal V}, t)\mu^A \mathbb{1}_{b({\cal V})=p} \,, 
 \end{align}
 \]</span></p>
-<p>where <span class="math inline">\(\epsilon_i\)</span> denotes the market order ‘sign’ of each liquidity-taking agent, which can change according to the strategy adopted. The <span class="math inline">\(\epsilon_i\)</span> values for each of these agents are autocorrelated in time and are generated according to the power-law latent volume distribution suggested in <a href="https://journals.aps.org/pre/abstract/10.1103/PhysRevE.89.042805">Mastromatteo, Tóth &amp; Bouchaud (2014)</a>.</p>
+<p>where <span class="math inline">\(\epsilon_i\)</span> denotes the market order ‘sign’ of each liquidity-taking agent, which can change according to the strategy adopted. The <span class="math inline">\(\epsilon_i\)</span> values for each of these agents are autocorrelated in time and are generated according to the power-law latent volume distribution suggested in <span class="citation" data-cites="mastromatteo2014agent">[5]</span>.</p>
 <h2 id="running-simulations">Running simulations</h2>
 <p>The model we have introduced and analysed above has been implemented in the src/ folder of this repo: <a href="https://github.com/umbralcalc/lobsim">https://github.com/umbralcalc/lobsim</a> using a synchronous ensemble rejection algorithm. All we need to do is call the necessary class structures and run them to see the LOB sim in action. The key point to remember for this algorithm to produce sensible results will be to make sure the overall holding rate is large enough to minimise the number of anachronisms in the order flow.</p>
 <p><img src="../assets/lobsim/book-dynamics.png" /></p>
@@ -244,7 +244,36 @@ About
 <h2 id="additional-details">Additional details</h2>
 <p>The code for this article was developed here: <a href="https://github.com/umbralcalc/lobsim">https://github.com/umbralcalc/lobsim</a>.</p>
 <p>Shared by the author under an <a href="../LICENSE">MIT License</a></p>
-<h2 id="references">References</h2>
+<h2 class="unnumbered" id="references">References</h2>
+<div id="refs" class="references" role="doc-bibliography">
+<div id="ref-raberto2001agent">
+<p>[1] M. Raberto, S. Cincotti, S. M. Focardi, and M. Marchesi, “Agent-based simulation of a financial market,” <em>Physica A: Statistical Mechanics and its Applications</em>, vol. 299, nos. 1-2, pp. 319–327, 2001.</p>
+</div>
+<div id="ref-alfarano2005estimation">
+<p>[2] S. Alfarano, T. Lux, and F. Wagner, “Estimation of agent-based models: The case of an asymmetric herding model,” <em>Computational Economics</em>, vol. 26, pp. 19–49, 2005.</p>
+</div>
+<div id="ref-smith2003statistical">
+<p>[3] E. Smith, J. D. Farmer, L. Gillemot, and S. Krishnamurthy, “Statistical theory of the continuous double auction,” <em>Quantitative finance</em>, vol. 3, no. 6, p. 481, 2003.</p>
+</div>
+<div id="ref-toth2011anomalous">
+<p>[4] B. Tóth, Y. Lemperiere, C. Deremble, J. De Lataillade, J. Kockelkoren, and J.-P. Bouchaud, “Anomalous price impact and the critical nature of liquidity in financial markets,” <em>Physical Review X</em>, vol. 1, no. 2, p. 021006, 2011.</p>
+</div>
+<div id="ref-mastromatteo2014agent">
+<p>[5] I. Mastromatteo, B. Toth, and J.-P. Bouchaud, “Agent-based models for latent liquidity and concave price impact,” <em>Physical Review E</em>, vol. 89, no. 4, p. 042805, 2014.</p>
+</div>
+<div id="ref-chen2015agent">
+<p>[6] J.-J. Chen, L. Tan, and B. Zheng, “Agent-based model with multi-level herding for complex financial systems,” <em>Scientific Reports</em>, vol. 5, no. 1, p. 8399, 2015.</p>
+</div>
+<div id="ref-bouchaud2018trades">
+<p>[7] J.-P. Bouchaud, J. Bonart, J. Donier, and M. Gould, <em>Trades, quotes and prices: Financial markets under the microscope</em>. Cambridge University Press, 2018.</p>
+</div>
+<div id="ref-chen2017new">
+<p>[8] T.-T. Chen, B. Zheng, Y. Li, and X.-F. Jiang, “New approaches in agent-based modeling of complex financial systems,” <em>Frontiers of Physics</em>, vol. 12, pp. 1–12, 2017.</p>
+</div>
+<div id="ref-marcaccioli2022exogenous">
+<p>[9] R. Marcaccioli, J.-P. Bouchaud, and M. Benzaquen, “Exogenous and endogenous price jumps belong to different dynamical classes,” <em>Journal of Statistical Mechanics: Theory and Experiment</em>, vol. 2022, no. 2, p. 023403, 2022.</p>
+</div>
+</div>
 <hr color="LightGray">
 <div class="articleHeader">You can cite this post using the following BibTeX:
 <code><pre>@article{lobsim,
