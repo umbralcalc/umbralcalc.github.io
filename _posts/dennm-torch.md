@@ -54,7 +54,7 @@ K_{{\sf t}}^{ij}(x,z) &= \int_{\omega_{{\sf t}+1}} {\rm d}^nx' (x'-x)^i(x'-x)^jP
 \end{aligned}
 $$
 
-By inspection of the expanded expression, we can define the `probability current'
+By inspection of the expanded expression, we can define the 'probability current'
 
 $$
 \begin{aligned}

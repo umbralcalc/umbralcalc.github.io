@@ -211,7 +211,9 @@ About
 <p>where <span class="math inline">\(\epsilon_i\)</span> denotes the market order ‘sign’ of each liquidity-taking agent, which can change according to the strategy adopted. The <span class="math inline">\(\epsilon_i\)</span> values for each of these agents are autocorrelated in time and are generated according to the power-law latent volume distribution suggested in <span class="citation" data-cites="mastromatteo2014agent">[5]</span>.</p>
 <h2 id="running-simulations">Running simulations</h2>
 <p>The model we have introduced and analysed above has been implemented in the src/ folder of this repo: <a href="https://github.com/umbralcalc/lobsim">https://github.com/umbralcalc/lobsim</a> using a synchronous ensemble rejection algorithm. All we need to do is call the necessary class structures and run them to see the LOB sim in action. The key point to remember for this algorithm to produce sensible results will be to make sure the overall holding rate is large enough to minimise the number of anachronisms in the order flow.</p>
+<p>After running a simulation with our Python code, the dynamics of the LOB can be tracked by a mid-price time series and snapshot observations of the state of orders in the book itself. These are displayed in the plots below.</p>
 <p><img src="../assets/lobsim/book-dynamics.png" /></p>
+<p>In order to investigate how well the simulated LOB matches the stylised facts of real books, we can look at the distributions of returns as well as the variogram correlations for different choices of timescale.</p>
 <p><img src="../assets/lobsim/returns-dists.png" /></p>
 <p><img src="../assets/lobsim/variograms.png" /></p>
 <h2 id="future-potential-work-on-price-emulation">Future potential work on price emulation</h2>
@@ -240,7 +242,7 @@ About
 &amp;+ \sum_{b=\theta}^\infty \sum_{a=\theta}^\infty \sum_{i=1}^{N_{\rm ta}} b{\rm E} (\theta \vert b, a, t)\tilde{\mu}^B_{ai}(b, a, t) \tilde{M}_{i} (A_{a}\vert b, a, t)P(b, a, t) + \nu^A {\rm E}_t(b\theta) -\sum_{b=\theta}^\infty \sum_{a=\theta}^\infty \sum_{p=a}^\theta \sum_{i=1}^{N_{\rm pr}} b{\rm E} (\theta \vert b, a, t) \tilde{\lambda}^A_{p}(b, a, t)P(b, a, t) \,.
 \end{align}
 \]</span></p>
-<p>These moments can be used to construct a price time series emulator. For example, one could replace <span class="math inline">\(P(b, a, t)\)</span> with a Gaussian process approximation.</p>
+<p>These moments could be used to construct a price time series emulator. For example, one could replace <span class="math inline">\(P(b, a, t)\)</span> with a Gaussian process approximation.</p>
 <h2 id="additional-details">Additional details</h2>
 <p>The code for this article was developed here: <a href="https://github.com/umbralcalc/lobsim">https://github.com/umbralcalc/lobsim</a>.</p>
 <p>Shared by the author under an <a href="../LICENSE">MIT License</a></p>

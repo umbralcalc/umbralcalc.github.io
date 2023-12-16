@@ -11,9 +11,9 @@ year: 2021
 
 Multi-state models (stochastic processes occupying one of a finite set of states at each moment in time) appear to describe many natural phenomena, but are probably most frequently used in the mathematical modelling of population health. The statistical inference (or selection) of these models for real-world applications frequently involves data in the form of a sequence of individual state observations, which are often coupled with some diagnostic uncertainty.
 
-There are over 90 known capsular serotypes of _Streptococcus pneumoniae_, which persist despite their mutual competition for the same ecological niche (the nasopharynx) and a known fitness gradient. Motivated by the global pneumococcal disease burden, a specific class of multi-state models has been developed to describe the carriage dynamics which offers a neat explanation of this persistence through immunity-driven stabilisation effects (see [Cobey & Lipsitch (2012)](https://pubmed.ncbi.nlm.nih.gov/22383809/)). This class of model typically uses a counting memory of past state (or serotype) occupations (or colonisations) as a model for human immunity (see, e.g., [Flasche et al. (2013)](https://royalsocietypublishing.org/doi/10.1098/rspb.2013.1939) for an alternative formulation and [Løchen & Anderson (2020)](https://pubmed.ncbi.nlm.nih.gov/31055164/) for a general review of the carriage transmission models). Building from these mathematical models, a range of statistical approaches have also been used to infer the pneumococcal carriage through a given population from nasopharyngeal swab sample data (e.g., [Lipsitch et al. (2012)](https://pubmed.ncbi.nlm.nih.gov/22441543/) and [Numminen et al. (2013)](https://pubmed.ncbi.nlm.nih.gov/23822205/)). All of this is obviously really important, e.g., to understanding more precisely how a vaccine covering a restricted range of serotypes can impact colonisation in a given community or region.
+There are over 90 known capsular serotypes of _Streptococcus pneumoniae_, which persist despite their mutual competition for the same ecological niche (the nasopharynx) and a known fitness gradient. Motivated by the global pneumococcal disease burden, a specific class of multi-state models has been developed to describe the carriage dynamics which offers a neat explanation of this persistence through immunity-driven stabilisation effects (see [@cobey2012niche]). This class of model typically uses a counting memory of past state (or serotype) occupations (or colonisations) as a model for human immunity (see, e.g., [@flasche2013impact] for an alternative formulation and [@lochen2020dynamic] for a general review of the carriage transmission models). Building from these mathematical models, a range of statistical approaches have also been used to infer the pneumococcal carriage through a given population from nasopharyngeal swab sample data (e.g., [@lipsitch2012estimating] and [@numminen2013estimating]). All of this is obviously really important, e.g., to understanding more precisely how a vaccine covering a restricted range of serotypes can impact colonisation in a given community or region.
 
-The design of policies for gathering data will always have a direct impact on the quality and utility of information that can be learned about a model via statistical inference. Therefore, it's typically useful to know _a priori_ the fundamental constraints a given policy might impose on this procedure. The purpose of the pneumoinfer class is to provide researchers with a rigorous framework to investigate these limitations for the inference of multi-state models with a counting memory - which are structurally inspired by the pneumococcus carriage models of [Cobey & Lipsitch (2012)](https://pubmed.ncbi.nlm.nih.gov/22383809/) and [Lipsitch et al. (2012)](https://pubmed.ncbi.nlm.nih.gov/22441543/). The framework should also useful in model inference with real data.
+The design of policies for gathering data will always have a direct impact on the quality and utility of information that can be learned about a model via statistical inference. Therefore, it's typically useful to know _a priori_ the fundamental constraints a given policy might impose on this procedure. The purpose of the pneumoinfer class is to provide researchers with a rigorous framework to investigate these limitations for the inference of multi-state models with a counting memory - which are structurally inspired by the pneumococcus carriage models of [@cobey2012niche] and [@lipsitch2012estimating]. The framework should also useful in model inference with real data.
 
 In this post, we're going to analyse the master equation of a stochastic model which includes memory effects from individual immunity and investigate a novel (to our knowledge) approximate ODE description for the dynamics, while assessing its validity. By then exploiting the new efficient ODE description, we will be able to develop a new method of inference that is very rapid in comparison to simulated likelihoods (or even ABC/likelihood-free inference methods). This is the main inference method that is implemented in the pneumoinfer class.
 
@@ -23,7 +23,7 @@ Let's now construct a multi-state model which incorporates a counting memory of 
 
 Now consider $\tilde{\mu}_i=\tilde{\mu}_i( \dots, n_{i}, \dots )$, i.e., a function of all previous state occupations by the individual, where $n_i$ are the state-specific counts of past occupations. The rate $\tilde{\mu}_i$ hence maintains a 'record' of past state occupations and updates accordingly through this memory. Additionally, we will make each rate $\tilde{\Lambda}_i=\tilde{\Lambda}_i(n_{i})$, i.e., a function _only_ of the state-specific count associated to each rate, respectively. The choice in the latter case comes from interpreting the counting memory as a model for capsular immunity - this will also turn out to be quite important for our approximation further on.
 
-Note that in [Cobey & Lipsitch (2012)](https://pubmed.ncbi.nlm.nih.gov/22383809/), the models of nonspecific and specific immunity suggest choosing the following functions
+Note that in [@cobey2012niche], the models of nonspecific and specific immunity suggest choosing the following functions
 
 $$
 \begin{align}
@@ -34,11 +34,11 @@ $$
 
 In the expressions above: $\epsilon$ governs the level of (immune system maturation) with respect to the number of past state occupations; ${\bf 1}_A$ denotes an indicator function whose argument is unity when $A$ is satisfied, else $0$; and the susceptibility of an individual is assumed to be reduced by a constant factor of $\sigma$ after having occupied that state once or more.
 
-The multi-state process that we're going to consider would be normally be described as a non-Markovian phenomenon. However, the modelling approach we will take is instead a bit more similar to the formal concept of a Markov embedding (as studied, e.g., recently in [Kanazawa & Sornette (2021)](https://arxiv.org/abs/2102.00242)). By creating a binary state occupation variable $x_i$ for the $i$-th serotype, and the probability of occupying state $(\dots , x_i , \dots , n_i , \dots )$ at time $t$ as $P(\dots , x_i , \dots , n_i , \dots , t)$, we may write a Markovian master equation for the process. Let's now define
+The multi-state process that we're going to consider would be normally be described as a non-Markovian phenomenon. However, the modelling approach we will take is instead a bit more similar to the formal concept of a Markov embedding (as studied, e.g., recently in [@kanazawa2021ubiquitous]). By creating a binary state occupation variable $x_i$ for the $i$-th serotype, and the probability of occupying state $(\dots , x_i , \dots , n_i , \dots )$ at time $t$ as $P(\dots , x_i , \dots , n_i , \dots , t)$, we may write a Markovian master equation for the process. Let's now define
 
 $$
 \begin{align}
-p_i(\dots ,n_i,\dots ,t) &\equiv P(\dots, x_{i}=1, x_{i'}=0, \dots ,n_{i},\dots ,t)\quad  \forall i'\neq i \\   
+p_i(\dots ,n_i,\dots ,t) &\equiv P(\dots, x_{i}=1, x_{i'}=0, \dots ,n_{i},\dots ,t)\quad  \forall i'\neq i \\
 q(\dots ,n_i,\dots ,t) &\equiv P(\dots, x_{i}=0, \dots ,n_{i},\dots ,t) \quad \forall i\,.
 \end{align}
 $$
@@ -57,11 +57,11 @@ By defining the state space to encode the memory of past state occupations using
 
 $$
 \begin{equation}
-P(\dots, n_i, \dots, t) = q(\dots, n_i, \dots, t) + \sum_{\forall i} p_i(\dots, n_i, \dots, t) \,.   
+P(\dots, n_i, \dots, t) = q(\dots, n_i, \dots, t) + \sum_{\forall i} p_i(\dots, n_i, \dots, t) \,.
 \end{equation}
 $$
 
-Though we intend our analysis of this class of multi-state models to apply more generally beyond immediate applications to pneumococcus, it also is worth noting that restricting individuals to occupy a single state at a time only approximates the full pneumococcal carriage dynamics. The true process actually allows for some individuals to carry more than one serotype at at time. However, due to the relatively low and variable reported prevalence of simultaneous serotype carriers (or 'co-colonised' individuals) across different studies (see, e.g., [Gratten et al. (1989)](https://pubmed.ncbi.nlm.nih.gov/2639508/), [Huebner et al. (2000)](https://journals.lww.com/pidj/fulltext/2000/10000/lack_of_utility_of_serotyping_multiple_colonies.19.aspx) and many others...), the single-state occupation model should still a good tracer model of the underlying dynamical behaviour of the system. Note also that this additional complexity in the dynamics should be straightforward to incorporate into our framework for future analyses. 
+Though we intend our analysis of this class of multi-state models to apply more generally beyond immediate applications to pneumococcus, it also is worth noting that restricting individuals to occupy a single state at a time only approximates the full pneumococcal carriage dynamics. The true process actually allows for some individuals to carry more than one serotype at at time. However, due to the relatively low and variable reported prevalence of simultaneous serotype carriers (or 'co-colonised' individuals) across different studies (see, e.g., [@gratten1989multiple], [@huebner2000lack] and many others...), the single-state occupation model should still a good tracer model of the underlying dynamical behaviour of the system. Note also that this additional complexity in the dynamics should be straightforward to incorporate into our framework for future analyses.
 
 Let's now try an approximation for the joint distributions of $p_i(\dots, n_i, \dots, t)$ and $q(\dots, n_i, \dots, t)$ which assumes separability, such that
 
@@ -85,7 +85,7 @@ $$
 
 In addition to the separability assumption, the key point which allowed us to derive this one-step marginal master equation was the dependence of $\tilde{\Lambda}_i$ on _only_ $n_i$; in contrast to all of the past recorded states $(\dots, n_i, \dots)$ like $\tilde{\mu}_i$.
 
-From this point on we'll focus on the specific pneumococcus model by inserting the rate function definitions from [Cobey & Lipsitch (2012)](https://pubmed.ncbi.nlm.nih.gov/22383809/) that we introduced at the start into the marginal master equation for $P(n_i,t)$. The pneumoinfer class is currently written for only these models (i.e., with just these choices of function), but it's useful to see how the steps above could be performed for more general models too. The solution to the marginal master equation with these function substitutions is simply a Poisson distribution $P(n_i,t) = {\rm Poisson}[n_i;{\rm E}_t(n_i)]$, where
+From this point on we'll focus on the specific pneumococcus model by inserting the rate function definitions from [@cobey2012niche] that we introduced at the start into the marginal master equation for $P(n_i,t)$. The pneumoinfer class is currently written for only these models (i.e., with just these choices of function), but it's useful to see how the steps above could be performed for more general models too. The solution to the marginal master equation with these function substitutions is simply a Poisson distribution $P(n_i,t) = {\rm Poisson}[n_i;{\rm E}_t(n_i)]$, where
 
 $$
 \begin{equation}
@@ -122,7 +122,7 @@ $$
 
 where to derive $G_{it}$ we have had to assume conditional independence between $n_i$ and $n_{i'}\,\,\forall i'\neq i$. The equation for ${\rm E}_t (n_i)$ can be differentiated to provide an equation for the time derivative of ${\rm E}_t(n_i)$ - evolving this equation alongside the system defined above yields an explicit finite ODE system. Note also that this approximation technique should apply to other forms of memory functions used for $\tilde{\mu}_i(\dots, n_i, \dots)$ and $\tilde{\Lambda}_i(n_i)$ by simply marginalising over their $n_i$ values, and so this approximate approach appears to be quite generalisable to other simlar systems.
 
-In order to analyse the system properties and check the validity of the approach above, we're now going to make some decisions about the parameter space to explore. Let's independently draw the $(\mu_i,\Lambda_i)$ values from Gamma distributions with shapes $(\mu_\alpha,\Lambda_\alpha)$ and rates $(\mu_\beta,\Lambda_\beta)$. Let's also constrain the matrix values $f_{ii'}=f_{i}{\bf I}_{i'}$ (where ${\bf I}_{i'}$ denotes the elements of a simple vector of ones) which also happens to be consistent with pneumococcus data anyway (see, e.g., [Lipsitch et al. (2012)](https://pubmed.ncbi.nlm.nih.gov/22441543/)). We'll also need a metric of comparison between the marginalised distribution outputs from the fully simulated master equation and our approximation. To this end, it probably makes sense to look at the [Kullback-Leibler divergence](https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence) between the marginal distributions for $x_i$ and $n_i$ in a full stochastic simulation and our approximation. In other words
+In order to analyse the system properties and check the validity of the approach above, we're now going to make some decisions about the parameter space to explore. Let's independently draw the $(\mu_i,\Lambda_i)$ values from Gamma distributions with shapes $(\mu_\alpha,\Lambda_\alpha)$ and rates $(\mu_\beta,\Lambda_\beta)$. Let's also constrain the matrix values $f_{ii'}=f_{i}{\bf I}_{i'}$ (where ${\bf I}_{i'}$ denotes the elements of a simple vector of ones) which also happens to be consistent with pneumococcus data anyway (see, e.g., [@lipsitch2012estimating]). We'll also need a metric of comparison between the marginalised distribution outputs from the fully simulated master equation and our approximation. To this end, it probably makes sense to look at the Kullback-Leibler divergence [@kullback1951information] between the marginal distributions for $x_i$ and $n_i$ in a full stochastic simulation and our approximation. In other words
 
 $$
 \begin{align}
@@ -146,7 +146,7 @@ The value of $D_{{}_{\rm KL}}^{(x)}$ generally stays small (and stable) througho
 
 ## A varying $\Lambda_{iu}$ model
 
-We're now ready to introduce an alternative model which accounts for a stochastically-varying susceptibility $\Lambda_{iu}$ (a possible model for community exposure to infectious individuals), which is now additionally indexed by '$u$' which corresponds to each individual. In this model, we have 
+We're now ready to introduce an alternative model which accounts for a stochastically-varying susceptibility $\Lambda_{iu}$ (a possible model for community exposure to infectious individuals), which is now additionally indexed by '$u$' which corresponds to each individual. In this model, we have
 
 $$
 \begin{equation}
@@ -201,9 +201,9 @@ Let's now run a full simulation using the fixed $\Lambda_i$ model and use its ou
 
 ![](../assets/pneumoinfer/loglike.png)
 
-## Additional notes: a method to compute the gradient of the log-likelihood
+## A method to compute the gradient of the log-likelihood
 
-The current version of pneumoinfer does not support a gradient calculation for the log-likelihood (mainly because this post is already a bit long!). However, to assist anyone wanting to implement this themselves, it makes sense to go through a sketch of the calculation which computes the gradient (in principle) without resorting to numerical derivatives. This makes use of the 'multiple-adjoint' method as implemented in [Zhuang et al. (2021)](https://arxiv.org/abs/2006.02493). Consider the following 'data Lagrangian'
+The current version of pneumoinfer does not support a gradient calculation for the log-likelihood (mainly because this post is already a bit long!). However, to assist anyone wanting to implement this themselves, it makes sense to go through a sketch of the calculation which computes the gradient (in principle) without resorting to numerical derivatives. This makes use of the 'multiple-adjoint' method as implemented in [@zhuang2020adaptive]. Consider the following 'data Lagrangian'
 
 $$
 \begin{align}

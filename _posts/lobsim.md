@@ -70,7 +70,11 @@ where $\epsilon_i$ denotes the market order 'sign' of each liquidity-taking agen
 
 The model we have introduced and analysed above has been implemented in the src/ folder of this repo: [https://github.com/umbralcalc/lobsim](https://github.com/umbralcalc/lobsim) using a synchronous ensemble rejection algorithm. All we need to do is call the necessary class structures and run them to see the LOB sim in action. The key point to remember for this algorithm to produce sensible results will be to make sure the overall holding rate is large enough to minimise the number of anachronisms in the order flow.
 
+After running a simulation with our Python code, the dynamics of the LOB can be tracked by a mid-price time series and snapshot observations of the state of orders in the book itself. These are displayed in the plots below.  
+
 ![](../assets/lobsim/book-dynamics.png)
+
+In order to investigate how well the simulated LOB matches the stylised facts of real books, we can look at the distributions of returns as well as the variogram correlations for different choices of timescale.
 
 ![](../assets/lobsim/returns-dists.png)
 
@@ -109,7 +113,7 @@ $$
 \end{align}
 $$
 
-These moments can be used to construct a price time series emulator. For example, one could replace $P(b, a, t)$ with a Gaussian process approximation.
+These moments could be used to construct a price time series emulator. For example, one could replace $P(b, a, t)$ with a Gaussian process approximation.
 
 ## Additional details
 
