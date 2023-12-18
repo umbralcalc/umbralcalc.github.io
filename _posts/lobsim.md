@@ -1,6 +1,6 @@
 ---
 title: Building Python simulations of limit order books
-author: Robert J. Hardwick
+author: Hardwick, Robert J
 date: 2021-11-14
 concept: To illustrate the basic building blocks required to construct a full microsimulation of limit order book dynamics. The simulation is a synchronous ensemble version of the well-studied epsilon-intelligence model. This is a short post on how the simulation was conceptualised, analysing some of its outputs and outlining prospects for potential future work on price emulation.
 articleId: lobsim

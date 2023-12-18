@@ -1,6 +1,6 @@
 ---
 title: Some simple Gaussian graphical models in Python
-author: Robert J. Hardwick
+author: Hardwick, Robert J
 date: 2021-06-15
 concept: To build some simple Bayesian graphical models for forecasting generic n-dimensional time series data. In one model we take the time series, compress it into autoregressive features using kernel convolutions and then couple the resulting variances in a Gaussian model. In the other, we try compressing with k-means clustering and dynamic time warping (using the tslearn package). In this short post we describe the models and outline the calculations required to compute their gradients for more efficient parameter optimisation.
 articleId: bants
