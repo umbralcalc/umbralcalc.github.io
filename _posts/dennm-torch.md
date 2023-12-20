@@ -27,67 +27,14 @@ P_{{\sf t}+1}(x\vert z) &= \frac{1}{{\sf t}}\sum_{{\sf t}''=0}^{{\sf t}} \int_{\
 \end{aligned}
 $$
 
-## Markovian phenomena
-
-For Markovian phenomena, the equations no longer depend on timesteps older than the immediately previous one, hence the master equation over the latest row reduces to just
-
-$$
-\begin{aligned}
-P_{{\sf t}+1}(x\vert z) &= \int_{\omega_{\sf t}}{\rm d}^nx' \, P_{\sf t}(x'\vert z) P_{({\sf t}+1){\sf t}}(x\vert x',z)  \,.
-\end{aligned}
-$$
-
-By performing a Kramers-Moyal expansion on the $P_{({\sf t}+1){\sf t}}(x\vert x',z)$ distribution up to second order (limited by the Pawula theorem [@pawula1967generalizations]), we can approximate the right hand side of the Markovian master equation like this
-
-$$
-\begin{aligned}
-P_{{\sf t}+1}(x\vert z) &\simeq P_{{\sf t}}(x\vert z) - \sum_{i=0}^n\frac{\partial}{\partial x^i}\bigg[ f_{{\sf t}}(x,z)P_{{\sf t}}(x\vert z)\bigg] + \frac{1}{2}\sum_{i=0}^n\sum_{j=0}^n\frac{\partial}{\partial x^i}\frac{\partial}{\partial x^j}\bigg[ K_{{\sf t}}(x,z)P_{{\sf t}}(x\vert z)\bigg]  \,,
-\end{aligned}
-$$
-
-where the components of $f_{{\sf t}}(x,z)$ and $K_{{\sf t}}(x,z)$ have been defined as
-
-$$
-\begin{aligned}
-f^i_{{\sf t}}(x,z) &= \int_{\omega_{{\sf t}+1}} {\rm d}^nx' (x'-x)^iP_{({\sf t}+1){\sf t}}(x'\vert x,z) \\
-K_{{\sf t}}^{ij}(x,z) &= \int_{\omega_{{\sf t}+1}} {\rm d}^nx' (x'-x)^i(x'-x)^jP_{({\sf t}+1){\sf t}}(x'\vert x,z)\,.
-\end{aligned}
-$$
-
-By inspection of the expanded expression, we can define the 'probability current'
-
-$$
-\begin{aligned}
-J_{{\sf t}}(x,z) &= f_{{\sf t}}(x,z)P_{{\sf t}}(x\vert z) - \frac{1}{2}\sum_{j=0}^{n}\frac{\partial}{\partial x^j}\bigg[ K_{{\sf t}}(x,z)P_{{\sf t}}(x\vert z)\bigg] \,.
-\end{aligned}
-$$
-
-If the probability current vanishes $J_{{\sf t}}(x,z)=0$ individually (this also implies that the distribution is stationary such that $P_{{\sf t}+1}(x\vert z)=P_{{\sf t}}(x\vert z)$ ), the implicit solution of the expanded expression can be found to be
-
-$$
-\begin{aligned}
-P_{{\sf t}}(x\vert z) \propto K_{{\sf t}}^{-1}(x,z)\exp \bigg[ \int {\rm d}^nx\, K_{{\sf t}}^{-1}(x,z)f_{{\sf t}}(x,z)\bigg] \,.
-\end{aligned}
-$$
-
-An analog of the Markovian master equation exists for discrete state spaces as well. We just need to replace the integral with a sum and the schematic would look something like this
-
-$$
-\begin{aligned}
-P_{{\sf t}+1}(x\vert z) &= \sum_{\Omega_{{\sf t}}} P_{{\sf t}}(X'\vert z) P_{({\sf t}+1){\sf t}}(x \vert X', z) \,,
-\end{aligned}
-$$
-
-where we note that the $P$'s in the expression above all now refer to _probability mass functions_.
-
 ## Non-Markovian phenomena
 
-Returning back to the full master equation we wrote at the beginning. We can also approximate the probability $P_{{\sf t}+1}(X\vert z)$ with a logarithmic expansion like this
+Let's now return back to the full master equation we wrote at the beginning. As was shown in [@worlds-of-observation], we can also approximate the probability $P_{{\sf t}+1}(X\vert z)$ with a logarithmic expansion like this
 
 $$
 \begin{aligned}
-\ln P_{{\sf t}+1}(X\vert z) &\simeq \ln P_{{\sf t}+1}(X_* \vert z) + \frac{1}{2}\sum_{{\sf t}'=0}^{{\sf t}+1}\sum_{i=0}^{n}\sum_{j=0}^{n} (x-x_* )^i {\cal I}^{ij}_{({\sf t}+1){\sf t}'}(x_*,x'_*) (x'-x'_*)^j  \\
-{\cal I}^{ij}_{({\sf t}+1){\sf t}'}(x_*,x'_*) &= \frac{\partial}{\partial x^i}\frac{\partial}{\partial (x')^j}\ln P_{{\sf t}+1}(X\vert z) \bigg\vert_{X=X_*} \,,
+\ln P_{{\sf t}+1}(X\vert z) &\simeq \ln P_{{\sf t}+1}(X_* \vert z) + \frac{1}{2}\sum_{{\sf t}'=0}^{{\sf t}+1}\sum_{i=0}^{n}\sum_{j=0}^{n} (x-x_* )^i {\cal I}^{ij}_{({\sf t}+1){\sf t}'}(z) (x'-x'_*)^j  \\
+{\cal I}^{ij}_{({\sf t}+1){\sf t}'}(z) &= \frac{\partial}{\partial x^i}\frac{\partial}{\partial (x')^j}\ln P_{{\sf t}+1}(X\vert z) \bigg\vert_{X=X_*} \,,
 \end{aligned}
 $$
 

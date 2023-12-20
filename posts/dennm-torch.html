@@ -177,51 +177,12 @@ P_{{\sf t}+1}(X\vert z) &amp;= P_{{\sf t}}(X&#39;\vert z) P_{({\sf t}+1){\sf t}}
 P_{{\sf t}+1}(x\vert z) &amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;&#39;=0}^{{\sf t}} \int_{\Omega_{{\sf t}&#39;&#39;}}{\rm d}X&#39;&#39; P_{{\sf t}&#39;&#39;}(X&#39;&#39;\vert z) P_{({\sf t}+1){\sf t}&#39;&#39;}(x \vert X&#39;&#39;,z)  \,.
 \end{aligned}
 \]</span></p>
-<h2 id="markovian-phenomena">Markovian phenomena</h2>
-<p>For Markovian phenomena, the equations no longer depend on timesteps older than the immediately previous one, hence the master equation over the latest row reduces to just</p>
-<p><span class="math display">\[
-\begin{aligned}
-P_{{\sf t}+1}(x\vert z) &amp;= \int_{\omega_{\sf t}}{\rm d}^nx&#39; \, P_{\sf t}(x&#39;\vert z) P_{({\sf t}+1){\sf t}}(x\vert x&#39;,z)  \,.
-\end{aligned}
-\]</span></p>
-<p>By performing a Kramers-Moyal expansion on the <span class="math inline">\(P_{({\sf t}+1){\sf t}}(x\vert x&#39;,z)\)</span> distribution up to second order (limited by the Pawula theorem <span class="citation" data-cites="pawula1967generalizations">[2]</span>), we can approximate the right hand side of the Markovian master equation like this</p>
-<p><span class="math display">\[
-\begin{aligned}
-P_{{\sf t}+1}(x\vert z) &amp;\simeq P_{{\sf t}}(x\vert z) - \sum_{i=0}^n\frac{\partial}{\partial x^i}\bigg[ f_{{\sf t}}(x,z)P_{{\sf t}}(x\vert z)\bigg] + \frac{1}{2}\sum_{i=0}^n\sum_{j=0}^n\frac{\partial}{\partial x^i}\frac{\partial}{\partial x^j}\bigg[ K_{{\sf t}}(x,z)P_{{\sf t}}(x\vert z)\bigg]  \,,
-\end{aligned}
-\]</span></p>
-<p>where the components of <span class="math inline">\(f_{{\sf t}}(x,z)\)</span> and <span class="math inline">\(K_{{\sf t}}(x,z)\)</span> have been defined as</p>
-<p><span class="math display">\[
-\begin{aligned}
-f^i_{{\sf t}}(x,z) &amp;= \int_{\omega_{{\sf t}+1}} {\rm d}^nx&#39; (x&#39;-x)^iP_{({\sf t}+1){\sf t}}(x&#39;\vert x,z) \\
-K_{{\sf t}}^{ij}(x,z) &amp;= \int_{\omega_{{\sf t}+1}} {\rm d}^nx&#39; (x&#39;-x)^i(x&#39;-x)^jP_{({\sf t}+1){\sf t}}(x&#39;\vert x,z)\,.
-\end{aligned}
-\]</span></p>
-<p>By inspection of the expanded expression, we can define the ‘probability current’</p>
-<p><span class="math display">\[
-\begin{aligned}
-J_{{\sf t}}(x,z) &amp;= f_{{\sf t}}(x,z)P_{{\sf t}}(x\vert z) - \frac{1}{2}\sum_{j=0}^{n}\frac{\partial}{\partial x^j}\bigg[ K_{{\sf t}}(x,z)P_{{\sf t}}(x\vert z)\bigg] \,.
-\end{aligned}
-\]</span></p>
-<p>If the probability current vanishes <span class="math inline">\(J_{{\sf t}}(x,z)=0\)</span> individually (this also implies that the distribution is stationary such that <span class="math inline">\(P_{{\sf t}+1}(x\vert z)=P_{{\sf t}}(x\vert z)\)</span> ), the implicit solution of the expanded expression can be found to be</p>
-<p><span class="math display">\[
-\begin{aligned}
-P_{{\sf t}}(x\vert z) \propto K_{{\sf t}}^{-1}(x,z)\exp \bigg[ \int {\rm d}^nx\, K_{{\sf t}}^{-1}(x,z)f_{{\sf t}}(x,z)\bigg] \,.
-\end{aligned}
-\]</span></p>
-<p>An analog of the Markovian master equation exists for discrete state spaces as well. We just need to replace the integral with a sum and the schematic would look something like this</p>
-<p><span class="math display">\[
-\begin{aligned}
-P_{{\sf t}+1}(x\vert z) &amp;= \sum_{\Omega_{{\sf t}}} P_{{\sf t}}(X&#39;\vert z) P_{({\sf t}+1){\sf t}}(x \vert X&#39;, z) \,,
-\end{aligned}
-\]</span></p>
-<p>where we note that the <span class="math inline">\(P\)</span>’s in the expression above all now refer to <em>probability mass functions</em>.</p>
 <h2 id="non-markovian-phenomena">Non-Markovian phenomena</h2>
-<p>Returning back to the full master equation we wrote at the beginning. We can also approximate the probability <span class="math inline">\(P_{{\sf t}+1}(X\vert z)\)</span> with a logarithmic expansion like this</p>
+<p>Let’s now return back to the full master equation we wrote at the beginning. As was shown in <span class="citation" data-cites="worlds-of-observation">[1]</span>, we can also approximate the probability <span class="math inline">\(P_{{\sf t}+1}(X\vert z)\)</span> with a logarithmic expansion like this</p>
 <p><span class="math display">\[
 \begin{aligned}
-\ln P_{{\sf t}+1}(X\vert z) &amp;\simeq \ln P_{{\sf t}+1}(X_* \vert z) + \frac{1}{2}\sum_{{\sf t}&#39;=0}^{{\sf t}+1}\sum_{i=0}^{n}\sum_{j=0}^{n} (x-x_* )^i {\cal I}^{ij}_{({\sf t}+1){\sf t}&#39;}(x_*,x&#39;_*) (x&#39;-x&#39;_*)^j  \\
-{\cal I}^{ij}_{({\sf t}+1){\sf t}&#39;}(x_*,x&#39;_*) &amp;= \frac{\partial}{\partial x^i}\frac{\partial}{\partial (x&#39;)^j}\ln P_{{\sf t}+1}(X\vert z) \bigg\vert_{X=X_*} \,,
+\ln P_{{\sf t}+1}(X\vert z) &amp;\simeq \ln P_{{\sf t}+1}(X_* \vert z) + \frac{1}{2}\sum_{{\sf t}&#39;=0}^{{\sf t}+1}\sum_{i=0}^{n}\sum_{j=0}^{n} (x-x_* )^i {\cal I}^{ij}_{({\sf t}+1){\sf t}&#39;}(z) (x&#39;-x&#39;_*)^j  \\
+{\cal I}^{ij}_{({\sf t}+1){\sf t}&#39;}(z) &amp;= \frac{\partial}{\partial x^i}\frac{\partial}{\partial (x&#39;)^j}\ln P_{{\sf t}+1}(X\vert z) \bigg\vert_{X=X_*} \,,
 \end{aligned}
 \]</span></p>
 <p>where the values for <span class="math inline">\(X=X_*\)</span> are defined by the vanishing of the first derivative, i.e., these are chosen such that</p>
@@ -281,9 +242,6 @@ P_{({\sf t}+1){\sf t}&#39;&#39;}^{ii&#39;&#39;} &amp;= \frac{1}{{\sf t}}\sum_{{\
 <div id="refs" class="references" role="doc-bibliography">
 <div id="ref-worlds-of-observation">
 <p>[1] R. J. Hardwick, <em>Worlds of observation: Building more realistic environments for machine learning</em>. umbralcalculations. Available: <a href="https://umbralcalc.github.io/worlds-of-observation/book.pdf">https://umbralcalc.github.io/worlds-of-observation/book.pdf</a></p>
-</div>
-<div id="ref-pawula1967generalizations">
-<p>[2] R. Pawula, “Generalizations and extensions of the fokker-planck-kolmogorov equations,” <em>IEEE Transactions on Information Theory</em>, vol. 13, no. 1, pp. 33–41, 1967.</p>
 </div>
 </div>
 <hr color="LightGray">
