@@ -9,7 +9,7 @@ title: Robert J. Hardwick
 
 **Hello there!** &#128075;
 
-* I'm a professional research engineer and simulation builder with experience in many problem domains.
+* I'm a software engineer and simulation builder with experience in many problem domains.
 * My expertise is in Bayesian statistics, machine learning methods and all things stochastic.
 * My domain knowledge includes statistics, physics (cosmology), epidemiology, sports betting and traffic control.
 * In my free time I develop code and write in this technical article repository.
