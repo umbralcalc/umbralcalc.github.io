@@ -22,8 +22,8 @@ Since a rugby match exists in continuous time, it is natural to choose a continu
 Based on our dicussion above, an appropriate encoding for the overall game state at timestep index ${\sf t}$ could be a state vector $X_{{\sf t}}$ whose elements are
 $$
 \begin{align}
-X^0_{{\sf t}}&=\begin{cases} 0 & \text{Match State} = \text{{\sf Penalty}}\\ 1 & \text{Match State} = \text{{\sf Free Kick}} \\ \dots & \end{cases} \\
-X^1_{{\sf t}}&=\begin{cases} 0 & \text{Possession} = \text{{\sf Home Team}}\\ 1 & \text{Possession} = \text{{\sf Away Team}} \end{cases} .
+X^0_{{\sf t}}&=\begin{cases} 0 & \text{Match State} = \text{${\sf Penalty}$}\\ 1 & \text{Match State} = \text{${\sf Free}$ ${\sf Kick}$} \\ \dots & \end{cases} \\
+X^1_{{\sf t}}&=\begin{cases} 0 & \text{Possession} = \text{${\sf Home}$ ${\sf Team}$}\\ 1 & \text{Possession} = \text{${\sf Away}$ ${\sf Team}$} \end{cases} .
 \end{align}
 $$
 But how does this overall game state connect to the event rates? The probabilistic answer is quite straightforward. If the probability of the match state being $X^0_{{\sf t}}={\sf a}$ at timestep ${\sf t}$ is written as $P^0_{{\sf t}}({\sf a})$, then the probability of $X^0_{{\sf t}+1}={\sf b}$ in the following timestep is
