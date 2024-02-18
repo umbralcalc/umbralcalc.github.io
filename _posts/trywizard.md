@@ -93,7 +93,7 @@ In the last section we introduced a continuous-time event-based simulation model
 
 In the figure below we have begun by separating playing positions on the rugby field into their usual descriptions and then associating each player type with a short list of simplified attributes. Note that our model associates a player with a 'possession attacking' and 'possession defending' ability which corresponds to each of their possession attributes that are indicated by the diagram. For example, a Front Row Forward will have 10 possession abilities associated to them: 2 for each of their ${\sf Scrum}$, ${\sf Lineout}$, ${\sf Ruck}$, ${\sf Maul}$ and ${\sf Run}$ attributes.
 
-![](../assets/trywizard/rugby-player-abilities.drawio.png)
+![](../assets/trywizard/trywizard-rugby-player-abilities.drawio.png)
 
 Let's now say that $z$ contains all of these parameters for all of the players on both sides, including those on the bench. With these parameters, the knowledge of which team is in possession from $X^1_{\sf t}$, and the identifiers of those players who are actively playing on the field, it should be simple to create a vector-valued function $a_{\rm pos}(X_{\sf t})$ which returns all of the possession attacking attributes that are associated to match state $X^0_{\sf t}$ and an analogous one $d_{\rm pos}(X_{\sf t})$ for the possession defending attributes. The dependencies of these functions on the ball possession state $X^1_{\sf t}$ comes from the fact that when, e.g., the ${\sf Home}$ ${\sf Team}$ has possession of the ball it will be their possession attacking attributes that are returned by $a_{\rm pos}(X_{\sf t})$ and the ${\sf Away}$ ${\sf Team}$'s possession defending attributes that are returned by $d_{\rm pos}(X_{\sf t})$.
 
