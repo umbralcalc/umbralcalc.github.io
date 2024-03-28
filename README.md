@@ -2,10 +2,8 @@
 title: Robert J. Hardwick
 ---
 
-[![Github](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/umbralcalc)
-[![Orchid](https://img.shields.io/badge/orcid-A6CE39?style=for-the-badge&logo=orcid&logoColor=white)](https://orcid.org/0000-0001-8778-006X)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://uk.linkedin.com/in/robert-hardwick-1179041aa)
-[![Google Scholar](https://img.shields.io/badge/Google%20Scholar-4285F4?style=for-the-badge&logo=google-scholar&logoColor=white)](https://scholar.google.com/citations?user=YA2x6REAAAAJ&hl=en)
+</br>
+<div><a href="https://github.com/umbralcalc"><img src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&amp;logo=github&amp;logoColor=white" alt="Github" /></a> <a href="https://orcid.org/0000-0001-8778-006X"><img src="https://img.shields.io/badge/orcid-A6CE39?style=for-the-badge&amp;logo=orcid&amp;logoColor=white" alt="Orchid" /></a> <a href="https://uk.linkedin.com/in/robert-hardwick-1179041aa"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&amp;logo=linkedin&amp;logoColor=white" alt="LinkedIn" /></a> <a href="https://scholar.google.com/citations?user=YA2x6REAAAAJ&amp;hl=en"><img src="https://img.shields.io/badge/Google%20Scholar-4285F4?style=for-the-badge&amp;logo=google-scholar&amp;logoColor=white" alt="Google Scholar" /></a></div>
 
 **Hello there!** &#128075;
 
