@@ -2,7 +2,7 @@
 title: "Self-learning simulations series: Building a generalised simulation engine"
 author: Hardwick, Robert J
 date: [WIP]
-concept: We lay out the fundamental mathematical foundations for describing practically any stochastic simulation on a computer. Having provided these foundations, we then design and build a generalised simulation engine that is able to generate samples from practically any real-world stochastic processes that a researcher could encounter. With such a thing pre-built and self-contained, it can become the basis upon which to build generalised software solutions for a lot of different problems. The archetype computational graph structures for a variety of real-world phenomena are also discussed.
+concept: We lay out the fundamental mathematical foundations for describing practically any stochastic simulation on a computer. Having provided these foundations, we then design and build a generalised simulation engine that is able to generate samples from practically any real-world stochastic processes that a researcher could encounter. With such a thing pre-built and self-contained, it can become the basis upon which to build generalised software solutions for a lot of different problems. The archetype simulations for a variety of real-world phenomena are also discussed at the end of the article.
 articleId: stochadexI
 codeLink: https://github.com/umbralcalc/stochadex
 year: [WIP]
@@ -190,77 +190,49 @@ $$
 
 where $u$ is inversely proportional to the length of memory in continuous time.
 
-## Software design
+## Software design and implementation
 
-So we've proposed a computational formalism and then studied it in more detail to demonstrate that it can cope with a variety of different stochastic phenomena. Now we're ready to summarise what we want the stochadex software package to be able to do. But what's so complicated about the first iteration equation we wrote? Can't we just implement an iterative algorithm with a single function? It's true that the fundamental concept is very straightforward, but as we'll discuss in due course; the stochadex needs to have a lot of configurable features so that it's applicable in different situations. Ideally, the stochadex sampler should be designed to try and maintain a balance between performance and flexibility of utilisation.
+So we've proposed a computational formalism and then studied it in more detail to demonstrate that it can cope with a variety of different stochastic phenomena. We're now ready to design a software package which uses this computational formalism to simulate any of these phenomena. Enter the 'stochadex' package! This will be our generalised simulation engine to generate samples from and statistically infer a 'Pokédex' of possible stochastic processes. A 'Pokédex' here is just a fanciful description for a very general class of multidimensional stochastic processes that pop up everywhere in taming the mathematical wilds of real-world phenomena, and which also leads to a name for the software. Note that other generalised simulation frameworks exist as well --- such as SimPy [@simpy], StoSpa [@stospa] and FLAME GPU [@flamegpu] --- and all of these approach simulating stochastic processes with different software architectures and languages; though there are obvious similarities which can be drawn between them as they all must ultimately achieve the same goal. For the stochadex, we will choose Go for implementation, due to its powerful concurrency features.
 
-If we begin with the obvious first set of criteria; we want to be able to freely configure the iteration function $F$ of Eq.~(\ref{eq:x-step-def}) and the timestep function $t$ of Eq.~(\ref{eq:t-steps-sum}) so that any process we want can be described. The point at which a simulation stops can also depend on some algorithm termination condition which the user should be able to specify up-front.
+Now we're ready to summarise what we want the stochadex software package to be able to do. But what's so complicated about the first iteration equation we wrote? Can't we just implement an iterative algorithm with a single function? It's true that the fundamental concept is very straightforward, but as we'll discuss in due course; we want to be able to design something which abstracts away many of the common features that sampling algorithms have for performing these computations behind a highly-configurable interface. And, ideally, it should be designed to try and maintain a balance between performance and flexibility of utilisation.
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=13cm]{images/chapter-1-stochadex-parallel-serial.drawio.png}
-\caption{A schematic illustrating the difference between parallel and serial partitions in for a single step of the simulation.}
-\label{fig:parallel-serial-partitions}
-\end{figure}
+If we begin with the obvious first set of criteria; we want to be able to freely configure the vector-valued iteration function $F_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t})$ and the timestep function $t({\sf t})$ so that any process we want can be described. The point at which a simulation stops can also depend on some algorithm termination condition which the user should be able to specify up-front.
 
 Once the user has written the code to create these functions for the stochadex, we want to then be able to recall them in future only with configuration files while maintaining the possibility of changing their simulation run parameters. This flexibility should facilitate our uses for the simulation later in the book, and from this perspective it also makes sense that the parameters should include the random seed and initial state value.
 
-The state history matrix $X$ should be configurable in terms of its number of rows --- what we'll call the 'state width' --- and its number of columns --- what we'll call the 'state history depth'. If we were to keep increasing the state width up to millions of elements or more, it's likely that on most machines the algorithm performance would grind to a halt when trying to iterate over the resulting $X$ within a single thread. Hence, before the algorithm or its performance in any more detail, we can pre-empt the requirement that $X$ should represented in computer memory by a set of partitioned matrices which are all capable of communicating to one-another downstream. In this paradigm, we'd like the user to be able to configure which state partitions are able to communicate with each other without having to write any new code.
+The state history matrix $X$ should be configurable in terms of its number of rows --- what we'll call the 'state width' --- and its number of columns --- what we'll call the 'state history depth'. If we were to keep increasing the state width up to millions of elements or more, it's likely that on most machines the algorithm performance would grind to a halt when trying to iterate over the resulting $X$ within a single thread. Hence, before the algorithm or its performance in any more detail, we can pre-empt the requirement that $X$ should represented in computer memory by a set of partitioned matrices which are all capable of communicating to one-another downstream in a via some configured messaging graph. In this paradigm, we'd like the user to be able to configure which state partitions are able to communicate with each other, i.e., freely reconfigure the graph topology, without having to write any new code.
 
-Within each parallel partition of the state history, the stochadex also enables further partitioning of state (and hence its corresponding update function) into serial blocks in memory. This enables the user to define much simpler (and hence more resuable) iteration functions to use in configuring future projects. During a simulation step, the key difference between parallel partitions and the serial partitions within each is that the former can only have shared access to the entire state history up to the last state values for the whole simulation. The latter, however, can also have access to the state values produced most recently by any partitions before it in the serial configuration. In Fig.~\ref{fig:parallel-serial-partitions} we have illustrated this difference between parallel and serial partitions in a simple schematic.
+To achieve this in a configurable way while maintaining threads for each state partition iteration, the stochadex can wrap any user-defined state partition iteration in functionality which passes the output state updates from computationally-upstream partitions into a set of params which are passed into any other computationally-downstream partition via thread communication channels (easily achievable in Go). This enables the user to define much simpler (and hence more resuable) iteration functions to use in configuring future projects, while letting the simulation engine handle the communication between these functions in a fully-configurable messaging graph. Note all partitions will _always_ have shared access to the full state history of all partitions, the corresponding timesteps and their own parameters, regardless of where they sit in this messaging graph. To avoid ambiguity in this description, let's consider a 'Partition A' to be computationally-upstream from a 'Partition B' in this messaging graph if both satisfy the connectivity implied in the diagram below.
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=13cm]{images/chapter-1-stochadex-data-types.drawio.png}
-\caption{A relational summary of the configuration data types in the stochadex.}
-\label{fig:data-types-design}
-\end{figure}
+![](../assets/stochadexI/stochadexI-stochadex-parallel-serial.drawio.png)
+
+In the diagram above we are considering the specifics of how threads communicate with one another in the stochadex simulator. But we can elaborate further on how the simulation loop should function as a whole. Due to the fact that all of the separate state partition threads must synchronise at the end of each simulation loop iteration it makes sense that this is managed by a centralised 'coordinator' struct. In this coordinator, each partition is handled by concurrently running execution threads within the same process (while a separate process may be used to handle the outputs from the algorithm itself). As the diagram below shows, the main sequence of each loop iteration follows the pattern:
+
+- The $\texttt{PartitionCoordinator}$ requests more iterations from each state partition by sending an $\texttt{IteratorInputMessage}$ to a concurrently running goroutine.
+- The $\texttt{StateIterator}$ in each goroutine executes the iteration and stores the resulting state update in a variable.
+- Once all of the iterations have been completed, the $\texttt{PartitionCoordinator}$ then requests each goroutine to update its relevant partition of the state history by sending another $\texttt{IteratorInputMessage}$ to each.
+
+![](../assets/stochadexI/stochadexI-stochadex-loop.drawio.png)
+
+This pattern ensures that no partition has access to values in the state history which are out of sync with its current state in time, and hence prevents anachronisms from occuring in the overall simulation state iteration. It's also worth noting that while the diagram above illustrates only a single process; it's obviously true that we may run many of these whole diagrams at once to parallelise generating independent realisations of the simulation, if necessary.
 
 For convenience, it seems sensible to also make the outputs from stochadex runs configurable. A user should be able to change the form of output that they want through, e.g., some specified function of $X$ at the time of outputting data. The times that the stochadex should output this data can also be decided by some user-specified condition so that the frequency of output is fully configurable as well. This flexibility can be useful when the user only requires a limited number of state snapshots at particular times.
 
-In summary, we've put together a schematic of configuration data types and their relationships in Fig.~\ref{fig:data-types-design}. In this diagram there is some indication of the data type that we propose to store each piece information in (in Go syntax), and the diagram as a whole should serve as a useful guide to the basic structure of configuration files for the stochadex.
+Now let's look at the data types which make sense for the criteria we want to satisfy above. We've put together a schematic of configuration data types and their relationships in the figure below. In this diagram there is some indication of the data type that we propose to store each piece information in (in Go syntax), and the diagram as a whole should serve as a useful guide to the basic structure of configuration files for the stochadex.
 
-It's clear that in order to simulate Eq.~(\ref{eq:x-step-def}), we need an interative algorithm which reapplies a user-specified function to the continually-updated history. But let's now return to the point we made earlier about how the performance of such an algorithm will depend on the size of the state history matrix $X$. The key bit of the algorithm design that isn't so straightforward is: how do we sucessfully split this state history up into separate partitions in memory while still enabling them to communicate effectively with each other? Other generalised simulation frameworks --- such as SimPy~\cite{simpy}, StoSpa~\cite{stospa} and FLAME GPU~\cite{flamegpu} --- have all approached this problem in different ways, and with different software architectures. 
+![](../assets/stochadexI/stochadexI-stochadex-data-types.drawio.png)
 
-In Fig.~\ref{fig:loop-design} we've illustrated what a loop involving separate state partitions looks like in the stochadex simulator. Each partition is handled by concurrently running execution threads of the same process, while a separate process may be used to handle the outputs from the algorithm. As the diagram shows, the main sequence of each loop iteration follows the pattern: 
-%%
-\begin{enumerate}
-\item{The \texttt{PartitionCoordinator} requests more iterations from each state partition by sending an \texttt{IteratorInputMessage} to a concurrently running goroutine.}
-\item{The \texttt{StateIterator} in each goroutine executes the iteration and stores the resulting state update in a variable.}
-\item{Once all of the iterations have been completed, the \texttt{PartitionCoordinator} then requests each goroutine to update its relevant partition of the state history by sending another \texttt{IteratorInputMessage} to each.}
-\end{enumerate}
-%%
-This pattern ensures that no partition has access to values in the state history which are out of sync with its current state in time, and hence prevents anachronisms from occuring in the overall simulation state iteration. 
+As we stated at the beginning of this chapter: the full implementation of the stochadex can be found on GitHub by following this link: [https://github.com/umbralcalc/stochadex](https://github.com/umbralcalc/stochadex). Users can build the main binary executable of this repository and determine what configuration of the stochadex they would like to have through config at runtime (one can infer these configurations from the data types in the diagram above). As Go is a statically typed language, this level of flexibility has been achieved using code templating and generation proceeding runtime build and execution via $\texttt{go run}$ 'under-the-hood'. Users who find this particular execution pattern undesirable can also use all of the stochadex types, tools and methods as part of a standard Go package import.
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=13cm]{images/chapter-1-stochadex-loop.drawio.png}
-\caption{Schematic for a step of the stochadex simulation algorithm.}
-\label{fig:loop-design}
-\end{figure}
+In order to debug the simulation code and gain a more intuitive understanding of the outputs from a model as it is being developed, we have also written a lightweight frontend dashboard React [@react] app in TypeScript to visualise any stochadex simulation as it is running. This dashboard can be launched by passing config at runtime to the main stochadex executable, and we have illustrated how all this fits together in a flowchart shown in the diagram below.
 
-It's also worth noting that while Fig.~\ref{fig:loop-design} illustrates only a single process; it's obviously true that we may run many of these whole diagrams at once to parallelise generating independent realisations of the simulation, if necessary.
+![](../assets/stochadexI/stochadexI-stochadex-main.drawio.png)
 
-As we stated at the beginning of this chapter: the full implementation of the stochadex can be found on GitHub by following this link: \href{https://github.com/umbralcalc/stochadex}{https://github.com/umbralcalc/stochadex}. Users can build the main binary executable of this repository and determine what configuration of the stochadex they would like to have through config at runtime (one can infer these configurations from Fig.~\ref{fig:data-types-design}). As Go is a statically typed language, this level of flexibility has been achieved using code templating and generation proceeding runtime build and execution via \texttt{go run} 'under-the-hood'. Users who find this particular execution pattern undesirable can also use all of the stochadex types, tools and methods as part of a standard Go package import.
+## Archetype simulations
 
-In order to debug the simulation code and gain a more intuitive understanding of the outputs from a model as it is being developed, we have also written a lightweight frontend dashboard React~\cite{react} app in TypeScript to visualise any stochadex simulation as it is running. This dashboard can be launched by passing config at runtime to the main stochadex executable, and we have illustrated how all this fits together in a flowchart shown in Fig.~\ref{fig:stochadex-main}.
+To end this article, in this section, we're going to define and develop some archetype simulations which typically appear in the real-world. These archetypes will help to both illustrate how partitioning the state can be helpful to conceptualise the phenomena one wishes to simulate and provide some practical insights into how the stochadex may be configured for different purposes.
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=9cm]{images/chapter-1-stochadex-main.drawio.png}
-\caption{A diagram of the main stochadex binary executable.}
-\label{fig:stochadex-main}
-\end{figure}
-
-
-\chapter{\sffamily Environment archetypes}
-
-{\bfseries\sffamily Concept.} To define and develop an archetype simulation environment for simple state transitions. In our classification scheme, this archetype is defined by a trivial state partition graph topology and would make sense for simulations of sequential design problems, sports matches and other simple gameplay domains. We will also discuss the typical ways in which the state of the system may only partially be observed in realistic examples, and analyse how best to deal with each situation. For the mathematically-inclined, this chapter will define the mapping of our formalism to simple state transitions. For the programmers, the software which is designed and described in this chapter can be found in the public Git respository here: \href{https://github.com/worldsoop/worldsoop}{https://github.com/worldsoop/worldsoop}.
-
-
-\section{\sffamily Simple state transitions}
-
-The simple state transition archetype refers to simulation environments where there is no obvious computational benefit to partitioning the state into concurrently updating or acting on separate components. There may even be performance benefits from keeping state information all within the same common data structure in memory, but this can depend on the specific problem of study. 
+We begin with the _simple state transition archetype_, which refers to simulation environments where there is no obvious computational benefit to partitioning the state into concurrently updating or acting on separate components. There may even be performance benefits from keeping state information all within the same common data structure in memory, but this can depend on the specific problem of study.
 
 In the interest of completeness with respect to the chapters which follow on from this one, we have illustrated the trivial state partition graph topology for this archetype in Fig.~\ref{fig:state-partition-graph-simple-state-transitions}.
 
@@ -279,7 +251,7 @@ In order to understand what sorts of data might be collected about this archetyp
 \label{fig:state-partition-graph-simple-state-transitions}
 \end{figure}
 
-Based on the examples given above, what kinds of data may be available to infer the state and parameters of a simulation environment using this archetype? 
+Based on the examples given above, what kinds of data may be available to infer the state and parameters of a simulation environment using this archetype?
 
 In the case of team sports matches, a team manager could have access to a large body of data which assesses the capabilities of their players before a game, but they must rely on more subjective or limited data to assess the performance of their team (and the opposition) in the middle of a match. The 'state' of the whole system in this case can be not only the state of play, but also information about, e.g., fatigue or on-the-day performance of each player for both teams and sets of substitutes. 
 
@@ -301,9 +273,7 @@ In a general offline learning setting, realistic historical data collected about
 \item{sports team manager and other game player 1. substitute players 2. changes to tactics}
 \end{itemize}}
 
-\section{\sffamily Dynamic spatial fields}
-
-The dynamic spatial field archetype refers to simulation environments which have highly-structured, bidirectional communication between state partitions. The graph toplogy of this archetype is totally connected, but some connections matter more than others. As a helpful analogy, you can think of these partitions as being structured topologically in a kind of 'lattice' configuration, where connections to other partitions over different distances in the lattice can contribute different importance weights in affecting each local state partition. This lattice structure can be best intuited from a visual discription, so we have illustrated an example graph topology for the dynamic spatial field archetype in Fig.~\ref{fig:state-partition-graph-dynamic-spatial-fields}.
+The _dynamic spatial field archetype_ refers to simulation environments which have highly-structured, bidirectional communication between state partitions. The graph toplogy of this archetype is totally connected, but some connections matter more than others. As a helpful analogy, you can think of these partitions as being structured topologically in a kind of 'lattice' configuration, where connections to other partitions over different distances in the lattice can contribute different importance weights in affecting each local state partition. This lattice structure can be best intuited from a visual discription, so we have illustrated an example graph topology for the dynamic spatial field archetype in Fig.~\ref{fig:state-partition-graph-dynamic-spatial-fields}.
 
 \begin{figure}[h]
 \centering
@@ -359,9 +329,7 @@ To begin our discussion of data, let's start by considering the subset of real-w
 \item{public health authority and wildlife/national park control authority and livestock/crop farmer 1. spatially detect disease or damage 2. change state of a subset of the population}
 \end{itemize}}
 
-\section{\sffamily Distributed state networks}
-
-The distributed state network archetype refers to simulation environments whose bidirectional state partition graph topology is completely arbitrary, requiring no particular connectivity structure at all. Each state partition in this archetype typically refers to the same type of real-world node, object or sub-model. Due to the flexibility in topological structure, this archetype is well-suited to 'network' models of realistic phenomena. We have illustrated the state partition graph which fits into this category in Fig.~\ref{fig:state-partition-graph-distributed-state-networks}.
+The _distributed state network archetype_ refers to simulation environments whose bidirectional state partition graph topology is completely arbitrary, requiring no particular connectivity structure at all. Each state partition in this archetype typically refers to the same type of real-world node, object or sub-model. Due to the flexibility in topological structure, this archetype is well-suited to 'network' models of realistic phenomena. We have illustrated the state partition graph which fits into this category in Fig.~\ref{fig:state-partition-graph-distributed-state-networks}.
 
 \begin{figure}[h]
 \centering
@@ -391,10 +359,7 @@ Before discussing what kinds of data are typically available to infer states and
 \item{brain doctor and traffic light controller and city infrastructure maintainer 1. change the state of a subset of nodes in the network}
 \end{itemize}}
 
-
-\section{\sffamily Multi-stage pipelines}
-
-The multi-stage pipeline archetype refers to simulation environments with a directional state partition graph with arbitrary connection topology. In this case, each state partition corresponds to a separate stage in some pipeline model of the real-world phenomenon. Directionality in the connection structure is the key distinction between this archetype and the others in our classification scheme. We've provided one illustrated example of a multi-stage pipeline state partition graph in Fig.~\ref{fig:state-partition-graph-multi-stage-pipelines}.
+The _multi-stage pipeline archetype_ refers to simulation environments with a directional state partition graph with arbitrary connection topology. In this case, each state partition corresponds to a separate stage in some pipeline model of the real-world phenomenon. Directionality in the connection structure is the key distinction between this archetype and the others in our classification scheme. We've provided one illustrated example of a multi-stage pipeline state partition graph in Fig.~\ref{fig:state-partition-graph-multi-stage-pipelines}.
 
 \begin{figure}[h]
 \centering
@@ -424,10 +389,7 @@ We're now ready to discuss how multi-stage pipelines are typically observed with
 \item{supply/relief chain controller and hospital logistics manager and data pipeline controller 1. modify the relative flows between different pipeline stages}
 \end{itemize}}
 
-
-\section{\sffamily Centralised exchanges}
-
-The centralised exchange archetype refers to simulation environments with a very specific bidirectional state partition graph topology. The graph connection structure is a star configuration where every state partition is connected to the same, centralised state partition which itself has a unique function in the model. In case this description isn't that clear, we've added an illustration of the graph for this archetype in Fig.~\ref{fig:state-partition-graph-centralised-exchanges}.
+The _centralised exchange archetype_ refers to simulation environments with a very specific bidirectional state partition graph topology. The graph connection structure is a star configuration where every state partition is connected to the same, centralised state partition which itself has a unique function in the model. In case this description isn't that clear, we've added an illustration of the graph for this archetype in Fig.~\ref{fig:state-partition-graph-centralised-exchanges}.
 
 \begin{figure}[h]
 \centering

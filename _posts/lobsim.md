@@ -103,14 +103,18 @@ From the equation above we can quickly ascertain that the means and square-expec
 
 $$
 \begin{align}
-\frac{{\rm d}}{{\rm d}t}{\rm E}_t(b) &\simeq \sum_{b=\theta}^\infty \sum_{a=\theta}^\infty \sum_{p=b}^\infty \sum_{i=1}^{N_{\rm pr}} {\rm E} (\theta \vert b, a, t) \tilde{\lambda}^B_{p}(b, a, t)P(b, a, t) - \sum_{b=\theta}^\infty \sum_{a=\theta}^\infty \sum_{i=1}^{N_{\rm ta}} {\rm E} (\theta \vert b, a, t)\tilde{\mu}^A_{bi}(b, a, t) \tilde{M}_{i} (B_{b}\vert b, a, t)P(b, a, t) - \nu^B{\rm E}_t(\theta)  \\
-\frac{{\rm d}}{{\rm d}t}{\rm E}_t(a) &\simeq \sum_{b=\theta}^\infty \sum_{a=\theta}^\infty \sum_{i=1}^{N_{\rm ta}} {\rm E} (\theta \vert b, a, t)\tilde{\mu}^B_{ai}(b, a, t) \tilde{M}_{i} (A_{a}\vert b, a, t)P(b, a, t) + \nu^A{\rm E}_t(\theta) -\sum_{b=\theta}^\infty \sum_{a=\theta}^\infty \sum_{p=a}^\theta \sum_{i=1}^{N_{\rm pr}} {\rm E} (\theta \vert b, a, t) \tilde{\lambda}^A_{p}(b, a, t)P(b, a, t) \\
+\frac{{\rm d}}{{\rm d}t}{\rm E}_t(b) &\simeq \sum_{b=\theta}^\infty \sum_{a=\theta}^\infty \sum_{p=b}^\infty \sum_{i=1}^{N_{\rm pr}} {\rm E} (\theta \vert b, a, t) \tilde{\lambda}^B_{p}(b, a, t)P(b, a, t) \nonumber \\
+&- \sum_{b=\theta}^\infty \sum_{a=\theta}^\infty \sum_{i=1}^{N_{\rm ta}} {\rm E} (\theta \vert b, a, t)\tilde{\mu}^A_{bi}(b, a, t) \tilde{M}_{i} (B_{b}\vert b, a, t)P(b, a, t) - \nu^B{\rm E}_t(\theta)  \\
+\frac{{\rm d}}{{\rm d}t}{\rm E}_t(a) &\simeq \sum_{b=\theta}^\infty \sum_{a=\theta}^\infty \sum_{i=1}^{N_{\rm ta}} {\rm E} (\theta \vert b, a, t)\tilde{\mu}^B_{ai}(b, a, t) \tilde{M}_{i} (A_{a}\vert b, a, t)P(b, a, t) \nonumber \\
+&+ \nu^A{\rm E}_t(\theta) -\sum_{b=\theta}^\infty \sum_{a=\theta}^\infty \sum_{p=a}^\theta \sum_{i=1}^{N_{\rm pr}} {\rm E} (\theta \vert b, a, t) \tilde{\lambda}^A_{p}(b, a, t)P(b, a, t) \\
 \frac{{\rm d}}{{\rm d}t}{\rm E}_t(b^2) &\simeq \sum_{b=\theta}^\infty \sum_{a=\theta}^\infty \sum_{p=b}^\infty \sum_{i=1}^{N_{\rm pr}} \big[ 2b{\rm E} (\theta \vert b, a, t) + {\rm E} (\theta^2 \vert b, a, t) \big] \tilde{\lambda}^B_{p}(b, a, t)P(b, a, t) \\
 &- \sum_{b=\theta}^\infty \sum_{a=\theta}^\infty \sum_{i=1}^{N_{\rm ta}} \big[ 2b{\rm E}(\theta \vert b, a, t) - {\rm E} (\theta^2 \vert b, a, t) \big] \tilde{\mu}^A_{bi}(b, a, t) \tilde{M}_{i} (B_{b}\vert b, a, t)P(b, a, t) - \big[ 2{\rm E}_t(b\theta) - {\rm E}_t(\theta^2) \big] \nu^B  \\
 \frac{{\rm d}}{{\rm d}t}{\rm E}_t(a^2) &\simeq \sum_{b=\theta}^\infty \sum_{a=\theta}^\infty \sum_{i=1}^{N_{\rm ta}} \big[ 2a{\rm E} (\theta \vert b, a, t) + {\rm E} (\theta^2 \vert b, a, t) \big] \tilde{\mu}^B_{ai}(b, a, t) \tilde{M}_{i} (A_{a}\vert b, a, t)P(b, a, t) \\ 
 &+   \big[ 2{\rm E}_t(a\theta) - {\rm E}_t(\theta^2)  \big] \nu^A -\sum_{b=\theta}^\infty \sum_{a=\theta}^\infty \sum_{p=a}^\theta \sum_{i=1}^{N_{\rm pr}} \big[ 2a{\rm E} (\theta \vert b, a, t) - {\rm E} (\theta^2 \vert b, a, t)\big] \tilde{\lambda}^A_{p}(b, a, t)P(b, a, t) \\
-\frac{{\rm d}}{{\rm d}t}{\rm E}_t(ba) &\simeq \sum_{b=\theta}^\infty \sum_{a=\theta}^\infty \sum_{p=b}^\infty \sum_{i=1}^{N_{\rm pr}} a{\rm E} (\theta \vert b, a, t) \tilde{\lambda}^B_{p}(b, a, t)P(b, a, t) - \sum_{b=\theta}^\infty \sum_{a=\theta}^\infty \sum_{i=1}^{N_{\rm ta}} a{\rm E} (\theta \vert b, a, t) \tilde{\mu}^A_{bi}(b, a, t) \tilde{M}_{i} (B_{b}\vert b, a, t)P(b, a, t) - \nu^B {\rm E}_t(a\theta) \\
-&+ \sum_{b=\theta}^\infty \sum_{a=\theta}^\infty \sum_{i=1}^{N_{\rm ta}} b{\rm E} (\theta \vert b, a, t)\tilde{\mu}^B_{ai}(b, a, t) \tilde{M}_{i} (A_{a}\vert b, a, t)P(b, a, t) + \nu^A {\rm E}_t(b\theta) -\sum_{b=\theta}^\infty \sum_{a=\theta}^\infty \sum_{p=a}^\theta \sum_{i=1}^{N_{\rm pr}} b{\rm E} (\theta \vert b, a, t) \tilde{\lambda}^A_{p}(b, a, t)P(b, a, t) \,.
+\frac{{\rm d}}{{\rm d}t}{\rm E}_t(ba) &\simeq \sum_{b=\theta}^\infty \sum_{a=\theta}^\infty \sum_{p=b}^\infty \sum_{i=1}^{N_{\rm pr}} a{\rm E} (\theta \vert b, a, t) \tilde{\lambda}^B_{p}(b, a, t)P(b, a, t) \nonumber \\
+&- \sum_{b=\theta}^\infty \sum_{a=\theta}^\infty \sum_{i=1}^{N_{\rm ta}} a{\rm E} (\theta \vert b, a, t) \tilde{\mu}^A_{bi}(b, a, t) \tilde{M}_{i} (B_{b}\vert b, a, t)P(b, a, t) - \nu^B {\rm E}_t(a\theta) \\
+&+ \sum_{b=\theta}^\infty \sum_{a=\theta}^\infty \sum_{i=1}^{N_{\rm ta}} b{\rm E} (\theta \vert b, a, t)\tilde{\mu}^B_{ai}(b, a, t) \tilde{M}_{i} (A_{a}\vert b, a, t)P(b, a, t) + \nu^A {\rm E}_t(b\theta) \nonumber \\
+&- \sum_{b=\theta}^\infty \sum_{a=\theta}^\infty \sum_{p=a}^\theta \sum_{i=1}^{N_{\rm pr}} b{\rm E} (\theta \vert b, a, t) \tilde{\lambda}^A_{p}(b, a, t)P(b, a, t) \,.
 \end{align}
 $$
 
