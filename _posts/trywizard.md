@@ -4,6 +4,7 @@ author: Hardwick, Robert J
 date: [WIP]
 concept: To outline the design of an event-based rugby match simulation which can be manipulated through correctly-timed player substitutions and other game management decisions. We demonstrate how the state manipulation framework built previously around the stochadex can meet these requirements easily, and a dashboard can be created for user interaction.
 articleId: trywizard
+codeLink: https://github.com/umbralcalc/trywizard
 year: [WIP]
 ---
 
@@ -45,7 +46,7 @@ P^1_{{\sf t}+1}({\sf H}) = \frac{ \frac{1}{\tau}P^1_{{\sf t}}({\sf H}) + \lambda
 \end{align}
 $$
 
-Before we move on to other details, it's quite important to recognise that because our process is defined in continuous time, the possession change rate may well vary continuously (this will be especially true when we talk about, e.g., player fatigue). Hence, the expression for the match state transition probabilities is only an _approximation_ of the true underlying dynamics that we are trying to simulate - and this approximation will only be accurate if $\tau$ is small. The reader may recall that we discussed this same issue from the point of view of simulating time-inhomogeneous Poisson processes with the rejection method when we were building the stochadex [@worlds-of-observation].
+Before we move on to other details, it's quite important to recognise that because our process is defined in continuous time, the possession change rate may well vary continuously (this will be especially true when we talk about, e.g., player fatigue). Hence, the expression for the match state transition probabilities is only an _approximation_ of the true underlying dynamics that we are trying to simulate - and this approximation will only be accurate if $\tau$ is small. The reader may recall that we discussed this same issue from the point of view of simulating time-inhomogeneous Poisson processes with the rejection method when we were building the stochadex [@stochadexI-WIP].
 
 While these match state transitions and possession changes are taking place, we also need to come up with a model for how the ball location $L_{{\sf t}}$ changes during the course of a game, and as a function of the current game state. Note that, because the ball location is a part of the overall game state, it will be included as information contained within some elements of $X_{{\sf t}}$ as well. To make this explicit, we can simply set $X^2_{{\sf t}}=L^{\rm lon}_{{\sf t}}$ and $X^3_{{\sf t}}=L^{\rm lat}_{{\sf t}}$ - where $L^{\rm lon}_{{\sf t}}$ denotes the longitudinal component (lengthwise along the pitch) and $L^{\rm lat}_{{\sf t}}$ denotes the lateral component (widthwise across the pitch). If we associate every state on the event graph with a single change in spatial location of the ball on the pitch, we then need to construct a process which makes 'jumps' in 2-dimensional space each time a state transition occurs. To keep things simple and intuitive, we will say that movements of the ball are only allowed to occur during either a ${\sf Run}$ ${\sf Phase}$ or a ${\sf Kick}$ ${\sf Phase}$. In most cases this restriction makes sense given the real-world game patterns, but perhaps the only clear exception is the ${\sf Penalty}$ $\longrightarrow$ ${\sf Goal}$ transition; which is easier to think of as a kind of '${\sf Kick}$ ${\sf Phase}$ transition' anyway.
 
@@ -136,11 +137,5 @@ But what about ${\cal T}_{{\sf a}\rightarrow {\sf b}}(X_{\sf t},{\sf t})$? What 
 The first, and perhaps more obvious, tactical decision axis to dynamically manipulate is the ratio between ${\sf Kick}$ ${\sf Phase}$ and ${\sf Run}$ ${\sf Phase}$ that the team chooses when it has possession of the ball, depending on what part of the pitch they are playing in. The second axis maps how aggressively a team pursues scoring tries over any other points (even when they may be on offer from a ${\sf Penalty}$ ${\sf Goal}$). This latter axis also only really matters for the team in possession of the ball, so we aren't planning to map out any defensive tactics in our model for now. Since both of these actions can be mapped to a single axis each, these ratios $q$ (each defined between $1\geq q \geq 0$) can populate the last two indices of the actions vector: $A^{15}_{{\sf t}+1}$ and $A^{16}_{{\sf t}+1}$. When either of them has been changed, this can be mapped to $X_{{\sf t}+1}$ using the action function ${\cal F}_{{\sf t}+1}(X_{0:{\sf t}},z,A_{{\sf t}+1},{\sf t})$ and then $X_{{\sf t}+1}$, will have changed ratios between transition probabilities ${\cal T}_{{\sf a}\rightarrow {\sf b}}(X_{{\sf t}+1},{\sf t}+1)$ when the attacking team is making these in-play decisions in the proceeding timestep.
 
 Before we finish, there's a quick point to make about how managerial actions can affect ball locations on the pitch. In addition to the changes that we have discussed above, let's recall that the parameters $a_{\sf run}$, $d_{\sf run}$, $a_{\rm kick}$, $p_{\rm kick}$, $p_{\rm reg}$ and $p_{\rm goal}$ can all be indirectly determined by the manager to some extent through player selection/substitutions. So, while tactical managerial actions can change the ratios of state transitions themselves (at least while in possession of the ball), the players which are chosen in the first place (or by substitution) can have quite a significant influence on the outcome of a match.
-
-## Additional details
-
-The code for this article was developed here: [https://github.com/worldsoop/trywizard](https://github.com/worldsoop/trywizard).
-
-Shared by the author under an [MIT License](../LICENSE)
 
 ## References

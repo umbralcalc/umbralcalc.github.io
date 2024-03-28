@@ -72,6 +72,11 @@
       max-height: 100%;
       text-align: justify;
     }
+  
+    p img {
+      display: block;
+      margin: 0 auto;
+    }
 
     .articleHeader {
       padding: .2em .4em;
@@ -190,7 +195,7 @@ P^0_{{\sf t}+1}({\sf b}) = \frac{\frac{1}{\tau}P^0_{{\sf t}}({\sf b})+\sum_{\for
 P^1_{{\sf t}+1}({\sf H}) = \frac{ \frac{1}{\tau}P^1_{{\sf t}}({\sf H}) + \lambda_{\rm pos}(X_{\sf t}, {\sf t}) [1-P^1_{{\sf t}}({\sf H})]}{\big[ \frac{1}{\tau} + \lambda_{\rm pos}(X_{\sf t}, {\sf t})\big]} .
 \end{align}
 \]</span></p>
-<p>Before we move on to other details, it’s quite important to recognise that because our process is defined in continuous time, the possession change rate may well vary continuously (this will be especially true when we talk about, e.g., player fatigue). Hence, the expression for the match state transition probabilities is only an <em>approximation</em> of the true underlying dynamics that we are trying to simulate - and this approximation will only be accurate if <span class="math inline">\(\tau\)</span> is small. The reader may recall that we discussed this same issue from the point of view of simulating time-inhomogeneous Poisson processes with the rejection method when we were building the stochadex <span class="citation" data-cites="worlds-of-observation">[3]</span>.</p>
+<p>Before we move on to other details, it’s quite important to recognise that because our process is defined in continuous time, the possession change rate may well vary continuously (this will be especially true when we talk about, e.g., player fatigue). Hence, the expression for the match state transition probabilities is only an <em>approximation</em> of the true underlying dynamics that we are trying to simulate - and this approximation will only be accurate if <span class="math inline">\(\tau\)</span> is small. The reader may recall that we discussed this same issue from the point of view of simulating time-inhomogeneous Poisson processes with the rejection method when we were building the stochadex <span class="citation" data-cites="stochadexI-WIP">[3]</span>.</p>
 <p>While these match state transitions and possession changes are taking place, we also need to come up with a model for how the ball location <span class="math inline">\(L_{{\sf t}}\)</span> changes during the course of a game, and as a function of the current game state. Note that, because the ball location is a part of the overall game state, it will be included as information contained within some elements of <span class="math inline">\(X_{{\sf t}}\)</span> as well. To make this explicit, we can simply set <span class="math inline">\(X^2_{{\sf t}}=L^{\rm lon}_{{\sf t}}\)</span> and <span class="math inline">\(X^3_{{\sf t}}=L^{\rm lat}_{{\sf t}}\)</span> - where <span class="math inline">\(L^{\rm lon}_{{\sf t}}\)</span> denotes the longitudinal component (lengthwise along the pitch) and <span class="math inline">\(L^{\rm lat}_{{\sf t}}\)</span> denotes the lateral component (widthwise across the pitch). If we associate every state on the event graph with a single change in spatial location of the ball on the pitch, we then need to construct a process which makes ‘jumps’ in 2-dimensional space each time a state transition occurs. To keep things simple and intuitive, we will say that movements of the ball are only allowed to occur during either a <span class="math inline">\({\sf Run}\)</span> <span class="math inline">\({\sf Phase}\)</span> or a <span class="math inline">\({\sf Kick}\)</span> <span class="math inline">\({\sf Phase}\)</span>. In most cases this restriction makes sense given the real-world game patterns, but perhaps the only clear exception is the <span class="math inline">\({\sf Penalty}\)</span> <span class="math inline">\(\longrightarrow\)</span> <span class="math inline">\({\sf Goal}\)</span> transition; which is easier to think of as a kind of ‘<span class="math inline">\({\sf Kick}\)</span> <span class="math inline">\({\sf Phase}\)</span> transition’ anyway.</p>
 <p>In the case of a <span class="math inline">\({\sf Run}\)</span> <span class="math inline">\({\sf Phase}\)</span>, let’s choose the longitudinal component of the ball location <span class="math inline">\(L^{\rm lon}_{{\sf t}}\)</span> to be updated by the difference between samples drawn from two exponential distributions (one associated to each team). Hence, the probability density <span class="math inline">\(P_{{\sf t}+1}(\ell )\)</span> of <span class="math inline">\(L^{\rm lon}_{{\sf t}+1}-L^{\rm lon}_{{\sf t}}=\ell\)</span>, evolves according to <span class="math display">\[
 \begin{align}
@@ -259,9 +264,6 @@ d^i_{\rm pos}(X_{\sf t}, {\sf t}) &amp;= d^i_{\rm pos}(X_{\sf t})e^{-f^i[t({\sf 
 <p>But what about <span class="math inline">\({\cal T}_{{\sf a}\rightarrow {\sf b}}(X_{\sf t},{\sf t})\)</span>? What kinds of managerial actions can change the state transition probabilities? Given that these transition probabilities mostly arise from the tactics of each team, if the tactics of either team were changed throughout the match due to managerial decisions, these actions could be mapped to <span class="math inline">\({\cal T}_{{\sf a}\rightarrow {\sf b}}(X_{\sf t},{\sf t})\)</span>. In order for these actions to have a clear influence on the game, however, we need to specify how team tactics get translated into transition probabilities. To keep things as simple as possible, we’re going to specify only two tactical ‘axes’ on which a manager has to decide a position during each moment of the match.</p>
 <p>The first, and perhaps more obvious, tactical decision axis to dynamically manipulate is the ratio between <span class="math inline">\({\sf Kick}\)</span> <span class="math inline">\({\sf Phase}\)</span> and <span class="math inline">\({\sf Run}\)</span> <span class="math inline">\({\sf Phase}\)</span> that the team chooses when it has possession of the ball, depending on what part of the pitch they are playing in. The second axis maps how aggressively a team pursues scoring tries over any other points (even when they may be on offer from a <span class="math inline">\({\sf Penalty}\)</span> <span class="math inline">\({\sf Goal}\)</span>). This latter axis also only really matters for the team in possession of the ball, so we aren’t planning to map out any defensive tactics in our model for now. Since both of these actions can be mapped to a single axis each, these ratios <span class="math inline">\(q\)</span> (each defined between <span class="math inline">\(1\geq q \geq 0\)</span>) can populate the last two indices of the actions vector: <span class="math inline">\(A^{15}_{{\sf t}+1}\)</span> and <span class="math inline">\(A^{16}_{{\sf t}+1}\)</span>. When either of them has been changed, this can be mapped to <span class="math inline">\(X_{{\sf t}+1}\)</span> using the action function <span class="math inline">\({\cal F}_{{\sf t}+1}(X_{0:{\sf t}},z,A_{{\sf t}+1},{\sf t})\)</span> and then <span class="math inline">\(X_{{\sf t}+1}\)</span>, will have changed ratios between transition probabilities <span class="math inline">\({\cal T}_{{\sf a}\rightarrow {\sf b}}(X_{{\sf t}+1},{\sf t}+1)\)</span> when the attacking team is making these in-play decisions in the proceeding timestep.</p>
 <p>Before we finish, there’s a quick point to make about how managerial actions can affect ball locations on the pitch. In addition to the changes that we have discussed above, let’s recall that the parameters <span class="math inline">\(a_{\sf run}\)</span>, <span class="math inline">\(d_{\sf run}\)</span>, <span class="math inline">\(a_{\rm kick}\)</span>, <span class="math inline">\(p_{\rm kick}\)</span>, <span class="math inline">\(p_{\rm reg}\)</span> and <span class="math inline">\(p_{\rm goal}\)</span> can all be indirectly determined by the manager to some extent through player selection/substitutions. So, while tactical managerial actions can change the ratios of state transitions themselves (at least while in possession of the ball), the players which are chosen in the first place (or by substitution) can have quite a significant influence on the outcome of a match.</p>
-<h2 id="additional-details">Additional details</h2>
-<p>The code for this article was developed here: <a href="https://github.com/worldsoop/trywizard">https://github.com/worldsoop/trywizard</a>.</p>
-<p>Shared by the author under an <a href="../LICENSE">MIT License</a></p>
 <h2 class="unnumbered" id="references">References</h2>
 <div id="refs" class="references" role="doc-bibliography">
 <div id="ref-rugbypass">
@@ -270,18 +272,21 @@ d^i_{\rm pos}(X_{\sf t}, {\sf t}) &amp;= d^i_{\rm pos}(X_{\sf t})e^{-f^i[t({\sf 
 <div id="ref-espn-rugby">
 <p>[2] “The ESPN Rugby Webpage.” <a href="https://www.espn.co.uk/rugby/">https://www.espn.co.uk/rugby/</a>.</p>
 </div>
-<div id="ref-worlds-of-observation">
-<p>[3] R. J. Hardwick, <em>Worlds of observation: Building more realistic environments for machine learning</em>. umbralcalculations. Available: <a href="https://umbralcalc.github.io/worlds-of-observation/book.pdf">https://umbralcalc.github.io/worlds-of-observation/book.pdf</a></p>
+<div id="ref-stochadexI-WIP">
+<p>[3] R. J. Hardwick, “Self-learning simulations series: Building a generalised simulation engine,” <em>umbralcalculations (umbralcalc.github.io/posts/stochadexI.html)</em>.</p>
 </div>
 </div>
 <hr color="LightGray">
-<div class="articleHeader">You can cite this post using the following BibTeX:
+<div class="articleHeader">
+  <strong> Cite. </strong> You can cite this article using the following BibTeX:
 <code><pre>@article{trywizard-WIP,
   title = {Creating a rugby match management simulation game},
   author = {Hardwick, Robert J},
   journal = {umbralcalculations (umbralcalc.github.io/posts/trywizard.html)},
   year = {WIP},
 }</pre></code>
+  <strong> Code. </strong> The code for this article was developed here: <a href=https://github.com/umbralcalc/trywizard>https://github.com/umbralcalc/trywizard</a>.</br>
+  <strong> License. </strong> This article is shared by the author under an <a href=../LICENSE>MIT License</a>.</br>
 <script type="text/javascript" id="MathJax-script" async
   src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </article>

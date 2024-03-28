@@ -4,6 +4,7 @@ author: Hardwick, Robert J
 date: 2021-06-15
 concept: To build some simple Bayesian graphical models for forecasting generic n-dimensional time series data. In one model we take the time series, compress it into autoregressive features using kernel convolutions and then couple the resulting variances in a Gaussian model. In the other, we try compressing with k-means clustering and dynamic time warping (using the tslearn package). In this short post we describe the models and outline the calculations required to compute their gradients for more efficient parameter optimisation.
 articleId: bants
+codeLink: https://github.com/umbralcalc/bants
 year: 2021
 ---
 
@@ -142,11 +143,5 @@ $$
 &\qquad \qquad \qquad \times m^j_{t-n} \sum_{j'=1}^N\big( \Psi^{-1}\big)^i_{j'}\big[ x^{j'}_{t-n}-\tilde{M}^{j'}_{t-n}(f^{j'}_{t-n},m_{t-n},{\sf U},u^{j'}) \big] \,.
 \end{align}
 $$
-
-## Additional details
-
-**Code:** The code for this article was developed here: [https://github.com/umbralcalc/bants](https://github.com/umbralcalc/bants).
-
-**License:** Shared by the author under an [MIT License](../LICENSE)
 
 ## References

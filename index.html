@@ -146,6 +146,17 @@ About
 
 <!-- Article -->
 <div class="articleHeader">
+<a class="articleTitle" href="https://umbralcalc.github.io/posts/stochadexIII.html"><h1>Self-learning simulations series: Optimising interactions with the system</h1></a>
+<hr color="LightGray">
+<strong> Author. </strong> Hardwick, Robert J
+</br>
+<strong> Date. </strong> [WIP]
+</br>
+<strong> Concept. </strong> In order to optimise agent interactions with a (typically stochastic) simulation environment, it is now quite common to turn to the algorithmic frameworks provided by 'model-free' Reinforcement Learning (RL). We will take a similar approach in this article, however, our control-learning software will use a more 'model-based' algorithm which leverages the self-learning simulation algorithms we have already studied in this series. As was the case with the online learning framework, we demonstrate how the system components which optimise agent interactions can be expressed as an extension to the computational graph of the simulation itself.
+</div>
+
+<!-- Article -->
+<div class="articleHeader">
 <a class="articleTitle" href="https://umbralcalc.github.io/posts/trywizard.html"><h1>Creating a rugby match management simulation game</h1></a>
 <hr color="LightGray">
 <strong> Author. </strong> Hardwick, Robert J
@@ -168,13 +179,24 @@ About
 
 <!-- Article -->
 <div class="articleHeader">
-<a class="articleTitle" href="https://umbralcalc.github.io/self-learning-simulations/"><h1>Self-learning simulations: Generalised simulation software with online inference baked-in</h1></a>
+<a class="articleTitle" href="https://umbralcalc.github.io/posts/stochadexII.html"><h1>Self-learning simulations series: Online simulation inference methods</h1></a>
 <hr color="LightGray">
 <strong> Author. </strong> Hardwick, Robert J
 </br>
 <strong> Date. </strong> [WIP]
 </br>
-<strong> Concept. </strong> Worlds of Observation is a book about building more realistic training environments for machine learning algorithms to control systems in the real world. While model-free reinforcement learning is a popular and very powerful approach to generating such algorithms (especially when there is plenty of data and the system is fully observable), this book will primarily explore how to create environments for control algorithms using a more model-based approach. Those readers who are data scientists, research engineers, statistical programmers or computational scientists may find our mathematically descriptive, yet practically-minded, approach in this book quite interesting and maybe a little different to the usual perspectives.
+<strong> Concept. </strong> We extend the mathematical formalism that we developed in the previous article to describe the time evolution of state probabilities. Having introduced the basic concepts, we then use this formalism to motivate some important methods for probabilistic learning, which we then use in developing a framework for online simulation inference. We also show how the software abstractions provided by the stochadex package allow us to easily embed these inference algorithms within the computation graph of the simulation itself; giving rise to the idea of a generalised 'self-learning simulation'. 
+</div>
+
+<!-- Article -->
+<div class="articleHeader">
+<a class="articleTitle" href="https://umbralcalc.github.io/posts/stochadexI.html"><h1>Self-learning simulations series: Building a generalised simulation engine</h1></a>
+<hr color="LightGray">
+<strong> Author. </strong> Hardwick, Robert J
+</br>
+<strong> Date. </strong> [WIP]
+</br>
+<strong> Concept. </strong> We lay out the fundamental mathematical foundations for describing practically any stochastic simulation on a computer. Having provided these foundations, we then design and build a generalised simulation engine that is able to generate samples from practically any real-world stochastic processes that a researcher could encounter. With such a thing pre-built and self-contained, it can become the basis upon which to build generalised software solutions for a lot of different problems. The archetype computational graph structures for a variety of real-world phenomena are also discussed.
 </div>
 
 <!-- Article -->

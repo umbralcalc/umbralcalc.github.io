@@ -4,6 +4,7 @@ author: Hardwick, Robert J
 date: 2021-05-25
 concept: To study a type of multi-state models (stochastic processes occupying one of a finite set of states at each moment in time) which exhibit a memory of past occurances through a counting variable. The statistical inference (or selection) of these models for real-world applications frequently involves data in the form of a sequence of individual state observations, which are often coupled with some diagnostic uncertainty (as is the case for pneumococcus). In this post, we are able to demonstrate an ODE mean-field description for these types of system is valid and can be used to accelerate the statistical inference from this type of data. The model case study we use is for systems which simulate the spread of pneumococcus in human populations.
 articleId: pneumoinfer
+codeLink: https://github.com/umbralcalc/pneumoinfer
 year: 2021
 ---
 
@@ -240,11 +241,5 @@ The method proposed from here would be something like:
 - Integrate over ${\sf h}(t)$ and $\frac{\partial}{\partial \Theta}{\sf M}_\Theta (t)$ to determine the gradient in the last expression.
 
 Seems like overkill, but could be interesting to implement in future if a large number of states/parameters are varied, e.g., for HMC sampling of the model posterior from a decent data set.
-
-## Additional details
-
-**Code:** The code for this article was developed here: [https://github.com/umbralcalc/pneumoinfer](https://github.com/umbralcalc/pneumoinfer).
-
-**License:** Shared by the author under an [MIT License](../LICENSE)
 
 ## References

@@ -4,12 +4,13 @@ author: Hardwick, Robert J
 date: [WIP]
 concept: To study a variety of numerical solutions to non-Markovian phenomena. We do this by revealing different orders of temporal correlation that are present in the full master equation of a generalised non-Markovian process. By relating higher-order correlations to a form of time dependence in the pairwise correlation we then show how to numerically solve the system to obtain the time evolution of state probabilities. Since this computation can become very numerically intensive, the algorithm we discuss is implemented in C++ using the Libtorch library to achieve as much performance as possible.
 articleId: dennm-torch
+codeLink: https://github.com/umbralcalc/dennm-torch
 year: [WIP]
 ---
 
 ## Formalism recap
 
-Let's recap the formalism introduced in [@worlds-of-observation], which considers what happens to the probability that the state history matrix takes a particular set of values over time. To do this, we write down what is known as a _master equation_, which fully describes the time evolution of the _probability density function_ $P_{{\sf t}+1}(X\vert z)$ of $X_{0:{\sf t}+1}=X$ given that the parameters of the process are $z$. This can be written as
+Let's recap the formalism introduced in [@stochadexI-WIP], which considers what happens to the probability that the state history matrix takes a particular set of values over time. To do this, we write down what is known as a _master equation_, which fully describes the time evolution of the _probability density function_ $P_{{\sf t}+1}(X\vert z)$ of $X_{0:{\sf t}+1}=X$ given that the parameters of the process are $z$. This can be written as
 
 $$
 \begin{aligned}
@@ -29,7 +30,7 @@ $$
 
 ## Non-Markovian phenomena
 
-Let's now return back to the full master equation we wrote at the beginning. As was shown in [@worlds-of-observation], we can also approximate the probability $P_{{\sf t}+1}(X\vert z)$ with a logarithmic expansion like this
+Let's now return back to the full master equation we wrote at the beginning. As was shown in [@stochadexII-WIP], we can also approximate the probability $P_{{\sf t}+1}(X\vert z)$ with a logarithmic expansion like this
 
 $$
 \begin{aligned}
@@ -104,11 +105,5 @@ $$
 P_{({\sf t}+1){\sf t}''}^{ii''} &= \frac{1}{{\sf t}}\sum_{{\sf t}'=1}^{{\sf t}}\sum_{i'=0}^N\Delta xP_{{\sf t}'{\sf t}''}^{i'i''}P_{({\sf t}+1){\sf t}'{\sf t}''}^{ii'i''}\,.
 \end{aligned}
 $$
-
-## Additional details
-
-The code for this article was developed here: [https://github.com/umbralcalc/dennm-torch](https://github.com/umbralcalc/dennm-torch).
-
-Shared by the author under an [MIT License](../LICENSE)
 
 ## References

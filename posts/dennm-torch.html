@@ -72,6 +72,11 @@
       max-height: 100%;
       text-align: justify;
     }
+  
+    p img {
+      display: block;
+      margin: 0 auto;
+    }
 
     .articleHeader {
       padding: .2em .4em;
@@ -165,7 +170,7 @@ About
 <hr color="LightGray">
 </br>
 <h2 id="formalism-recap">Formalism recap</h2>
-<p>Let’s recap the formalism introduced in <span class="citation" data-cites="worlds-of-observation">[1]</span>, which considers what happens to the probability that the state history matrix takes a particular set of values over time. To do this, we write down what is known as a <em>master equation</em>, which fully describes the time evolution of the <em>probability density function</em> <span class="math inline">\(P_{{\sf t}+1}(X\vert z)\)</span> of <span class="math inline">\(X_{0:{\sf t}+1}=X\)</span> given that the parameters of the process are <span class="math inline">\(z\)</span>. This can be written as</p>
+<p>Let’s recap the formalism introduced in <span class="citation" data-cites="stochadexI-WIP">[1]</span>, which considers what happens to the probability that the state history matrix takes a particular set of values over time. To do this, we write down what is known as a <em>master equation</em>, which fully describes the time evolution of the <em>probability density function</em> <span class="math inline">\(P_{{\sf t}+1}(X\vert z)\)</span> of <span class="math inline">\(X_{0:{\sf t}+1}=X\)</span> given that the parameters of the process are <span class="math inline">\(z\)</span>. This can be written as</p>
 <p><span class="math display">\[
 \begin{aligned}
 P_{{\sf t}+1}(X\vert z) &amp;= P_{{\sf t}}(X&#39;\vert z) P_{({\sf t}+1){\sf t}}(x\vert X&#39;,z)\,,
@@ -179,7 +184,7 @@ P_{{\sf t}+1}(x\vert z) &amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;&#39;=0}^{{\sf
 \end{aligned}
 \]</span></p>
 <h2 id="non-markovian-phenomena">Non-Markovian phenomena</h2>
-<p>Let’s now return back to the full master equation we wrote at the beginning. As was shown in <span class="citation" data-cites="worlds-of-observation">[1]</span>, we can also approximate the probability <span class="math inline">\(P_{{\sf t}+1}(X\vert z)\)</span> with a logarithmic expansion like this</p>
+<p>Let’s now return back to the full master equation we wrote at the beginning. As was shown in <span class="citation" data-cites="stochadexII-WIP">[2]</span>, we can also approximate the probability <span class="math inline">\(P_{{\sf t}+1}(X\vert z)\)</span> with a logarithmic expansion like this</p>
 <p><span class="math display">\[
 \begin{aligned}
 \ln P_{{\sf t}+1}(X\vert z) &amp;\simeq \ln P_{{\sf t}+1}(X_* \vert z) + \frac{1}{2}\sum_{{\sf t}&#39;=0}^{{\sf t}+1}\sum_{i=0}^{n}\sum_{j=0}^{n} (x-x_* )^i {\cal I}^{ij}_{({\sf t}+1){\sf t}&#39;}(z) (x&#39;-x&#39;_*)^j  \\
@@ -236,23 +241,26 @@ P_{({\sf t}+1){\sf t}&#39;&#39;}(x\vert x&#39;&#39;, z) &amp;= \frac{1}{{\sf t}}
 P_{({\sf t}+1){\sf t}&#39;&#39;}^{ii&#39;&#39;} &amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;=1}^{{\sf t}}\sum_{i&#39;=0}^N\Delta xP_{{\sf t}&#39;{\sf t}&#39;&#39;}^{i&#39;i&#39;&#39;}P_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}^{ii&#39;i&#39;&#39;}\,.
 \end{aligned}
 \]</span></p>
-<h2 id="additional-details">Additional details</h2>
-<p>The code for this article was developed here: <a href="https://github.com/umbralcalc/dennm-torch">https://github.com/umbralcalc/dennm-torch</a>.</p>
-<p>Shared by the author under an <a href="../LICENSE">MIT License</a></p>
 <h2 class="unnumbered" id="references">References</h2>
 <div id="refs" class="references" role="doc-bibliography">
-<div id="ref-worlds-of-observation">
-<p>[1] R. J. Hardwick, <em>Worlds of observation: Building more realistic environments for machine learning</em>. umbralcalculations. Available: <a href="https://umbralcalc.github.io/worlds-of-observation/book.pdf">https://umbralcalc.github.io/worlds-of-observation/book.pdf</a></p>
+<div id="ref-stochadexI-WIP">
+<p>[1] R. J. Hardwick, “Self-learning simulations series: Building a generalised simulation engine,” <em>umbralcalculations (umbralcalc.github.io/posts/stochadexI.html)</em>.</p>
+</div>
+<div id="ref-stochadexII-WIP">
+<p>[2] R. J. Hardwick, “Self-learning simulations series: Online simulation inference methods,” <em>umbralcalculations (umbralcalc.github.io/posts/stochadexII.html)</em>.</p>
 </div>
 </div>
 <hr color="LightGray">
-<div class="articleHeader">You can cite this post using the following BibTeX:
+<div class="articleHeader">
+  <strong> Cite. </strong> You can cite this article using the following BibTeX:
 <code><pre>@article{dennm-torch-WIP,
   title = {Solving non-Markovian master equations with Libtorch},
   author = {Hardwick, Robert J},
   journal = {umbralcalculations (umbralcalc.github.io/posts/dennm-torch.html)},
   year = {WIP},
 }</pre></code>
+  <strong> Code. </strong> The code for this article was developed here: <a href=https://github.com/umbralcalc/dennm-torch>https://github.com/umbralcalc/dennm-torch</a>.</br>
+  <strong> License. </strong> This article is shared by the author under an <a href=../LICENSE>MIT License</a>.</br>
 <script type="text/javascript" id="MathJax-script" async
   src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </article>

@@ -73,6 +73,11 @@
       max-height: 100%;
       text-align: justify;
     }
+  
+    p img {
+      display: block;
+      margin: 0 auto;
+    }
 
     .articleHeader {
       padding: .2em .4em;
@@ -333,9 +338,6 @@ L_j &amp;= \ln{\cal L}( t_j \vert \Theta ) + \int^{t_{j}}_{t_{j-1}}{\rm d}t \,{\
 <li>Integrate over <span class="math inline">\({\sf h}(t)\)</span> and <span class="math inline">\(\frac{\partial}{\partial \Theta}{\sf M}_\Theta (t)\)</span> to determine the gradient in the last expression.</li>
 </ul>
 <p>Seems like overkill, but could be interesting to implement in future if a large number of states/parameters are varied, e.g., for HMC sampling of the model posterior from a decent data set.</p>
-<h2 id="additional-details">Additional details</h2>
-<p><strong>Code:</strong> The code for this article was developed here: <a href="https://github.com/umbralcalc/pneumoinfer">https://github.com/umbralcalc/pneumoinfer</a>.</p>
-<p><strong>License:</strong> Shared by the author under an <a href="../LICENSE">MIT License</a></p>
 <h2 class="unnumbered" id="references">References</h2>
 <div id="refs" class="references" role="doc-bibliography">
 <div id="ref-cobey2012niche">
@@ -370,13 +372,16 @@ L_j &amp;= \ln{\cal L}( t_j \vert \Theta ) + \int^{t_{j}}_{t_{j-1}}{\rm d}t \,{\
 </div>
 </div>
 <hr color="LightGray">
-<div class="articleHeader">You can cite this post using the following BibTeX:
+<div class="articleHeader">
+  <strong> Cite. </strong> You can cite this article using the following BibTeX:
 <code><pre>@article{pneumoinfer-2021,
   title = {Mean-field inference of multi-state models with a counting memory: applications to pneumococcus},
   author = {Hardwick, Robert J},
   journal = {umbralcalculations (umbralcalc.github.io/posts/pneumoinfer.html)},
   year = {2021},
 }</pre></code>
+  <strong> Code. </strong> The code for this article was developed here: <a href=https://github.com/umbralcalc/pneumoinfer>https://github.com/umbralcalc/pneumoinfer</a>.</br>
+  <strong> License. </strong> This article is shared by the author under an <a href=../LICENSE>MIT License</a>.</br>
 <script type="text/javascript" id="MathJax-script" async
   src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </article>

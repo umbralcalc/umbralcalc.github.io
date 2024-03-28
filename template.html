@@ -78,6 +78,11 @@ $endif$
       max-height: 100%;
       text-align: justify;
     }
+  
+    p img {
+      display: block;
+      margin: 0 auto;
+    }
 
     .articleHeader {
       padding: .2em .4em;
@@ -184,13 +189,16 @@ $endif$
 $body$
 $if(articleId)$
 <hr color="LightGray">
-<div class="articleHeader">You can cite this post using the following BibTeX:
+<div class="articleHeader">
+  <strong> Cite. </strong> You can cite this article using the following BibTeX:
 <code><pre>@article{$articleId$-$year$,
   title = {$title$},
   author = {$author$},
   journal = {umbralcalculations (umbralcalc.github.io/posts/$articleId$.html)},
   year = {$year$},
 }</pre></code>
+  <strong> Code. </strong> The code for this article was developed here: <a href=$codeLink$>$codeLink$</a>.</br>
+  <strong> License. </strong> This article is shared by the author under an <a href=../LICENSE>MIT License</a>.</br>
 $endif$
 <script type="text/javascript" id="MathJax-script" async
   src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>

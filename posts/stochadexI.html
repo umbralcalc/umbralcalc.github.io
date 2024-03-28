@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <link rel="icon" type="image/x-icon" href="./assets/favicon.ico">
+  <link rel="icon" type="image/x=icon" href="../assets/favicon.ico">
+  <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+  <style>
+    .body {
+      box-sizing: border-box;
+      min-width: 200px;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 45px;
+      color: #1F2328;
+      background-color: #ffff;
+      font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+      line-height: 1.5;
+      word-wrap: break-word;
+      text-align: justify;
+    }
+
+    .body h1 {
+      margin: 0;
+      font-size: 200%;
+      color: rgb(42, 65, 83);
+      border-radius: 6px;
+      word-wrap: break-word;
+      text-align: left;
+    }
+
+    .body h2, h3, h4, h5 {
+      margin: 0;
+      font-size: 150%;
+      color: rgb(42, 65, 83);
+      border-radius: 6px;
+      word-wrap: break-word;
+      text-align: left;
+    }
+
+    .body strong {
+      color: rgb(42, 65, 83);
+    }
+
+    .body a {
+      color: #0969da;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .body a:hover {
+      color: LightGrey;
+    }
+
+    pre {
+      padding: .5em 1em;
+      font-size: 95%;
+      color: #F5F5F5;
+      background-color: rgb(42, 65, 83);
+      border-radius: 6px;
+      overflow: auto;
+    }
+
+    code {
+      display: block;
+    }
+
+    img {
+      max-width: 100%;
+      max-height: 100%;
+      text-align: justify;
+    }
+  
+    p img {
+      display: block;
+      margin: 0 auto;
+    }
+
+    .articleHeader {
+      padding: .2em .4em;
+      margin: 1em;
+      font-size: 95%;
+      color: rgb(79, 97, 114);
+      background-color: #ffff;
+      border-radius: 6px;
+      overflow: auto;
+      text-align: justify;
+    }
+
+    a.articleTitle h1 {
+      text-align: left;
+      color: rgb(79, 97, 114);
+      text-align: left;
+    }
+
+    a.articleTitle h1:hover {
+      color: LightGrey;
+    }
+
+    .articleHeader strong {
+      font-size: 95%;
+      color: rgb(79, 97, 114);
+      background-color: #ffff;
+      border-radius: 6px;
+      overflow: auto;
+    }
+
+    .body .navbar {
+      padding:8px 16px;
+      float:right;
+      width:auto;
+      border:none;
+      display:block;
+      outline:0;
+      color: LightGrey;
+    }
+
+    .body .repotitle {
+      padding:8px 0px;
+      float: left;
+      color: LightGrey;
+      font-weight: bold;
+      font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+      text-align: left;
+    }
+
+    strong.nameRepo {
+      color: rgb(42, 65, 83);
+    }
+
+    .body .navbar:hover {
+      color: rgb(42, 65, 83);
+    }
+
+    @media (max-width: 767px) {
+      .body {
+        padding: 15px;
+      }
+    }
+  </style>
+  <script src="/usr/share/javascript/mathjax/tex-mml-chtml.js" type="text/javascript"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<article class="body">
+<a class="navbar" href="https://umbralcalc.github.io/">
+Home
+</a>
+<a class="navbar" href="https://umbralcalc.github.io/about.html">
+About
+</a>
+<div class="repotitle">
+&#129518; <strong class="nameRepo">umbralcalculations:</strong> Technical Article Repository
+</div>
+</br>
+</br>
+</br>
+
+<h1>Self-learning simulations series: Building a generalised simulation engine</h1>
+</br>
+<hr color="LightGray">
+<div class="articleHeader">
+<strong> Author. </strong> Hardwick, Robert J
+</br>
+<strong> Date. </strong> WIP
+</br>
+<strong> Concept. </strong> We lay out the fundamental mathematical foundations for describing practically any stochastic simulation on a computer. Having provided these foundations, we then design and build a generalised simulation engine that is able to generate samples from practically any real-world stochastic processes that a researcher could encounter. With such a thing pre-built and self-contained, it can become the basis upon which to build generalised software solutions for a lot of different problems. The archetype computational graph structures for a variety of real-world phenomena are also discussed.
+</div>
+<hr color="LightGray">
+</br>
+<h2 id="computational-formalism">Computational formalism</h2>
+<p>Before diving into the design of software we need to mathematically define the general computational approach that we’re going to take. Because the language of stochastic processes is primarily mathematics, we’d argue this step is essential in enabling a really general description. From experience, it seems reasonable to start by writing down the following formula which describes iterating some arbitrary process forward in time (by one finite step) and adding a new row each to some matrix <span class="math inline">\(X_{0:{\sf t}} \rightarrow X_{0:{\sf t}+1}\)</span></p>
+<p><span class="math display">\[
+\begin{align}
+X^{i}_{{\sf t}+1} &amp;= F^{i}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) \,, \label{eq:x-step-def}
+\end{align}
+\]</span></p>
+<p>where: <span class="math inline">\(i\)</span> is an index for the dimensions of the ‘state’ space; <span class="math inline">\({\sf t}\)</span> is the current time index for either a discrete-time process or some discrete approximation to a continuous-time process; <span class="math inline">\(X_{0:{\sf t}+1}\)</span> is the next version of <span class="math inline">\(X_{0:{\sf t}}\)</span> after one timestep (and hence one new row has been added); <span class="math inline">\(z\)</span> is a vector of arbitrary size which contains the ‘hidden’ other parameters that are necessary to iterate the process; and <span class="math inline">\(F^i_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t})\)</span> as the latest element of an arbitrary matrix-valued function.</p>
+<p>Throughout this series of articles, the notation <span class="math inline">\(A_{{{\sf b}:{\sf c}}}\)</span> will always refer to a slice of rows from index <span class="math inline">\({\sf b}\)</span> to <span class="math inline">\({\sf c}\)</span> in a matrix (or row vector) <span class="math inline">\(A\)</span>. As we shall discuss shortly, <span class="math inline">\(F^i_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t})\)</span> may represent not just operations on deterministic variables, but also on stochastic ones. There is also no requirement for the function to be continuous.</p>
+<p><img src="../assets/stochadexI/stochadexI-fundamental-loop.drawio.png" /></p>
+<p>The basic computational idea here is illustrated above; we iterate the matrix <span class="math inline">\(X\)</span> forward in time by a row, and use its previous version <span class="math inline">\(X_{0:{\sf t}}\)</span> as an entire matrix input into a function which populates the elements of its latest rows. In pseudocode you could easily write something with the same idea in it, and it would probably look something like the method diagram below.</p>
+<p><img src="../assets/stochadexI/stochadexI-fundamental-loop-code.drawio.png" /></p>
+<p>Pretty simple! But why go to all this trouble of storing matrix inputs for previous values of the same process? It’s true that this is mostly redundant for <em>Markovian</em> phenomena, i.e., processes where their only memory of their history is the most recent value they took. However, for a large class of stochastic processes a full memory (or memory at least within some window) of past values is essential to consistently construct the sample paths moving forward. This is true in particular for <em>non-Markovian</em> phenomena, where the latest values don’t just depend on the immediately previous ones but can depend on values which occured much earlier in the process as well.</p>
+<p>For more complex physical models and integrators, the distinct notions of ‘numerical timestep’ and ‘total elapsed continuous time’ will crop up quite frequently. Hence, before moving on further details, it will be important to define the total elapsed time variable <span class="math inline">\(t({\sf t})\)</span> for processes which are defined in continuous time. Assuming that we have already defined some function <span class="math inline">\(\delta t({\sf t})\)</span> which returns the specific change in continuous time that corresponds to the step <span class="math inline">\(({\sf t}-1) \rightarrow {\sf t}\)</span>, we will always be able to compute the total elapsed time through the relation</p>
+<p><span class="math display">\[
+\begin{align}
+t({\sf t}) &amp;= \sum^{{\sf t}}_{{\sf t}&#39;=0}\delta t({\sf t}&#39;) \label{eq:t-steps-sum} \,.
+\end{align}
+\]</span></p>
+<p>It’s important to remember that our steps in continuous time may not be constant, so by defining the <span class="math inline">\(\delta t({\sf t})\)</span> function and summing over it we can enable this flexibility in the computation. In case the summation notation is no fun for programmers; we’re simply adding up all of the differences in time to get a total.</p>
+<h2 id="example-phenomena">Example phenomena</h2>
+<p>So, now that we’ve mathematically defined a really general notion of iterating the stochastic process forward in time, it makes sense to discuss some simple examples. For instance, it is frequently possible to split <span class="math inline">\(F\)</span> up into deteministic (denoted <span class="math inline">\(D\)</span>) and stochastic (denoted <span class="math inline">\(S\)</span>) matrix-valued functions like so</p>
+<p><span class="math display">\[
+\begin{align}
+&amp; F^{i}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) = D^{i}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) + S^{i}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) \,.
+\end{align}
+\]</span></p>
+<p>In the case of stochastic processes with continuous sample paths, it’s also nearly always the case with mathematical models of real-world systems that the deterministic part will at least contain the term <span class="math inline">\(D^{i}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) = X^i_{\sf t}\)</span> because the overall system is described by some stochastic differential equation. This is not a really requirement in our general formalism, however.</p>
+<p>What about the stochastic term? For example, if we wanted to consider a <em>Wiener process noise</em>, we can define <span class="math inline">\(W^i_{{\sf t}}\)</span> is a sample from a Wiener process for each of the state dimensions indexed by <span class="math inline">\(i\)</span> and our formalism becomes</p>
+<p><span class="math display">\[
+\begin{align}
+&amp; S^{i}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) = W^i_{{\sf t}+1}-W^i_{\sf t} \label{eq:wiener}\,.
+\end{align}
+\]</span></p>
+<p>One draws the increments <span class="math inline">\(W^i_{{\sf t}+1}-W^i_{\sf t}\)</span> from a normal distribution with a mean of <span class="math inline">\(0\)</span> and a variance equal to the length of continuous time that the step corresponded to <span class="math inline">\(\delta t({\sf t}+1)\)</span>, i.e., the probability density <span class="math inline">\(P_{{\sf t}+1}(x^i)\)</span> of the increments <span class="math inline">\(x^i=W^i_{{\sf t}+1}-W^i_{\sf t}\)</span> is</p>
+<p><span class="math display">\[
+\begin{align}
+P_{{\sf t}+1}(x^i) &amp;= {\sf NormalPDF}[x^i;0,\delta t({\sf t}+1)] \,.
+\end{align}
+\]</span></p>
+<p>Note that for state spaces with dimensions <span class="math inline">\(&gt;1\)</span>, we could also allow for non-trivial cross-correlations between the noises in each dimension. In pseudocode, the Wiener process is schematically represented below.</p>
+<p><img src="../assets/stochadexI/stochadexI-wiener-process.drawio.png" /></p>
+<p>In another example, to model <em>geometric Brownian motion noise</em> we would simply have to multiply <span class="math inline">\(X^i_{\sf t}\)</span> to the Wiener process like so</p>
+<p><span class="math display">\[
+\begin{align}
+&amp; S^{i}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) = X^i_{\sf t}(W^i_{{\sf t}+1}-W^i_{\sf t})\label{eq:gbm} \,.
+\end{align}
+\]</span></p>
+<p>Here we have implicitly adopted the Itô interpretation to describe this stochastic integration. Given a carefully-defined integration scheme other interpretations of the noise would also be possible with our formalism too, e.g., Stratonovich [which would implictly give <span class="math inline">\(S^{i}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) = (X^i_{{\sf t}+1}+X^i_{\sf t})(W^i_{{\sf t}+1}-W^i_{\sf t}) / 2\)</span> for the equation above] or others within the more general ‘<span class="math inline">\(\alpha\)</span>-family’ — see <span class="citation" data-cites="van1992stochastic">[1]</span>, <span class="citation" data-cites="risken1996fokker">[2]</span> or <span class="citation" data-cites="rog-will-2000">[3]</span>. The pseudocode for any of these should hoepfully be fairly straightforward to deduce based on the lines we’ve already written above.</p>
+<p>We can imagine even more general processes that are still Markovian. One example of these in a single-dimension state space would be to define the noise through some general function of the Wiener process like so</p>
+<p><span class="math display">\[
+\begin{align}
+S^0_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) &amp;= g[W^0_{{\sf t}+1},t({\sf t}+1)]-g[W^0_{\sf t}, t({\sf t})] \\
+&amp;= \bigg[ \frac{\partial g}{\partial t} + \frac{1}{2}\frac{\partial^2 g}{\partial x^2} \bigg] \delta t ({\sf t}+1) + \frac{\partial g}{\partial x} (W^0_{{\sf t}+1}-W^0_{\sf t}) \label{eq:general-wiener}\,,
+\end{align}
+\]</span></p>
+<p>where <span class="math inline">\(g(x,t)\)</span> is some continuous function of its arguments which has been expanded out with Itô’s Lemma on the second line. Note also that the computations in the relation above could be performed with numerical derivatives in principle, even if the function were extremely complicated. This is unlikely to be the best way to describe the process of interest, however, the mathematical expressions above can still be made a bit more meaningful to the programmer in this way. The pseudocode in general would look something like the diagram below.</p>
+<p><img src="../assets/stochadexI/stochadexI-ito-lemma.drawio.png" /></p>
+<p>Let’s now look at a more complicated type of noise. For example, we might consider sampling from a <em>fractional Brownian motion</em> process <span class="math inline">\([B_{H}]_{\sf t}\)</span>, where <span class="math inline">\(H\)</span> is known as the ‘Hurst exponent’. Following <span class="citation" data-cites="decreusefond1999stochastic">[4]</span>, we can simulate this process in one of our state space dimensions by modifying the standard Wiener process by a fairly complicated integral factor which looks like this</p>
+<p><span class="math display">\[
+\begin{align}
+S^{0}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) &amp;= \frac{(W^0_{{\sf t}+1} - W^0_{\sf t})}{\delta t({\sf t})}\int^{t({\sf t}+1)}_{t({\sf t})}{\rm d}t&#39; \frac{(t&#39;-t)^{H-\frac{1}{2}}}{\Gamma (H+\frac{1}{2})} {}_2F_1 \bigg( H-\frac{1}{2};\frac{1}{2}-H;H+\frac{1}{2};1-\frac{t&#39;}{t}\bigg) \label{eq:fbm} \,,
+\end{align}
+\]</span></p>
+<p>where <span class="math inline">\(S^{0}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t})=[B_{H}]_{{\sf t}+1}-[B_{H}]_{{\sf t}}\)</span>. The integral in the equation above can be approximated using an appropriate numerical procedure (like the trapezium rule, for instance). In the expression above, we have used the symbols <span class="math inline">\({}_2F_1\)</span> and <span class="math inline">\(\Gamma\)</span> to denote the ordinary hypergeometric and gamma functions, respectively. A computational form of this integral is illustrated below to try and disentangle some of the mathematics as a program.</p>
+<p><img src="../assets/stochadexI/stochadexI-fractional-brownian-motion.drawio.png" /></p>
+<p>So far we have mostly been discussing noises with continuous sample paths, but we can easily adapt our computation to discontinuous sample paths as well. For instance, <em>Poisson process noises</em> would generally take the form</p>
+<p><span class="math display">\[
+\begin{align}
+S^{i}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) &amp;= [N_{\lambda}]^i_{{\sf t}+1}-[N_{\lambda}]^i_{\sf t}\,,
+\end{align}
+\]</span></p>
+<p>where <span class="math inline">\([N_{\lambda}]^i_{\sf t}\)</span> is a sample from a Poisson process with rate <span class="math inline">\(\lambda\)</span>. One can think of this process as counting the number of events which have occured up to the given interval of time, where the intervals between each succesive event are exponentially distributed with mean <span class="math inline">\(1/\lambda\)</span>. Such a simple counting process could be simulated exactly by explicitly setting a newly-drawn exponential variate to the next continuous time jump <span class="math inline">\({\delta t}({\sf t}+1)\)</span> and iterating the counter. Other exact methods exist to handle more complicated processes involving more than one type of ‘event’, such as the Gillespie algorithm <span class="citation" data-cites="gillespie1977exact">[5]</span> — though these techniques are not always be applicable in every situation.</p>
+<p>Is using step size variation always possible? If we consider a <em>time-inhomogeneous Poisson process noise</em>, which would generally take the form</p>
+<p><span class="math display">\[
+\begin{align}
+S^{i}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) &amp;= [N_{\lambda ({\sf t}+1)}]^i_{{\sf t}+1}-[N_{\lambda ({\sf t})}]^i_{\sf t}\,,
+\end{align}
+\]</span></p>
+<p>the rate <span class="math inline">\(\lambda ({\sf t})\)</span> has become a deterministically-varying function in time. In this instance, it likely not be accurate to simulate this process by drawing exponential intervals with a mean of <span class="math inline">\(1/\lambda ({\sf t})\)</span> because this mean could have changed by the end of the interval which was drawn. An alternative approach (which is more generally capable of simulating jump processes but is an approximation) first uses a small time interval <span class="math inline">\(\tau\)</span> such that the most likely thing to happen in this period is nothing, and then the probability of the event occuring is simply given by</p>
+<p><span class="math display">\[
+\begin{align}
+p({\sf event}) &amp;= \frac{\lambda ({\sf t})}{\lambda ({\sf t}) + \frac{1}{\tau}} \label{eq:rejection}\,.
+\end{align}
+\]</span></p>
+<p>This idea can be applied to phenomena with an arbitrary number of events and works well as a generalised approach to event-based simulation, though its main limitation is worth remembering; in order to make the approximation good, <span class="math inline">\(\tau\)</span> often must be quite small and hence our simulator must churn through a lot of steps. From now on we’ll refer to this well-known technique as the <em>rejection method</em>. The code schematic below may also help to understand this concept from the programmer’s perspective.</p>
+<p><img src="../assets/stochadexI/stochadexI-inhomogeneous-poisson.drawio.png" /></p>
+<p>There are a few extensions to the simple Poisson process that introduce additional stochastic processes. <em>Cox (doubly-stochastic) processes</em>, for instance, are basically where we replace the time-dependent rate <span class="math inline">\(\lambda ({\sf t})\)</span> with independent samples from some other stochastic process <span class="math inline">\(\Lambda ({\sf t})\)</span>. For example, a Neyman-Scott process <span class="citation" data-cites="neyman1958statistical">[6]</span> can be mapped as a special case of this because it uses a Poisson process on top of another Poisson process to create maps of spatially-distributed points. In our formalism, a two-state implementation of the Cox process noise would look like</p>
+<p><span class="math display">\[
+\begin{align}
+S^{0}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) &amp;= \Lambda ({\sf t}+1) \\
+S^{1}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) &amp;= [N_{S^{0}_{{\sf t}+1}}]^i_{{\sf t}+1}-[N_{S^{0}_{{\sf t}}}]^i_{\sf t}\,.
+\end{align}
+\]</span></p>
+<p>This process could be simulated using the pseudocode we wrote for the time-inhomogeneous Poisson process previously — where we would just replace <span class="math inline">\(\texttt{EventRateLambdaFunction}\)</span> with a method that generates the stochastic rate <span class="math inline">\(\Lambda ({\sf t})\)</span>.</p>
+<p>Another extension is <em>compound Poisson process noise</em>, where it’s the count values <span class="math inline">\([N_{\lambda}]^i_{\sf t}\)</span> which are replaced by independent samples <span class="math inline">\([J_{\lambda}]^i_{\sf t}\)</span> from another probability distribution, i.e.,</p>
+<p><span class="math display">\[
+\begin{align}
+S^{i}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) &amp;= [J_{\lambda}]^i_{{\sf t}+1}-[J_{\lambda}]^i_{\sf t}\,.
+\end{align}
+\]</span></p>
+<p>Note that the rejection method described earlier can be employed effectively to simulate any of these extensions as long as a sufficiently small <span class="math inline">\(\tau\)</span> is chosen to make a good approximation. Once again, the pseudocode we wrote previously would be sufficient to simulate this process with one tweak: add into the <span class="math inline">\(\texttt{DrawNewEventIncrement}\)</span> method the calling of a function which generates the <span class="math inline">\([J_{\lambda}]^i_{\sf t}\)</span> samples and output these if the event occurs.</p>
+<p>All of the examples we have discussed so far are Markovian. Given that we have explicitly constructed the formalism to handle non-Markovian phenomena as well, it would be worthwhile going some examples of this kind of process too. <em>Self-exciting process noises</em> would generally take the form</p>
+<p><span class="math display">\[
+\begin{align}
+S^{0}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) &amp;= {\cal I}_{{\sf t}+1} (X_{0:{\sf t}},z,{\sf t}) \\
+S^{1}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) &amp;= [N_{S^{0}_{{\sf t}+1}}]^i_{{\sf t}+1}-[N_{S^{0}_{{\sf t}}}]^i_{\sf t} \,,
+\end{align}
+\]</span></p>
+<p>where the stochastic rate <span class="math inline">\({\cal I}_{{\sf t}+1} (X_{0:{\sf t}},z,{\sf t})\)</span> now depends on the history explicitly. Amongst other potential inputs we can see, e.g., Hawkes processes <span class="citation" data-cites="hawkes1971spectra">[7]</span> as an example of above by substituting</p>
+<p><span class="math display">\[
+\begin{align}
+{\cal I}_{{\sf t}+1} (X_{0:{\sf t}},z,{\sf t}) &amp;= \mu + \sum^{{\sf t}}_{{\sf t}&#39;=0}\phi [t({\sf t})-t({\sf t}&#39;)]S^{1}_{{\sf t}&#39;} \,,
+\end{align}
+\]</span></p>
+<p>where <span class="math inline">\(\phi\)</span> is the ‘exciting kernel’ and <span class="math inline">\(\mu\)</span> is some constant background rate. In order to simulate a Hawkes process using our formalism, the pseudocode would be something like the diagram below.</p>
+<p><img src="../assets/stochadexI/stochadexI-hawkes-process.drawio.png" /></p>
+<p>Note that this idea of integration kernels could also be applied back to our Wiener process. For example, another type of non-Markovian phenomenon that frequently arises across physical and life systems integrates the Wiener process history like so</p>
+<p><span class="math display">\[
+\begin{align}
+S^{0}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) &amp;= W^0_{{\sf t}+1}-W^0_{\sf t}\\
+S^{1}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) &amp;= u\sum^{{\sf t}}_{{\sf t}&#39;=0}e^{-u[t({\sf t})-t({\sf t}&#39;)]} S^{0}_{{\sf t}&#39;}\,,
+\end{align}
+\]</span></p>
+<p>where <span class="math inline">\(u\)</span> is inversely proportional to the length of memory in continuous time.</p>
+<h2 id="software-design">Software design</h2>
+<p>So we’ve proposed a computational formalism and then studied it in more detail to demonstrate that it can cope with a variety of different stochastic phenomena. Now we’re ready to summarise what we want the stochadex software package to be able to do. But what’s so complicated about the first iteration equation we wrote? Can’t we just implement an iterative algorithm with a single function? It’s true that the fundamental concept is very straightforward, but as we’ll discuss in due course; the stochadex needs to have a lot of configurable features so that it’s applicable in different situations. Ideally, the stochadex sampler should be designed to try and maintain a balance between performance and flexibility of utilisation.</p>
+<p>If we begin with the obvious first set of criteria; we want to be able to freely configure the iteration function <span class="math inline">\(F\)</span> of Eq.~() and the timestep function <span class="math inline">\(t\)</span> of Eq.~() so that any process we want can be described. The point at which a simulation stops can also depend on some algorithm termination condition which the user should be able to specify up-front.</p>
+<p>Once the user has written the code to create these functions for the stochadex, we want to then be able to recall them in future only with configuration files while maintaining the possibility of changing their simulation run parameters. This flexibility should facilitate our uses for the simulation later in the book, and from this perspective it also makes sense that the parameters should include the random seed and initial state value.</p>
+<p>The state history matrix <span class="math inline">\(X\)</span> should be configurable in terms of its number of rows — what we’ll call the ‘state width’ — and its number of columns — what we’ll call the ‘state history depth’. If we were to keep increasing the state width up to millions of elements or more, it’s likely that on most machines the algorithm performance would grind to a halt when trying to iterate over the resulting <span class="math inline">\(X\)</span> within a single thread. Hence, before the algorithm or its performance in any more detail, we can pre-empt the requirement that <span class="math inline">\(X\)</span> should represented in computer memory by a set of partitioned matrices which are all capable of communicating to one-another downstream. In this paradigm, we’d like the user to be able to configure which state partitions are able to communicate with each other without having to write any new code.</p>
+<p>Within each parallel partition of the state history, the stochadex also enables further partitioning of state (and hence its corresponding update function) into serial blocks in memory. This enables the user to define much simpler (and hence more resuable) iteration functions to use in configuring future projects. During a simulation step, the key difference between parallel partitions and the serial partitions within each is that the former can only have shared access to the entire state history up to the last state values for the whole simulation. The latter, however, can also have access to the state values produced most recently by any partitions before it in the serial configuration. In Fig.~ we have illustrated this difference between parallel and serial partitions in a simple schematic.</p>
+<p>For convenience, it seems sensible to also make the outputs from stochadex runs configurable. A user should be able to change the form of output that they want through, e.g., some specified function of <span class="math inline">\(X\)</span> at the time of outputting data. The times that the stochadex should output this data can also be decided by some user-specified condition so that the frequency of output is fully configurable as well. This flexibility can be useful when the user only requires a limited number of state snapshots at particular times.</p>
+<p>In summary, we’ve put together a schematic of configuration data types and their relationships in Fig.~. In this diagram there is some indication of the data type that we propose to store each piece information in (in Go syntax), and the diagram as a whole should serve as a useful guide to the basic structure of configuration files for the stochadex.</p>
+<p>It’s clear that in order to simulate Eq.~(), we need an interative algorithm which reapplies a user-specified function to the continually-updated history. But let’s now return to the point we made earlier about how the performance of such an algorithm will depend on the size of the state history matrix <span class="math inline">\(X\)</span>. The key bit of the algorithm design that isn’t so straightforward is: how do we sucessfully split this state history up into separate partitions in memory while still enabling them to communicate effectively with each other? Other generalised simulation frameworks — such as SimPy~, StoSpa~ and FLAME GPU~ — have all approached this problem in different ways, and with different software architectures.</p>
+In Fig.~ we’ve illustrated what a loop involving separate state partitions looks like in the stochadex simulator. Each partition is handled by concurrently running execution threads of the same process, while a separate process may be used to handle the outputs from the algorithm. As the diagram shows, the main sequence of each loop iteration follows the pattern: %%
+<p>%% This pattern ensures that no partition has access to values in the state history which are out of sync with its current state in time, and hence prevents anachronisms from occuring in the overall simulation state iteration.</p>
+<p>It’s also worth noting that while Fig.~ illustrates only a single process; it’s obviously true that we may run many of these whole diagrams at once to parallelise generating independent realisations of the simulation, if necessary.</p>
+<p>As we stated at the beginning of this chapter: the full implementation of the stochadex can be found on GitHub by following this link: . Users can build the main binary executable of this repository and determine what configuration of the stochadex they would like to have through config at runtime (one can infer these configurations from Fig.~). As Go is a statically typed language, this level of flexibility has been achieved using code templating and generation proceeding runtime build and execution via  ‘under-the-hood’. Users who find this particular execution pattern undesirable can also use all of the stochadex types, tools and methods as part of a standard Go package import.</p>
+<p>In order to debug the simulation code and gain a more intuitive understanding of the outputs from a model as it is being developed, we have also written a lightweight frontend dashboard React~ app in TypeScript to visualise any stochadex simulation as it is running. This dashboard can be launched by passing config at runtime to the main stochadex executable, and we have illustrated how all this fits together in a flowchart shown in Fig.~.</p>
+<p>{} To define and develop an archetype simulation environment for simple state transitions. In our classification scheme, this archetype is defined by a trivial state partition graph topology and would make sense for simulations of sequential design problems, sports matches and other simple gameplay domains. We will also discuss the typical ways in which the state of the system may only partially be observed in realistic examples, and analyse how best to deal with each situation. For the mathematically-inclined, this chapter will define the mapping of our formalism to simple state transitions. For the programmers, the software which is designed and described in this chapter can be found in the public Git respository here: .</p>
+<p>The simple state transition archetype refers to simulation environments where there is no obvious computational benefit to partitioning the state into concurrently updating or acting on separate components. There may even be performance benefits from keeping state information all within the same common data structure in memory, but this can depend on the specific problem of study.</p>
+<p>In the interest of completeness with respect to the chapters which follow on from this one, we have illustrated the trivial state partition graph topology for this archetype in Fig.~.</p>
+In order to understand what sorts of data might be collected about this archetype in realistic scenarios, let’s begin by considering the types of real-world problem domain which have leveraged simulation environments to train control algorithms in the literature. The subset of these which may best suit the simple state transition environment archetype are: %%
+<p>%%</p>
+<p>Based on the examples given above, what kinds of data may be available to infer the state and parameters of a simulation environment using this archetype?</p>
+<p>In the case of team sports matches, a team manager could have access to a large body of data which assesses the capabilities of their players before a game, but they must rely on more subjective or limited data to assess the performance of their team (and the opposition) in the middle of a match. The ‘state’ of the whole system in this case can be not only the state of play, but also information about, e.g., fatigue or on-the-day performance of each player for both teams and sets of substitutes.</p>
+<p></p>
+<p>In a general offline learning setting, realistic historical data collected about the state values for this archetype will typically provide an important mechanism for model determination. Users of this archetype in the real world also typically have access to independent datasets that can be used offline to better determine some parameters of the simulation environment which are not observed directly. In the online learning setting, one typically directly observes some portion of the state values, and may only indirectly observe the other state values, if at all.</p>
+<p>The dynamic spatial field archetype refers to simulation environments which have highly-structured, bidirectional communication between state partitions. The graph toplogy of this archetype is totally connected, but some connections matter more than others. As a helpful analogy, you can think of these partitions as being structured topologically in a kind of ‘lattice’ configuration, where connections to other partitions over different distances in the lattice can contribute different importance weights in affecting each local state partition. This lattice structure can be best intuited from a visual discription, so we have illustrated an example graph topology for the dynamic spatial field archetype in Fig.~.</p>
+<p>Depending on the spatial dimensionality of the field, we might need to visualise the lattice in Fig.~ as existing in more spatial dimensions than the 2-dimensional example we have illustrated. However, as it turns out, there are many important real-world examples of 2-dimensional spatial systems to control anyway.</p>
+<p>Before we move onto a discussion of data, we can study spatial systems which follow this archetype a little more mathematically by adapting the probabilistic formalism we developed in the first part of this book.</p>
+<p></p>
+<p>Let’s return to this probabilistic formalism that we introduced earlier and note that the covariance matrix estimate with elements <span class="math inline">\(C^{ij}_{{\sf t}+1}(z)\)</span> represents a matrix that could get very large, depending on the problem. For example; if we encoded the state of a 2-dimensional spatial field of values into the elements <span class="math inline">\(X^i_{\sf t}\)</span>, the number of elements in the covariance matrix <span class="math inline">\(C^{ij}_{{\sf t}+1}(z)\)</span> would scale as <span class="math inline">\(4N^2\)</span> — where <span class="math inline">\(N\)</span> here is the number of spatial points we wanted to encode.</p>
+<p>One solution to this scaling problem is to exploit the fact that, in many spatial processes, the proximity of points can strongly determine how correlated they are. Hence, for pairwise distances further than some threshold, the covariance matrix elements should tend towards 0. If we were to place points along the diagonal of <span class="math inline">\(C^{ij}_{{\sf t}+1}(z)\)</span> in order of how close they are to each other, this threshold would then be represented as a . We have illustrated such a matrix in Fig.~ in which the ‘bandwidth’ is defined as the number of diagonals one needs to traverse from the main diagonal before encountering a diagonal of 0s.</p>
+To begin our discussion of data, let’s start by considering the subset of real-world problem domains which fit well within the dynamic spatial field archetype. These would be: %%
+<p>%%</p>
+<p>The distributed state network archetype refers to simulation environments whose bidirectional state partition graph topology is completely arbitrary, requiring no particular connectivity structure at all. Each state partition in this archetype typically refers to the same type of real-world node, object or sub-model. Due to the flexibility in topological structure, this archetype is well-suited to ‘network’ models of realistic phenomena. We have illustrated the state partition graph which fits into this category in Fig.~.</p>
+Before discussing what kinds of data are typically available to infer states and parameters of environments in this archetype, it will be informative to consider the various real-world problem domains which apply. The particular subset of these domains which seem to fit well within this classification include: %%
+<p>%%</p>
+<p>The multi-stage pipeline archetype refers to simulation environments with a directional state partition graph with arbitrary connection topology. In this case, each state partition corresponds to a separate stage in some pipeline model of the real-world phenomenon. Directionality in the connection structure is the key distinction between this archetype and the others in our classification scheme. We’ve provided one illustrated example of a multi-stage pipeline state partition graph in Fig.~.</p>
+We’re now ready to discuss how multi-stage pipelines are typically observed with data from realistic scenarios. To do this, it will help to first consider which real-world problem domains are best-suited to this archetype structure. From the literature, we can identify these as: %%
+<p>%%</p>
+<p>The centralised exchange archetype refers to simulation environments with a very specific bidirectional state partition graph topology. The graph connection structure is a star configuration where every state partition is connected to the same, centralised state partition which itself has a unique function in the model. In case this description isn’t that clear, we’ve added an illustration of the graph for this archetype in Fig.~.</p>
+Before moving on to discuss how data is typically collected for centralised exchanges, it will be informative to list the examples of phenomena where this archetype can be found in the real-world. These problem domains are: %%
+<p>%%</p>
+<h2 class="unnumbered" id="references">References</h2>
+<div id="refs" class="references" role="doc-bibliography">
+<div id="ref-van1992stochastic">
+<p>[1] N. G. Van Kampen, <em>Stochastic processes in physics and chemistry</em>, vol. 1. Elsevier, 1992.</p>
+</div>
+<div id="ref-risken1996fokker">
+<p>[2] H. Risken, “Fokker-planck equation,” in <em>The fokker-planck equation</em>, Springer, 1996, pp. 63–95.</p>
+</div>
+<div id="ref-rog-will-2000">
+<p>[3] L. Rogers and D. Williams, “Diffusions, markov processes and martingales 2: Ito calculus,” vol. 1, Cambridge University Press, 2000, p. xiv+480. doi: <a href="https://doi.org/10.1017/CBO9781107590120">10.1017/CBO9781107590120</a>.</p>
+</div>
+<div id="ref-decreusefond1999stochastic">
+<p>[4] L. Decreusefond and others, “Stochastic analysis of the fractional brownian motion,” <em>Potential analysis</em>, vol. 10, no. 2, pp. 177–214, 1999.</p>
+</div>
+<div id="ref-gillespie1977exact">
+<p>[5] D. T. Gillespie, “Exact stochastic simulation of coupled chemical reactions,” <em>The journal of physical chemistry</em>, vol. 81, no. 25, pp. 2340–2361, 1977.</p>
+</div>
+<div id="ref-neyman1958statistical">
+<p>[6] J. Neyman and E. L. Scott, “Statistical approach to problems of cosmology,” <em>Journal of the Royal Statistical Society: Series B (Methodological)</em>, vol. 20, no. 1, pp. 1–29, 1958.</p>
+</div>
+<div id="ref-hawkes1971spectra">
+<p>[7] A. G. Hawkes, “Spectra of some self-exciting and mutually exciting point processes,” <em>Biometrika</em>, vol. 58, no. 1, pp. 83–90, 1971.</p>
+</div>
+</div>
+<hr color="LightGray">
+<div class="articleHeader">
+  <strong> Cite. </strong> You can cite this article using the following BibTeX:
+<code><pre>@article{stochadexI-WIP,
+  title = {Self-learning simulations series: Building a generalised simulation engine},
+  author = {Hardwick, Robert J},
+  journal = {umbralcalculations (umbralcalc.github.io/posts/stochadexI.html)},
+  year = {WIP},
+}</pre></code>
+  <strong> Code. </strong> The code for this article was developed here: <a href=https://github.com/umbralcalc/stochadex>https://github.com/umbralcalc/stochadex</a>.</br>
+  <strong> License. </strong> This article is shared by the author under an <a href=../LICENSE>MIT License</a>.</br>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</article>
+</html>

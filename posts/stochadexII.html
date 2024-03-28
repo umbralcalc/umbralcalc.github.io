@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <link rel="icon" type="image/x-icon" href="./assets/favicon.ico">
+  <link rel="icon" type="image/x=icon" href="../assets/favicon.ico">
+  <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+  <style>
+    .body {
+      box-sizing: border-box;
+      min-width: 200px;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 45px;
+      color: #1F2328;
+      background-color: #ffff;
+      font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+      line-height: 1.5;
+      word-wrap: break-word;
+      text-align: justify;
+    }
+
+    .body h1 {
+      margin: 0;
+      font-size: 200%;
+      color: rgb(42, 65, 83);
+      border-radius: 6px;
+      word-wrap: break-word;
+      text-align: left;
+    }
+
+    .body h2, h3, h4, h5 {
+      margin: 0;
+      font-size: 150%;
+      color: rgb(42, 65, 83);
+      border-radius: 6px;
+      word-wrap: break-word;
+      text-align: left;
+    }
+
+    .body strong {
+      color: rgb(42, 65, 83);
+    }
+
+    .body a {
+      color: #0969da;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .body a:hover {
+      color: LightGrey;
+    }
+
+    pre {
+      padding: .5em 1em;
+      font-size: 95%;
+      color: #F5F5F5;
+      background-color: rgb(42, 65, 83);
+      border-radius: 6px;
+      overflow: auto;
+    }
+
+    code {
+      display: block;
+    }
+
+    img {
+      max-width: 100%;
+      max-height: 100%;
+      text-align: justify;
+    }
+  
+    p img {
+      display: block;
+      margin: 0 auto;
+    }
+
+    .articleHeader {
+      padding: .2em .4em;
+      margin: 1em;
+      font-size: 95%;
+      color: rgb(79, 97, 114);
+      background-color: #ffff;
+      border-radius: 6px;
+      overflow: auto;
+      text-align: justify;
+    }
+
+    a.articleTitle h1 {
+      text-align: left;
+      color: rgb(79, 97, 114);
+      text-align: left;
+    }
+
+    a.articleTitle h1:hover {
+      color: LightGrey;
+    }
+
+    .articleHeader strong {
+      font-size: 95%;
+      color: rgb(79, 97, 114);
+      background-color: #ffff;
+      border-radius: 6px;
+      overflow: auto;
+    }
+
+    .body .navbar {
+      padding:8px 16px;
+      float:right;
+      width:auto;
+      border:none;
+      display:block;
+      outline:0;
+      color: LightGrey;
+    }
+
+    .body .repotitle {
+      padding:8px 0px;
+      float: left;
+      color: LightGrey;
+      font-weight: bold;
+      font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+      text-align: left;
+    }
+
+    strong.nameRepo {
+      color: rgb(42, 65, 83);
+    }
+
+    .body .navbar:hover {
+      color: rgb(42, 65, 83);
+    }
+
+    @media (max-width: 767px) {
+      .body {
+        padding: 15px;
+      }
+    }
+  </style>
+  <script src="/usr/share/javascript/mathjax/tex-mml-chtml.js" type="text/javascript"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<article class="body">
+<a class="navbar" href="https://umbralcalc.github.io/">
+Home
+</a>
+<a class="navbar" href="https://umbralcalc.github.io/about.html">
+About
+</a>
+<div class="repotitle">
+&#129518; <strong class="nameRepo">umbralcalculations:</strong> Technical Article Repository
+</div>
+</br>
+</br>
+</br>
+
+<h1>Self-learning simulations series: Online simulation inference methods</h1>
+</br>
+<hr color="LightGray">
+<div class="articleHeader">
+<strong> Author. </strong> Hardwick, Robert J
+</br>
+<strong> Date. </strong> WIP
+</br>
+<strong> Concept. </strong> We extend the mathematical formalism that we developed in the previous article to describe the time evolution of state probabilities. Having introduced the basic concepts, we then use this formalism to motivate some important methods for probabilistic learning, which we then use in developing a framework for online simulation inference. We also show how the software abstractions provided by the stochadex package allow us to easily embed these inference algorithms within the computation graph of the simulation itself; giving rise to the idea of a generalised ‘self-learning simulation’.
+</div>
+<hr color="LightGray">
+</br>
+<h2 id="introduction">Introduction</h2>
+<p>{} To extend the formalism that we developed in the previous chapter to describe the time evolution of state probabilities. Having introduced the basic concepts, we then use this formalism to motivate some important methods for probabilistic learning, which we then use in developing a framework for online simulation inference. For the mathematically-inclined, this chapter will take a detailed look at how our formalism can be extended to focus on the time evolution of probabilities, with a view to online simulation inference later on. For the programmers, all of the relevant software lives in this public Git repository: .</p>
+<p>This book is about building more realistic training environments for machine learning systems in the real world. In the last chapter we formalised, designed and built a generalised simulation engine which could serve as the essential scaffolding for these environments. So why then, in this chapter, do we want to extend our formalism to talk about probabilistic learning methods?</p>
+<p>For many of these realistic environments where only partial state observations are possible, probabilistic learning tools can immediately become an essential tool to robustly infer the state of a system and predict its future states from any given point in time. Given that these tools are often so important for extending the capability of learning algorithms to deal with partially-observed domains; we propose to extend the idea of what is more conventionally considered a ‘machine learning environment’ to include tools for system state inference and future state prediction. In this sense, this chapter, and the remaining chapters of this book, will consider probabilistic learning as an essential part of the environment for a machine learning system.</p>
+<p>In this chapter, we’re going to begin by discussing the formal connections between some probabilistic learning methods and the simulation formalism we introduced in the last chapter. Let’s start by returning to the formalism that we introduced in that chapter. As we discussed at that point; this formalism is appropriate for sampling from nearly every stochastic phenomenon that one can think of. We are going to extend this description to consider what happens to the probability that the state history matrix takes a particular set of values over time.</p>
+<p>So, how do we begin? Previously, we defined the general stochastic process with the formula <span class="math inline">\(X^{i}_{{\sf t}+1} = F^{i}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t})\)</span>. This equation also has an implicit  associated to it that fully describes the time evolution of the  <span class="math inline">\(P_{{\sf t}+1}(X\vert z)\)</span> of <span class="math inline">\(X_{0:{\sf t}+1}=X\)</span> given that the parameters of the process are <span class="math inline">\(z\)</span>. This can be written as %% <span class="math display">\[\begin{align}
+P_{{\sf t}+1}(X\vert z) &amp;= P_{{\sf t}}(X&#39;\vert z) P_{({\sf t}+1){\sf t}}(x\vert X&#39;,z) \label{eq:master-x-cont}\,,
+\end{align}\]</span> %% where for the time being we are assuming the state space is continuous in each of the matrix elements and <span class="math inline">\(P_{({\sf t}+1){\sf t}}(x\vert X&#39;,z)\)</span> is the conditional probability that <span class="math inline">\(X_{{\sf t}+1}=x\)</span> given that <span class="math inline">\(X_{0:{\sf t}}=X&#39;\)</span> at time <span class="math inline">\({\sf t}\)</span> and the parameters of the process are <span class="math inline">\(z\)</span>. To try and understand what Eq.~() is saying, we find it’s helpful to think of an iterative relationship between probabilities; each of which is connected by their relative conditional probabilities. We’ve also illustrated this kind of thinking in Fig.~.</p>
+<p>Consider what happens when we extend the chain of conditional probabilities in Eq.~() back in time by one step. In doing so, we retrieve a joint probability of rows <span class="math inline">\(X_{{\sf t}+1}=x\)</span> and <span class="math inline">\(X_{{\sf t}}=x&#39;\)</span> on the right hand side of the expression %% <span class="math display">\[\begin{align}
+P_{{\sf t}+1}(X\vert z) &amp;= P_{{\sf t}-1}(X&#39;&#39;\vert z) P_{({\sf t}+1){\sf t}({\sf t}-1)}(x,x&#39;\vert X&#39;&#39;,z) \label{eq:master-x-pairwise-joint}\,.
+\end{align}\]</span> %% Since Eqs.~() and~() are both valid ways to obtain <span class="math inline">\(P_{{\sf t}+1}(X\vert z)\)</span> we can average between them without loss of generality in the original expression, like this %% <span class="math display">\[\begin{align}
+P_{{\sf t}+1}(X\vert z) &amp;= \frac{1}{2}\big[ P_{{\sf t}}(X&#39;\vert z) P_{({\sf t}+1){\sf t}}(x\vert X&#39;,z) + P_{{\sf t}-1}(X&#39;&#39;\vert z) P_{({\sf t}+1){\sf t}({\sf t}-1)}(x,x&#39;\vert X&#39;&#39;,z) \big]\,.
+\end{align}\]</span> %% Following this line of reasoning to its natural conclusion, Eq.~() can hence be generalised to consider all possible joint distributions of rows at different timesteps like this %% <span class="math display">\[\begin{align}
+P_{{\sf t}+1}(X\vert z) &amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;&#39;=0}^{{\sf t}}P_{{\sf t}&#39;&#39;}(X&#39;&#39;\vert z) P_{({\sf t}+1){\sf t}\dots{\sf t}&#39;&#39;}(x,x&#39;,\dots \vert X&#39;&#39;,z) \label{eq:master-x-cont-sum-gen}\,.
+\end{align}\]</span> %%</p>
+<p>If we wanted to just look at the distribution over the latest row <span class="math inline">\(X_{{\sf t}+1}=x\)</span>, we could achieve this through marginalisation over all of the previous matrix rows in Eq.~() like this %% <span class="math display">\[\begin{align}
+P_{{\sf t}+1}(x\vert z) = \int_{\Omega_{{\sf t}}}{\rm d}X&#39; P_{{\sf t}+1}(X\vert z) &amp;= \int_{\Omega_{{\sf t}}}{\rm d}X&#39; P_{{\sf t}}(X&#39;\vert z) P_{({\sf t}+1){\sf t}}(x\vert X&#39;,z) \label{eq:master-x-cont-latest-row} \,.
+\end{align}\]</span> %% But what is <span class="math inline">\(\Omega_{\sf t}\)</span>? You can think of this as just the domain of possible matrix <span class="math inline">\(X&#39;\)</span> inputs into the integral which will depend on the specific stochastic process we are looking at.</p>
+<p>The symbol <span class="math inline">\({\rm d}X&#39;\)</span> in Eq.~() is our shorthand notation throughout the book for computing the sum of integrals over previous state history matrices which can further be reduced via Eq.~() into a product of sub-domain integrals over each matrix row %% <span class="math display">\[\begin{align}
+P_{{\sf t}+1}(x\vert z) &amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;&#39;=0}^{{\sf t}} \bigg\lbrace \int_{\omega_{{\sf t}&#39;}}{\rm d}^nx&#39;...\int_{\Omega_{{\sf t}&#39;&#39;}}{\rm d}X&#39;&#39; \bigg\rbrace \,P_{{\sf t}&#39;&#39;}(X&#39;&#39;\vert z) P_{({\sf t}+1){\sf t}\dots{\sf t}&#39;&#39;}(x,x&#39;,... \vert X&#39;&#39;,z) \\
+&amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;&#39;=0}^{{\sf t}} \int_{\Omega_{{\sf t}&#39;&#39;}}{\rm d}X&#39;&#39; P_{{\sf t}&#39;&#39;}(X&#39;&#39;\vert z) P_{({\sf t}+1){\sf t}&#39;&#39;}(x \vert X&#39;&#39;,z) \label{eq:master-x-cont-latest-row-gen} \,,
+\end{align}\]</span> %% where each row measure is a Cartesian product of <span class="math inline">\(n\)</span> elements (a Lebesgue measure), i.e., %% <span class="math display">\[\begin{align}
+{\rm d}^nx = \prod_{i=0}^n{\rm d}x^i \,,
+\end{align}\]</span> %% and lowercase <span class="math inline">\(x, x&#39;, \dots\)</span> values will always refer to individual rows within the state matrices. Note that <span class="math inline">\(1/{\sf t}\)</span> here is a normalisation factor — this just normalises the sum of all probabilities to 1 given that there is a sum over <span class="math inline">\({\sf t}&#39;\)</span>. Note also that, if the process is defined over continuous time, we would need to replace %% <span class="math display">\[\begin{align}
+\frac{1}{{\sf t}}\sum_{{\sf t}&#39;=0}^{{\sf t}} \rightarrow \frac{1}{t({\sf t})}\sum_{{\sf t}&#39;=0}^{{\sf t}}\delta t({\sf t}&#39;) \,.
+\end{align}\]</span> %%</p>
+<p>Let’s go through some examples. Non-Markovian phenomena with continuous state spaces can have quite complex master equations. A relatively simple example is that of pure diffusion processes which exhibit stochastic resetting at a rate <span class="math inline">\(r\)</span> to a remembered location from the trajectory history~ %% <span class="math display">\[\begin{align}
+P_{{\sf t}+1}(x\vert z) &amp;= (1-r)P_{{\sf t}}(x\vert z) + \sum_{i=0}^n\sum_{j=0}^n\frac{\partial}{\partial x^i}\frac{\partial}{\partial x^j}\bigg[ D_{{\sf t}}(x,z)P_{{\sf t}}(x\vert z) \bigg] + r\sum_{{\sf t}&#39;=0}^{{\sf t}}\delta t ({\sf t}&#39;)K[t({\sf t}){-}t({\sf t}&#39;)]P_{{\sf t}&#39;}(x\vert z) \,,
+\end{align}\]</span> %% where here <span class="math inline">\(K\)</span> is some memory kernel. For Markovian phenomena which have a continuous state space, Eqs.~() and~() no longer depend on timesteps older than the immediately previous one, hence, e.g., Eq.~() reduces to just %% <span class="math display">\[\begin{align}
+P_{{\sf t}+1}(x\vert z) &amp;= \int_{\omega_{\sf t}}{\rm d}^nx&#39; \, P_{\sf t}(x&#39;\vert z) P_{({\sf t}+1){\sf t}}(x\vert x&#39;,z) \label{eq:master-x-cont-markov} \,.
+\end{align}\]</span> %% A famous example of this kind of phenomenon arises from approximating Eq.~() with an expansion (Kramers-Moyal~) up to second-order, yielding the Fokker-Planck equation %% <span class="math display">\[\begin{align}
+P_{{\sf t}+1}(x\vert z) &amp;= P_{{\sf t}}(x\vert z) - \sum_{i=0}^n\frac{\partial}{\partial x^i}\bigg[ \mu_{{\sf t}}(x,z)P_{{\sf t}}(x\vert z)\bigg] + \sum_{i=0}^n\sum_{j=0}^n\frac{\partial}{\partial x^i}\frac{\partial}{\partial x^j}\bigg[ D_{{\sf t}}(x,z)P_{{\sf t}}(x\vert z) \bigg] \,,
+\end{align}\]</span> %% which describes a process undergoing drift-diffusion.</p>
+<p>An analog of Eq.~() exists for discrete state spaces as well. We just need to replace the integral with a sum and the schematic would look something like this %% <span class="math display">\[\begin{align}
+P_{{\sf t}+1}(x\vert z) &amp;= \sum_{\Omega_{{\sf t}}} P_{{\sf t}}(X&#39;\vert z) P_{({\sf t}+1){\sf t}}(x \vert X&#39;, z) \label{eq:master-x-disc} \,,
+\end{align}\]</span> %% where we note that the <span class="math inline">\(P\)</span>’s in the expression above all now refer to . In what follows, discrete state space can always be considered by replacing the integrals with summations over probability masses in this manner; we only use the continuous state space formulation for our notation because one could argue it’s a little more general.</p>
+<p>Analogously to continuous state spaces, we can give some examples of master equations for phenomena with a discrete state space as well. In the Markovian case, we need look no further than a simple time-dependent Poisson process %% <span class="math display">\[\begin{align}
+P_{{\sf t}+1}(x\vert z) &amp;= \lambda ({\sf t}) \delta t({\sf t}{+}1)P_{{\sf t}}(x{-}1\vert z) + \big[1-\lambda ({\sf t}) \delta t({\sf t}{+}1)\big] P_{{\sf t}}(x\vert z) \,.
+\end{align}\]</span> %% For such an example of a non-Markovian system, a Hawkes process~ master equation would look something like this %% <span class="math display">\[\begin{align}
+P_{{\sf t}+1}(x\vert z) &amp;= \mu \delta t({\sf t}{+}1)P_{{\sf t}}(x{-}1\vert z) + \big[ 1-\mu \delta t({\sf t}{+}1)\big] P_{{\sf t}}(x\vert z) \nonumber \\
+&amp; + \sum_{x&#39;=0}^\infty\sum_{{\sf t}&#39;=0}^{{\sf t}} \phi [t({\sf t})-t({\sf t}&#39;)] \delta t({\sf t}{+}1)P_{{\sf t}{\sf t}&#39;({\sf t}&#39;-1)}(x{-}1,x&#39;,x&#39;{-}1\vert z) \nonumber \\
+&amp;+ \sum_{x&#39;=0}^\infty\bigg\lbrace 1-\sum_{{\sf t}&#39;=0}^{{\sf t}} \phi [t({\sf t})-t({\sf t}&#39;)] \delta t({\sf t}{+}1)\bigg\rbrace P_{{\sf t}{\sf t}&#39;({\sf t}&#39;-1)}(x, x&#39;, x&#39;{-}1\vert z) \,,
+\end{align}\]</span> %% where we note the complexity in this expression arises because it has to include a coupling between the rate at which events occur and an explicit memory of when the previous ones did occur (recorded by differencing the count between adjacent timesteps by 1).</p>
+<p>So now that we are more familiar with the notation used by Eq.~(), we can use it to motivate some useful probabilistic learning methods. While it’s worth going into some mathematical detail to give a better sense of where each technique comes from, we should emphasise that the methodologies we discuss here are not new to the technical literature at all. We draw on influences from Empirical Dynamical Modeling (EDM)~, some classic nonparametric local regression techniques — such as LOWESS/Savitzky-Golay filtering~ — and also Gaussian processes~.</p>
+<p>Let’s begin our discussion of algorithms by integrating Eq.~() over <span class="math inline">\(x\)</span> to obtain a relation for the mean of the distribution %% <span class="math display">\[\begin{align}
+M_{{\sf t}+1}(z) &amp;= \int_{\omega_{{\sf t}+1}}{\rm d}^nx \,x\, P_{{\sf t}+1}(x\vert z) = \frac{1}{{\sf t}}\sum_{{\sf t}&#39;&#39;=0}^{{\sf t}} \int_{\Omega_{{\sf t}&#39;&#39;}}{\rm d}X&#39;&#39; P_{{\sf t}&#39;&#39;}(X&#39;&#39;\vert z) M_{({\sf t}+1){\sf t}&#39;&#39;}(X&#39;&#39;,z) \label{eq:mean-field-master}\,,
+\end{align}\]</span> %% where you can view the <span class="math inline">\(M_{({\sf t}+1){\sf t}&#39;&#39;}(X&#39;&#39;,z)\)</span> values as either terms in some regression model, or derivable explicitly from a known master equation. The latter of these provides one approach to statistically infer the states and parameters of stochastic simulations from data: one begins by knowing what the master equation is, uses this to compute the time evolution of the mean (and potentially higher-order statistics) and then connects these <span class="math inline">\({\sf t}\)</span> and <span class="math inline">\(z\)</span>-dependent statistics back to the likelihood of observing the data. This is what is commonly known as the ‘mean-field’ inference approach; averaging over the available degrees of freedom in the statistical moments of distributions. Though, knowing what the master equation is for an arbitrarily-defined stochastic phenomenon can be very difficult indeed, and the resulting equations typically require some form of approximation.</p>
+<p>Given that the mean-field approach isn’t always going to be viable as an inference method, we should also consider other ways to describe the shape and time evolution characteristics of <span class="math inline">\(P_{{\sf t}+1}(X\vert z)\)</span>. For continuous state spaces, it’s possible to approximate this whole distribution with a logarithmic expansion like so %% <span class="math display">\[\begin{align}
+\ln P_{{\sf t}+1}(X\vert z) &amp;\simeq \ln P_{{\sf t}+1}(X_*\vert z) + \frac{1}{2}\sum_{{\sf t}&#39;=0}^{{\sf t}+1}\sum_{i=0}^{n}\sum_{j=0}^{n} (x-x_*)^i {\cal H}^{ij}_{({\sf t}+1){\sf t}&#39;}(z) (x&#39;-x&#39;_*)^j \label{eq:second-order-log-expansion} \\
+{\cal H}^{ij}_{({\sf t}+1){\sf t}&#39;}(z) &amp;= \frac{\partial}{\partial x^i}\frac{\partial}{\partial (x&#39;)^j}\ln P_{{\sf t}+1}(X\vert z) \bigg\vert_{X=X_*} \label{eq:second-order-log-expansion-kernel} \,,
+\end{align}\]</span> %% where the values for <span class="math inline">\(X_*\)</span> (and its rows <span class="math inline">\(x_*, x_*&#39;, \dots\)</span>) are defined by the vanishing of the first derivative, i.e., these are chosen such that %% <span class="math display">\[\begin{align}
+\frac{\partial}{\partial x^i}\ln P_{{\sf t}+1}(X\vert z) \bigg\vert_{X=X_*} &amp;= 0 \,.
+\end{align}\]</span> %% This logarithmic expansion is one way to see how a Gaussian process regression is able to approximate <span class="math inline">\(X_{{\sf t}}\)</span> evolving in time for many different processes. By selecting the appropriate function for the kernel given by Eq.~(), a Gaussian process regression can be fully specified.</p>
+<p>If we keep the truncation up to second order in Eq.~(), note that this expression implies a pairwise correlation structure of the form %% <span class="math display">\[\begin{align}
+P_{{\sf t}+1}(X\vert z) &amp;\rightarrow \prod_{{\sf t}&#39;=0}^{{\sf t}}P_{({\sf t}+1){\sf t}&#39;}(x,x&#39;\vert z) = \prod_{{\sf t}&#39;=0}^{{\sf t}}P_{{\sf t}&#39;}(x&#39;\vert z)P_{({\sf t}+1){\sf t}&#39;}(x\vert x&#39;, z) \,.
+\end{align}\]</span> %% Given this pairwise temporal correlation structure, Eq.~() reduces to this simpler sum of integrals %% <span class="math display">\[\begin{align}
+P_{{\sf t}+1}(x\vert z) &amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;=0}^{{\sf t}}\int_{\omega_{{\sf t}&#39;}}{\rm d}^nx&#39; P_{{\sf t}&#39;}(x&#39;\vert z)P_{({\sf t}+1){\sf t}&#39;}(x\vert x&#39;,z) \label{eq:second-order-correl} \,.
+\end{align}\]</span> %% We have illustrated these second-order correlations with a graph visualisation in Fig.~().</p>
+<p>In a similar fashion, we can increase the expansion order of Eq.~() to include third-order correlations such that %% <span class="math display">\[\begin{align}
+P_{{\sf t}+1}(X\vert z) &amp;\rightarrow \prod_{{\sf t}&#39;=0}^{{\sf t}}\prod_{{\sf t}&#39;&#39;=0}^{{\sf t}&#39;-1} P_{{\sf t}&#39;{\sf t}&#39;&#39;}(x&#39;,x&#39;&#39;\vert z)P_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x\vert x&#39;,x&#39;&#39;,z) \,,
+\end{align}\]</span> %% and, in this instance, one can show that Eq.~() reduces to %% <span class="math display">\[\begin{align}
+P_{{\sf t}+1}(x\vert z) &amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;=0}^{{\sf t}}\frac{1}{{\sf t}&#39;-1}\sum_{{\sf t}&#39;&#39;=0}^{{\sf t}&#39;-1}\int_{\omega_{{\sf t}&#39;}}{\rm d}^nx&#39;\int_{\omega_{{\sf t}&#39;&#39;}}{\rm d}^nx&#39;&#39; P_{{\sf t}&#39;{\sf t}&#39;&#39;}(x&#39;,x&#39;&#39;\vert z)P_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x\vert x&#39;,x&#39;&#39;,z) \label{eq:third-order-correl} \,.
+\end{align}\]</span> %% We have also illustrated these third-order correlations with another graph visualisation in Fig.~(). Using <span class="math inline">\(P_{{\sf t}&#39;{\sf t}&#39;&#39;}(x&#39;,x&#39;&#39;\vert z) = P_{{\sf t}&#39;&#39;}(x&#39;&#39;\vert z) P_{{\sf t}&#39;{\sf t}&#39;&#39;}(x&#39;\vert x&#39;&#39;, z)\)</span> one can also show that this integral is a marginalisation of this expression %% <span class="math display">\[\begin{align}
+P_{({\sf t}+1){\sf t}&#39;&#39;}(x\vert x&#39;&#39;, z) &amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;=0}^{{\sf t}}\int_{\omega_{{\sf t}&#39;}}{\rm d}^nx&#39;P_{{\sf t}&#39;{\sf t}&#39;&#39;}(x&#39;\vert x&#39;&#39;,z)P_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x\vert x&#39;,x&#39;&#39;,z) \,,
+\end{align}\]</span> %% which describes the time evolution of the conditional probabilities. Note how this implies that the Gaussian process kernel itself can be evolved through time to replicate these higher-order temporal correlations for a regression problem, if desired.</p>
+<p>Another probabilistic learning algorithm that we can consider is what we shall call ‘empirical probabilistic reweighting’. There is another expression for the mean of the distribution, that we can derive under certain conditions, which will be valuable to motivating this algorithm. If the probability distribution over each row of the state history matrix is  — meaning that <span class="math inline">\(P_{{\sf t}+1}(x\vert z)=P_{{\sf t}&#39;}(x\vert z)\)</span> — it’s possible to go one step further than Eq.~() and assert that %% <span class="math display">\[\begin{align}
+M_{{\sf t}+1}(z) &amp;= \int_{\omega_{{\sf t}+1}}{\rm d}^nx \,x\,P_{{\sf t}+1}(x\vert z) = \frac{1}{{\sf t}}\sum_{{\sf t}&#39;=0}^{{\sf t}}\int_{\omega_{{\sf t}&#39;}}{\rm d}^nx&#39; \,x&#39;\, P_{{\sf t}&#39;}(x&#39;\vert z) \int_{\omega_{{\sf t}+1}}{\rm d}^nx\, P_{({\sf t}+1){\sf t}&#39;}(x\vert x&#39;,z) \label{eq:stationary-mean-estimator}\,.
+\end{align}\]</span> %%</p>
+<p>To see that Eq.~() is true, first note that a joint distribution over both <span class="math inline">\(x\)</span> and <span class="math inline">\(x&#39;\)</span> can be derived like this <span class="math inline">\(P_{({\sf t}+1){\sf t}&#39;}(x,x&#39;\vert z)=P_{({\sf t}+1){\sf t}&#39;}(x\vert x&#39;,z)P_{{\sf t}&#39;}(x&#39;\vert z)\)</span>. Secondly, note that this joint distribution will always allow variable swaps trivially like this <span class="math inline">\(P_{({\sf t}+1){\sf t}&#39;}(x,x&#39;\vert z)=P_{{\sf t}&#39;({\sf t}+1)}(x&#39;,x\vert z)\)</span>. Then, lastly, note that stationarity of <span class="math inline">\(P_{{\sf t}+1}(x\vert z)=P_{{\sf t}&#39;}(x\vert z)\)</span> means %% <span class="math display">\[\begin{align}
+\frac{1}{{\sf t}}\sum_{{\sf t}&#39;=0}^{{\sf t}}\int_{\omega_{{\sf t}+1}} {\rm d}^nx\int_{\omega_{{\sf t}&#39;}} {\rm d}^nx&#39; \,x\, P_{({\sf t}+1){\sf t}&#39;}(x,x&#39;\vert z)&amp;=\frac{1}{{\sf t}}\sum_{{\sf t}&#39;=0}^{{\sf t}}\int_{\omega_{{\sf t}&#39;}} {\rm d}^nx\int_{\omega_{{\sf t}+1}} {\rm d}^nx&#39; \,x\, P_{{\sf t}&#39;({\sf t}+1)}(x,x&#39;\vert z)\nonumber \\
+&amp;=\frac{1}{{\sf t}}\sum_{{\sf t}&#39;=0}^{{\sf t}}\int_{\omega_{{\sf t}&#39;}} {\rm d}^nx&#39;\int_{\omega_{{\sf t}+1}} {\rm d}^nx \,x&#39;\, P_{({\sf t}+1){\sf t}&#39;}(x,x&#39;\vert z) \nonumber \\
+&amp;=\frac{1}{{\sf t}}\sum_{{\sf t}&#39;=0}^{{\sf t}}\int_{\omega_{{\sf t}&#39;}}{\rm d}^nx&#39; \,x&#39;\, P_{{\sf t}&#39;}(x&#39;\vert z) \int_{\omega_{{\sf t}+1}}{\rm d}^nx\, P_{({\sf t}+1){\sf t}&#39;}(x\vert x&#39;,z)\nonumber \,,
+\end{align}\]</span> %% where we’ve used the trivial variable swap and integration variable relabelling to arrive at the second equality in the expressions above.</p>
+<p>The standard covariance matrix elements can also be computed in a similar fashion %% <span class="math display">\[\begin{align}
+C^{ij}_{{\sf t}+1}(z) &amp;= \int_{\omega_{{\sf t}+1}}{\rm d}^nx \,[x-M_{{\sf t}+1}(z)
+]^i[x-M_{{\sf t}+1}(z)]^jP_{{\sf t}+1}(x\vert z) \nonumber \\
+&amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;=0}^{{\sf t}}\int_{\omega_{{\sf t}&#39;}}{\rm d}^nx&#39; \, [x&#39;-M_{{\sf t}+1}(z)]^i[x&#39;-M_{{\sf t}+1}(z)]^j \,P_{{\sf t}&#39;}(x&#39;\vert z) \int_{\omega_{{\sf t}+1}}{\rm d}^nx \, P_{({\sf t}+1){\sf t}&#39;}(x\vert x&#39;,z) \label{eq:stationary-covariance-estimator}\,.
+\end{align}\]</span> %% While they look quite abstract, Eqs.~() and~() express the core idea behind how the probabilistic reweighting will function. By assuming a stationary distribution, we gain the ability to directly estimate the statistics of the probability distribution of the next sample from the stochastic process <span class="math inline">\(P_{{\sf t}+1}(x\vert z)\)</span> from past samples it may have in empirical data; which are represented here by <span class="math inline">\(P_{{\sf t}&#39;}(x&#39;\vert z)\)</span>.</p>
+<p>Probabilistic reweighting depends on the stationarity of <span class="math inline">\(P_{{\sf t}+1}(x\vert z)=P_{{\sf t}&#39;}(x\vert z)\)</span> such that, e.g., Eq.~() is applicable. The core idea behind it is to represent the past distribution of state values <span class="math inline">\(P_{{\sf t}&#39;}(x&#39;\vert z)\)</span> with the samples from a real time series dataset. If the user then specifies a good model for the relationships in this data by providing a weighting function which returns the conditional probability mass %% <span class="math display">\[\begin{align}
+{\sf w}_{{\sf t}&#39;}(y,z) = \int_{\omega_{{\sf t}+1}} {\rm d}^nx \, P_{({\sf t}+1){\sf t}&#39;}(x\vert x&#39;{=}y,z) \,,  
+\end{align}\]</span> %% we can apply this as a  of the historical time series samples to estimate any statistics of interest. Taking Eqs.~() and~() as the examples; we are essentially approximating these integrals through weighted sample estimations like this %% <span class="math display">\[\begin{align}
+M_{{\sf t}+1}(z) &amp;\simeq \frac{1}{{\sf t}}\sum^{{\sf t}}_{{\sf t}&#39;=0}Y_{{\sf t}&#39;} {\sf w}_{{\sf t}&#39;}(Y_{{\sf t}&#39;},z) \label{eq:mean-reweighting} \\
+C^{ij}_{{\sf t}+1}(z) &amp;\simeq \frac{1}{{\sf t}}\sum^{{\sf t}}_{{\sf t}&#39;=0}[Y_{{\sf t}&#39;}-M_{{\sf t}+1}(z)]^i[Y_{{\sf t}&#39;}-M_{{\sf t}+1}(z)]^j \, {\sf w}_{{\sf t}&#39;}(Y_{{\sf t}&#39;},z) \label{eq:covariance-reweighting} \,,
+\end{align}\]</span> %% where we have defined the data matrix <span class="math inline">\(Y\)</span> with rows <span class="math inline">\(Y_{{\sf t}+1}, Y_{{\sf t}}, \dots\)</span>, each of which representing specific observations of the rows in <span class="math inline">\(X\)</span> at each point in time from a real dataset.</p>
+<p>The goal of a learning algorithm for probabilistic reweighting would be to learn the optimal reweighting function <span class="math inline">\({\sf w}_{{\sf t}&#39;}(Y_{{\sf t}&#39;},z)\)</span> with respect to <span class="math inline">\(z\)</span>, i.e., the ones which most accurately represent a provided dataset. But before we think about the various kinds of conditional probability we could use, we need to think about how to connect the post-reweighting statistics to the data by defining an objective function.</p>
+<p>If the mean is a sufficient statistic for the distribution which describes the data, a choice of, e.g., Exponential, Poisson or Binomial distribution could be used where the mean is estimated directly from the time series using Eq.~(), given a conditional probability <span class="math inline">\(P_{({\sf t}+1){\sf t}&#39;}(x\vert x&#39;,z)\)</span>. Extending this idea further to include distributions which also require a variance to be known, e.g., the Normal, Gamma or Negative Binomial distributions could be used where the variance (and/or covariance) could be estimated using Eq.~(). These are just a few simple examples of distributions that can link the estimated statistics from Eqs.~() and~() to a time series dataset. However, the algorithmic framework is very general to whatever choice of ‘data linking’ distribution that a researcher might need.</p>
+<p>We should probably make what we’ve just said a little more mathematically concrete. We can define <span class="math inline">\(P_{{\sf t}+1}[y;M_{{\sf t}+1}(z),C_{{\sf t}+1}(z),\dots ]\)</span> as representing the likelihood of <span class="math inline">\(y = Y_{{\sf t}+1}\)</span> given the estimated statistics from Eqs.~() and~() (and maybe higher-orders). Note that in order to do this, we need to identify the <span class="math inline">\(x&#39;\)</span> and <span class="math inline">\({\sf t}&#39;\)</span> values that are used to estimate, e.g., <span class="math inline">\(M_{{\sf t}+1}(z)\)</span> with the past data values which are observed in the dataset time series itself. Now that we have this likelihood, we can immediately evaluate an objective function (a cumulative log-likelihood) that we might seek to optimise over for a given dataset %% <span class="math display">\[\begin{align}
+\ln {\cal L}_{{\sf t}+1}(Y\vert z) &amp;= \sum_{{\sf t}&#39;=0}^{{\sf t}+1} \ln P_{{\sf t}&#39;}[y;M_{{\sf t}&#39;}(z),C_{{\sf t}&#39;}(z),\dots ] \,, \label{eq:log-likelihood-reweighting}
+\end{align}\]</span> %% where the summation continues until all of the past measurements <span class="math inline">\(Y_{{\sf t}+1}, Y_{{\sf t}}, \dots\)</span> which exist as rows in the data matrix <span class="math inline">\(Y\)</span> have been taken into account. The code to compute this objective function follows the schematic we have provided in Fig.~.</p>
+<p>In order to specify what <span class="math inline">\(P_{({\sf t}+1){\sf t}&#39;}(x\vert x&#39;,z)\)</span> is, it’s quite natural to define a set of hyperparameters for the elements of <span class="math inline">\(z\)</span>. To get a sense of how the data-linking function relates to these hyperparameters, it’s instructive to consider an example. One generally-applicable option for the conditional probability could be a purely time-dependent kernel %% <span class="math display">\[\begin{align}
+P_{({\sf t}+1){\sf t}&#39;}(x\vert x&#39;,z) &amp;\propto {\cal K}(z, {\sf t}+1,{\sf t}&#39;)  \label{eq:time-dependent-kernel} \,, 
+\end{align}\]</span> %% and the data-linking distribution, e.g., could be a Gaussian %% <span class="math display">\[\begin{align}
+P_{{\sf t}+1}[y;M_{{\sf t}+1}(z),C_{{\sf t}+1}(z),\dots ] = {\sf MultivariateNormalPDF}[y;M_{{\sf t}+1}(z),C_{{\sf t}+1}(z)] \label{eq:gaussian-data-prob}\,.
+\end{align}\]</span> %% It’s worth pointing out that other machine learning frameworks could easily be used to model these conditional probabilities. For example, neural networks could be used to infer the optimal reweighting scheme and this would still allow us to use the data-linking distribution. It would still be desirable to keep the data-linking distribution as it can usually be sampled from very easily — something that can be quite difficult to achieve with a purely machine learning-based representation of the distribution. Sampling itself could even be made more flexible by leveraging a Variational Autoencoder (VAE)~; these use neural networks not just on the compression (or ‘encode’) step to estimate the statistics but also use them as a layer between the sample from the data distribution model and the output (the ‘decode’ step).</p>
+<p>In the case of Eqs.~() and~() above, the hyperparameters that would be optimised could relate to the kernel in a wide variety of ways. Optimising them would make our optimised reweighting similar to (but very much  the same as) evaluating maximum a posteriori (MAP) of a Gaussian process regression. In a Gaussian process regression, one is concerned with inferring the the whole of <span class="math inline">\(X_{{\sf t}}\)</span> as a function of time using the pairwise correlations implied by Eq.~(). Based on this expression, the cumulative log-likelihood for a Gaussian process can be calculated as follows %% <span class="math display">\[\begin{align}
+\ln {\cal L}_{{\sf t}+1}(Y\vert z) &amp;= -\frac{1}{2}\sum_{{\sf t}&#39;=0}^{{\sf t}+1}\sum_{{\sf t}&#39;&#39;=0}^{{\sf t}&#39;} \bigg[ n\ln (2\pi ) + \ln \big\vert {\cal H}_{{\sf t}&#39;{\sf t}&#39;&#39;}(z)\big\vert + \sum_{i=0}^{n}\sum_{j=0}^{n} Y^i_{{\sf t}&#39;} {\cal H}^{ij}_{{\sf t}&#39;{\sf t}&#39;&#39;}(z) Y^j_{{\sf t}&#39;&#39;} \bigg] \,. \label{eq:log-likelihood-gaussian-proc}    
+\end{align}\]</span> %%</p>
+<p>As we did for the reweighting algorithm, in Fig.~ we have illustrated a schematic of the basic code needed to compute the objective function of a learning algorithm based on Eq.~(). Note that, in the expression above, we have assumed that the data has already been shifted such that its values are positioned around the distribution peak. Knowing where this peak will be a priori is not possible. However, for Gaussian data, an unbiased estimator for this peak will be the sample mean and so we have included an initial data standardisation in the steps outlined by Fig.~.</p>
+<p>The optimisation approach that we choose to use for obtaining the best hyperparameters in the conditional probability of Eq.~() will depend on a few factors. For example, if the number of hyperparameters is relatively low, but their gradients are difficult to calculate exactly; then a gradient-free optimiser (such as the Nelder-Mead~ method or something like a particle swarm~) would likely be the most effective choice. On the other hand, when the number of hyperparameters ends up being relatively large, it’s usually quite desriable to utilise the gradients in algorithms like vanilla Stochastic Gradient Descent~ (SGD) or Adam~.</p>
+<p>If the gradients of Eq.~() are needed, we can always factorise each derivative with respect to hyperparameter <span class="math inline">\(z^i\)</span> in the following way through the chain rule %% <span class="math display">\[\begin{align}
+\frac{\partial}{\partial z^i}\ln {\cal L}_{{\sf t}+1}(Y \vert z) &amp;= \sum_{{\sf t}&#39;=0}^{{\sf t}+1}\frac{\partial M_{{\sf t}&#39;}}{\partial z^i}\frac{\partial}{\partial M_{{\sf t}&#39;}}\ln P_{{\sf t}&#39;}[y;M_{{\sf t}&#39;}(z),C_{{\sf t}&#39;}(z),\dots ] \nonumber \\
+&amp;\qquad + \sum_{{\sf t}&#39;=0}^{{\sf t}+1}\frac{\partial C_{{\sf t}&#39;}}{\partial z^i}\frac{\partial }{\partial C_{{\sf t}&#39;}}\ln P_{{\sf t}&#39;}[y;M_{{\sf t}&#39;}(z),C_{{\sf t}&#39;}(z),\dots ] \,. \label{eq:log-likelihood-reweighting-grad}
+\end{align}\]</span> %% By factoring derivatives in this manner, the computation can be separated into two parts: the derivatives with respect to <span class="math inline">\(M_{{\sf t}&#39;}\)</span> and <span class="math inline">\(C_{{\sf t}&#39;}\)</span>, which are typically quite straightforward; and the derivatives with respect to <span class="math inline">\(z\)</span> elements, which typically need a more involved calculation depending on the model. Incidentally, this separation also neatly lends itself to abstracting gradient calculations as having a simpler, general purpose component that can be built directly into a library of data models and a more complex, model-specific component that the user must specify.</p>
+<p>The same logic should apply to a learning algorithm which optimises <span class="math inline">\(z\)</span> to obtain the MAP for a Gaussian process. If the gradients of Eq.~() are required, the user would have to specify derivatives of the kernel matrix (and its determinant) with respect to each hyperparameter <span class="math inline">\(z^k\)</span> in order to calculate %% <span class="math display">\[\begin{align}
+\frac{\partial}{\partial z^k}\ln {\cal L}_{{\sf t}+1}(Y \vert z) &amp;= -\frac{1}{2}\sum_{{\sf t}&#39;=0}^{{\sf t}+1}\sum_{{\sf t}&#39;&#39;=0}^{{\sf t}&#39;} \bigg[ \frac{\partial}{\partial z^k}\ln \big\vert {\cal H}_{{\sf t}&#39;{\sf t}&#39;&#39;}(z)\big\vert + \sum_{i=0}^{n}\sum_{j=0}^{n} Y^i_{{\sf t}&#39;} \frac{\partial}{\partial z^k}{\cal H}^{ij}_{{\sf t}&#39;{\sf t}&#39;&#39;}(z)Y^j_{{\sf t}&#39;&#39;} \bigg] \,. \label{eq:log-likelihood-gaussian-proc-grad}
+\end{align}\]</span> %%</p>
+<p>We have discussed the importance of probabilistic learning in the context of environments where only partial state observability is possible and, in the previous chapter, we motivated the use of some specific probabilistic learning methods. However, we haven’t yet discussed how we might implement a learning algorithm in practice. In particular, before covering the various aspects of software design, it’s important to consider how we want to structure learning by optimisation of an objective with respect to a stream of time series data.</p>
+<p>One of the issues that can arise when learning streams of data is ‘concept drift’. In our context, this would be when the optimal value for <span class="math inline">\(z\)</span> does not match the optimal value at some later point in time. In order to mitigate this, our learning algorithms should be able to track an up-to-date optimal value for <span class="math inline">\(z\)</span> as data is continually passed into them. Iteratively updating the optimal parameters as new data is ingested into the objective function is typically called ‘online learning’~, in contrast to ‘offline learning’ which would correspond to learning an optimal <span class="math inline">\(z\)</span> only once with the entire dataset provided upfront.</p>
+<p>The reader may recall that this book is about building more realistic environments for machine learning systems. An important part of learning from environments in a robust manner is ensuring . In addition to this, stochastic processes are inherently sequential. Many types of system evolve not just their states, but also dynamical description, over time. Online learning is the natural framework to use in this context.</p>
+<p>Let’s return to the models we discussed in the previous chapter which optimise the cumulative log-likelihood of the data matrix <span class="math inline">\(Y\)</span> with respect to <span class="math inline">\(z\)</span> at a particular point in time, i.e., which optimise <span class="math inline">\(\ln {\cal L}_{{\sf t}+1}(Y\vert z)\)</span> with respect to <span class="math inline">\(z\)</span> at time <span class="math inline">\({\sf t}+1\)</span>. The simplest (and most generally applicable) way to implement an online learning approach with any machine learning model is to rerun the whole optimisation algorithm for <span class="math inline">\(z\)</span> after each new datapoint <span class="math inline">\(y\)</span> has been received. Each time the optimisation is rerun, it will be using the entire batch of training data — here represented by the data matrix <span class="math inline">\(Y\)</span>. This kind of ‘batch’ online learning will work for most of the standard machine learning algorithms, but the re-training process can take a long time to run in each instance.</p>
+<p>One way to speed things up is to assume that the optimal value for <span class="math inline">\(z\)</span> which was obtained from the previous data iterations is close to the one we will find in the most recent iteration. Hence, by inserting this previous value into the next run of the optimisation procedure as an initial guess, the algorithm will typically converge much more quickly to the optimum. This is more of a practical insight, but are there any quantitative methods which can reduce the amount of computation required to update <span class="math inline">\(z\)</span> when the latest datapoint in the series has been received?</p>
+<p>This is where ‘pure’ online learning comes in. When gradients of the log-likelihood are available, we can make things much more efficient. Consider <span class="math inline">\({\cal L}_{{\sf t}+1}(y\vert z)\)</span> as the log-likelihood term for datapoint <span class="math inline">\(y\)</span> such that the cumulative log-likelihood of the data matrix <span class="math inline">\(Y\)</span> can be written as the following summation of terms %% <span class="math display">\[\begin{align}
+\ln {\cal L}_{{\sf t}+1}(Y\vert z) = \sum^{{\sf t}+1}_{{\sf t}&#39;=0}\ln {\cal L}_{{\sf t}&#39;}(y\vert z)\,.
+\end{align}\]</span> %% If we now denote the <span class="math inline">\(z\)</span> which we have learned from the data up to timestep <span class="math inline">\({\sf t}\)</span> as <span class="math inline">\(z_*({\sf t})\)</span>, we may write the following expression which uses the gradient of the log-likelihood to learn from each new datapoint arrival %% <span class="math display">\[\begin{align}
+z^i_*({\sf t}+1) &amp;= z^i_*({\sf t}) - \alpha ({\sf t}+1,\dots ) \frac{\partial}{\partial z^i} \ln {\cal L}_{{\sf t}+1}(y\vert z) \label{eq:sgd-online} \,,
+\end{align}\]</span> %% which is based on a stochastic gradient descent (SGD) algorithm approach. In contrast to the more standard offline SGD approach — which would be applied to mini-batches of the data — this update is applied to <span class="math inline">\(z_*\)</span> using the log-likelihood at each point in time in sequence.</p>
+<p>In Eq.~() the <span class="math inline">\(\alpha ({\sf t}+1,\dots )\)</span> function, or ‘learning rate’ function, returns a value which controls the step size towards the optimal value. As indicated by the arguments to this function, the learning rate can be time-dependent, which allows the user to set a schedule of steps which help convergence in certain problems. Other inputs can depend on the specific flavour of stochastic gradient descent algorithm that is being run. For example, an Adam optimiser~ makes use of the statistics computed from the history of gradient values obtained as the algorithm progresses.</p>
+<p></p>
+<p>Note that other excellent online machine learning frameworks are available — see, e.g., River~ and Vowpal Wabbit~. The motivation for designing our own probabilistic online learning software is to ensure maximal integration with the stochadex simulation engine. We’ll aim to achieve this by designing the code to use the same data structures and and concepts as we used when building the stochadex, where possible. In the next section on software design, we will show how this can be done while still maintaining extensibility and interoperability with other machine learning libraries and APIs. So let’s get on with it!</p>
+<p>In Bayesian inference, one applies Bayes’ rule to the problem of statistically inferring a model from some dataset. This typically involves the following formula for a posterior distribution %% <span class="math display">\[\begin{align}
+{\cal P}_{{\sf t}+1}(z \vert Y) \propto {\cal L}_{{\sf t}+1}(Y\vert z){\cal P} (z) \label{eq:bayes-rule} \,.
+\end{align}\]</span> %% In the formula above, one relates the prior probability distribution over a parameter set <span class="math inline">\({\cal P} (z)\)</span> and the likelihood <span class="math inline">\({\cal L}_{{\sf t}+1}(Y\vert z)\)</span> of some data matrix <span class="math inline">\(Y\)</span> up to timestep <span class="math inline">\({\sf t}+1\)</span> given the parameters <span class="math inline">\(z\)</span> of a model to the posterior probability distribution of parameters given the data <span class="math inline">\({\cal P}_{{\sf t}+1}(z \vert Y)\)</span> up to some proportionality constant. All this may sound a bit technical in statistical language, so it can also be helpful to summarise what the formula above states verbally as follows: the initial (prior) state of knowledge about the parameters <span class="math inline">\(z\)</span> we want to learn can be updated by some likelihood function of the data to give a new state of knowledge about the values for <span class="math inline">\(z\)</span> (the ‘posterior’ probability).</p>
+<p>From the point of view of statistical inference, if we seek to maximise <span class="math inline">\({\cal P}_{{\sf t}+1}(z \vert Y)\)</span> — or its logarithm — in Eq.~() with respect to <span class="math inline">\(z\)</span>, we will obtain what is known as a maximum posteriori (MAP) estimate of the parameters. In fact, we have already encountered this metholodology in the previous chapter when discussing the algorithm which obtains the best fit parameters for the empirical probability reweighting. In this case; while it appears that we optimised the log-likelihood directly as our objective function, one can easily show that this is also technically equivalent obtaining a MAP estimate where one chooses a specfic prior <span class="math inline">\({\cal P} (z) \propto 1\)</span> (typically known as a ‘flat prior’).</p>
+<p>How might we calulate the posterior in practice with some arbitrary stochastic process model that has been defined in the stochadex? In order to make the comparison to a real dataset, any stochadex model of interest will always need to be able to generate observations which can be directly compared to the data. To formalise this a little; a stochadex model could be represented as a map from <span class="math inline">\(z\)</span> to a set of stochastic measurements <span class="math inline">\({\sf Y}_{{\sf t}+1}(z), {\sf Y}_{{\sf t}}(z), \dots\)</span> that are directly comparable to the rows in the real data matrix <span class="math inline">\(Y\)</span>. The values in <span class="math inline">\(Y\)</span> may only represent a noisy or partial measurement of the latent states of the simulation <span class="math inline">\(X\)</span>, so a more complete picture can be provided by the following probabilistic relation %% <span class="math display">\[\begin{align}
+P_{{\sf t}+1}({\sf y} \vert z) = \int_{\omega_{{\sf t}+1}}{\rm d}^nx\, P_{{\sf t}+1}({\sf y} \vert x)P_{{\sf t}+1}(x \vert z) \,, \label{eq:simulation-measurement}
+\end{align}\]</span> %% where, in practical terms, the measurement probability <span class="math inline">\(P_{{\sf t}+1}({\sf y} \vert x)\)</span> of <span class="math inline">\({\sf Y}_{{\sf t}+1}={\sf y}\)</span> given <span class="math inline">\(X_{{\sf t}+1}=x\)</span> can be represented by sampling from another stochastic process which takes the state of the stochadex simulation as input. Given that we have this capability to compare like-for-like between the data and the simulation; the next problem is to figure out how this comparison between two sequences of vectors can be done in a way which ensures the the statistics of the posterior are ultimately respected.</p>
+<p>For an arbitrary simulation model which is defined by the stochadex, the likelihood in Eq.~() is typically not describable as a simple function or distribution. While we could train the probability reweighting we derived in the previous chapter to match the simulation; to do this well would require having an exact formula for the conditional probability, and this is not always easy to derive in the general case. Instead, there is a class of Bayesian inference methods which we shall lean on to help us compute the posterior distribution (and hence the MAP), which are known as ‘Likelihood-Free’ methods~.</p>
+<p>‘Likelihood-Free’ methods work by separating out the components of the posterior which relate to the closeness of rows in <span class="math inline">\({\sf Y}\)</span> to the rows in <span class="math inline">\(Y\)</span> from the components which relate the states <span class="math inline">\(X\)</span> and parameters <span class="math inline">\(z\)</span> of the simulation stochastically to <span class="math inline">\({\sf Y}\)</span>. To achieve this separation, we can make use of chaining conditional probability like this %% <span class="math display">\[\begin{align}
+{\cal P}_{{\sf t}+1}(X,z\vert Y)=\int_{\Upsilon_{{\sf t}+1}} {\rm d}{\sf Y} \, {\cal P}_{{\sf t}+1}({\sf Y}\vert Y) P_{{\sf t}+1}(X,z \vert {\sf Y}) \label{eq:likelihood-free-posterior} \,,
+\end{align}\]</span> %% where <span class="math inline">\(\Upsilon_{{\sf t}+1}\)</span> here corresponds to the domain of the simulated measurements matrix <span class="math inline">\({\sf Y}\)</span> at time <span class="math inline">\({\sf t}+1\)</span>.</p>
+<p>As we demonstrated in the previous chapter, it’s possible for us to also optimise a probability distribution <span class="math inline">\({\cal P}_{{\sf t}&#39;}({\sf y}\vert Y) = P_{{\sf t}&#39;}({\sf y};{\cal M}_{{\sf t}&#39;},{\cal C}_{{\sf t}&#39;},\dots )\)</span> for each step in time to match the statistics of the measurements in <span class="math inline">\(Y\)</span> as well as possible, given some statistics <span class="math inline">\({\cal M}_{{\sf t}&#39;}={\cal M}_{{\sf t}&#39;}(Y)\)</span> and <span class="math inline">\({\cal C}_{{\sf t}&#39;}={\cal C}_{{\sf t}&#39;}(Y)\)</span>. Assuming the independence of samples (rows) in <span class="math inline">\(Y\)</span>, this distribution can be used to construct the distribution over all of <span class="math inline">\(Y\)</span> through the following product %% <span class="math display">\[\begin{align}
+{\cal P}_{{\sf t}+1}({\sf Y}\vert Y) = \prod_{{\sf t}&#39;=0}^{{\sf t}+1}P_{{\sf t}&#39;}({\sf y};{\cal M}_{{\sf t}&#39;},{\cal C}_{{\sf t}&#39;},\dots ) \,.
+\end{align}\]</span> %% We do not necessarily need to obtain these statistics from the probability reweighting method, but could instead try to fit them via some other objective function. Either way, this represents a lossy  of the data we want to fit the simulation to, and so the best possible fit is desirable; regardless of overfitting. This choice to summarise the data with statistics means we are using what is known as a Bayesian Synthetic Likelihood (BSL) method~ instead of another class of methods which approximate an objective function directly using a proximity kernel — known as Approximate Bayesian Computation (ABC) methods~.</p>
+<p>Let’s consider a few concrete examples of <span class="math inline">\(P_{{\sf t}&#39;}({\sf y};{\cal M}_{{\sf t}&#39;},{\cal C}_{{\sf t}&#39;}, \dots )\)</span>. If the data measurements were well-described by a multivariate normal distribution, then %% <span class="math display">\[\begin{align}
+P_{{\sf t}&#39;}({\sf y};{\cal M}_{{\sf t}&#39;},{\cal C}_{{\sf t}&#39;}, \dots ) = {\sf MultivariateNormalPDF}({\sf y};{\cal M}_{{\sf t}&#39;},{\cal C}_{{\sf t}&#39;})\,,
+\end{align}\]</span> %% Similarly, if the data measurements were instead better described by a Poisson distribution, we might disregard the need for a covariance matrix statistic <span class="math inline">\({\cal C}_{{\sf t}&#39;}\)</span> and instead use %% <span class="math display">\[\begin{align}
+P_{{\sf t}&#39;}({\sf y};{\cal M}_{{\sf t}&#39;},{\cal C}_{{\sf t}&#39;}, \dots ) = {\sf PoissonPMF}({\sf y};{\cal M}_{{\sf t}&#39;})\,.
+\end{align}\]</span> %% The more statistically-inclined readers may notice that the probability mass function here would require the integrals in Eq.~() to be replaced with summations over the relevant domains.</p>
+<p>Eq.~() demonstrates how one can construct a statistically meaningful way to compare the sequence of real data measurements <span class="math inline">\(Y_{{\sf t}+1}, Y_{{\sf t}}, \dots\)</span> to their modelled equivalents <span class="math inline">\({\sf Y}_{{\sf t}+1}(z), {\sf Y}_{{\sf t}}(z), \dots\)</span>. But we still haven’t shown how to compute <span class="math inline">\(P_{{\sf t}+1}(X,z\vert {\sf Y})\)</span> for a given simulation, and this can be the most challenging part. To begin with, we can reapply Bayes’ rule and the chaining of conditional probability to find %% <span class="math display">\[\begin{align}
+P_{{\sf t}+1}(x,z\vert {\sf Y}) \propto P_{{\sf t}+1}({\sf y}\vert z)P_{{\sf t}}(z\vert {\sf Y}&#39;) = P_{{\sf t}+1}({\sf y}\vert x)P_{{\sf t}+1}(x\vert z)P_{{\sf t}}(z\vert {\sf Y}&#39;) \,,
+\end{align}\]</span> %% where here <span class="math inline">\(P_{{\sf t}}(z\vert {\sf Y}&#39;)\)</span> is the probability of <span class="math inline">\({\sf Y}_{{\sf t}}={\sf Y}&#39;\)</span>.</p>
+<p>The relationship between <span class="math inline">\(P_{{\sf t}+1}(X\vert z)\)</span> and previous timesteps can be directly inferred from the probabilistic iteration formula that we introduced in the previous chapter. So we can map probabilities of <span class="math inline">\(X_{0:{\sf t}+1} = X\)</span> throughout time and learned information about the state of the system can be applied from previous values, given <span class="math inline">\(z\)</span>. But is there a similar relationship we might consider for <span class="math inline">\(P_{{\sf t}+1}(z\vert {\sf Y})\)</span>? Yes there is! The marginalisation %% <span class="math display">\[\begin{align} 
+P_{{\sf t}+1}(z\vert {\sf Y}) &amp;\propto \bigg[ \int_{\Omega_{{\sf t}+1}} {\rm d}^nx \,P_{{\sf t}+1}({\sf y}\vert x) P_{{\sf t}+1}(x\vert z) \bigg] P_{{\sf t}}(z\vert {\sf Y}&#39;) \label{eq:z-update}\,,
+\end{align}\]</span> %% shows how the <span class="math inline">\(z\)</span> updates can occur in an iterative fashion. The reader may also recognize the factor above in brackets as Eq.~(). To complete the picture, one can combine the <span class="math inline">\(X\)</span> and <span class="math inline">\(z\)</span> updates into a joint distribution update which takes the following form %% <span class="math display">\[\begin{align} 
+P_{{\sf t}+1}(X,z\vert {\sf Y}) &amp;\propto P_{{\sf t}+1}({\sf y}\vert x) P_{({\sf t}+1){\sf t}}(x\vert X&#39;, z) P_{{\sf t}}(X&#39;,z\vert {\sf Y}&#39;) \label{eq:x-z-update}\,.
+\end{align}\]</span> %% We can also marginalise this distribution over the past state history rows to get a distribution over the latest state row <span class="math inline">\(X_{{\sf t}+1}=x\)</span> like this %% <span class="math display">\[\begin{align}
+P_{{\sf t}+1}(x,z\vert {\sf Y}) &amp;= \int_{\Omega_{{\sf t}}} {\rm d}X&#39;P_{{\sf t}+1}(X,z\vert {\sf Y}) \propto P_{{\sf t}+1}({\sf y}\vert x) \int_{\Omega_{{\sf t}}} {\rm d}X&#39; P_{({\sf t}+1){\sf t}}(x\vert X&#39;, z) P_{{\sf t}}(X&#39;,z\vert {\sf Y}&#39;) \label{eq:x-z-update-latest-row} \,.
+\end{align}\]</span> %%</p>
+<p>In the next section, we’re going to discuss how to translate all of this probabilistic language into some MAP inference algorithms. Before we do this, however, it will be instructive (particularly for ‘online’ learning algorithms) to consider what happens if the model changes over time and <span class="math inline">\(z\)</span> needs to change in order to better represent the real data. In such situations, we propose to apply the same formula as Eq.~() but instead replace the distribution over <span class="math inline">\((X&#39;,z)\)</span> on the right hand side with its ‘past discounted’ version  %% <span class="math display">\[\begin{align}
+\int_{\Omega_{{\sf t}}}{\rm d}X&#39; P_{{\sf t}}(X&#39;,z\vert {\sf Y}&#39;) \,\, \longrightarrow \,\, \frac{1}{{\sf t}}\sum_{{\sf t}&#39;=0}^{{\sf t}}\int_{\omega_{{\sf t}&#39;}}{\rm d}^nx&#39; \beta^{{\sf t}-{\sf t}&#39;} P_{{\sf t}&#39;}(x&#39;,z\vert {\sf Y}&#39;) \,,
+\end{align}\]</span> %% where <span class="math inline">\(0 &lt; \beta &lt; 1\)</span> and we recall the notation which considers distributions over the individual rows <span class="math inline">\(x&#39;\)</span> within the matrix <span class="math inline">\(X&#39;\)</span> in this new version. This time-dependent discount factor could be used to reduce the dependence of the update on data which is much further in the past, and hence will ultimately lead to a more responsive algorithm. This responsiveness would have to be balanced with the tradeoffs associated with discounting potentially valuable data that may offer greater long-term stability. Readers who are familiar with reinforcement learning may be starting to feel in familiar territory here — they will have to wait for the latter parts of the book to see more on discounting though!</p>
+<p>Eq.~() tells us how to probabilistically translate the current state of knowledge about <span class="math inline">\((x,z)\)</span> forward through time in response to the arrival of new data. We also know how to connect the simulated measurements to the real data because Eq.~() essentially gives us an objective function to maximise for each step in time. This is all great in theory; but in practice, this optimisation problem typically has several layers of difficulty to it. Since the model has been defined by its stochastically generated samples of measurements <span class="math inline">\({\sf Y}_{{\sf t}+1}(z), {\sf Y}_{{\sf t}}(z), \dots\)</span>, the objective function will manifestly be stochastic too. Another layer of difficulty is that gradients of the objective function are not immediately computable and so navigation around the optimisation domain could be difficult, especially in high-dimensional problems. Lastly, given that the simulation model in the stochadex needs to be running multiple times for each timestep, we need a way of mitigating computational expense.</p>
+So how should we proceed? To solve this problem in the general case, Eqs.~() and~() tell us we need to synthesize the following components into a single algorithm: %%
+<p>%%</p>
+<p></p>
+<p></p>
+<p></p>
+<p>As such an algorithm converges, we can recompute (and hence iteratively improve) the MAP estimate with respect to each iteration of the posterior.</p>
+<p>Readers with some machine learning experience may be familiar with the classic exploration vs exploitation tradeoffs. It’s clear that these tradeoffs will manifest in our case here when trying to strike a balance between iterating the posterior distribution and optimizing the current posterior with respect to <span class="math inline">\((X,z)\)</span> to compute the MAP.</p>
+<p>Readers of the previous section may also have recognized that Eq.~() contains the same conditional probability <span class="math inline">\(P_{({\sf t}+1){\sf t}}(x\vert X&#39;,z)\)</span> as the reweighting algorithm. This structure enables us to reuse all of the exposition we provided for the probabilistic reweighting and highlights how the reweighting itself can be used in the algorithm to optimise the posterior.</p>
+<p>If we now synthesize both of these observations together, we can see how a stochastic variant of the well-known Expectation-Maximisation Algorithm~ naturally emerges.</p>
+<p>Let’s now take a step back from the specifics of the probabilistic reweighting algorithm to introduce our new sofware package for this part of the book: the ‘learnadex’. At its core, the learnadex algorithm adapts the stochadex iteration engine to iterate through streams of data in order to accumulate a global objective function value with respect to that data. The user may then choose which optimisation algorithm (or write their own) to use in order to leverage this objective for learning a better representation of the data.</p>
+<p>As we discussed at the end of the last section, the algorithms in the learnadex are all applied in an ‘online’ fashion — refitting for the optimal hyperparameters <span class="math inline">\(z\)</span> as new data is streamed into them. A challenging aspect of online learning is in managing the computational expense of recomputing the optimal value for <span class="math inline">\(z\)</span> after each new datapoint is sent. To help with this; the user may configure the algorithm recompute the optimum value after larger batches of data have been ingested. The last value of optimum <span class="math inline">\(z\)</span> will also frequently be close to the next optimum in the sequence, so using the former as the initial input into the optimisation routine for the latter is typically very valuable for aiding efficiency.</p>
+<p>Reusing the  code of the stochadex to facilitate online learning makes neat use of software which has already been designed and tested in earlier chapters of this book. However, in order to fully achieve this, an additional configuration type is necessary; as we show in Fig.~. To start with, we separate out ‘learning’ from the kind of optimiser in the overall config so as to enable multiple optimisation algorithms to be used for the same learning problem. The hyperparameters that define that optimisation problem domain can be determined by the user with an extension to the  object in the stochadex so that it includes some optional Boolean masks over the parameters, i.e.,  and . These masks are used to extract the parameters of interest, which can then be flattened and formatted to fit into any generic optimisation algorithm.</p>
+<p>On the learning side; in order to define a specific objective for each data iterator to compute while the data streams through it, we have abstracted a ‘log-likelihood’ type. Each data iterator is defined as a standard stochadex iteration, hence it can stream data into the learning algorithm from any user-defined source — e.g., from a file on disk, from a local database instance or maybe via a network socket. In Fig.~ below, we provide a schematic of the method calls of (and within) each data iterator.</p>
+<p>As with the software we wrote for the stochadex, the learnadex main binary executable leverages templating to enable full configurability of all the implementations and settings of Fig.~ through passing configs at runtime. Users can alternatively use the learnadex as a library for import, if they desire more control over the code execution.</p>
+<h2 id="references">References</h2>
+<hr color="LightGray">
+<div class="articleHeader">
+  <strong> Cite. </strong> You can cite this article using the following BibTeX:
+<code><pre>@article{stochadexII-WIP,
+  title = {Self-learning simulations series: Online simulation inference methods},
+  author = {Hardwick, Robert J},
+  journal = {umbralcalculations (umbralcalc.github.io/posts/stochadexII.html)},
+  year = {WIP},
+}</pre></code>
+  <strong> Code. </strong> The code for this article was developed here: <a href=https://github.com/umbralcalc/stochadex>https://github.com/umbralcalc/stochadex</a>.</br>
+  <strong> License. </strong> This article is shared by the author under an <a href=../LICENSE>MIT License</a>.</br>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</article>
+</html>
