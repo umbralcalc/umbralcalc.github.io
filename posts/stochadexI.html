@@ -7,6 +7,7 @@
   <link rel="icon" type="image/x-icon" href="./assets/favicon.ico">
   <link rel="icon" type="image/x=icon" href="../assets/favicon.ico">
   <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+  <meta name="dcterms.date" content="2024-03-28" />
   <style>
     .body {
       box-sizing: border-box;
@@ -163,9 +164,9 @@ About
 <div class="articleHeader">
 <strong> Author. </strong> Hardwick, Robert J
 </br>
-<strong> Date. </strong> WIP
+<strong> Date. </strong> 2024-03-28
 </br>
-<strong> Concept. </strong> We lay out the fundamental mathematical foundations for describing practically any stochastic simulation on a computer. Having provided these foundations, we then design and build a generalised simulation engine that is able to generate samples from practically any real-world stochastic processes that a researcher could encounter. With such a thing pre-built and self-contained, it can become the basis upon which to build generalised software solutions for a lot of different problems. The archetype simulations for a variety of real-world phenomena are also discussed at the end of the article.
+<strong> Concept. </strong> We lay out the fundamental mathematical foundations for describing practically any stochastic simulation on a computer. Having provided these foundations, we then design and build a generalised simulation engine called the ‘stochadex’ which is able to generate samples from practically any real-world stochastic processes that a researcher could encounter. With such a thing pre-built and self-contained as a highly-configurable simulation binary, it can become the basis upon which to build generalised software solutions for a lot of different problems.
 </div>
 <hr color="LightGray">
 </br>
@@ -316,33 +317,6 @@ S^{1}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) &amp;= u\sum^{{\sf t}}_{{\sf t}&#39;=
 <p>As we stated at the beginning of this chapter: the full implementation of the stochadex can be found on GitHub by following this link: <a href="https://github.com/umbralcalc/stochadex">https://github.com/umbralcalc/stochadex</a>. Users can build the main binary executable of this repository and determine what configuration of the stochadex they would like to have through config at runtime (one can infer these configurations from the data types in the diagram above). As Go is a statically typed language, this level of flexibility has been achieved using code templating and generation proceeding runtime build and execution via <span class="math inline">\(\texttt{go run}\)</span> ‘under-the-hood’. Users who find this particular execution pattern undesirable can also use all of the stochadex types, tools and methods as part of a standard Go package import.</p>
 <p>In order to debug the simulation code and gain a more intuitive understanding of the outputs from a model as it is being developed, we have also written a lightweight frontend dashboard React <span class="citation" data-cites="react">[11]</span> app in TypeScript to visualise any stochadex simulation as it is running. This dashboard can be launched by passing config at runtime to the main stochadex executable, and we have illustrated how all this fits together in a flowchart shown in the diagram below.</p>
 <p><img src="../assets/stochadexI/stochadexI-stochadex-main.drawio.png" /></p>
-<h2 id="archetype-simulations">Archetype simulations</h2>
-<p>To end this article, in this section, we’re going to define and develop some archetype simulations which typically appear in the real-world. These archetypes will help to both illustrate how partitioning the state can be helpful to conceptualise the phenomena one wishes to simulate and provide some practical insights into how the stochadex may be configured for different purposes.</p>
-<p>We begin with the <em>simple state transition archetype</em>, which refers to simulation environments where there is no obvious computational benefit to partitioning the state into concurrently updating or acting on separate components. There may even be performance benefits from keeping state information all within the same common data structure in memory, but this can depend on the specific problem of study.</p>
-<p>In the interest of completeness with respect to the chapters which follow on from this one, we have illustrated the trivial state partition graph topology for this archetype in Fig.~.</p>
-In order to understand what sorts of data might be collected about this archetype in realistic scenarios, let’s begin by considering the types of real-world problem domain which have leveraged simulation environments to train control algorithms in the literature. The subset of these which may best suit the simple state transition environment archetype are: %%
-<p>%%</p>
-<p>Based on the examples given above, what kinds of data may be available to infer the state and parameters of a simulation environment using this archetype?</p>
-<p>In the case of team sports matches, a team manager could have access to a large body of data which assesses the capabilities of their players before a game, but they must rely on more subjective or limited data to assess the performance of their team (and the opposition) in the middle of a match. The ‘state’ of the whole system in this case can be not only the state of play, but also information about, e.g., fatigue or on-the-day performance of each player for both teams and sets of substitutes.</p>
-<p></p>
-<p>In a general offline learning setting, realistic historical data collected about the state values for this archetype will typically provide an important mechanism for model determination. Users of this archetype in the real world also typically have access to independent datasets that can be used offline to better determine some parameters of the simulation environment which are not observed directly. In the online learning setting, one typically directly observes some portion of the state values, and may only indirectly observe the other state values, if at all.</p>
-<p>The <em>dynamic spatial field archetype</em> refers to simulation environments which have highly-structured, bidirectional communication between state partitions. The graph toplogy of this archetype is totally connected, but some connections matter more than others. As a helpful analogy, you can think of these partitions as being structured topologically in a kind of ‘lattice’ configuration, where connections to other partitions over different distances in the lattice can contribute different importance weights in affecting each local state partition. This lattice structure can be best intuited from a visual discription, so we have illustrated an example graph topology for the dynamic spatial field archetype in Fig.~.</p>
-<p>Depending on the spatial dimensionality of the field, we might need to visualise the lattice in Fig.~ as existing in more spatial dimensions than the 2-dimensional example we have illustrated. However, as it turns out, there are many important real-world examples of 2-dimensional spatial systems to control anyway.</p>
-<p>Before we move onto a discussion of data, we can study spatial systems which follow this archetype a little more mathematically by adapting the probabilistic formalism we developed in the first part of this book.</p>
-<p></p>
-<p>Let’s return to this probabilistic formalism that we introduced earlier and note that the covariance matrix estimate with elements <span class="math inline">\(C^{ij}_{{\sf t}+1}(z)\)</span> represents a matrix that could get very large, depending on the problem. For example; if we encoded the state of a 2-dimensional spatial field of values into the elements <span class="math inline">\(X^i_{\sf t}\)</span>, the number of elements in the covariance matrix <span class="math inline">\(C^{ij}_{{\sf t}+1}(z)\)</span> would scale as <span class="math inline">\(4N^2\)</span> — where <span class="math inline">\(N\)</span> here is the number of spatial points we wanted to encode.</p>
-<p>One solution to this scaling problem is to exploit the fact that, in many spatial processes, the proximity of points can strongly determine how correlated they are. Hence, for pairwise distances further than some threshold, the covariance matrix elements should tend towards 0. If we were to place points along the diagonal of <span class="math inline">\(C^{ij}_{{\sf t}+1}(z)\)</span> in order of how close they are to each other, this threshold would then be represented as a . We have illustrated such a matrix in Fig.~ in which the ‘bandwidth’ is defined as the number of diagonals one needs to traverse from the main diagonal before encountering a diagonal of 0s.</p>
-To begin our discussion of data, let’s start by considering the subset of real-world problem domains which fit well within the dynamic spatial field archetype. These would be: %%
-<p>%%</p>
-<p>The <em>distributed state network archetype</em> refers to simulation environments whose bidirectional state partition graph topology is completely arbitrary, requiring no particular connectivity structure at all. Each state partition in this archetype typically refers to the same type of real-world node, object or sub-model. Due to the flexibility in topological structure, this archetype is well-suited to ‘network’ models of realistic phenomena. We have illustrated the state partition graph which fits into this category in Fig.~.</p>
-Before discussing what kinds of data are typically available to infer states and parameters of environments in this archetype, it will be informative to consider the various real-world problem domains which apply. The particular subset of these domains which seem to fit well within this classification include: %%
-<p>%%</p>
-<p>The <em>multi-stage pipeline archetype</em> refers to simulation environments with a directional state partition graph with arbitrary connection topology. In this case, each state partition corresponds to a separate stage in some pipeline model of the real-world phenomenon. Directionality in the connection structure is the key distinction between this archetype and the others in our classification scheme. We’ve provided one illustrated example of a multi-stage pipeline state partition graph in Fig.~.</p>
-We’re now ready to discuss how multi-stage pipelines are typically observed with data from realistic scenarios. To do this, it will help to first consider which real-world problem domains are best-suited to this archetype structure. From the literature, we can identify these as: %%
-<p>%%</p>
-<p>The <em>centralised exchange archetype</em> refers to simulation environments with a very specific bidirectional state partition graph topology. The graph connection structure is a star configuration where every state partition is connected to the same, centralised state partition which itself has a unique function in the model. In case this description isn’t that clear, we’ve added an illustration of the graph for this archetype in Fig.~.</p>
-Before moving on to discuss how data is typically collected for centralised exchanges, it will be informative to list the examples of phenomena where this archetype can be found in the real-world. These problem domains are: %%
-<p>%%</p>
 <h2 class="unnumbered" id="references">References</h2>
 <div id="refs" class="references" role="doc-bibliography">
 <div id="ref-van1992stochastic">
@@ -382,11 +356,11 @@ Before moving on to discuss how data is typically collected for centralised exch
 <hr color="LightGray">
 <div class="articleHeader">
   <strong> Cite. </strong> You can cite this article using the following BibTeX:
-<code><pre>@article{stochadexI-WIP,
+<code><pre>@article{stochadexI-2024,
   title = {Self-learning simulations series: Building a generalised simulation engine},
   author = {Hardwick, Robert J},
   journal = {umbralcalculations (umbralcalc.github.io/posts/stochadexI.html)},
-  year = {WIP},
+  year = {2024},
 }</pre></code>
   <strong> Code. </strong> The code for this article was developed here: <a href=https://github.com/umbralcalc/stochadex>https://github.com/umbralcalc/stochadex</a>.</br>
   <strong> License. </strong> This article is shared by the author under an <a href=../LICENSE>MIT License</a>.</br>
