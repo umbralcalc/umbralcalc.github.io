@@ -8,13 +8,7 @@ codeLink: https://github.com/umbralcalc/stochadex
 year: [WIP]
 ---
 
-## Introduction
-
-\chapter{\sffamily Online simulation inference}
-
-{\bfseries\sffamily Concept.} To extend the formalism that we developed in the previous chapter to describe the time evolution of state probabilities. Having introduced the basic concepts, we then use this formalism to motivate some important methods for probabilistic learning, which we then use in developing a framework for online simulation inference. For the mathematically-inclined, this chapter will take a detailed look at how our formalism can be extended to focus on the time evolution of probabilities, with a view to online simulation inference later on. For the programmers, all of the relevant software lives in this public Git repository: \href{https://github.com/umbralcalc/learndadex}{https://github.com/umbralcalc/learnadex}.
-
-\section{\sffamily Probabilistic formalism} 
+## Probabilistic formalism
 
 This book is about building more realistic training environments for machine learning systems in the real world. In the last chapter we formalised, designed and built a generalised simulation engine which could serve as the essential scaffolding for these environments. So why then, in this chapter, do we want to extend our formalism to talk about probabilistic learning methods?
 
@@ -22,12 +16,7 @@ For many of these realistic environments where only partial state observations a
 
 In this chapter, we're going to begin by discussing the formal connections between some probabilistic learning methods and the simulation formalism we introduced in the last chapter. Let's start by returning to the formalism that we introduced in that chapter. As we discussed at that point; this formalism is appropriate for sampling from nearly every stochastic phenomenon that one can think of. We are going to extend this description to consider what happens to the probability that the state history matrix takes a particular set of values over time.
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=12cm]{images/chapter-2-master-eq-graph.drawio.png}
-\caption{Graph representation of Eq.~(\ref{eq:master-x-cont}).}
-\label{fig:master-eqn}
-\end{figure} 
+![](../assets/stochadexII/stochadexII-master-eq-graph.drawio.png)
 
 So, how do we begin? Previously, we defined the general stochastic process with the formula $X^{i}_{{\sf t}+1} = F^{i}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t})$. This equation also has an implicit \emph{master equation} associated to it that fully describes the time evolution of the \emph{probability density function} $P_{{\sf t}+1}(X\vert z)$ of $X_{0:{\sf t}+1}=X$ given that the parameters of the process are $z$. This can be written as
 %%
@@ -140,12 +129,7 @@ M_{{\sf t}+1}(z) &= \int_{\omega_{{\sf t}+1}}{\rm d}^nx \,x\, P_{{\sf t}+1}(x\ve
 %%
 where you can view the $M_{({\sf t}+1){\sf t}''}(X'',z)$ values as either terms in some regression model, or derivable explicitly from a known master equation. The latter of these provides one approach to statistically infer the states and parameters of stochastic simulations from data: one begins by knowing what the master equation is, uses this to compute the time evolution of the mean (and potentially higher-order statistics) and then connects these ${\sf t}$ and $z$-dependent statistics back to the likelihood of observing the data. This is what is commonly known as the 'mean-field' inference approach; averaging over the available degrees of freedom in the statistical moments of distributions. Though, knowing what the master equation is for an arbitrarily-defined stochastic phenomenon can be very difficult indeed, and the resulting equations typically require some form of approximation. 
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=8cm]{images/chapter-2-second-temporal-correlation.drawio.png}
-\caption{A graph representation of the correlations in Eq.~(\ref{eq:second-order-correl}).}
-\label{fig:second-temporal-correlation}
-\end{figure} 
+![](../assets/stochadexII/stochadexII-second-temporal-correlation.drawio.png)
 
 Given that the mean-field approach isn't always going to be viable as an inference method, we should also consider other ways to describe the shape and time evolution characteristics of $P_{{\sf t}+1}(X\vert z)$. For continuous state spaces, it's possible to approximate this whole distribution with a logarithmic expansion like so
 %%
@@ -176,12 +160,7 @@ P_{{\sf t}+1}(x\vert z) &= \frac{1}{{\sf t}}\sum_{{\sf t}'=0}^{{\sf t}}\int_{\om
 %%
 We have illustrated these second-order correlations with a graph visualisation in Fig.~(\ref{fig:second-temporal-correlation}).
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=10cm]{images/chapter-2-third-temporal-correlation.drawio.png}
-\caption{A graph representation of the correlations in Eq.~(\ref{eq:third-order-correl}).}
-\label{fig:third-temporal-correlation}
-\end{figure}
+![](../assets/stochadexII/stochadexII-third-temporal-correlation.drawio.png)
 
 In a similar fashion, we can increase the expansion order of Eq.~(\ref{eq:second-order-log-expansion}) to include third-order correlations such that 
 %%
@@ -257,12 +236,7 @@ We should probably make what we've just said a little more mathematically concre
 %%
 where the summation continues until all of the past measurements $Y_{{\sf t}+1}, Y_{{\sf t}}, \dots$ which exist as rows in the data matrix $Y$ have been taken into account. The code to compute this objective function follows the schematic we have provided in Fig.~\ref{fig:prob-reweighting-code}.
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=8cm]{images/chapter-2-prob-reweighting-code.drawio.png}
-\caption{Code schematic of the probability reweighting objective computation.}
-\label{fig:prob-reweighting-code}
-\end{figure} 
+![](../assets/stochadexII/stochadexII-prob-reweighting-code.drawio.png)
 
 In order to specify what $P_{({\sf t}+1){\sf t}'}(x\vert x',z)$ is, it's quite natural to define a set of hyperparameters for the elements of $z$. To get a sense of how the data-linking function relates to these hyperparameters, it's instructive to consider an example. One generally-applicable option for the conditional probability could be a purely time-dependent kernel
 %%
@@ -287,12 +261,7 @@ In the case of Eqs.~(\ref{eq:time-dependent-kernel}) and~(\ref{eq:gaussian-data-
 
 As we did for the reweighting algorithm, in Fig.~\ref{fig:gaussian-process-code} we have illustrated a schematic of the basic code needed to compute the objective function of a learning algorithm based on Eq.~(\ref{eq:log-likelihood-gaussian-proc}). Note that, in the expression above, we have assumed that the data has already been shifted such that its values are positioned around the distribution peak. Knowing where this peak will be a priori is not possible. However, for Gaussian data, an unbiased estimator for this peak will be the sample mean and so we have included an initial data standardisation in the steps outlined by Fig.~\ref{fig:gaussian-process-code}.
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=6cm]{images/chapter-2-gaussian-process-code.drawio.png}
-\caption{Code schematic of the Gaussian process objective computation.}
-\label{fig:gaussian-process-code}
-\end{figure}
+![](../assets/stochadexII/stochadexII-gaussian-process-code.drawio.png)
 
 The optimisation approach that we choose to use for obtaining the best hyperparameters in the conditional probability of Eq.~(\ref{eq:log-likelihood-reweighting}) will depend on a few factors. For example, if the number of hyperparameters is relatively low, but their gradients are difficult to calculate exactly; then a gradient-free optimiser (such as the Nelder-Mead~\cite{nelder1965simplex} method or something like a particle swarm~\cite{kennedy1995particle, shi1998modified}) would likely be the most effective choice. On the other hand, when the number of hyperparameters ends up being relatively large, it's usually quite desriable to utilise the gradients in algorithms like vanilla Stochastic Gradient Descent~\cite{robbins1951stochastic} (SGD) or Adam~\cite{kingma2014adam}.
 
