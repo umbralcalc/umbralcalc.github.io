@@ -10,7 +10,7 @@ year: [WIP]
 
 ## Formalism recap
 
-Let's recap the formalism introduced in [@stochadexI-WIP], which considers what happens to the probability that the state history matrix takes a particular set of values over time. To do this, we write down what is known as a _master equation_, which fully describes the time evolution of the _probability density function_ $P_{{\sf t}+1}(X\vert z)$ of $X_{0:{\sf t}+1}=X$ given that the parameters of the process are $z$. This can be written as
+Let's recap the formalism introduced in [@stochadexI-2024], which considers what happens to the probability that the state history matrix takes a particular set of values over time. To do this, we write down what is known as a _master equation_, which fully describes the time evolution of the _probability density function_ $P_{{\sf t}+1}(X\vert z)$ of $X_{0:{\sf t}+1}=X$ given that the parameters of the process are $z$. This can be written as
 
 $$
 \begin{aligned}
