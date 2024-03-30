@@ -8,9 +8,11 @@ codeLink: https://github.com/umbralcalc/stochadex
 year: 2024
 ---
 
-## Computational formalism
+## Introduction and computational formalism
 
-Before diving into the design of software we need to mathematically define the general computational approach that we're going to take. Because the language of stochastic processes is primarily mathematics, we'd argue this step is essential in enabling a really general description. From experience, it seems reasonable to start by writing down the following formula which describes iterating some arbitrary process forward in time (by one finite step) and adding a new row each to some matrix $X_{0:{\sf t}} \rightarrow X_{0:{\sf t}+1}$
+Simulation engines can help us understand how to decompose a complex, real-world system into smaller, more easily understood causal relationships between variables. While machine learning, AI and deep learning methods can be very predictive and accurate, it is in understanding how these causal relationships work through simulation that we can solve problems in domains where data completeness or quality is not as good as we would like. To facilitate this kind of benefit in the most general way possible, in this series of articles, we essentially want to enable any type of user-defined simulation to 'learn itself' from an injested stream (or streams) of data. Having passed this point, we then want to explore the various use cases that such a learning and simulation framework can unlock.
+
+In this first article of the series, we will be introducing a new generalised simulation engine (written in Go, but we'll get to that later). Before diving into the design of software we need to mathematically define the general computational approach that we're going to take. Because the language of stochastic processes is primarily mathematics, we'd argue this step is essential in enabling a really general description. From experience, it seems reasonable to start by writing down the following formula which describes iterating some arbitrary process forward in time (by one finite step) and adding a new row each to some matrix $X_{0:{\sf t}} \rightarrow X_{0:{\sf t}+1}$
 
 $$
 \begin{align}
@@ -198,7 +200,7 @@ Now we're ready to summarise what we want the stochadex software package to be a
 
 If we begin with the obvious first set of criteria; we want to be able to freely configure the vector-valued iteration function $F_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t})$ and the timestep function $t({\sf t})$ so that any process we want can be described. The point at which a simulation stops can also depend on some algorithm termination condition which the user should be able to specify up-front.
 
-Once the user has written the code to create these functions for the stochadex, we want to then be able to recall them in future only with configuration files while maintaining the possibility of changing their simulation run parameters. This flexibility should facilitate our uses for the simulation later in the book, and from this perspective it also makes sense that the parameters should include the random seed and initial state value.
+Once the user has written the code to create these functions for the stochadex, we want to then be able to recall them in future only with configuration files while maintaining the possibility of changing their simulation run parameters. This flexibility should facilitate our uses for the simulation later on, and from this perspective it also makes sense that the parameters should include the random seed and initial state value.
 
 The state history matrix $X$ should be configurable in terms of its number of rows --- what we'll call the 'state width' --- and its number of columns --- what we'll call the 'state history depth'. If we were to keep increasing the state width up to millions of elements or more, it's likely that on most machines the algorithm performance would grind to a halt when trying to iterate over the resulting $X$ within a single thread. Hence, before the algorithm or its performance in any more detail, we can pre-empt the requirement that $X$ should represented in computer memory by a set of partitioned matrices which are all capable of communicating to one-another downstream in a via some configured messaging graph. In this paradigm, we'd like the user to be able to configure which state partitions are able to communicate with each other, i.e., freely reconfigure the graph topology, without having to write any new code.
 
