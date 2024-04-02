@@ -10,7 +10,7 @@ year: [WIP]
 
 ## Introduction and probabilistic formalism
 
-In this second article of the series we will be introducing a new online simulation inference framework, enabling us to realise the idea of a generalised 'self-learning simulation'. Before tackling the design and implementation of the technique, it will be important to outline the technical foundations for it within our mathematical formalism. So, we're going to begin by discussing the formal connections between some probabilistic learning methods and the simulation formalism we introduced in the previous article in this series [@stochadexI-2024]. Let's start by returning to the formalism that we introduced in that chapter. As we discussed in that article; this formalism is appropriate for sampling from nearly every stochastic phenomenon that one can think of. We are going to extend this description to consider what happens to the probability that the state history matrix takes a particular set of values over time.
+In this second article of the series we will be introducing a new online simulation inference framework, enabling us to realise the idea of a generalised 'self-learning simulation'. Before tackling the design and implementation of the technique, it will be important to outline the technical foundations for it within our mathematical formalism. So, we're going to begin by discussing the formal connections between some probabilistic learning methods and the simulation formalism we introduced in the previous article in this series [@stochadexI-2024]. Let's start by returning to the formalism that we introduced in that article. As we discussed in that article; this formalism is appropriate for sampling from nearly every stochastic phenomenon that one can think of. We are going to extend this description to consider what happens to the probability that the state history matrix takes a particular set of values over time.
 
 So, how do we begin? Previously, we defined the general stochastic process with the formula $X^{i}_{{\sf t}+1} = F^{i}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t})$. This equation also has an implicit _master equation_ associated to it that fully describes the time evolution of the _probability density function_ $P_{{\sf t}+1}(X\vert z)$ of $X_{0:{\sf t}+1}=X$ given that the parameters of the process are $z$. This can be written as
 
@@ -329,9 +329,9 @@ To get online learning working for a simulation in the general case, we need to 
 
 ## Online learning a generalised simulation
 
-So far we have motivated the use of some specific probabilistic learning methods, and these will be useful to develop comparison methods between any simulation and a data stream in due course. However, we haven't yet discussed how we might implement a learning algorithm for simulations. Since simulations are a kind of causal model which we would like to infer from the data, we should begin with reviewing the basics of Bayesian inference in our context.
+So far we have motivated the use of some specific probabilistic learning methods, and these will be useful to develop comparison methods between any simulation and a data stream in due course. However, we haven't yet discussed how we might implement a learning algorithm for simulations. Since simulations are a kind of causal model which we would like to infer from the data, we should begin by reviewing the basics of Bayesian inference in the present context.
 
-In Bayesian inference, one applies Bayes' rule to the problem of statistically inferring a model from some dataset. This typically involves the following formula for a posterior distribution
+Following Bayes' rule, one can relate the prior probability distribution over a parameter set ${\cal P}(z)$ and the likelihood ${\cal L}_{{\sf t}+1}(Y\vert z)$  of some data matrix $Y$ up to timestep ${\sf t}+1$ given the parameters $z$ of a model to the posterior probability distribution of parameters given the data ${\cal P}_{{\sf t}+1}(z \vert Y)$ up to some proportionality constant, i.e.,
 
 $$
 \begin{align}
@@ -339,9 +339,9 @@ $$
 \end{align}
 $$
 
-In the formula above, one relates the prior probability distribution over a parameter set ${\cal P} (z)$ and the likelihood ${\cal L}_{{\sf t}+1}(Y\vert z)$  of some data matrix $Y$ up to timestep ${\sf t}+1$ given the parameters $z$ of a model to the posterior probability distribution of parameters given the data ${\cal P}_{{\sf t}+1}(z \vert Y)$ up to some proportionality constant. All this may sound a bit technical in statistical language, so it can also be helpful to summarise what the formula above states verbally as follows: the initial (prior) state of knowledge about the parameters $z$ we want to learn can be updated by some likelihood function of the data to give a new state of knowledge about the values for $z$ (the 'posterior' probability).
+All this may sound a bit technical in statistical language, so it can also be helpful to summarise what the formula above states verbally as follows: the initial (prior) state of knowledge about the parameters $z$ we want to learn can be updated by some likelihood function of the data to give a new state of knowledge about the values for $z$ (the 'posterior' probability).
 
-From the point of view of statistical inference, if we seek to maximise ${\cal P}_{{\sf t}+1}(z \vert Y)$ --- or its logarithm --- in the equation above with respect to $z$, we will obtain what is known as a maximum posteriori (MAP) estimate of the parameters. In fact, we have already encountered this metholodology in the previous chapter when discussing the algorithm which obtains the best fit parameters for the empirical probability reweighting. In this case; while it appears that we optimised the log-likelihood directly as our objective function, one can easily show that this is also technically equivalent obtaining a MAP estimate where one chooses a specfic prior ${\cal P} (z) \propto 1$ (typically known as a 'flat prior').
+From the point of view of statistical inference, if we seek to maximise ${\cal P}_{{\sf t}+1}(z \vert Y)$ --- or its logarithm --- in the equation above with respect to $z$, we will obtain what is known as a maximum posteriori (MAP) estimate of the parameters. In fact, we have already encountered this metholodology in the previous section when discussing the algorithm which obtains the best fit parameters for the empirical probability reweighting. In this case; while it appears that we optimised the log-likelihood directly as our objective function, one can easily show that this is also technically equivalent obtaining a MAP estimate where one chooses a specfic prior ${\cal P} (z) \propto 1$ (typically known as a 'flat prior').
 
 How might we calulate the posterior in practice with some arbitrary stochastic process model that has been defined in the stochadex? In order to make the comparison to a real dataset, any stochadex model of interest will always need to be able to generate observations which can be directly compared to the data. To formalise this a little; a stochadex model could be represented as a map from $z$ to a set of stochastic measurements ${\sf Y}_{{\sf t}+1}(z), {\sf Y}_{{\sf t}}(z), \dots$ that are directly comparable to the rows in the real data matrix $Y$. The values in $Y$ may only represent a noisy or partial measurement of the latent states of the simulation $X$, so a more complete picture can be provided by the following probabilistic relation
 
@@ -353,7 +353,7 @@ $$
 
 where, in practical terms, the measurement probability $P_{{\sf t}+1}({\sf y} \vert x)$ of ${\sf Y}_{{\sf t}+1}={\sf y}$ given $X_{{\sf t}+1}=x$ can be represented by sampling from another stochastic process which takes the state of the stochadex simulation as input. Given that we have this capability to compare like-for-like between the data and the simulation; the next problem is to figure out how this comparison between two sequences of vectors can be done in a way which ensures the the statistics of the posterior are ultimately respected.
 
-For an arbitrary simulation model which is defined by the stochadex, the likelihood in Bayes' rule is typically not describable as a simple function or distribution. While we could train the probability reweighting we derived in the previous chapter to match the simulation; to do this well would require having an exact formula for the conditional probability, and this is not always easy to derive in the general case. Instead, there is a class of Bayesian inference methods which we shall lean on to help us compute the posterior distribution (and hence the MAP), which are known as 'Likelihood-Free' methods --- see, e.g., [@sisson2018handbook], [@price2018bayesian], [@wood2010statistical] and [@drovandi2022comparison].
+For an arbitrary simulation model which is defined by the stochadex, the likelihood in Bayes' rule is typically not describable as a simple function or distribution. While we could train the probability reweighting we derived in the previous section to match the simulation; to do this well would require having an exact formula for the conditional probability, and this is not always easy to derive in the general case. Instead, there is a class of Bayesian inference methods which we shall lean on to help us compute the posterior distribution (and hence the MAP), which are known as 'Likelihood-Free' methods --- see, e.g., [@sisson2018handbook], [@price2018bayesian], [@wood2010statistical] and [@drovandi2022comparison].
 
 'Likelihood-Free' methods work by separating out the components of the posterior which relate to the closeness of rows in ${\sf Y}$ to the rows in $Y$ from the components which relate the states $X$ and parameters $z$ of the simulation stochastically to ${\sf Y}$. To achieve this separation, we can make use of chaining conditional probability like this
 
@@ -365,7 +365,7 @@ $$
 
 where $\Upsilon_{{\sf t}+1}$ here corresponds to the domain of the simulated measurements matrix ${\sf Y}$ at time ${\sf t}+1$.
 
-As we demonstrated in the previous chapter, it's possible for us to also optimise a probability distribution ${\cal P}_{{\sf t}'}({\sf y}\vert Y) = P_{{\sf t}'}({\sf y};{\cal M}_{{\sf t}'},{\cal C}_{{\sf t}'},\dots )$ for each step in time to match the statistics of the measurements in $Y$ as well as possible, given some statistics ${\cal M}_{{\sf t}'}={\cal M}_{{\sf t}'}(Y)$ and ${\cal C}_{{\sf t}'}={\cal C}_{{\sf t}'}(Y)$. Assuming the independence of samples (rows) in $Y$, this distribution can be used to construct the distribution over all of $Y$ through the following product
+As we demonstrated in the previous section, it's possible for us to also optimise a probability distribution ${\cal P}_{{\sf t}'}({\sf y}\vert Y) = P_{{\sf t}'}({\sf y};{\cal M}_{{\sf t}'},{\cal C}_{{\sf t}'},\dots )$ for each step in time to match the statistics of the measurements in $Y$ as well as possible, given some statistics ${\cal M}_{{\sf t}'}={\cal M}_{{\sf t}'}(Y)$ and ${\cal C}_{{\sf t}'}={\cal C}_{{\sf t}'}(Y)$. Assuming the independence of samples (rows) in $Y$, this distribution can be used to construct the distribution over all of $Y$ through the following product
 
 $$
 \begin{align}
@@ -403,7 +403,7 @@ $$
 
 where here $P_{{\sf t}}(z\vert {\sf Y}')$ is the probability of ${\sf Y}_{{\sf t}}={\sf Y}'$.
 
-The relationship between $P_{{\sf t}+1}(X\vert z)$ and previous timesteps can be directly inferred from the probabilistic iteration formula that we introduced in the previous chapter. So we can map probabilities of $X_{0:{\sf t}+1} = X$ throughout time and learned information about the state of the system can be applied from previous values, given $z$. But is there a similar relationship we might consider for $P_{{\sf t}+1}(z\vert {\sf Y})$? Yes there is! The marginalisation
+The relationship between $P_{{\sf t}+1}(X\vert z)$ and previous timesteps can be directly inferred from the probabilistic iteration formula that we introduced in the previous section. So we can map probabilities of $X_{0:{\sf t}+1} = X$ throughout time and learned information about the state of the system can be applied from previous values, given $z$. But is there a similar relationship we might consider for $P_{{\sf t}+1}(z\vert {\sf Y})$? Yes there is! The marginalisation
 
 $$
 \begin{align} 
@@ -411,7 +411,7 @@ P_{{\sf t}+1}(z\vert {\sf Y}) &\propto \bigg[ \int_{\Omega_{{\sf t}+1}} {\rm d}^
 \end{align}
 $$
 
-shows how the $z$ updates can occur in an iterative fashion. The reader may also recognize the factor above in brackets as Eq.~(\ref{eq:simulation-measurement}). To complete the picture, one can combine the $X$ and $z$ updates into a joint distribution update which takes the following form
+shows how the $z$ updates can occur in an iterative fashion. The reader may also recognize the factor above in brackets as the simulation measurement integral we wrote earlier. To complete the picture, one can combine the $X$ and $z$ updates into a joint distribution update which takes the following form
 
 $$
 \begin{align} 
@@ -427,17 +427,19 @@ P_{{\sf t}+1}(x,z\vert {\sf Y}) &= \int_{\Omega_{{\sf t}}} {\rm d}X'P_{{\sf t}+1
 \end{align}
 $$
 
-In the next section, we're going to discuss how to translate all of this probabilistic language into some MAP inference algorithms. Before we do this, however, it will be instructive (particularly for 'online' learning algorithms) to consider what happens if the model changes over time and $z$ needs to change in order to better represent the real data. In such situations, we propose to apply the same formula as Eq.~(\ref{eq:x-z-update-latest-row}) but instead replace the distribution over $(X',z)$ on the right hand side with its 'past discounted' version\footnote{In the continuous-time version, this past-discounting factor can depend on the stepsize such that we replace
+To understand how all of this translates to online learning, it will be important to consider what happens if the model changes over time and $z$ needs to change in order to better represent the real data. In such situations, we propose to apply the same formula as above but instead replace the distribution over $(X',z)$ on the right hand side with its 'past discounted' version\footnote{In the continuous-time version, this past-discounting factor can depend on the stepsize such that we replace
 $$
 \beta^{{\sf t}-{\sf t}'} \longrightarrow \frac{1}{\beta [\delta t({\sf t})]}\prod_{{\sf t}''={\sf t}'}^{{\sf t}} \beta [\delta t({\sf t}'')] \,.
 $$}
-\textcolor{red}{Formula below is wrong --- reformulate in terms of a $\beta^{{\sf t}-{\sf t}'}$ Bayesian evidence weighting factor for each past timestep and the result will be a $\prod$ expression here not a $\sum$...} 
-%%
+\textcolor{red}{Formula below is wrong --- reformulate in terms of a $\beta^{{\sf t}-{\sf t}'}$ Bayesian evidence weighting factor for each past timestep and the result will be a $\prod$ expression here not a $\sum$...}
+
+$$
 \begin{align}
 \int_{\Omega_{{\sf t}}}{\rm d}X' P_{{\sf t}}(X',z\vert {\sf Y}') \,\, \longrightarrow \,\, \frac{1}{{\sf t}}\sum_{{\sf t}'=0}^{{\sf t}}\int_{\omega_{{\sf t}'}}{\rm d}^nx' \beta^{{\sf t}-{\sf t}'} P_{{\sf t}'}(x',z\vert {\sf Y}') \,,
 \end{align}
-%%
-where $0 < \beta < 1$ and we recall the notation which considers distributions over the individual rows $x'$ within the matrix $X'$ in this new version. This time-dependent discount factor could be used to reduce the dependence of the update on data which is much further in the past, and hence will ultimately lead to a more responsive algorithm. This responsiveness would have to be balanced with the tradeoffs associated with discounting potentially valuable data that may offer greater long-term stability. Readers who are familiar with reinforcement learning may be starting to feel in familiar territory here --- they will have to wait for the latter parts of the book to see more on discounting though!
+$$
+
+where $0 < \beta < 1$ and we recall the notation which considers distributions over the individual rows $x'$ within the matrix $X'$ in this new version. This time-dependent discount factor could be used to reduce the dependence of the update on data which is much further in the past, and hence will ultimately lead to a more responsive algorithm. This responsiveness would have to be balanced with the tradeoffs associated with discounting potentially valuable data that may offer greater long-term stability. Readers who are familiar with reinforcement learning may be starting to feel in familiar territory here --- they will have to wait for the next article to see more on discounting though!
 
 Eq.~(\ref{eq:x-z-update}) tells us how to probabilistically translate the current state of knowledge about $(x,z)$ forward through time in response to the arrival of new data. We also know how to connect the simulated measurements to the real data because Eq.~(\ref{eq:likelihood-free-posterior}) essentially gives us an objective function to maximise for each step in time. This is all great in theory; but in practice, this optimisation problem typically has several layers of difficulty to it. Since the model has been defined by its stochastically generated samples of measurements ${\sf Y}_{{\sf t}+1}(z), {\sf Y}_{{\sf t}}(z), \dots$, the objective function will manifestly be stochastic too. Another layer of difficulty is that gradients of the objective function are not immediately computable and so navigation around the optimisation domain could be difficult, especially in high-dimensional problems. Lastly, given that the simulation model in the stochadex needs to be running multiple times for each timestep, we need a way of mitigating computational expense. 
 
@@ -486,7 +488,7 @@ Let's now take a step back from the specifics of the probabilistic reweighting a
 
 As we discussed at the end of the last section, the algorithms in the learnadex are all applied in an 'online' fashion --- refitting for the optimal hyperparameters $z$ as new data is streamed into them. A challenging aspect of online learning is in managing the computational expense of recomputing the optimal value for $z$ after each new datapoint is sent. To help with this; the user may configure the algorithm recompute the optimum value after larger batches of data have been ingested. The last value of optimum $z$ will also frequently be close to the next optimum in the sequence, so using the former as the initial input into the optimisation routine for the latter is typically very valuable for aiding efficiency.
 
-Reusing the \texttt{PartitionCoordinator} code of the stochadex to facilitate online learning makes neat use of software which has already been designed and tested in earlier chapters of this book. However, in order to fully achieve this, an additional configuration type is necessary; as we show in Fig.~\ref{fig:learnadex-data-types-design}. To start with, we separate out 'learning' from the kind of optimiser in the overall config so as to enable multiple optimisation algorithms to be used for the same learning problem. The hyperparameters that define that optimisation problem domain can be determined by the user with an extension to the \texttt{OtherParams} object in the stochadex so that it includes some optional Boolean masks over the parameters, i.e., \texttt{OtherParams.FloatParamMask} and \texttt{OtherParams.IntParamMask}. These masks are used to extract the parameters of interest, which can then be flattened and formatted to fit into any generic optimisation algorithm.
+Reusing the $\texttt{PartitionCoordinator}$ code of the stochadex to facilitate online learning makes neat use of software which has already been designed in the previous article. However, in order to fully achieve this, an additional configuration type is necessary; as we show in Fig.~\ref{fig:learnadex-data-types-design}. To start with, we separate out 'learning' from the kind of optimiser in the overall config so as to enable multiple optimisation algorithms to be used for the same learning problem. The hyperparameters that define that optimisation problem domain can be determined by the user with an extension to the \texttt{OtherParams} object in the stochadex so that it includes some optional Boolean masks over the parameters, i.e., \texttt{OtherParams.FloatParamMask} and \texttt{OtherParams.IntParamMask}. These masks are used to extract the parameters of interest, which can then be flattened and formatted to fit into any generic optimisation algorithm.
 
 \begin{figure}[h]
 \centering
