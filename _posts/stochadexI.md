@@ -26,7 +26,7 @@ Throughout this series of articles, the notation $A_{{{\sf b}:{\sf c}}}$ will al
 
 ![](../assets/stochadexI/stochadexI-fundamental-loop.drawio.png)
 
-The basic computational idea here is illustrated above; we iterate the matrix $X$ forward in time by a row, and use its previous version $X_{0:{\sf t}}$ as an entire matrix input into a function which populates the elements of its latest rows. In pseudocode you could easily write something with the same idea in it, and it would probably look something like the method diagram below.
+The basic computational idea here is illustrated above; we iterate the matrix $X$ forward in time by a row, and use its previous version $X_{0:{\sf t}}$ as an entire matrix input into a function which populates the elements of its latest rows. One can easily draw a rough schematic with the same idea in it, and it would probably look something like the diagram below.
 
 ![](../assets/stochadexI/stochadexI-fundamental-loop-code.drawio.png)
 
@@ -70,7 +70,7 @@ P_{{\sf t}+1}(x^i) &= {\sf NormalPDF}[x^i;0,\delta t({\sf t}+1)] \,.
 \end{align}
 $$
 
-Note that for state spaces with dimensions $>1$, we could also allow for non-trivial cross-correlations between the noises in each dimension. In pseudocode, the Wiener process is schematically represented below.
+Note that for state spaces with dimensions $>1$, we could also allow for non-trivial cross-correlations between the noises in each dimension. The Wiener process can be represented by the rough schematic below.
 
 ![](../assets/stochadexI/stochadexI-wiener-process.drawio.png)
 
@@ -82,7 +82,7 @@ $$
 \end{align}
 $$
 
-Here we have implicitly adopted the Itô interpretation to describe this stochastic integration. Given a carefully-defined integration scheme other interpretations of the noise would also be possible with our formalism too, e.g., Stratonovich [which would implictly give $S^{i}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) = (X^i_{{\sf t}+1}+X^i_{\sf t})(W^i_{{\sf t}+1}-W^i_{\sf t}) / 2$ for the equation above] or others within the more general '$\alpha$-family' --- see [@van1992stochastic], [@risken1996fokker] or [@rog-will-2000]. The pseudocode for any of these should hoepfully be fairly straightforward to deduce based on the lines we've already written above.
+Here we have implicitly adopted the Itô interpretation to describe this stochastic integration. Given a carefully-defined integration scheme other interpretations of the noise would also be possible with our formalism too, e.g., Stratonovich [which would implictly give $S^{i}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) = (X^i_{{\sf t}+1}+X^i_{\sf t})(W^i_{{\sf t}+1}-W^i_{\sf t}) / 2$ for the equation above] or others within the more general '$\alpha$-family' --- see [@van1992stochastic], [@risken1996fokker] or [@rog-will-2000]. The schematic for any of these should hoepfully be fairly straightforward to deduce based on the lines we've already written above.
 
 We can imagine even more general processes that are still Markovian. One example of these in a single-dimension state space would be to define the noise through some general function of the Wiener process like so
 
@@ -93,7 +93,7 @@ S^0_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) &= g[W^0_{{\sf t}+1},t({\sf t}+1)]-g[W^
 \end{align}
 $$
 
-where $g(x,t)$ is some continuous function of its arguments which has been expanded out with Itô's Lemma on the second line. Note also that the computations in the relation above could be performed with numerical derivatives in principle, even if the function were extremely complicated. This is unlikely to be the best way to describe the process of interest, however, the mathematical expressions above can still be made a bit more meaningful to the programmer in this way. The pseudocode in general would look something like the diagram below.
+where $g(x,t)$ is some continuous function of its arguments which has been expanded out with Itô's Lemma on the second line. Note also that the computations in the relation above could be performed with numerical derivatives in principle, even if the function were extremely complicated. This is unlikely to be the best way to describe the process of interest, however, the mathematical expressions above can still be made a bit more meaningful to the programmer in this way. We have drawn another rough schematic for the corresponding code below.
 
 ![](../assets/stochadexI/stochadexI-ito-lemma.drawio.png)
 
@@ -105,7 +105,7 @@ S^{0}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) &= \frac{(W^0_{{\sf t}+1} - W^0_{\sf 
 \end{align}
 $$
 
-where $S^{0}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t})=[B_{H}]_{{\sf t}+1}-[B_{H}]_{{\sf t}}$. The integral in the equation above can be approximated using an appropriate numerical procedure (like the trapezium rule, for instance). In the expression above, we have used the symbols ${}_2F_1$ and $\Gamma$ to denote the ordinary hypergeometric and gamma functions, respectively. A computational form of this integral is illustrated below to try and disentangle some of the mathematics as a program.
+where $S^{0}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t})=[B_{H}]_{{\sf t}+1}-[B_{H}]_{{\sf t}}$. The integral in the equation above can be approximated using an appropriate numerical procedure (like the trapezium rule, for instance). In the expression above, we have used the symbols ${}_2F_1$ and $\Gamma$ to denote the ordinary hypergeometric and gamma functions, respectively. A rough algorithm schematic which represents the same computation as this integral is illustrated below to try and simplify some of the mathematics as a program.
 
 ![](../assets/stochadexI/stochadexI-fractional-brownian-motion.drawio.png)
 
@@ -135,7 +135,7 @@ p({\sf event}) &= \frac{\lambda ({\sf t})}{\lambda ({\sf t}) + \frac{1}{\tau}} \
 \end{align}
 $$
 
-This idea can be applied to phenomena with an arbitrary number of events and works well as a generalised approach to event-based simulation, though its main limitation is worth remembering; in order to make the approximation good, $\tau$ often must be quite small and hence our simulator must churn through a lot of steps. From now on we'll refer to this well-known technique as the _rejection method_. The code schematic below may also help to understand this concept from the programmer's perspective.
+This idea can be applied to phenomena with an arbitrary number of events and works well as a generalised approach to event-based simulation, though its main limitation is worth remembering; in order to make the approximation good, $\tau$ often must be quite small and hence our simulator must churn through a lot of steps. From now on we'll refer to this well-known technique as the _rejection method_. The rough code schematic below may also help to understand this concept from the programmer's perspective.
 
 ![](../assets/stochadexI/stochadexI-inhomogeneous-poisson.drawio.png)
 
@@ -148,7 +148,7 @@ S^{1}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) &= [N_{S^{0}_{{\sf t}+1}}]^i_{{\sf t}
 \end{align}
 $$
 
-This process could be simulated using the pseudocode we wrote for the time-inhomogeneous Poisson process previously --- where we would just replace $\texttt{EventRateLambdaFunction}$ with a method that generates the stochastic rate $\Lambda ({\sf t})$.
+This process could be simulated using the schematic we drew for the time-inhomogeneous Poisson process previously --- where we would just replace $\texttt{EventRateLambdaFunction}$ with a method that generates the stochastic rate $\Lambda ({\sf t})$.
 
 Another extension is _compound Poisson process noise_, where it's the count values $[N_{\lambda}]^i_{\sf t}$ which are replaced by independent samples $[J_{\lambda}]^i_{\sf t}$ from another probability distribution, i.e.,
 
@@ -158,7 +158,7 @@ S^{i}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) &= [J_{\lambda}]^i_{{\sf t}+1}-[J_{\l
 \end{align}
 $$
 
-Note that the rejection method described earlier can be employed effectively to simulate any of these extensions as long as a sufficiently small $\tau$ is chosen to make a good approximation. Once again, the pseudocode we wrote previously would be sufficient to simulate this process with one tweak: add into the $\texttt{DrawNewEventIncrement}$ method the calling of a function which generates the $[J_{\lambda}]^i_{\sf t}$ samples and output these if the event occurs.
+Note that the rejection method described earlier can be employed effectively to simulate any of these extensions as long as a sufficiently small $\tau$ is chosen to make a good approximation. Once again, the schematic we drew previously would be sufficient to simulate this process with one tweak: add into the $\texttt{DrawNewEventIncrement}$ method the calling of a function which generates the $[J_{\lambda}]^i_{\sf t}$ samples and output these if the event occurs.
 
 All of the examples we have discussed so far are Markovian. Given that we have explicitly constructed the formalism to handle non-Markovian phenomena as well, it would be worthwhile going some examples of this kind of process too. _Self-exciting process noises_ would generally take the form
 
@@ -177,7 +177,7 @@ $$
 \end{align}
 $$
 
-where $\phi$ is the 'exciting kernel' and $\mu$ is some constant background rate. In order to simulate a Hawkes process using our formalism, the pseudocode would be something like the diagram below.
+where $\phi$ is the 'exciting kernel' and $\mu$ is some constant background rate. In order to simulate a Hawkes process using our formalism, we can draw the following rough code schematic.
 
 ![](../assets/stochadexI/stochadexI-hawkes-process.drawio.png)
 
@@ -204,11 +204,11 @@ Once the user has written the code to create these functions for the stochadex, 
 
 The state history matrix $X$ should be configurable in terms of its number of rows --- what we'll call the 'state width' --- and its number of columns --- what we'll call the 'state history depth'. If we were to keep increasing the state width up to millions of elements or more, it's likely that on most machines the algorithm performance would grind to a halt when trying to iterate over the resulting $X$ within a single thread. Hence, before the algorithm or its performance in any more detail, we can pre-empt the requirement that $X$ should represented in computer memory by a set of partitioned matrices which are all capable of communicating to one-another downstream in a via some configured messaging graph. In this paradigm, we'd like the user to be able to configure which state partitions are able to communicate with each other, i.e., freely reconfigure the graph topology, without having to write any new code.
 
-To achieve this in a configurable way while maintaining threads for each state partition iteration, the stochadex can wrap any user-defined state partition iteration in functionality which passes the output state updates from computationally-upstream partitions into a set of params which are passed into any other computationally-downstream partition via thread communication channels (easily achievable in Go). This enables the user to define much simpler (and hence more resuable) iteration functions to use in configuring future projects, while letting the simulation engine handle the communication between these functions in a fully-configurable messaging graph. Note all partitions will _always_ have shared access to the full state history of all partitions, the corresponding timesteps and their own parameters, regardless of where they sit in this messaging graph. To avoid ambiguity in this description, let's consider a 'Partition A' to be computationally-upstream from a 'Partition B' in this messaging graph if both satisfy the connectivity implied in the diagram below.
+To achieve this in a configurable way while maintaining threads for each state partition iteration, the stochadex can wrap any user-defined state partition iteration in functionality which passes the output state updates from computationally-upstream partitions into a set of params which are passed into any other computationally-downstream partition via thread communication channels (easily achievable in Go). This enables the user to define much simpler (and hence more resuable) iteration functions to use in configuring future projects, while letting the simulation engine handle the communication between these functions in a fully-configurable messaging graph. Note all partitions will _always_ have shared access to the full state history of all partitions, the corresponding timesteps and their own parameters, regardless of where they sit in this messaging graph. To avoid ambiguity in this description, let's consider a 'Partition A' to be computationally-upstream from a 'Partition B' in this messaging graph if both satisfy the connectivity implied in the schematic below.
 
 ![](../assets/stochadexI/stochadexI-stochadex-parallel-serial.drawio.png)
 
-In the diagram above we are considering the specifics of how threads communicate with one another in the stochadex simulator. But we can elaborate further on how the simulation loop should function as a whole. Due to the fact that all of the separate state partition threads must synchronise at the end of each simulation loop iteration it makes sense that this is managed by a centralised 'coordinator' struct. In this coordinator, each partition is handled by concurrently running execution threads within the same process (while a separate process may be used to handle the outputs from the algorithm itself). As the diagram below shows, the main sequence of each loop iteration follows the pattern:
+In the diagram above we are considering the specifics of how threads communicate with one another in the stochadex simulator. But we can elaborate further on how the simulation loop should function as a whole. Due to the fact that all of the separate state partition threads must synchronise at the end of each simulation loop iteration it makes sense that this is managed by a centralised 'coordinator' struct. In this coordinator, each partition is handled by concurrently running execution threads within the same process (while a separate process may be used to handle the outputs from the algorithm itself). As the second schematic below roughly illustrates, the main sequence of each loop iteration follows the pattern:
 
 - The $\texttt{PartitionCoordinator}$ requests more iterations from each state partition by sending an $\texttt{IteratorInputMessage}$ to a concurrently running goroutine.
 - The $\texttt{StateIterator}$ in each goroutine executes the iteration and stores the resulting state update in a variable.
