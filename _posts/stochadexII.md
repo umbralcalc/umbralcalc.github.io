@@ -285,7 +285,7 @@ $$
 \end{align}
 $$
 
-where the summation continues until all of the past measurements $Y_{{\sf t}+1}, Y_{{\sf t}}, \dots$ which exist as rows in the data matrix $Y$ have been taken into account. The multi-threaded code to compute this objective function within the stochadex computational graph iteration structure follows the rough schematic below (see [@stochadexI-2024] for more on how this is structure designed to work in simulation package).
+where the summation continues until all of the past measurements $Y_{{\sf t}+1}, Y_{{\sf t}}, \dots$ which exist as rows in the data matrix $Y$ have been taken into account. The multi-threaded code to compute this objective function within the stochadex computational graph iteration structure follows the rough schematic below (see [@stochadexI-2024] for more on how this diagram structure designed to work in simulation package).
 
 ![](../assets/stochadexII/stochadexII-prob-reweighting-code.drawio.png)
 
@@ -315,7 +315,7 @@ $$
 \end{align}
 $$
 
-As we did for the reweighting algorithm, we have illustrated another rough schematic below for the basic code needed to compute the objective function of a learning algorithm based on the equation above. Note that, in this expression, we have assumed that the data has already been shifted such that its values are positioned around the distribution peak. Knowing where this peak will be a priori is not possible. However, for Gaussian data, an unbiased estimator for this peak will be the sample mean and so we have included an initial data standardisation in the steps outlined by the schematic.
+As we did for the reweighting algorithm, we have illustrated another rough schematic below for the multi-threaded code needed to compute the objective function of a learning algorithm in the stochadex, based on the equation above. Note that, in this diagram, we have assumed that the data has already been shifted such that its values are positioned around the distribution peak. Knowing where this peak will be a priori is not possible. However, for Gaussian data, an unbiased estimator for this peak will be the sample mean and so we have included an initial data standardisation in the steps outlined by the schematic.
 
 ![](../assets/stochadexII/stochadexII-gaussian-process-code.drawio.png)
 
