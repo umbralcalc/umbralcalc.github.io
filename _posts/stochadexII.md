@@ -329,9 +329,9 @@ To get online learning working for a simulation in the general case, we need to 
 
 ## Online learning a generalised simulation
 
-So far we have motivated the use of some specific probabilistic learning methods, and these will be useful to develop comparison methods between any simulation and a data stream in due course. However, we haven't yet discussed how we might implement a learning algorithm for simulations. Since simulations are a kind of causal model which we would like to infer from the data, we should begin by reviewing the basics of Bayesian inference in the present context.
+So far we have motivated the use of some specific probabilistic learning methods, and these will be useful to develop comparison methods between any simulation and a data stream in due course. However, we haven't yet discussed how we might implement a learning algorithm for simulations. There are many examples demonstrating how to do this in the literature [@cranmer2020frontier], however, in this section we are going to derive one which works in the online learning context.
 
-Following Bayes' rule, one can relate the prior probability distribution over a parameter set ${\cal P}(z)$ and the likelihood ${\cal L}_{{\sf t}+1}(Y\vert z)$  of some data matrix $Y$ up to timestep ${\sf t}+1$ given the parameters $z$ of a model to the posterior probability distribution of parameters given the data ${\cal P}_{{\sf t}+1}(z \vert Y)$ up to some proportionality constant, i.e.,
+Since simulations are a kind of causal model which we would like to infer from the data, we will begin by reviewing the basics of Bayesian inference in the present context. Following Bayes' rule, one can relate the prior probability distribution over a parameter set ${\cal P}(z)$ and the likelihood ${\cal L}_{{\sf t}+1}(Y\vert z)$  of some data matrix $Y$ up to timestep ${\sf t}+1$ given the parameters $z$ of a model to the posterior probability distribution of parameters given the data ${\cal P}_{{\sf t}+1}(z \vert Y)$ up to some proportionality constant, i.e.,
 
 $$
 \begin{align}
@@ -431,7 +431,7 @@ To understand how all of this translates to online learning it will be important
 
 $$
 \begin{align}
-P_{{\sf t}+1}(x,z\vert {\sf Y}) = \beta P_{{\sf t}}(x',z\vert {\sf Y}') \,\, \Leftrightarrow \,\, P_{{\sf t}+1}(x,z\vert {\sf Y}) = \frac{1}{{\sf t}+1}\sum_{{\sf t}'=0}^{{\sf t}+1} \beta^{{\sf t}+1-{\sf t}'} P_{{\sf t}'}(x',z\vert {\sf Y}') \,.
+P_{{\sf t}+1}(x,z\vert {\sf Y}) = \beta P_{{\sf t}}(x,z\vert {\sf Y}') \,\, \Leftrightarrow \,\, P_{{\sf t}+1}(x,z\vert {\sf Y}) = \frac{1}{{\sf t}+1}\sum_{{\sf t}'=0}^{{\sf t}+1} \beta^{{\sf t}+1-{\sf t}'} P_{{\sf t}'}(x,z\vert {\sf Y}') \,.
 \end{align}
 $$
 
@@ -447,36 +447,15 @@ $$
 
 The update equation for the latest state row $X_{{\sf t}+1}=x$ tells us how to probabilistically translate the current state of knowledge about $(x,z)$ forward through time in response to the arrival of new data. We also know how to connect the simulated measurements to the real data because the BSL techniques we discussed earlier essentially give us an objective function to maximise for each step in time. Imposing the discounted distribution ansatz then gives us the last piece of the puzzle in order to connect the inference of the simulation posterior to some form of online learning framework.
 
-\textcolor{red}{Cite this nice paper which outlines all the recent kinds of simulation inference:~\cite{cranmer2020frontier}.}
+## Algorithm design and implementation
 
-\textcolor{red}{Keep the heuristic Bayes posterior estimator method as it is an example of recursive Bayes estimation - it can also be used to filter the ensemble at every step to make a particle filter~\cite{arulampalam2002tutorial}. Amortize this online learning process by training a neural net to produce the best estimates for the filter from the input real data!}
+The inference algorithm which we will now introduce to connect all of these components together is a form of recursive Bayes estimation [@arulampalam2002tutorial] with a stochastic form of Expectation-Maximisation --- see [@hartley1958maximum], [@dempster1977maximum] and also [@murphy2012machine]. The main idea is to approximate the density of $P_{{\sf t}+1}(x,z\vert {\sf Y})$, use this approximation and the correlation ansatz above to sample new values for $z$ as time progresses forward and update the $P_{{\sf t}+1}(x,z\vert {\sf Y})$ approximation as new data is received using one of our data comparison objectives from the previous section.
 
-\textcolor{red}{
-Before writing this up, should read this paper on efficient amortized inference using neural networks with \texttt{BayesFlow} here in particular:~\cite{radev2020bayesflow}. But also, should cite other works to make amortized inference more efficient by using neural networks to learn convenient functions of the Bayes factor in Evidence networks~\cite{jeffrey2023evidence}.
-\begin{itemize}
-\item{amortized online inference of the posterior update over just $z$ can be 
-achieved by running lots of simulations and solving the inverse problem with the ${\sf y}$ outputs
-i.e., neural network modelling of the update in Eq.~(\ref{eq:z-update})} 
-\end{itemize}
-}
+There are a number of choices we could make for approximating the density of $P_{{\sf t}+1}(x,z\vert Y)$. The simplest would be to simply estimate this distribution through its mean and covariance statistics; and this is what we will do in this article. Note, however, that applying Gaussian processes or neural networks (e.g., via some amortized inference mechanism [@radev2020bayesflow]) in this situation could yield much more accurate approximations, especially if the distribution is multi-modal.
 
+GOT TO HERE: Need more exposition and computational diagram
 
-\textcolor{red}{The algorithm is specifically: 
-1. if this is a refit step, sample new values for $(X,z)$ for all members of the ensemble from the current $(X,z)$ distribution points and run the iterations for all of these ensemble members from the back of the window all the way up to the current point in time (hence the full matrix $X$ is sampled)
-2. take all of the ensemble members a step forward in time
-3. approximate the mode by computing the average values of $z$ within the $q$-th percentile of the sampled probability mass (where $q$ is set by the user and is ideally < 68\%) --- this idea comes from nested sampling
-4. stream in the data for the next point in time and go to 1.}
-
-
-As such an algorithm converges, we can recompute (and hence iteratively improve) the MAP estimate with respect to each iteration of the posterior.
-
-Readers with some machine learning experience may be familiar with the classic exploration vs exploitation tradeoffs. It's clear that these tradeoffs will manifest in our case here when trying to strike a balance between iterating the posterior distribution and optimizing the current posterior with respect to $(X,z)$ to compute the MAP. 
-
-Readers of the previous section may also have recognized that Eq.~(\ref{eq:x-z-update}) contains the same conditional probability $P_{({\sf t}+1){\sf t}}(x\vert X',z)$ as the reweighting algorithm. This structure enables us to reuse all of the exposition we provided for the probabilistic reweighting and highlights how the reweighting itself can be used in the algorithm to optimise the posterior.   
-
-If we now synthesize both of these observations together, we can see how a stochastic variant of the well-known Expectation-Maximisation Algorithm~\cite{hartley1958maximum, dempster1977maximum, murphy2012machine} naturally emerges.
-
-## Software design and implementation
+Readers with some machine learning experience may be familiar with the classic exploration vs exploitation tradeoffs. It's clear that these tradeoffs will manifest in our case here when trying to strike a balance between iterating the posterior distribution and optimizing the current posterior with respect to $(X,z)$ to compute the MAP.
 
 Let's now take a step back from the specifics of the probabilistic reweighting algorithm to introduce our new software package for this part of the book: the 'learnadex'. At its core, the learnadex algorithm adapts the stochadex iteration engine to iterate through streams of data in order to accumulate a global objective function value with respect to that data. The user may then choose which optimisation algorithm (or write their own) to use in order to leverage this objective for learning a better representation of the data. 
 
