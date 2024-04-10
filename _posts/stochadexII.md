@@ -427,17 +427,15 @@ P_{{\sf t}+1}(x,z\vert {\sf Y}) &= \int_{\Omega_{{\sf t}}} {\rm d}X'P_{{\sf t}+1
 \end{align}
 $$
 
-To understand how all of this translates to online learning it will be important to consider what happens if the model changes over time and $z$ needs to change in order to better represent the real data. In such situations, one possibility is to impose a correlation ansatz between the distribution in the present moment and the distributions evaluated in the past, like this
+To understand how all of this translates to online learning it will be important to consider what happens if the model changes over time and $z$ needs to change in order to better represent the real data. Note that the relation above only considers $z$ to be _constant_ throughout the state history of $X_{0:{\sf t}}=X'$, and so ideally we we'd want some way of updating $z$ within the same computational step without invalidating this relationship. In such situations, one possibility is to impose a correlation ansatz between the marginal distribution over $z$ in the present moment and the distributions evaluated in the past, like this
 
 $$
 \begin{align}
-P_{{\sf t}+1}(x,z\vert {\sf Y}) = \beta P_{{\sf t}}(x,z\vert {\sf Y}') \,\, \Leftrightarrow \,\, P_{{\sf t}+1}(x,z\vert {\sf Y}) = \frac{1}{{\sf t}+1}\sum_{{\sf t}'=0}^{{\sf t}+1} \beta^{{\sf t}+1-{\sf t}'} P_{{\sf t}'}(x,z\vert {\sf Y}') \,.
+P_{{\sf t}+1}(z\vert {\sf Y}) = \beta P_{{\sf t}}(z\vert {\sf Y}') \,\, \Leftrightarrow \,\, P_{{\sf t}+1}(z\vert {\sf Y}) = \frac{1}{{\sf t}+1}\sum_{{\sf t}'=0}^{{\sf t}+1} \beta^{{\sf t}+1-{\sf t}'} P_{{\sf t}'}(z\vert {\sf Y}') \,.
 \end{align}
 $$
 
-One might also call this a 'past discounted' version of the distribution where $0 < \beta < 1$. This 'discount factor' $\beta$ reduces the dependence of the update on data which is much further in the past, providing some control over the responsiveness in the simulation inference algorithm. This responsiveness would have to be balanced with the tradeoffs associated with discounting potentially valuable data that may offer greater long-term stability. Readers who are familiar with Reinforcement Learning may be starting to feel in familiar territory here --- but they will have to wait for the next article to see more on discounting!
-
-Before we move on, note that in the continuous-time version, this past-discounting factor could depend on the stepsize such that we replace
+One might also call this a 'past discounted' version of the distribution where $0 < \beta < 1$. Note that in the continuous-time version, this 'past-discounting' factor could depend on the stepsize such that we replace
 
 $$
 \begin{align}
@@ -445,15 +443,25 @@ $$
 \end{align}
 $$
 
+But what motivates correlating past values to future values of the distribution in this way? We already know there is a similar relationship between these distributions which is imposed by the marginal $z$ update, and this must take the form of $P_{{\sf t}+1}(z\vert {\sf Y})\propto P_{{\sf t}+1}({\sf y}\vert z)P_{{\sf t}}(z\vert {\sf Y}')$ (see the relationship we wrote a few paragraphs up). Furthermore, if $\beta$ is chosen to be sufficiently close to $1$, we can ensure that $z$ is effectively constant throughout the history of $X'$ to satisfy the update relation and simultaneously we have the capability of changing $z$ through sampling gradually over time to learn new values dynamically.
+
+The 'discount factor' $\beta$ also reduces the dependence of the update on data which is much further in the past, providing some control over the responsiveness in the simulation inference algorithm. This responsiveness would have to be balanced with the tradeoffs associated with discounting potentially valuable data that may offer greater long-term stability. Readers who are familiar with Reinforcement Learning may be starting to feel in familiar territory here --- but they will have to wait for the next article to see more on discounting!
+
+However, it's important to point out that simulations with a very long memory will only be able to update their values of $z$ in response to new data very slowly to avoid invalidating the inference. In such cases, and in general, it is wise to run multiple copies of the same simulation using different sampled values for $z$ at once in an ensemble of learning trajectories to achieve a more efficient update for $z$. In this regard, we can consider the past-discounting factor we have used here to be a strategy for making a single-trajectory learner as efficient at learning the marginal distribution for $z$ as possible.
+
 The update equation for the latest state row $X_{{\sf t}+1}=x$ tells us how to probabilistically translate the current state of knowledge about $(x,z)$ forward through time in response to the arrival of new data. We also know how to connect the simulated measurements to the real data because the BSL techniques we discussed earlier essentially give us an objective function to maximise for each step in time. Imposing the discounted distribution ansatz then gives us the last piece of the puzzle in order to connect the inference of the simulation posterior to some form of online learning framework.
 
 ## Algorithm design and implementation
 
-The inference algorithm which we will now introduce to connect all of these components together is a form of recursive Bayes estimation [@arulampalam2002tutorial] with a stochastic form of Expectation-Maximisation --- see [@hartley1958maximum], [@dempster1977maximum] and also [@murphy2012machine]. The main idea is to approximate the density of $P_{{\sf t}+1}(x,z\vert {\sf Y})$, use this approximation and the correlation ansatz above to sample new values for $z$ as time progresses forward and update the $P_{{\sf t}+1}(x,z\vert {\sf Y})$ approximation as new data is received using one of our data comparison objectives from the previous section.
+The inference algorithm which we will now introduce is a variant of recursive Bayes estimation [@arulampalam2002tutorial] that also uses a Monte Carlo form of Expectation-Maximisation to sample new simulation parameters --- see [@hartley1958maximum], [@dempster1977maximum] and also [@murphy2012machine]. The main idea is use some approximation for the density of $P_{{\sf t}+1}(x,z\vert {\sf Y})$, use this approximation and the correlation ansatz above to sample new values for $z$ as time progresses forward (i.e., the 'Maximisation' step with some Monte Carlo exploration) and update the $P_{{\sf t}+1}(x,z\vert {\sf Y})$ approximation as new data is received using one of our data comparison objectives from the previous section (i.e., the 'Expectation' step).
 
-There are a number of choices we could make for approximating the density of $P_{{\sf t}+1}(x,z\vert Y)$. The simplest would be to simply estimate this distribution through its mean and covariance statistics; and this is what we will do in this article. Note, however, that applying Gaussian processes or neural networks (e.g., via some amortized inference mechanism [@radev2020bayesflow]) in this situation could yield much more accurate approximations, especially if the distribution is multi-modal.
+There are a number of choices we could make for approximating the density of $P_{{\sf t}+1}(x,z\vert {\sf Y})$ such that we are able to both update its shape with the arrival of new data as well as sample new values from it --- in both cases being able to incorporate the correlation ansatz into the model. The simplest would be to estimate this distribution through just its mean and covariance statistics, updating them through standard objective-weighted estimation and sampling new values with a Gaussian shape approximation; and this is what we will focus on for an initial implementation. Note, however, that applying Gaussian processes or neural networks (e.g., via some amortized inference mechanism [@radev2020bayesflow]) in this situation could yield much more accurate approximations, especially if the distribution is multi-modal.
 
-GOT TO HERE: Need more exposition and computational diagram
+Conceptually, the simulation inference algorithm is designed to separate out components of work into small computational units that fit nicely within the stochadex engine formalism. The rough general schematic for this code is given below.
+
+![](../assets/stochadexII/stochadexII-simulation-inference-code.drawio.png)
+
+GOT TO HERE: Needs more diagram description
 
 Readers with some machine learning experience may be familiar with the classic exploration vs exploitation tradeoffs. It's clear that these tradeoffs will manifest in our case here when trying to strike a balance between iterating the posterior distribution and optimizing the current posterior with respect to $(X,z)$ to compute the MAP.
 
