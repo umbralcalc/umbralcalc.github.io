@@ -319,7 +319,7 @@ As we did for the reweighting algorithm, we have illustrated another rough schem
 
 ![](../assets/stochadexII/stochadexII-gaussian-process-code.drawio.png)
 
-The optimisation approach that we choose to use for obtaining the best hyperparameters in the conditional probability of the reweighting approach will depend on a few factors. For example, if the number of hyperparameters is relatively low, but their gradients are difficult to calculate exactly; then a gradient-free optimiser (such as the Nelder-Mead [@nelder1965simplex] method or something like a particle swarm; see [@kennedy1995particle] or [@shi1998modified]) would likely be the most effective choice. On the other hand, when the number of hyperparameters ends up being relatively large, it's usually quite desriable to utilise the gradients in algorithms like vanilla Stochastic Gradient Descent [@robbins1951stochastic] (SGD) or Adam [@kingma2014adam].
+The optimisation approach that we choose to use for obtaining the best hyperparameters in the conditional probability of the reweighting approach will depend on a few factors. For example, if the number of hyperparameters is relatively low, but their gradients are difficult to calculate exactly; then a gradient-free optimiser (such as the Nelder-Mead [@nelder1965simplex] method or something like a particle swarm; see [@kennedy1995particle] or [@shi1998modified]) would likely be the most effective choice. On the other hand, when the number of hyperparameters ends up being relatively large, it's usually quite desirable to utilise the gradients in algorithms like vanilla Stochastic Gradient Descent [@robbins1951stochastic] (SGD) or Adam [@kingma2014adam].
 
 Before moving on to simulation inference, it's important to consider how we want to structure learning by optimisation of an objective with respect to a stream of time series data. One of the issues that can arise when learning streams of data is 'concept drift'. In our context, this would be when the optimal value for $z$ does not match the optimal value at some later point in time. In order to mitigate this, our learning algorithms should be able to track an up-to-date optimal value for $z$ as data is continually passed into them. Iteratively updating the optimal parameters as new data is ingested into the objective function is typically called 'online learning' --- see, e.g., [@hazan2016introduction], [@sutton2018reinforcement], [@river] and [@vowpalwabbit] --- in contrast to 'offline learning' which would correspond to learning an optimal $z$ only once with the entire dataset provided upfront.
 
@@ -461,7 +461,9 @@ Conceptually, the simulation inference algorithm is designed to separate out com
 
 ![](../assets/stochadexII/stochadexII-simulation-inference-code.drawio.png)
 
-GOT TO HERE: Needs more diagram description
+The schematic above should be general enough to apply (with only minor tweaks at most) regardless of our choice of data generating process, data comparison objective or model for the posterior distribution. All of the computational blocks in this diagram can be expanded out into more complex sub-blocks with the same I/O signature, e.g., the $\texttt{.SimulationIteration}$ block could represent a much larger collection of inter-dependent threads in the simulation engine.
+
+GOT TO HERE...
 
 Readers with some machine learning experience may be familiar with the classic exploration vs exploitation tradeoffs. It's clear that these tradeoffs will manifest in our case here when trying to strike a balance between iterating the posterior distribution and optimizing the current posterior with respect to $(X,z)$ to compute the MAP.
 
