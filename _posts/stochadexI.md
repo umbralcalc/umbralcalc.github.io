@@ -26,11 +26,11 @@ Throughout this series of articles, the notation $A_{{{\sf b}:{\sf c}}}$ will al
 
 ![](../assets/stochadexI/stochadexI-fundamental-loop.drawio.png)
 
-The basic computational idea here is illustrated above; we iterate the matrix $X$ forward in time by a row, and use its previous version $X_{0:{\sf t}}$ as an entire matrix input into a function which populates the elements of its latest rows. One can easily draw a rough schematic with the same idea in it, and it would probably look something like the diagram below.
+The basic computational idea here is illustrated above; we iterate the matrix forward in time by a row, and use its previous version $X_{0:{\sf t}}$ as an entire matrix input into a function which populates the elements of its latest rows. One can easily draw a rough schematic with the same idea in it, and it would probably look something like the rough schematic below.
 
 ![](../assets/stochadexI/stochadexI-fundamental-loop-code.drawio.png)
 
-In this diagram above, we have defined: $\texttt{OtherParams}$ as corresponding to the $z$ parameters; $\texttt{[]StateHistory}$ as representing all of the states which were occupied in the past up to this point in time, i.e., $X_{0:{\sf t}}$ (in Go syntax we have potentially partitioned this already into smaller sub-matrices, but this isn't important yet); and $\texttt{CumulativeTimestepsHistory}$ as representing all of the data we might need about the historic timesteps that have been taken (again, this will become more relevant shortly).
+In this diagram above, we have defined: $\texttt{OtherParams}$ as corresponding to the $z$ parameters; $\texttt{[]StateHistory}$ as representing all of the truncated state history up to this point in time, i.e., $X_{{\sf t}-{\sf s}:{\sf t}}$ (in Go syntax we have also potentially partitioned this already into smaller sub-matrices, but this isn't important yet); and $\texttt{CumulativeTimestepsHistory}$ as representing all of the data we might need about the historic timesteps that have been taken (again, this will become more relevant shortly). In practice, $X_{{\sf t}-{\sf s}:{\sf t}}$ needs to be truncated up to some user-defined number of timesteps ${\sf s}$ (defining a windowed state history view into the past) due to finite limitations associated with computer memory and performance.
 
 Pretty simple! But why go to all this trouble of storing matrix inputs for previous values of the same process? It's true that this is mostly redundant for _Markovian_ phenomena, i.e., processes where their only memory of their history is the most recent value they took. However, for a large class of stochastic processes a full memory (or memory at least within some window) of past values is essential to consistently construct the sample paths moving forward. This is true in particular for _non-Markovian_ phenomena, where the latest values don't just depend on the immediately previous ones but can depend on values which occured much earlier in the process as well.
 
@@ -50,17 +50,17 @@ So, now that we've mathematically defined a really general notion of iterating t
 
 $$
 \begin{align}
-& F^{i}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) = D^{i}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) + S^{i}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) \,.
+& F^{i}_{{\sf t}+1}(X_{{\sf t}-{\sf s}:{\sf t}},z,{\sf t}) = D^{i}_{{\sf t}+1}(X_{{\sf t}-{\sf s}:{\sf t}},z,{\sf t}) + S^{i}_{{\sf t}+1}(X_{{\sf t}-{\sf s}:{\sf t}},z,{\sf t}) \,.
 \end{align}
 $$
 
-In the case of stochastic processes with continuous sample paths, it's also nearly always the case with mathematical models of real-world systems that the deterministic part will at least contain the term $D^{i}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) = X^i_{\sf t}$ because the overall system is described by some stochastic differential equation. This is not a really requirement in our general formalism, however.
+Where we are using the truncated state history $X_{{\sf t}-{\sf s}:{\sf t}}$ as it is more representative of the computation one will actually be performing on a machine. In the case of stochastic processes with continuous sample paths, it's also nearly always the case with mathematical models of real-world systems that the deterministic part will at least contain the term $D^{i}_{{\sf t}+1}(X_{{\sf t}-{\sf s}:{\sf t}},z,{\sf t}) = X^i_{\sf t}$ because the overall system is described by some stochastic differential equation. This is not a really requirement in our general formalism, however.
 
 What about the stochastic term? For example, if we wanted to consider a _Wiener process noise_, we can define $W^i_{{\sf t}}$ is a sample from a Wiener process for each of the state dimensions indexed by $i$ and our formalism becomes
 
 $$
 \begin{align}
-& S^{i}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) = W^i_{{\sf t}+1}-W^i_{\sf t} \label{eq:wiener}\,.
+& S^{i}_{{\sf t}+1}(X_{{\sf t}-{\sf s}:{\sf t}},z,{\sf t}) = W^i_{{\sf t}+1}-W^i_{\sf t} \label{eq:wiener}\,.
 \end{align}
 $$
 
@@ -80,17 +80,17 @@ In another example, to model _geometric Brownian motion noise_ we would simply h
 
 $$
 \begin{align}
-& S^{i}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) = X^i_{\sf t}(W^i_{{\sf t}+1}-W^i_{\sf t})\label{eq:gbm} \,.
+& S^{i}_{{\sf t}+1}(X_{{\sf t}-{\sf s}:{\sf t}},z,{\sf t}) = X^i_{\sf t}(W^i_{{\sf t}+1}-W^i_{\sf t})\label{eq:gbm} \,.
 \end{align}
 $$
 
-Here we have implicitly adopted the Itô interpretation to describe this stochastic integration. Given a carefully-defined integration scheme other interpretations of the noise would also be possible with our formalism too, e.g., Stratonovich [which would implictly give $S^{i}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) = (X^i_{{\sf t}+1}+X^i_{\sf t})(W^i_{{\sf t}+1}-W^i_{\sf t}) / 2$ for the equation above] or others within the more general '$\alpha$-family' --- see [@van1992stochastic], [@risken1996fokker] or [@rog-will-2000]. The schematic for any of these should hoepfully be fairly straightforward to deduce based on the lines we've already written above.
+Here we have implicitly adopted the Itô interpretation to describe this stochastic integration. Given a carefully-defined integration scheme other interpretations of the noise would also be possible with our formalism too, e.g., Stratonovich [which would implictly give $S^{i}_{{\sf t}+1}(X_{{\sf t}-{\sf s}:{\sf t}},z,{\sf t}) = (X^i_{{\sf t}+1}+X^i_{\sf t})(W^i_{{\sf t}+1}-W^i_{\sf t}) / 2$ for the equation above] or others within the more general '$\alpha$-family' --- see [@van1992stochastic], [@risken1996fokker] or [@rog-will-2000]. The schematic for any of these should hoepfully be fairly straightforward to deduce based on the lines we've already written above.
 
 We can imagine even more general processes that are still Markovian. One example of these in a single-dimension state space would be to define the noise through some general function of the Wiener process like so
 
 $$
 \begin{align}
-S^0_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) &= g[W^0_{{\sf t}+1},t({\sf t}+1)]-g[W^0_{\sf t}, t({\sf t})] \\
+S^0_{{\sf t}+1}(X_{{\sf t}-{\sf s}:{\sf t}},z,{\sf t}) &= g[W^0_{{\sf t}+1},t({\sf t}+1)]-g[W^0_{\sf t}, t({\sf t})] \\
 &= \bigg[ \frac{\partial g}{\partial t} + \frac{1}{2}\frac{\partial^2 g}{\partial x^2} \bigg] \delta t ({\sf t}+1) + \frac{\partial g}{\partial x} (W^0_{{\sf t}+1}-W^0_{\sf t}) \label{eq:general-wiener}\,,
 \end{align}
 $$
@@ -103,11 +103,11 @@ Let's now look at a more complicated type of noise. For example, we might consid
 
 $$
 \begin{align}
-S^{0}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) &= \frac{(W^0_{{\sf t}+1} - W^0_{\sf t})}{\delta t({\sf t})}\int^{t({\sf t}+1)}_{t({\sf t})}{\rm d}t' \frac{(t'-t)^{H-\frac{1}{2}}}{\Gamma (H+\frac{1}{2})} {}_2F_1 \bigg( H-\frac{1}{2};\frac{1}{2}-H;H+\frac{1}{2};1-\frac{t'}{t}\bigg) \label{eq:fbm} \,,
+S^{0}_{{\sf t}+1}(X_{{\sf t}-{\sf s}:{\sf t}},z,{\sf t}) &= \frac{(W^0_{{\sf t}+1} - W^0_{\sf t})}{\delta t({\sf t})}\int^{t({\sf t}+1)}_{t({\sf t})}{\rm d}t' \frac{(t'-t)^{H-\frac{1}{2}}}{\Gamma (H+\frac{1}{2})} {}_2F_1 \bigg( H-\frac{1}{2};\frac{1}{2}-H;H+\frac{1}{2};1-\frac{t'}{t}\bigg) \label{eq:fbm} \,,
 \end{align}
 $$
 
-where $S^{0}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t})=[B_{H}]_{{\sf t}+1}-[B_{H}]_{{\sf t}}$. The integral in the equation above can be approximated using an appropriate numerical procedure (like the trapezium rule, for instance). In the expression above, we have used the symbols ${}_2F_1$ and $\Gamma$ to denote the ordinary hypergeometric and gamma functions, respectively. A rough algorithm schematic which represents the same computation as this integral is illustrated below to try and simplify some of the mathematics as a program.
+where $S^{0}_{{\sf t}+1}(X_{{\sf t}-{\sf s}:{\sf t}},z,{\sf t})=[B_{H}]_{{\sf t}+1}-[B_{H}]_{{\sf t}}$. The integral in the equation above can be approximated using an appropriate numerical procedure (like the trapezium rule, for instance). In the expression above, we have used the symbols ${}_2F_1$ and $\Gamma$ to denote the ordinary hypergeometric and gamma functions, respectively. A rough algorithm schematic which represents the same computation as this integral is illustrated below to try and simplify some of the mathematics as a program.
 
 ![](../assets/stochadexI/stochadexI-fractional-brownian-motion.drawio.png)
 
@@ -115,7 +115,7 @@ So far we have mostly been discussing noises with continuous sample paths, but w
 
 $$
 \begin{align}
-S^{i}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) &= [N_{\lambda}]^i_{{\sf t}+1}-[N_{\lambda}]^i_{\sf t}\,,
+S^{i}_{{\sf t}+1}(X_{{\sf t}-{\sf s}:{\sf t}},z,{\sf t}) &= [N_{\lambda}]^i_{{\sf t}+1}-[N_{\lambda}]^i_{\sf t}\,,
 \end{align}
 $$
 
@@ -125,7 +125,7 @@ Is using step size variation always possible? If we consider a _time-inhomogeneo
 
 $$
 \begin{align}
-S^{i}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) &= [N_{\lambda ({\sf t}+1)}]^i_{{\sf t}+1}-[N_{\lambda ({\sf t})}]^i_{\sf t}\,,
+S^{i}_{{\sf t}+1}(X_{{\sf t}-{\sf s}:{\sf t}},z,{\sf t}) &= [N_{\lambda ({\sf t}+1)}]^i_{{\sf t}+1}-[N_{\lambda ({\sf t})}]^i_{\sf t}\,,
 \end{align}
 $$
 
@@ -145,8 +145,8 @@ There are a few extensions to the simple Poisson process that introduce addition
 
 $$
 \begin{align}
-S^{0}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) &= \Lambda ({\sf t}+1) \\
-S^{1}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) &= [N_{S^{0}_{{\sf t}+1}}]^i_{{\sf t}+1}-[N_{S^{0}_{{\sf t}}}]^i_{\sf t}\,.
+S^{0}_{{\sf t}+1}(X_{{\sf t}-{\sf s}:{\sf t}},z,{\sf t}) &= \Lambda ({\sf t}+1) \\
+S^{1}_{{\sf t}+1}(X_{{\sf t}-{\sf s}:{\sf t}},z,{\sf t}) &= [N_{S^{0}_{{\sf t}+1}}]^i_{{\sf t}+1}-[N_{S^{0}_{{\sf t}}}]^i_{\sf t}\,.
 \end{align}
 $$
 
@@ -156,7 +156,7 @@ Another extension is _compound Poisson process noise_, where it's the count valu
 
 $$
 \begin{align}
-S^{i}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) &= [J_{\lambda}]^i_{{\sf t}+1}-[J_{\lambda}]^i_{\sf t}\,.
+S^{i}_{{\sf t}+1}(X_{{\sf t}-{\sf s}:{\sf t}},z,{\sf t}) &= [J_{\lambda}]^i_{{\sf t}+1}-[J_{\lambda}]^i_{\sf t}\,.
 \end{align}
 $$
 
@@ -166,16 +166,16 @@ All of the examples we have discussed so far are Markovian. Given that we have e
 
 $$
 \begin{align}
-S^{0}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) &= {\cal I}_{{\sf t}+1} (X_{0:{\sf t}},z,{\sf t}) \\
-S^{1}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) &= [N_{S^{0}_{{\sf t}+1}}]^i_{{\sf t}+1}-[N_{S^{0}_{{\sf t}}}]^i_{\sf t} \,,
+S^{0}_{{\sf t}+1}(X_{{\sf t}-{\sf s}:{\sf t}},z,{\sf t}) &= {\cal I}_{{\sf t}+1} (X_{{\sf t}-{\sf s}:{\sf t}},z,{\sf t}) \\
+S^{1}_{{\sf t}+1}(X_{{\sf t}-{\sf s}:{\sf t}},z,{\sf t}) &= [N_{S^{0}_{{\sf t}+1}}]^i_{{\sf t}+1}-[N_{S^{0}_{{\sf t}}}]^i_{\sf t} \,,
 \end{align}
 $$
 
-where the stochastic rate ${\cal I}_{{\sf t}+1} (X_{0:{\sf t}},z,{\sf t})$ now depends on the history explicitly. Amongst other potential inputs we can see, e.g., Hawkes processes [@hawkes1971spectra] as an example of above by substituting
+where the stochastic rate ${\cal I}_{{\sf t}+1} (X_{{\sf t}-{\sf s}:{\sf t}},z,{\sf t})$ now depends on the history explicitly. Amongst other potential inputs we can see, e.g., Hawkes processes [@hawkes1971spectra] as an example of above by substituting
 
 $$
 \begin{align}
-{\cal I}_{{\sf t}+1} (X_{0:{\sf t}},z,{\sf t}) &= \mu + \sum^{{\sf t}}_{{\sf t}'=0}\phi [t({\sf t})-t({\sf t}')]S^{1}_{{\sf t}'} \,,
+{\cal I}_{{\sf t}+1} (X_{{\sf t}-{\sf s}:{\sf t}},z,{\sf t}) &= \mu + \sum^{{\sf t}}_{{\sf t}'={\sf t}-{\sf s}}\phi [t({\sf t})-t({\sf t}')]S^{1}_{{\sf t}'} \,,
 \end{align}
 $$
 
@@ -187,8 +187,8 @@ Note that this idea of integration kernels could also be applied back to our Wie
 
 $$
 \begin{align}
-S^{0}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) &= W^0_{{\sf t}+1}-W^0_{\sf t}\\
-S^{1}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) &= u\sum^{{\sf t}}_{{\sf t}'=0}e^{-u[t({\sf t})-t({\sf t}')]} S^{0}_{{\sf t}'}\,,
+S^{0}_{{\sf t}+1}(X_{{\sf t}-{\sf s}:{\sf t}},z,{\sf t}) &= W^0_{{\sf t}+1}-W^0_{\sf t}\\
+S^{1}_{{\sf t}+1}(X_{{\sf t}-{\sf s}:{\sf t}},z,{\sf t}) &= u\sum^{{\sf t}}_{{\sf t}'={\sf t}-{\sf s}}e^{-u[t({\sf t})-t({\sf t}')]} S^{0}_{{\sf t}'}\,,
 \end{align}
 $$
 
@@ -200,11 +200,11 @@ So we've proposed a computational formalism and then studied it in more detail t
 
 Now we're ready to summarise what we want the stochadex software package to be able to do. But what's so complicated about the first iteration equation we wrote? Can't we just implement an iterative algorithm with a single function? It's true that the fundamental concept is very straightforward, but as we'll discuss in due course; we want to be able to design something which abstracts away many of the common features that sampling algorithms have for performing these computations behind a highly-configurable interface. And, ideally, it should be designed to try and maintain a balance between performance and flexibility of utilisation.
 
-If we begin with the obvious first set of criteria; we want to be able to freely configure the vector-valued iteration function $F_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t})$ and the timestep function $t({\sf t})$ so that any process we want can be described. The point at which a simulation stops can also depend on some algorithm termination condition which the user should be able to specify up-front.
+If we begin with the obvious first set of criteria; we want to be able to freely configure the vector-valued iteration function $F_{{\sf t}+1}(X_{{\sf t}-{\sf s}:{\sf t}},z,{\sf t})$ and the timestep function $t({\sf t})$ so that any process we want can be described. The point at which a simulation stops can also depend on some algorithm termination condition which the user should be able to specify up-front.
 
 Once the user has written the code to create these functions for the stochadex, we want to then be able to recall them in future only with configuration files while maintaining the possibility of changing their simulation run parameters. This flexibility should facilitate our uses for the simulation later on, and from this perspective it also makes sense that the parameters should include the random seed and initial state value.
 
-The state history matrix $X$ should be configurable in terms of its number of rows --- what we'll call the 'state width' --- and its number of columns --- what we'll call the 'state history depth'. If we were to keep increasing the state width up to millions of elements or more, it's likely that on most machines the algorithm performance would grind to a halt when trying to iterate over the resulting $X$ within a single thread. Hence, before the algorithm or its performance in any more detail, we can pre-empt the requirement that $X$ should represented in computer memory by a set of partitioned matrices which are all capable of communicating to one-another downstream in a via some configured messaging graph. In this paradigm, we'd like the user to be able to configure which state partitions are able to communicate with each other, i.e., freely reconfigure the graph topology, without having to write any new code.
+The state history matrix should be configurable in terms of its number of rows --- what we'll call the 'state width' --- and its number of columns --- what we'll call the 'state history depth'. If we were to keep increasing the state width up to millions of elements or more, it's likely that on most machines the algorithm performance would grind to a halt when trying to iterate over the resulting matrix within a single thread. Hence, before the algorithm or its performance in any more detail, we can pre-empt the requirement that $X_{{\sf t}-{\sf s}:{\sf t}}$ should represented in computer memory by a set of partitioned matrices which are all capable of communicating to one-another downstream in a via some configured messaging graph. In this paradigm, we'd like the user to be able to configure which state partitions are able to communicate with each other, i.e., freely reconfigure the graph topology, without having to write any new code.
 
 To achieve this in a configurable way while maintaining threads for each state partition iteration, the stochadex can wrap any user-defined state partition iteration in functionality which passes the output state updates from computationally-upstream partitions into a set of params which are passed into any other computationally-downstream partition via thread communication channels (easily achievable in Go). This enables the user to define much simpler (and hence more resuable) iteration functions to use in configuring future projects, while letting the simulation engine handle the communication between these functions in a fully-configurable messaging graph. Note all partitions will _always_ have shared access to the full state history of all partitions, the corresponding timesteps and their own parameters, regardless of where they sit in this messaging graph. To avoid ambiguity in this description, let's consider a 'Partition Upstream' to be computationally-upstream from a 'Partition Downstream' in this messaging graph if both satisfy the connectivity implied in the schematic below.
 
@@ -224,7 +224,7 @@ In the diagrams above we are considering the specifics of how threads communicat
 
 This pattern ensures that synchronisation occurs between the separately running threads for each partition before the resulting state updates from each iteration are then applied globally to the state history, preventing anachronisms from occuring in the latter. It's also worth noting that while the diagram above illustrates only a single process; it's obviously true that we may run many of these whole diagrams at once to parallelise generating independent realisations of the simulation, if necessary.
 
-For convenience, it seems sensible to also make the outputs from stochadex runs configurable. A user should be able to change the form of output that they want through, e.g., some specified function of $X$ at the time of outputting data. The times that the stochadex should output this data can also be decided by some user-specified condition so that the frequency of output is fully configurable as well. This flexibility can be useful when the user only requires a limited number of state snapshots at particular times.
+For convenience, it seems sensible to also make the outputs from stochadex runs configurable. A user should be able to change the form of output that they want through, e.g., some specified function of the state history matrix at the time of outputting data. The times that the stochadex should output this data can also be decided by some user-specified condition so that the frequency of output is fully configurable as well. This flexibility can be useful when the user only requires a limited number of state snapshots at particular times.
 
 Now let's look at the data types which make sense for the criteria we want to satisfy above. We've put together a schematic of configuration data types and their relationships in the figure below. In this diagram there is some indication of the data type that we propose to store each piece information in (in Go syntax), and the diagram as a whole should serve as a useful guide to the basic structure of configuration files for the stochadex.
 

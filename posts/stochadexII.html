@@ -171,13 +171,13 @@ About
 </br>
 <h2 id="introduction-and-probabilistic-formalism">Introduction and probabilistic formalism</h2>
 <p>In this second article of the series we will be introducing a new online simulation inference framework, enabling us to realise the idea of a generalised ‘self-learning simulation’. Before tackling the design and implementation of the technique, it will be important to outline the technical foundations for it within our mathematical formalism. So, we’re going to begin by discussing the formal connections between some probabilistic learning methods and the simulation formalism we introduced in the previous article in this series <span class="citation" data-cites="stochadexI-2024">[1]</span> — which introduced the publicly-available stochadex package: <a href="https://github.com/umbralcalc/stochadex">https://github.com/umbralcalc/stochadex</a>. Let’s start by returning to the formalism that we introduced in that article. As we discussed in that article; this formalism is appropriate for sampling from nearly every stochastic phenomenon that one can think of. We are going to extend this description to consider what happens to the probability that the state history matrix takes a particular set of values over time.</p>
-<p>So, how do we begin? Previously, we defined the general stochastic process with the formula <span class="math inline">\(X^{i}_{{\sf t}+1} = F^{i}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t})\)</span>. This equation also has an implicit <em>master equation</em> associated to it that fully describes the time evolution of the <em>probability density function</em> <span class="math inline">\(P_{{\sf t}+1}(X\vert z)\)</span> of <span class="math inline">\(X_{0:{\sf t}+1}=X\)</span> given that the parameters of the process are <span class="math inline">\(z\)</span>. This can be written as</p>
+<p>So, how do we begin? Previously, we defined the general stochastic process with the formula <span class="math inline">\(X^{i}_{{\sf t}+1} = F^{i}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t})\)</span>. Further, we note that in <span class="citation" data-cites="stochadexI-2024">[1]</span>, it was more practical to truncate the state history depth up to some number of timesteps <span class="math inline">\({\sf s}\)</span> in the past such that this formula now becomes <span class="math inline">\(X^{i}_{{\sf t}+1} = F^{i}_{{\sf t}+1}(X_{{\sf t}-{\sf s}:{\sf t}},z,{\sf t})\)</span>. This equation also has an implicit <em>master equation</em> associated to it that fully describes the time evolution of the <em>probability density function</em> <span class="math inline">\(P_{{\sf t}+1}(X\vert z)\)</span> of <span class="math inline">\(X_{({\sf t}+1)-{\sf s}:({\sf t}+1)}=X\)</span> given that the parameters of the process are <span class="math inline">\(z\)</span>. This can be written as</p>
 <p><span class="math display">\[
 \begin{align}
 P_{{\sf t}+1}(X\vert z) &amp;= P_{{\sf t}}(X&#39;\vert z) P_{({\sf t}+1){\sf t}}(x\vert X&#39;,z) \label{eq:master-x-cont}\,,
 \end{align}
 \]</span></p>
-<p>where for the time being we are assuming the state space is continuous in each of the matrix elements and <span class="math inline">\(P_{({\sf t}+1){\sf t}}(x\vert X&#39;,z)\)</span> is the conditional probability that <span class="math inline">\(X_{{\sf t}+1}=x\)</span> given that <span class="math inline">\(X_{0:{\sf t}}=X&#39;\)</span> at time <span class="math inline">\({\sf t}\)</span> and the parameters of the process are <span class="math inline">\(z\)</span>. To try and understand what the equation above is saying, we find it’s helpful to think of an iterative relationship between probabilities; each of which is connected by their relative conditional probabilities. We’ve also illustrated this kind of thinking in the diagram below.</p>
+<p>where for the time being we are assuming the state space is continuous in each of the matrix elements and <span class="math inline">\(P_{({\sf t}+1){\sf t}}(x\vert X&#39;,z)\)</span> is the conditional probability that <span class="math inline">\(X_{{\sf t}+1}=x\)</span> given that <span class="math inline">\(X_{{\sf t}-{\sf s}:{\sf t}}=X&#39;\)</span> at timestep <span class="math inline">\({\sf t}\)</span> and the parameters of the process are <span class="math inline">\(z\)</span>. To try and understand what the equation above is saying, we find it’s helpful to think of an iterative relationship between probabilities; each of which is connected by their relative conditional probabilities. We’ve also illustrated this kind of thinking in the diagram below.</p>
 <p><img src="../assets/stochadexII/stochadexII-master-eq-graph.drawio.png" /></p>
 <p>Consider what happens when we extend the chain of conditional probabilities in the master equation back in time by one step. In doing so, we retrieve a joint probability of rows <span class="math inline">\(X_{{\sf t}+1}=x\)</span> and <span class="math inline">\(X_{{\sf t}}=x&#39;\)</span> on the right hand side of the expression</p>
 <p><span class="math display">\[
@@ -194,7 +194,7 @@ P_{{\sf t}+1}(X\vert z) &amp;= \frac{1}{2}\big[ P_{{\sf t}}(X&#39;\vert z) P_{({
 <p>Following this line of reasoning to its natural conclusion, the equation above can hence be generalised to consider all possible joint distributions of rows at different timesteps like this</p>
 <p><span class="math display">\[
 \begin{align}
-P_{{\sf t}+1}(X\vert z) &amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;&#39;=0}^{{\sf t}}P_{{\sf t}&#39;&#39;}(X&#39;&#39;\vert z) P_{({\sf t}+1){\sf t}\dots{\sf t}&#39;&#39;}(x,x&#39;,\dots \vert X&#39;&#39;,z) \label{eq:master-x-cont-sum-gen}\,.
+P_{{\sf t}+1}(X\vert z) &amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;&#39;={\sf t}-{\sf s}}^{{\sf t}}P_{{\sf t}&#39;&#39;}(X&#39;&#39;\vert z) P_{({\sf t}+1){\sf t}\dots{\sf t}&#39;&#39;}(x,x&#39;,\dots \vert X&#39;&#39;,z) \label{eq:master-x-cont-sum-gen}\,.
 \end{align}
 \]</span></p>
 <p>If we wanted to just look at the distribution over the latest row <span class="math inline">\(X_{{\sf t}+1}=x\)</span>, we could achieve this through marginalisation over all of the previous matrix rows in the original master equation like this</p>
@@ -207,8 +207,8 @@ P_{{\sf t}+1}(x\vert z) = \int_{\Omega_{{\sf t}}}{\rm d}X&#39; P_{{\sf t}+1}(X\v
 <p>The symbol <span class="math inline">\({\rm d}X&#39;\)</span> in the integral above is our shorthand notation for computing the sum of integrals over previous state history matrices which can further be reduced via the generalised joint distribution summation into a product of sub-domain integrals over each matrix row</p>
 <p><span class="math display">\[
 \begin{align}
-P_{{\sf t}+1}(x\vert z) &amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;&#39;=0}^{{\sf t}} \bigg\lbrace \int_{\omega_{{\sf t}&#39;}}{\rm d}^nx&#39;...\int_{\Omega_{{\sf t}&#39;&#39;}}{\rm d}X&#39;&#39; \bigg\rbrace \,P_{{\sf t}&#39;&#39;}(X&#39;&#39;\vert z) P_{({\sf t}+1){\sf t}\dots{\sf t}&#39;&#39;}(x,x&#39;,... \vert X&#39;&#39;,z) \\
-&amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;&#39;=0}^{{\sf t}} \int_{\Omega_{{\sf t}&#39;&#39;}}{\rm d}X&#39;&#39; P_{{\sf t}&#39;&#39;}(X&#39;&#39;\vert z) P_{({\sf t}+1){\sf t}&#39;&#39;}(x \vert X&#39;&#39;,z) \label{eq:master-x-cont-latest-row-gen} \,,
+P_{{\sf t}+1}(x\vert z) &amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;&#39;={\sf t}-{\sf s}}^{{\sf t}} \bigg\lbrace \int_{\omega_{{\sf t}&#39;}}{\rm d}^nx&#39;...\int_{\Omega_{{\sf t}&#39;&#39;}}{\rm d}X&#39;&#39; \bigg\rbrace \,P_{{\sf t}&#39;&#39;}(X&#39;&#39;\vert z) P_{({\sf t}+1){\sf t}\dots{\sf t}&#39;&#39;}(x,x&#39;,... \vert X&#39;&#39;,z) \\
+&amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;&#39;={\sf t}-{\sf s}}^{{\sf t}} \int_{\Omega_{{\sf t}&#39;&#39;}}{\rm d}X&#39;&#39; P_{{\sf t}&#39;&#39;}(X&#39;&#39;\vert z) P_{({\sf t}+1){\sf t}&#39;&#39;}(x \vert X&#39;&#39;,z) \label{eq:master-x-cont-latest-row-gen} \,,
 \end{align}
 \]</span></p>
 <p>where each row measure is a Cartesian product of <span class="math inline">\(n\)</span> elements (a Lebesgue measure), i.e.,</p>
@@ -226,7 +226,7 @@ P_{{\sf t}+1}(x\vert z) &amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;&#39;=0}^{{\sf
 <p>Let’s go through some examples. Non-Markovian phenomena with continuous state spaces can have quite complex master equations. A relatively simple example is that of pure diffusion processes which exhibit stochastic resetting at a rate <span class="math inline">\(r\)</span> to a remembered location from the trajectory history <span class="citation" data-cites="boyer2017long">[2]</span></p>
 <p><span class="math display">\[
 \begin{align}
-P_{{\sf t}+1}(x\vert z) &amp;= (1-r)P_{{\sf t}}(x\vert z) + \sum_{i=0}^n\sum_{j=0}^n\frac{\partial}{\partial x^i}\frac{\partial}{\partial x^j}\bigg[ D_{{\sf t}}(x,z)P_{{\sf t}}(x\vert z) \bigg] + r\sum_{{\sf t}&#39;=0}^{{\sf t}}\delta t ({\sf t}&#39;)K[t({\sf t}){-}t({\sf t}&#39;)]P_{{\sf t}&#39;}(x\vert z) \,,
+P_{{\sf t}+1}(x\vert z) &amp;= (1-r)P_{{\sf t}}(x\vert z) + \sum_{i=0}^n\sum_{j=0}^n\frac{\partial}{\partial x^i}\frac{\partial}{\partial x^j}\bigg[ D_{{\sf t}}(x,z)P_{{\sf t}}(x\vert z) \bigg] + r\sum_{{\sf t}&#39;={\sf t}-{\sf s}}^{{\sf t}}\delta t ({\sf t}&#39;)K[t({\sf t}){-}t({\sf t}&#39;)]P_{{\sf t}&#39;}(x\vert z) \,,
 \end{align}
 \]</span></p>
 <p>where here <span class="math inline">\(K\)</span> is some memory kernel. For Markovian phenomena which have a continuous state space, both forms of the master equation no longer depend on timesteps older than the immediately previous one, hence, e.g., the one for the latest row <span class="math inline">\(x\)</span> reduces to just</p>
@@ -259,8 +259,8 @@ P_{{\sf t}+1}(x\vert z) &amp;= \lambda ({\sf t}) \delta t({\sf t}{+}1)P_{{\sf t}
 <p><span class="math display">\[
 \begin{align}
 P_{{\sf t}+1}(x\vert z) &amp;= \mu \delta t({\sf t}{+}1)P_{{\sf t}}(x{-}1\vert z) + \big[ 1-\mu \delta t({\sf t}{+}1)\big] P_{{\sf t}}(x\vert z) \nonumber \\
-&amp; + \sum_{x&#39;=0}^\infty\sum_{{\sf t}&#39;=0}^{{\sf t}} \phi [t({\sf t})-t({\sf t}&#39;)] \delta t({\sf t}{+}1)P_{{\sf t}{\sf t}&#39;({\sf t}&#39;-1)}(x{-}1,x&#39;,x&#39;{-}1\vert z) \nonumber \\
-&amp;+ \sum_{x&#39;=0}^\infty\bigg\lbrace 1-\sum_{{\sf t}&#39;=0}^{{\sf t}} \phi [t({\sf t})-t({\sf t}&#39;)] \delta t({\sf t}{+}1)\bigg\rbrace P_{{\sf t}{\sf t}&#39;({\sf t}&#39;-1)}(x, x&#39;, x&#39;{-}1\vert z) \,,
+&amp; + \sum_{x&#39;=0}^\infty\sum_{{\sf t}&#39;={\sf t}-{\sf s}}^{{\sf t}} \phi [t({\sf t})-t({\sf t}&#39;)] \delta t({\sf t}{+}1)P_{{\sf t}{\sf t}&#39;({\sf t}&#39;-1)}(x{-}1,x&#39;,x&#39;{-}1\vert z) \nonumber \\
+&amp;+ \sum_{x&#39;=0}^\infty\bigg\lbrace 1-\sum_{{\sf t}&#39;={\sf t}-{\sf s}}^{{\sf t}} \phi [t({\sf t})-t({\sf t}&#39;)] \delta t({\sf t}{+}1)\bigg\rbrace P_{{\sf t}{\sf t}&#39;({\sf t}&#39;-1)}(x, x&#39;, x&#39;{-}1\vert z) \,,
 \end{align}
 \]</span></p>
 <p>where we note the complexity in this expression arises because it has to include a coupling between the rate at which events occur and an explicit memory of when the previous ones did occur (recorded by differencing the count between adjacent timesteps by 1).</p>
@@ -269,14 +269,14 @@ P_{{\sf t}+1}(x\vert z) &amp;= \mu \delta t({\sf t}{+}1)P_{{\sf t}}(x{-}1\vert z
 <p>Let’s begin our discussion of algorithms by integrating the master equation for the latest row over <span class="math inline">\(x\)</span> to obtain a relation for the mean of the distribution</p>
 <p><span class="math display">\[
 \begin{align}
-M_{{\sf t}+1}(z) &amp;= \int_{\omega_{{\sf t}+1}}{\rm d}^nx \,x\, P_{{\sf t}+1}(x\vert z) = \frac{1}{{\sf t}}\sum_{{\sf t}&#39;&#39;=0}^{{\sf t}} \int_{\Omega_{{\sf t}&#39;&#39;}}{\rm d}X&#39;&#39; P_{{\sf t}&#39;&#39;}(X&#39;&#39;\vert z) M_{({\sf t}+1){\sf t}&#39;&#39;}(X&#39;&#39;,z) \label{eq:mean-field-master}\,,
+M_{{\sf t}+1}(z) &amp;= \int_{\omega_{{\sf t}+1}}{\rm d}^nx \,x\, P_{{\sf t}+1}(x\vert z) = \frac{1}{{\sf t}}\sum_{{\sf t}&#39;&#39;={\sf t}-{\sf s}}^{{\sf t}} \int_{\Omega_{{\sf t}&#39;&#39;}}{\rm d}X&#39;&#39; P_{{\sf t}&#39;&#39;}(X&#39;&#39;\vert z) M_{({\sf t}+1){\sf t}&#39;&#39;}(X&#39;&#39;,z) \label{eq:mean-field-master}\,,
 \end{align}
 \]</span></p>
 <p>where you can view the <span class="math inline">\(M_{({\sf t}+1){\sf t}&#39;&#39;}(X&#39;&#39;,z)\)</span> values as either terms in some regression model, or derivable explicitly from a known master equation. The latter of these provides one approach to statistically infer the states and parameters of stochastic simulations from data: one begins by knowing what the master equation is, uses this to compute the time evolution of the mean (and potentially higher-order statistics) and then connects these <span class="math inline">\({\sf t}\)</span> and <span class="math inline">\(z\)</span>-dependent statistics back to the likelihood of observing the data. This is what is commonly known as the ‘mean-field’ inference approach; averaging over the available degrees of freedom in the statistical moments of distributions. Though, knowing what the master equation is for an arbitrarily-defined stochastic phenomenon can be very difficult indeed, and the resulting equations typically require some form of approximation.</p>
 <p>Given that the mean-field approach isn’t always going to be viable as an inference method, we should also consider other ways to describe the shape and time evolution characteristics of <span class="math inline">\(P_{{\sf t}+1}(X\vert z)\)</span>. For continuous state spaces, it’s possible to approximate this whole distribution with a logarithmic expansion like so</p>
 <p><span class="math display">\[
 \begin{align}
-\ln P_{{\sf t}+1}(X\vert z) &amp;\simeq \ln P_{{\sf t}+1}(X_*\vert z) + \frac{1}{2}\sum_{{\sf t}&#39;=0}^{{\sf t}+1}\sum_{i=0}^{n}\sum_{j=0}^{n} (x-x_*)^i {\cal H}^{ij}_{({\sf t}+1){\sf t}&#39;}(z) (x&#39;-x&#39;_*)^j \label{eq:second-order-log-expansion} \\
+\ln P_{{\sf t}+1}(X\vert z) &amp;\simeq \ln P_{{\sf t}+1}(X_*\vert z) + \frac{1}{2}\sum_{{\sf t}&#39;=({\sf t}+1)-{\sf s}}^{({\sf t}+1)}\sum_{i=0}^{n}\sum_{j=0}^{n} (x-x_*)^i {\cal H}^{ij}_{({\sf t}+1){\sf t}&#39;}(z) (x&#39;-x&#39;_*)^j \label{eq:second-order-log-expansion} \\
 {\cal H}^{ij}_{({\sf t}+1){\sf t}&#39;}(z) &amp;= \frac{\partial}{\partial x^i}\frac{\partial}{\partial (x&#39;)^j}\ln P_{{\sf t}+1}(X\vert z) \bigg\vert_{X=X_*} \label{eq:second-order-log-expansion-kernel} \,,
 \end{align}
 \]</span></p>
@@ -290,13 +290,13 @@ M_{{\sf t}+1}(z) &amp;= \int_{\omega_{{\sf t}+1}}{\rm d}^nx \,x\, P_{{\sf t}+1}(
 <p>If we keep the truncation up to second order in the expansion, note that this expression implies a pairwise correlation structure of the form</p>
 <p><span class="math display">\[
 \begin{align}
-P_{{\sf t}+1}(X\vert z) &amp;\rightarrow \prod_{{\sf t}&#39;=0}^{{\sf t}}P_{({\sf t}+1){\sf t}&#39;}(x,x&#39;\vert z) = \prod_{{\sf t}&#39;=0}^{{\sf t}}P_{{\sf t}&#39;}(x&#39;\vert z)P_{({\sf t}+1){\sf t}&#39;}(x\vert x&#39;, z) \,.
+P_{{\sf t}+1}(X\vert z) &amp;\rightarrow \prod_{{\sf t}&#39;={\sf t}-{\sf s}}^{{\sf t}}P_{({\sf t}+1){\sf t}&#39;}(x,x&#39;\vert z) = \prod_{{\sf t}&#39;={\sf t}-{\sf s}}^{{\sf t}}P_{{\sf t}&#39;}(x&#39;\vert z)P_{({\sf t}+1){\sf t}&#39;}(x\vert x&#39;, z) \,.
 \end{align}
 \]</span></p>
 <p>Given this pairwise temporal correlation structure, the master equation for the latest row reduces to this simpler sum of integrals</p>
 <p><span class="math display">\[
 \begin{align}
-P_{{\sf t}+1}(x\vert z) &amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;=0}^{{\sf t}}\int_{\omega_{{\sf t}&#39;}}{\rm d}^nx&#39; P_{{\sf t}&#39;}(x&#39;\vert z)P_{({\sf t}+1){\sf t}&#39;}(x\vert x&#39;,z) \label{eq:second-order-correl} \,.
+P_{{\sf t}+1}(x\vert z) &amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;={\sf t}-{\sf s}}^{{\sf t}}\int_{\omega_{{\sf t}&#39;}}{\rm d}^nx&#39; P_{{\sf t}&#39;}(x&#39;\vert z)P_{({\sf t}+1){\sf t}&#39;}(x\vert x&#39;,z) \label{eq:second-order-correl} \,.
 \end{align}
 \]</span></p>
 <p>We have illustrated these second-order correlations with a graph visualisation below.</p>
@@ -304,13 +304,13 @@ P_{{\sf t}+1}(x\vert z) &amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;=0}^{{\sf t}}\
 <p>In a similar fashion, we can increase the expansion order of the log expansion to include third-order correlations such that</p>
 <p><span class="math display">\[
 \begin{align}
-P_{{\sf t}+1}(X\vert z) &amp;\rightarrow \prod_{{\sf t}&#39;=0}^{{\sf t}}\prod_{{\sf t}&#39;&#39;=0}^{{\sf t}&#39;-1} P_{{\sf t}&#39;{\sf t}&#39;&#39;}(x&#39;,x&#39;&#39;\vert z)P_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x\vert x&#39;,x&#39;&#39;,z) \,,
+P_{{\sf t}+1}(X\vert z) &amp;\rightarrow \prod_{{\sf t}&#39;={\sf t}-{\sf s}}^{{\sf t}}\prod_{{\sf t}&#39;&#39;={\sf t}-{\sf s}}^{{\sf t}&#39;-1} P_{{\sf t}&#39;{\sf t}&#39;&#39;}(x&#39;,x&#39;&#39;\vert z)P_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x\vert x&#39;,x&#39;&#39;,z) \,,
 \end{align}
 \]</span></p>
 <p>and, in this instance, one can show that the master equation reduces to</p>
 <p><span class="math display">\[
 \begin{align}
-P_{{\sf t}+1}(x\vert z) &amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;=0}^{{\sf t}}\frac{1}{{\sf t}&#39;-1}\sum_{{\sf t}&#39;&#39;=0}^{{\sf t}&#39;-1}\int_{\omega_{{\sf t}&#39;}}{\rm d}^nx&#39;\int_{\omega_{{\sf t}&#39;&#39;}}{\rm d}^nx&#39;&#39; P_{{\sf t}&#39;{\sf t}&#39;&#39;}(x&#39;,x&#39;&#39;\vert z)P_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x\vert x&#39;,x&#39;&#39;,z) \label{eq:third-order-correl} \,.
+P_{{\sf t}+1}(x\vert z) &amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;={\sf t}-{\sf s}}^{{\sf t}}\frac{1}{{\sf t}&#39;-1}\sum_{{\sf t}&#39;&#39;={\sf t}-{\sf s}}^{{\sf t}&#39;-1}\int_{\omega_{{\sf t}&#39;}}{\rm d}^nx&#39;\int_{\omega_{{\sf t}&#39;&#39;}}{\rm d}^nx&#39;&#39; P_{{\sf t}&#39;{\sf t}&#39;&#39;}(x&#39;,x&#39;&#39;\vert z)P_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x\vert x&#39;,x&#39;&#39;,z) \label{eq:third-order-correl} \,.
 \end{align}
 \]</span></p>
 <p>We have also illustrated these third-order correlations with another graph visualisation in the figure below.</p>
@@ -318,22 +318,22 @@ P_{{\sf t}+1}(x\vert z) &amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;=0}^{{\sf t}}\
 <p>Using <span class="math inline">\(P_{{\sf t}&#39;{\sf t}&#39;&#39;}(x&#39;,x&#39;&#39;\vert z) = P_{{\sf t}&#39;&#39;}(x&#39;&#39;\vert z) P_{{\sf t}&#39;{\sf t}&#39;&#39;}(x&#39;\vert x&#39;&#39;, z)\)</span> one can also show that this integral is a marginalisation of this expression</p>
 <p><span class="math display">\[
 \begin{align}
-P_{({\sf t}+1){\sf t}&#39;&#39;}(x\vert x&#39;&#39;, z) &amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;=0}^{{\sf t}}\int_{\omega_{{\sf t}&#39;}}{\rm d}^nx&#39;P_{{\sf t}&#39;{\sf t}&#39;&#39;}(x&#39;\vert x&#39;&#39;,z)P_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x\vert x&#39;,x&#39;&#39;,z) \,,
+P_{({\sf t}+1){\sf t}&#39;&#39;}(x\vert x&#39;&#39;, z) &amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;={\sf t}-{\sf s}}^{{\sf t}}\int_{\omega_{{\sf t}&#39;}}{\rm d}^nx&#39;P_{{\sf t}&#39;{\sf t}&#39;&#39;}(x&#39;\vert x&#39;&#39;,z)P_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x\vert x&#39;,x&#39;&#39;,z) \,,
 \end{align}
 \]</span></p>
 <p>which describes the time evolution of the conditional probabilities. Note how this implies that the Gaussian process kernel itself can be evolved through time to replicate these higher-order temporal correlations for a regression problem, if desired.</p>
 <p>Another probabilistic learning algorithm that we can consider is what we shall call ‘empirical probabilistic reweighting’. There is another expression for the mean of the distribution, that we can derive under certain conditions, which will be valuable to motivating this algorithm. If the probability distribution over each row of the state history matrix is <em>stationary</em> — meaning that <span class="math inline">\(P_{{\sf t}+1}(x\vert z)=P_{{\sf t}&#39;}(x\vert z)\)</span> — it’s possible to go one step further than mean field master equation and assert that</p>
 <p><span class="math display">\[
 \begin{align}
-M_{{\sf t}+1}(z) &amp;= \int_{\omega_{{\sf t}+1}}{\rm d}^nx \,x\,P_{{\sf t}+1}(x\vert z) = \frac{1}{{\sf t}}\sum_{{\sf t}&#39;=0}^{{\sf t}}\int_{\omega_{{\sf t}&#39;}}{\rm d}^nx&#39; \,x&#39;\, P_{{\sf t}&#39;}(x&#39;\vert z) \int_{\omega_{{\sf t}+1}}{\rm d}^nx\, P_{({\sf t}+1){\sf t}&#39;}(x\vert x&#39;,z) \label{eq:stationary-mean-estimator}\,.
+M_{{\sf t}+1}(z) &amp;= \int_{\omega_{{\sf t}+1}}{\rm d}^nx \,x\,P_{{\sf t}+1}(x\vert z) = \frac{1}{{\sf t}}\sum_{{\sf t}&#39;={\sf t}-{\sf s}}^{{\sf t}}\int_{\omega_{{\sf t}&#39;}}{\rm d}^nx&#39; \,x&#39;\, P_{{\sf t}&#39;}(x&#39;\vert z) \int_{\omega_{{\sf t}+1}}{\rm d}^nx\, P_{({\sf t}+1){\sf t}&#39;}(x\vert x&#39;,z) \label{eq:stationary-mean-estimator}\,.
 \end{align}
 \]</span></p>
 <p>To see that this equation is true under the stationarity condition, first note that a joint distribution over both <span class="math inline">\(x\)</span> and <span class="math inline">\(x&#39;\)</span> can be derived like this <span class="math inline">\(P_{({\sf t}+1){\sf t}&#39;}(x,x&#39;\vert z)=P_{({\sf t}+1){\sf t}&#39;}(x\vert x&#39;,z)P_{{\sf t}&#39;}(x&#39;\vert z)\)</span>. Secondly, note that this joint distribution will always allow variable swaps trivially like this <span class="math inline">\(P_{({\sf t}+1){\sf t}&#39;}(x,x&#39;\vert z)=P_{{\sf t}&#39;({\sf t}+1)}(x&#39;,x\vert z)\)</span>. Then, lastly, note that stationarity of <span class="math inline">\(P_{{\sf t}+1}(x\vert z)=P_{{\sf t}&#39;}(x\vert z)\)</span> means</p>
 <p><span class="math display">\[
 \begin{align}
-\frac{1}{{\sf t}}\sum_{{\sf t}&#39;=0}^{{\sf t}}\int_{\omega_{{\sf t}+1}} {\rm d}^nx\int_{\omega_{{\sf t}&#39;}} {\rm d}^nx&#39; \,x\, P_{({\sf t}+1){\sf t}&#39;}(x,x&#39;\vert z)&amp;=\frac{1}{{\sf t}}\sum_{{\sf t}&#39;=0}^{{\sf t}}\int_{\omega_{{\sf t}&#39;}} {\rm d}^nx\int_{\omega_{{\sf t}+1}} {\rm d}^nx&#39; \,x\, P_{{\sf t}&#39;({\sf t}+1)}(x,x&#39;\vert z)\nonumber \\
-&amp;=\frac{1}{{\sf t}}\sum_{{\sf t}&#39;=0}^{{\sf t}}\int_{\omega_{{\sf t}&#39;}} {\rm d}^nx&#39;\int_{\omega_{{\sf t}+1}} {\rm d}^nx \,x&#39;\, P_{({\sf t}+1){\sf t}&#39;}(x,x&#39;\vert z) \nonumber \\
-&amp;=\frac{1}{{\sf t}}\sum_{{\sf t}&#39;=0}^{{\sf t}}\int_{\omega_{{\sf t}&#39;}}{\rm d}^nx&#39; \,x&#39;\, P_{{\sf t}&#39;}(x&#39;\vert z) \int_{\omega_{{\sf t}+1}}{\rm d}^nx\, P_{({\sf t}+1){\sf t}&#39;}(x\vert x&#39;,z)\nonumber \,,
+\frac{1}{{\sf t}}\sum_{{\sf t}&#39;={\sf t}-{\sf s}}^{{\sf t}}\int_{\omega_{{\sf t}+1}} {\rm d}^nx\int_{\omega_{{\sf t}&#39;}} {\rm d}^nx&#39; \,x\, P_{({\sf t}+1){\sf t}&#39;}(x,x&#39;\vert z)&amp;=\frac{1}{{\sf t}}\sum_{{\sf t}&#39;={\sf t}-{\sf s}}^{{\sf t}}\int_{\omega_{{\sf t}&#39;}} {\rm d}^nx\int_{\omega_{{\sf t}+1}} {\rm d}^nx&#39; \,x\, P_{{\sf t}&#39;({\sf t}+1)}(x,x&#39;\vert z)\nonumber \\
+&amp;=\frac{1}{{\sf t}}\sum_{{\sf t}&#39;={\sf t}-{\sf s}}^{{\sf t}}\int_{\omega_{{\sf t}&#39;}} {\rm d}^nx&#39;\int_{\omega_{{\sf t}+1}} {\rm d}^nx \,x&#39;\, P_{({\sf t}+1){\sf t}&#39;}(x,x&#39;\vert z) \nonumber \\
+&amp;=\frac{1}{{\sf t}}\sum_{{\sf t}&#39;={\sf t}-{\sf s}}^{{\sf t}}\int_{\omega_{{\sf t}&#39;}}{\rm d}^nx&#39; \,x&#39;\, P_{{\sf t}&#39;}(x&#39;\vert z) \int_{\omega_{{\sf t}+1}}{\rm d}^nx\, P_{({\sf t}+1){\sf t}&#39;}(x\vert x&#39;,z)\nonumber \,,
 \end{align}
 \]</span></p>
 <p>where we’ve used the trivial variable swap and integration variable relabelling to arrive at the second equality in the expressions above.</p>
@@ -342,7 +342,7 @@ M_{{\sf t}+1}(z) &amp;= \int_{\omega_{{\sf t}+1}}{\rm d}^nx \,x\,P_{{\sf t}+1}(x
 \begin{align}
 C^{ij}_{{\sf t}+1}(z) &amp;= \int_{\omega_{{\sf t}+1}}{\rm d}^nx \,[x-M_{{\sf t}+1}(z)
 ]^i[x-M_{{\sf t}+1}(z)]^jP_{{\sf t}+1}(x\vert z) \nonumber \\
-&amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;=0}^{{\sf t}}\int_{\omega_{{\sf t}&#39;}}{\rm d}^nx&#39; \, [x&#39;-M_{{\sf t}+1}(z)]^i[x&#39;-M_{{\sf t}+1}(z)]^j \,P_{{\sf t}&#39;}(x&#39;\vert z) \int_{\omega_{{\sf t}+1}}{\rm d}^nx \, P_{({\sf t}+1){\sf t}&#39;}(x\vert x&#39;,z) \label{eq:stationary-covariance-estimator}\,.
+&amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;={\sf t}-{\sf s}}^{{\sf t}}\int_{\omega_{{\sf t}&#39;}}{\rm d}^nx&#39; \, [x&#39;-M_{{\sf t}+1}(z)]^i[x&#39;-M_{{\sf t}+1}(z)]^j \,P_{{\sf t}&#39;}(x&#39;\vert z) \int_{\omega_{{\sf t}+1}}{\rm d}^nx \, P_{({\sf t}+1){\sf t}&#39;}(x\vert x&#39;,z) \label{eq:stationary-covariance-estimator}\,.
 \end{align}
 \]</span></p>
 <p>While they look quite abstract, the equations for the mean and covariance above express the core idea behind how the probabilistic reweighting will function. By assuming a stationary distribution, we gain the ability to directly estimate the statistics of the probability distribution of the next sample from the stochastic process <span class="math inline">\(P_{{\sf t}+1}(x\vert z)\)</span> from past samples it may have in empirical data; which are represented here by <span class="math inline">\(P_{{\sf t}&#39;}(x&#39;\vert z)\)</span>.</p>
@@ -355,8 +355,8 @@ C^{ij}_{{\sf t}+1}(z) &amp;= \int_{\omega_{{\sf t}+1}}{\rm d}^nx \,[x-M_{{\sf t}
 <p>we can apply this as a <em>reweighting</em> of the historical time series samples to estimate any statistics of interest. Taking the equations for the mean and covariance above as the examples; we are essentially approximating these integrals through weighted sample estimations like this</p>
 <p><span class="math display">\[
 \begin{align}
-M_{{\sf t}+1}(z) &amp;\simeq \frac{1}{{\sf t}}\sum^{{\sf t}}_{{\sf t}&#39;=0}Y_{{\sf t}&#39;} {\sf w}_{{\sf t}&#39;}(Y_{{\sf t}&#39;},z) \label{eq:mean-reweighting} \\
-C^{ij}_{{\sf t}+1}(z) &amp;\simeq \frac{1}{{\sf t}}\sum^{{\sf t}}_{{\sf t}&#39;=0}[Y_{{\sf t}&#39;}-M_{{\sf t}+1}(z)]^i[Y_{{\sf t}&#39;}-M_{{\sf t}+1}(z)]^j \, {\sf w}_{{\sf t}&#39;}(Y_{{\sf t}&#39;},z) \label{eq:covariance-reweighting} \,,
+M_{{\sf t}+1}(z) &amp;\simeq \frac{1}{{\sf t}}\sum^{{\sf t}}_{{\sf t}&#39;={\sf t}-{\sf s}}Y_{{\sf t}&#39;} {\sf w}_{{\sf t}&#39;}(Y_{{\sf t}&#39;},z) \label{eq:mean-reweighting} \\
+C^{ij}_{{\sf t}+1}(z) &amp;\simeq \frac{1}{{\sf t}}\sum^{{\sf t}}_{{\sf t}&#39;={\sf t}-{\sf s}}[Y_{{\sf t}&#39;}-M_{{\sf t}+1}(z)]^i[Y_{{\sf t}&#39;}-M_{{\sf t}+1}(z)]^j \, {\sf w}_{{\sf t}&#39;}(Y_{{\sf t}&#39;},z) \label{eq:covariance-reweighting} \,,
 \end{align}
 \]</span></p>
 <p>where we have defined the data matrix <span class="math inline">\(Y\)</span> with rows <span class="math inline">\(Y_{{\sf t}+1}, Y_{{\sf t}}, \dots\)</span>, each of which representing specific observations of the rows in <span class="math inline">\(X\)</span> at each point in time from a real dataset.</p>
@@ -365,7 +365,7 @@ C^{ij}_{{\sf t}+1}(z) &amp;\simeq \frac{1}{{\sf t}}\sum^{{\sf t}}_{{\sf t}&#39;=
 <p>We should probably make what we’ve just said a little more mathematically concrete. We can define <span class="math inline">\(P_{{\sf t}+1}[y;M_{{\sf t}+1}(z),C_{{\sf t}+1}(z),\dots ]\)</span> as representing the likelihood of <span class="math inline">\(y = Y_{{\sf t}+1}\)</span> given the estimated statistics up to second order (with the potential for maybe higher-orders later). Note that in order to do this, we need to identify the <span class="math inline">\(x&#39;\)</span> and <span class="math inline">\({\sf t}&#39;\)</span> values that are used to estimate, e.g., <span class="math inline">\(M_{{\sf t}+1}(z)\)</span> with the past data values which are observed in the dataset time series itself. Now that we have this likelihood, we can immediately evaluate an objective function (a cumulative log-likelihood) that we might seek to optimise over for a given dataset</p>
 <p><span class="math display">\[
 \begin{align}
-\ln {\cal L}_{{\sf t}+1}(Y\vert z) &amp;= \sum_{{\sf t}&#39;=0}^{{\sf t}+1} \ln P_{{\sf t}&#39;}[y;M_{{\sf t}&#39;}(z),C_{{\sf t}&#39;}(z),\dots ] \,, \label{eq:log-likelihood-reweighting}
+\ln {\cal L}_{{\sf t}+1}(Y\vert z) &amp;= \sum_{{\sf t}&#39;=({\sf t}+1)-{\sf s}}^{({\sf t}+1)} \ln P_{{\sf t}&#39;}[y;M_{{\sf t}&#39;}(z),C_{{\sf t}&#39;}(z),\dots ] \,, \label{eq:log-likelihood-reweighting}
 \end{align}
 \]</span></p>
 <p>where the summation continues until all of the past measurements <span class="math inline">\(Y_{{\sf t}+1}, Y_{{\sf t}}, \dots\)</span> which exist as rows in the data matrix <span class="math inline">\(Y\)</span> have been taken into account. The multi-threaded code to compute this objective function within the stochadex computational graph iteration structure follows the rough schematic below (see <span class="citation" data-cites="stochadexI-2024">[1]</span> for more on how this diagram structure designed to work in simulation package).</p>
@@ -386,7 +386,7 @@ P_{{\sf t}+1}[y;M_{{\sf t}+1}(z),C_{{\sf t}+1}(z),\dots ] = {\sf MultivariateNor
 <p>In the case of the purely time-dependent kernel with a choice of Gaussian data linking distribution above, the hyperparameters that would be optimised could relate to the kernel in a wide variety of ways. Optimising them would make our optimised reweighting similar to (but very much <em>not</em> the same as) evaluating maximum a posteriori (MAP) of a Gaussian process regression. In a Gaussian process regression, one is concerned with inferring the the whole of <span class="math inline">\(X_{{\sf t}}\)</span> as a function of time using the pairwise correlations implied by the second-order log expansion we wrote earlier. Based on this expression, the cumulative log-likelihood for a Gaussian process can be calculated as follows</p>
 <p><span class="math display">\[
 \begin{align}
-\ln {\cal L}_{{\sf t}+1}(Y\vert z) &amp;= -\frac{1}{2}\sum_{{\sf t}&#39;=0}^{{\sf t}+1}\sum_{{\sf t}&#39;&#39;=0}^{{\sf t}&#39;} \bigg[ n\ln (2\pi ) + \ln \big\vert {\cal H}_{{\sf t}&#39;{\sf t}&#39;&#39;}(z)\big\vert + \sum_{i=0}^{n}\sum_{j=0}^{n} Y^i_{{\sf t}&#39;} {\cal H}^{ij}_{{\sf t}&#39;{\sf t}&#39;&#39;}(z) Y^j_{{\sf t}&#39;&#39;} \bigg] \,. \label{eq:log-likelihood-gaussian-proc}
+\ln {\cal L}_{{\sf t}+1}(Y\vert z) &amp;= -\frac{1}{2}\sum_{{\sf t}&#39;=({\sf t}+1)-{\sf s}}^{({\sf t}+1)}\sum_{{\sf t}&#39;&#39;=({\sf t}+1)-{\sf s}}^{{\sf t}&#39;} \bigg[ n\ln (2\pi ) + \ln \big\vert {\cal H}_{{\sf t}&#39;{\sf t}&#39;&#39;}(z)\big\vert + \sum_{i=0}^{n}\sum_{j=0}^{n} Y^i_{{\sf t}&#39;} {\cal H}^{ij}_{{\sf t}&#39;{\sf t}&#39;&#39;}(z) Y^j_{{\sf t}&#39;&#39;} \bigg] \,. \label{eq:log-likelihood-gaussian-proc}
 \end{align}
 \]</span></p>
 <p>As we did for the reweighting algorithm, we have illustrated another rough schematic below for the multi-threaded code needed to compute the objective function of a learning algorithm in the stochadex, based on the equation above. Note that, in this diagram, we have assumed that the data has already been shifted such that its values are positioned around the distribution peak. Knowing where this peak will be a priori is not possible. However, for Gaussian data, an unbiased estimator for this peak will be the sample mean and so we have included an initial data standardisation in the steps outlined by the schematic.</p>
@@ -419,11 +419,11 @@ P_{{\sf t}+1}({\sf y} \vert z) = \int_{\omega_{{\sf t}+1}}{\rm d}^nx\, P_{{\sf t
 {\cal P}_{{\sf t}+1}(X,z\vert Y)=\int_{\Upsilon_{{\sf t}+1}} {\rm d}{\sf Y} \, {\cal P}_{{\sf t}+1}({\sf Y}\vert Y) P_{{\sf t}+1}(X,z \vert {\sf Y}) \label{eq:likelihood-free-posterior} \,,
 \end{align}
 \]</span></p>
-<p>where <span class="math inline">\(\Upsilon_{{\sf t}+1}\)</span> here corresponds to the domain of the simulated measurements matrix <span class="math inline">\({\sf Y}\)</span> at time <span class="math inline">\({\sf t}+1\)</span>.</p>
+<p>where <span class="math inline">\(\Upsilon_{{\sf t}+1}\)</span> here corresponds to the domain of the simulated measurements matrix <span class="math inline">\({\sf Y}\)</span> at timestep <span class="math inline">\({\sf t}+1\)</span>.</p>
 <p>As we demonstrated in the previous section, it’s possible for us to also optimise a probability distribution <span class="math inline">\({\cal P}_{{\sf t}&#39;}({\sf y}\vert Y) = P_{{\sf t}&#39;}({\sf y};{\cal M}_{{\sf t}&#39;},{\cal C}_{{\sf t}&#39;},\dots )\)</span> for each step in time to match the statistics of the measurements in <span class="math inline">\(Y\)</span> as well as possible, given some statistics <span class="math inline">\({\cal M}_{{\sf t}&#39;}={\cal M}_{{\sf t}&#39;}(Y)\)</span> and <span class="math inline">\({\cal C}_{{\sf t}&#39;}={\cal C}_{{\sf t}&#39;}(Y)\)</span>. Assuming the independence of samples (rows) in <span class="math inline">\(Y\)</span>, this distribution can be used to construct the distribution over all of <span class="math inline">\(Y\)</span> through the following product</p>
 <p><span class="math display">\[
 \begin{align}
-{\cal P}_{{\sf t}+1}({\sf Y}\vert Y) = \prod_{{\sf t}&#39;=0}^{{\sf t}+1}P_{{\sf t}&#39;}({\sf y};{\cal M}_{{\sf t}&#39;},{\cal C}_{{\sf t}&#39;},\dots ) \,.
+{\cal P}_{{\sf t}+1}({\sf Y}\vert Y) = \prod_{{\sf t}&#39;=({\sf t}+1)-{\sf s}}^{({\sf t}+1)}P_{{\sf t}&#39;}({\sf y};{\cal M}_{{\sf t}&#39;},{\cal C}_{{\sf t}&#39;},\dots ) \,.
 \end{align}
 \]</span></p>
 <p>We do not necessarily need to obtain these statistics from the probability reweighting method, but could instead try to fit them via some other objective function, e.g., that of Gaussian processes. Either way, this represents a lossy <em>compression</em> of the data we want to fit the simulation to, and so the best possible fit is desirable; regardless of overfitting. Note that this choice to summarise the data with statistics means we are using what is known as a Bayesian Synthetic Likelihood (BSL) method (see <span class="citation" data-cites="price2018bayesian">[22]</span> or <span class="citation" data-cites="wood2010statistical">[23]</span>) instead of another class of methods which approximate an objective function directly using a proximity kernel — known as Approximate Bayesian Computation (ABC) methods <span class="citation" data-cites="sisson2018handbook">[21]</span>.</p>
@@ -447,7 +447,7 @@ P_{{\sf t}+1}(x,z\vert {\sf Y}) \propto P_{{\sf t}+1}({\sf y}\vert z)P_{{\sf t}}
 \end{align}
 \]</span></p>
 <p>where here <span class="math inline">\(P_{{\sf t}}(z\vert {\sf Y}&#39;)\)</span> is the probability of <span class="math inline">\({\sf Y}_{{\sf t}}={\sf Y}&#39;\)</span>.</p>
-<p>The relationship between <span class="math inline">\(P_{{\sf t}+1}(X\vert z)\)</span> and previous timesteps can be directly inferred from the probabilistic iteration formula that we introduced in the previous section. So we can map probabilities of <span class="math inline">\(X_{0:{\sf t}+1} = X\)</span> throughout time and learned information about the state of the system can be applied from previous values, given <span class="math inline">\(z\)</span>. But is there a similar relationship we might consider for <span class="math inline">\(P_{{\sf t}+1}(z\vert {\sf Y})\)</span>? Yes there is! The marginalisation</p>
+<p>The relationship between <span class="math inline">\(P_{{\sf t}+1}(X\vert z)\)</span> and previous timesteps can be directly inferred from the probabilistic iteration formula that we introduced in the previous section. So we can map probabilities of <span class="math inline">\(X_{({\sf t}+1)-{\sf s}:({\sf t}+1)} = X\)</span> throughout time and learned information about the state of the system can be applied from previous values, given <span class="math inline">\(z\)</span>. But is there a similar relationship we might consider for <span class="math inline">\(P_{{\sf t}+1}(z\vert {\sf Y})\)</span>? Yes there is! The marginalisation</p>
 <p><span class="math display">\[
 \begin{align} 
 P_{{\sf t}+1}(z\vert {\sf Y}) &amp;\propto \bigg[ \int_{\Omega_{{\sf t}+1}} {\rm d}^nx \,P_{{\sf t}+1}({\sf y}\vert x) P_{{\sf t}+1}(x\vert z) \bigg] P_{{\sf t}}(z\vert {\sf Y}&#39;) \label{eq:z-update}\,,
@@ -465,10 +465,10 @@ P_{{\sf t}+1}(X,z\vert {\sf Y}) &amp;\propto P_{{\sf t}+1}({\sf y}\vert x) P_{({
 P_{{\sf t}+1}(x,z\vert {\sf Y}) &amp;= \int_{\Omega_{{\sf t}}} {\rm d}X&#39;P_{{\sf t}+1}(X,z\vert {\sf Y}) \propto P_{{\sf t}+1}({\sf y}\vert x) \int_{\Omega_{{\sf t}}} {\rm d}X&#39; P_{({\sf t}+1){\sf t}}(x\vert X&#39;, z) P_{{\sf t}}(X&#39;,z\vert {\sf Y}&#39;) \label{eq:x-z-update-latest-row} \,.
 \end{align}
 \]</span></p>
-<p>To understand how all of this translates to online learning it will be important to consider what happens if the model changes over time and <span class="math inline">\(z\)</span> needs to change in order to better represent the real data. Note that the relation above only considers <span class="math inline">\(z\)</span> to be <em>constant</em> throughout the state history of <span class="math inline">\(X_{0:{\sf t}}=X&#39;\)</span>, and so ideally we we’d want some way of updating <span class="math inline">\(z\)</span> within the same computational step without invalidating this relationship. In such situations, one possibility is to impose a correlation ansatz between the marginal distribution over <span class="math inline">\(z\)</span> in the present moment and the distributions evaluated in the past, like this</p>
+<p>To understand how all of this translates to online learning it will be important to consider what happens if the model changes over time and <span class="math inline">\(z\)</span> needs to change in order to better represent the real data. Note that the relation above only considers <span class="math inline">\(z\)</span> to be <em>constant</em> throughout the truncated state history of <span class="math inline">\(X_{{\sf t}-{\sf s}:{\sf t}}=X&#39;\)</span>, and so ideally we we’d want some way of updating <span class="math inline">\(z\)</span> within the same computational step without invalidating this relationship. In such situations, one possibility is to impose a correlation ansatz between the marginal distribution over <span class="math inline">\(z\)</span> in the present moment and the distributions evaluated in the past, like this</p>
 <p><span class="math display">\[
 \begin{align}
-P_{{\sf t}+1}(z\vert {\sf Y}) = \beta P_{{\sf t}}(z\vert {\sf Y}&#39;) \,\, \Leftrightarrow \,\, P_{{\sf t}+1}(z\vert {\sf Y}) = \frac{1}{{\sf t}+1}\sum_{{\sf t}&#39;=0}^{{\sf t}+1} \beta^{{\sf t}+1-{\sf t}&#39;} P_{{\sf t}&#39;}(z\vert {\sf Y}&#39;) \,.
+P_{{\sf t}+1}(z\vert {\sf Y}) = \beta P_{{\sf t}}(z\vert {\sf Y}&#39;) \,\, \Leftrightarrow \,\, P_{{\sf t}+1}(z\vert {\sf Y}) = \frac{1}{{\sf t}+1}\sum_{{\sf t}&#39;=({\sf t}+1)-{\sf s}}^{({\sf t}+1)} \beta^{{\sf t}+1-{\sf t}&#39;} P_{{\sf t}&#39;}(z\vert {\sf Y}&#39;) \,.
 \end{align}
 \]</span></p>
 <p>One might also call this a ‘past discounted’ version of the distribution where <span class="math inline">\(0 &lt; \beta &lt; 1\)</span>. Note that in the continuous-time version, this ‘past-discounting’ factor could depend on the stepsize such that we replace</p>
