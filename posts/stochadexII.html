@@ -220,7 +220,7 @@ P_{{\sf t}+1}(x\vert z) &amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;&#39;={\sf t}-
 <p>and lowercase <span class="math inline">\(x, x&#39;, \dots\)</span> values will always refer to individual rows within the state matrices. Note that <span class="math inline">\(1/{\sf t}\)</span> here is a normalisation factor — this just normalises the sum of all probabilities to 1 given that there is a sum over <span class="math inline">\({\sf t}&#39;\)</span>. Note also that, if the process is defined over continuous time, we would need to replace</p>
 <p><span class="math display">\[
 \begin{align}
-\frac{1}{{\sf t}}\sum_{{\sf t}&#39;=0}^{{\sf t}} \rightarrow \frac{1}{t({\sf t})}\sum_{{\sf t}&#39;=0}^{{\sf t}}\delta t({\sf t}&#39;) \,.
+\frac{1}{{\sf t}}\sum_{{\sf t}&#39;={\sf t}-{\sf s}}^{{\sf t}} \rightarrow \frac{1}{t({\sf t})}\bigg[ t({\sf t}-{\sf s}-1) + \sum_{{\sf t}&#39;={\sf t}-{\sf s}}^{{\sf t}}\delta t({\sf t}&#39;)\bigg] \,.
 \end{align}
 \]</span></p>
 <p>Let’s go through some examples. Non-Markovian phenomena with continuous state spaces can have quite complex master equations. A relatively simple example is that of pure diffusion processes which exhibit stochastic resetting at a rate <span class="math inline">\(r\)</span> to a remembered location from the trajectory history <span class="citation" data-cites="boyer2017long">[2]</span></p>

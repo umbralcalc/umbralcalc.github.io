@@ -191,7 +191,12 @@ X^{i}_{{\sf t}+1} &amp;= F^{i}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) \,, \label{e
 t({\sf t}) &amp;= \sum^{{\sf t}}_{{\sf t}&#39;=0}\delta t({\sf t}&#39;) \label{eq:t-steps-sum} \,.
 \end{align}
 \]</span></p>
-<p>It’s important to remember that our steps in continuous time may not be constant, so by defining the <span class="math inline">\(\delta t({\sf t})\)</span> function and summing over it we can enable this flexibility in the computation. In case the summation notation is no fun for programmers; we’re simply adding up all of the differences in time to get a total.</p>
+<p>It’s important to remember that our steps in continuous time may not be constant, so by defining the <span class="math inline">\(\delta t({\sf t})\)</span> function and summing over it we can enable this flexibility in the computation. With a truncated state history, we only need to store <span class="math inline">\(\delta t\)</span> value for the last <span class="math inline">\({\sf s}\)</span> number of timesteps, i.e.,</p>
+<p><span class="math display">\[
+\begin{align}
+t({\sf t}) &amp;= t({\sf t}-{\sf s}-1) + \sum^{{\sf t}}_{{\sf t}&#39;={\sf t}-{\sf s}}\delta t({\sf t}&#39;) \,.
+\end{align}
+\]</span></p>
 <h2 id="example-phenomena">Example phenomena</h2>
 <p>So, now that we’ve mathematically defined a really general notion of iterating the stochastic process forward in time, it makes sense to discuss some simple examples. For instance, it is frequently possible to split <span class="math inline">\(F\)</span> up into deteministic (denoted <span class="math inline">\(D\)</span>) and stochastic (denoted <span class="math inline">\(S\)</span>) matrix-valued functions like so</p>
 <p><span class="math display">\[

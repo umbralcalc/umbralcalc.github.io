@@ -42,7 +42,13 @@ t({\sf t}) &= \sum^{{\sf t}}_{{\sf t}'=0}\delta t({\sf t}') \label{eq:t-steps-su
 \end{align}
 $$
 
-It's important to remember that our steps in continuous time may not be constant, so by defining the $\delta t({\sf t})$ function and summing over it we can enable this flexibility in the computation. In case the summation notation is no fun for programmers; we're simply adding up all of the differences in time to get a total.
+It's important to remember that our steps in continuous time may not be constant, so by defining the $\delta t({\sf t})$ function and summing over it we can enable this flexibility in the computation. With a truncated state history, we only need to store $\delta t$ value for the last ${\sf s}$ number of timesteps, i.e.,
+
+$$
+\begin{align}
+t({\sf t}) &= t({\sf t}-{\sf s}-1) + \sum^{{\sf t}}_{{\sf t}'={\sf t}-{\sf s}}\delta t({\sf t}') \,.
+\end{align}
+$$
 
 ## Example phenomena
 
