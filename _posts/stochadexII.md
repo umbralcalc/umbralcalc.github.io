@@ -419,7 +419,15 @@ P_{{\sf t}+1}(X,z\vert {\sf Y}) &\propto P_{{\sf t}+1}({\sf y}\vert x) P_{({\sf 
 \end{align}
 $$
 
-We can also marginalise this distribution over the past state history rows to get a distribution over the latest state row $X_{{\sf t}+1}=x$ like this
+Note that by calculating the overall normalisation of the right hand side of this expression, we are computing the Bayesian evidence ${\cal E}_{{\sf t}+1}$ (or 'Bayes factor') for the joint distribution update at timestep ${\sf t}+1$, i.e.,
+
+$$
+\begin{align}
+{\cal E}_{{\sf t}+1} = \int_{\zeta_{{\sf t}+1}} {\rm d}z \int_{\Omega_{{\sf t}+1}} {\rm d}X\, P_{{\sf t}+1}({\sf y}\vert x) P_{({\sf t}+1){\sf t}}(x\vert X', z) P_{{\sf t}}(X',z\vert {\sf Y}') \,,
+\end{align}
+$$
+
+where $\zeta_{{\sf t}+1}$ just corresponds to the integration domain over $z$ at timestep ${\sf t}+1$. We can also marginalise this distribution over the past state history rows to get a distribution over the latest state row $X_{{\sf t}+1}=x$ like this
 
 $$
 \begin{align}
@@ -427,31 +435,35 @@ P_{{\sf t}+1}(x,z\vert {\sf Y}) &= \int_{\Omega_{{\sf t}}} {\rm d}X'P_{{\sf t}+1
 \end{align}
 $$
 
-To understand how all of this translates to online learning it will be important to consider what happens if the model changes over time and $z$ needs to change in order to better represent the real data. Note that the relation above only considers $z$ to be _constant_ throughout the truncated state history of $X_{{\sf t}-{\sf s}:{\sf t}}=X'$, and so ideally we we'd want some way of updating $z$ within the same computational step without invalidating this relationship. In such situations, one possibility is to impose a correlation ansatz between the marginal distribution over $z$ in the present moment and the distributions evaluated in the past, like this
+To understand how all of this translates to online learning it will be important to consider what happens if the model changes over time and $z$ needs to change in order to better represent the real data. Note that the relation above only considers $z$ to be _constant_ throughout the truncated state history of $X_{{\sf t}-{\sf s}:{\sf t}}=X'$, and so ideally we we'd want some way of updating $z$ for the next computational step without invalidating this relationship.
+
+One might initially consider solutions to this problem which involve correlated sampling of $z$ to keep its value approximately constant over this defined window of interest while still managing to evolve its value over some timescale. The main problem with this idea is that the 'reactiveness' of $z$ to changes in the statistical properties of the incoming data is then fixed by the timescale implied by this window --- which might be undesirable in many situations.
+
+The more computationally-intensive solution to this problem (which works quite generally) is to simply rerun the past steps of the simulation from the timestep at the edge of the window ${\sf t}-{\sf s}$ up to ${\sf t}+1$ for each new timestep. This method ensures that $z$ is constant throughout the past time window and we may also update the value of $z$ on any timescale of reactiveness. In order to facilitate this solution, we will need to be able to run a simulation for a fixed number of steps _inside_ the step of another simulation. We will discuss how this new concept of 'embedded simulations' should work within the stochadex package in the next section.
+
+How might we deliberately control how reactive this $z$-learning framework is to changes in the data? One possibility is to impose an evidence normalisation ansatz which applies a 'past-discounting factor' between the distribution over $(X,z)$ in the present moment and the distributions evaluated in the past, like this
 
 $$
 \begin{align}
-P_{{\sf t}+1}(z\vert {\sf Y}) = \beta P_{{\sf t}}(z\vert {\sf Y}') \,\, \Leftrightarrow \,\, P_{{\sf t}+1}(z\vert {\sf Y}) = \frac{1}{{\sf t}+1}\sum_{{\sf t}'=({\sf t}+1)-{\sf s}}^{({\sf t}+1)} \beta^{{\sf t}+1-{\sf t}'} P_{{\sf t}'}(z\vert {\sf Y}') \,.
+{\cal E}_{{\sf t}+1} = \beta {\cal E}_{{\sf t}} \,\, \Longleftrightarrow \,\, {\cal E}_{{\sf t}+1} = \frac{1}{{\sf t}+1}\sum_{{\sf t}'=({\sf t}+1)-{\sf s}}^{({\sf t}+1)} \beta^{{\sf t}+1-{\sf t}'} {\cal E}_{{\sf t}'} \,.
 \end{align}
 $$
 
-One might also call this a 'past discounted' version of the distribution where $0 < \beta < 1$. Note that in the continuous-time version, this 'past-discounting' factor could depend on the stepsize such that we replace
+One might also call this a 'past-discounted' version of the distribution where $0 < \beta < 1$. Note that in the continuous-time version, this past-discounting factor could depend on the stepsize such that we replace
 
 $$
 \begin{align}
-\beta^{{\sf t}-{\sf t}'} \longrightarrow \frac{1}{\beta [\delta t({\sf t})]}\prod_{{\sf t}''={\sf t}'}^{{\sf t}} \beta [\delta t({\sf t}'')] \,.
+\beta^{{\sf t}+1-{\sf t}'} \longrightarrow \frac{1}{\beta [\delta t({\sf t}+1)]}\prod_{{\sf t}''={\sf t}'}^{{\sf t}+1} \beta [\delta t({\sf t}'')] \,.
 \end{align}
 $$
 
-But what motivates correlating past values to future values of the distribution in this way? We already know there is a similar relationship between these distributions which is imposed by the marginal $z$ update, and this must take the form of $P_{{\sf t}+1}(z\vert {\sf Y})\propto P_{{\sf t}+1}({\sf y}\vert z)P_{{\sf t}}(z\vert {\sf Y}')$ (see the relationship we wrote a few paragraphs up). Furthermore, if $\beta$ is chosen to be sufficiently close to $1$, we can ensure that $z$ is effectively constant throughout the history of $X'$ to satisfy the update relation and simultaneously we have the capability of changing $z$ through sampling gradually over time to learn new values dynamically.
+The discount factor $\beta$ reduces the dependence of the update on data which is much further in the past, providing some control over the responsiveness in the simulation inference algorithm. This responsiveness would have to be balanced with the tradeoffs associated with discounting potentially valuable data that may offer greater long-term stability. Readers who are familiar with Reinforcement Learning may be starting to feel in familiar territory here --- but they will have to wait for the next article to see more on discounting!
 
-The 'discount factor' $\beta$ also reduces the dependence of the update on data which is much further in the past, providing some control over the responsiveness in the simulation inference algorithm. This responsiveness would have to be balanced with the tradeoffs associated with discounting potentially valuable data that may offer greater long-term stability. Readers who are familiar with Reinforcement Learning may be starting to feel in familiar territory here --- but they will have to wait for the next article to see more on discounting!
-
-However, it's important to point out that simulations with a very long memory will only be able to update their values of $z$ in response to new data very slowly to avoid invalidating the inference. In such cases, and in general, it is wise to run multiple copies of the same simulation using different sampled values for $z$ at once in an ensemble of learning trajectories to achieve a more efficient update for $z$. In this regard, we can consider the past-discounting factor we have used here to be a strategy for making a single-trajectory learner as efficient at learning the marginal distribution for $z$ as possible.
-
-The update equation for the latest state row $X_{{\sf t}+1}=x$ tells us how to probabilistically translate the current state of knowledge about $(x,z)$ forward through time in response to the arrival of new data. We also know how to connect the simulated measurements to the real data because the BSL techniques we discussed earlier essentially give us an objective function to maximise for each step in time. Imposing the discounted distribution ansatz then gives us the last piece of the puzzle in order to connect the inference of the simulation posterior to some form of online learning framework.
+The update equation for the latest state row $X_{{\sf t}+1}=x$ tells us how to probabilistically translate the current state of knowledge about $(x,z)$ forward through time in response to the arrival of new data. We also know how to connect the simulated measurements to the real data because the BSL techniques we discussed earlier essentially give us an objective function to maximise for each step in time. Imposing the discounted distribution ansatz then gives us the last piece of the puzzle in order to connect the inference of the simulation posterior to some form of online learning framework. It's now time to discuss the algorithm in more detail.
 
 ## Algorithm design and implementation
+
+GOT TO HERE IN REWRITE...
 
 The inference algorithm which we will now introduce is a variant of recursive Bayes estimation [@arulampalam2002tutorial] that also uses a Monte Carlo form of Expectation-Maximisation to sample new simulation parameters --- see [@hartley1958maximum], [@dempster1977maximum] and also [@murphy2012machine]. The main idea is use some approximation for the density of $P_{{\sf t}+1}(x,z\vert {\sf Y})$, use this approximation and the correlation ansatz above to sample new values for $z$ as time progresses forward (i.e., the 'Maximisation' step with some Monte Carlo exploration) and update the $P_{{\sf t}+1}(x,z\vert {\sf Y})$ approximation as new data is received using one of our data comparison objectives from the previous section (i.e., the 'Expectation' step).
 

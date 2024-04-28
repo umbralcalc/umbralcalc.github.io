@@ -2,7 +2,7 @@
 title: Building Python simulations of limit order books
 author: Hardwick, Robert J
 date: 2021-11-14
-concept: To illustrate the basic building blocks required to construct a full microsimulation of limit order book dynamics. The simulation is a synchronous ensemble version of the well-studied epsilon-intelligence model. This is a short post on how the simulation was conceptualised, analysing some of its outputs and outlining prospects for potential future work on price emulation.
+concept: To illustrate the basic building blocks required to construct a full microsimulation of limit order book dynamics for financial markets. The simulation is a synchronous ensemble version of the well-studied epsilon-intelligence model. This is a short post on how the simulation was conceptualised, analysing some of its outputs and outlining prospects for potential future work on price emulation.
 articleId: lobsim
 codeLink: https://github.com/umbralcalc/lobsim
 year: 2021
@@ -30,7 +30,7 @@ The simulation we will design is an **individual-agent** version of the $\epsilo
 
 <img src="../assets/lobsim/lob-agent-sim.png" width="500"/>
 
-In the above model, we separate liquidity providers in the market - who place limit orders at price $p$ with rates $\lambda^B_p$ and $\lambda^A_p$ on the bid and ask side, respectively, and cancel these orders at a uniform rate of $\nu$ for each individual unit of volume - from liquidity takers - who place market orders at price $p$ for the $i$-th agent at rates $\mu^B_{pi}$ and $\mu^A_{pi}$. 
+In the above model, we separate liquidity providers in the market; who place limit orders at price $p$ with rates $\lambda^B_p$ and $\lambda^A_p$ on the bid and ask side, respectively, and cancel these orders at a uniform rate of $\nu$ for each individual unit of volume from liquidity takers; who place market orders at price $p$ for the $i$-th agent at rates $\mu^B_{pi}$ and $\mu^A_{pi}$.
 
 Let us denote the complete set of volumes for both bid $B_p\equiv\sum_{i=0}^{N_{\rm pr}}B_{pi}$ and ask $A_p\equiv\sum_{i=0}^{N_{\rm pr}}A_{pi}$ for all liquidity providing agents and at all $p$ prices, i.e., ${\cal V} = \{ \dots, B_{pi}, \dots, A_{pi}, \dots\}$. Using this notation, an approximate Markovian LOB master equation for the distribution over volumes $P({\cal V}, t)$ is
 
