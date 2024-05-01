@@ -351,7 +351,9 @@ P_{{\sf t}+1}({\sf y} \vert z) = \int_{\omega_{{\sf t}+1}}{\rm d}^nx\, P_{{\sf t
 \end{align}
 $$
 
-where, in practical terms, the measurement probability $P_{{\sf t}+1}({\sf y} \vert x)$ of ${\sf Y}_{{\sf t}+1}={\sf y}$ given $X_{{\sf t}+1}=x$ can be represented by sampling from another stochastic process which takes the state of the stochadex simulation as input. Given that we have this capability to compare like-for-like between the data and the simulation; the next problem is to figure out how this comparison between two sequences of vectors can be done in a way which ensures the the statistics of the posterior are ultimately respected.
+where, in practical terms, the measurement probability $P_{{\sf t}+1}({\sf y} \vert x)$ of ${\sf Y}_{{\sf t}+1}={\sf y}$ given $X_{{\sf t}+1}=x$ can be represented by sampling from another stochastic process which takes the state of the stochadex simulation as input. Given that we have this capability to compare like-for-like between the data and the simulation; the next problem is to figure out how this comparison between two sequences of vectors can be done in a way which ensures the the statistics of the posterior are ultimately respected. Another way of seeing this is we need a mechanism to perform the 'Parameter Inference' step in the diagram below where the simulated measurements effectively match the real measurements (at least to a good approximation).
+
+![](../assets/stochadexII/stochadexII-simulation-inference-concept.drawio.png)
 
 For an arbitrary simulation model which is defined by the stochadex, the likelihood in Bayes' rule is typically not describable as a simple function or distribution. While we could train the probability reweighting we derived in the previous section to match the simulation; to do this well would require having an exact formula for the conditional probability, and this is not always easy to derive in the general case. Instead, there is a class of Bayesian inference methods which we shall lean on to help us compute the posterior distribution (and hence the MAP), which are known as 'Likelihood-Free' methods --- see, e.g., [@sisson2018handbook], [@price2018bayesian], [@wood2010statistical] and [@drovandi2022comparison].
 
@@ -397,7 +399,7 @@ The likelihood-free posterior demonstrates how one can construct a statistically
 
 $$
 \begin{align}
-P_{{\sf t}+1}(x,z\vert {\sf Y}) \propto P_{{\sf t}+1}({\sf y}\vert z)P_{{\sf t}}(z\vert {\sf Y}') = P_{{\sf t}+1}({\sf y}\vert x)P_{{\sf t}+1}(x\vert z)P_{{\sf t}}(z\vert {\sf Y}') \,,
+P_{{\sf t}+1}(x,z\vert {\sf Y}) \propto P_{{\sf t}+1}({\sf y}\vert x)P_{{\sf t}+1}(x\vert z)P_{{\sf t}}(z\vert {\sf Y}') \,,
 \end{align}
 $$
 
@@ -427,13 +429,7 @@ $$
 \end{align}
 $$
 
-where $\zeta_{{\sf t}+1}$ just corresponds to the integration domain over $z$ at timestep ${\sf t}+1$. We can also marginalise this distribution over the past state history rows to get a distribution over the latest state row $X_{{\sf t}+1}=x$ like this
-
-$$
-\begin{align}
-P_{{\sf t}+1}(x,z\vert {\sf Y}) &= \int_{\Omega_{{\sf t}}} {\rm d}X'P_{{\sf t}+1}(X,z\vert {\sf Y}) \propto P_{{\sf t}+1}({\sf y}\vert x) \int_{\Omega_{{\sf t}}} {\rm d}X' P_{({\sf t}+1){\sf t}}(x\vert X', z) P_{{\sf t}}(X',z\vert {\sf Y}') \label{eq:x-z-update-latest-row} \,.
-\end{align}
-$$
+where $\zeta_{{\sf t}+1}$ just corresponds to the integration domain over $z$ at timestep ${\sf t}+1$.
 
 To understand how all of this translates to online learning it will be important to consider what happens if the model changes over time and $z$ needs to change in order to better represent the real data. Note that the relation above only considers $z$ to be _constant_ throughout the truncated state history of $X_{{\sf t}-{\sf s}:{\sf t}}=X'$, and so ideally we we'd want some way of updating $z$ for the next computational step without invalidating this relationship.
 
@@ -443,11 +439,13 @@ If we, instead, note that the joint distribution that we want to sample from (an
 
 $$
 \begin{align}
-P_{{\sf t}+1}(X,z\vert {\sf Y}) &= P_{({\sf t}+1){\sf t}}(z\vert X',{\sf Y})\prod_{{\sf t}'={\sf t}-{\sf s}}^{{\sf t}}P_{({\sf t}'+1){\sf t}'}(x\vert X'', z) \,,
+P_{{\sf t}+1}(X,z\vert {\sf Y}) \simeq P_{({\sf t}+1)({\sf t}-{\sf s})}(X,z\vert X',{\sf Y}) = P_{({\sf t}+1){\sf t}}(z\vert X',{\sf Y})\prod_{{\sf t}'={\sf t}-{\sf s}}^{{\sf t}}P_{({\sf t}'+1){\sf t}'}(x\vert X'', z) \,,
 \end{align}
 $$
 
-this implies that by sampling new histories of the simulation from the past window edge up to the present point in time, we may use some model for $P_{({\sf t}+1){\sf t}}(z\vert X',{\sf Y})$ to obtain samples from the joint distribution $P_{{\sf t}+1}(X,z\vert {\sf Y})$. Hence, the more computationally-intensive solution to the original problem (which works much more generally) is to simply rerun the past steps of the simulation from the timestep at the edge of the window ${\sf t}-{\sf s}$ up to ${\sf t}+1$ for each new timestep. This method ensures that $z$ is constant throughout the past time window and we may also update the value of $z$ on any timescale of reactiveness. In order to facilitate this solution, we will need to be able to run a simulation for a fixed number of steps _inside_ the step of another simulation. We will discuss how this new concept of 'embedded simulations' should work within the stochadex package in the next section.
+this implies that by sampling new histories of the simulation from the past window edge up to the present point in time, we may use some model for $P_{({\sf t}+1){\sf t}}(z\vert X',{\sf Y})$ to obtain samples from the joint distribution $P_{{\sf t}+1}(X,z\vert {\sf Y})$. Note that the expression we have written above is only approximate up to the exclusion of the initial condition in the state history on the left hand side, i.e., $P_{{\sf t}+1}(X,z\vert {\sf Y}) \simeq P_{({\sf t}+1)({\sf t}-{\sf s})}(X,z\vert X',{\sf Y})$. We are ignoring this initial condition as we will assume that the window is sufficiently long to cause any influence of this initial history on the final state to be negligible --- at least after a sufficient burn-in period.
+
+So the more computationally-intensive solution to the original problem (which works much more generally) is to simply rerun the past steps of the simulation from the timestep at the edge of the window $({\sf t}+1)-{\sf s}$ up to ${\sf t}+1$ for each new timestep. This method ensures that $z$ is constant throughout the past time window and we may also update the value of $z$ on any timescale of reactiveness. In order to facilitate this solution, we will need to be able to run a simulation for a fixed number of steps _inside_ the step of another simulation. We will discuss how this new concept of 'embedded simulations' should work within the stochadex package in the next section.
 
 How might we deliberately control how reactive this $z$-learning framework is to changes in the data? One possibility is to impose an evidence normalisation ansatz which applies a 'past-discounting factor' between the distribution over $(X,z)$ in the present moment and the distributions evaluated in the past, like this
 
