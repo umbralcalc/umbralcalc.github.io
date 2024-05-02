@@ -489,64 +489,10 @@ GOT TO HERE...
 
 Readers with some machine learning experience may be familiar with the classic exploration vs exploitation tradeoffs. It's clear that these tradeoffs will manifest in our case here when trying to strike a balance between iterating the posterior distribution and optimizing the current posterior with respect to $(X,z)$ to compute the MAP.
 
-Let's now take a step back from the specifics of the probabilistic reweighting algorithm to introduce our new software package for this part of the book: the 'learnadex'. At its core, the learnadex algorithm adapts the stochadex iteration engine to iterate through streams of data in order to accumulate a global objective function value with respect to that data. The user may then choose which optimisation algorithm (or write their own) to use in order to leverage this objective for learning a better representation of the data.
+On the learning side; in order to define a specific objective for each data iterator to compute while the data streams through it, we have abstracted a 'log-likelihood' type. Each data iterator is defined as a standard stochadex iteration, hence it can stream data into the learning algorithm from any user-defined source --- e.g., from a file on disk, from a local database instance or maybe via a network socket.
 
-As we discussed at the end of the last section, the algorithms in the learnadex are all applied in an 'online' fashion --- refitting for the optimal hyperparameters $z$ as new data is streamed into them. A challenging aspect of online learning is in managing the computational expense of recomputing the optimal value for $z$ after each new datapoint is sent. To help with this; the user may configure the algorithm recompute the optimum value after larger batches of data have been ingested. The last value of optimum $z$ will also frequently be close to the next optimum in the sequence, so using the former as the initial input into the optimisation routine for the latter is typically very valuable for aiding efficiency.
+Talk about the output - talk about the possibilities for output and what the default setting to json logs is for. This could also be written to, e.g., a locally-hosted database server and the best-suited would be a NoSQL document database, e.g., MongoDB [@mongodb], but building something bespoke and simpler is more aligned with the use-case here and with the principles of this book.
 
-Reusing the $\texttt{PartitionCoordinator}$ code of the stochadex to facilitate online learning makes neat use of software which has already been designed in the previous article. However, in order to fully achieve this, an additional configuration type is necessary; as we show in Fig.~\ref{fig:learnadex-data-types-design}. To start with, we separate out 'learning' from the kind of optimiser in the overall config so as to enable multiple optimisation algorithms to be used for the same learning problem. The hyperparameters that define that optimisation problem domain can be determined by the user with an extension to the \texttt{OtherParams} object in the stochadex so that it includes some optional Boolean masks over the parameters, i.e., \texttt{OtherParams.FloatParamMask} and \texttt{OtherParams.IntParamMask}. These masks are used to extract the parameters of interest, which can then be flattened and formatted to fit into any generic optimisation algorithm.
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=7cm]{images/chapter-3-learnadex-data-types.drawio.png}
-\caption{The learning config data type.}
-\label{fig:learnadex-data-types-design}
-\end{figure}
-
-On the learning side; in order to define a specific objective for each data iterator to compute while the data streams through it, we have abstracted a 'log-likelihood' type. Each data iterator is defined as a standard stochadex iteration, hence it can stream data into the learning algorithm from any user-defined source --- e.g., from a file on disk, from a local database instance or maybe via a network socket. In Fig.~\ref{fig:learnadex-data-iterator} below, we provide a schematic of the method calls of (and within) each data iterator.
-
-\textcolor{red}{\begin{itemize}
-\item{refactor the code and integrate the reweighting algorithm with Libtorch models for the conditional probabilities --- describe how this is supported}
-\item{describe the method calls diagram in more detail --- in particular, point out how it can replace the \texttt{Iteration.Iterate} method which is called when the \texttt{StateIterator} is asked for another iteration from the \texttt{PartitionCoordinator} of the stochadex}
-\item{then talk about the optimiser! starting with non-gradient-based: the two packages that are supported out of the box are gonum and eaopt (still need to do gago --- see here: github.com/maxhalford/eaopt) }
-\item{also need to then support gradient-based algorithms (like vanilla SGD) by implementing Eq.~(\ref{eq:log-likelihood-reweighting-grad}) for the current basic implementations in the learnadex --- shouldn't be too difficult!}
-\item{then talk about the output - talk about the possibilities for output and what the default setting to json logs is for}
-\item{could also be written to, e.g., a locally-hosted database server and the best-suited would be a NoSQL document database, e.g., MongoDB~\cite{mongodb}, but building something bespoke and simpler is more aligned with the use-case here and with the principles of this book}
-\item{describe the need for log exploration and visualisation and then introduce logsplorer - a REST API for querying the json logs (with basic filtering and selection capabilities but could be extended to more advanced options) and optionally also launches a visualisation React app written in Typescript}
-\item{note how this could be scaled to cloud services easily and remotely queried through the logsplorer API and visualised} 
-\end{itemize}}
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=14cm]{images/chapter-3-learnadex-data-iterator.drawio.png}
-\caption{A schematic of an iteration with an objective function evaluation.}
-\label{fig:learnadex-data-iterator}
-\end{figure}
-
-As with the software we wrote for the stochadex, the learnadex main binary executable leverages templating to enable full configurability of all the implementations and settings of Fig.~\ref{fig:learnadex-data-types-design} through passing configs at runtime. Users can alternatively use the learnadex as a library for import, if they desire more control over the code execution. 
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=13cm]{images/chapter-3-learnadex-main.drawio.png}
-\caption{A diagram of the main learnadex and logsplorer executables.}
-\label{fig:learnadex-main}
-\end{figure}
-
-\textcolor{red}{Take a step back at this point and consider all the use-cases for the learnadex:
-\begin{itemize}
-\item{Core functionality is to enable iterative updates to the $P_{\sf t}(X,z)$ distribution at every timestep. There must also be flexibility in how this distribution can represented, i.e., either:
-\begin{itemize}
-\item{a set of Monte Carlo samples, or}
-\item{a set of distribution parameters}
-\end{itemize}
-}
-\item{For Monte Carlo samples, we must also keep the flexibility to use either a BSL or ABC-style data-to-sim comparison in order to facilitate the update}
-\item{For distribution parameters, the update can be custom-built by the user with online likelihood-based inference/Bayes estimator methods}
-\item{Separate thread context runs of online learning methods using an update method, e.g.,}
-\begin{itemize}
-\item{Gradient-free batch optimisation with any chosen learning algorithm}
-\item{Gradient-based parameter updates}
-\item{Arbitrary parameter updates from a different method}
-\end{itemize}
-\end{itemize}}
+Describe the need for log exploration and visualisation and then introduce logsplorer - a REST API for querying the json logs (with basic filtering and selection capabilities but could be extended to more advanced options) and optionally also launches a visualisation React app written in Typescript. Note how this could be scaled to cloud services easily and remotely queried through the logsplorer API and visualised.
 
 ## References
