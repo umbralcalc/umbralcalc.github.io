@@ -170,24 +170,24 @@ About
 <hr color="LightGray">
 </br>
 <h2 id="formalism-recap">Formalism recap</h2>
-<p>Let’s recap the formalism introduced in <span class="citation" data-cites="stochadexI-2024">[1]</span>, which considers what happens to the probability that the state history matrix takes a particular set of values over time. To do this, we write down what is known as a <em>master equation</em>, which fully describes the time evolution of the <em>probability density function</em> <span class="math inline">\(P_{{\sf t}+1}(X\vert z)\)</span> of <span class="math inline">\(X_{0:{\sf t}+1}=X\)</span> given that the parameters of the process are <span class="math inline">\(z\)</span>. This can be written as</p>
+<p>Let’s recall the formalism introduced in <span class="citation" data-cites="stochadexII-WIP">[1]</span>, which considers what happens to the probability that the state history matrix takes a particular set of values over time. To do this, we write down what is known as a <em>master equation</em>, which fully describes the time evolution of the <em>probability density function</em> <span class="math inline">\(P_{{\sf t}+1}(X\vert z)\)</span> of <span class="math inline">\(X_{({\sf t}+1)-{\sf s}:({\sf t}+1)}=X\)</span> given that the parameters of the process are <span class="math inline">\(z\)</span> and the state history window size is <span class="math inline">\({\sf s}\)</span>. This can be written as</p>
 <p><span class="math display">\[
 \begin{aligned}
 P_{{\sf t}+1}(X\vert z) &amp;= P_{{\sf t}}(X&#39;\vert z) P_{({\sf t}+1){\sf t}}(x\vert X&#39;,z)\,,
 \end{aligned}
 \]</span></p>
-<p>where for the time being we are assuming the state space is continuous in each of the matrix elements and <span class="math inline">\(P_{({\sf t}+1){\sf t}}(x\vert X&#39;,z)\)</span> is the conditional probability that <span class="math inline">\(X_{{\sf t}+1}=x\)</span> given that <span class="math inline">\(X_{0:{\sf t}}=X&#39;\)</span> at time <span class="math inline">\({\sf t}\)</span> and the parameters of the process are <span class="math inline">\(z\)</span>.</p>
+<p>where for the time being we are assuming the state space is continuous in each of the matrix elements and <span class="math inline">\(P_{({\sf t}+1){\sf t}}(x\vert X&#39;,z)\)</span> is the conditional probability that <span class="math inline">\(X_{{\sf t}+1}=x\)</span> given that <span class="math inline">\(X_{{\sf t}-{\sf s}:{\sf t}}=X&#39;\)</span> at time <span class="math inline">\({\sf t}\)</span> and the parameters of the process are <span class="math inline">\(z\)</span>.</p>
 <p>If we only consider the probability that the latest state history row is <span class="math inline">\(X_{{\sf t}+1}=x\)</span>, it’s possible to show that this is product of sub-domain integrals over each matrix row</p>
 <p><span class="math display">\[
 \begin{aligned}
-P_{{\sf t}+1}(x\vert z) &amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;&#39;=0}^{{\sf t}} \int_{\Omega_{{\sf t}&#39;&#39;}}{\rm d}X&#39;&#39; P_{{\sf t}&#39;&#39;}(X&#39;&#39;\vert z) P_{({\sf t}+1){\sf t}&#39;&#39;}(x \vert X&#39;&#39;,z)  \,.
+P_{{\sf t}+1}(x\vert z) &amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;&#39;={\sf t}-{\sf s}}^{{\sf t}} \int_{\Omega_{{\sf t}&#39;&#39;}}{\rm d}X&#39;&#39; P_{{\sf t}&#39;&#39;}(X&#39;&#39;\vert z) P_{({\sf t}+1){\sf t}&#39;&#39;}(x \vert X&#39;&#39;,z)  \,.
 \end{aligned}
 \]</span></p>
 <h2 id="non-markovian-phenomena">Non-Markovian phenomena</h2>
-<p>Let’s now return back to the full master equation we wrote at the beginning. As was shown in <span class="citation" data-cites="stochadexII-WIP">[2]</span>, we can also approximate the probability <span class="math inline">\(P_{{\sf t}+1}(X\vert z)\)</span> with a logarithmic expansion like this</p>
+<p>Let’s now return back to the full master equation we wrote at the beginning. As was shown in <span class="citation" data-cites="stochadexII-WIP">[1]</span>, we can also approximate the probability <span class="math inline">\(P_{{\sf t}+1}(X\vert z)\)</span> with a logarithmic expansion like this</p>
 <p><span class="math display">\[
 \begin{aligned}
-\ln P_{{\sf t}+1}(X\vert z) &amp;\simeq \ln P_{{\sf t}+1}(X_* \vert z) + \frac{1}{2}\sum_{{\sf t}&#39;=0}^{{\sf t}+1}\sum_{i=0}^{n}\sum_{j=0}^{n} (x-x_* )^i {\cal I}^{ij}_{({\sf t}+1){\sf t}&#39;}(z) (x&#39;-x&#39;_*)^j  \\
+\ln P_{{\sf t}+1}(X\vert z) &amp;\simeq \ln P_{{\sf t}+1}(X_* \vert z) + \frac{1}{2}\sum_{{\sf t}&#39;=({\sf t}+1)-{\sf s}}^{({\sf t}+1)}\sum_{i=0}^{n}\sum_{j=0}^{n} (x-x_* )^i {\cal I}^{ij}_{({\sf t}+1){\sf t}&#39;}(z) (x&#39;-x&#39;_*)^j  \\
 {\cal I}^{ij}_{({\sf t}+1){\sf t}&#39;}(z) &amp;= \frac{\partial}{\partial x^i}\frac{\partial}{\partial (x&#39;)^j}\ln P_{{\sf t}+1}(X\vert z) \bigg\vert_{X=X_*} \,,
 \end{aligned}
 \]</span></p>
@@ -200,54 +200,56 @@ P_{{\sf t}+1}(x\vert z) &amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;&#39;=0}^{{\sf
 <p>If we keep the truncation up to second order in the logarithmic expansion, note that this expression implies a pairwise correlation structure of the form</p>
 <p><span class="math display">\[
 \begin{aligned}
-P_{{\sf t}+1}(X\vert z) &amp;\rightarrow \prod_{{\sf t}&#39;=0}^{{\sf t}}P_{({\sf t}+1){\sf t}&#39;}(x,x&#39;\vert z) = \prod_{{\sf t}&#39;=0}^{{\sf t}}P_{{\sf t}&#39;}(x&#39;\vert z)P_{({\sf t}+1){\sf t}&#39;}(x\vert x&#39;, z) \,.
+P_{{\sf t}+1}(X\vert z) &amp;\rightarrow \prod_{{\sf t}&#39;={\sf t}-{\sf s}}^{{\sf t}}P_{({\sf t}+1){\sf t}&#39;}(x,x&#39;\vert z) = \prod_{{\sf t}&#39;={\sf t}-{\sf s}}^{{\sf t}}P_{{\sf t}&#39;}(x&#39;\vert z)P_{({\sf t}+1){\sf t}&#39;}(x\vert x&#39;, z) \,.
 \end{aligned}
 \]</span></p>
 <p>Given this pairwise temporal correlation structure, the master equation over the latest row reduces to this simpler sum of integrals</p>
 <p><span class="math display">\[
 \begin{aligned}
-P_{{\sf t}+1}(x\vert z) &amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;=0}^{{\sf t}}\int_{\omega_{{\sf t}&#39;}}{\rm d}^nx&#39; P_{{\sf t}&#39;}(x&#39;\vert z)P_{({\sf t}+1){\sf t}&#39;}(x\vert x&#39;,z)  \,.
+P_{{\sf t}+1}(x\vert z) &amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;={\sf t}-{\sf s}}^{{\sf t}}\int_{\omega_{{\sf t}&#39;}}{\rm d}^nx&#39; P_{{\sf t}&#39;}(x&#39;\vert z)P_{({\sf t}+1){\sf t}&#39;}(x\vert x&#39;,z)  \,.
 \end{aligned}
 \]</span></p>
 <p>In a similar fashion, we can increase the truncation order of the logarithmic expansion to include third-order correlations such that</p>
 <p><span class="math display">\[
 \begin{aligned}
-P_{{\sf t}+1}(X\vert z) &amp;\rightarrow \prod_{{\sf t}&#39;=0}^{{\sf t}}\prod_{{\sf t}&#39;&#39;=0}^{{\sf t}&#39;-1} P_{{\sf t}&#39;{\sf t}&#39;&#39;}(x&#39;,x&#39;&#39;\vert z)P_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x\vert x&#39;,x&#39;&#39;,z) \,,
+P_{{\sf t}+1}(X\vert z) &amp;\rightarrow \prod_{{\sf t}&#39;={\sf t}-{\sf s}}^{{\sf t}}\prod_{{\sf t}&#39;&#39;={\sf t}-{\sf s}}^{{\sf t}&#39;-1} P_{{\sf t}&#39;{\sf t}&#39;&#39;}(x&#39;,x&#39;&#39;\vert z)P_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x\vert x&#39;,x&#39;&#39;,z) \,,
 \end{aligned}
 \]</span></p>
 <p>and, in this instance, one can show that the master equation over the latest row reduces to</p>
 <p><span class="math display">\[
 \begin{aligned}
-P_{{\sf t}+1}(x\vert z) &amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;=0}^{{\sf t}}\frac{1}{{\sf t}&#39;-1}\sum_{{\sf t}&#39;&#39;=0}^{{\sf t}&#39;-1}\int_{\omega_{{\sf t}&#39;}}{\rm d}^nx&#39;\int_{\omega_{{\sf t}&#39;&#39;}}{\rm d}^nx&#39;&#39; P_{{\sf t}&#39;{\sf t}&#39;&#39;}(x&#39;,x&#39;&#39;\vert z)P_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x\vert x&#39;,x&#39;&#39;,z)  \,.
+P_{{\sf t}+1}(x\vert z) &amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;={\sf t}-{\sf s}}^{{\sf t}}\frac{1}{{\sf t}&#39;-1}\sum_{{\sf t}&#39;&#39;={\sf t}-{\sf s}}^{{\sf t}&#39;-1}\int_{\omega_{{\sf t}&#39;}}{\rm d}^nx&#39;\int_{\omega_{{\sf t}&#39;&#39;}}{\rm d}^nx&#39;&#39; P_{{\sf t}&#39;{\sf t}&#39;&#39;}(x&#39;,x&#39;&#39;\vert z)P_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x\vert x&#39;,x&#39;&#39;,z)  \,.
 \end{aligned}
 \]</span></p>
 <p>Using <span class="math inline">\(P_{{\sf t}&#39;{\sf t}&#39;&#39;}(x&#39;,x&#39;&#39;\vert z) = P_{{\sf t}&#39;&#39;}(x&#39;&#39;\vert z) P_{{\sf t}&#39;{\sf t}&#39;&#39;}(x&#39;\vert x&#39;&#39;, z)\)</span> one can also show that this integral is a marginalisation of this expression</p>
 <p><span class="math display">\[
 \begin{aligned}
-P_{({\sf t}+1){\sf t}&#39;&#39;}(x\vert x&#39;&#39;, z) &amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;=0}^{{\sf t}}\int_{\omega_{{\sf t}&#39;}}{\rm d}^nx&#39;P_{{\sf t}&#39;{\sf t}&#39;&#39;}(x&#39;\vert x&#39;&#39;,z)P_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x\vert x&#39;,x&#39;&#39;,z) \,,
+P_{({\sf t}+1){\sf t}&#39;&#39;}(x\vert x&#39;&#39;, z) &amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;={\sf t}-{\sf s}}^{{\sf t}}\int_{\omega_{{\sf t}&#39;}}{\rm d}^nx&#39;P_{{\sf t}&#39;{\sf t}&#39;&#39;}(x&#39;\vert x&#39;&#39;,z)P_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x\vert x&#39;,x&#39;&#39;,z) \,,
 \end{aligned}
 \]</span></p>
 <p>which describes the time evolution of the conditional probabilities.</p>
 <p>Let’s imagine that <span class="math inline">\(x\)</span> is just a scalar (as opposed to a row vector) for simplicity in the expressions. We can then discretise the 1D space over <span class="math inline">\(x\)</span> into separate <span class="math inline">\(i\)</span>-labelled regions such that <span class="math inline">\(P^i_{{\sf t}+1} - P^i_{{\sf t}} = {\cal J}^i_{{\sf t}+1}\)</span>, where the probability current <span class="math inline">\({\cal J}^i_{{\sf t}+1}\)</span> for the factorised processes above would be defined as</p>
 <p><span class="math display">\[
 \begin{aligned}
-{\cal J}^i_{{\sf t}+1} &amp;= - P^i_{{\sf t}} + \frac{1}{{\sf t}}\sum_{{\sf t}&#39;=0}^{{\sf t}}\sum_{i&#39;=0}^N\Delta x P_{{\sf t}&#39;}^{i&#39;} P_{({\sf t}+1){\sf t}&#39;}^{ii&#39;} \\
-{\cal J}^i_{{\sf t}+1} &amp;= - P^i_{{\sf t}} + \frac{1}{{\sf t}}\sum_{{\sf t}&#39;=1}^{{\sf t}}\frac{1}{{\sf t}&#39;-1}\sum_{{\sf t}&#39;&#39;=0}^{{\sf t}&#39;-1}\sum_{i&#39;=0}^N\sum_{i&#39;&#39;=0}^N\Delta x^2P_{{\sf t}&#39;&#39;}^{i&#39;&#39;}P_{{\sf t}&#39;{\sf t}&#39;&#39;}^{i&#39;i&#39;&#39;}P^{ii&#39;i&#39;&#39;}_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}\,.
+{\cal J}^i_{{\sf t}+1} &amp;= - P^i_{{\sf t}} + \frac{1}{{\sf t}}\sum_{{\sf t}&#39;={\sf t}-{\sf s}}^{{\sf t}}\sum_{i&#39;=0}^N\Delta x P_{{\sf t}&#39;}^{i&#39;} P_{({\sf t}+1){\sf t}&#39;}^{ii&#39;} \\
+{\cal J}^i_{{\sf t}+1} &amp;= - P^i_{{\sf t}} + \frac{1}{{\sf t}}\sum_{{\sf t}&#39;={\sf t}-{\sf s}}^{{\sf t}}\frac{1}{{\sf t}&#39;-1}\sum_{{\sf t}&#39;&#39;={\sf t}-{\sf s}}^{{\sf t}&#39;-1}\sum_{i&#39;=0}^N\sum_{i&#39;&#39;=0}^N\Delta x^2P_{{\sf t}&#39;&#39;}^{i&#39;&#39;}P_{{\sf t}&#39;{\sf t}&#39;&#39;}^{i&#39;i&#39;&#39;}P^{ii&#39;i&#39;&#39;}_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}\,.
 \end{aligned}
 \]</span></p>
 <p>The <span class="math inline">\(P^{ii&#39;i&#39;&#39;}_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}\)</span> tensor, in particular, will have <span class="math inline">\(N^3{\sf t}({\sf t}^2-1)\)</span> elements. Note that the third-order temporal correlations can be evolved by identifying the pairwise conditional probabilities as time-dependent state variables and evolving them according to the following relation</p>
 <p><span class="math display">\[
 \begin{aligned}
-P_{({\sf t}+1){\sf t}&#39;&#39;}^{ii&#39;&#39;} &amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;=1}^{{\sf t}}\sum_{i&#39;=0}^N\Delta xP_{{\sf t}&#39;{\sf t}&#39;&#39;}^{i&#39;i&#39;&#39;}P_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}^{ii&#39;i&#39;&#39;}\,.
+P_{({\sf t}+1){\sf t}&#39;&#39;}^{ii&#39;&#39;} &amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;={\sf t}-{\sf s}}^{{\sf t}}\sum_{i&#39;=0}^N\Delta xP_{{\sf t}&#39;{\sf t}&#39;&#39;}^{i&#39;i&#39;&#39;}P_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}^{ii&#39;i&#39;&#39;}\,.
 \end{aligned}
 \]</span></p>
+<h2 id="getting-this-into-libtorch">Getting this into Libtorch</h2>
+<p>Pytorch provides a C++ API known as Libtorch <span class="citation" data-cites="libtorch">[2]</span> which can be used as a library to handle abstract tensor computations in a computationally efficent way. The key libary calls which will make the operations above possible ended up being <span class="math inline">\(\texttt{torch::tensordot}\)</span> (to handle contractions over indices between different tensors) and <span class="math inline">\(\texttt{torch::cat}\)</span> (to extend the windowed state history from initialisation up to the point at which the full state history window size is reached).</p>
 <h2 class="unnumbered" id="references">References</h2>
 <div id="refs" class="references" role="doc-bibliography">
-<div id="ref-stochadexI-2024">
-<p>[1] R. J. Hardwick, “Self-learning simulations series: Building a generalised simulation engine,” <em>umbralcalculations (umbralcalc.github.io/posts/stochadexI.html)</em>, 2024.</p>
-</div>
 <div id="ref-stochadexII-WIP">
-<p>[2] R. J. Hardwick, “Self-learning simulations series: Online simulation inference methods,” <em>umbralcalculations (umbralcalc.github.io/posts/stochadexII.html)</em>.</p>
+<p>[1] R. J. Hardwick, “Self-learning simulations series: Online simulation inference methods,” <em>umbralcalculations (umbralcalc.github.io/posts/stochadexII.html)</em>.</p>
+</div>
+<div id="ref-libtorch">
+<p>[2] “Libtorch: Pytorch C++ API.” <a href="https://pytorch.org/cppdocs/">https://pytorch.org/cppdocs/</a>.</p>
 </div>
 </div>
 <hr color="LightGray">
