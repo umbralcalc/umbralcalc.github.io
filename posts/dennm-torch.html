@@ -228,7 +228,8 @@ P_{({\sf t}+1){\sf t}&#39;&#39;}(x\vert x&#39;&#39;, z) &amp;= \frac{1}{{\sf t}}
 \end{aligned}
 \]</span></p>
 <p>which describes the time evolution of the conditional probabilities.</p>
-<p>Let’s imagine that <span class="math inline">\(x\)</span> is just a scalar (as opposed to a row vector) for simplicity in the expressions. We can then discretise the 1D space over <span class="math inline">\(x\)</span> into separate <span class="math inline">\(i\)</span>-labelled regions such that <span class="math inline">\(P^i_{{\sf t}+1} - P^i_{{\sf t}} = {\cal J}^i_{{\sf t}+1}\)</span>, where the probability current <span class="math inline">\({\cal J}^i_{{\sf t}+1}\)</span> for the factorised processes above would be defined as</p>
+<h2 id="discretising-and-working-with-libtorch">Discretising and working with Libtorch</h2>
+<p>Let’s now imagine that <span class="math inline">\(x\)</span> is just a scalar (as opposed to a row vector) for simplicity in the expressions. We can then discretise the 1D space over <span class="math inline">\(x\)</span> into separate <span class="math inline">\(i\)</span>-labelled regions such that <span class="math inline">\(P^i_{{\sf t}+1} - P^i_{{\sf t}} = {\cal J}^i_{{\sf t}+1}\)</span>, where the probability current <span class="math inline">\({\cal J}^i_{{\sf t}+1}\)</span> for the factorised processes above would be defined as</p>
 <p><span class="math display">\[
 \begin{aligned}
 {\cal J}^i_{{\sf t}+1} &amp;= - P^i_{{\sf t}} + \frac{1}{{\sf t}}\sum_{{\sf t}&#39;={\sf t}-{\sf s}}^{{\sf t}}\sum_{i&#39;=0}^N\Delta x P_{{\sf t}&#39;}^{i&#39;} P_{({\sf t}+1){\sf t}&#39;}^{ii&#39;} \\
@@ -241,8 +242,8 @@ P_{({\sf t}+1){\sf t}&#39;&#39;}(x\vert x&#39;&#39;, z) &amp;= \frac{1}{{\sf t}}
 P_{({\sf t}+1){\sf t}&#39;&#39;}^{ii&#39;&#39;} &amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;={\sf t}-{\sf s}}^{{\sf t}}\sum_{i&#39;=0}^N\Delta xP_{{\sf t}&#39;{\sf t}&#39;&#39;}^{i&#39;i&#39;&#39;}P_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}^{ii&#39;i&#39;&#39;}\,.
 \end{aligned}
 \]</span></p>
-<h2 id="getting-this-into-libtorch">Getting this into Libtorch</h2>
-<p>Pytorch provides a C++ API known as Libtorch <span class="citation" data-cites="libtorch">[2]</span> which can be used as a library to handle abstract tensor computations in a computationally efficent way. The key libary calls which will make the operations above possible ended up being <span class="math inline">\(\texttt{torch::tensordot}\)</span> (to handle contractions over indices between different tensors) and <span class="math inline">\(\texttt{torch::cat}\)</span> (to extend the windowed state history from initialisation up to the point at which the full state history window size is reached).</p>
+<p>Pytorch provides a C++ API known as Libtorch <span class="citation" data-cites="libtorch">[2]</span> which can be used as a library to handle the abstractions of tensor operations in a computationally efficent way. The key libary calls which will make the operations above possible are <span class="math inline">\(\texttt{torch::tensordot}\)</span> (to handle contractions over indices between different tensors) and <span class="math inline">\(\texttt{torch::cat}\)</span> (to extend the windowed state history from initialisation up to the point at which the full state history window size is reached).</p>
+<p>The discretised iteration formulae above have been implemented with Libtorch in this small C++ package here: <a href="https://github.com/umbralcalc/dennm-torch">https://github.com/umbralcalc/dennm-torch</a>. Possible extensions to this work include implementing even higher-order correlations as well as trying out some specific systems.</p>
 <h2 class="unnumbered" id="references">References</h2>
 <div id="refs" class="references" role="doc-bibliography">
 <div id="ref-stochadexII-WIP">

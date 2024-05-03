@@ -89,7 +89,9 @@ $$
 
 which describes the time evolution of the conditional probabilities.
 
-Let's imagine that $x$ is just a scalar (as opposed to a row vector) for simplicity in the expressions. We can then discretise the 1D space over $x$ into separate $i$-labelled regions such that $P^i_{{\sf t}+1} - P^i_{{\sf t}} = {\cal J}^i_{{\sf t}+1}$, where the probability current ${\cal J}^i_{{\sf t}+1}$ for the factorised processes above would be defined as
+## Discretising and working with Libtorch
+
+Let's now imagine that $x$ is just a scalar (as opposed to a row vector) for simplicity in the expressions. We can then discretise the 1D space over $x$ into separate $i$-labelled regions such that $P^i_{{\sf t}+1} - P^i_{{\sf t}} = {\cal J}^i_{{\sf t}+1}$, where the probability current ${\cal J}^i_{{\sf t}+1}$ for the factorised processes above would be defined as
 
 $$
 \begin{aligned}
@@ -106,8 +108,8 @@ P_{({\sf t}+1){\sf t}''}^{ii''} &= \frac{1}{{\sf t}}\sum_{{\sf t}'={\sf t}-{\sf 
 \end{aligned}
 $$
 
-## Getting this into Libtorch
+Pytorch provides a C++ API known as Libtorch [@libtorch] which can be used as a library to handle the abstractions of tensor operations in a computationally efficent way. The key libary calls which will make the operations above possible are $\texttt{torch::tensordot}$ (to handle contractions over indices between different tensors) and $\texttt{torch::cat}$ (to extend the windowed state history from initialisation up to the point at which the full state history window size is reached).
 
-Pytorch provides a C++ API known as Libtorch [@libtorch] which can be used as a library to handle abstract tensor computations in a computationally efficent way. The key libary calls which will make the operations above possible ended up being $\texttt{torch::tensordot}$ (to handle contractions over indices between different tensors) and $\texttt{torch::cat}$ (to extend the windowed state history from initialisation up to the point at which the full state history window size is reached).
+The discretised iteration formulae above have been implemented with Libtorch in this small C++ package here: [https://github.com/umbralcalc/dennm-torch](https://github.com/umbralcalc/dennm-torch). Possible extensions to this work include implementing even higher-order correlations as well as trying out some specific systems.
 
 ## References
