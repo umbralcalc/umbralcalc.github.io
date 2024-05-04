@@ -421,11 +421,11 @@ P_{{\sf t}+1}(X,z\vert {\sf Y}) &\propto P_{{\sf t}+1}({\sf y}\vert x) P_{({\sf 
 \end{align}
 $$
 
-Note that by calculating the overall normalisation of the right hand side of this expression, we are computing the Bayesian evidence ${\cal E}_{{\sf t}+1}$ (or 'Bayes factor') for the joint distribution update at timestep ${\sf t}+1$, i.e.,
+Note that by calculating the overall normalisation of the right hand side of this expression, we are computing the synthetic Bayesian evidence ${\sf e}_{{\sf t}+1}({\sf y}\vert {\sf Y}')$ (the value typically used in constructing the 'Bayes factor' for model selection) for updating the joint distribution update at timestep ${\sf t}+1$, i.e.,
 
 $$
 \begin{align}
-{\cal E}_{{\sf t}+1} = \int_{\zeta_{{\sf t}+1}} {\rm d}z \int_{\Omega_{{\sf t}+1}} {\rm d}X\, P_{{\sf t}+1}({\sf y}\vert x) P_{({\sf t}+1){\sf t}}(x\vert X', z) P_{{\sf t}}(X',z\vert {\sf Y}') \,,
+{\sf e}_{{\sf t}+1}({\sf y}\vert {\sf Y}') = \int_{\zeta_{{\sf t}+1}} {\rm d}z \int_{\Omega_{{\sf t}+1}} {\rm d}X\, P_{{\sf t}+1}({\sf y}\vert x) P_{({\sf t}+1){\sf t}}(x\vert X', z) P_{{\sf t}}(X',z\vert {\sf Y}') \,,
 \end{align}
 $$
 
@@ -451,7 +451,7 @@ How might we deliberately control how reactive this $z$-learning framework is to
 
 $$
 \begin{align}
-{\cal E}_{{\sf t}+1} = \beta {\cal E}_{{\sf t}} \,\, \Longleftrightarrow \,\, {\cal E}_{{\sf t}+1} = \frac{1}{{\sf t}+1}\sum_{{\sf t}'=({\sf t}+1)-{\sf s}}^{({\sf t}+1)} \beta^{{\sf t}+1-{\sf t}'} {\cal E}_{{\sf t}'} \,.
+{\sf e}_{{\sf t}+1}({\sf y}\vert {\sf Y}') = \beta {\sf e}_{{\sf t}}({\sf y}'\vert {\sf Y}'') \,\, \Longleftrightarrow \,\, {\sf e}_{{\sf t}+1}({\sf y}\vert {\sf Y}') = \frac{1}{{\sf t}+1}\sum_{{\sf t}'=({\sf t}+1)-{\sf s}}^{({\sf t}+1)} \beta^{{\sf t}+1-{\sf t}'} {\sf e}_{{\sf t}'}({\sf y}'\vert {\sf Y}'') \,.
 \end{align}
 $$
 

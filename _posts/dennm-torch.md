@@ -1,11 +1,11 @@
 ---
 title: Solving non-Markovian master equations with Libtorch
 author: Hardwick, Robert J
-date: [WIP]
+date: 2024-05-04
 concept: To study a variety of numerical solutions to non-Markovian phenomena. We do this by revealing different orders of temporal correlation that are present in the full master equation of a generalised non-Markovian process. By relating higher-order correlations to a form of time dependence in the pairwise correlation we then show how to numerically solve the system to obtain the time evolution of state probabilities. Since this computation can become very numerically intensive, the algorithm we discuss is implemented in C++ using the Libtorch library to achieve as much performance as possible.
 articleId: dennm-torch
 codeLink: https://github.com/umbralcalc/dennm-torch
-year: [WIP]
+year: 2024
 ---
 
 ## Formalism recap
