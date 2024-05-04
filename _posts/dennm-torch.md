@@ -2,7 +2,7 @@
 title: Solving non-Markovian master equations with Libtorch
 author: Hardwick, Robert J
 date: 2024-05-04
-concept: To study a variety of numerical solutions to non-Markovian phenomena. We do this by revealing different orders of temporal correlation that are present in the full master equation of a generalised non-Markovian process. By relating higher-order correlations to a form of time dependence in the pairwise correlation we then show how to numerically solve the system to obtain the time evolution of state probabilities. Since this computation can become very numerically intensive, the algorithm we discuss is implemented in C++ using the Libtorch library to achieve as much performance as possible.
+concept: To compute direct numerical solutions for non-Markovian phenomena. We do this by revealing different orders of temporal correlation that are present in the full master equation of a generalised non-Markovian process. By relating higher-order correlations to a form of time dependence in the pairwise correlation, we then show how to numerically solve a discretised version of the system to obtain the time evolution of state probabilities. Since this computation can become very numerically intensive, we implement the basic algorithm in C++ using the Libtorch library.
 articleId: dennm-torch
 codeLink: https://github.com/umbralcalc/dennm-torch
 year: 2024
@@ -108,7 +108,7 @@ P_{({\sf t}+1){\sf t}''}^{ii''} &= \frac{1}{{\sf t}}\sum_{{\sf t}'={\sf t}-{\sf 
 \end{aligned}
 $$
 
-Pytorch provides a C++ API known as Libtorch [@libtorch] which can be used as a library to handle the abstractions of tensor operations in a computationally efficent way. The key libary calls which will make the operations above possible are $\texttt{torch::tensordot}$ (to handle contractions over indices between different tensors) and $\texttt{torch::cat}$ (to extend the windowed state history from initialisation up to the point at which the full state history window size is reached).
+Pytorch provides a C++ API known as Libtorch [@libtorch] which can be used as a library to handle the abstractions of tensor operations in a computationally efficent way. The key library calls which will make the operations above possible are $\texttt{torch::tensordot}$ (to handle contractions over indices between different tensors) and $\texttt{torch::cat}$ (to extend the windowed state history from initialisation up to the point at which the full state history window size is reached).
 
 The discretised iteration formulae above have been implemented with Libtorch in this small C++ package here: [https://github.com/umbralcalc/dennm-torch](https://github.com/umbralcalc/dennm-torch). Possible extensions to this work include implementing even higher-order correlations as well as trying out some specific systems.
 
