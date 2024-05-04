@@ -166,7 +166,7 @@ About
 </br>
 <strong> Date. </strong> 2024-05-04
 </br>
-<strong> Concept. </strong> To study a variety of numerical solutions to non-Markovian phenomena. We do this by revealing different orders of temporal correlation that are present in the full master equation of a generalised non-Markovian process. By relating higher-order correlations to a form of time dependence in the pairwise correlation we then show how to numerically solve the system to obtain the time evolution of state probabilities. Since this computation can become very numerically intensive, the algorithm we discuss is implemented in C++ using the Libtorch library to achieve as much performance as possible.
+<strong> Concept. </strong> To compute direct numerical solutions for non-Markovian phenomena. We do this by revealing different orders of temporal correlation that are present in the full master equation of a generalised non-Markovian process. By relating higher-order correlations to a form of time dependence in the pairwise correlation, we then show how to numerically solve a discretised version of the system to obtain the time evolution of state probabilities. Since this computation can become very numerically intensive, we implement the basic algorithm in C++ using the Libtorch library.
 </div>
 <hr color="LightGray">
 </br>
@@ -243,7 +243,7 @@ P_{({\sf t}+1){\sf t}&#39;&#39;}(x\vert x&#39;&#39;, z) &amp;= \frac{1}{{\sf t}}
 P_{({\sf t}+1){\sf t}&#39;&#39;}^{ii&#39;&#39;} &amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;={\sf t}-{\sf s}}^{{\sf t}}\sum_{i&#39;=0}^N\Delta xP_{{\sf t}&#39;{\sf t}&#39;&#39;}^{i&#39;i&#39;&#39;}P_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}^{ii&#39;i&#39;&#39;}\,.
 \end{aligned}
 \]</span></p>
-<p>Pytorch provides a C++ API known as Libtorch <span class="citation" data-cites="libtorch">[2]</span> which can be used as a library to handle the abstractions of tensor operations in a computationally efficent way. The key libary calls which will make the operations above possible are <span class="math inline">\(\texttt{torch::tensordot}\)</span> (to handle contractions over indices between different tensors) and <span class="math inline">\(\texttt{torch::cat}\)</span> (to extend the windowed state history from initialisation up to the point at which the full state history window size is reached).</p>
+<p>Pytorch provides a C++ API known as Libtorch <span class="citation" data-cites="libtorch">[2]</span> which can be used as a library to handle the abstractions of tensor operations in a computationally efficent way. The key library calls which will make the operations above possible are <span class="math inline">\(\texttt{torch::tensordot}\)</span> (to handle contractions over indices between different tensors) and <span class="math inline">\(\texttt{torch::cat}\)</span> (to extend the windowed state history from initialisation up to the point at which the full state history window size is reached).</p>
 <p>The discretised iteration formulae above have been implemented with Libtorch in this small C++ package here: <a href="https://github.com/umbralcalc/dennm-torch">https://github.com/umbralcalc/dennm-torch</a>. Possible extensions to this work include implementing even higher-order correlations as well as trying out some specific systems.</p>
 <h2 class="unnumbered" id="references">References</h2>
 <div id="refs" class="references" role="doc-bibliography">
