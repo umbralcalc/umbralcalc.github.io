@@ -2,7 +2,7 @@
 title: "Self-learning simulations series: Archetype simulation problems"
 author: Hardwick, Robert J
 date: [WIP]
-concept: The archetype simulations for a variety of real-world problems are discussed and compared as different state partition graph structures. In our classification scheme, the archetypes discussed have the capability to simulate sports matches, spatial disease spread, human brain networks, supply chain logistics or even financial markets. With these examples (and many others) in mind, we consider the typical action state spaces and partial observability in each case.
+concept: To discuss the archetype simulations for a variety of real-world problems and compare them as different state partition graph structures. In our classification scheme, the archetypes discussed have the capability to simulate sports matches, spatial disease spread, human brain networks, supply chain logistics or even financial markets. With these examples (and many others) in mind, we consider the typical action state spaces and partial observability in each case.
 articleId: stochadexIIII
 codeLink: https://github.com/umbralcalc/stochadex
 year: [WIP]
