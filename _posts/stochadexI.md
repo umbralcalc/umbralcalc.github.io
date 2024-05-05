@@ -2,7 +2,7 @@
 title: "Self-learning simulations series: Building a generalised simulation engine"
 author: Hardwick, Robert J
 date: 2024-03-28
-concept: We lay out the fundamental mathematical foundations for describing practically any stochastic simulation on a computer. Having provided these foundations, we then design and build a generalised simulation engine called the 'stochadex' which is able to generate samples from practically any real-world stochastic processes that a researcher could encounter. With such a thing pre-built and self-contained as a highly-configurable simulation binary, it can become the basis upon which to build generalised software solutions for a lot of different problems.
+concept: To lay out the fundamental mathematical foundations for describing practically any stochastic simulation on a computer. Having provided these foundations, we then design and build a generalised simulation engine called the 'stochadex' which is able to generate samples from practically any real-world stochastic processes that a researcher could encounter. With such a thing pre-built and self-contained as a highly-configurable simulation binary, it can become the basis upon which to build generalised software solutions for a lot of different problems.
 articleId: stochadexI
 codeLink: https://github.com/umbralcalc/stochadex
 year: 2024
