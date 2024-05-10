@@ -8,10 +8,14 @@ codeLink: https://github.com/umbralcalc/modesampler
 year: [WIP]
 ---
 
+## General remarks
+
+Idea is a bit like nested sampling/Polychord but with a kernel density estimation algorithm.
+
 ## Online learning the density
 
-- Discounted evolutionary kernel density clustering based on optimising joint $(z,h)$ for each mode-clustered sample group
-- Upshot of this ^ is you get the maximum of each mode for free as a byproduct
+- Discounted evolutionary kernel density clustering based on optimising joint $(z,h)$ for each mode-clustered sample group (using SGD? or Adam?)
+- Upshot of this ^ is you get the maximum of each mode for free as a byproduct and the optimiser can fit into online learning by setting the initial condition to be the previous optimum
 - Need to figure out how to separate the logic for optimising just $h$ (to capture heterogeneity - do we need this even?) vs optimising a suspected mode with $(z,h)$
 - Also fits into the actor pattern nicely!
 
