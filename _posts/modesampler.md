@@ -8,16 +8,27 @@ codeLink: https://github.com/umbralcalc/modesampler
 year: [WIP]
 ---
 
-## General remarks
-
-Idea is a bit like nested sampling/Polychord but with a kernel density estimation algorithm.
-
 ## Online learning the density
 
-- Discounted evolutionary kernel density clustering based on optimising joint $(z,h)$ for each mode-clustered sample group (using SGD? or Adam?)
-- Upshot of this ^ is you get the maximum of each mode for free as a byproduct and the optimiser can fit into online learning by setting the initial condition to be the previous optimum
-- Need to figure out how to separate the logic for optimising just $h$ (to capture heterogeneity - do we need this even?) vs optimising a suspected mode with $(z,h)$
-- Also fits into the actor pattern nicely!
+Idea is to dynamically train the bandwidth matrix $H$ of a kernel $K_{H}(z,{\sf t};z',{\sf t}')$ density estimation algorithm using the following iterative cross-validation formula
+
+$$
+\begin{align}
+D_{\rm KL} = \int {\rm d}z p(z)\ln \frac{p(z)}{p_H(z)} = \sum_{z_{i{\sf t}}}w_{i{\sf t}} \ln \frac{w_{i{\sf t}}}{\sum_{z_{j{\sf t}'}:{\sf t}>{\sf t}'}w_{j{\sf t}'}K_{H}(z_{i{\sf t}},{\sf t};z_{j{\sf t}'},{\sf t}')} \,.
+\end{align}
+$$
+
+The modes are then detected by initialising a $z$-optimising step at time ${\sf t}$ with initial conditions set by all of the current samples and an objective given by
+
+$$
+\begin{align}
+{\sf obj}(z) = \sum_{z_{i{\sf t}}}w_{i{\sf t}}K_{H}(z,{\sf t};z_{i{\sf t}},{\sf t}) \,.
+\end{align}
+$$
+
+Scaling in time history is probably the main nuisance here! Might motivate the use of Rust though since having a really good handle on what memory is actually necessary will be very useful.
+
+Probably fits into the actor pattern nicely!
 
 ## Sampling
 

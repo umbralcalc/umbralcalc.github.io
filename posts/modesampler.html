@@ -170,12 +170,20 @@ About
 <hr color="LightGray">
 </br>
 <h2 id="online-learning-the-density">Online learning the density</h2>
-<ul>
-<li>Discounted evolutionary kernel density clustering based on optimising joint <span class="math inline">\((z,h)\)</span> for each mode-clustered sample group</li>
-<li>Upshot of this ^ is you get the maximum of each mode for free as a byproduct</li>
-<li>Need to figure out how to separate the logic for optimising just <span class="math inline">\(h\)</span> (to capture heterogeneity - do we need this even?) vs optimising a suspected mode with <span class="math inline">\((z,h)\)</span></li>
-<li>Also fits into the actor pattern nicely!</li>
-</ul>
+<p>Idea is to dynamically train the bandwidth matrix <span class="math inline">\(H\)</span> of a kernel <span class="math inline">\(K_{H}(z,{\sf t};z&#39;,{\sf t}&#39;)\)</span> density estimation algorithm using the following iterative cross-validation formula</p>
+<p><span class="math display">\[
+\begin{align}
+D_{\rm KL} = \int {\rm d}z p(z)\ln \frac{p(z)}{p_H(z)} = \sum_{z_{i{\sf t}}}w_{i{\sf t}} \ln \frac{w_{i{\sf t}}}{\sum_{z_{j{\sf t}&#39;}:{\sf t}&gt;{\sf t}&#39;}w_{j{\sf t}&#39;}K_{H}(z_{i{\sf t}},{\sf t};z_{j{\sf t}&#39;},{\sf t}&#39;)} \,.
+\end{align}
+\]</span></p>
+<p>The modes are then detected by initialising a <span class="math inline">\(z\)</span>-optimising step at time <span class="math inline">\({\sf t}\)</span> with initial conditions set by all of the current samples and an objective given by</p>
+<p><span class="math display">\[
+\begin{align}
+{\sf obj}(z) = \sum_{z_{i{\sf t}}}w_{i{\sf t}}K_{H}(z,{\sf t};z_{i{\sf t}},{\sf t}) \,.
+\end{align}
+\]</span></p>
+<p>Scaling in time history is probably the main nuisance here! Might motivate the use of Rust though since having a really good handle on what memory is actually necessary will be very useful.</p>
+<p>Probably fits into the actor pattern nicely!</p>
 <h2 id="sampling">Sampling</h2>
 <ul>
 <li>Ensemble slice sampling using rejection step?
