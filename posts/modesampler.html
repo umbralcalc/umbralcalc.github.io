@@ -157,7 +157,7 @@ About
 </br>
 </br>
 
-<h1>Evolutionary distribution mode sampling with a discounted history</h1>
+<h1>Adaptive sequential Monte Carlo sampling with a discounted history</h1>
 </br>
 <hr color="LightGray">
 <div class="articleHeader">
@@ -165,7 +165,7 @@ About
 </br>
 <strong> Date. </strong> WIP
 </br>
-<strong> Concept. </strong> To describe the design of a new algorithm which can dynamically learn and sample new points from multi-modal distributions, which are themselves represented only by a history of noisy weighted log-probability samples.
+<strong> Concept. </strong> To describe the design and implementation of an adaptive sequential Monte Carlo sampler which can dynamically adapt to sampling new points from nonstationary, multivariate and potentially multi-modal distributions in the context of online learning. We control the sensitivity of this algorithm to temporal changes in the target distribution through a discounted history approach.
 </div>
 <hr color="LightGray">
 </br>
@@ -200,7 +200,7 @@ D_{\rm KL} = \int {\rm d}z p(z)\ln \frac{p(z)}{p_H(z)} = \sum_{z_{i{\sf t}}}w_{i
 <div class="articleHeader">
   <strong> Cite. </strong> You can cite this article using the following BibTeX:
 <code><pre>@article{modesampler-WIP,
-  title = {Evolutionary distribution mode sampling with a discounted history},
+  title = {Adaptive sequential Monte Carlo sampling with a discounted history},
   author = {Hardwick, Robert J},
   journal = {umbralcalculations (umbralcalc.github.io/posts/modesampler.html)},
   year = {WIP},
