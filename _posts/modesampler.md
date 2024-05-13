@@ -8,13 +8,19 @@ codeLink: https://github.com/umbralcalc/modesampler
 year: [WIP]
 ---
 
+## Problem statement
+
+Say that we have a generator of probabilistic weights which takes a vector of parameters $z$ as input. This generator represents a non-stationary probability distribution and the weights are effectively stochastic around the true value for each given $z$ as input. The problem is that we would like to be able to efficiently sample from the underlying distribution regardless of its shape or modality.
+
 ## Online learning the density
 
-Idea is to dynamically train the bandwidth matrix $H$ of a kernel $K_{H}(z,{\sf t};z',{\sf t}')$ density estimation algorithm using the following iterative cross-validation formula
+Read this first: [https://wires.onlinelibrary.wiley.com/doi/pdfdirect/10.1002/wics.1598](https://wires.onlinelibrary.wiley.com/doi/pdfdirect/10.1002/wics.1598)
+
+Idea is to dynamically train the bandwidth matrix $H$ of a kernel $K_{H}(z,z')$ density estimation algorithm by minimising the following iterative cross-validation formula
 
 $$
 \begin{align}
-D_{\rm KL} = \int {\rm d}z p(z)\ln \frac{p(z)}{p_H(z)} = \sum_{z_{i{\sf t}}}w_{i{\sf t}} \ln \frac{w_{i{\sf t}}}{\sum_{z_{j{\sf t}'}:{\sf t}>{\sf t}'}w_{j{\sf t}'}K_{H}(z_{i{\sf t}},{\sf t};z_{j{\sf t}'},{\sf t}')} \,.
+D_{\rm KL} = \int {\rm d}z \, P_{{\sf t}}(z)\ln \frac{P_{{\sf t}}(z)}{Q_{{\sf t}>{\sf t}'}(z)} \simeq \frac{1}{\sum_{z_{i{\sf t}}}w_{i{\sf t}}}\sum_{z_{i{\sf t}}}w_{i{\sf t}} \ln \frac{w_{i{\sf t}}\sum_{z_{j{\sf t}'}:{\sf t}>{\sf t}'}w_{j{\sf t}'}}{\sum_{z_{j{\sf t}'}:{\sf t}>{\sf t}'}w_{j{\sf t}'}K_{H}(z_{i{\sf t}},z_{j{\sf t}'})} \,.
 \end{align}
 $$
 
@@ -22,7 +28,7 @@ The modes are then detected by initialising a $z$-optimising step at time ${\sf 
 
 $$
 \begin{align}
-{\sf obj}(z) = \sum_{z_{i{\sf t}}}w_{i{\sf t}}K_{H}(z,{\sf t};z_{i{\sf t}},{\sf t}) \,.
+Q_{{\sf t}}(z) = \frac{\sum_{z_{i{\sf t}}}w_{i{\sf t}}K_{H}(z,z_{i{\sf t}})}{\sum_{z_{i{\sf t}}}w_{i{\sf t}}} \,.
 \end{align}
 $$
 
