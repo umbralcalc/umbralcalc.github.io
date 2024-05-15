@@ -173,34 +173,34 @@ About
 <p>Say that we have a generator of probabilistic weights which takes a vector of parameters <span class="math inline">\(z\)</span> as input. This generator represents a non-stationary probability distribution and the weights are effectively stochastic around the true value for each given <span class="math inline">\(z\)</span> as input. The problem is that we would like to be able to efficiently sample from the underlying distribution regardless of its shape or modality.</p>
 <p>Solution we will study is to create an adaptive sequential Monte Carlo algorithm, e.g., see <span class="citation" data-cites="del2006sequential">[1]</span> or <span class="citation" data-cites="wills2023sequential">[2]</span>.</p>
 <h2 id="online-learning-the-density">Online learning the density</h2>
-<p>Read this first: <a href="https://wires.onlinelibrary.wiley.com/doi/pdfdirect/10.1002/wics.1598">https://wires.onlinelibrary.wiley.com/doi/pdfdirect/10.1002/wics.1598</a></p>
-<p>Idea is to dynamically train the bandwidth matrix <span class="math inline">\(H\)</span> of a kernel <span class="math inline">\(K_{H}(z,z&#39;)\)</span> density estimation algorithm by minimising the following iterative cross-validation formula</p>
+<p>Idea is to dynamically train the bandwidth matrix <span class="math inline">\(H\)</span> of a kernel <span class="math inline">\(K_{H}(z,z&#39;)\)</span> density estimation algorithm by minimising the following iterative cross-validation formula derived from the Kullback-Leibler divergence <span class="citation" data-cites="kullback1951information">[3]</span></p>
 <p><span class="math display">\[
 \begin{align}
-D_{\rm KL} = \int {\rm d}z \, P_{{\sf t}}(z)\ln \frac{P_{{\sf t}}(z)}{Q_{{\sf t}&gt;{\sf t}&#39;}(z)} \simeq \frac{1}{\sum_{z_{i{\sf t}}}w_{i{\sf t}}}\sum_{z_{i{\sf t}}}w_{i{\sf t}} \ln \frac{w_{i{\sf t}}\sum_{z_{j{\sf t}&#39;}:{\sf t}&gt;{\sf t}&#39;}w_{j{\sf t}&#39;}}{\sum_{z_{j{\sf t}&#39;}:{\sf t}&gt;{\sf t}&#39;}w_{j{\sf t}&#39;}K_{H}(z_{i{\sf t}},z_{j{\sf t}&#39;})} \,.
+D_{\rm KL} &amp;= \int_{\zeta_{{\sf t}+1}} {\rm d}z \, P_{{\sf t}+1}(z)\ln \frac{P_{{\sf t}+1}(z)}{\sum_{{\sf t}\geq {\sf t}&#39;}\beta^{{\sf t}+1-{\sf t}&#39;}Q_{{\sf t}&#39;}(z)} \\
+&amp;\simeq \frac{1}{\sum_{i}w_{i({\sf t}+1)}}\sum_{i}w_{i({\sf t}+1)} \ln \frac{w_{i({\sf t}+1)}\sum_{(j,{\sf t}\geq {\sf t}&#39;)}\beta^{{\sf t}+1-{\sf t}&#39;}w_{j{\sf t}&#39;}}{\sum_{(j,{\sf t}\geq {\sf t}&#39;)}\beta^{{\sf t}+1-{\sf t}&#39;}w_{j{\sf t}&#39;}K_{H}[z_{i({\sf t}+1)},z_{j{\sf t}&#39;}]} \,.
 \end{align}
 \]</span></p>
 <p>Optimising this directly using gradients is likely to be a problem because the weights are only stochastically related to the underlying probabilities. This potential instability implies that it may be more robust to consider methods which do not rely on gradients to optimise the objective, like using some kind of expectation-maximisation sampling (from an inverse-Wishart distribution using the weighted mean matrix from the history as input) with annealing where the weights are <span class="math inline">\(\propto \beta e^{-\gamma D_{\rm KL}}\)</span> and <span class="math inline">\(\gamma\)</span> is the annealing factor to the solution.</p>
 <p>The modes are then detected by initialising a <span class="math inline">\(z\)</span>-optimising step at time <span class="math inline">\({\sf t}\)</span> with initial conditions set by all of the current samples and an objective given by</p>
 <p><span class="math display">\[
 \begin{align}
-Q_{{\sf t}}(z) = \frac{\sum_{z_{i{\sf t}}}w_{i{\sf t}}K_{H}(z,z_{i{\sf t}})}{\sum_{z_{i{\sf t}}}w_{i{\sf t}}} \,.
+Q_{{\sf t}+1}(z) = \frac{\sum_{(i,{\sf t}+1\geq {\sf t}&#39;)}\beta^{{\sf t}+1-{\sf t}&#39;}w_{i{\sf t}&#39;}K_{H}(z,z_{i{\sf t}&#39;})}{\sum_{(i,{\sf t}+1\geq {\sf t}&#39;)}\beta^{{\sf t}+1-{\sf t}&#39;}w_{i{\sf t}&#39;}} \,.
 \end{align}
 \]</span></p>
 <p>Scaling in time history is probably the main nuisance here! Might motivate the use of Rust though since having a really good handle on what memory is actually necessary will be very useful.</p>
 <p>Probably fits into the shared-memory actor pattern nicely!</p>
 <h2 id="resampling">Resampling</h2>
 <ul>
-<li>Particle swarm optimisation and/or some other evolutionary algorithm</li>
-<li>Alternative would be ensemble slice sampling using rejection step?
-<ol type="1">
-<li>Choose starting <span class="math inline">\(z\)</span> value and validate that <span class="math inline">\(p(z)&gt;0\)</span></li>
-<li>Sample the next <span class="math inline">\(p\)</span> value uniformally between <span class="math inline">\(0\)</span> and <span class="math inline">\(p(z)\)</span></li>
-<li>Use rejection sampling to find new <span class="math inline">\(z\)</span> which has a bigger <span class="math inline">\(p\)</span> than the last</li>
-<li>Return to 2.</li>
-</ol></li>
-<li>Maybe the proposal could be better informed by using a Gaussian approximation to local mode density (maybe even restricted to the samples in a specific quartile)?</li>
+<li>Start by drawing samples centred from different points, where each centre is randomly chosen from the current pool of samples with a frequency weighted by the kernel-smoothed new density of that point (this weight can be iteratively updated for each point so it’s more efficient to reweight all of the current pool of points than to completely resample from scratch)</li>
+<li>Need to find a way of estimating the covariance of the jump from here for each walker…</li>
 </ul>
+<!-- - Particle swarm optimisation and/or some other evolutionary algorithm
+- Alternative would be ensemble slice sampling using rejection step?
+  1. Choose starting $z$ value and validate that $p(z)>0$
+  2. Sample the next $p$ value uniformally between $0$ and $p(z)$
+  3. Use rejection sampling to find new $z$ which has a bigger $p$ than the last
+  4. Return to 2.
+- Maybe the proposal could be better informed by using a Gaussian approximation to local mode density (maybe even restricted to the samples in a specific quartile)? -->
 <h2 id="implementation">Implementation</h2>
 <p>Initial implementation should be in the stochadex to try out the ideas. Then the article can turn to implementing it from scratch in Rust (and a Python interop) using a custom shared-memory actor pattern design which improves on the initial design with the stochadex by allowing the number of samples to scale up or down dynamically through successive generations of actors producing more or less future actors.</p>
 <h2 class="unnumbered" id="references">References</h2>
@@ -210,6 +210,9 @@ Q_{{\sf t}}(z) = \frac{\sum_{z_{i{\sf t}}}w_{i{\sf t}}K_{H}(z,z_{i{\sf t}})}{\su
 </div>
 <div id="ref-wills2023sequential">
 <p>[2] A. G. Wills and T. B. Schön, “Sequential monte carlo: A unified review,” <em>Annual Review of Control, Robotics, and Autonomous Systems</em>, vol. 6, pp. 159–182, 2023.</p>
+</div>
+<div id="ref-kullback1951information">
+<p>[3] S. Kullback and R. A. Leibler, “On information and sufficiency,” <em>The annals of mathematical statistics</em>, vol. 22, no. 1, pp. 79–86, 1951.</p>
 </div>
 </div>
 <hr color="LightGray">

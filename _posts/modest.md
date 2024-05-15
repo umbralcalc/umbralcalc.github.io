@@ -16,13 +16,12 @@ Solution we will study is to create an adaptive sequential Monte Carlo algorithm
 
 ## Online learning the density
 
-Read this first: [https://wires.onlinelibrary.wiley.com/doi/pdfdirect/10.1002/wics.1598](https://wires.onlinelibrary.wiley.com/doi/pdfdirect/10.1002/wics.1598)
-
-Idea is to dynamically train the bandwidth matrix $H$ of a kernel $K_{H}(z,z')$ density estimation algorithm by minimising the following iterative cross-validation formula
+Idea is to dynamically train the bandwidth matrix $H$ of a kernel $K_{H}(z,z')$ density estimation algorithm by minimising the following iterative cross-validation formula derived from the Kullback-Leibler divergence [@kullback1951information]
 
 $$
 \begin{align}
-D_{\rm KL} = \int {\rm d}z \, P_{{\sf t}}(z)\ln \frac{P_{{\sf t}}(z)}{Q_{{\sf t}>{\sf t}'}(z)} \simeq \frac{1}{\sum_{z_{i{\sf t}}}w_{i{\sf t}}}\sum_{z_{i{\sf t}}}w_{i{\sf t}} \ln \frac{w_{i{\sf t}}\sum_{z_{j{\sf t}'}:{\sf t}>{\sf t}'}w_{j{\sf t}'}}{\sum_{z_{j{\sf t}'}:{\sf t}>{\sf t}'}w_{j{\sf t}'}K_{H}(z_{i{\sf t}},z_{j{\sf t}'})} \,.
+D_{\rm KL} &= \int_{\zeta_{{\sf t}+1}} {\rm d}z \, P_{{\sf t}+1}(z)\ln \frac{P_{{\sf t}+1}(z)}{\sum_{{\sf t}\geq {\sf t}'}\beta^{{\sf t}+1-{\sf t}'}Q_{{\sf t}'}(z)} \\
+&\simeq \frac{1}{\sum_{i}w_{i({\sf t}+1)}}\sum_{i}w_{i({\sf t}+1)} \ln \frac{w_{i({\sf t}+1)}\sum_{(j,{\sf t}\geq {\sf t}')}\beta^{{\sf t}+1-{\sf t}'}w_{j{\sf t}'}}{\sum_{(j,{\sf t}\geq {\sf t}')}\beta^{{\sf t}+1-{\sf t}'}w_{j{\sf t}'}K_{H}[z_{i({\sf t}+1)},z_{j{\sf t}'}]} \,.
 \end{align}
 $$
 
@@ -32,7 +31,7 @@ The modes are then detected by initialising a $z$-optimising step at time ${\sf 
 
 $$
 \begin{align}
-Q_{{\sf t}}(z) = \frac{\sum_{z_{i{\sf t}}}w_{i{\sf t}}K_{H}(z,z_{i{\sf t}})}{\sum_{z_{i{\sf t}}}w_{i{\sf t}}} \,.
+Q_{{\sf t}+1}(z) = \frac{\sum_{(i,{\sf t}+1\geq {\sf t}')}\beta^{{\sf t}+1-{\sf t}'}w_{i{\sf t}'}K_{H}(z,z_{i{\sf t}'})}{\sum_{(i,{\sf t}+1\geq {\sf t}')}\beta^{{\sf t}+1-{\sf t}'}w_{i{\sf t}'}} \,.
 \end{align}
 $$
 
@@ -42,13 +41,16 @@ Probably fits into the shared-memory actor pattern nicely!
 
 ## Resampling
 
-- Particle swarm optimisation and/or some other evolutionary algorithm
+- Start by drawing samples centred from different points, where each centre is randomly chosen from the current pool of samples with a frequency weighted by the kernel-smoothed new density of that point (this weight can be iteratively updated for each point so it's more efficient to reweight all of the current pool of points than to completely resample from scratch)
+- Need to find a way of estimating the covariance of the jump from here for each walker...
+
+<!-- - Particle swarm optimisation and/or some other evolutionary algorithm
 - Alternative would be ensemble slice sampling using rejection step?
   1. Choose starting $z$ value and validate that $p(z)>0$
   2. Sample the next $p$ value uniformally between $0$ and $p(z)$
   3. Use rejection sampling to find new $z$ which has a bigger $p$ than the last
   4. Return to 2.
-- Maybe the proposal could be better informed by using a Gaussian approximation to local mode density (maybe even restricted to the samples in a specific quartile)?
+- Maybe the proposal could be better informed by using a Gaussian approximation to local mode density (maybe even restricted to the samples in a specific quartile)? -->
 
 ## Implementation
 
