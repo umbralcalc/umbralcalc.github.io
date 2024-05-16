@@ -165,14 +165,14 @@ About
 </br>
 <strong> Date. </strong> WIP
 </br>
-<strong> Concept. </strong> To describe the design and implementation of an adaptive sequential Monte Carlo sampler which can dynamically adapt to sampling new points from nonstationary, multivariate and potentially multi-modal distributions in the context of online learning. We control the sensitivity of this algorithm to temporal changes in the target distribution through a discounted history approach.
+<strong> Concept. </strong> To describe the design and implementation of a sequential Monte Carlo sampler which can dynamically adapt to sampling new points from nonstationary, multivariate and potentially multi-modal distributions using only a stream of noisy weighted samples as input. We control the sensitivity of this algorithm to temporal changes in the target distribution through a discounted history approach.
 </div>
 <hr color="LightGray">
 </br>
 <h2 id="problem-statement">Problem statement</h2>
 <p>Say that we have a generator of probabilistic weights which takes a vector of parameters <span class="math inline">\(z\)</span> as input. This generator represents a non-stationary probability distribution and the weights are effectively stochastic around the true value for each given <span class="math inline">\(z\)</span> as input. The problem is that we would like to be able to efficiently sample from the underlying distribution regardless of its shape or modality.</p>
 <p>Solution we will study is to create an adaptive sequential Monte Carlo algorithm, e.g., see <span class="citation" data-cites="del2006sequential">[1]</span> or <span class="citation" data-cites="wills2023sequential">[2]</span>.</p>
-<h2 id="online-learning-the-density">Online learning the density</h2>
+<h2 id="adaptively-estimating-a-smoothed-density">Adaptively estimating a smoothed density</h2>
 <p>Idea is to dynamically train the bandwidth matrix <span class="math inline">\(H\)</span> of a kernel <span class="math inline">\(K_{H}(z,z&#39;)\)</span> density estimation algorithm by minimising the following iterative cross-validation formula derived from the Kullback-Leibler divergence <span class="citation" data-cites="kullback1951information">[3]</span></p>
 <p><span class="math display">\[
 \begin{align}
@@ -180,7 +180,7 @@ D_{\rm KL} &amp;= \int_{\zeta_{{\sf t}+1}} {\rm d}z \, P_{{\sf t}+1}(z)\ln \frac
 &amp;\simeq \frac{1}{\sum_{i}w_{i({\sf t}+1)}}\sum_{i}w_{i({\sf t}+1)} \ln \frac{w_{i({\sf t}+1)}\sum_{(j,{\sf t}\geq {\sf t}&#39;)}\beta^{{\sf t}+1-{\sf t}&#39;}w_{j{\sf t}&#39;}}{\sum_{(j,{\sf t}\geq {\sf t}&#39;)}\beta^{{\sf t}+1-{\sf t}&#39;}w_{j{\sf t}&#39;}K_{H}[z_{i({\sf t}+1)},z_{j{\sf t}&#39;}]} \,.
 \end{align}
 \]</span></p>
-<p>Optimising this directly using gradients is likely to be a problem because the weights are only stochastically related to the underlying probabilities. This potential instability implies that it may be more robust to consider methods which do not rely on gradients to optimise the objective, like using some kind of expectation-maximisation sampling (from an inverse-Wishart distribution using the weighted mean matrix from the history as input) with annealing where the weights are <span class="math inline">\(\propto \beta e^{-\gamma D_{\rm KL}}\)</span> and <span class="math inline">\(\gamma\)</span> is the annealing factor to the solution.</p>
+<p>Optimising this directly using gradients is likely to be a problem because the weights are only stochastically related to the underlying probabilities. This potential instability implies that it may be more robust to consider methods which do not rely on directly-computed gradients to optimise the objective, like using some kind of expectation-maximisation sampling (from an inverse-Wishart distribution using the weighted mean matrix from the history as input) with annealing where the weights are <span class="math inline">\(\propto \beta e^{-\gamma D_{\rm KL}}\)</span> and <span class="math inline">\(\gamma\)</span> is the annealing factor to the solution.</p>
 <p>The modes are then detected by initialising a <span class="math inline">\(z\)</span>-optimising step at time <span class="math inline">\({\sf t}\)</span> with initial conditions set by all of the current samples and an objective given by</p>
 <p><span class="math display">\[
 \begin{align}
@@ -192,15 +192,8 @@ Q_{{\sf t}+1}(z) = \frac{\sum_{(i,{\sf t}+1\geq {\sf t}&#39;)}\beta^{{\sf t}+1-{
 <h2 id="resampling">Resampling</h2>
 <ul>
 <li>Start by drawing samples centred from different points, where each centre is randomly chosen from the current pool of samples with a frequency weighted by the kernel-smoothed new density of that point (this weight can be iteratively updated for each point so it’s more efficient to reweight all of the current pool of points than to completely resample from scratch)</li>
-<li>Need to find a way of estimating the covariance of the jump from here for each walker…</li>
+<li>If we then sample around each point using a locally-computed weighted (where the weights are the kernel-smoothed ones) covariance multiplied by some exploration factor <span class="math inline">\(\sigma \leq 1\)</span> the resulting resampled points should be representative of the underlying density</li>
 </ul>
-<!-- - Particle swarm optimisation and/or some other evolutionary algorithm
-- Alternative would be ensemble slice sampling using rejection step?
-  1. Choose starting $z$ value and validate that $p(z)>0$
-  2. Sample the next $p$ value uniformally between $0$ and $p(z)$
-  3. Use rejection sampling to find new $z$ which has a bigger $p$ than the last
-  4. Return to 2.
-- Maybe the proposal could be better informed by using a Gaussian approximation to local mode density (maybe even restricted to the samples in a specific quartile)? -->
 <h2 id="implementation">Implementation</h2>
 <p>Initial implementation should be in the stochadex to try out the ideas. Then the article can turn to implementing it from scratch in Rust (and a Python interop) using a custom shared-memory actor pattern design which improves on the initial design with the stochadex by allowing the number of samples to scale up or down dynamically through successive generations of actors producing more or less future actors.</p>
 <h2 class="unnumbered" id="references">References</h2>
