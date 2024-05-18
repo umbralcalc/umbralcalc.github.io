@@ -173,29 +173,22 @@ About
 <p>Say that we have a generator of probabilistic weights which takes a vector of parameters <span class="math inline">\(z\)</span> as input. This generator represents a non-stationary probability distribution and the weights are effectively stochastic around the true value for each given <span class="math inline">\(z\)</span> as input. The problem is that we would like to be able to efficiently sample from the underlying distribution regardless of its shape or modality.</p>
 <p>Solution we will study is to create an adaptive sequential Monte Carlo algorithm, e.g., see <span class="citation" data-cites="del2006sequential">[1]</span> or <span class="citation" data-cites="wills2023sequential">[2]</span>.</p>
 <h2 id="adaptively-estimating-a-smoothed-density">Adaptively estimating a smoothed density</h2>
-<p>Idea is to dynamically train the bandwidth matrix <span class="math inline">\(H\)</span> of a kernel <span class="math inline">\(K_{H}(z,z&#39;)\)</span> density estimation algorithm which can be used to calculate the latest density</p>
+<p>Idea is to dynamically train the noise vector <span class="math inline">\(\sigma\)</span> of a Gaussian Process-based <span class="citation" data-cites="williams2006gaussian">[3]</span> density estimation algorithm which can be used to calculate the latest density</p>
 <p><span class="math display">\[
 \begin{align}
-Q_{{\sf t}+1}(z) = \frac{\sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{(w_{{\sf t}&#39;},z_{{\sf t}&#39;})}\beta^{{\sf t}+1-{\sf t}&#39;}w_{{\sf t}&#39;}K_{H}(z,z_{{\sf t}&#39;})}{\sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{w_{{\sf t}&#39;}}\beta^{{\sf t}+1-{\sf t}&#39;}w_{{\sf t}&#39;}} \,.
+Q_{{\sf t}+1}(z) &amp;= \frac{\sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{(w_{{\sf t}&#39;},z_{{\sf t}&#39;})}\beta^{{\sf t}+1-{\sf t}&#39;}w_{{\sf t}&#39;}{\sf NPDF}[z;0,C_{{\sf t}&#39;}(z)]}{\sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{w_{{\sf t}&#39;}}\beta^{{\sf t}+1-{\sf t}&#39;}w_{{\sf t}&#39;}} \\
+C^{ij}_{{\sf t}&#39;}(z) &amp;= \frac{\sum_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\sum_{(w_{{\sf t}&#39;&#39;},z_{{\sf t}&#39;&#39;})}\beta^{{\sf t}&#39;-{\sf t}&#39;&#39;}w_{{\sf t}&#39;&#39;}(z-z_{{\sf t}&#39;})^i(z-z_{{\sf t}&#39;&#39;})^j}{\sum_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\sum_{w_{{\sf t}&#39;&#39;}}\beta^{{\sf t}&#39;-{\sf t}&#39;&#39;}w_{{\sf t}&#39;&#39;}} + (\sigma^i)^2\delta^{ij} \,,
 \end{align}
 \]</span></p>
-<p>by minimising the following iterative cross-validation formula derived from the Kullback-Leibler divergence <span class="citation" data-cites="kullback1951information">[3]</span></p>
+<p>where: <span class="math inline">\(\delta^{ij}\)</span> is the Kronecker delta (taking a value of 1 when <span class="math inline">\(i=j\)</span>, else 0); <span class="math inline">\((\sigma^i)^2\)</span> is a weights variance scale associated to each dimension; and <span class="math inline">\({\sf NPDF}[z;0,C_{{\sf t}&#39;}(z)]\)</span> is the probability density function of a multivariate normal distribution. The adaptive learning occurs through minimising the following iterative cross-validation formula derived from the Kullback-Leibler divergence <span class="citation" data-cites="kullback1951information">[4]</span></p>
 <p><span class="math display">\[
 \begin{align}
-D_{\rm KL} &amp;= \int_{\zeta_{{\sf t}+1}} {\rm d}z \, P_{{\sf t}+1}(z)\ln \frac{P_{{\sf t}+1}(z)}{\sum_{{\sf t}\geq {\sf t}&#39;}\beta^{{\sf t}+1-{\sf t}&#39;}Q_{{\sf t}&#39;}(z)} \\
-&amp;\simeq \frac{1}{\sum_{w_{{\sf t}+1}}w_{{\sf t}+1}}\sum_{w_{{\sf t}+1}}w_{{\sf t}+1} \ln \frac{w_{{\sf t}+1}\sum_{{\sf t}\geq {\sf t}&#39;}\sum_{w_{{\sf t}&#39;}}\beta^{{\sf t}+1-{\sf t}&#39;}w_{{\sf t}&#39;}}{\sum_{{\sf t}\geq {\sf t}&#39;}\sum_{(w_{{\sf t}&#39;},z_{{\sf t}&#39;})}\beta^{{\sf t}+1-{\sf t}&#39;}w_{{\sf t}&#39;}K_{H}(z_{{\sf t}+1},z_{{\sf t}&#39;})} \,.
+D_{\rm KL} &amp;= \int_{\zeta_{{\sf t}+1}} {\rm d}z \, P_{{\sf t}+1}(z)\ln \frac{P_{{\sf t}+1}(z)}{Q_{{\sf t}}(z)} \\
+&amp;\simeq \frac{1}{\sum_{w_{{\sf t}+1}}w_{{\sf t}+1}}\sum_{(w_{{\sf t}+1},z_{{\sf t}+1})}w_{{\sf t}+1} \ln \frac{w_{{\sf t}+1}\sum_{{\sf t}\geq {\sf t}&#39;}\sum_{w_{{\sf t}&#39;}}\beta^{{\sf t}-{\sf t}&#39;}w_{{\sf t}&#39;}}{\sum_{{\sf t}\geq {\sf t}&#39;}\sum_{(w_{{\sf t}&#39;},z_{{\sf t}&#39;})}\beta^{{\sf t}-{\sf t}&#39;}w_{{\sf t}&#39;}{\sf NPDF}[z_{{\sf t}+1};0,C_{{\sf t}&#39;}(z_{{\sf t}+1})]} \,.
 \end{align}
 \]</span></p>
 <p>Optimising the <span class="math inline">\(D_{\rm KL}\)</span> directly using gradients is likely to be a problem because the weights are only stochastically related to the underlying probabilities. This potential instability implies that it may be more robust to consider methods which do not rely on directly-computed gradients to optimise the objective, like using some kind of expectation-maximisation sampling (from an inverse-Wishart distribution using the weighted mean matrix from the history as input) with annealing where the weights are <span class="math inline">\(\propto \beta e^{-\gamma D_{\rm KL}}\)</span> and <span class="math inline">\(\gamma\)</span> is the annealing factor to the solution.</p>
 <p>The modes are then detected by initialising a <span class="math inline">\(z\)</span>-optimising step at time <span class="math inline">\({\sf t}\)</span> with initial conditions set by all of the current samples and an objective given by the <span class="math inline">\(Q_{{\sf t}+1}(z)\)</span> formula.</p>
-<p>Let’s briefly pause to consider if we are using a density estimation that is too simplistic. Notice how, even if we used something more sophisticated like a Gaussian Process <span class="citation" data-cites="williams2006gaussian">[4]</span>, the local approximation for the density around any of the samples would only be effectively a kernel-smoothed estimate anyway. To show what we mean by this, consider making the following replacement in the formulae above</p>
-<p><span class="math display">\[
-\begin{align}
-C^{ij}_{{\sf t}+1}(z) &amp;= \frac{\sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{(w_{{\sf t}&#39;},z_{{\sf t}&#39;})}\beta^{{\sf t}+1-{\sf t}&#39;}w_{{\sf t}&#39;}(z-z_{{\sf t}+1})^i(z-z_{{\sf t}&#39;})^j}{\sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{w_{{\sf t}&#39;}}\beta^{{\sf t}+1-{\sf t}&#39;}w_{{\sf t}&#39;}} + \delta^{ij}\sigma_i^2 \\
-K_{H}(z,z_{{\sf t}&#39;}) &amp;\rightarrow {\sf MultivariateNormalPDF}[z;0,C_{{\sf t}+1}(z)] \,,
-\end{align}
-\]</span></p>
-<p>where <span class="math inline">\(\delta^{ij}\)</span> is the Kronecker delta (taking a value of 1 when <span class="math inline">\(i=j\)</span>, else 0) and <span class="math inline">\(\sigma_i\)</span> is a weights variance scale associated to each dimension. Inserting any of the samples as input values into <span class="math inline">\(C^{ij}_{{\sf t}+1}(z) \rightarrow C^{ij}_{{\sf t}+1}(z_{{\sf t}+1})\)</span> would collapse this covariance estimator to being just <span class="math inline">\(\delta^{ij}\sigma_i^2\)</span> and hence we would simply have a smoothing kernel as before.</p>
 <p>Scaling in time history is probably the main nuisance here! Might motivate the use of Rust though since having a really good handle on what memory is actually necessary will be very useful.</p>
 <h2 id="resampling">Resampling</h2>
 <ul>
@@ -213,11 +206,11 @@ K_{H}(z,z_{{\sf t}&#39;}) &amp;\rightarrow {\sf MultivariateNormalPDF}[z;0,C_{{\
 <div id="ref-wills2023sequential">
 <p>[2] A. G. Wills and T. B. Schön, “Sequential monte carlo: A unified review,” <em>Annual Review of Control, Robotics, and Autonomous Systems</em>, vol. 6, pp. 159–182, 2023.</p>
 </div>
-<div id="ref-kullback1951information">
-<p>[3] S. Kullback and R. A. Leibler, “On information and sufficiency,” <em>The annals of mathematical statistics</em>, vol. 22, no. 1, pp. 79–86, 1951.</p>
-</div>
 <div id="ref-williams2006gaussian">
-<p>[4] C. K. Williams and C. E. Rasmussen, <em>Gaussian processes for machine learning</em>, vol. 2. MIT press Cambridge, MA, 2006.</p>
+<p>[3] C. K. Williams and C. E. Rasmussen, <em>Gaussian processes for machine learning</em>, vol. 2. MIT press Cambridge, MA, 2006.</p>
+</div>
+<div id="ref-kullback1951information">
+<p>[4] S. Kullback and R. A. Leibler, “On information and sufficiency,” <em>The annals of mathematical statistics</em>, vol. 22, no. 1, pp. 79–86, 1951.</p>
 </div>
 </div>
 <hr color="LightGray">
