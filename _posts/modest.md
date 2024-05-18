@@ -37,23 +37,23 @@ Optimising the $D_{\rm KL}$ directly using gradients is likely to be a problem b
 
 The modes are then detected by initialising a $z$-optimising step at time ${\sf t}$ with initial conditions set by all of the current samples and an objective given by the $Q_{{\sf t}+1}(z)$ formula.
 
-Alternatively, we could use a Gaussian Process [@williams2006gaussian] model for smoothing the density. This is equivalent to making the following replacement in the formulae above
+Let's briefly pause to consider if we are using a density estimation that is too simplistic. Notice how, even if we used something more sophisticated like a Gaussian Process [@williams2006gaussian], the local approximation for the density around any of the samples would only be effectively a kernel-smoothed estimate anyway. To show what we mean by this, consider making the following replacement in the formulae above
 
 $$
 \begin{align}
-C^{ij}_{{\sf t}+1} &= \frac{\sum_{{\sf t}+1\geq {\sf t}'}\sum_{(w_{{\sf t}'},z_{{\sf t}'})}\beta^{{\sf t}+1-{\sf t}'}w_{{\sf t}'}(z-z_{{\sf t}'})^i(z-z_{{\sf t}'})^j}{\sum_{{\sf t}+1\geq {\sf t}'}\sum_{w_{{\sf t}'}}\beta^{{\sf t}+1-{\sf t}'}w_{{\sf t}'}} + \delta^{ij}\sigma^2 \\
-K_{H}(z,z_{{\sf t}'}) &\rightarrow {\sf MultivariateNormalPDF}[z;0,C_{{\sf t}+1}] \,,
+C^{ij}_{{\sf t}+1}(z) &= \frac{\sum_{{\sf t}+1\geq {\sf t}'}\sum_{(w_{{\sf t}'},z_{{\sf t}'})}\beta^{{\sf t}+1-{\sf t}'}w_{{\sf t}'}(z-z_{{\sf t}+1})^i(z-z_{{\sf t}'})^j}{\sum_{{\sf t}+1\geq {\sf t}'}\sum_{w_{{\sf t}'}}\beta^{{\sf t}+1-{\sf t}'}w_{{\sf t}'}} + \delta^{ij}\sigma_i^2 \\
+K_{H}(z,z_{{\sf t}'}) &\rightarrow {\sf MultivariateNormalPDF}[z;0,C_{{\sf t}+1}(z)] \,,
 \end{align}
 $$
 
-where $\delta^{ij}$ is the Kronecker delta (taking a value of 1 when $i=j$, else 0).
+where $\delta^{ij}$ is the Kronecker delta (taking a value of 1 when $i=j$, else 0) and $\sigma_i$ is a weights variance scale associated to each dimension. Inserting any of the samples as input values into $C^{ij}_{{\sf t}+1}(z) \rightarrow C^{ij}_{{\sf t}+1}(z_{{\sf t}+1})$ would collapse this covariance estimator to being just $\delta^{ij}\sigma_i^2$ and hence we would simply have a smoothing kernel as before.
 
 Scaling in time history is probably the main nuisance here! Might motivate the use of Rust though since having a really good handle on what memory is actually necessary will be very useful.
 
 ## Resampling
 
 - Start by drawing samples centred from different points, where each centre is randomly chosen from the current pool of samples with a frequency weighted by the kernel-smoothed new density of that point (this weight can be iteratively updated for each point so it's more efficient to reweight all of the current pool of points than to completely resample from scratch)
-- If we then sample around each point using a locally-computed weighted (where the weights are the kernel-smoothed ones) covariance multiplied by some exploration factor $\sigma \leq 1$ the resulting resampled points should be representative of the underlying density
+- If we then sample around each point using a locally-computed weighted (where the weights are the kernel-smoothed ones) covariance multiplied by some exploration factor $f \leq 1$ the resulting resampled points should be representative of the underlying density
 
 ## Implementation
 
