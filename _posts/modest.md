@@ -16,12 +16,35 @@ Solution we will study is to create an adaptive sequential Monte Carlo algorithm
 
 ## Adaptively estimating a smoothed density
 
+Let's begin by considering the Kullback-Leibler divergence [@kullback1951information] as a functional comparing the distributions from the previous timestep to the next one
+
+$$
+\begin{align}
+D_{{\rm KL}}(P_{{\sf t}+1}\vert\vert P_{{\sf t}}) &= \int_{\Omega_{{\sf t}+1}}{\rm d}X \,P_{{\sf t}+1}(X) \ln \frac{P_{{\sf t}+1}(X)}{P_{{\sf t}}(X')} \\
+&= \int_{\Omega_{{\sf t}+1}}{\rm d}X \,P_{{\sf t}}(X')P_{({\sf t}+1){\sf t}}(x\vert X') \ln P_{({\sf t}+1){\sf t}}(x\vert X') \\
+&= \int_{\Omega_{{\sf t}}}{\rm d}X' P_{{\sf t}}(X') \int_{\omega_{{\sf t}+1}}{\rm d}x  \, P_{({\sf t}+1){\sf t}}(x\vert X') \ln P_{({\sf t}+1){\sf t}}(x\vert X') \\
+&= -\int_{\Omega_{{\sf t}}}{\rm d}X' P_{{\sf t}}(X') H[P_{({\sf t}+1){\sf t}}(x\vert X')] \,.
+\end{align}
+$$
+
+We can expand this as a functional of $P_{{\sf t}+1}$ around $P_{{\sf t}}$ up to second order such that
+
+$$
+\begin{align}
+D_{{\rm KL}}(P_{{\sf t}+1} \vert\vert P_{{\sf t}}) &\simeq D_{{\rm KL}}(P_{{\sf t}}\vert\vert P_{{\sf t}}) - \sum_{{\sf t}'}\int_{\omega_{{\sf t}'}}{\rm d}x' P_{{\sf t}'}(x') \delta \ln P_{({\sf t}+1){\sf t}'}(x\vert x') \frac{\delta H}{\delta \ln P} \bigg\vert_{P=P_{{\sf t}}}\\
+&- \frac{1}{2} \sum_{{\sf t}'}\int_{\omega_{{\sf t}'}}{\rm d}x'P_{{\sf t}'}(x')\sum_{{\sf t}''}\int_{\omega_{{\sf t}''}}{\rm d}x''  P_{{\sf t}''}(x'')\delta \ln P_{({\sf t}+1){\sf t}'}(x\vert x')\frac{\delta^2 H}{(\delta \ln P)^2}\bigg\vert_{P=P_{{\sf t}}}\delta \ln P_{({\sf t}+1){\sf t}''}(x\vert x'') \,.
+\end{align}
+$$
+
+where $\delta \ln P_{({\sf t}+1){\sf t}'}(x\vert x') = \ln P_{({\sf t}+1){\sf t}'}(x\vert x') - \ln P_{{\sf t}'}(x')$.
+
 Idea is to dynamically train the noise vector $\sigma$ of a Gaussian Process-based [@williams2006gaussian] density estimation algorithm which can be used to calculate the latest density
 
 $$
 \begin{align}
-Q_{{\sf t}+1}(z) &= \frac{\sum_{{\sf t}+1\geq {\sf t}'}\sum_{(w_{{\sf t}'},z_{{\sf t}'})}\beta^{{\sf t}+1-{\sf t}'}w_{{\sf t}'}{\sf NPDF}[z;0,C_{{\sf t}'}(z)]}{\sum_{{\sf t}+1\geq {\sf t}'}\sum_{w_{{\sf t}'}}\beta^{{\sf t}+1-{\sf t}'}w_{{\sf t}'}} \\
-C^{ij}_{{\sf t}'}(z) &= \frac{\sum_{{\sf t}'\geq {\sf t}''}\sum_{(w_{{\sf t}''},z_{{\sf t}''})}\beta^{{\sf t}'-{\sf t}''}w_{{\sf t}''}(z-z_{{\sf t}'})^i(z-z_{{\sf t}''})^j}{\sum_{{\sf t}'\geq {\sf t}''}\sum_{w_{{\sf t}''}}\beta^{{\sf t}'-{\sf t}''}w_{{\sf t}''}} + (\sigma^i)^2\delta^{ij} \,,
+Q_{{\sf t}+1}(z,w) &= \frac{\sum_{{\sf t}+1\geq {\sf t}'}\sum_{(w_{{\sf t}'},z_{{\sf t}'})}\beta^{{\sf t}+1-{\sf t}'}{\sf NPDF}[w_{{\sf t}'};0,C_{{\sf t}'}(z,w)]}{\sum_{{\sf t}+1\geq {\sf t}'}\sum_{w_{{\sf t}'}}\beta^{{\sf t}+1-{\sf t}'}} \\
+C_{{\sf t}'}(z,w) &= \frac{\sum_{{\sf t}'\geq {\sf t}''}\sum_{(w_{{\sf t}''},z_{{\sf t}''})}(w-w_{{\sf t}'})(w-w_{{\sf t}''})\beta^{{\sf t}'-{\sf t}''}K_H(z;z_{{\sf t}'},z_{{\sf t}''})}{\sum_{{\sf t}'\geq {\sf t}''}\sum_{w_{{\sf t}''}}\beta^{{\sf t}'-{\sf t}''}K_H(z;z_{{\sf t}'},z_{{\sf t}''})} + \sigma^2 \\
+K_H(z;z_{{\sf t}'},z_{{\sf t}''}) &= \exp \bigg\{ -\frac{1}{2}\sum_{i,j}(z-z_{{\sf t}'})^i(H^{-1})^{ij}(z-z_{{\sf t}''})^j\bigg\} \,.
 \end{align}
 $$
 
@@ -36,14 +59,21 @@ $$
 
 Optimising the $D_{\rm KL}$ directly using gradients is likely to be a problem because the weights are only stochastically related to the underlying probabilities. This potential instability implies that it may be more robust to consider methods which do not rely on directly-computed gradients to optimise the objective, like using some kind of expectation-maximisation sampling (from an inverse-Wishart distribution using the weighted mean matrix from the history as input) with annealing where the weights are $\propto \beta e^{-\gamma D_{\rm KL}}$ and $\gamma$ is the annealing factor to the solution.
 
-The modes are then detected by initialising a $z$-optimising step at time ${\sf t}$ with initial conditions set by all of the current samples and an objective given by the $Q_{{\sf t}+1}(z)$ formula.
+The modes can also be detected by initialising a $z$-optimising step at time ${\sf t}$ with initial conditions set by all of the current samples and an objective given by the $Q_{{\sf t}+1}(z)$ formula.
 
 Scaling in time history is probably the main nuisance here! Might motivate the use of Rust though since having a really good handle on what memory is actually necessary will be very useful.
 
 ## Resampling
 
-- Start by drawing samples centred from different points, where each centre is randomly chosen from the current pool of samples with a frequency weighted by the kernel-smoothed new density of that point (this weight can be iteratively updated for each point so it's more efficient to reweight all of the current pool of points than to completely resample from scratch)
-- If we then sample around each point using a locally-computed weighted (where the weights are the kernel-smoothed ones) covariance multiplied by some exploration factor $f \leq 1$ the resulting resampled points should be representative of the underlying density
+Start by drawing samples centred from different points, where each centre is randomly chosen from the current pool of samples with a frequency weighted by the smoothed new density of that point. This weight can be iteratively updated for each point so it's more efficient to reweight all of the current pool of points than to completely resample from scratch. You can see this iterative relationship between smoothed densities over the same $z$ point by rearranging the $Q_{{\sf t}+1}(z)$ formula like this
+
+$$
+\begin{align}
+Q_{{\sf t}+1}(z) &= \frac{\sum_{(w_{{\sf t}+1},z_{{\sf t}+1})}w_{{\sf t}+1}{\sf NPDF}[z;0,C_{{\sf t}+1}(z)]}{\sum_{{\sf t}+1\geq {\sf t}'}\sum_{w_{{\sf t}'}}\beta^{{\sf t}+1-{\sf t}'}w_{{\sf t}'}} + \frac{\sum_{{\sf t}\geq {\sf t}'}\sum_{w_{{\sf t}'}}\beta^{{\sf t}+1-{\sf t}'}w_{{\sf t}'}}{\sum_{{\sf t}+1\geq {\sf t}'}\sum_{w_{{\sf t}'}}\beta^{{\sf t}+1-{\sf t}'}w_{{\sf t}'}}Q_{{\sf t}}(z) \,.
+\end{align}
+$$
+
+If we then sample around each point using a locally-computed weighted (where the weights are the kernel-smoothed ones) covariance multiplied by some exploration factor $f \leq 1$ the resulting resampled points should be representative of the underlying density
 
 ## Implementation
 

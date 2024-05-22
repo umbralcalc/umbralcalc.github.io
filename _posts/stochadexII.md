@@ -170,7 +170,7 @@ $$
 \end{align}
 $$
 
-This logarithmic expansion is one way to see how a Gaussian process regression is able to approximate $X_{{\sf t}}$ evolving in time for many different processes. By selecting the appropriate function for the kernel above, a Gaussian process regression can be fully specified.
+This logarithmic expansion is one way to see how a Gaussian process regression is able to approximate $X_{{\sf t}}$ evolving in time for many different processes. By selecting the appropriate function for ${\cal H}$ which depends on the history of values, a Gaussian process regression can be fully specified, with a smoothed trajectory in time implied by $X_*$.
 
 If we keep the truncation up to second order in the expansion, note that this expression implies a pairwise correlation structure of the form
 
