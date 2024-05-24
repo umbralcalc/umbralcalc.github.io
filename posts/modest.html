@@ -173,36 +173,19 @@ About
 <p>Say that we have a generator of probabilistic weights which takes a vector of parameters <span class="math inline">\(z\)</span> as input. This generator represents a non-stationary probability distribution and the weights are effectively stochastic around the true value for each given <span class="math inline">\(z\)</span> as input. The problem is that we would like to be able to efficiently sample from the underlying distribution regardless of its shape or modality.</p>
 <p>Solution we will study is to create an adaptive sequential Monte Carlo algorithm, e.g., see <span class="citation" data-cites="del2006sequential">[1]</span> or <span class="citation" data-cites="wills2023sequential">[2]</span>.</p>
 <h2 id="adaptively-estimating-a-smoothed-density">Adaptively estimating a smoothed density</h2>
-<p>Let’s begin by considering the Kullback-Leibler divergence <span class="citation" data-cites="kullback1951information">[3]</span> as a functional comparing the distributions from the previous timestep to the next one</p>
+<p>Idea is to dynamically train the noise scale <span class="math inline">\(\sigma\)</span> and kernel bandwidth matrix <span class="math inline">\(H\)</span> of a Gaussian Process-based <span class="citation" data-cites="williams2006gaussian">[3]</span> density estimation algorithm which can be used to calculate the latest density</p>
 <p><span class="math display">\[
 \begin{align}
-D_{{\rm KL}}(P_{{\sf t}+1}\vert\vert P_{{\sf t}}) &amp;= \int_{\Omega_{{\sf t}+1}}{\rm d}X \,P_{{\sf t}+1}(X) \ln \frac{P_{{\sf t}+1}(X)}{P_{{\sf t}}(X&#39;)} \\
-&amp;= \int_{\Omega_{{\sf t}+1}}{\rm d}X \,P_{{\sf t}}(X&#39;)P_{({\sf t}+1){\sf t}}(x\vert X&#39;) \ln P_{({\sf t}+1){\sf t}}(x\vert X&#39;) \\
-&amp;= \int_{\Omega_{{\sf t}}}{\rm d}X&#39; P_{{\sf t}}(X&#39;) \int_{\omega_{{\sf t}+1}}{\rm d}x  \, P_{({\sf t}+1){\sf t}}(x\vert X&#39;) \ln P_{({\sf t}+1){\sf t}}(x\vert X&#39;) \\
-&amp;= -\int_{\Omega_{{\sf t}}}{\rm d}X&#39; P_{{\sf t}}(X&#39;) H[P_{({\sf t}+1){\sf t}}(x\vert X&#39;)] \,.
-\end{align}
-\]</span></p>
-<p>We can expand this as a functional of <span class="math inline">\(P_{{\sf t}+1}\)</span> around <span class="math inline">\(P_{{\sf t}}\)</span> up to second order such that</p>
-<p><span class="math display">\[
-\begin{align}
-D_{{\rm KL}}(P_{{\sf t}+1} \vert\vert P_{{\sf t}}) &amp;\simeq D_{{\rm KL}}(P_{{\sf t}}\vert\vert P_{{\sf t}}) - \sum_{{\sf t}&#39;}\int_{\omega_{{\sf t}&#39;}}{\rm d}x&#39; P_{{\sf t}&#39;}(x&#39;) \delta \ln P_{({\sf t}+1){\sf t}&#39;}(x\vert x&#39;) \frac{\delta H}{\delta \ln P} \bigg\vert_{P=P_{{\sf t}}}\\
-&amp;- \frac{1}{2} \sum_{{\sf t}&#39;}\int_{\omega_{{\sf t}&#39;}}{\rm d}x&#39;P_{{\sf t}&#39;}(x&#39;)\sum_{{\sf t}&#39;&#39;}\int_{\omega_{{\sf t}&#39;&#39;}}{\rm d}x&#39;&#39;  P_{{\sf t}&#39;&#39;}(x&#39;&#39;)\delta \ln P_{({\sf t}+1){\sf t}&#39;}(x\vert x&#39;)\frac{\delta^2 H}{(\delta \ln P)^2}\bigg\vert_{P=P_{{\sf t}}}\delta \ln P_{({\sf t}+1){\sf t}&#39;&#39;}(x\vert x&#39;&#39;) \,.
-\end{align}
-\]</span></p>
-<p>where <span class="math inline">\(\delta \ln P_{({\sf t}+1){\sf t}&#39;}(x\vert x&#39;) = \ln P_{({\sf t}+1){\sf t}&#39;}(x\vert x&#39;) - \ln P_{{\sf t}&#39;}(x&#39;)\)</span>.</p>
-<p>Idea is to dynamically train the noise vector <span class="math inline">\(\sigma\)</span> of a Gaussian Process-based <span class="citation" data-cites="williams2006gaussian">[4]</span> density estimation algorithm which can be used to calculate the latest density</p>
-<p><span class="math display">\[
-\begin{align}
-Q_{{\sf t}+1}(z,w) &amp;= \frac{\sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{(w_{{\sf t}&#39;},z_{{\sf t}&#39;})}\beta^{{\sf t}+1-{\sf t}&#39;}{\sf NPDF}[w_{{\sf t}&#39;};0,C_{{\sf t}&#39;}(z,w)]}{\sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{w_{{\sf t}&#39;}}\beta^{{\sf t}+1-{\sf t}&#39;}} \\
-C_{{\sf t}&#39;}(z,w) &amp;= \frac{\sum_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\sum_{(w_{{\sf t}&#39;&#39;},z_{{\sf t}&#39;&#39;})}(w-w_{{\sf t}&#39;})(w-w_{{\sf t}&#39;&#39;})\beta^{{\sf t}&#39;-{\sf t}&#39;&#39;}K_H(z;z_{{\sf t}&#39;},z_{{\sf t}&#39;&#39;})}{\sum_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\sum_{w_{{\sf t}&#39;&#39;}}\beta^{{\sf t}&#39;-{\sf t}&#39;&#39;}K_H(z;z_{{\sf t}&#39;},z_{{\sf t}&#39;&#39;})} + \sigma^2 \\
+Q_{{\sf t}+1}(z) &amp;= \frac{\sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{w_{{\sf t}&#39;}}\beta^{{\sf t}+1-{\sf t}&#39;}{\sf NPDF}[w_{{\sf t}&#39;};0,C_{{\sf t}&#39;}(z,w_{{\sf t}&#39;})]}{\sum_{{\sf t}+1\geq {\sf t}&#39;}\beta^{{\sf t}+1-{\sf t}&#39;}} \\
+C_{{\sf t}+1}(z,w) &amp;= \frac{\sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\sum_{(z_{{\sf t}&#39;&#39;},w_{{\sf t}&#39;&#39;})}(w-w_{{\sf t}&#39;})(w-w_{{\sf t}&#39;&#39;})\beta^{{\sf t}&#39;-{\sf t}&#39;&#39;}K_H(z;z_{{\sf t}&#39;},z_{{\sf t}&#39;&#39;})}{\sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\sum_{z_{{\sf t}&#39;&#39;}}\beta^{{\sf t}&#39;-{\sf t}&#39;&#39;}K_H(z;z_{{\sf t}&#39;},z_{{\sf t}&#39;&#39;})} + \sigma^2 \\
 K_H(z;z_{{\sf t}&#39;},z_{{\sf t}&#39;&#39;}) &amp;= \exp \bigg\{ -\frac{1}{2}\sum_{i,j}(z-z_{{\sf t}&#39;})^i(H^{-1})^{ij}(z-z_{{\sf t}&#39;&#39;})^j\bigg\} \,.
 \end{align}
 \]</span></p>
-<p>where: <span class="math inline">\(\delta^{ij}\)</span> is the Kronecker delta (taking a value of 1 when <span class="math inline">\(i=j\)</span>, else 0); <span class="math inline">\((\sigma^i)^2\)</span> is a weights variance scale associated to each dimension; and <span class="math inline">\({\sf NPDF}[z;0,C_{{\sf t}&#39;}(z)]\)</span> is the probability density function of a multivariate normal distribution. The adaptive learning occurs through minimising the following iterative cross-validation formula derived from the Kullback-Leibler divergence <span class="citation" data-cites="kullback1951information">[3]</span></p>
+<p>where <span class="math inline">\({\sf NPDF}[z;0,C_{{\sf t}&#39;}(z)]\)</span> is the probability density function of a multivariate normal distribution. The adaptive learning occurs through minimising the following iterative cross-validation formula derived from the Kullback-Leibler divergence <span class="citation" data-cites="kullback1951information">[4]</span></p>
 <p><span class="math display">\[
 \begin{align}
 D_{\rm KL} &amp;= \int_{\zeta_{{\sf t}+1}} {\rm d}z \, P_{{\sf t}+1}(z)\ln \frac{P_{{\sf t}+1}(z)}{Q_{{\sf t}}(z)} \\
-&amp;\simeq \frac{1}{\sum_{w_{{\sf t}+1}}w_{{\sf t}+1}}\sum_{(w_{{\sf t}+1},z_{{\sf t}+1})}w_{{\sf t}+1} \ln \frac{w_{{\sf t}+1}\sum_{{\sf t}\geq {\sf t}&#39;}\sum_{w_{{\sf t}&#39;}}\beta^{{\sf t}-{\sf t}&#39;}w_{{\sf t}&#39;}}{\sum_{{\sf t}\geq {\sf t}&#39;}\sum_{(w_{{\sf t}&#39;},z_{{\sf t}&#39;})}\beta^{{\sf t}-{\sf t}&#39;}w_{{\sf t}&#39;}{\sf NPDF}[z_{{\sf t}+1};0,C_{{\sf t}&#39;}(z_{{\sf t}+1})]} \,.
+&amp;\simeq \frac{1}{\sum_{w_{{\sf t}+1}}w_{{\sf t}+1}}\sum_{(z_{{\sf t}+1},w_{{\sf t}+1})}w_{{\sf t}+1} \ln \frac{w_{{\sf t}+1}\sum_{{\sf t}\geq {\sf t}&#39;}\beta^{{\sf t}-{\sf t}&#39;}}{\sum_{{\sf t}\geq {\sf t}&#39;}\sum_{w_{{\sf t}&#39;}}\beta^{{\sf t}-{\sf t}&#39;}{\sf NPDF}[w_{{\sf t}&#39;};0,C_{{\sf t}&#39;}(z_{{\sf t}+1},w_{{\sf t}&#39;})]} \,.
 \end{align}
 \]</span></p>
 <p>Optimising the <span class="math inline">\(D_{\rm KL}\)</span> directly using gradients is likely to be a problem because the weights are only stochastically related to the underlying probabilities. This potential instability implies that it may be more robust to consider methods which do not rely on directly-computed gradients to optimise the objective, like using some kind of expectation-maximisation sampling (from an inverse-Wishart distribution using the weighted mean matrix from the history as input) with annealing where the weights are <span class="math inline">\(\propto \beta e^{-\gamma D_{\rm KL}}\)</span> and <span class="math inline">\(\gamma\)</span> is the annealing factor to the solution.</p>
@@ -212,7 +195,7 @@ D_{\rm KL} &amp;= \int_{\zeta_{{\sf t}+1}} {\rm d}z \, P_{{\sf t}+1}(z)\ln \frac
 <p>Start by drawing samples centred from different points, where each centre is randomly chosen from the current pool of samples with a frequency weighted by the smoothed new density of that point. This weight can be iteratively updated for each point so it’s more efficient to reweight all of the current pool of points than to completely resample from scratch. You can see this iterative relationship between smoothed densities over the same <span class="math inline">\(z\)</span> point by rearranging the <span class="math inline">\(Q_{{\sf t}+1}(z)\)</span> formula like this</p>
 <p><span class="math display">\[
 \begin{align}
-Q_{{\sf t}+1}(z) &amp;= \frac{\sum_{(w_{{\sf t}+1},z_{{\sf t}+1})}w_{{\sf t}+1}{\sf NPDF}[z;0,C_{{\sf t}+1}(z)]}{\sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{w_{{\sf t}&#39;}}\beta^{{\sf t}+1-{\sf t}&#39;}w_{{\sf t}&#39;}} + \frac{\sum_{{\sf t}\geq {\sf t}&#39;}\sum_{w_{{\sf t}&#39;}}\beta^{{\sf t}+1-{\sf t}&#39;}w_{{\sf t}&#39;}}{\sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{w_{{\sf t}&#39;}}\beta^{{\sf t}+1-{\sf t}&#39;}w_{{\sf t}&#39;}}Q_{{\sf t}}(z) \,.
+Q_{{\sf t}+1}(z) &amp;= \frac{\sum_{w_{{\sf t}+1}}{\sf NPDF}[w_{{\sf t}+1};0,C_{{\sf t}+1}(z,w_{{\sf t}+1})]}{\sum_{{\sf t}+1\geq {\sf t}&#39;}\beta^{{\sf t}+1-{\sf t}&#39;}} + \frac{\sum_{{\sf t}\geq {\sf t}&#39;}\beta^{{\sf t}+1-{\sf t}&#39;}}{\sum_{{\sf t}+1\geq {\sf t}&#39;}\beta^{{\sf t}+1-{\sf t}&#39;}}Q_{{\sf t}}(z) \,.
 \end{align}
 \]</span></p>
 <p>If we then sample around each point using a locally-computed weighted (where the weights are the kernel-smoothed ones) covariance multiplied by some exploration factor <span class="math inline">\(f \leq 1\)</span> the resulting resampled points should be representative of the underlying density</p>
@@ -227,11 +210,11 @@ Q_{{\sf t}+1}(z) &amp;= \frac{\sum_{(w_{{\sf t}+1},z_{{\sf t}+1})}w_{{\sf t}+1}{
 <div id="ref-wills2023sequential">
 <p>[2] A. G. Wills and T. B. Schön, “Sequential monte carlo: A unified review,” <em>Annual Review of Control, Robotics, and Autonomous Systems</em>, vol. 6, pp. 159–182, 2023.</p>
 </div>
-<div id="ref-kullback1951information">
-<p>[3] S. Kullback and R. A. Leibler, “On information and sufficiency,” <em>The annals of mathematical statistics</em>, vol. 22, no. 1, pp. 79–86, 1951.</p>
-</div>
 <div id="ref-williams2006gaussian">
-<p>[4] C. K. Williams and C. E. Rasmussen, <em>Gaussian processes for machine learning</em>, vol. 2. MIT press Cambridge, MA, 2006.</p>
+<p>[3] C. K. Williams and C. E. Rasmussen, <em>Gaussian processes for machine learning</em>, vol. 2. MIT press Cambridge, MA, 2006.</p>
+</div>
+<div id="ref-kullback1951information">
+<p>[4] S. Kullback and R. A. Leibler, “On information and sufficiency,” <em>The annals of mathematical statistics</em>, vol. 22, no. 1, pp. 79–86, 1951.</p>
 </div>
 </div>
 <hr color="LightGray">

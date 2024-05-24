@@ -16,44 +16,22 @@ Solution we will study is to create an adaptive sequential Monte Carlo algorithm
 
 ## Adaptively estimating a smoothed density
 
-Let's begin by considering the Kullback-Leibler divergence [@kullback1951information] as a functional comparing the distributions from the previous timestep to the next one
+Idea is to dynamically train the noise scale $\sigma$ and kernel bandwidth matrix $H$ of a Gaussian Process-based [@williams2006gaussian] density estimation algorithm which can be used to calculate the latest density
 
 $$
 \begin{align}
-D_{{\rm KL}}(P_{{\sf t}+1}\vert\vert P_{{\sf t}}) &= \int_{\Omega_{{\sf t}+1}}{\rm d}X \,P_{{\sf t}+1}(X) \ln \frac{P_{{\sf t}+1}(X)}{P_{{\sf t}}(X')} \\
-&= \int_{\Omega_{{\sf t}+1}}{\rm d}X \,P_{{\sf t}}(X')P_{({\sf t}+1){\sf t}}(x\vert X') \ln P_{({\sf t}+1){\sf t}}(x\vert X') \\
-&= \int_{\Omega_{{\sf t}}}{\rm d}X' P_{{\sf t}}(X') \int_{\omega_{{\sf t}+1}}{\rm d}x  \, P_{({\sf t}+1){\sf t}}(x\vert X') \ln P_{({\sf t}+1){\sf t}}(x\vert X') \\
-&= -\int_{\Omega_{{\sf t}}}{\rm d}X' P_{{\sf t}}(X') H[P_{({\sf t}+1){\sf t}}(x\vert X')] \,.
-\end{align}
-$$
-
-We can expand this as a functional of $P_{{\sf t}+1}$ around $P_{{\sf t}}$ up to second order such that
-
-$$
-\begin{align}
-D_{{\rm KL}}(P_{{\sf t}+1} \vert\vert P_{{\sf t}}) &\simeq D_{{\rm KL}}(P_{{\sf t}}\vert\vert P_{{\sf t}}) - \sum_{{\sf t}'}\int_{\omega_{{\sf t}'}}{\rm d}x' P_{{\sf t}'}(x') \delta \ln P_{({\sf t}+1){\sf t}'}(x\vert x') \frac{\delta H}{\delta \ln P} \bigg\vert_{P=P_{{\sf t}}}\\
-&- \frac{1}{2} \sum_{{\sf t}'}\int_{\omega_{{\sf t}'}}{\rm d}x'P_{{\sf t}'}(x')\sum_{{\sf t}''}\int_{\omega_{{\sf t}''}}{\rm d}x''  P_{{\sf t}''}(x'')\delta \ln P_{({\sf t}+1){\sf t}'}(x\vert x')\frac{\delta^2 H}{(\delta \ln P)^2}\bigg\vert_{P=P_{{\sf t}}}\delta \ln P_{({\sf t}+1){\sf t}''}(x\vert x'') \,.
-\end{align}
-$$
-
-where $\delta \ln P_{({\sf t}+1){\sf t}'}(x\vert x') = \ln P_{({\sf t}+1){\sf t}'}(x\vert x') - \ln P_{{\sf t}'}(x')$.
-
-Idea is to dynamically train the noise vector $\sigma$ of a Gaussian Process-based [@williams2006gaussian] density estimation algorithm which can be used to calculate the latest density
-
-$$
-\begin{align}
-Q_{{\sf t}+1}(z,w) &= \frac{\sum_{{\sf t}+1\geq {\sf t}'}\sum_{(w_{{\sf t}'},z_{{\sf t}'})}\beta^{{\sf t}+1-{\sf t}'}{\sf NPDF}[w_{{\sf t}'};0,C_{{\sf t}'}(z,w)]}{\sum_{{\sf t}+1\geq {\sf t}'}\sum_{w_{{\sf t}'}}\beta^{{\sf t}+1-{\sf t}'}} \\
-C_{{\sf t}'}(z,w) &= \frac{\sum_{{\sf t}'\geq {\sf t}''}\sum_{(w_{{\sf t}''},z_{{\sf t}''})}(w-w_{{\sf t}'})(w-w_{{\sf t}''})\beta^{{\sf t}'-{\sf t}''}K_H(z;z_{{\sf t}'},z_{{\sf t}''})}{\sum_{{\sf t}'\geq {\sf t}''}\sum_{w_{{\sf t}''}}\beta^{{\sf t}'-{\sf t}''}K_H(z;z_{{\sf t}'},z_{{\sf t}''})} + \sigma^2 \\
+Q_{{\sf t}+1}(z) &= \frac{\sum_{{\sf t}+1\geq {\sf t}'}\sum_{w_{{\sf t}'}}\beta^{{\sf t}+1-{\sf t}'}{\sf NPDF}[w_{{\sf t}'};0,C_{{\sf t}'}(z,w_{{\sf t}'})]}{\sum_{{\sf t}+1\geq {\sf t}'}\beta^{{\sf t}+1-{\sf t}'}} \\
+C_{{\sf t}+1}(z,w) &= \frac{\sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\sum_{(z_{{\sf t}''},w_{{\sf t}''})}(w-w_{{\sf t}'})(w-w_{{\sf t}''})\beta^{{\sf t}'-{\sf t}''}K_H(z;z_{{\sf t}'},z_{{\sf t}''})}{\sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\sum_{z_{{\sf t}''}}\beta^{{\sf t}'-{\sf t}''}K_H(z;z_{{\sf t}'},z_{{\sf t}''})} + \sigma^2 \\
 K_H(z;z_{{\sf t}'},z_{{\sf t}''}) &= \exp \bigg\{ -\frac{1}{2}\sum_{i,j}(z-z_{{\sf t}'})^i(H^{-1})^{ij}(z-z_{{\sf t}''})^j\bigg\} \,.
 \end{align}
 $$
 
-where: $\delta^{ij}$ is the Kronecker delta (taking a value of 1 when $i=j$, else 0); $(\sigma^i)^2$ is a weights variance scale associated to each dimension; and ${\sf NPDF}[z;0,C_{{\sf t}'}(z)]$ is the probability density function of a multivariate normal distribution. The adaptive learning occurs through minimising the following iterative cross-validation formula derived from the Kullback-Leibler divergence [@kullback1951information]
+where ${\sf NPDF}[z;0,C_{{\sf t}'}(z)]$ is the probability density function of a multivariate normal distribution. The adaptive learning occurs through minimising the following iterative cross-validation formula derived from the Kullback-Leibler divergence [@kullback1951information]
 
 $$
 \begin{align}
 D_{\rm KL} &= \int_{\zeta_{{\sf t}+1}} {\rm d}z \, P_{{\sf t}+1}(z)\ln \frac{P_{{\sf t}+1}(z)}{Q_{{\sf t}}(z)} \\
-&\simeq \frac{1}{\sum_{w_{{\sf t}+1}}w_{{\sf t}+1}}\sum_{(w_{{\sf t}+1},z_{{\sf t}+1})}w_{{\sf t}+1} \ln \frac{w_{{\sf t}+1}\sum_{{\sf t}\geq {\sf t}'}\sum_{w_{{\sf t}'}}\beta^{{\sf t}-{\sf t}'}w_{{\sf t}'}}{\sum_{{\sf t}\geq {\sf t}'}\sum_{(w_{{\sf t}'},z_{{\sf t}'})}\beta^{{\sf t}-{\sf t}'}w_{{\sf t}'}{\sf NPDF}[z_{{\sf t}+1};0,C_{{\sf t}'}(z_{{\sf t}+1})]} \,.
+&\simeq \frac{1}{\sum_{w_{{\sf t}+1}}w_{{\sf t}+1}}\sum_{(z_{{\sf t}+1},w_{{\sf t}+1})}w_{{\sf t}+1} \ln \frac{w_{{\sf t}+1}\sum_{{\sf t}\geq {\sf t}'}\beta^{{\sf t}-{\sf t}'}}{\sum_{{\sf t}\geq {\sf t}'}\sum_{w_{{\sf t}'}}\beta^{{\sf t}-{\sf t}'}{\sf NPDF}[w_{{\sf t}'};0,C_{{\sf t}'}(z_{{\sf t}+1},w_{{\sf t}'})]} \,.
 \end{align}
 $$
 
@@ -69,7 +47,7 @@ Start by drawing samples centred from different points, where each centre is ran
 
 $$
 \begin{align}
-Q_{{\sf t}+1}(z) &= \frac{\sum_{(w_{{\sf t}+1},z_{{\sf t}+1})}w_{{\sf t}+1}{\sf NPDF}[z;0,C_{{\sf t}+1}(z)]}{\sum_{{\sf t}+1\geq {\sf t}'}\sum_{w_{{\sf t}'}}\beta^{{\sf t}+1-{\sf t}'}w_{{\sf t}'}} + \frac{\sum_{{\sf t}\geq {\sf t}'}\sum_{w_{{\sf t}'}}\beta^{{\sf t}+1-{\sf t}'}w_{{\sf t}'}}{\sum_{{\sf t}+1\geq {\sf t}'}\sum_{w_{{\sf t}'}}\beta^{{\sf t}+1-{\sf t}'}w_{{\sf t}'}}Q_{{\sf t}}(z) \,.
+Q_{{\sf t}+1}(z) &= \frac{\sum_{w_{{\sf t}+1}}{\sf NPDF}[w_{{\sf t}+1};0,C_{{\sf t}+1}(z,w_{{\sf t}+1})]}{\sum_{{\sf t}+1\geq {\sf t}'}\beta^{{\sf t}+1-{\sf t}'}} + \frac{\sum_{{\sf t}\geq {\sf t}'}\beta^{{\sf t}+1-{\sf t}'}}{\sum_{{\sf t}+1\geq {\sf t}'}\beta^{{\sf t}+1-{\sf t}'}}Q_{{\sf t}}(z) \,.
 \end{align}
 $$
 
