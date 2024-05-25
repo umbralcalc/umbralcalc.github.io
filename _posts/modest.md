@@ -16,17 +16,45 @@ Solution we will study is to create an adaptive sequential Monte Carlo algorithm
 
 ## Adaptively estimating a smoothed density
 
+We can motivate the density smoothing model through specifying the following functional 'distribution over distributions' which uses a symmetrised form of the Kullback-Leibler divergence [@kullback1951information]
+
+$$
+\begin{align}
+{\cal P}_{{\sf t}+1}[Q] &\propto \int {\cal D}[Q] \, e^{-D^{\rm sym}_{\rm KL}[Q,P_{{\sf t}+1}]/\gamma} \\
+D^{\rm sym}_{\rm KL}[Q,P_{{\sf t}+1}] &= \frac{1}{2}D_{\rm KL}[Q\vert\vert P_{{\sf t}+1}] + \frac{1}{2}D_{\rm KL}[P_{{\sf t}+1} \vert\vert Q] \\
+ &= \frac{1}{2}\int {\rm d}Z \, Q(Z)\ln \frac{Q(Z)}{P_{{\sf t}+1}(Z)} + \frac{1}{2}\int {\rm d}Z \, P_{{\sf t}+1}(Z)\ln \frac{P_{{\sf t}+1}(Z)}{Q(Z)} \,,
+\end{align}
+$$
+
+where we are using the state history matrix formalism used in [@stochadexI-2024] such that $Z$ corresponds to a matrix which adds a row for every new instantaneous $z$ state vector which time evolves to. Note that we can take 'functional expectation values' with this distribution, such that
+
+$$
+\begin{align}
+{\rm E}_{{\sf t}+1}[Q(Z)] &= \frac{\int {\cal D}[Q(Z)] Q(Z) e^{-D^{\rm sym}_{\rm KL}[Q(Z),P_{{\sf t}+1}(Z)]/\gamma}}{\int {\cal D}[Q(Z)] e^{-D^{\rm sym}_{\rm KL}[Q(Z),P_{{\sf t}+1}(Z)]/\gamma}} \,.
+\end{align}
+$$
+
+If we then expand $D^{\rm sym}_{\rm KL}$ logarithmically around $\ln P_{{\sf t}+1}$ such that $\ln Q=\ln P_{{\sf t}+1} + \delta \ln P_{{\sf t}+1}$, we arrive at the following approximation up to second order in the expansion
+
+$$
+\begin{align}
+D^{\rm sym}_{\rm KL}[e^{\ln P_{{\sf t}+1} + \delta \ln P_{{\sf t}+1}},P_{{\sf t}+1}] &\simeq \frac{1}{2}\int {\rm d}Z \,P_{{\sf t}+1}(Z) [\delta \ln P_{{\sf t}+1}(Z)]^2 \,.
+\end{align}
+$$
+
 Idea is to dynamically train the noise scale $\sigma$ and kernel bandwidth matrix $H$ of a Gaussian Process-based [@williams2006gaussian] density estimation algorithm which can be used to calculate the latest density
 
 $$
 \begin{align}
-Q_{{\sf t}+1}(z) &= \frac{\sum_{{\sf t}+1\geq {\sf t}'}\sum_{w_{{\sf t}'}}\beta^{{\sf t}+1-{\sf t}'}{\sf NPDF}[w_{{\sf t}'};0,C_{{\sf t}'}(z,w_{{\sf t}'})]}{\sum_{{\sf t}+1\geq {\sf t}'}\beta^{{\sf t}+1-{\sf t}'}} \\
-C_{{\sf t}+1}(z,w) &= \frac{\sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\sum_{(z_{{\sf t}''},w_{{\sf t}''})}(w-w_{{\sf t}'})(w-w_{{\sf t}''})\beta^{{\sf t}'-{\sf t}''}K_H(z;z_{{\sf t}'},z_{{\sf t}''})}{\sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\sum_{z_{{\sf t}''}}\beta^{{\sf t}'-{\sf t}''}K_H(z;z_{{\sf t}'},z_{{\sf t}''})} + \sigma^2 \\
+{\rm E}_{{\sf t}+1}[Q(z)] &\simeq \frac{\sum_{{\sf t}+1\geq {\sf t}'}\sum_{\ell_{{\sf t}'}}\beta^{{\sf t}+1-{\sf t}'} {\sf MultivariateNormalPDF}[\ell_{{\sf t}'};0,\gamma e^{-\ell_{{\sf t}'}} C_{{\sf t}'}(z,\ell_{{\sf t}'})]}{\sum_{{\sf t}+1\geq {\sf t}'}\beta^{{\sf t}+1-{\sf t}'}} \\
+C_{{\sf t}+1}(z,\ell) &= \frac{\sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\sum_{(z_{{\sf t}''},\ell_{{\sf t}''})}(\ell - \ell_{{\sf t}'})(\ell - \ell_{{\sf t}''})\beta^{{\sf t}'-{\sf t}''}K_H(z;z_{{\sf t}'},z_{{\sf t}''})}{\sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\sum_{z_{{\sf t}''}}\beta^{{\sf t}'-{\sf t}''}K_H(z;z_{{\sf t}'},z_{{\sf t}''})} + \sigma^2 \\
 K_H(z;z_{{\sf t}'},z_{{\sf t}''}) &= \exp \bigg\{ -\frac{1}{2}\sum_{i,j}(z-z_{{\sf t}'})^i(H^{-1})^{ij}(z-z_{{\sf t}''})^j\bigg\} \,.
 \end{align}
 $$
 
-where ${\sf NPDF}[z;0,C_{{\sf t}'}(z)]$ is the probability density function of a multivariate normal distribution. The adaptive learning occurs through minimising the following iterative cross-validation formula derived from the Kullback-Leibler divergence [@kullback1951information]
+NEED TO THINK MORE FROM HERE TO WORK OUT HOW CROSS-VALIDATION SHOULD WORK... I THINK IT'S JUST AN EXPECTATION VALUE WRT THE PARAMS $H$ and $\sigma$
+
+The adaptive learning occurs through minimising the following iterative cross-validation formula derived from the Kullback-Leibler divergence [@kullback1951information]
 
 $$
 \begin{align}

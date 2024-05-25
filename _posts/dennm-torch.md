@@ -10,7 +10,7 @@ year: 2024
 
 ## Formalism recap
 
-Let's recall the formalism introduced in [@stochadexII-WIP], which considers what happens to the probability that the state history matrix takes a particular set of values over time. To do this, we write down what is known as a _master equation_, which fully describes the time evolution of the _probability density function_ $P_{{\sf t}+1}(X\vert z)$ of $X_{({\sf t}+1)-{\sf s}:({\sf t}+1)}=X$ given that the parameters of the process are $z$ and the state history window size is ${\sf s}$. This can be written as
+Let's recall the formalism introduced in [@stochadexII-2024], which considers what happens to the probability that the state history matrix takes a particular set of values over time. To do this, we write down what is known as a _master equation_, which fully describes the time evolution of the _probability density function_ $P_{{\sf t}+1}(X\vert z)$ of $X_{({\sf t}+1)-{\sf s}:({\sf t}+1)}=X$ given that the parameters of the process are $z$ and the state history window size is ${\sf s}$. This can be written as
 
 $$
 \begin{aligned}
@@ -30,7 +30,7 @@ $$
 
 ## Non-Markovian phenomena
 
-Let's now return back to the full master equation we wrote at the beginning. As was shown in [@stochadexII-WIP], we can also approximate the probability $P_{{\sf t}+1}(X\vert z)$ with a logarithmic expansion like this
+Let's now return back to the full master equation we wrote at the beginning. As was shown in [@stochadexII-2024], we can also approximate the probability $P_{{\sf t}+1}(X\vert z)$ with a logarithmic expansion like this
 
 $$
 \begin{aligned}

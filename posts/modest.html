@@ -173,15 +173,36 @@ About
 <p>Say that we have a generator of probabilistic weights which takes a vector of parameters <span class="math inline">\(z\)</span> as input. This generator represents a non-stationary probability distribution and the weights are effectively stochastic around the true value for each given <span class="math inline">\(z\)</span> as input. The problem is that we would like to be able to efficiently sample from the underlying distribution regardless of its shape or modality.</p>
 <p>Solution we will study is to create an adaptive sequential Monte Carlo algorithm, e.g., see <span class="citation" data-cites="del2006sequential">[1]</span> or <span class="citation" data-cites="wills2023sequential">[2]</span>.</p>
 <h2 id="adaptively-estimating-a-smoothed-density">Adaptively estimating a smoothed density</h2>
-<p>Idea is to dynamically train the noise scale <span class="math inline">\(\sigma\)</span> and kernel bandwidth matrix <span class="math inline">\(H\)</span> of a Gaussian Process-based <span class="citation" data-cites="williams2006gaussian">[3]</span> density estimation algorithm which can be used to calculate the latest density</p>
+<p>We can motivate the density smoothing model through specifying the following functional ‘distribution over distributions’ which uses a symmetrised form of the Kullback-Leibler divergence <span class="citation" data-cites="kullback1951information">[3]</span></p>
 <p><span class="math display">\[
 \begin{align}
-Q_{{\sf t}+1}(z) &amp;= \frac{\sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{w_{{\sf t}&#39;}}\beta^{{\sf t}+1-{\sf t}&#39;}{\sf NPDF}[w_{{\sf t}&#39;};0,C_{{\sf t}&#39;}(z,w_{{\sf t}&#39;})]}{\sum_{{\sf t}+1\geq {\sf t}&#39;}\beta^{{\sf t}+1-{\sf t}&#39;}} \\
-C_{{\sf t}+1}(z,w) &amp;= \frac{\sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\sum_{(z_{{\sf t}&#39;&#39;},w_{{\sf t}&#39;&#39;})}(w-w_{{\sf t}&#39;})(w-w_{{\sf t}&#39;&#39;})\beta^{{\sf t}&#39;-{\sf t}&#39;&#39;}K_H(z;z_{{\sf t}&#39;},z_{{\sf t}&#39;&#39;})}{\sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\sum_{z_{{\sf t}&#39;&#39;}}\beta^{{\sf t}&#39;-{\sf t}&#39;&#39;}K_H(z;z_{{\sf t}&#39;},z_{{\sf t}&#39;&#39;})} + \sigma^2 \\
+{\cal P}_{{\sf t}+1}[Q] &amp;\propto \int {\cal D}[Q] \, e^{-D^{\rm sym}_{\rm KL}[Q,P_{{\sf t}+1}]/\gamma} \\
+D^{\rm sym}_{\rm KL}[Q,P_{{\sf t}+1}] &amp;= \frac{1}{2}D_{\rm KL}[Q\vert\vert P_{{\sf t}+1}] + \frac{1}{2}D_{\rm KL}[P_{{\sf t}+1} \vert\vert Q] \\
+ &amp;= \frac{1}{2}\int {\rm d}Z \, Q(Z)\ln \frac{Q(Z)}{P_{{\sf t}+1}(Z)} + \frac{1}{2}\int {\rm d}Z \, P_{{\sf t}+1}(Z)\ln \frac{P_{{\sf t}+1}(Z)}{Q(Z)} \,,
+\end{align}
+\]</span></p>
+<p>where we are using the state history matrix formalism used in <span class="citation" data-cites="stochadexI-2024">[4]</span> such that <span class="math inline">\(Z\)</span> corresponds to a matrix which adds a row for every new instantaneous <span class="math inline">\(z\)</span> state vector which time evolves to. Note that we can take ‘functional expectation values’ with this distribution, such that</p>
+<p><span class="math display">\[
+\begin{align}
+{\rm E}_{{\sf t}+1}[Q(Z)] &amp;= \frac{\int {\cal D}[Q(Z)] Q(Z) e^{-D^{\rm sym}_{\rm KL}[Q(Z),P_{{\sf t}+1}(Z)]/\gamma}}{\int {\cal D}[Q(Z)] e^{-D^{\rm sym}_{\rm KL}[Q(Z),P_{{\sf t}+1}(Z)]/\gamma}} \,.
+\end{align}
+\]</span></p>
+<p>If we then expand <span class="math inline">\(D^{\rm sym}_{\rm KL}\)</span> logarithmically around <span class="math inline">\(\ln P_{{\sf t}+1}\)</span> such that <span class="math inline">\(\ln Q=\ln P_{{\sf t}+1} + \delta \ln P_{{\sf t}+1}\)</span>, we arrive at the following approximation up to second order in the expansion</p>
+<p><span class="math display">\[
+\begin{align}
+D^{\rm sym}_{\rm KL}[e^{\ln P_{{\sf t}+1} + \delta \ln P_{{\sf t}+1}},P_{{\sf t}+1}] &amp;\simeq \frac{1}{2}\int {\rm d}Z \,P_{{\sf t}+1}(Z) [\delta \ln P_{{\sf t}+1}(Z)]^2 \,.
+\end{align}
+\]</span></p>
+<p>Idea is to dynamically train the noise scale <span class="math inline">\(\sigma\)</span> and kernel bandwidth matrix <span class="math inline">\(H\)</span> of a Gaussian Process-based <span class="citation" data-cites="williams2006gaussian">[5]</span> density estimation algorithm which can be used to calculate the latest density</p>
+<p><span class="math display">\[
+\begin{align}
+{\rm E}_{{\sf t}+1}[Q(z)] &amp;\simeq \frac{\sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{\ell_{{\sf t}&#39;}}\beta^{{\sf t}+1-{\sf t}&#39;} {\sf MultivariateNormalPDF}[\ell_{{\sf t}&#39;};0,\gamma e^{-\ell_{{\sf t}&#39;}} C_{{\sf t}&#39;}(z,\ell_{{\sf t}&#39;})]}{\sum_{{\sf t}+1\geq {\sf t}&#39;}\beta^{{\sf t}+1-{\sf t}&#39;}} \\
+C_{{\sf t}+1}(z,\ell) &amp;= \frac{\sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\sum_{(z_{{\sf t}&#39;&#39;},\ell_{{\sf t}&#39;&#39;})}(\ell - \ell_{{\sf t}&#39;})(\ell - \ell_{{\sf t}&#39;&#39;})\beta^{{\sf t}&#39;-{\sf t}&#39;&#39;}K_H(z;z_{{\sf t}&#39;},z_{{\sf t}&#39;&#39;})}{\sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\sum_{z_{{\sf t}&#39;&#39;}}\beta^{{\sf t}&#39;-{\sf t}&#39;&#39;}K_H(z;z_{{\sf t}&#39;},z_{{\sf t}&#39;&#39;})} + \sigma^2 \\
 K_H(z;z_{{\sf t}&#39;},z_{{\sf t}&#39;&#39;}) &amp;= \exp \bigg\{ -\frac{1}{2}\sum_{i,j}(z-z_{{\sf t}&#39;})^i(H^{-1})^{ij}(z-z_{{\sf t}&#39;&#39;})^j\bigg\} \,.
 \end{align}
 \]</span></p>
-<p>where <span class="math inline">\({\sf NPDF}[z;0,C_{{\sf t}&#39;}(z)]\)</span> is the probability density function of a multivariate normal distribution. The adaptive learning occurs through minimising the following iterative cross-validation formula derived from the Kullback-Leibler divergence <span class="citation" data-cites="kullback1951information">[4]</span></p>
+<p>NEED TO THINK MORE FROM HERE TO WORK OUT HOW CROSS-VALIDATION SHOULD WORK… I THINK IT’S JUST AN EXPECTATION VALUE WRT THE PARAMS <span class="math inline">\(H\)</span> and <span class="math inline">\(\sigma\)</span></p>
+<p>The adaptive learning occurs through minimising the following iterative cross-validation formula derived from the Kullback-Leibler divergence <span class="citation" data-cites="kullback1951information">[3]</span></p>
 <p><span class="math display">\[
 \begin{align}
 D_{\rm KL} &amp;= \int_{\zeta_{{\sf t}+1}} {\rm d}z \, P_{{\sf t}+1}(z)\ln \frac{P_{{\sf t}+1}(z)}{Q_{{\sf t}}(z)} \\
@@ -210,11 +231,14 @@ Q_{{\sf t}+1}(z) &amp;= \frac{\sum_{w_{{\sf t}+1}}{\sf NPDF}[w_{{\sf t}+1};0,C_{
 <div id="ref-wills2023sequential">
 <p>[2] A. G. Wills and T. B. Schön, “Sequential monte carlo: A unified review,” <em>Annual Review of Control, Robotics, and Autonomous Systems</em>, vol. 6, pp. 159–182, 2023.</p>
 </div>
-<div id="ref-williams2006gaussian">
-<p>[3] C. K. Williams and C. E. Rasmussen, <em>Gaussian processes for machine learning</em>, vol. 2. MIT press Cambridge, MA, 2006.</p>
-</div>
 <div id="ref-kullback1951information">
-<p>[4] S. Kullback and R. A. Leibler, “On information and sufficiency,” <em>The annals of mathematical statistics</em>, vol. 22, no. 1, pp. 79–86, 1951.</p>
+<p>[3] S. Kullback and R. A. Leibler, “On information and sufficiency,” <em>The annals of mathematical statistics</em>, vol. 22, no. 1, pp. 79–86, 1951.</p>
+</div>
+<div id="ref-stochadexI-2024">
+<p>[4] R. J. Hardwick, “Self-learning simulations series: Building a generalised simulation engine,” <em>umbralcalculations (umbralcalc.github.io/posts/stochadexI.html)</em>, 2024.</p>
+</div>
+<div id="ref-williams2006gaussian">
+<p>[5] C. K. Williams and C. E. Rasmussen, <em>Gaussian processes for machine learning</em>, vol. 2. MIT press Cambridge, MA, 2006.</p>
 </div>
 </div>
 <hr color="LightGray">

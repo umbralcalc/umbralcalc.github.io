@@ -171,7 +171,7 @@ About
 <hr color="LightGray">
 </br>
 <h2 id="formalism-recap">Formalism recap</h2>
-<p>Let’s recall the formalism introduced in <span class="citation" data-cites="stochadexII-WIP">[1]</span>, which considers what happens to the probability that the state history matrix takes a particular set of values over time. To do this, we write down what is known as a <em>master equation</em>, which fully describes the time evolution of the <em>probability density function</em> <span class="math inline">\(P_{{\sf t}+1}(X\vert z)\)</span> of <span class="math inline">\(X_{({\sf t}+1)-{\sf s}:({\sf t}+1)}=X\)</span> given that the parameters of the process are <span class="math inline">\(z\)</span> and the state history window size is <span class="math inline">\({\sf s}\)</span>. This can be written as</p>
+<p>Let’s recall the formalism introduced in <span class="citation" data-cites="stochadexII-2024">[1]</span>, which considers what happens to the probability that the state history matrix takes a particular set of values over time. To do this, we write down what is known as a <em>master equation</em>, which fully describes the time evolution of the <em>probability density function</em> <span class="math inline">\(P_{{\sf t}+1}(X\vert z)\)</span> of <span class="math inline">\(X_{({\sf t}+1)-{\sf s}:({\sf t}+1)}=X\)</span> given that the parameters of the process are <span class="math inline">\(z\)</span> and the state history window size is <span class="math inline">\({\sf s}\)</span>. This can be written as</p>
 <p><span class="math display">\[
 \begin{aligned}
 P_{{\sf t}+1}(X\vert z) &amp;= P_{{\sf t}}(X&#39;\vert z) P_{({\sf t}+1){\sf t}}(x\vert X&#39;,z)\,,
@@ -185,7 +185,7 @@ P_{{\sf t}+1}(x\vert z) &amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;&#39;={\sf t}-
 \end{aligned}
 \]</span></p>
 <h2 id="non-markovian-phenomena">Non-Markovian phenomena</h2>
-<p>Let’s now return back to the full master equation we wrote at the beginning. As was shown in <span class="citation" data-cites="stochadexII-WIP">[1]</span>, we can also approximate the probability <span class="math inline">\(P_{{\sf t}+1}(X\vert z)\)</span> with a logarithmic expansion like this</p>
+<p>Let’s now return back to the full master equation we wrote at the beginning. As was shown in <span class="citation" data-cites="stochadexII-2024">[1]</span>, we can also approximate the probability <span class="math inline">\(P_{{\sf t}+1}(X\vert z)\)</span> with a logarithmic expansion like this</p>
 <p><span class="math display">\[
 \begin{aligned}
 \ln P_{{\sf t}+1}(X\vert z) &amp;\simeq \ln P_{{\sf t}+1}(X_* \vert z) + \frac{1}{2}\sum_{{\sf t}&#39;=({\sf t}+1)-{\sf s}}^{({\sf t}+1)}\sum_{i=0}^{n}\sum_{j=0}^{n} (x-x_* )^i {\cal I}^{ij}_{({\sf t}+1){\sf t}&#39;}(z) (x&#39;-x&#39;_*)^j  \\
@@ -247,8 +247,8 @@ P_{({\sf t}+1){\sf t}&#39;&#39;}^{ii&#39;&#39;} &amp;= \frac{1}{{\sf t}}\sum_{{\
 <p>The discretised iteration formulae above have been implemented with Libtorch in this small C++ package here: <a href="https://github.com/umbralcalc/dennm-torch">https://github.com/umbralcalc/dennm-torch</a>. Possible extensions to this work include implementing even higher-order correlations as well as trying out some specific systems.</p>
 <h2 class="unnumbered" id="references">References</h2>
 <div id="refs" class="references" role="doc-bibliography">
-<div id="ref-stochadexII-WIP">
-<p>[1] R. J. Hardwick, “Self-learning simulations series: Online simulation inference methods,” <em>umbralcalculations (umbralcalc.github.io/posts/stochadexII.html)</em>.</p>
+<div id="ref-stochadexII-2024">
+<p>[1] R. J. Hardwick, “Self-learning simulations series: Online simulation inference methods,” <em>umbralcalculations (umbralcalc.github.io/posts/stochadexII.html)</em>, 2024.</p>
 </div>
 <div id="ref-libtorch">
 <p>[2] “Libtorch: Pytorch C++ API.” <a href="https://pytorch.org/cppdocs/">https://pytorch.org/cppdocs/</a>.</p>
