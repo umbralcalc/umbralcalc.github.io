@@ -1,5 +1,5 @@
 ---
-title: Adaptive sequential Monte Carlo sampling with a discounted history
+title: Adaptive sequential Monte Carlo sampling from noisy weighted input samples
 author: Hardwick, Robert J
 date: [WIP]
 concept: To describe the design and implementation of a sequential Monte Carlo sampler which can dynamically adapt to sampling new points from nonstationary, multivariate and potentially multi-modal distributions using only a stream of noisy weighted samples as input. We control the sensitivity of this algorithm to temporal changes in the target distribution through a discounted history approach.
