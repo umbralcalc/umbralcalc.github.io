@@ -76,4 +76,12 @@ Initial implementation should be in the stochadex to try out the ideas. Then the
 
 Probably fits into the shared-memory actor pattern nicely!
 
+The rough schematic for the simulation parameter posterior sampler is below.
+
+![](../assets/modest/modest-previous-sampler.drawio.png)
+
+We are suggesting to make the following change to this schematic.
+
+![](../assets/modest/modest-modest-sampler.drawio.png)
+
 ## References

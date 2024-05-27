@@ -215,6 +215,10 @@ K_H(z;z_{{\sf t}&#39;},z_{{\sf t}&#39;&#39;}) &amp;= \exp \bigg\{ -\frac{1}{2}\s
 <h2 id="implementation">Implementation</h2>
 <p>Initial implementation should be in the stochadex to try out the ideas. Then the article can turn to implementing it from scratch in Rust (and a Python interop) using a custom shared-memory actor pattern design which improves on the initial design with the stochadex by allowing the number of samples to scale up or down dynamically through successive generations of actors producing more or less future actors.</p>
 <p>Probably fits into the shared-memory actor pattern nicely!</p>
+<p>The rough schematic for the simulation parameter posterior sampler is below.</p>
+<p><img src="../assets/modest/modest-previous-sampler.drawio.png" /></p>
+<p>We are suggesting to make the following change to this schematic.</p>
+<p><img src="../assets/modest/modest-modest-sampler.drawio.png" /></p>
 <h2 class="unnumbered" id="references">References</h2>
 <div id="refs" class="references" role="doc-bibliography">
 <div id="ref-del2006sequential">
