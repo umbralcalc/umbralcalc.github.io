@@ -176,7 +176,7 @@ About
 <p>We can motivate the density smoothing model through specifying the following functional ‘distribution over distributions’ which uses a symmetrised form of the Kullback-Leibler divergence <span class="citation" data-cites="kullback1951information">[3]</span></p>
 <p><span class="math display">\[
 \begin{align}
-{\cal P}_{{\sf t}+1}[Q] &amp;\propto \int {\cal D}[Q] \, e^{-D^{\rm sym}_{\rm KL}[Q,P_{{\sf t}+1}]/\gamma} \\
+{\cal P}_{{\sf t}+1}[Q] \propto \bar{{\cal P}}_{{\sf t}+1}[Q] &amp;= \int {\cal D}[Q] \, e^{-D^{\rm sym}_{\rm KL}[Q,P_{{\sf t}+1}]/\gamma} \\
 D^{\rm sym}_{\rm KL}[Q,P_{{\sf t}+1}] &amp;= \frac{1}{2}D_{\rm KL}[Q\vert\vert P_{{\sf t}+1}] + \frac{1}{2}D_{\rm KL}[P_{{\sf t}+1} \vert\vert Q] \\
  &amp;= \frac{1}{2}\int {\rm d}Z \, Q(Z)\ln \frac{Q(Z)}{P_{{\sf t}+1}(Z)} + \frac{1}{2}\int {\rm d}Z \, P_{{\sf t}+1}(Z)\ln \frac{P_{{\sf t}+1}(Z)}{Q(Z)} \,,
 \end{align}
@@ -196,7 +196,7 @@ D^{\rm sym}_{\rm KL}[e^{\ln P_{{\sf t}+1} + \delta \ln P_{{\sf t}+1}},P_{{\sf t}
 <p>Idea is to dynamically train the noise scale <span class="math inline">\(\sigma\)</span> and kernel bandwidth matrix <span class="math inline">\(H\)</span> of a Gaussian Process-based <span class="citation" data-cites="williams2006gaussian">[5]</span> density estimation algorithm which can be used to calculate the latest density</p>
 <p><span class="math display">\[
 \begin{align}
-{\rm E}_{{\sf t}+1}[Q(z);H,\sigma] &amp;\simeq \frac{\sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{\ell_{{\sf t}&#39;}}\beta^{{\sf t}+1-{\sf t}&#39;} {\sf MultivariateNormalPDF}[\ell_{{\sf t}&#39;};0,\gamma e^{-\ell_{{\sf t}&#39;}} C_{{\sf t}&#39;}(z,\ell_{{\sf t}&#39;};H,\sigma )]}{\sum_{{\sf t}+1\geq {\sf t}&#39;}\beta^{{\sf t}+1-{\sf t}&#39;}} \\
+\bar{{\cal P}}_{{\sf t}+1}[Q(z);H,\sigma] &amp;\simeq \frac{\sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{\ell_{{\sf t}&#39;}}\beta^{{\sf t}+1-{\sf t}&#39;} {\sf MultivariateNormalPDF}[\ell_{{\sf t}&#39;};0,\gamma e^{-\ell_{{\sf t}&#39;}} C_{{\sf t}&#39;}(z,\ell_{{\sf t}&#39;};H,\sigma )]}{\sum_{{\sf t}+1\geq {\sf t}&#39;}\beta^{{\sf t}+1-{\sf t}&#39;}} \\
 C_{{\sf t}+1}(z,\ell;H,\sigma ) &amp;= \frac{\sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\sum_{(z_{{\sf t}&#39;&#39;},\ell_{{\sf t}&#39;&#39;})}(\ell - \ell_{{\sf t}&#39;})(\ell - \ell_{{\sf t}&#39;&#39;})\beta^{{\sf t}&#39;-{\sf t}&#39;&#39;}K_H(z;z_{{\sf t}&#39;},z_{{\sf t}&#39;&#39;})}{\sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\sum_{z_{{\sf t}&#39;&#39;}}\beta^{{\sf t}&#39;-{\sf t}&#39;&#39;}K_H(z;z_{{\sf t}&#39;},z_{{\sf t}&#39;&#39;})} + \sigma^2 \\
 K_H(z;z_{{\sf t}&#39;},z_{{\sf t}&#39;&#39;}) &amp;= \exp \bigg\{ -\frac{1}{2}\sum_{i,j}(z-z_{{\sf t}&#39;})^i(H^{-1})^{ij}(z-z_{{\sf t}&#39;&#39;})^j\bigg\} \,.
 \end{align}
@@ -204,11 +204,11 @@ K_H(z;z_{{\sf t}&#39;},z_{{\sf t}&#39;&#39;}) &amp;= \exp \bigg\{ -\frac{1}{2}\s
 <p>If we were to vary <span class="math inline">\(H\)</span> and <span class="math inline">\(\sigma\)</span> across samples of <span class="math inline">\(z\)</span>, we can also think of the ‘distribution over distributions’ as representing a probabilistic weighting for cross-validation which maximises when the best representation of <span class="math inline">\(P_{{\sf t}+1}\)</span> has been found. By computing the marginal expectation values for <span class="math inline">\(H\)</span> and <span class="math inline">\(\sigma\)</span> using these samples and their corresponding weights like this</p>
 <p><span class="math display">\[
 \begin{align}
-{\rm E}_{{\sf t}+1}[(H,\sigma )] &amp;\simeq \frac{\sum_{z_{{\sf t}+1}} (H,\sigma ){\rm E}_{{\sf t}+1}[Q(z_{{\sf t}+1});H,\sigma]}{\sum_{z_{{\sf t}+1}}{\rm E}_{{\sf t}+1}[Q(z_{{\sf t}+1});H,\sigma]} \,,
+{\rm E}_{{\sf t}+1}[(H,\sigma )] &amp;\simeq \frac{\sum_{z_{{\sf t}+1}} (H,\sigma )\bar{{\cal P}}_{{\sf t}+1}[Q(z_{{\sf t}+1});H,\sigma]}{\sum_{z_{{\sf t}+1}}\bar{{\cal P}}_{{\sf t}+1}[Q(z_{{\sf t}+1});H,\sigma]} \,,
 \end{align}
 \]</span></p>
 <p>we can then input these expectation values as the centre of the sampler for the next <span class="math inline">\(H\)</span> (inverse-Wishart distribution) and <span class="math inline">\(\sigma\)</span> (Gaussian distribution) values in the sequence. This pattern enables us to construct an iterative sampling algorithm for the hyperparameters of our density smoothing model which encodes cross-validation in its design.</p>
-<p>Note that the smoothed modes of the distribution can also be detected by initialising a <span class="math inline">\(z\)</span>-optimising step at time <span class="math inline">\({\sf t}\)</span> with initial conditions set by all of the current samples and an objective given by the <span class="math inline">\({\rm E}_{{\sf t}+1}[Q(z);H,\sigma]\)</span> formula.</p>
+<p>Note that the smoothed modes of the distribution can also be detected by initialising a <span class="math inline">\(z\)</span>-optimising step at time <span class="math inline">\({\sf t}\)</span> with initial conditions set by all of the current samples and an objective given by the <span class="math inline">\(\bar{{\cal P}}_{{\sf t}+1}[Q(z);H,\sigma]\)</span> formula.</p>
 <p>Scaling in time history is probably the main nuisance here! Might motivate the use of Rust though since having a really good handle on what memory is actually necessary will be very useful.</p>
 <h2 id="resampling">Resampling</h2>
 <p>Start by drawing samples centred from different points, where each centre is randomly chosen from the current pool of samples with a frequency weighted by the smoothed new density of that point. If we then sample around each point using <span class="math inline">\(fH\)</span> as the covariance around the point (where <span class="math inline">\(f\)</span> is some exploration factor <span class="math inline">\(&lt;1\)</span>), we end up being able to effectively sample from the smoothed density.</p>
