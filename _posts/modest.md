@@ -20,7 +20,7 @@ We can motivate the density smoothing model through specifying the following fun
 
 $$
 \begin{align}
-{\cal P}_{{\sf t}+1}[Q] \propto \bar{{\cal P}}_{{\sf t}+1}[Q] &= \int {\cal D}[Q] \, e^{-D^{\rm sym}_{\rm KL}[Q,P_{{\sf t}+1}]/\gamma} \\
+{\cal P}_{{\sf t}+1}[Q] \propto \tilde{{\cal P}}_{{\sf t}+1}[Q] &= \int {\cal D}[Q] \, e^{-D^{\rm sym}_{\rm KL}[Q,P_{{\sf t}+1}]/\gamma} \\
 D^{\rm sym}_{\rm KL}[Q,P_{{\sf t}+1}] &= \frac{1}{2}D_{\rm KL}[Q\vert\vert P_{{\sf t}+1}] + \frac{1}{2}D_{\rm KL}[P_{{\sf t}+1} \vert\vert Q] \\
  &= \frac{1}{2}\int {\rm d}Z \, Q(Z)\ln \frac{Q(Z)}{P_{{\sf t}+1}(Z)} + \frac{1}{2}\int {\rm d}Z \, P_{{\sf t}+1}(Z)\ln \frac{P_{{\sf t}+1}(Z)}{Q(Z)} \,,
 \end{align}
@@ -46,7 +46,7 @@ Idea is to dynamically train the noise scale $\sigma$ and kernel bandwidth matri
 
 $$
 \begin{align}
-\bar{{\cal P}}_{{\sf t}+1}[Q(z);H,\sigma] &\simeq \frac{\sum_{{\sf t}+1\geq {\sf t}'}\sum_{\ell_{{\sf t}'}}\beta^{{\sf t}+1-{\sf t}'} {\sf MultivariateNormalPDF}[\ell_{{\sf t}'};0,\gamma e^{-\ell_{{\sf t}'}} C_{{\sf t}'}(z,\ell_{{\sf t}'};H,\sigma )]}{\sum_{{\sf t}+1\geq {\sf t}'}\beta^{{\sf t}+1-{\sf t}'}} \\
+\tilde{{\cal P}}_{{\sf t}+1}[Q(z);H,\sigma] &\simeq \frac{\sum_{{\sf t}+1\geq {\sf t}'}\sum_{\ell_{{\sf t}'}}\beta^{{\sf t}+1-{\sf t}'} {\sf MultivariateNormalPDF}[\ell_{{\sf t}'};0,\gamma e^{-\ell_{{\sf t}'}} C_{{\sf t}'}(z,\ell_{{\sf t}'};H,\sigma )]}{\sum_{{\sf t}+1\geq {\sf t}'}\beta^{{\sf t}+1-{\sf t}'}} \\
 C_{{\sf t}+1}(z,\ell;H,\sigma ) &= \frac{\sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\sum_{(z_{{\sf t}''},\ell_{{\sf t}''})}(\ell - \ell_{{\sf t}'})(\ell - \ell_{{\sf t}''})\beta^{{\sf t}'-{\sf t}''}K_H(z;z_{{\sf t}'},z_{{\sf t}''})}{\sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\sum_{z_{{\sf t}''}}\beta^{{\sf t}'-{\sf t}''}K_H(z;z_{{\sf t}'},z_{{\sf t}''})} + \sigma^2 \\
 K_H(z;z_{{\sf t}'},z_{{\sf t}''}) &= \exp \bigg\{ -\frac{1}{2}\sum_{i,j}(z-z_{{\sf t}'})^i(H^{-1})^{ij}(z-z_{{\sf t}''})^j\bigg\} \,.
 \end{align}
@@ -56,13 +56,13 @@ If we were to vary $H$ and $\sigma$ across samples of $z$, we can also think of 
 
 $$
 \begin{align}
-{\rm E}_{{\sf t}+1}[(H,\sigma )] &\simeq \frac{\sum_{z_{{\sf t}+1}} (H,\sigma )\bar{{\cal P}}_{{\sf t}+1}[Q(z_{{\sf t}+1});H,\sigma]}{\sum_{z_{{\sf t}+1}}\bar{{\cal P}}_{{\sf t}+1}[Q(z_{{\sf t}+1});H,\sigma]} \,,
+{\rm E}_{{\sf t}+1}[(H,\sigma )] &\simeq \frac{\sum_{z_{{\sf t}+1}} (H,\sigma )\tilde{{\cal P}}_{{\sf t}+1}[Q(z_{{\sf t}+1});H,\sigma]}{\sum_{z_{{\sf t}+1}}\tilde{{\cal P}}_{{\sf t}+1}[Q(z_{{\sf t}+1});H,\sigma]} \,,
 \end{align}
 $$
 
 we can then input these expectation values as the centre of the sampler for the next $H$ (inverse-Wishart distribution) and $\sigma$ (Gaussian distribution) values in the sequence. This pattern enables us to construct an iterative sampling algorithm for the hyperparameters of our density smoothing model which encodes cross-validation in its design.
 
-Note that the smoothed modes of the distribution can also be detected by initialising a $z$-optimising step at time ${\sf t}$ with initial conditions set by all of the current samples and an objective given by the $\bar{{\cal P}}_{{\sf t}+1}[Q(z);H,\sigma]$ formula.
+Note that the smoothed modes of the distribution can also be detected by initialising a $z$-optimising step at time ${\sf t}$ with initial conditions set by all of the current samples and an objective given by the $\tilde{{\cal P}}_{{\sf t}+1}[Q(z);H,\sigma]$ formula.
 
 Scaling in time history is probably the main nuisance here! Might motivate the use of Rust though since having a really good handle on what memory is actually necessary will be very useful.
 
