@@ -20,7 +20,7 @@ We can motivate the density smoothing model through specifying the following fun
 
 $$
 \begin{align}
-{\cal P}_{{\sf t}+1}[Q] \propto \tilde{{\cal P}}_{{\sf t}+1}[Q] &= \int {\cal D}[Q] \, e^{-D^{\rm sym}_{\rm KL}[Q,P_{{\sf t}+1}]/\gamma} \\
+{\cal P}_{{\sf t}+1}[Q] \propto \tilde{{\cal P}}_{{\sf t}+1}[Q] &= e^{-D^{\rm sym}_{\rm KL}[Q,P_{{\sf t}+1}]/\gamma} \\
 D^{\rm sym}_{\rm KL}[Q,P_{{\sf t}+1}] &= \frac{1}{2}D_{\rm KL}[Q\vert\vert P_{{\sf t}+1}] + \frac{1}{2}D_{\rm KL}[P_{{\sf t}+1} \vert\vert Q] \\
  &= \frac{1}{2}\int {\rm d}Z \, Q(Z)\ln \frac{Q(Z)}{P_{{\sf t}+1}(Z)} + \frac{1}{2}\int {\rm d}Z \, P_{{\sf t}+1}(Z)\ln \frac{P_{{\sf t}+1}(Z)}{Q(Z)} \,,
 \end{align}
@@ -46,7 +46,7 @@ Idea is to dynamically train the noise scale $\sigma$ and kernel bandwidth matri
 
 $$
 \begin{align}
-\tilde{{\cal P}}_{{\sf t}+1}[Q(z);H,\sigma] &\simeq \frac{\sum_{{\sf t}+1\geq {\sf t}'}\sum_{\ell_{{\sf t}'}}\beta^{{\sf t}+1-{\sf t}'} {\sf MultivariateNormalPDF}[\ell_{{\sf t}'};0,\gamma e^{-\ell_{{\sf t}'}} C_{{\sf t}'}(z,\ell_{{\sf t}'};H,\sigma )]}{\sum_{{\sf t}+1\geq {\sf t}'}\beta^{{\sf t}+1-{\sf t}'}} \\
+\tilde{{\cal P}}_{{\sf t}+1}[Q(z);H,\sigma] &\simeq {\sf MultivariateNormalPDF}[\ell_{{\sf t}+1};0,\gamma e^{-\ell_{{\sf t}+1}} C_{{\sf t}+1}(z,\ell_{{\sf t}+1};H,\sigma )] \\
 C_{{\sf t}+1}(z,\ell;H,\sigma ) &= \frac{\sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\sum_{(z_{{\sf t}''},\ell_{{\sf t}''})}(\ell - \ell_{{\sf t}'})(\ell - \ell_{{\sf t}''})\beta^{{\sf t}'-{\sf t}''}K_H(z;z_{{\sf t}'},z_{{\sf t}''})}{\sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\sum_{z_{{\sf t}''}}\beta^{{\sf t}'-{\sf t}''}K_H(z;z_{{\sf t}'},z_{{\sf t}''})} + \sigma^2 \\
 K_H(z;z_{{\sf t}'},z_{{\sf t}''}) &= \exp \bigg\{ -\frac{1}{2}\sum_{i,j}(z-z_{{\sf t}'})^i(H^{-1})^{ij}(z-z_{{\sf t}''})^j\bigg\} \,.
 \end{align}
