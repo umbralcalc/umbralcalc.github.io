@@ -20,7 +20,7 @@ We can motivate the density smoothing model through specifying the following fun
 
 $$
 \begin{align}
-{\cal P}_{{\sf t}+1}[Q] \propto \tilde{{\cal P}}_{{\sf t}+1}[Q] &= e^{-D^{\rm sym}_{\rm KL}[Q,P_{{\sf t}+1}]/\gamma} \\
+{\cal P}_{{\sf t}+1}[Q] \propto \tilde{{\cal P}}_{{\sf t}+1}[Q] &= e^{-D^{\rm sym}_{\rm KL}[Q,P_{{\sf t}+1}]} \\
 D^{\rm sym}_{\rm KL}[Q,P_{{\sf t}+1}] &= \frac{1}{2}D_{\rm KL}[Q\vert\vert P_{{\sf t}+1}] + \frac{1}{2}D_{\rm KL}[P_{{\sf t}+1} \vert\vert Q] \\
  &= \frac{1}{2}\int {\rm d}Z \, Q(Z)\ln \frac{Q(Z)}{P_{{\sf t}+1}(Z)} + \frac{1}{2}\int {\rm d}Z \, P_{{\sf t}+1}(Z)\ln \frac{P_{{\sf t}+1}(Z)}{Q(Z)} \,,
 \end{align}
@@ -30,7 +30,7 @@ where we are using the state history matrix formalism used in [@stochadexI-2024]
 
 $$
 \begin{align}
-{\rm E}_{{\sf t}+1}[Q(Z)] &= \frac{\int {\cal D}[Q(Z)] Q(Z) e^{-D^{\rm sym}_{\rm KL}[Q(Z),P_{{\sf t}+1}(Z)]/\gamma}}{\int {\cal D}[Q(Z)] e^{-D^{\rm sym}_{\rm KL}[Q(Z),P_{{\sf t}+1}(Z)]/\gamma}} \,.
+{\rm E}_{{\sf t}+1}[Q(Z)] &= \frac{\int {\cal D}[Q(Z)] Q(Z) e^{-D^{\rm sym}_{\rm KL}[Q(Z),P_{{\sf t}+1}(Z)]}}{\int {\cal D}[Q(Z)] e^{-D^{\rm sym}_{\rm KL}[Q(Z),P_{{\sf t}+1}(Z)]}} \,.
 \end{align}
 $$
 
@@ -46,9 +46,8 @@ Idea is to dynamically train the noise scale $\sigma$ and kernel bandwidth matri
 
 $$
 \begin{align}
-\tilde{{\cal P}}_{{\sf t}+1}[Q(z);H,\sigma] &\propto \exp \Bigg[ -\frac{1}{2
-\gamma} \sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\sum_{(z_{{\sf t}''},\ell_{{\sf t}''})}(\ell_{{\sf t}'}-\ell)e^{\ell}\beta^{{\sf t}'-{\sf t}''}K^{-1}_H(z;z_{{\sf t}'},z_{{\sf t}''})(\ell_{{\sf t}''}-\ell) \Bigg] \\
-K_H(z;z_{{\sf t}'},z_{{\sf t}''}) &= \exp \bigg[ -\frac{1}{2}\sum_{i,j}(z_{{\sf t}'}-z)^i(H^{-1})^{ij}(z_{{\sf t}''}-z)^j\bigg] + \sigma^2 \,.
+\tilde{{\cal P}}_{{\sf t}+1}[Q(z);H,\sigma] &\propto \exp \Bigg[ -\frac{1}{2} \sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\sum_{(z_{{\sf t}''},\ell_{{\sf t}''})}(\ell_{{\sf t}'}-\ell)e^{\ell}K^{-1}_H(z;z_{{\sf t}'},z_{{\sf t}''})(\ell_{{\sf t}''}-\ell) \Bigg] \\
+K_H(z;z_{{\sf t}'},z_{{\sf t}''}) &= \sigma^2 \beta^{{\sf t}''-{\sf t}'} \exp \bigg[ -\frac{1}{2}\sum_{i,j}(z_{{\sf t}'}-z)^i(H^{-1})^{ij}(z_{{\sf t}''}-z)^j\bigg] \,.
 \end{align}
 $$
 
