@@ -46,9 +46,9 @@ Idea is to dynamically train the noise scale $\sigma$ and kernel bandwidth matri
 
 $$
 \begin{align}
-\tilde{{\cal P}}_{{\sf t}+1}[Q(z);H,\sigma] &\simeq {\sf MultivariateNormalPDF}[\ell_{{\sf t}+1};0,\gamma e^{-\ell_{{\sf t}+1}} C_{{\sf t}+1}(z,\ell_{{\sf t}+1};H,\sigma )] \\
-C_{{\sf t}+1}(z,\ell;H,\sigma ) &= \frac{\sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\sum_{(z_{{\sf t}''},\ell_{{\sf t}''})}(\ell - \ell_{{\sf t}'})(\ell - \ell_{{\sf t}''})\beta^{{\sf t}'-{\sf t}''}K_H(z;z_{{\sf t}'},z_{{\sf t}''})}{\sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\sum_{z_{{\sf t}''}}\beta^{{\sf t}'-{\sf t}''}K_H(z;z_{{\sf t}'},z_{{\sf t}''})} + \sigma^2 \\
-K_H(z;z_{{\sf t}'},z_{{\sf t}''}) &= \exp \bigg\{ -\frac{1}{2}\sum_{i,j}(z-z_{{\sf t}'})^i(H^{-1})^{ij}(z-z_{{\sf t}''})^j\bigg\} \,.
+\tilde{{\cal P}}_{{\sf t}+1}[Q(z);H,\sigma] &\propto \exp \Bigg[ -\frac{1}{2
+\gamma} \sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\sum_{(z_{{\sf t}''},\ell_{{\sf t}''})}(\ell_{{\sf t}'}-\ell)e^{\ell}\beta^{{\sf t}'-{\sf t}''}K^{-1}_H(z;z_{{\sf t}'},z_{{\sf t}''})(\ell_{{\sf t}''}-\ell) \Bigg] \\
+K_H(z;z_{{\sf t}'},z_{{\sf t}''}) &= \exp \bigg[ -\frac{1}{2}\sum_{i,j}(z_{{\sf t}'}-z)^i(H^{-1})^{ij}(z_{{\sf t}''}-z)^j\bigg] + \sigma^2 \,.
 \end{align}
 $$
 

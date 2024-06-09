@@ -196,9 +196,9 @@ D^{\rm sym}_{\rm KL}[e^{\ln P_{{\sf t}+1} + \delta \ln P_{{\sf t}+1}},P_{{\sf t}
 <p>Idea is to dynamically train the noise scale <span class="math inline">\(\sigma\)</span> and kernel bandwidth matrix <span class="math inline">\(H\)</span> of a Gaussian Process-based <span class="citation" data-cites="williams2006gaussian">[5]</span> density estimation algorithm which can be used to calculate the latest density</p>
 <p><span class="math display">\[
 \begin{align}
-\tilde{{\cal P}}_{{\sf t}+1}[Q(z);H,\sigma] &amp;\simeq {\sf MultivariateNormalPDF}[\ell_{{\sf t}+1};0,\gamma e^{-\ell_{{\sf t}+1}} C_{{\sf t}+1}(z,\ell_{{\sf t}+1};H,\sigma )] \\
-C_{{\sf t}+1}(z,\ell;H,\sigma ) &amp;= \frac{\sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\sum_{(z_{{\sf t}&#39;&#39;},\ell_{{\sf t}&#39;&#39;})}(\ell - \ell_{{\sf t}&#39;})(\ell - \ell_{{\sf t}&#39;&#39;})\beta^{{\sf t}&#39;-{\sf t}&#39;&#39;}K_H(z;z_{{\sf t}&#39;},z_{{\sf t}&#39;&#39;})}{\sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\sum_{z_{{\sf t}&#39;&#39;}}\beta^{{\sf t}&#39;-{\sf t}&#39;&#39;}K_H(z;z_{{\sf t}&#39;},z_{{\sf t}&#39;&#39;})} + \sigma^2 \\
-K_H(z;z_{{\sf t}&#39;},z_{{\sf t}&#39;&#39;}) &amp;= \exp \bigg\{ -\frac{1}{2}\sum_{i,j}(z-z_{{\sf t}&#39;})^i(H^{-1})^{ij}(z-z_{{\sf t}&#39;&#39;})^j\bigg\} \,.
+\tilde{{\cal P}}_{{\sf t}+1}[Q(z);H,\sigma] &amp;\propto \exp \Bigg[ -\frac{1}{2
+\gamma} \sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\sum_{(z_{{\sf t}&#39;&#39;},\ell_{{\sf t}&#39;&#39;})}(\ell_{{\sf t}&#39;}-\ell)e^{\ell}\beta^{{\sf t}&#39;-{\sf t}&#39;&#39;}K^{-1}_H(z;z_{{\sf t}&#39;},z_{{\sf t}&#39;&#39;})(\ell_{{\sf t}&#39;&#39;}-\ell) \Bigg] \\
+K_H(z;z_{{\sf t}&#39;},z_{{\sf t}&#39;&#39;}) &amp;= \exp \bigg[ -\frac{1}{2}\sum_{i,j}(z_{{\sf t}&#39;}-z)^i(H^{-1})^{ij}(z_{{\sf t}&#39;&#39;}-z)^j\bigg] + \sigma^2 \,.
 \end{align}
 \]</span></p>
 <p>If we were to vary <span class="math inline">\(H\)</span> and <span class="math inline">\(\sigma\)</span> across samples of <span class="math inline">\(z\)</span>, we can also think of the ‘distribution over distributions’ as representing a probabilistic weighting for cross-validation which maximises when the best representation of <span class="math inline">\(P_{{\sf t}+1}\)</span> has been found. By computing the marginal expectation values for <span class="math inline">\(H\)</span> and <span class="math inline">\(\sigma\)</span> using these samples and their corresponding weights like this</p>
