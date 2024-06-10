@@ -46,8 +46,8 @@ Idea is to dynamically train the noise scale $\sigma$ and kernel bandwidth matri
 
 $$
 \begin{align}
-\tilde{{\cal P}}_{{\sf t}+1}[Q(z);H,\sigma] &\propto \exp \Bigg[ -\frac{1}{2} \sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\sum_{(z_{{\sf t}''},\ell_{{\sf t}''})}(\ell_{{\sf t}'}-\ell)e^{\ell}K^{-1}_H(z;z_{{\sf t}'},z_{{\sf t}''})(\ell_{{\sf t}''}-\ell) \Bigg] \\
-K_H(z;z_{{\sf t}'},z_{{\sf t}''}) &= \sigma^2 \beta^{{\sf t}''-{\sf t}'} \exp \bigg[ -\frac{1}{2}\sum_{i,j}(z_{{\sf t}'}-z)^i(H^{-1})^{ij}(z_{{\sf t}''}-z)^j\bigg] \,.
+\tilde{{\cal P}}_{{\sf t}+1}[Q(z);H,\sigma] &\propto \exp \Bigg[ -\frac{1}{2} \sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\sum_{(z_{{\sf t}''},\ell_{{\sf t}''})}\frac{(\ell_{{\sf t}'}-\ell)e^{\ell}(\ell_{{\sf t}''}-\ell)}{K_{{\sf t}'{\sf t}''}(z;H)} \Bigg] \\
+K_{{\sf t}'{\sf t}''}(z;H) &= \sigma^2 \beta^{{\sf t}''-{\sf t}'} \exp \bigg[ -\frac{1}{2}\sum_{i,j}(z_{{\sf t}'}-z)^i(H^{-1})^{ij}(z_{{\sf t}''}-z)^j\bigg] \,.
 \end{align}
 $$
 
