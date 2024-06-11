@@ -46,8 +46,17 @@ Idea is to dynamically train the noise scale $\sigma$ and kernel bandwidth matri
 
 $$
 \begin{align}
-\tilde{{\cal P}}_{{\sf t}+1}[Q(z);H,\sigma] &\propto \exp \Bigg[ -\frac{1}{2} \sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\sum_{(z_{{\sf t}''},\ell_{{\sf t}''})}\frac{(\ell_{{\sf t}'}-\ell)e^{\ell}(\ell_{{\sf t}''}-\ell)}{K_{{\sf t}'{\sf t}''}(z;H)} \Bigg] \\
-K_{{\sf t}'{\sf t}''}(z;H) &= \sigma^2 \beta^{{\sf t}''-{\sf t}'} \exp \bigg[ -\frac{1}{2}\sum_{i,j}(z_{{\sf t}'}-z)^i(H^{-1})^{ij}(z_{{\sf t}''}-z)^j\bigg] \,.
+\tilde{{\cal P}}_{{\sf t}+1}[Q(z);H,\sigma] &\simeq \frac{\exp \bigg[ -\frac{1}{2} \sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\sum_{\ell_{{\sf t}''}}(\ell_{{\sf t}'}-\ell)K^{-1}_{{\sf t}'{\sf t}''}(z;H,\sigma)(\ell_{{\sf t}''}-\ell) \bigg]}{\prod_{{\sf t}+1\geq {\sf t}'}\prod_{{\sf t}'\geq {\sf t}''}\prod_{\ell_{{\sf t}''}}\sqrt{2\pi K_{{\sf t}'{\sf t}''}(z;H,\sigma)}} \\
+K_{{\sf t}'{\sf t}''}(z;H,\sigma) &= \sigma^2 \beta^{{\sf t}''-{\sf t}'} \exp \bigg[ -\frac{1}{2}\sum_{i,j}(z_{{\sf t}'}-z)^i(H^{-1})^{ij}(z_{{\sf t}''}-z)^j\bigg] \,.
+\end{align}
+$$
+
+The gradients are
+
+$$
+\begin{align}
+\frac{\partial}{\partial \ell}\ln \tilde{{\cal P}}_{{\sf t}+1}[Q(z);H,\sigma] &\simeq \frac{1}{2} \sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\sum_{\ell_{{\sf t}''}} \big[ (\ell_{{\sf t}'}-\ell)K^{-1}_{{\sf t}'{\sf t}''}(z;H,\sigma) + K^{-1}_{{\sf t}'{\sf t}''}(z;H,\sigma)(\ell_{{\sf t}''}-\ell) \big] \\
+\frac{\partial}{\partial (H,\sigma )}\ln \tilde{{\cal P}}_{{\sf t}+1}[Q(z);H,\sigma] &\simeq \frac{1}{2}\sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\sum_{\ell_{{\sf t}''}}\frac{\partial}{\partial (H,\sigma)}\ln K_{{\sf t}'{\sf t}''}(z;H,\sigma)\big[(\ell_{{\sf t}'}-\ell)K^{-1}_{{\sf t}'{\sf t}''}(z;H,\sigma)(\ell_{{\sf t}''}-\ell) - 1\big] \,.
 \end{align}
 $$
 
