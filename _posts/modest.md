@@ -51,26 +51,26 @@ K_{{\sf t}'{\sf t}''}(z;H,\sigma) &= \sigma^2 \beta^{{\sf t}''-{\sf t}'} \exp \b
 \end{align}
 $$
 
-The gradients are
+If we were to vary $\ell$, $H$ and $\sigma$, the 'distribution over distributions' represents a probabilistic weighting for cross-validation which maximises when the best representation of $P_{{\sf t}+1}$ has been found. To find this maximum, we may use the following gradients
 
 $$
 \begin{align}
 \frac{\partial}{\partial \ell}\ln \tilde{{\cal P}}_{{\sf t}+1}[Q(z);H,\sigma] &\simeq \frac{1}{2} \sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\sum_{\ell_{{\sf t}''}} \big[ (\ell_{{\sf t}'}-\ell)K^{-1}_{{\sf t}'{\sf t}''}(z;H,\sigma) + K^{-1}_{{\sf t}'{\sf t}''}(z;H,\sigma)(\ell_{{\sf t}''}-\ell) \big] \\
-\frac{\partial}{\partial (H,\sigma )}\ln \tilde{{\cal P}}_{{\sf t}+1}[Q(z);H,\sigma] &\simeq \frac{1}{2}\sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\sum_{\ell_{{\sf t}''}}\frac{\partial}{\partial (H,\sigma)}\ln K_{{\sf t}'{\sf t}''}(z;H,\sigma)\big[(\ell_{{\sf t}'}-\ell)K^{-1}_{{\sf t}'{\sf t}''}(z;H,\sigma)(\ell_{{\sf t}''}-\ell) - 1\big] \,.
+\frac{\partial}{\partial (H,\sigma )}\ln \tilde{{\cal P}}_{{\sf t}+1}[Q(z);H,\sigma] &\simeq \frac{1}{2}\sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\sum_{\ell_{{\sf t}''}}\big[(\ell_{{\sf t}'}-\ell)K^{-1}_{{\sf t}'{\sf t}''}(z;H,\sigma)(\ell_{{\sf t}''}-\ell) - 1\big]\frac{\partial}{\partial (H,\sigma)}\ln K_{{\sf t}'{\sf t}''}(z;H,\sigma) \,,
 \end{align}
 $$
 
-If we were to vary $H$ and $\sigma$ across samples of $z$, we can also think of the 'distribution over distributions' as representing a probabilistic weighting for cross-validation which maximises when the best representation of $P_{{\sf t}+1}$ has been found. By computing the marginal expectation values for $H$ and $\sigma$ using these samples and their corresponding weights like this
+in either a global optimisation program or alternating between maximising individual samples with respect to $\ell$ and maximising globally with respect to $(H,\sigma)$.
+
+Another pattern to consider is that of the Expectation-Maximisation algorithm, where we can alternate between optimising with respect to $\ell$ and computing the marginal expectation values for $H$ and $\sigma$ using the resulting samples and their corresponding weights like this
 
 $$
 \begin{align}
-{\rm E}_{{\sf t}+1}[(H,\sigma )] &\simeq \frac{\sum_{z_{{\sf t}+1}} (H,\sigma )\tilde{{\cal P}}_{{\sf t}+1}[Q(z_{{\sf t}+1});H,\sigma]}{\sum_{z_{{\sf t}+1}}\tilde{{\cal P}}_{{\sf t}+1}[Q(z_{{\sf t}+1});H,\sigma]} \,,
+{\rm E}_{{\sf t}+1}[(H,\sigma )] &\simeq \frac{\sum_{z_{{\sf t}+1}} (H,\sigma )\tilde{{\cal P}}_{{\sf t}+1}[Q(z_{{\sf t}+1});H,\sigma]}{\sum_{z_{{\sf t}+1}}\tilde{{\cal P}}_{{\sf t}+1}[Q(z_{{\sf t}+1});H,\sigma]} \,.
 \end{align}
 $$
 
-we can then input these expectation values as the centre of the sampler for the next $H$ (inverse-Wishart distribution) and $\sigma$ (Gaussian distribution) values in the sequence. This pattern enables us to construct an iterative sampling algorithm for the hyperparameters of our density smoothing model which encodes cross-validation in its design.
-
-Note that the smoothed modes of the distribution can also be detected by initialising a $z$-optimising step at time ${\sf t}$ with initial conditions set by all of the current samples and an objective given by the $\tilde{{\cal P}}_{{\sf t}+1}[Q(z);H,\sigma]$ formula.
+We could then input these expectation values as the centre of the sampler for the next $H$ (inverse-Wishart distribution) and $\sigma$ (Gaussian distribution) values in the sequence.
 
 Scaling in time history is probably the main nuisance here! Might motivate the use of Rust though since having a really good handle on what memory is actually necessary will be very useful.
 
