@@ -46,16 +46,16 @@ Idea is to dynamically train the noise scale $\sigma$ and kernel bandwidth matri
 
 $$
 \begin{align}
-{\cal P}_{{\sf t}+1}[Q(z);H,\sigma] &\simeq \frac{\exp \bigg[ -\frac{1}{2} \sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}(\ell_{{\sf t}'}-\ell)K^{-1}_{({\sf t}+1){\sf t}'{\sf t}''}(z;H,\sigma)(\ell_{{\sf t}''}-\ell) \bigg]}{\prod_{{\sf t}+1\geq {\sf t}'}\prod_{{\sf t}'\geq {\sf t}''}\sqrt{2\pi K_{({\sf t}+1){\sf t}'{\sf t}''}(z;H,\sigma)}} \,,
+{\cal P}_{{\sf t}+1}[Q(z);H,\sigma] &\simeq \frac{\exp \bigg[ -\frac{1}{2} \sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\sum_{{\cal S}}(\ell_{{\sf t}'}-\ell)K^{-1}_{({\sf t}+1){\sf t}'{\sf t}''}(z;H,\sigma)(\ell_{{\sf t}''}-\ell) \bigg]}{\prod_{{\sf t}+1\geq {\sf t}'}\prod_{{\sf t}'\geq {\sf t}''}\prod_{{\cal S}}\sqrt{2\pi K_{({\sf t}+1){\sf t}'{\sf t}''}(z;H,\sigma)}} \,,
 \end{align}
 $$
 
-where we may choose to define the kernel $K_{({\sf t}+1){\sf t}'{\sf t}''}(z;H,\sigma)$ itself as
+where ${\cal S}$ indicates the set of weighted samples and we may choose to define the kernel $K_{({\sf t}+1){\sf t}'{\sf t}''}(z;H,\sigma)$ itself as
 
 $$
 \begin{align}
-K_{({\sf t}+1){\sf t}'{\sf t}''}(z;H,\sigma) &= \sigma^2 \beta^{{\sf t}''-{\sf t}-1} {\cal B}_{{\sf t}+1} \exp \bigg[ -\frac{1}{2}\sum_{i,j}(z_{{\sf t}'}-z)^i(H^{-1})^{ij}(z_{{\sf t}''}-z)^j\bigg] \\
-{\cal B}_{{\sf t}+1} &= \sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\beta^{{\sf t}+1-{\sf t}''} \,.
+K_{({\sf t}+1){\sf t}'{\sf t}''}(z;H,\sigma) &= \sigma^2 \beta^{{\sf t}''-{\sf t}-1} B_{{\sf t}+1} \exp \bigg[ -\frac{1}{2}\sum_{i,j}(z_{{\sf t}'}-z)^i(H^{-1})^{ij}(z_{{\sf t}''}-z)^j\bigg] \\
+B_{{\sf t}+1} &= \sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\sum_{{\cal S}}\beta^{{\sf t}+1-{\sf t}''} \,.
 \end{align}
 $$
 
@@ -63,7 +63,7 @@ If we were to vary $\ell$, $H$ and $\sigma$, the 'distribution over distribution
 
 $$
 \begin{align}
-\frac{\partial}{\partial \ell}\ln {\cal P}_{{\sf t}+1}[Q(z);H,\sigma] &\simeq \frac{1}{2} \sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''} \big[ (\ell_{{\sf t}'}-\ell)K^{-1}_{({\sf t}+1){\sf t}'{\sf t}''}(z;H,\sigma) + K^{-1}_{({\sf t}+1){\sf t}'{\sf t}''}(z;H,\sigma)(\ell_{{\sf t}''}-\ell) \big] \,,
+\frac{\partial}{\partial \ell}\ln {\cal P}_{{\sf t}+1}[Q(z);H,\sigma] &\simeq \frac{1}{2} \sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\sum_{{\cal S}} \big[ (\ell_{{\sf t}'}-\ell)K^{-1}_{({\sf t}+1){\sf t}'{\sf t}''}(z;H,\sigma) + K^{-1}_{({\sf t}+1){\sf t}'{\sf t}''}(z;H,\sigma)(\ell_{{\sf t}''}-\ell) \big] \,,
 \end{align}
 $$
 
@@ -72,7 +72,7 @@ or the gradient defined over the $(H,\sigma)$ parameter space
 $$
 \begin{align}
 &\frac{\partial}{\partial (H,\sigma )}\ln {\cal P}_{{\sf t}+1}[Q(z);H,\sigma] \simeq \\
-&\qquad \quad \frac{1}{2}\sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\big[(\ell_{{\sf t}'}-\ell)K^{-1}_{({\sf t}+1){\sf t}'{\sf t}''}(z;H,\sigma)(\ell_{{\sf t}''}-\ell) - 1\big]\frac{\partial}{\partial (H,\sigma)}\ln K_{({\sf t}+1){\sf t}'{\sf t}''}(z;H,\sigma) \,,
+&\qquad \quad \frac{1}{2}\sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\sum_{{\cal S}}\big[(\ell_{{\sf t}'}-\ell)K^{-1}_{({\sf t}+1){\sf t}'{\sf t}''}(z;H,\sigma)(\ell_{{\sf t}''}-\ell) - 1\big]\frac{\partial}{\partial (H,\sigma)}\ln K_{({\sf t}+1){\sf t}'{\sf t}''}(z;H,\sigma) \,,
 \end{align}
 $$
 

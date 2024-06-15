@@ -196,27 +196,27 @@ D^{\rm sym}_{\rm KL}[e^{\ln P_{{\sf t}+1} + \delta \ln P_{{\sf t}+1}},P_{{\sf t}
 <p>Idea is to dynamically train the noise scale <span class="math inline">\(\sigma\)</span> and kernel bandwidth matrix <span class="math inline">\(H\)</span> of a Gaussian Process-based <span class="citation" data-cites="williams2006gaussian">[5]</span> density estimation algorithm which can be used to calculate the latest density</p>
 <p><span class="math display">\[
 \begin{align}
-{\cal P}_{{\sf t}+1}[Q(z);H,\sigma] &amp;\simeq \frac{\exp \bigg[ -\frac{1}{2} \sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}(\ell_{{\sf t}&#39;}-\ell)K^{-1}_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(z;H,\sigma)(\ell_{{\sf t}&#39;&#39;}-\ell) \bigg]}{\prod_{{\sf t}+1\geq {\sf t}&#39;}\prod_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\sqrt{2\pi K_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(z;H,\sigma)}} \,,
+{\cal P}_{{\sf t}+1}[Q(z);H,\sigma] &amp;\simeq \frac{\exp \bigg[ -\frac{1}{2} \sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\sum_{{\cal S}}(\ell_{{\sf t}&#39;}-\ell)K^{-1}_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(z;H,\sigma)(\ell_{{\sf t}&#39;&#39;}-\ell) \bigg]}{\prod_{{\sf t}+1\geq {\sf t}&#39;}\prod_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\prod_{{\cal S}}\sqrt{2\pi K_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(z;H,\sigma)}} \,,
 \end{align}
 \]</span></p>
-<p>where we may choose to define the kernel <span class="math inline">\(K_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(z;H,\sigma)\)</span> itself as</p>
+<p>where <span class="math inline">\({\cal S}\)</span> indicates the set of weighted samples and we may choose to define the kernel <span class="math inline">\(K_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(z;H,\sigma)\)</span> itself as</p>
 <p><span class="math display">\[
 \begin{align}
-K_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(z;H,\sigma) &amp;= \sigma^2 \beta^{{\sf t}&#39;&#39;-{\sf t}-1} {\cal B}_{{\sf t}+1} \exp \bigg[ -\frac{1}{2}\sum_{i,j}(z_{{\sf t}&#39;}-z)^i(H^{-1})^{ij}(z_{{\sf t}&#39;&#39;}-z)^j\bigg] \\
-{\cal B}_{{\sf t}+1} &amp;= \sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\beta^{{\sf t}+1-{\sf t}&#39;&#39;} \,.
+K_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(z;H,\sigma) &amp;= \sigma^2 \beta^{{\sf t}&#39;&#39;-{\sf t}-1} B_{{\sf t}+1} \exp \bigg[ -\frac{1}{2}\sum_{i,j}(z_{{\sf t}&#39;}-z)^i(H^{-1})^{ij}(z_{{\sf t}&#39;&#39;}-z)^j\bigg] \\
+B_{{\sf t}+1} &amp;= \sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\sum_{{\cal S}}\beta^{{\sf t}+1-{\sf t}&#39;&#39;} \,.
 \end{align}
 \]</span></p>
 <p>If we were to vary <span class="math inline">\(\ell\)</span>, <span class="math inline">\(H\)</span> and <span class="math inline">\(\sigma\)</span>, the ‘distribution over distributions’ represents a probabilistic weighting for cross-validation which maximises when the best representation of <span class="math inline">\(P_{{\sf t}+1}\)</span> has been found. To find this maximum, we may use the gradient in the direction of the weights</p>
 <p><span class="math display">\[
 \begin{align}
-\frac{\partial}{\partial \ell}\ln {\cal P}_{{\sf t}+1}[Q(z);H,\sigma] &amp;\simeq \frac{1}{2} \sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\sf t}&#39;&#39;} \big[ (\ell_{{\sf t}&#39;}-\ell)K^{-1}_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(z;H,\sigma) + K^{-1}_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(z;H,\sigma)(\ell_{{\sf t}&#39;&#39;}-\ell) \big] \,,
+\frac{\partial}{\partial \ell}\ln {\cal P}_{{\sf t}+1}[Q(z);H,\sigma] &amp;\simeq \frac{1}{2} \sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\sum_{{\cal S}} \big[ (\ell_{{\sf t}&#39;}-\ell)K^{-1}_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(z;H,\sigma) + K^{-1}_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(z;H,\sigma)(\ell_{{\sf t}&#39;&#39;}-\ell) \big] \,,
 \end{align}
 \]</span></p>
 <p>or the gradient defined over the <span class="math inline">\((H,\sigma)\)</span> parameter space</p>
 <p><span class="math display">\[
 \begin{align}
 &amp;\frac{\partial}{\partial (H,\sigma )}\ln {\cal P}_{{\sf t}+1}[Q(z);H,\sigma] \simeq \\
-&amp;\qquad \quad \frac{1}{2}\sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\big[(\ell_{{\sf t}&#39;}-\ell)K^{-1}_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(z;H,\sigma)(\ell_{{\sf t}&#39;&#39;}-\ell) - 1\big]\frac{\partial}{\partial (H,\sigma)}\ln K_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(z;H,\sigma) \,,
+&amp;\qquad \quad \frac{1}{2}\sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\sum_{{\cal S}}\big[(\ell_{{\sf t}&#39;}-\ell)K^{-1}_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(z;H,\sigma)(\ell_{{\sf t}&#39;&#39;}-\ell) - 1\big]\frac{\partial}{\partial (H,\sigma)}\ln K_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(z;H,\sigma) \,,
 \end{align}
 \]</span></p>
 <p>in either a global optimisation program or alternating between maximising individual samples with respect to <span class="math inline">\(\ell\)</span> and maximising globally with respect to <span class="math inline">\((H,\sigma)\)</span>.</p>
