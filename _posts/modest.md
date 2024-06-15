@@ -20,7 +20,7 @@ We can motivate the density smoothing model through specifying the following fun
 
 $$
 \begin{align}
-{\cal P}_{{\sf t}+1}[Q] \propto \tilde{{\cal P}}_{{\sf t}+1}[Q] &= e^{-D^{\rm sym}_{\rm KL}[Q,P_{{\sf t}+1}]} \\
+{\cal P}_{{\sf t}+1}[Q] &\propto e^{-D^{\rm sym}_{\rm KL}[Q,P_{{\sf t}+1}]} \\
 D^{\rm sym}_{\rm KL}[Q,P_{{\sf t}+1}] &= \frac{1}{2}D_{\rm KL}[Q\vert\vert P_{{\sf t}+1}] + \frac{1}{2}D_{\rm KL}[P_{{\sf t}+1} \vert\vert Q] \\
  &= \frac{1}{2}\int {\rm d}Z \, Q(Z)\ln \frac{Q(Z)}{P_{{\sf t}+1}(Z)} + \frac{1}{2}\int {\rm d}Z \, P_{{\sf t}+1}(Z)\ln \frac{P_{{\sf t}+1}(Z)}{Q(Z)} \,,
 \end{align}
@@ -46,7 +46,7 @@ Idea is to dynamically train the noise scale $\sigma$ and kernel bandwidth matri
 
 $$
 \begin{align}
-\tilde{{\cal P}}_{{\sf t}+1}[Q(z);H,\sigma] &\simeq \frac{\exp \bigg[ -\frac{1}{2} \sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\sum_{\ell_{{\sf t}''}}(\ell_{{\sf t}'}-\ell)K^{-1}_{({\sf t}+1){\sf t}'{\sf t}''}(z;H,\sigma)(\ell_{{\sf t}''}-\ell) \bigg]}{\prod_{{\sf t}+1\geq {\sf t}'}\prod_{{\sf t}'\geq {\sf t}''}\prod_{\ell_{{\sf t}''}}\sqrt{2\pi K_{({\sf t}+1){\sf t}'{\sf t}''}(z;H,\sigma)}} \,,
+{\cal P}_{{\sf t}+1}[Q(z);H,\sigma] &\simeq \frac{\exp \bigg[ -\frac{1}{2} \sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}(\ell_{{\sf t}'}-\ell)K^{-1}_{({\sf t}+1){\sf t}'{\sf t}''}(z;H,\sigma)(\ell_{{\sf t}''}-\ell) \bigg]}{\prod_{{\sf t}+1\geq {\sf t}'}\prod_{{\sf t}'\geq {\sf t}''}\sqrt{2\pi K_{({\sf t}+1){\sf t}'{\sf t}''}(z;H,\sigma)}} \,,
 \end{align}
 $$
 
@@ -54,8 +54,8 @@ where we may choose to define the kernel $K_{({\sf t}+1){\sf t}'{\sf t}''}(z;H,\
 
 $$
 \begin{align}
-K_{({\sf t}+1){\sf t}'{\sf t}''}(z;H,\sigma) &= \sigma^2 \beta^{{\sf t}''-{\sf t}'} {\cal B}_{{\sf t}+1} \exp \bigg[ -\frac{1}{2}\sum_{i,j}(z_{{\sf t}'}-z)^i(H^{-1})^{ij}(z_{{\sf t}''}-z)^j\bigg] \\
-{\cal B}_{{\sf t}+1} &= \sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\sum_{\ell_{{\sf t}''}}\beta^{{\sf t}'-{\sf t}''} \,.
+K_{({\sf t}+1){\sf t}'{\sf t}''}(z;H,\sigma) &= \sigma^2 \beta^{{\sf t}''-{\sf t}-1} {\cal B}_{{\sf t}+1} \exp \bigg[ -\frac{1}{2}\sum_{i,j}(z_{{\sf t}'}-z)^i(H^{-1})^{ij}(z_{{\sf t}''}-z)^j\bigg] \\
+{\cal B}_{{\sf t}+1} &= \sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\beta^{{\sf t}+1-{\sf t}''} \,.
 \end{align}
 $$
 
@@ -63,7 +63,7 @@ If we were to vary $\ell$, $H$ and $\sigma$, the 'distribution over distribution
 
 $$
 \begin{align}
-\frac{\partial}{\partial \ell}\ln \tilde{{\cal P}}_{{\sf t}+1}[Q(z);H,\sigma] &\simeq \frac{1}{2} \sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\sum_{\ell_{{\sf t}''}} \big[ (\ell_{{\sf t}'}-\ell)K^{-1}_{({\sf t}+1){\sf t}'{\sf t}''}(z;H,\sigma) + K^{-1}_{({\sf t}+1){\sf t}'{\sf t}''}(z;H,\sigma)(\ell_{{\sf t}''}-\ell) \big] \,,
+\frac{\partial}{\partial \ell}\ln {\cal P}_{{\sf t}+1}[Q(z);H,\sigma] &\simeq \frac{1}{2} \sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''} \big[ (\ell_{{\sf t}'}-\ell)K^{-1}_{({\sf t}+1){\sf t}'{\sf t}''}(z;H,\sigma) + K^{-1}_{({\sf t}+1){\sf t}'{\sf t}''}(z;H,\sigma)(\ell_{{\sf t}''}-\ell) \big] \,,
 \end{align}
 $$
 
@@ -71,8 +71,8 @@ or the gradient defined over the $(H,\sigma)$ parameter space
 
 $$
 \begin{align}
-&\frac{\partial}{\partial (H,\sigma )}\ln \tilde{{\cal P}}_{{\sf t}+1}[Q(z);H,\sigma] \simeq \\
-&\qquad \quad \frac{1}{2}\sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\sum_{\ell_{{\sf t}''}}\big[(\ell_{{\sf t}'}-\ell)K^{-1}_{({\sf t}+1){\sf t}'{\sf t}''}(z;H,\sigma)(\ell_{{\sf t}''}-\ell) - 1\big]\frac{\partial}{\partial (H,\sigma)}\ln K_{({\sf t}+1){\sf t}'{\sf t}''}(z;H,\sigma) \,,
+&\frac{\partial}{\partial (H,\sigma )}\ln {\cal P}_{{\sf t}+1}[Q(z);H,\sigma] \simeq \\
+&\qquad \quad \frac{1}{2}\sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\big[(\ell_{{\sf t}'}-\ell)K^{-1}_{({\sf t}+1){\sf t}'{\sf t}''}(z;H,\sigma)(\ell_{{\sf t}''}-\ell) - 1\big]\frac{\partial}{\partial (H,\sigma)}\ln K_{({\sf t}+1){\sf t}'{\sf t}''}(z;H,\sigma) \,,
 \end{align}
 $$
 
@@ -82,7 +82,7 @@ Another pattern to consider is that of the Expectation-Maximisation algorithm, w
 
 $$
 \begin{align}
-{\rm E}_{{\sf t}+1}[(H,\sigma )] &\simeq \frac{\sum_{z_{{\sf t}+1}} (H,\sigma )\tilde{{\cal P}}_{{\sf t}+1}[Q(z_{{\sf t}+1});H,\sigma]}{\sum_{z_{{\sf t}+1}}\tilde{{\cal P}}_{{\sf t}+1}[Q(z_{{\sf t}+1});H,\sigma]} \,.
+{\rm E}_{{\sf t}+1}[(H,\sigma )] &\simeq \frac{\sum_{z_{{\sf t}+1}} (H,\sigma ){\cal P}_{{\sf t}+1}[Q(z_{{\sf t}+1});H,\sigma]}{\sum_{z_{{\sf t}+1}}{\cal P}_{{\sf t}+1}[Q(z_{{\sf t}+1});H,\sigma]} \,.
 \end{align}
 $$
 
