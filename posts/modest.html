@@ -170,7 +170,7 @@ About
 <hr color="LightGray">
 </br>
 <h2 id="problem-statement">Problem statement</h2>
-<p>Say that we have a generator of probabilistic weights which takes a vector of parameters <span class="math inline">\(z\)</span> as input. This generator represents a non-stationary probability distribution and the weights are effectively stochastic around the true value for each given <span class="math inline">\(z\)</span> as input. The problem is that we would like to be able to efficiently sample from the underlying distribution regardless of its shape or modality.</p>
+<p>Say that we have a generator of probabilistic weights which takes a state history matrix <span class="math inline">\(X\)</span> as input. This generator represents a non-stationary probability distribution and the weights are effectively stochastic around the true value for each given <span class="math inline">\(X\)</span> as input. The problem is that we would like to be able to efficiently sample from the underlying distribution regardless of its shape or modality.</p>
 <p>Solution we will study is to create an adaptive sequential Monte Carlo algorithm, e.g., see <span class="citation" data-cites="del2006sequential">[1]</span> or <span class="citation" data-cites="wills2023sequential">[2]</span>.</p>
 <h2 id="adaptively-estimating-a-smoothed-density">Adaptively estimating a smoothed density</h2>
 <p>We can motivate the density smoothing model through specifying the following functional ‘distribution over distributions’ which uses a symmetrised form of the Kullback-Leibler divergence <span class="citation" data-cites="kullback1951information">[3]</span></p>
@@ -178,52 +178,52 @@ About
 \begin{align}
 {\cal P}_{{\sf t}+1}[Q] &amp;\propto e^{-D^{\rm sym}_{\rm KL}[Q,P_{{\sf t}+1}]} \\
 D^{\rm sym}_{\rm KL}[Q,P_{{\sf t}+1}] &amp;= \frac{1}{2}D_{\rm KL}[Q\vert\vert P_{{\sf t}+1}] + \frac{1}{2}D_{\rm KL}[P_{{\sf t}+1} \vert\vert Q] \\
- &amp;= \frac{1}{2}\int {\rm d}Z \, Q(Z)\ln \frac{Q(Z)}{P_{{\sf t}+1}(Z)} + \frac{1}{2}\int {\rm d}Z \, P_{{\sf t}+1}(Z)\ln \frac{P_{{\sf t}+1}(Z)}{Q(Z)} \,,
+ &amp;= \frac{1}{2}\int_{\Omega_{{\sf t}+1}} {\rm d}X \, Q(X)\ln \frac{Q(X)}{P_{{\sf t}+1}(X)} + \frac{1}{2}\int_{\Omega_{{\sf t}+1}} {\rm d}X \, P_{{\sf t}+1}(X)\ln \frac{P_{{\sf t}+1}(X)}{Q(X)} \,,
 \end{align}
 \]</span></p>
-<p>where we are using the state history matrix formalism used in <span class="citation" data-cites="stochadexI-2024">[4]</span> such that <span class="math inline">\(Z\)</span> corresponds to a matrix which adds a row for every new instantaneous <span class="math inline">\(z\)</span> state vector which time evolves to. Note that we can take ‘functional expectation values’ with this distribution, such that</p>
+<p>where we are using the state history matrix formalism used in <span class="citation" data-cites="stochadexI-2024">[4]</span> and <span class="citation" data-cites="stochadexII-2024">[5]</span> such that <span class="math inline">\(X\)</span> corresponds to a matrix which adds a row for every new instantaneous <span class="math inline">\(x\)</span> state vector which time evolves to. Note that we can take ‘functional expectation values’ with this distribution, such that</p>
 <p><span class="math display">\[
 \begin{align}
-{\rm E}_{{\sf t}+1}[Q(Z)] &amp;= \frac{\int {\cal D}[Q(Z)] Q(Z) e^{-D^{\rm sym}_{\rm KL}[Q(Z),P_{{\sf t}+1}(Z)]}}{\int {\cal D}[Q(Z)] e^{-D^{\rm sym}_{\rm KL}[Q(Z),P_{{\sf t}+1}(Z)]}} \,.
+{\rm E}_{{\sf t}+1}[Q(X)] &amp;= \frac{\int {\cal D}[Q(X)] Q(X) e^{-D^{\rm sym}_{\rm KL}[Q(X),P_{{\sf t}+1}(X)]}}{\int {\cal D}[Q(X)] e^{-D^{\rm sym}_{\rm KL}[Q(X),P_{{\sf t}+1}(X)]}} \,.
 \end{align}
 \]</span></p>
 <p>If we then expand <span class="math inline">\(D^{\rm sym}_{\rm KL}\)</span> logarithmically around <span class="math inline">\(\ln P_{{\sf t}+1}\)</span> such that <span class="math inline">\(\ln Q=\ln P_{{\sf t}+1} + \delta \ln P_{{\sf t}+1}\)</span>, we arrive at the following approximation up to second order in the expansion</p>
 <p><span class="math display">\[
 \begin{align}
-D^{\rm sym}_{\rm KL}[e^{\ln P_{{\sf t}+1} + \delta \ln P_{{\sf t}+1}},P_{{\sf t}+1}] &amp;\simeq \frac{1}{2}\int {\rm d}Z \,P_{{\sf t}+1}(Z) [\delta \ln P_{{\sf t}+1}(Z)]^2 \,.
+D^{\rm sym}_{\rm KL}[e^{\ln P_{{\sf t}+1} + \delta \ln P_{{\sf t}+1}},P_{{\sf t}+1}] &amp;\simeq \frac{1}{2}\int_{\Omega_{{\sf t}+1}} {\rm d}X \,P_{{\sf t}+1}(X) [\delta \ln P_{{\sf t}+1}(X)]^2 \,.
 \end{align}
 \]</span></p>
-<p>Idea is to dynamically train the noise scale <span class="math inline">\(\sigma\)</span> and kernel bandwidth matrix <span class="math inline">\(H\)</span> of a Gaussian Process-based <span class="citation" data-cites="williams2006gaussian">[5]</span> density estimation algorithm which can be used to calculate the latest density</p>
+<p>Idea is to dynamically train the noise scale <span class="math inline">\(\sigma\)</span> and kernel bandwidth matrix <span class="math inline">\(H\)</span> of a Gaussian Process-based <span class="citation" data-cites="williams2006gaussian">[6]</span> density estimation algorithm which can be used to calculate the latest density</p>
 <p><span class="math display">\[
 \begin{align}
-{\cal P}_{{\sf t}+1}[Q(z);H,\sigma] &amp;\simeq \frac{\exp \bigg[ -\frac{1}{2} \sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\sum_{{\cal S}}(\ell_{{\sf t}&#39;}-\ell)K^{-1}_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(z;H,\sigma)(\ell_{{\sf t}&#39;&#39;}-\ell) \bigg]}{\prod_{{\sf t}+1\geq {\sf t}&#39;}\prod_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\prod_{{\cal S}}\sqrt{2\pi K_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(z;H,\sigma)}} \,,
+{\cal P}_{{\sf t}+1}[Q(x);H,\sigma] &amp;\simeq \frac{\exp \bigg[ -\frac{1}{2} \sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\sum_{{\cal S}}(\ell_{{\sf t}&#39;}-\ell)K^{-1}_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x;H,\sigma)(\ell_{{\sf t}&#39;&#39;}-\ell) \bigg]}{\prod_{{\sf t}+1\geq {\sf t}&#39;}\prod_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\prod_{{\cal S}}\sqrt{2\pi K_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x;H,\sigma)}} \,,
 \end{align}
 \]</span></p>
-<p>where <span class="math inline">\({\cal S}\)</span> indicates the set of weighted samples and we may choose to define the kernel <span class="math inline">\(K_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(z;H,\sigma)\)</span> itself as</p>
+<p>where <span class="math inline">\({\cal S}\)</span> indicates the set of weighted samples and we may choose to define the kernel <span class="math inline">\(K_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x;H,\sigma)\)</span> itself as</p>
 <p><span class="math display">\[
 \begin{align}
-K_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(z;H,\sigma) &amp;= \sigma^2 \beta^{{\sf t}&#39;&#39;-{\sf t}-1} B_{{\sf t}+1} \exp \bigg[ -\frac{1}{2}\sum_{i,j}(z_{{\sf t}&#39;}-z)^i(H^{-1})^{ij}(z_{{\sf t}&#39;&#39;}-z)^j\bigg] \\
+K_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x;H,\sigma) &amp;= \sigma^2 \beta^{{\sf t}&#39;&#39;-{\sf t}-1} B_{{\sf t}+1} \exp \bigg[ -\frac{1}{2}\sum_{i,j}(x_{{\sf t}&#39;}-x)^i(H^{-1})^{ij}(x_{{\sf t}&#39;&#39;}-x)^j\bigg] \\
 B_{{\sf t}+1} &amp;= \sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\sum_{{\cal S}}\beta^{{\sf t}+1-{\sf t}&#39;&#39;} \,.
 \end{align}
 \]</span></p>
 <p>If we were to vary <span class="math inline">\(\ell\)</span>, <span class="math inline">\(H\)</span> and <span class="math inline">\(\sigma\)</span>, the ‘distribution over distributions’ represents a probabilistic weighting for cross-validation which maximises when the best representation of <span class="math inline">\(P_{{\sf t}+1}\)</span> has been found. To find this maximum, we may use the gradient in the direction of the weights</p>
 <p><span class="math display">\[
 \begin{align}
-\frac{\partial}{\partial \ell}\ln {\cal P}_{{\sf t}+1}[Q(z);H,\sigma] &amp;\simeq \frac{1}{2} \sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\sum_{{\cal S}} \big[ (\ell_{{\sf t}&#39;}-\ell)K^{-1}_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(z;H,\sigma) + K^{-1}_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(z;H,\sigma)(\ell_{{\sf t}&#39;&#39;}-\ell) \big] \,,
+\frac{\partial}{\partial \ell}\ln {\cal P}_{{\sf t}+1}[Q(x);H,\sigma] &amp;\simeq \frac{1}{2} \sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\sum_{{\cal S}} \big[ (\ell_{{\sf t}&#39;}-\ell)K^{-1}_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x;H,\sigma) + K^{-1}_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x;H,\sigma)(\ell_{{\sf t}&#39;&#39;}-\ell) \big] \,,
 \end{align}
 \]</span></p>
 <p>or the gradient defined over the <span class="math inline">\((H,\sigma)\)</span> parameter space</p>
 <p><span class="math display">\[
 \begin{align}
-&amp;\frac{\partial}{\partial (H,\sigma )}\ln {\cal P}_{{\sf t}+1}[Q(z);H,\sigma] \simeq \\
-&amp;\qquad \quad \frac{1}{2}\sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\sum_{{\cal S}}\big[(\ell_{{\sf t}&#39;}-\ell)K^{-1}_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(z;H,\sigma)(\ell_{{\sf t}&#39;&#39;}-\ell) - 1\big]\frac{\partial}{\partial (H,\sigma)}\ln K_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(z;H,\sigma) \,,
+&amp;\frac{\partial}{\partial (H,\sigma )}\ln {\cal P}_{{\sf t}+1}[Q(x);H,\sigma] \simeq \\
+&amp;\qquad \quad \frac{1}{2}\sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\sum_{{\cal S}}\big[(\ell_{{\sf t}&#39;}-\ell)K^{-1}_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x;H,\sigma)(\ell_{{\sf t}&#39;&#39;}-\ell) - 1\big]\frac{\partial}{\partial (H,\sigma)}\ln K_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x;H,\sigma) \,,
 \end{align}
 \]</span></p>
 <p>in either a global optimisation program or alternating between maximising individual samples with respect to <span class="math inline">\(\ell\)</span> and maximising globally with respect to <span class="math inline">\((H,\sigma)\)</span>.</p>
 <p>Another pattern to consider is that of the Expectation-Maximisation algorithm, where we can alternate between optimising with respect to <span class="math inline">\(\ell\)</span> and computing the marginal expectation values for <span class="math inline">\(H\)</span> and <span class="math inline">\(\sigma\)</span> using the resulting samples and their corresponding weights like this</p>
 <p><span class="math display">\[
 \begin{align}
-{\rm E}_{{\sf t}+1}[(H,\sigma )] &amp;\simeq \frac{\sum_{z_{{\sf t}+1}} (H,\sigma ){\cal P}_{{\sf t}+1}[Q(z_{{\sf t}+1});H,\sigma]}{\sum_{z_{{\sf t}+1}}{\cal P}_{{\sf t}+1}[Q(z_{{\sf t}+1});H,\sigma]} \,.
+{\rm E}_{{\sf t}+1}[(H,\sigma )] &amp;\simeq \frac{\sum_{X_{{\sf t}+1}} (H,\sigma ){\cal P}_{{\sf t}+1}[Q(X_{{\sf t}+1});H,\sigma]}{\sum_{X_{{\sf t}+1}}{\cal P}_{{\sf t}+1}[Q(X_{{\sf t}+1});H,\sigma]} \,.
 \end{align}
 \]</span></p>
 <p>We could then input these expectation values as the centre of the sampler for the next <span class="math inline">\(H\)</span> (inverse-Wishart distribution) and <span class="math inline">\(\sigma\)</span> (Gaussian distribution) values in the sequence.</p>
@@ -231,12 +231,7 @@ B_{{\sf t}+1} &amp;= \sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\s
 <h2 id="resampling">Resampling</h2>
 <p>Start by drawing samples centred from different points, where each centre is randomly chosen from the current pool of samples with a frequency weighted by the smoothed new density of that point. If we then sample around each point using <span class="math inline">\(fH\)</span> as the covariance around the point (where <span class="math inline">\(f\)</span> is some exploration factor <span class="math inline">\(&lt;1\)</span>), we end up being able to effectively sample from the smoothed density.</p>
 <h2 id="implementation">Implementation</h2>
-<p>Initial implementation should be in the stochadex to try out the ideas. Then the article can turn to implementing it from scratch in Rust (and a Python interop) using a custom shared-memory actor pattern design which improves on the initial design with the stochadex by allowing the number of samples to scale up or down dynamically through successive generations of actors producing more or less future actors.</p>
-<p>Probably fits into the shared-memory actor pattern nicely!</p>
-<p>The rough schematic for the simulation parameter posterior sampler is below.</p>
-<p><img src="../assets/modest/modest-previous-sampler.drawio.png" /></p>
-<p>We are suggesting to make the following change to this schematic.</p>
-<p><img src="../assets/modest/modest-modest-sampler.drawio.png" /></p>
+<p>Implement this from scratch in Rust (and a Python interop) using an actor pattern design which allows the number of samples to scale up or down dynamically through successive generations of actors producing more or less future actors.</p>
 <h2 class="unnumbered" id="references">References</h2>
 <div id="refs" class="references" role="doc-bibliography">
 <div id="ref-del2006sequential">
@@ -251,8 +246,11 @@ B_{{\sf t}+1} &amp;= \sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\s
 <div id="ref-stochadexI-2024">
 <p>[4] R. J. Hardwick, “Self-learning simulations series: Building a generalised simulation engine,” <em>umbralcalculations (umbralcalc.github.io/posts/stochadexI.html)</em>, 2024.</p>
 </div>
+<div id="ref-stochadexII-2024">
+<p>[5] R. J. Hardwick, “Self-learning simulations series: Online simulation inference methods,” <em>umbralcalculations (umbralcalc.github.io/posts/stochadexII.html)</em>, 2024.</p>
+</div>
 <div id="ref-williams2006gaussian">
-<p>[5] C. K. Williams and C. E. Rasmussen, <em>Gaussian processes for machine learning</em>, vol. 2. MIT press Cambridge, MA, 2006.</p>
+<p>[6] C. K. Williams and C. E. Rasmussen, <em>Gaussian processes for machine learning</em>, vol. 2. MIT press Cambridge, MA, 2006.</p>
 </div>
 </div>
 <hr color="LightGray">
