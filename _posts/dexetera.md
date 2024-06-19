@@ -3,8 +3,8 @@ title: "Self-learning simulations series: Archetype simulation problems"
 author: Hardwick, Robert J
 date: [WIP]
 concept: To discuss the archetype simulations for a variety of real-world problems and compare them as different state partition graph structures. In our classification scheme, the archetypes discussed have the capability to simulate sports matches, spatial disease spread, human brain networks, supply chain logistics or even financial markets. With these examples (and many others) in mind, we consider the typical action state spaces and partial observability in each case.
-articleId: stochadexIIII
-codeLink: https://github.com/umbralcalc/stochadex
+articleId: dexetera
+codeLink: https://github.com/umbralcalc/dexetera
 year: [WIP]
 ---
 
@@ -24,7 +24,7 @@ In order to understand what sorts of data might be collected about this archetyp
 \end{itemize}
 %%
 
-![](../assets/stochadexIIII/stochadexIIII-simple-state-partition-graph.drawio.png)
+![](../assets/dexetera/dexetera-simple-state-partition-graph.drawio.png)
 
 Based on the examples given above, what kinds of data may be available to infer the state and parameters of a simulation environment using this archetype?
 
@@ -50,7 +50,7 @@ In a general offline learning setting, realistic historical data collected about
 
 The _dynamic spatial field archetype_ refers to simulation environments which have highly-structured, bidirectional communication between state partitions. The graph toplogy of this archetype is totally connected, but some connections matter more than others. As a helpful analogy, you can think of these partitions as being structured topologically in a kind of 'lattice' configuration, where connections to other partitions over different distances in the lattice can contribute different importance weights in affecting each local state partition. This lattice structure can be best intuited from a visual discription, so we have illustrated an example graph topology for the dynamic spatial field archetype in Fig.~\ref{fig:state-partition-graph-dynamic-spatial-fields}.
 
-![](../assets/stochadexIIII/stochadexIIII-spatial-state-partition-graph.drawio.png)
+![](../assets/dexetera/dexetera-spatial-state-partition-graph.drawio.png)
 
 Depending on the spatial dimensionality of the field, we might need to visualise the lattice in Fig.~\ref{fig:state-partition-graph-dynamic-spatial-fields} as existing in more spatial dimensions than the 2-dimensional example we have illustrated. However, as it turns out, there are many important real-world examples of 2-dimensional spatial systems to control anyway.
 
@@ -62,7 +62,7 @@ Let's return to this probabilistic formalism that we introduced earlier and note
 
 One solution to this scaling problem is to exploit the fact that, in many spatial processes, the proximity of points can strongly determine how correlated they are. Hence, for pairwise distances further than some threshold, the covariance matrix elements should tend towards 0. If we were to place points along the diagonal of $C^{ij}_{{\sf t}+1}(z)$ in order of how close they are to each other, this threshold would then be represented as a \emph{banded matrix}. We have illustrated such a matrix in Fig.~\ref{fig:banded-matrix} in which the 'bandwidth' is defined as the number of diagonals one needs to traverse from the main diagonal before encountering a diagonal of 0s.
 
-![](../assets/stochadexIIII/stochadexIIII-banded-matrix.drawio.png)
+![](../assets/dexetera/dexetera-banded-matrix.drawio.png)
 
 \textcolor{red}{
 \begin{itemize}
@@ -96,7 +96,7 @@ To begin our discussion of data, let's start by considering the subset of real-w
 
 The _distributed state network archetype_ refers to simulation environments whose bidirectional state partition graph topology is completely arbitrary, requiring no particular connectivity structure at all. Each state partition in this archetype typically refers to the same type of real-world node, object or sub-model. Due to the flexibility in topological structure, this archetype is well-suited to 'network' models of realistic phenomena. We have illustrated the state partition graph which fits into this category in Fig.~\ref{fig:state-partition-graph-distributed-state-networks}.
 
-![](../assets/stochadexIIII/stochadexIIII-network-state-partition-graph.drawio.png)
+![](../assets/dexetera/dexetera-network-state-partition-graph.drawio.png)
 
 Before discussing what kinds of data are typically available to infer states and parameters of environments in this archetype, it will be informative to consider the various real-world problem domains which apply. The particular subset of these domains which seem to fit well within this classification include:
 %%
@@ -121,7 +121,7 @@ Before discussing what kinds of data are typically available to infer states and
 
 The _multi-stage pipeline archetype_ refers to simulation environments with a directional state partition graph with arbitrary connection topology. In this case, each state partition corresponds to a separate stage in some pipeline model of the real-world phenomenon. Directionality in the connection structure is the key distinction between this archetype and the others in our classification scheme. We've provided one illustrated example of a multi-stage pipeline state partition graph in Fig.~\ref{fig:state-partition-graph-multi-stage-pipelines}.
 
-![](../assets/stochadexIIII/stochadexIIII-pipeline-state-partition-graph.drawio.png)
+![](../assets/dexetera/dexetera-pipeline-state-partition-graph.drawio.png)
 
 We're now ready to discuss how multi-stage pipelines are typically observed with data from realistic scenarios. To do this, it will help to first consider which real-world problem domains are best-suited to this archetype structure. From the literature, we can identify these as:
 %%
@@ -146,7 +146,7 @@ We're now ready to discuss how multi-stage pipelines are typically observed with
 
 The _centralised exchange archetype_ refers to simulation environments with a very specific bidirectional state partition graph topology. The graph connection structure is a star configuration where every state partition is connected to the same, centralised state partition which itself has a unique function in the model. In case this description isn't that clear, we've added an illustration of the graph for this archetype in Fig.~\ref{fig:state-partition-graph-centralised-exchanges}.
 
-![](../assets/stochadexIIII/stochadexIIII-star-state-partition-graph.drawio.png)
+![](../assets/dexetera/dexetera-star-state-partition-graph.drawio.png)
 
 Before moving on to discuss how data is typically collected for centralised exchanges, it will be informative to list the examples of phenomena where this archetype can be found in the real-world. These problem domains are:
 %%
