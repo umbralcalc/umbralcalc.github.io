@@ -481,7 +481,7 @@ P_{{\sf t}+1}(X,z\vert {\sf Y}) \simeq P_{({\sf t}+1)({\sf t}-{\sf s})}(X,z\vert
 <p>How might we deliberately control how reactive this <span class="math inline">\(z\)</span>-learning framework is to changes in the data? One possibility is to impose an evidence normalisation ansatz which applies a ‘past-discounting factor’ between the distribution over <span class="math inline">\((X,z)\)</span> in the present moment and the distributions evaluated in the past, like this</p>
 <p><span class="math display">\[
 \begin{align}
-{\sf e}_{{\sf t}+1}({\sf y}\vert {\sf Y}&#39;) = \beta {\sf e}_{{\sf t}}({\sf y}&#39;\vert {\sf Y}&#39;&#39;) \,\, \Longleftrightarrow \,\, {\sf e}_{{\sf t}+1}({\sf y}\vert {\sf Y}&#39;) = \frac{1}{{\sf t}+1}\sum_{{\sf t}&#39;=({\sf t}+1)-{\sf s}}^{({\sf t}+1)} \beta^{{\sf t}+1-{\sf t}&#39;} {\sf e}_{{\sf t}&#39;}({\sf y}&#39;\vert {\sf Y}&#39;&#39;) \,.
+{\sf e}_{{\sf t}+1}({\sf y}\vert {\sf Y}&#39;) = \beta {\sf e}_{{\sf t}}({\sf y}&#39;\vert {\sf Y}&#39;&#39;) \,\, \Longleftrightarrow \,\, {\sf e}_{{\sf t}+1}({\sf y}\vert {\sf Y}&#39;) = \beta^{{\sf s}+1}{\sf e}_{{\sf s}-1}({\sf y}&#39;&#39;\vert {\sf Y}&#39;&#39;&#39;) + \sum_{{\sf t}&#39;=({\sf t}+1)-{\sf s}}^{({\sf t}+1)} \beta^{{\sf t}+1-{\sf t}&#39;} {\sf e}_{{\sf t}&#39;}({\sf y}&#39;\vert {\sf Y}&#39;&#39;) \,.
 \end{align}
 \]</span></p>
 <p>One might also call this a ‘past-discounted’ version of the distribution where <span class="math inline">\(0 &lt; \beta &lt; 1\)</span>. Note that in the continuous-time version, this past-discounting factor could depend on the stepsize such that we replace</p>
