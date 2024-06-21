@@ -7,7 +7,7 @@ pandoc --template template.html \
 --mathjax \
 -f markdown \
 -t html \
--o about.html \
+-o posts/about.html \
 README.md;
 
 # generate other posts
