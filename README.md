@@ -18,9 +18,9 @@ title: Robert J. Hardwick
 **and here's a bit about the technical articles:**
 
 * Like other repositories and pre-print servers, e.g., [arXiv](https://arxiv.org/), these articles are not formally peer-reviewed.
-* They represent a collections of research interests that I've retained having left formal academic study.
+* They represent a collection of research interests that I've retained having left formal academic study.
 * The goal is to share the technical motivations behind the software projects I'm engaged with in my free time.
-* All of the software should be freely available via GitHub (mostly likely somewhere [here](https://github.com/umbralcalc?tab=repositories)).
+* All of this software should be freely available via GitHub (mostly likely somewhere [here](https://github.com/umbralcalc?tab=repositories)).
 
 <hr color="LightGray">
 
