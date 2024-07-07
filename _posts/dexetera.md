@@ -1,5 +1,5 @@
 ---
-title: "Serving archetype interactive simulations through a static web application"
+title: "Serving interactive simulations through a static web application"
 author: Hardwick, Robert J
 date: [WIP]
 concept: To discuss the archetype simulations for a variety of real-world problems and compare them as different state partition graph structures. In our classification scheme, the archetypes discussed have the capability to simulate sports matches, spatial disease spread, human brain networks, supply chain logistics or even financial markets. With these examples (and many others) in mind, we consider the typical action state spaces and partial observability in each case.
