@@ -101,7 +101,7 @@ The _multi-stage pipeline archetype_ refers to simulation environments with a di
 
 We're now ready to discuss how multi-stage pipelines are typically observed with data from realistic scenarios. To do this, it will help to first consider which real-world problem domains are best-suited to this archetype structure. From the literature, we can identify these as:
 
-- Simulations of human logistics pipelines, e.g., organised supply chains [@yan2022reinforcement], humanitarian aid distribution pipelines [@yu2021reinforcement], hospital capacity planning [@shuvo2021deep], etc.
+- Simulations of logistics pipelines, e.g., organised supply chains [@yan2022reinforcement], humanitarian aid distribution pipelines [@yu2021reinforcement], hospital capacity planning [@shuvo2021deep], etc.
 - Environments which emulate data pipeline optimisation problems [@nagrecha2023intune].
 
 Within this topological archetype there will also be other categories to think are applicable:
