@@ -167,18 +167,21 @@ About
 </br>
 <strong> Date. </strong> WIP
 </br>
-<strong> Concept. </strong> To discuss the archetype simulations for a variety of real-world problems and compare them as different state partition graph structures. In our classification scheme, the archetypes discussed have the capability to simulate sports matches, spatial disease spread, human brain networks, supply chain logistics or even financial markets. With these examples (and many others) in mind, we consider the typical action state spaces and partial observability in each case.
+<strong> Concept. </strong> To outline the design of a static web application which enables pure Python programmers to interact with stochadex simulations and visualise their outputs. In order to illustrate the flexibility in simulation type supported by the stochadex engine, as well as user experience, we then introduce some archetype simulations for a variety of real-world problems and compare them as different state partition graph structures. In our classification scheme, the archetypes discussed have the capability to simulate everything from sports matches and spatial disease spread to traffic networks, or even supply chain logistics. With these examples (and many others) in mind, we consider the typical action state spaces and partial observability concerns in each case.
 </div>
 <hr color="LightGray">
 </br>
+<h2 id="web-application">Web application</h2>
+<p>Previously, we have conceptualised and built the stochadex engine <span class="citation" data-cites="stochadexI-2024">[1]</span>; which provides a generalised framework for constructing stochastic simulations of practically any kind. In addition to enabling the construction of simulations which model real-world phenomena, we would also like to enable interactivity with these simulations and empower users to build their own control algorithms over them. Even though an API was built to minimise the amount of code required in these constructions, the requirement that new simulation components are written in Go may be a higher barrier to entry than is desirable — especially for pure python programmers and machine learning engineers.</p>
+<p>In this article, we’re going to sidestep this barrier by providing the necessary tools to support web applications out of pre-built stochadex simulations. This application-building framework makes use of both WebAssembly <span class="citation" data-cites="wasm">[2]</span> technology for browser-based user experience (eliminating the need for a Go compiler on the user’s side), and websocket client I/O with a local python server run by the user.</p>
 <h2 id="archetype-simulations">Archetype simulations</h2>
 <p>To end this article, in this section, we’re going to define and develop some archetype simulations which typically appear in the real-world. These archetypes will help to both illustrate how partitioning the state can be helpful to conceptualise the phenomena one wishes to simulate and provide some practical insights into how the stochadex may be configured for different purposes.</p>
 <p>We begin with the <em>simple state transition archetype</em>, which refers to simulation environments where there is no obvious computational benefit to partitioning the state into concurrently updating or acting on separate components. There may even be performance benefits from keeping state information all within the same common data structure in memory, but this can depend on the specific problem of study.</p>
 <p>In the interest of completeness, we have illustrated the trivial state partition graph topology for this archetype in Fig.~.</p>
 <p>In order to understand what sorts of data might be collected about this archetype in realistic scenarios, let’s begin by considering the types of real-world problem domain which have leveraged simulation environments to train control algorithms in the literature. The subset of these which may best suit the simple state transition environment archetype are:</p>
 <ul>
-<li>Event-based simulations of sports matches, e.g., football <span class="citation" data-cites="pulis2022reinforcement">[1]</span>, rugby <span class="citation" data-cites="sawczuk2022markov">[2]</span>, tennis <span class="citation" data-cites="ding2022deep">[3]</span>, etc., and other forms of game — all of which typically define a relatively simple global match/gameplay context as their ‘state’.</li>
-<li>Sequential design simulations to change the configuration or data collection strategies of, e.g., astronomical telescopes (see <span class="citation" data-cites="jia2023observation">[4]</span> and <span class="citation" data-cites="yatawatta2021deep">[5]</span>), biological experiments <span class="citation" data-cites="treloar2022deep">[6]</span> and user interfaces <span class="citation" data-cites="lomas2016interface">[7]</span>, which typically define a relatively simple and finite set of possible actions that can be taken.</li>
+<li>Event-based simulations of sports matches, e.g., football <span class="citation" data-cites="pulis2022reinforcement">[3]</span>, rugby <span class="citation" data-cites="sawczuk2022markov">[4]</span>, tennis <span class="citation" data-cites="ding2022deep">[5]</span>, etc., and other forms of game — all of which typically define a relatively simple global match/gameplay context as their ‘state’.</li>
+<li>Sequential design simulations to change the configuration or data collection strategies of, e.g., astronomical telescopes (see <span class="citation" data-cites="jia2023observation">[6]</span> and <span class="citation" data-cites="yatawatta2021deep">[7]</span>), biological experiments <span class="citation" data-cites="treloar2022deep">[8]</span> and user interfaces <span class="citation" data-cites="lomas2016interface">[9]</span>, which typically define a relatively simple and finite set of possible actions that can be taken.</li>
 </ul>
 <p><img src="../assets/dexetera/dexetera-simple-state-partition-graph.drawio.png" /></p>
 <p>Based on the examples given above, what kinds of data may be available to infer the state and parameters of a simulation environment using this archetype?</p>
@@ -213,9 +216,9 @@ About
 </ul>
 <p>To begin our discussion of data, let’s start by considering the subset of real-world problem domains which fit well within the dynamic spatial field archetype. These would be:</p>
 <ul>
-<li>Spatial simulations of population disease spread and control in the context of global disease outbreaks <span class="citation" data-cites="ohi2020exploring">[8]</span> or endemic, spatially-clustered infections like malaria <span class="citation" data-cites="carter2000spatial">[9]</span>.</li>
-<li>Spatial ecosystem management environments to infer forest wildfire dynamics <span class="citation" data-cites="ganapathi2018using">[10]</span> or improve conservation decision-making <span class="citation" data-cites="lapeyrolerie2022deep">[11]</span>.</li>
-<li>Weather system simulations to improve decision-making for agricultural yields <span class="citation" data-cites="chen2021reinforcement">[12]</span> or enhance stormwater flood mitigations <span class="citation" data-cites="saliba2020deep">[13]</span>.</li>
+<li>Spatial simulations of population disease spread and control in the context of global disease outbreaks <span class="citation" data-cites="ohi2020exploring">[10]</span> or endemic, spatially-clustered infections like malaria <span class="citation" data-cites="carter2000spatial">[11]</span>.</li>
+<li>Spatial ecosystem management environments to infer forest wildfire dynamics <span class="citation" data-cites="ganapathi2018using">[12]</span> or improve conservation decision-making <span class="citation" data-cites="lapeyrolerie2022deep">[13]</span>.</li>
+<li>Weather system simulations to improve decision-making for agricultural yields <span class="citation" data-cites="chen2021reinforcement">[14]</span> or enhance stormwater flood mitigations <span class="citation" data-cites="saliba2020deep">[15]</span>.</li>
 </ul>
 <p>Within this topological archetype there will also be other categories to think are applicable:</p>
 <ul>
@@ -231,8 +234,8 @@ About
 <p><img src="../assets/dexetera/dexetera-network-state-partition-graph.drawio.png" /></p>
 <p>Before discussing what kinds of data are typically available to infer states and parameters of environments in this archetype, it will be informative to consider the various real-world problem domains which apply. The particular subset of these domains which seem to fit well within this classification include:</p>
 <ul>
-<li>Computational models of human brain conditions, e.g., Parkinson’s disease <span class="citation" data-cites="lu2019application">[14]</span>, epilepsy <span class="citation" data-cites="pineau2009treating">[15]</span>, Alzheimer’s <span class="citation" data-cites="saboo2021reinforcement">[16]</span>, etc., for deep brain stimulation control and other forms of treatment.</li>
-<li>Simulations of complex urban infrastructure networks to target various kinds of optimisation, e.g., traffic signal control <span class="citation" data-cites="yau2017survey">[17]</span>, power dispatch <span class="citation" data-cites="li2021integrating">[18]</span> and water pipe maintainance <span class="citation" data-cites="bukhsh2023maintenance">[19]</span>.</li>
+<li>Computational models of human brain conditions, e.g., Parkinson’s disease <span class="citation" data-cites="lu2019application">[16]</span>, epilepsy <span class="citation" data-cites="pineau2009treating">[17]</span>, Alzheimer’s <span class="citation" data-cites="saboo2021reinforcement">[18]</span>, etc., for deep brain stimulation control and other forms of treatment.</li>
+<li>Simulations of complex urban infrastructure networks to target various kinds of optimisation, e.g., traffic signal control <span class="citation" data-cites="yau2017survey">[19]</span>, power dispatch <span class="citation" data-cites="li2021integrating">[20]</span> and water pipe maintainance <span class="citation" data-cites="bukhsh2023maintenance">[21]</span>.</li>
 </ul>
 <p>Within this topological archetype there will also be other categories to think are applicable:</p>
 <ul>
@@ -248,8 +251,8 @@ About
 <p><img src="../assets/dexetera/dexetera-pipeline-state-partition-graph.drawio.png" /></p>
 <p>We’re now ready to discuss how multi-stage pipelines are typically observed with data from realistic scenarios. To do this, it will help to first consider which real-world problem domains are best-suited to this archetype structure. From the literature, we can identify these as:</p>
 <ul>
-<li>Simulations of logistics pipelines, e.g., organised supply chains <span class="citation" data-cites="yan2022reinforcement">[20]</span>, humanitarian aid distribution pipelines <span class="citation" data-cites="yu2021reinforcement">[21]</span>, hospital capacity planning <span class="citation" data-cites="shuvo2021deep">[22]</span>, etc.</li>
-<li>Environments which emulate data pipeline optimisation problems <span class="citation" data-cites="nagrecha2023intune">[23]</span>.</li>
+<li>Simulations of logistics pipelines, e.g., organised supply chains <span class="citation" data-cites="yan2022reinforcement">[22]</span>, humanitarian aid distribution pipelines <span class="citation" data-cites="yu2021reinforcement">[23]</span>, hospital capacity planning <span class="citation" data-cites="shuvo2021deep">[24]</span>, etc.</li>
+<li>Environments which emulate data pipeline optimisation problems <span class="citation" data-cites="nagrecha2023intune">[25]</span>.</li>
 </ul>
 <p>Within this topological archetype there will also be other categories to think are applicable:</p>
 <ul>
@@ -265,8 +268,8 @@ About
 <p><img src="../assets/dexetera/dexetera-star-state-partition-graph.drawio.png" /></p>
 <p>Before moving on to discuss how data is typically collected for centralised exchanges, it will be informative to list the examples of phenomena where this archetype can be found in the real-world. These problem domains are:</p>
 <ul>
-<li>Financial (see <span class="citation" data-cites="fischer2018reinforcement">[24]</span> and <span class="citation" data-cites="meng2019reinforcement">[25]</span>) and sports betting <span class="citation" data-cites="cliff2021bbe">[26]</span> market simulations for developing algo-trading strategies and portfolio optimisation <span class="citation" data-cites="dangi2013financial">[27]</span>, as well as housing market simulations (see <span class="citation" data-cites="yilmaz2018stochastic">[28]</span> and <span class="citation" data-cites="carro2023heterogeneous">[29]</span>) to evaluate government policies.</li>
-<li>Simulations of other forms of resource exchange through centralised mediation, such as in prosumer energy markets <span class="citation" data-cites="may2023multi">[30]</span>.</li>
+<li>Financial (see <span class="citation" data-cites="fischer2018reinforcement">[26]</span> and <span class="citation" data-cites="meng2019reinforcement">[27]</span>) and sports betting <span class="citation" data-cites="cliff2021bbe">[28]</span> market simulations for developing algo-trading strategies and portfolio optimisation <span class="citation" data-cites="dangi2013financial">[29]</span>, as well as housing market simulations (see <span class="citation" data-cites="yilmaz2018stochastic">[30]</span> and <span class="citation" data-cites="carro2023heterogeneous">[31]</span>) to evaluate government policies.</li>
+<li>Simulations of other forms of resource exchange through centralised mediation, such as in prosumer energy markets <span class="citation" data-cites="may2023multi">[32]</span>.</li>
 </ul>
 <p>Within this topological archetype there will also be other categories to think are applicable:</p>
 <ul>
@@ -280,95 +283,101 @@ About
 </ul>
 <h2 class="unnumbered" id="references">References</h2>
 <div id="refs" class="references" role="doc-bibliography">
+<div id="ref-stochadexI-2024">
+<p>[1] R. J. Hardwick, “Self-learning simulations series: Building a generalised simulation engine,” <em>umbralcalculations (umbralcalc.github.io/posts/stochadexI.html)</em>, 2024.</p>
+</div>
+<div id="ref-wasm">
+<p>[2] “WebAssembly: A binary instruction format for a stack-based virtual machine.” <a href="https://webassembly.org/">https://webassembly.org/</a>.</p>
+</div>
 <div id="ref-pulis2022reinforcement">
-<p>[1] M. Pulis and J. Bajada, “Reinforcement learning for football player decision making analysis,” in <em>StatsBomb conference</em>, 2022.</p>
+<p>[3] M. Pulis and J. Bajada, “Reinforcement learning for football player decision making analysis,” in <em>StatsBomb conference</em>, 2022.</p>
 </div>
 <div id="ref-sawczuk2022markov">
-<p>[2] T. Sawczuk, A. Palczewska, and B. Jones, “Markov decision processes with contextual nodes as a method of assessing attacking player performance in rugby league,” in <em>Advances in computational intelligence systems: Contributions presented at the 20th uk workshop on computational intelligence, september 8-10, 2021, aberystwyth, wales, uk 20</em>, Springer, 2022, pp. 251–263.</p>
+<p>[4] T. Sawczuk, A. Palczewska, and B. Jones, “Markov decision processes with contextual nodes as a method of assessing attacking player performance in rugby league,” in <em>Advances in computational intelligence systems: Contributions presented at the 20th uk workshop on computational intelligence, september 8-10, 2021, aberystwyth, wales, uk 20</em>, Springer, 2022, pp. 251–263.</p>
 </div>
 <div id="ref-ding2022deep">
-<p>[3] N. Ding, K. Takeda, and K. Fujii, “Deep reinforcement learning in a racket sport for player evaluation with technical and tactical contexts,” <em>IEEE Access</em>, vol. 10, pp. 54764–54772, 2022.</p>
+<p>[5] N. Ding, K. Takeda, and K. Fujii, “Deep reinforcement learning in a racket sport for player evaluation with technical and tactical contexts,” <em>IEEE Access</em>, vol. 10, pp. 54764–54772, 2022.</p>
 </div>
 <div id="ref-jia2023observation">
-<p>[4] P. Jia, Q. Jia, T. Jiang, and J. Liu, “Observation strategy optimization for distributed telescope arrays with deep reinforcement learning,” <em>The Astronomical Journal</em>, vol. 165, no. 6, p. 233, 2023.</p>
+<p>[6] P. Jia, Q. Jia, T. Jiang, and J. Liu, “Observation strategy optimization for distributed telescope arrays with deep reinforcement learning,” <em>The Astronomical Journal</em>, vol. 165, no. 6, p. 233, 2023.</p>
 </div>
 <div id="ref-yatawatta2021deep">
-<p>[5] S. Yatawatta and I. M. Avruch, “Deep reinforcement learning for smart calibration of radio telescopes,” <em>Monthly Notices of the Royal Astronomical Society</em>, vol. 505, no. 2, pp. 2141–2150, 2021.</p>
+<p>[7] S. Yatawatta and I. M. Avruch, “Deep reinforcement learning for smart calibration of radio telescopes,” <em>Monthly Notices of the Royal Astronomical Society</em>, vol. 505, no. 2, pp. 2141–2150, 2021.</p>
 </div>
 <div id="ref-treloar2022deep">
-<p>[6] N. J. Treloar, N. Braniff, B. Ingalls, and C. P. Barnes, “Deep reinforcement learning for optimal experimental design in biology,” <em>PLOS Computational Biology</em>, vol. 18, no. 11, p. e1010695, 2022.</p>
+<p>[8] N. J. Treloar, N. Braniff, B. Ingalls, and C. P. Barnes, “Deep reinforcement learning for optimal experimental design in biology,” <em>PLOS Computational Biology</em>, vol. 18, no. 11, p. e1010695, 2022.</p>
 </div>
 <div id="ref-lomas2016interface">
-<p>[7] J. D. Lomas <em>et al.</em>, “Interface design optimization as a multi-armed bandit problem,” in <em>Proceedings of the 2016 chi conference on human factors in computing systems</em>, 2016, pp. 4142–4153.</p>
+<p>[9] J. D. Lomas <em>et al.</em>, “Interface design optimization as a multi-armed bandit problem,” in <em>Proceedings of the 2016 chi conference on human factors in computing systems</em>, 2016, pp. 4142–4153.</p>
 </div>
 <div id="ref-ohi2020exploring">
-<p>[8] A. Q. Ohi, M. Mridha, M. M. Monowar, and M. A. Hamid, “Exploring optimal control of epidemic spread using reinforcement learning,” <em>Scientific reports</em>, vol. 10, no. 1, p. 22106, 2020.</p>
+<p>[10] A. Q. Ohi, M. Mridha, M. M. Monowar, and M. A. Hamid, “Exploring optimal control of epidemic spread using reinforcement learning,” <em>Scientific reports</em>, vol. 10, no. 1, p. 22106, 2020.</p>
 </div>
 <div id="ref-carter2000spatial">
-<p>[9] R. Carter, K. N. Mendis, and D. Roberts, “Spatial targeting of interventions against malaria,” <em>Bulletin of the World Health Organization</em>, vol. 78, pp. 1401–1411, 2000.</p>
+<p>[11] R. Carter, K. N. Mendis, and D. Roberts, “Spatial targeting of interventions against malaria,” <em>Bulletin of the World Health Organization</em>, vol. 78, pp. 1401–1411, 2000.</p>
 </div>
 <div id="ref-ganapathi2018using">
-<p>[10] S. Ganapathi Subramanian and M. Crowley, “Using spatial reinforcement learning to build forest wildfire dynamics models from satellite images,” <em>Frontiers in ICT</em>, vol. 5, p. 6, 2018.</p>
+<p>[12] S. Ganapathi Subramanian and M. Crowley, “Using spatial reinforcement learning to build forest wildfire dynamics models from satellite images,” <em>Frontiers in ICT</em>, vol. 5, p. 6, 2018.</p>
 </div>
 <div id="ref-lapeyrolerie2022deep">
-<p>[11] M. Lapeyrolerie, M. S. Chapman, K. E. Norman, and C. Boettiger, “Deep reinforcement learning for conservation decisions,” <em>Methods in Ecology and Evolution</em>, vol. 13, no. 11, pp. 2649–2662, 2022.</p>
+<p>[13] M. Lapeyrolerie, M. S. Chapman, K. E. Norman, and C. Boettiger, “Deep reinforcement learning for conservation decisions,” <em>Methods in Ecology and Evolution</em>, vol. 13, no. 11, pp. 2649–2662, 2022.</p>
 </div>
 <div id="ref-chen2021reinforcement">
-<p>[12] M. Chen <em>et al.</em>, “A reinforcement learning approach to irrigation decision-making for rice using weather forecasts,” <em>Agricultural Water Management</em>, vol. 250, p. 106838, 2021.</p>
+<p>[14] M. Chen <em>et al.</em>, “A reinforcement learning approach to irrigation decision-making for rice using weather forecasts,” <em>Agricultural Water Management</em>, vol. 250, p. 106838, 2021.</p>
 </div>
 <div id="ref-saliba2020deep">
-<p>[13] S. M. Saliba, B. D. Bowes, S. Adams, P. A. Beling, and J. L. Goodall, “Deep reinforcement learning with uncertain data for real-time stormwater system control and flood mitigation,” <em>Water</em>, vol. 12, no. 11, p. 3222, 2020.</p>
+<p>[15] S. M. Saliba, B. D. Bowes, S. Adams, P. A. Beling, and J. L. Goodall, “Deep reinforcement learning with uncertain data for real-time stormwater system control and flood mitigation,” <em>Water</em>, vol. 12, no. 11, p. 3222, 2020.</p>
 </div>
 <div id="ref-lu2019application">
-<p>[14] M. Lu, X. Wei, Y. Che, J. Wang, and K. A. Loparo, “Application of reinforcement learning to deep brain stimulation in a computational model of parkinson’s disease,” <em>IEEE Transactions on Neural Systems and Rehabilitation Engineering</em>, vol. 28, no. 1, pp. 339–349, 2019.</p>
+<p>[16] M. Lu, X. Wei, Y. Che, J. Wang, and K. A. Loparo, “Application of reinforcement learning to deep brain stimulation in a computational model of parkinson’s disease,” <em>IEEE Transactions on Neural Systems and Rehabilitation Engineering</em>, vol. 28, no. 1, pp. 339–349, 2019.</p>
 </div>
 <div id="ref-pineau2009treating">
-<p>[15] J. Pineau, A. Guez, R. Vincent, G. Panuccio, and M. Avoli, “Treating epilepsy via adaptive neurostimulation: A reinforcement learning approach,” <em>International journal of neural systems</em>, vol. 19, no. 4, pp. 227–240, 2009.</p>
+<p>[17] J. Pineau, A. Guez, R. Vincent, G. Panuccio, and M. Avoli, “Treating epilepsy via adaptive neurostimulation: A reinforcement learning approach,” <em>International journal of neural systems</em>, vol. 19, no. 4, pp. 227–240, 2009.</p>
 </div>
 <div id="ref-saboo2021reinforcement">
-<p>[16] K. Saboo, A. Choudhary, Y. Cao, G. Worrell, D. Jones, and R. Iyer, “Reinforcement learning based disease progression model for alzheimer’s disease,” <em>Advances in Neural Information Processing Systems</em>, vol. 34, pp. 20903–20915, 2021.</p>
+<p>[18] K. Saboo, A. Choudhary, Y. Cao, G. Worrell, D. Jones, and R. Iyer, “Reinforcement learning based disease progression model for alzheimer’s disease,” <em>Advances in Neural Information Processing Systems</em>, vol. 34, pp. 20903–20915, 2021.</p>
 </div>
 <div id="ref-yau2017survey">
-<p>[17] K.-L. A. Yau, J. Qadir, H. L. Khoo, M. H. Ling, and P. Komisarczuk, “A survey on reinforcement learning models and algorithms for traffic signal control,” <em>ACM Computing Surveys (CSUR)</em>, vol. 50, no. 3, pp. 1–38, 2017.</p>
+<p>[19] K.-L. A. Yau, J. Qadir, H. L. Khoo, M. H. Ling, and P. Komisarczuk, “A survey on reinforcement learning models and algorithms for traffic signal control,” <em>ACM Computing Surveys (CSUR)</em>, vol. 50, no. 3, pp. 1–38, 2017.</p>
 </div>
 <div id="ref-li2021integrating">
-<p>[18] Q. Li <em>et al.</em>, “Integrating reinforcement learning and optimal power dispatch to enhance power grid resilience,” <em>IEEE Transactions on Circuits and Systems II: Express Briefs</em>, vol. 69, no. 3, pp. 1402–1406, 2021.</p>
+<p>[20] Q. Li <em>et al.</em>, “Integrating reinforcement learning and optimal power dispatch to enhance power grid resilience,” <em>IEEE Transactions on Circuits and Systems II: Express Briefs</em>, vol. 69, no. 3, pp. 1402–1406, 2021.</p>
 </div>
 <div id="ref-bukhsh2023maintenance">
-<p>[19] Z. A. Bukhsh, H. Molegraaf, and N. Jansen, “A maintenance planning framework using online and offline deep reinforcement learning,” <em>Neural Computing and Applications</em>, pp. 1–12, 2023.</p>
+<p>[21] Z. A. Bukhsh, H. Molegraaf, and N. Jansen, “A maintenance planning framework using online and offline deep reinforcement learning,” <em>Neural Computing and Applications</em>, pp. 1–12, 2023.</p>
 </div>
 <div id="ref-yan2022reinforcement">
-<p>[20] Y. Yan, A. H. Chow, C. P. Ho, Y.-H. Kuo, Q. Wu, and C. Ying, “Reinforcement learning for logistics and supply chain management: Methodologies, state of the art, and future opportunities,” <em>Transportation Research Part E: Logistics and Transportation Review</em>, vol. 162, p. 102712, 2022.</p>
+<p>[22] Y. Yan, A. H. Chow, C. P. Ho, Y.-H. Kuo, Q. Wu, and C. Ying, “Reinforcement learning for logistics and supply chain management: Methodologies, state of the art, and future opportunities,” <em>Transportation Research Part E: Logistics and Transportation Review</em>, vol. 162, p. 102712, 2022.</p>
 </div>
 <div id="ref-yu2021reinforcement">
-<p>[21] L. Yu, C. Zhang, J. Jiang, H. Yang, and H. Shang, “Reinforcement learning approach for resource allocation in humanitarian logistics,” <em>Expert Systems with Applications</em>, vol. 173, p. 114663, 2021.</p>
+<p>[23] L. Yu, C. Zhang, J. Jiang, H. Yang, and H. Shang, “Reinforcement learning approach for resource allocation in humanitarian logistics,” <em>Expert Systems with Applications</em>, vol. 173, p. 114663, 2021.</p>
 </div>
 <div id="ref-shuvo2021deep">
-<p>[22] S. S. Shuvo, M. R. Ahmed, H. Symum, and Y. Yilmaz, “Deep reinforcement learning based cost-benefit analysis for hospital capacity planning,” in <em>2021 international joint conference on neural networks (ijcnn)</em>, IEEE, 2021, pp. 1–7.</p>
+<p>[24] S. S. Shuvo, M. R. Ahmed, H. Symum, and Y. Yilmaz, “Deep reinforcement learning based cost-benefit analysis for hospital capacity planning,” in <em>2021 international joint conference on neural networks (ijcnn)</em>, IEEE, 2021, pp. 1–7.</p>
 </div>
 <div id="ref-nagrecha2023intune">
-<p>[23] K. Nagrecha, L. Liu, P. Delgado, and P. Padmanabhan, “InTune: Reinforcement learning-based data pipeline optimization for deep recommendation models,” in <em>Proceedings of the 17th acm conference on recommender systems</em>, 2023, pp. 430–442.</p>
+<p>[25] K. Nagrecha, L. Liu, P. Delgado, and P. Padmanabhan, “InTune: Reinforcement learning-based data pipeline optimization for deep recommendation models,” in <em>Proceedings of the 17th acm conference on recommender systems</em>, 2023, pp. 430–442.</p>
 </div>
 <div id="ref-fischer2018reinforcement">
-<p>[24] T. G. Fischer, “Reinforcement learning in financial markets-a survey,” FAU Discussion Papers in Economics, 2018.</p>
+<p>[26] T. G. Fischer, “Reinforcement learning in financial markets-a survey,” FAU Discussion Papers in Economics, 2018.</p>
 </div>
 <div id="ref-meng2019reinforcement">
-<p>[25] T. L. Meng and M. Khushi, “Reinforcement learning in financial markets,” <em>Data</em>, vol. 4, no. 3, p. 110, 2019.</p>
+<p>[27] T. L. Meng and M. Khushi, “Reinforcement learning in financial markets,” <em>Data</em>, vol. 4, no. 3, p. 110, 2019.</p>
 </div>
 <div id="ref-cliff2021bbe">
-<p>[26] D. Cliff, “BBE: Simulating the microstructural dynamics of an in-play betting exchange via agent-based modelling,” <em>arXiv preprint arXiv:2105.08310</em>, 2021.</p>
+<p>[28] D. Cliff, “BBE: Simulating the microstructural dynamics of an in-play betting exchange via agent-based modelling,” <em>arXiv preprint arXiv:2105.08310</em>, 2021.</p>
 </div>
 <div id="ref-dangi2013financial">
-<p>[27] A. Dangi, “Financial portfolio optimization: Computationally guided agents to investigate, analyse and invest!?” <em>arXiv preprint arXiv:1301.4194</em>, 2013.</p>
+<p>[29] A. Dangi, “Financial portfolio optimization: Computationally guided agents to investigate, analyse and invest!?” <em>arXiv preprint arXiv:1301.4194</em>, 2013.</p>
 </div>
 <div id="ref-yilmaz2018stochastic">
-<p>[28] B. Yilmaz and A. Selcuk-Kestel, “A stochastic approach to model housing markets: The us housing market case,” <em>Numerical Algebra Control and Optimization</em>, vol. 8, no. 4, 2018.</p>
+<p>[30] B. Yilmaz and A. Selcuk-Kestel, “A stochastic approach to model housing markets: The us housing market case,” <em>Numerical Algebra Control and Optimization</em>, vol. 8, no. 4, 2018.</p>
 </div>
 <div id="ref-carro2023heterogeneous">
-<p>[29] A. Carro, M. Hinterschweiger, A. Uluc, and J. D. Farmer, “Heterogeneous effects and spillovers of macroprudential policy in an agent-based model of the uk housing market,” <em>Industrial and Corporate Change</em>, vol. 32, no. 2, pp. 386–432, 2023.</p>
+<p>[31] A. Carro, M. Hinterschweiger, A. Uluc, and J. D. Farmer, “Heterogeneous effects and spillovers of macroprudential policy in an agent-based model of the uk housing market,” <em>Industrial and Corporate Change</em>, vol. 32, no. 2, pp. 386–432, 2023.</p>
 </div>
 <div id="ref-may2023multi">
-<p>[30] R. May and P. Huang, “A multi-agent reinforcement learning approach for investigating and optimising peer-to-peer prosumer energy markets,” <em>Applied Energy</em>, vol. 334, p. 120705, 2023.</p>
+<p>[32] R. May and P. Huang, “A multi-agent reinforcement learning approach for investigating and optimising peer-to-peer prosumer energy markets,” <em>Applied Energy</em>, vol. 334, p. 120705, 2023.</p>
 </div>
 </div>
 <hr color="LightGray">

@@ -2,11 +2,17 @@
 title: Serving interactive simulations through a static web application
 author: Hardwick, Robert J
 date: [WIP]
-concept: To discuss the archetype simulations for a variety of real-world problems and compare them as different state partition graph structures. In our classification scheme, the archetypes discussed have the capability to simulate sports matches, spatial disease spread, human brain networks, supply chain logistics or even financial markets. With these examples (and many others) in mind, we consider the typical action state spaces and partial observability in each case.
+concept: To outline the design of a static web application which enables pure Python programmers to interact with stochadex simulations and visualise their outputs. In order to illustrate the flexibility in simulation type supported by the stochadex engine, as well as user experience, we then introduce some archetype simulations for a variety of real-world problems and compare them as different state partition graph structures. In our classification scheme, the archetypes discussed have the capability to simulate everything from sports matches and spatial disease spread to traffic networks, or even supply chain logistics. With these examples (and many others) in mind, we consider the typical action state spaces and partial observability concerns in each case.
 articleId: dexetera
 codeLink: https://github.com/umbralcalc/dexetera
 year: [WIP]
 ---
+
+## Web application
+
+Previously, we have conceptualised and built the stochadex engine [@stochadexI-2024]; which provides a generalised framework for constructing stochastic simulations of practically any kind. In addition to enabling the construction of simulations which model real-world phenomena, we would also like to enable interactivity with these simulations and empower users to build their own control algorithms over them. Even though an API was built to minimise the amount of code required in these constructions, the requirement that new simulation components are written in Go may be a higher barrier to entry than is desirable --- especially for pure python programmers and machine learning engineers.
+
+In this article, we're going to sidestep this barrier by providing the necessary tools to support web applications out of pre-built stochadex simulations. This application-building framework makes use of both WebAssembly [@wasm] technology for browser-based user experience (eliminating the need for a Go compiler on the user's side), and websocket client I/O with a local python server run by the user.
 
 ## Archetype simulations
 
