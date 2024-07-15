@@ -167,48 +167,27 @@ About
 </br>
 <strong> Date. </strong> WIP
 </br>
-<strong> Concept. </strong> To outline the design of a static web application which enables pure Python programmers to interact with stochadex simulations and visualise their outputs. In order to illustrate the flexibility in simulation type supported by the stochadex engine, as well as user experience, we then introduce some archetype simulations for a variety of real-world problems and compare them as different state partition graph structures. In our classification scheme, the archetypes discussed have the capability to simulate everything from sports matches and spatial disease spread to traffic networks, or even supply chain logistics. With these examples (and many others) in mind, we consider the typical action state spaces and partial observability concerns in each case.
+<strong> Concept. </strong> To outline the design of a static web application which enables pure Python programmers to interact with stochadex simulations and visualise their outputs. In order to illustrate the flexibility in interactive user experience and simulation type supported by the stochadex engine, we then define some archetype simulation components which apply to a wide variety of real-world problems. We demonstrate how these archetypes can be used to simulate everything from sports matches and spatial disease spread to traffic networks, or even supply chain logistics. With these examples (and many others) in mind, we also consider the typical action state spaces and partial observability concerns in each case.
 </div>
 <hr color="LightGray">
 </br>
 <h2 id="web-application">Web application</h2>
 <p>Previously, we have conceptualised and built the stochadex engine <span class="citation" data-cites="stochadexI-2024">[1]</span>; which provides a generalised framework for constructing stochastic simulations of practically any kind. In addition to enabling the construction of simulations which model real-world phenomena, we would also like to enable interactivity with these simulations and empower users to build their own control algorithms over them. Even though an API was built to minimise the amount of code required in these constructions, the requirement that new simulation components are written in Go may be a higher barrier to entry than is desirable — especially for pure python programmers and machine learning engineers.</p>
 <p>In this article, we’re going to sidestep this barrier by providing the necessary tools to support web applications out of pre-built stochadex simulations. This application-building framework makes use of both WebAssembly <span class="citation" data-cites="wasm">[2]</span> technology for browser-based user experience (eliminating the need for a Go compiler on the user’s side), and websocket client I/O with a local python server run by the user.</p>
-<h2 id="archetype-simulations">Archetype simulations</h2>
-<p>To end this article, in this section, we’re going to define and develop some archetype simulations which typically appear in the real-world. These archetypes will help to both illustrate how partitioning the state can be helpful to conceptualise the phenomena one wishes to simulate and provide some practical insights into how the stochadex may be configured for different purposes.</p>
-<p>We begin with the <em>simple state transition archetype</em>, which refers to simulation environments where there is no obvious computational benefit to partitioning the state into concurrently updating or acting on separate components. There may even be performance benefits from keeping state information all within the same common data structure in memory, but this can depend on the specific problem of study.</p>
-<p>In the interest of completeness, we have illustrated the trivial state partition graph topology for this archetype in Fig.~.</p>
-<p>In order to understand what sorts of data might be collected about this archetype in realistic scenarios, let’s begin by considering the types of real-world problem domain which have leveraged simulation environments to train control algorithms in the literature. The subset of these which may best suit the simple state transition environment archetype are:</p>
-<ul>
-<li>Event-based simulations of sports matches, e.g., football <span class="citation" data-cites="pulis2022reinforcement">[3]</span>, rugby <span class="citation" data-cites="sawczuk2022markov">[4]</span>, tennis <span class="citation" data-cites="ding2022deep">[5]</span>, etc., and other forms of game — all of which typically define a relatively simple global match/gameplay context as their ‘state’.</li>
-<li>Sequential design simulations to change the configuration or data collection strategies of, e.g., astronomical telescopes (see <span class="citation" data-cites="jia2023observation">[6]</span> and <span class="citation" data-cites="yatawatta2021deep">[7]</span>), biological experiments <span class="citation" data-cites="treloar2022deep">[8]</span> and user interfaces <span class="citation" data-cites="lomas2016interface">[9]</span>, which typically define a relatively simple and finite set of possible actions that can be taken.</li>
-</ul>
+<h2 id="archetype-simulation-components">Archetype simulation components</h2>
+<p>In this section we’re going to define some archetype components which are typically useful in developing simulations of real-world systems. These archetypes will help to both illustrate how partitioning the state can be helpful to conceptualise the phenomena one wishes to simulate, and provide some practical insights into how the stochadex may be configured for different purposes.</p>
+<p>We begin with the <em>entity state transition archetype</em>, which refers to state transitions that can be mapped to transition rates. These transition rates may themselves be time-varying (even stochastically) and so it is useful to separate their values into a separate state partition and create a direct dependency channel on them, as in the rough schematic below.</p>
 <p><img src="../assets/dexetera/dexetera-simple-state-partition-graph.drawio.png" /></p>
-<p>Based on the examples given above, what kinds of data may be available to infer the state and parameters of a simulation environment using this archetype?</p>
-<p>In the case of team sports matches, a team manager could have access to a large body of data which assesses the capabilities of their players before a game, but they must rely on more subjective or limited data to assess the performance of their team (and the opposition) in the middle of a match. The ‘state’ of the whole system in this case can be not only the state of play, but also information about, e.g., fatigue or on-the-day performance of each player for both teams and sets of substitutes.</p>
-<ul>
-<li>Talk about sequential design data here…</li>
-</ul>
-<p>In a general offline learning setting, realistic historical data collected about the state values for this archetype will typically provide an important mechanism for model determination. Users of this archetype in the real world also typically have access to independent datasets that can be used offline to better determine some parameters of the simulation environment which are not observed directly. In the online learning setting, one typically directly observes some portion of the state values, and may only indirectly observe the other state values, if at all.</p>
-<p>Within this topological archetype there will also be other categories to think are applicable:</p>
-<ul>
-<li>Types of observation that can be made about the state.</li>
-<li>Types of action that can be taken by an agent.</li>
-<li>Types of agent? How frequently do these actions get taken? On what part of the state?</li>
-</ul>
-<p>Types of actor in this archetype:</p>
-<ul>
-<li>Sports team manager and other game player 1. substitute players 2. changes to tactics</li>
-</ul>
-<p>The <em>dynamic spatial field archetype</em> refers to simulation environments which have highly-structured, bidirectional communication between state partitions. The graph toplogy of this archetype is totally connected, but some connections matter more than others. As a helpful analogy, you can think of these partitions as being structured topologically in a kind of ‘lattice’ configuration, where connections to other partitions over different distances in the lattice can contribute different importance weights in affecting each local state partition. This lattice structure can be best intuited from a visual discription, so we have illustrated an example graph topology for the dynamic spatial field archetype in Fig.~.</p>
+<p>Note how this computational structure is slightly more generic than (but related to) the event-based simulation schematics in <span class="citation" data-cites="stochadexI-2024">[1]</span>.</p>
+<p>The <em>dynamic spatial field archetype</em> refers to simulation environments which have highly-structured, bidirectional communication between state partitions. The graph toplogy of this archetype is totally connected, but some connections matter more than others. As a helpful analogy, you can think of these partitions as being structured topologically in a kind of ‘lattice’ configuration, where connections to other partitions over different distances in the lattice can contribute different importance weights in affecting each local state partition. This lattice structure can be best intuited from a visual discription, so we have illustrated an example graph topology for the dynamic spatial field archetype below.</p>
 <p><img src="../assets/dexetera/dexetera-spatial-state-partition-graph.drawio.png" /></p>
-<p>Depending on the spatial dimensionality of the field, we might need to visualise the lattice in Fig.~ as existing in more spatial dimensions than the 2-dimensional example we have illustrated. However, as it turns out, there are many important real-world examples of 2-dimensional spatial systems to control anyway.</p>
+<p>Depending on the spatial dimensionality of the field, we might need to visualise the lattice in the graph above as existing in more spatial dimensions than the 2-dimensional example we have illustrated. However, as it turns out, there are many important real-world examples of 2-dimensional spatial systems to control anyway.</p>
 <p>Before we move onto a discussion of data, we can study spatial systems which follow this archetype a little more mathematically by adapting the probabilistic formalism we developed in the first part of this book.</p>
 <ul>
 <li>Need to give more recall to the reader here about the probabilistic formalism…</li>
 </ul>
 <p>Let’s return to this probabilistic formalism that we introduced earlier and note that the covariance matrix estimate with elements <span class="math inline">\(C^{ij}_{{\sf t}+1}(z)\)</span> represents a matrix that could get very large, depending on the problem. For example; if we encoded the state of a 2-dimensional spatial field of values into the elements <span class="math inline">\(X^i_{\sf t}\)</span>, the number of elements in the covariance matrix <span class="math inline">\(C^{ij}_{{\sf t}+1}(z)\)</span> would scale as <span class="math inline">\(4N^2\)</span> — where <span class="math inline">\(N\)</span> here is the number of spatial points we wanted to encode.</p>
-<p>One solution to this scaling problem is to exploit the fact that, in many spatial processes, the proximity of points can strongly determine how correlated they are. Hence, for pairwise distances further than some threshold, the covariance matrix elements should tend towards 0. If we were to place points along the diagonal of <span class="math inline">\(C^{ij}_{{\sf t}+1}(z)\)</span> in order of how close they are to each other, this threshold would then be represented as a . We have illustrated such a matrix in Fig.~ in which the ‘bandwidth’ is defined as the number of diagonals one needs to traverse from the main diagonal before encountering a diagonal of 0s.</p>
+<p>One solution to this scaling problem is to exploit the fact that, in many spatial processes, the proximity of points can strongly determine how correlated they are. Hence, for pairwise distances further than some threshold, the covariance matrix elements should tend towards 0. If we were to place points along the diagonal of <span class="math inline">\(C^{ij}_{{\sf t}+1}(z)\)</span> in order of how close they are to each other, this threshold would then be represented as a . We have illustrated such a matrix in the diagram below in which the ‘bandwidth’ is defined as the number of diagonals one needs to traverse from the main diagonal before encountering a diagonal of 0s.</p>
 <p><img src="../assets/dexetera/dexetera-banded-matrix.drawio.png" /></p>
 <ul>
 <li>At some point it might be sensible to move into the Fourier domain here — at least for derivations and calculations. Probably more intuitive for the reader to keep it mostly in real space though if possible.</li>
@@ -216,9 +195,9 @@ About
 </ul>
 <p>To begin our discussion of data, let’s start by considering the subset of real-world problem domains which fit well within the dynamic spatial field archetype. These would be:</p>
 <ul>
-<li>Spatial simulations of population disease spread and control in the context of global disease outbreaks <span class="citation" data-cites="ohi2020exploring">[10]</span> or endemic, spatially-clustered infections like malaria <span class="citation" data-cites="carter2000spatial">[11]</span>.</li>
-<li>Spatial ecosystem management environments to infer forest wildfire dynamics <span class="citation" data-cites="ganapathi2018using">[12]</span> or improve conservation decision-making <span class="citation" data-cites="lapeyrolerie2022deep">[13]</span>.</li>
-<li>Weather system simulations to improve decision-making for agricultural yields <span class="citation" data-cites="chen2021reinforcement">[14]</span> or enhance stormwater flood mitigations <span class="citation" data-cites="saliba2020deep">[15]</span>.</li>
+<li>Spatial simulations of population disease spread and control in the context of global disease outbreaks <span class="citation" data-cites="ohi2020exploring">[3]</span> or endemic, spatially-clustered infections like malaria <span class="citation" data-cites="carter2000spatial">[4]</span>.</li>
+<li>Spatial ecosystem management environments to infer forest wildfire dynamics <span class="citation" data-cites="ganapathi2018using">[5]</span> or improve conservation decision-making <span class="citation" data-cites="lapeyrolerie2022deep">[6]</span>.</li>
+<li>Weather system simulations to improve decision-making for agricultural yields <span class="citation" data-cites="chen2021reinforcement">[7]</span> or enhance stormwater flood mitigations <span class="citation" data-cites="saliba2020deep">[8]</span>.</li>
 </ul>
 <p>Within this topological archetype there will also be other categories to think are applicable:</p>
 <ul>
@@ -230,12 +209,12 @@ About
 <ul>
 <li>public health authority and wildlife/national park control authority and livestock/crop farmer 1. spatially detect disease or damage 2. change state of a subset of the population</li>
 </ul>
-<p>The <em>distributed state network archetype</em> refers to simulation environments whose bidirectional state partition graph topology is completely arbitrary, requiring no particular connectivity structure at all. Each state partition in this archetype typically refers to the same type of real-world node, object or sub-model. Due to the flexibility in topological structure, this archetype is well-suited to ‘network’ models of realistic phenomena. We have illustrated the state partition graph which fits into this category in Fig.~.</p>
+<p>The <em>distributed state network archetype</em> refers to simulation environments whose bidirectional state partition graph topology is completely arbitrary, requiring no particular connectivity structure at all. Each state partition in this archetype typically refers to the same type of real-world node, object or sub-model. Due to the flexibility in topological structure, this archetype is well-suited to ‘network’ models of realistic phenomena. We have illustrated the state partition graph which fits into this category in the rough schematic below.</p>
 <p><img src="../assets/dexetera/dexetera-network-state-partition-graph.drawio.png" /></p>
 <p>Before discussing what kinds of data are typically available to infer states and parameters of environments in this archetype, it will be informative to consider the various real-world problem domains which apply. The particular subset of these domains which seem to fit well within this classification include:</p>
 <ul>
-<li>Computational models of human brain conditions, e.g., Parkinson’s disease <span class="citation" data-cites="lu2019application">[16]</span>, epilepsy <span class="citation" data-cites="pineau2009treating">[17]</span>, Alzheimer’s <span class="citation" data-cites="saboo2021reinforcement">[18]</span>, etc., for deep brain stimulation control and other forms of treatment.</li>
-<li>Simulations of complex urban infrastructure networks to target various kinds of optimisation, e.g., traffic signal control <span class="citation" data-cites="yau2017survey">[19]</span>, power dispatch <span class="citation" data-cites="li2021integrating">[20]</span> and water pipe maintainance <span class="citation" data-cites="bukhsh2023maintenance">[21]</span>.</li>
+<li>Computational models of human brain conditions, e.g., Parkinson’s disease <span class="citation" data-cites="lu2019application">[9]</span>, epilepsy <span class="citation" data-cites="pineau2009treating">[10]</span>, Alzheimer’s <span class="citation" data-cites="saboo2021reinforcement">[11]</span>, etc., for deep brain stimulation control and other forms of treatment.</li>
+<li>Simulations of complex urban infrastructure networks to target various kinds of optimisation, e.g., traffic signal control <span class="citation" data-cites="yau2017survey">[12]</span>, power dispatch <span class="citation" data-cites="li2021integrating">[13]</span> and water pipe maintainance <span class="citation" data-cites="bukhsh2023maintenance">[14]</span>.</li>
 </ul>
 <p>Within this topological archetype there will also be other categories to think are applicable:</p>
 <ul>
@@ -247,12 +226,13 @@ About
 <ul>
 <li>brain doctor and traffic light controller and city infrastructure maintainer 1. change the state of a subset of nodes in the network</li>
 </ul>
-<p>The <em>multi-stage pipeline archetype</em> refers to simulation environments with a directional state partition graph with arbitrary connection topology. In this case, each state partition corresponds to a separate stage in some pipeline model of the real-world phenomenon. Directionality in the connection structure is the key distinction between this archetype and the others in our classification scheme. We’ve provided one illustrated example of a multi-stage pipeline state partition graph in Fig.~.</p>
+<p>The <em>multi-stage pipeline archetype</em> refers to simulation environments with a directional state partition graph with arbitrary connection topology. In this case, each state partition corresponds to a separate stage in some pipeline model of the real-world phenomenon. Directionality in the connection structure is the key distinction between this archetype and the others in our classification scheme. We’ve provided one illustrated example of a multi-stage pipeline state partition graph below.</p>
 <p><img src="../assets/dexetera/dexetera-pipeline-state-partition-graph.drawio.png" /></p>
 <p>We’re now ready to discuss how multi-stage pipelines are typically observed with data from realistic scenarios. To do this, it will help to first consider which real-world problem domains are best-suited to this archetype structure. From the literature, we can identify these as:</p>
 <ul>
-<li>Simulations of logistics pipelines, e.g., organised supply chains <span class="citation" data-cites="yan2022reinforcement">[22]</span>, humanitarian aid distribution pipelines <span class="citation" data-cites="yu2021reinforcement">[23]</span>, hospital capacity planning <span class="citation" data-cites="shuvo2021deep">[24]</span>, etc.</li>
-<li>Environments which emulate data pipeline optimisation problems <span class="citation" data-cites="nagrecha2023intune">[25]</span>.</li>
+<li>Sequential design simulations to change the configuration or data collection strategies of, e.g., astronomical telescopes (see <span class="citation" data-cites="jia2023observation">[15]</span> and <span class="citation" data-cites="yatawatta2021deep">[16]</span>), biological experiments <span class="citation" data-cites="treloar2022deep">[17]</span> and user interface journeys <span class="citation" data-cites="lomas2016interface">[18]</span>, which typically define a finite set of possible actions that can be taken.</li>
+<li>Simulations of logistics pipelines, e.g., organised supply chains <span class="citation" data-cites="yan2022reinforcement">[19]</span>, humanitarian aid distribution pipelines <span class="citation" data-cites="yu2021reinforcement">[20]</span>, hospital capacity planning <span class="citation" data-cites="shuvo2021deep">[21]</span>, etc.</li>
+<li>Environments which emulate data pipeline optimisation problems <span class="citation" data-cites="nagrecha2023intune">[22]</span>.</li>
 </ul>
 <p>Within this topological archetype there will also be other categories to think are applicable:</p>
 <ul>
@@ -264,13 +244,16 @@ About
 <ul>
 <li>supply/relief chain controller and hospital logistics manager and data pipeline controller 1. modify the relative flows between different pipeline stages</li>
 </ul>
-<p>The <em>centralised exchange archetype</em> refers to simulation environments with a very specific bidirectional state partition graph topology. The graph connection structure is a star configuration where every state partition is connected to the same, centralised state partition which itself has a unique function in the model. In case this description isn’t that clear, we’ve added an illustration of the graph for this archetype in Fig.~.</p>
+<p>The <em>centralised exchange archetype</em> refers to simulation environments with a very specific bidirectional state partition graph topology. The graph connection structure is a star configuration where every state partition is connected to the same, centralised state partition which itself has a unique function in the model. In case this description isn’t that clear, we’ve added an illustration of the graph for this archetype in the rough schematic below.</p>
 <p><img src="../assets/dexetera/dexetera-star-state-partition-graph.drawio.png" /></p>
 <p>Before moving on to discuss how data is typically collected for centralised exchanges, it will be informative to list the examples of phenomena where this archetype can be found in the real-world. These problem domains are:</p>
 <ul>
+<li>Simulations of sports matches, e.g., football <span class="citation" data-cites="pulis2022reinforcement">[23]</span>, rugby <span class="citation" data-cites="sawczuk2022markov">[24]</span>, tennis <span class="citation" data-cites="ding2022deep">[25]</span>, etc., and other forms of game — all of which typically define a relatively simple global match/gameplay context as their ‘centralised state’ and players as their ‘entity states’.</li>
 <li>Financial (see <span class="citation" data-cites="fischer2018reinforcement">[26]</span> and <span class="citation" data-cites="meng2019reinforcement">[27]</span>) and sports betting <span class="citation" data-cites="cliff2021bbe">[28]</span> market simulations for developing algo-trading strategies and portfolio optimisation <span class="citation" data-cites="dangi2013financial">[29]</span>, as well as housing market simulations (see <span class="citation" data-cites="yilmaz2018stochastic">[30]</span> and <span class="citation" data-cites="carro2023heterogeneous">[31]</span>) to evaluate government policies.</li>
 <li>Simulations of other forms of resource exchange through centralised mediation, such as in prosumer energy markets <span class="citation" data-cites="may2023multi">[32]</span>.</li>
 </ul>
+<p>In the case of team sports matches, a team manager could have access to a large body of data which assesses the capabilities of their players before a game, but they must rely on more subjective or limited data to assess the performance of their team (and the opposition) in the middle of a match. The ‘state’ of the whole system in this case can be not only the state of play, but also information about, e.g., fatigue or on-the-day performance of each player for both teams and sets of substitutes.</p>
+<p>In a general offline learning setting, realistic historical data collected about the state values for this archetype will typically provide an important mechanism for model determination. Users of this archetype in the real world also typically have access to independent datasets that can be used offline to better determine some parameters of the simulation environment which are not observed directly. In the online learning setting, one typically directly observes some portion of the state values, and may only indirectly observe the other state values, if at all.</p>
 <p>Within this topological archetype there will also be other categories to think are applicable:</p>
 <ul>
 <li>Types of observation that can be made about the state.</li>
@@ -279,6 +262,7 @@ About
 </ul>
 <p>Types of actor in this archetype:</p>
 <ul>
+<li>Sports team manager and other game player 1. substitute players 2. changes to tactics</li>
 <li>financial/betting/other market trader and market exchange mediator 1. interact with the market using an agent or collection of agents</li>
 </ul>
 <h2 class="unnumbered" id="references">References</h2>
@@ -289,74 +273,74 @@ About
 <div id="ref-wasm">
 <p>[2] “WebAssembly: A binary instruction format for a stack-based virtual machine.” <a href="https://webassembly.org/">https://webassembly.org/</a>.</p>
 </div>
-<div id="ref-pulis2022reinforcement">
-<p>[3] M. Pulis and J. Bajada, “Reinforcement learning for football player decision making analysis,” in <em>StatsBomb conference</em>, 2022.</p>
-</div>
-<div id="ref-sawczuk2022markov">
-<p>[4] T. Sawczuk, A. Palczewska, and B. Jones, “Markov decision processes with contextual nodes as a method of assessing attacking player performance in rugby league,” in <em>Advances in computational intelligence systems: Contributions presented at the 20th uk workshop on computational intelligence, september 8-10, 2021, aberystwyth, wales, uk 20</em>, Springer, 2022, pp. 251–263.</p>
-</div>
-<div id="ref-ding2022deep">
-<p>[5] N. Ding, K. Takeda, and K. Fujii, “Deep reinforcement learning in a racket sport for player evaluation with technical and tactical contexts,” <em>IEEE Access</em>, vol. 10, pp. 54764–54772, 2022.</p>
-</div>
-<div id="ref-jia2023observation">
-<p>[6] P. Jia, Q. Jia, T. Jiang, and J. Liu, “Observation strategy optimization for distributed telescope arrays with deep reinforcement learning,” <em>The Astronomical Journal</em>, vol. 165, no. 6, p. 233, 2023.</p>
-</div>
-<div id="ref-yatawatta2021deep">
-<p>[7] S. Yatawatta and I. M. Avruch, “Deep reinforcement learning for smart calibration of radio telescopes,” <em>Monthly Notices of the Royal Astronomical Society</em>, vol. 505, no. 2, pp. 2141–2150, 2021.</p>
-</div>
-<div id="ref-treloar2022deep">
-<p>[8] N. J. Treloar, N. Braniff, B. Ingalls, and C. P. Barnes, “Deep reinforcement learning for optimal experimental design in biology,” <em>PLOS Computational Biology</em>, vol. 18, no. 11, p. e1010695, 2022.</p>
-</div>
-<div id="ref-lomas2016interface">
-<p>[9] J. D. Lomas <em>et al.</em>, “Interface design optimization as a multi-armed bandit problem,” in <em>Proceedings of the 2016 chi conference on human factors in computing systems</em>, 2016, pp. 4142–4153.</p>
-</div>
 <div id="ref-ohi2020exploring">
-<p>[10] A. Q. Ohi, M. Mridha, M. M. Monowar, and M. A. Hamid, “Exploring optimal control of epidemic spread using reinforcement learning,” <em>Scientific reports</em>, vol. 10, no. 1, p. 22106, 2020.</p>
+<p>[3] A. Q. Ohi, M. Mridha, M. M. Monowar, and M. A. Hamid, “Exploring optimal control of epidemic spread using reinforcement learning,” <em>Scientific reports</em>, vol. 10, no. 1, p. 22106, 2020.</p>
 </div>
 <div id="ref-carter2000spatial">
-<p>[11] R. Carter, K. N. Mendis, and D. Roberts, “Spatial targeting of interventions against malaria,” <em>Bulletin of the World Health Organization</em>, vol. 78, pp. 1401–1411, 2000.</p>
+<p>[4] R. Carter, K. N. Mendis, and D. Roberts, “Spatial targeting of interventions against malaria,” <em>Bulletin of the World Health Organization</em>, vol. 78, pp. 1401–1411, 2000.</p>
 </div>
 <div id="ref-ganapathi2018using">
-<p>[12] S. Ganapathi Subramanian and M. Crowley, “Using spatial reinforcement learning to build forest wildfire dynamics models from satellite images,” <em>Frontiers in ICT</em>, vol. 5, p. 6, 2018.</p>
+<p>[5] S. Ganapathi Subramanian and M. Crowley, “Using spatial reinforcement learning to build forest wildfire dynamics models from satellite images,” <em>Frontiers in ICT</em>, vol. 5, p. 6, 2018.</p>
 </div>
 <div id="ref-lapeyrolerie2022deep">
-<p>[13] M. Lapeyrolerie, M. S. Chapman, K. E. Norman, and C. Boettiger, “Deep reinforcement learning for conservation decisions,” <em>Methods in Ecology and Evolution</em>, vol. 13, no. 11, pp. 2649–2662, 2022.</p>
+<p>[6] M. Lapeyrolerie, M. S. Chapman, K. E. Norman, and C. Boettiger, “Deep reinforcement learning for conservation decisions,” <em>Methods in Ecology and Evolution</em>, vol. 13, no. 11, pp. 2649–2662, 2022.</p>
 </div>
 <div id="ref-chen2021reinforcement">
-<p>[14] M. Chen <em>et al.</em>, “A reinforcement learning approach to irrigation decision-making for rice using weather forecasts,” <em>Agricultural Water Management</em>, vol. 250, p. 106838, 2021.</p>
+<p>[7] M. Chen <em>et al.</em>, “A reinforcement learning approach to irrigation decision-making for rice using weather forecasts,” <em>Agricultural Water Management</em>, vol. 250, p. 106838, 2021.</p>
 </div>
 <div id="ref-saliba2020deep">
-<p>[15] S. M. Saliba, B. D. Bowes, S. Adams, P. A. Beling, and J. L. Goodall, “Deep reinforcement learning with uncertain data for real-time stormwater system control and flood mitigation,” <em>Water</em>, vol. 12, no. 11, p. 3222, 2020.</p>
+<p>[8] S. M. Saliba, B. D. Bowes, S. Adams, P. A. Beling, and J. L. Goodall, “Deep reinforcement learning with uncertain data for real-time stormwater system control and flood mitigation,” <em>Water</em>, vol. 12, no. 11, p. 3222, 2020.</p>
 </div>
 <div id="ref-lu2019application">
-<p>[16] M. Lu, X. Wei, Y. Che, J. Wang, and K. A. Loparo, “Application of reinforcement learning to deep brain stimulation in a computational model of parkinson’s disease,” <em>IEEE Transactions on Neural Systems and Rehabilitation Engineering</em>, vol. 28, no. 1, pp. 339–349, 2019.</p>
+<p>[9] M. Lu, X. Wei, Y. Che, J. Wang, and K. A. Loparo, “Application of reinforcement learning to deep brain stimulation in a computational model of parkinson’s disease,” <em>IEEE Transactions on Neural Systems and Rehabilitation Engineering</em>, vol. 28, no. 1, pp. 339–349, 2019.</p>
 </div>
 <div id="ref-pineau2009treating">
-<p>[17] J. Pineau, A. Guez, R. Vincent, G. Panuccio, and M. Avoli, “Treating epilepsy via adaptive neurostimulation: A reinforcement learning approach,” <em>International journal of neural systems</em>, vol. 19, no. 4, pp. 227–240, 2009.</p>
+<p>[10] J. Pineau, A. Guez, R. Vincent, G. Panuccio, and M. Avoli, “Treating epilepsy via adaptive neurostimulation: A reinforcement learning approach,” <em>International journal of neural systems</em>, vol. 19, no. 4, pp. 227–240, 2009.</p>
 </div>
 <div id="ref-saboo2021reinforcement">
-<p>[18] K. Saboo, A. Choudhary, Y. Cao, G. Worrell, D. Jones, and R. Iyer, “Reinforcement learning based disease progression model for alzheimer’s disease,” <em>Advances in Neural Information Processing Systems</em>, vol. 34, pp. 20903–20915, 2021.</p>
+<p>[11] K. Saboo, A. Choudhary, Y. Cao, G. Worrell, D. Jones, and R. Iyer, “Reinforcement learning based disease progression model for alzheimer’s disease,” <em>Advances in Neural Information Processing Systems</em>, vol. 34, pp. 20903–20915, 2021.</p>
 </div>
 <div id="ref-yau2017survey">
-<p>[19] K.-L. A. Yau, J. Qadir, H. L. Khoo, M. H. Ling, and P. Komisarczuk, “A survey on reinforcement learning models and algorithms for traffic signal control,” <em>ACM Computing Surveys (CSUR)</em>, vol. 50, no. 3, pp. 1–38, 2017.</p>
+<p>[12] K.-L. A. Yau, J. Qadir, H. L. Khoo, M. H. Ling, and P. Komisarczuk, “A survey on reinforcement learning models and algorithms for traffic signal control,” <em>ACM Computing Surveys (CSUR)</em>, vol. 50, no. 3, pp. 1–38, 2017.</p>
 </div>
 <div id="ref-li2021integrating">
-<p>[20] Q. Li <em>et al.</em>, “Integrating reinforcement learning and optimal power dispatch to enhance power grid resilience,” <em>IEEE Transactions on Circuits and Systems II: Express Briefs</em>, vol. 69, no. 3, pp. 1402–1406, 2021.</p>
+<p>[13] Q. Li <em>et al.</em>, “Integrating reinforcement learning and optimal power dispatch to enhance power grid resilience,” <em>IEEE Transactions on Circuits and Systems II: Express Briefs</em>, vol. 69, no. 3, pp. 1402–1406, 2021.</p>
 </div>
 <div id="ref-bukhsh2023maintenance">
-<p>[21] Z. A. Bukhsh, H. Molegraaf, and N. Jansen, “A maintenance planning framework using online and offline deep reinforcement learning,” <em>Neural Computing and Applications</em>, pp. 1–12, 2023.</p>
+<p>[14] Z. A. Bukhsh, H. Molegraaf, and N. Jansen, “A maintenance planning framework using online and offline deep reinforcement learning,” <em>Neural Computing and Applications</em>, pp. 1–12, 2023.</p>
+</div>
+<div id="ref-jia2023observation">
+<p>[15] P. Jia, Q. Jia, T. Jiang, and J. Liu, “Observation strategy optimization for distributed telescope arrays with deep reinforcement learning,” <em>The Astronomical Journal</em>, vol. 165, no. 6, p. 233, 2023.</p>
+</div>
+<div id="ref-yatawatta2021deep">
+<p>[16] S. Yatawatta and I. M. Avruch, “Deep reinforcement learning for smart calibration of radio telescopes,” <em>Monthly Notices of the Royal Astronomical Society</em>, vol. 505, no. 2, pp. 2141–2150, 2021.</p>
+</div>
+<div id="ref-treloar2022deep">
+<p>[17] N. J. Treloar, N. Braniff, B. Ingalls, and C. P. Barnes, “Deep reinforcement learning for optimal experimental design in biology,” <em>PLOS Computational Biology</em>, vol. 18, no. 11, p. e1010695, 2022.</p>
+</div>
+<div id="ref-lomas2016interface">
+<p>[18] J. D. Lomas <em>et al.</em>, “Interface design optimization as a multi-armed bandit problem,” in <em>Proceedings of the 2016 chi conference on human factors in computing systems</em>, 2016, pp. 4142–4153.</p>
 </div>
 <div id="ref-yan2022reinforcement">
-<p>[22] Y. Yan, A. H. Chow, C. P. Ho, Y.-H. Kuo, Q. Wu, and C. Ying, “Reinforcement learning for logistics and supply chain management: Methodologies, state of the art, and future opportunities,” <em>Transportation Research Part E: Logistics and Transportation Review</em>, vol. 162, p. 102712, 2022.</p>
+<p>[19] Y. Yan, A. H. Chow, C. P. Ho, Y.-H. Kuo, Q. Wu, and C. Ying, “Reinforcement learning for logistics and supply chain management: Methodologies, state of the art, and future opportunities,” <em>Transportation Research Part E: Logistics and Transportation Review</em>, vol. 162, p. 102712, 2022.</p>
 </div>
 <div id="ref-yu2021reinforcement">
-<p>[23] L. Yu, C. Zhang, J. Jiang, H. Yang, and H. Shang, “Reinforcement learning approach for resource allocation in humanitarian logistics,” <em>Expert Systems with Applications</em>, vol. 173, p. 114663, 2021.</p>
+<p>[20] L. Yu, C. Zhang, J. Jiang, H. Yang, and H. Shang, “Reinforcement learning approach for resource allocation in humanitarian logistics,” <em>Expert Systems with Applications</em>, vol. 173, p. 114663, 2021.</p>
 </div>
 <div id="ref-shuvo2021deep">
-<p>[24] S. S. Shuvo, M. R. Ahmed, H. Symum, and Y. Yilmaz, “Deep reinforcement learning based cost-benefit analysis for hospital capacity planning,” in <em>2021 international joint conference on neural networks (ijcnn)</em>, IEEE, 2021, pp. 1–7.</p>
+<p>[21] S. S. Shuvo, M. R. Ahmed, H. Symum, and Y. Yilmaz, “Deep reinforcement learning based cost-benefit analysis for hospital capacity planning,” in <em>2021 international joint conference on neural networks (ijcnn)</em>, IEEE, 2021, pp. 1–7.</p>
 </div>
 <div id="ref-nagrecha2023intune">
-<p>[25] K. Nagrecha, L. Liu, P. Delgado, and P. Padmanabhan, “InTune: Reinforcement learning-based data pipeline optimization for deep recommendation models,” in <em>Proceedings of the 17th acm conference on recommender systems</em>, 2023, pp. 430–442.</p>
+<p>[22] K. Nagrecha, L. Liu, P. Delgado, and P. Padmanabhan, “InTune: Reinforcement learning-based data pipeline optimization for deep recommendation models,” in <em>Proceedings of the 17th acm conference on recommender systems</em>, 2023, pp. 430–442.</p>
+</div>
+<div id="ref-pulis2022reinforcement">
+<p>[23] M. Pulis and J. Bajada, “Reinforcement learning for football player decision making analysis,” in <em>StatsBomb conference</em>, 2022.</p>
+</div>
+<div id="ref-sawczuk2022markov">
+<p>[24] T. Sawczuk, A. Palczewska, and B. Jones, “Markov decision processes with contextual nodes as a method of assessing attacking player performance in rugby league,” in <em>Advances in computational intelligence systems: Contributions presented at the 20th uk workshop on computational intelligence, september 8-10, 2021, aberystwyth, wales, uk 20</em>, Springer, 2022, pp. 251–263.</p>
+</div>
+<div id="ref-ding2022deep">
+<p>[25] N. Ding, K. Takeda, and K. Fujii, “Deep reinforcement learning in a racket sport for player evaluation with technical and tactical contexts,” <em>IEEE Access</em>, vol. 10, pp. 54764–54772, 2022.</p>
 </div>
 <div id="ref-fischer2018reinforcement">
 <p>[26] T. G. Fischer, “Reinforcement learning in financial markets-a survey,” FAU Discussion Papers in Economics, 2018.</p>
