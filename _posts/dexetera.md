@@ -1,5 +1,5 @@
 ---
-title: Serving interactive simulations through a static web application
+title: Serving a wide array of interactive simulations through a static web application
 author: Hardwick, Robert J
 date: [WIP]
 concept: To outline the design of a static web application which enables pure Python programmers to interact with stochadex simulations and visualise their outputs. In order to illustrate the flexibility in interactive user experience and simulation type supported by the stochadex engine, we then define some archetype simulation components which apply to a wide variety of real-world problems. We demonstrate how these archetypes can be used to simulate everything from sports matches and spatial disease spread to traffic networks, or even supply chain logistics. With these examples (and many others) in mind, we also consider the typical action state spaces and partial observability concerns in each case.
@@ -8,7 +8,7 @@ codeLink: https://github.com/umbralcalc/dexetera
 year: [WIP]
 ---
 
-## Web application
+## Web application design
 
 Previously, we have conceptualised and built the stochadex engine [@stochadexI-2024]; which provides a generalised framework for constructing stochastic simulations of practically any kind. In addition to enabling the construction of simulations which model real-world phenomena, we would also like to enable interactivity with these simulations and empower users to build their own control algorithms over them. Even though an API was built to minimise the amount of code required in these constructions, the requirement that new simulation components are written in Go may be a higher barrier to entry than is desirable --- especially for pure python programmers and machine learning engineers.
 
@@ -18,42 +18,29 @@ In this article, we're going to sidestep this barrier by providing the necessary
 
 In this section we're going to define some archetype components which are typically useful in developing simulations of real-world systems. These archetypes will help to both illustrate how partitioning the state can be helpful to conceptualise the phenomena one wishes to simulate, and provide some practical insights into how the stochadex may be configured for different purposes.
 
-We begin with the _entity state transition archetype_, which refers to state transitions that can be mapped to transition rates. These transition rates may themselves be time-varying (even stochastically) and so it is useful to separate their values into a separate state partition and create a direct dependency channel on them, as in the rough schematic below.
+We begin with the _entity state transition archetype_, which refers to state transitions of any individual 'entity' that occur stochastically according to their respective transition rates. These transition rates may themselves be time-varying (even stochastically) and so it is useful to separate their values into a separate state partition and create a direct dependency channel on them, as in the rough schematic below.
 
 ![](../assets/dexetera/dexetera-simple-state-partition-graph.drawio.png)
 
 Note how this computational structure is slightly more generic than (but related to) the event-based simulation schematics in [@stochadexI-2024].
 
+Observations of the entity state transition archetype in the real world typically take the form of either partial or noisy detections of the state transition times themselves over some period. Interactions with systems which require this archetype take the form of either direct changes to the entity state itself at some points in time or modifications to the rates at which state transitions occur. We won't provide any explict examples for this archetype as it applies extremely generally, and so it will be more informative to discuss these examples in the context of archetypes which apply to more specific situations.
 
-
-
-
-
-
-The _dynamic spatial field archetype_ refers to simulation environments which have highly-structured, bidirectional communication between state partitions. The graph toplogy of this archetype is totally connected, but some connections matter more than others. As a helpful analogy, you can think of these partitions as being structured topologically in a kind of 'lattice' configuration, where connections to other partitions over different distances in the lattice can contribute different importance weights in affecting each local state partition. This lattice structure can be best intuited from a visual discription, so we have illustrated an example graph topology for the dynamic spatial field archetype below.
+The _weighted mean point archetype_ refers to components which perform a weighted average over a specified collection of neighbouring states. Given that one of the more natural uses for this archetype is in spatial field averaging, the graph toplogy of this archetype is typically totally connected and highly structured. However, some connections matter more than others, according to the weighting. We have created a rough schematic for this archetype below.
 
 ![](../assets/dexetera/dexetera-spatial-state-partition-graph.drawio.png)
 
-Depending on the spatial dimensionality of the field, we might need to visualise the lattice in the graph above as existing in more spatial dimensions than the 2-dimensional example we have illustrated. However, as it turns out, there are many important real-world examples of 2-dimensional spatial systems to control anyway.
+In the case of spatial fields, you can think of each point as being structured topologically in a kind of 'lattice' configuration where connections to other points are controlled indirectly by the relationship between states and their weighted point averages over time. Different distances in the lattice can contribute different importance weights in affecting each local average.
 
-Before we move onto a discussion of data, we can study spatial systems which follow this archetype a little more mathematically by adapting the probabilistic formalism we developed in the first part of this book.
-
-- Need to give more recall to the reader here about the probabilistic formalism...
-
-Let's return to this probabilistic formalism that we introduced earlier and note that the covariance matrix estimate with elements $C^{ij}_{{\sf t}+1}(z)$ represents a matrix that could get very large, depending on the problem. For example; if we encoded the state of a 2-dimensional spatial field of values into the elements $X^i_{\sf t}$, the number of elements in the covariance matrix $C^{ij}_{{\sf t}+1}(z)$ would scale as $4N^2$ --- where $N$ here is the number of spatial points we wanted to encode.
-
-One solution to this scaling problem is to exploit the fact that, in many spatial processes, the proximity of points can strongly determine how correlated they are. Hence, for pairwise distances further than some threshold, the covariance matrix elements should tend towards 0. If we were to place points along the diagonal of $C^{ij}_{{\sf t}+1}(z)$ in order of how close they are to each other, this threshold would then be represented as a \emph{banded matrix}. We have illustrated such a matrix in the diagram below in which the 'bandwidth' is defined as the number of diagonals one needs to traverse from the main diagonal before encountering a diagonal of 0s.
-
-![](../assets/dexetera/dexetera-banded-matrix.drawio.png)
-
-- At some point it might be sensible to move into the Fourier domain here --- at least for derivations and calculations. Probably more intuitive for the reader to keep it mostly in real space though if possible.
-- The extra detail that's also needed here is to consider how we encode a 2-dimensional spatial process into our state vector, and how the elements of the resulting state vector might be correlated to one another depending on their spatial proximity. If we start with a Markovian Gaussian random field, we can derive the Matérn kernel over these spatial coordinates in order to correlate the state vectors in such a way.
-
-To begin our discussion of data, let's start by considering the subset of real-world problem domains which fit well within the dynamic spatial field archetype. These would be:
+Which real-world control problems would this archetype be useful for? Given the natural spatial interpetation, the kinds of simulation that would leverage this component are:
 
 - Spatial simulations of population disease spread and control in the context of global disease outbreaks [@ohi2020exploring] or endemic, spatially-clustered infections like malaria [@carter2000spatial].
 - Spatial ecosystem management environments to infer forest wildfire dynamics [@ganapathi2018using] or improve conservation decision-making [@lapeyrolerie2022deep].
 - Weather system simulations to improve decision-making for agricultural yields [@chen2021reinforcement] or enhance stormwater flood mitigations [@saliba2020deep].
+
+
+
+
 
 Within this topological archetype there will also be other categories to think are applicable:
 
