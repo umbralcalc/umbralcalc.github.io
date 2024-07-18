@@ -15,6 +15,7 @@ Previously, we have conceptualised and built the stochadex engine [@stochadexI-2
 In this article, we're going to sidestep this barrier by providing the necessary tools to support web applications out of pre-built stochadex simulations. This application-building framework makes use of both WebAssembly [@wasm] technology for browser-based user experience (eliminating the need for a Go compiler on the user's side), and websocket client I/O with a local python server run by the user.
 
 - Need explanation of how the sim is embedded within the JavaScript application (using direct param setting for input passing in a callback for output) as well as potentially a diagram to help explain it.
+- Need to then talk through the dexAct and the python package distribution user motivations: [https://pypi.org/project/dexact/](https://pypi.org/project/dexact/).
 - Talk about performance limitations; restriction to single-threading but maintaining asynchronous runtime retained when goroutines are compiled to WebAssembly.
 - Introduce the dexetera app, hosted statically here: [https://umbralcalc.github.io/dexetera](https://umbralcalc.github.io/dexetera).
 - Discuss how specific examples will be introduced in the next section.
