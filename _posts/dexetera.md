@@ -14,6 +14,11 @@ Previously, we have conceptualised and built the stochadex engine [@stochadexI-2
 
 In this article, we're going to sidestep this barrier by providing the necessary tools to support web applications out of pre-built stochadex simulations. This application-building framework makes use of both WebAssembly [@wasm] technology for browser-based user experience (eliminating the need for a Go compiler on the user's side), and websocket client I/O with a local python server run by the user.
 
+- Need explanation of how the sim is embedded within the JavaScript application (using direct param setting for input passing in a callback for output) as well as potentially a diagram to help explain it.
+- Talk about performance limitations; restriction to single-threading but maintaining asynchronous runtime retained when goroutines are compiled to WebAssembly.
+- Introduce the dexetera app, hosted statically here: [https://umbralcalc.github.io/dexetera](https://umbralcalc.github.io/dexetera).
+- Discuss how specific examples will be introduced in the next section.
+
 ## Archetype simulation components
 
 In this section we're going to define some archetype components which are typically useful in developing simulations of real-world systems. These archetypes will help to both illustrate how partitioning the state can be helpful to conceptualise the phenomena one wishes to simulate, and provide some practical insights into how the stochadex may be configured for different purposes.
@@ -26,9 +31,9 @@ Note how this computational structure is slightly more generic than (but related
 
 Observations of the entity state transition archetype in the real world typically take the form of either partial or noisy detections of the state transition times themselves over some period. Interactions with systems which require this archetype take the form of either direct changes to the entity state itself at some points in time or modifications to the rates at which state transitions occur.
 
-We won't provide any explict examples for this archetype as it applies extremely generally, and so it will be more informative to discuss these examples in the context of archetypes which apply to more specific situations. Having said this, it's worth noting that our event-based representation of state transitions can also be trivially adapted to avoid the necessity for a continuous-time representation of the system. The applications for state transition models which only require sequential ordering (but not a continuous time variable) include sequential experimental design problems, e.g., astronomical telescopes (see [@jia2023observation] and [@yatawatta2021deep]) and biological experiments [@treloar2022deep].
+It seems less useful to provide all of the examples of real-world problems which might use this archetype as it applies extremely generally. It will be more informative to discuss how these same examples apply in the context of the other archetypes which are more specifically applicable. Having said this, it's worth noting that our event-based representation of state transitions can also be trivially adapted to avoid the necessity for a continuous-time representation of the system. The applications for state transition models which only require sequential ordering (but not a continuous time variable) include sequential experimental design problems, e.g., astronomical telescopes (see [@jia2023observation] and [@yatawatta2021deep]) and biological experiments [@treloar2022deep].
 
-The _weighted mean point archetype_ refers to components which perform a weighted average over a specified collection of neighbouring states. Given that one of the more natural uses for this archetype is in spatial field averaging, the graph toplogy of this archetype is typically totally connected and highly structured. However, some connections matter more than others, according to the weighting. We have created a rough schematic for this archetype below.
+The _weighted mean point archetype_ refers to components which perform a weighted average over a specified collection of neighbouring states. Given that one of the more natural uses cases for this archetype is in spatial field averaging, the graph toplogy of this archetype is typically totally connected and highly structured. However, some connections matter more than others, according to the weighting. We have created a rough schematic for this archetype below.
 
 ![](../assets/dexetera/dexetera-spatial-state-partition-graph.drawio.png)
 
@@ -40,15 +45,7 @@ Which real-world control problems would this archetype be useful for? Given the 
 - Spatial ecosystem management environments to infer forest wildfire dynamics [@ganapathi2018using] or improve conservation decision-making [@lapeyrolerie2022deep].
 - Weather system simulations to improve decision-making for agricultural yields [@chen2021reinforcement] or enhance stormwater flood mitigations [@saliba2020deep].
 
-Within this topological archetype there will also be other categories to think are applicable:
-
-- Types of observation that can be made about the state.
-- Types of action that can be taken by an agent.
-- Types of agent? How frequently do these actions get taken? On what part of the state?
-
-Types of actor in this archetype:
-
-- public health authority and wildlife/national park control authority and livestock/crop farmer 1. spatially detect disease or damage 2. change state of a subset of the population
+Observations of the weighted mean point archetype in the real world typically take the form of either partial or noisy detections of the raw state values before averaging. Actors in systems which require this archetype could be public health or wildlife/national park authorities as well as livestock/crop farmers. The interactions with these systems would therefore focus on modifying the parameters for spatial detection of disease or damage and changing a subset of the population states directly through interventions.
 
 The _node histogram archetype_ refers to simulation components which count the frequencies of state occupations exhibited by all of the specified connected states. This archetype provides a summary of information about a single network node which exists as part of a larger 'state network', and can be configured in collection with other components of the same type to represent any desirable connectivity structure. We have illustrated how this component works in the rough schematic below.
 
@@ -59,15 +56,7 @@ Which real-world control problems would this archetype be useful for? If we cons
 - Computational models of human brain conditions, e.g., Parkinson's disease [@lu2019application], epilepsy [@pineau2009treating], Alzheimer's [@saboo2021reinforcement], etc., for deep brain stimulation control and other forms of treatment.
 - Simulations of complex urban infrastructure networks to target various kinds of optimisation, e.g., traffic signal control [@yau2017survey], power dispatch [@li2021integrating] and water pipe maintainance [@bukhsh2023maintenance].
 
-Within this topological archetype there will also be other categories to think are applicable:
-
-- Types of observation that can be made about the state.
-- Types of action that can be taken by an agent.
-- Types of agent? How frequently do these actions get taken? On what part of the state?
-
-Types of actor in this archetype:
-
-- brain doctor and traffic light controller and city infrastructure maintainer 1. change the state of a subset of nodes in the network
+Observations of the node histogram archetype in the real world typically take the form of either partial or noisy detections of the counts. Actors in systems which require this archetype could be a neurologist, traffic light controller or even city infrastructure maintainer. In all cases, interactions with these systems would typically be directly changing the state of some subset of nodes in the network itself. To illustrate these kinds of problem domains, we created the 'Hyperspace Traffic Control' simulation: [https://umbralcalc.github.io/dexetera/app/hyperspacetc.html](https://umbralcalc.github.io/dexetera/app/hyperspacetc.html).
 
 The _pipeline stage state histogram archetype_ refers to simulation components which count the frequencies of entity types which exist in a particular stage of some pipeline. These components can be connected together in a directed graph to represent a multi-stage pipeline structure. We've provided a rough schematic for this archetype below.
 
@@ -75,19 +64,10 @@ The _pipeline stage state histogram archetype_ refers to simulation components w
 
 Which real-world control problems would this archetype be useful for? If we think about multi-stage pipelines whose future states depend on the frequencies of entity types which exist at each stage, the following real-world examples come to mind:
 
-- User interface journeys [@lomas2016interface] across a population of users.
-- Simulations of logistics pipelines, e.g., organised supply chains [@yan2022reinforcement], humanitarian aid distribution pipelines [@yu2021reinforcement], hospital capacity planning [@shuvo2021deep], etc.
-- Data pipeline optimisation problems [@nagrecha2023intune].
+- Logistics problems, e.g., organised supply chains [@yan2022reinforcement], humanitarian aid distribution pipelines [@yu2021reinforcement] and hospital capacity planning [@shuvo2021deep].
+- Software development and engineering improvements, such as frontend user interface journeys [@lomas2016interface] across a population of users or backend data pipeline optimisation problems [@nagrecha2023intune].
 
-Within this topological archetype there will also be other categories to think are applicable:
-
-- Types of observation that can be made about the state.
-- Types of action that can be taken by an agent.
-- Types of agent? How frequently do these actions get taken? On what part of the state?
-
-Types of actor in this archetype:
-
-- supply/relief chain controller and hospital logistics manager and data pipeline controller 1. modify the relative flows between different pipeline stages
+Observations of the pipeline stage state histogram archetype in the real world typically take the form of either partial or noisy detections of the entity stage transtition events in time and/or the frequency counts in the stage itself. Actors in systems which require this archetype could be a supply/relief chain controller, hospital logistics manager, data pipeline controller or even software engineer. In all cases, interactions with these systems would likely be directly modifying the relative flows between different pipeline stages.
 
 The _centralised entity interactions archetype_ refers to simulation components which divide the representation of the system state into a collection of 'entity states' and some 'centralised state' upon which interactions between entities can depend. The graph connection structure is hence a star configuration where every entity state is connected to the centralised state, but not necessarily to each other. We have provided a rough schematic for the structure of this archetype below.
 
@@ -99,19 +79,6 @@ Which real-world control problems would this archetype be useful for? Dividing t
 - Financial (see [@fischer2018reinforcement] and [@meng2019reinforcement]) and sports betting [@cliff2021bbe] market simulations for developing algo-trading strategies and portfolio optimisation [@dangi2013financial], as well as housing market simulations (see [@yilmaz2018stochastic] and [@carro2023heterogeneous]) to evaluate government policies.
 - Simulations of other forms of resource exchange through centralised mediation, such as in prosumer energy markets [@may2023multi].
 
-In the case of team sports matches, a team manager could have access to a large body of data which assesses the capabilities of their players before a game, but they must rely on more subjective or limited data to assess the performance of their team (and the opposition) in the middle of a match. The state of the whole system in this case can be not only the state of play, but also information about, e.g., fatigue or on-the-day performance of each player for both teams and sets of substitutes.
-
-In a general offline learning setting, realistic historical data collected about the state values for this archetype will typically provide an important mechanism for model determination. Users of this archetype in the real world also typically have access to independent datasets that can be used offline to better determine some parameters of the simulation environment which are not observed directly. In the online learning setting, one typically directly observes some portion of the state values, and may only indirectly observe the other state values, if at all.
-
-Within this topological archetype there will also be other categories to think are applicable:
-
-- Types of observation that can be made about the state.
-- Types of action that can be taken by an agent.
-- Types of agent? How frequently do these actions get taken? On what part of the state?
-
-Types of actor in this archetype:
-
-- Sports team manager and other game player 1. substitute players 2. changes to tactics
-- financial/betting/other market trader and market exchange mediator 1. interact with the market using an agent or collection of agents
+Observations of the centralised entity interactions archetype in the real world typically take the form of either partial or noisy detections of the states and state changes. Actors in systems which require this archetype could be sports team managers, financial/betting/other market traders or market exchange mediators. The interactions with these systems would therefore typically focus on changing which entities are present, changing their parameters and/or changing the parameters of the centralised state iteration. To illustrate these kinds of problem domains, we created the 'Flounceball Tactics' simulation: [https://umbralcalc.github.io/dexetera/app/flounceball.html](https://umbralcalc.github.io/dexetera/app/flounceball.html).
 
 ## References
