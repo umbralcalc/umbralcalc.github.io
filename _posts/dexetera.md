@@ -1,11 +1,11 @@
 ---
 title: Serving a menu of interactive simulations on the web
 author: Hardwick, Robert J
-date: [WIP]
+date: 2024-07-20
 concept: To outline the design of a static web application which enables pure Python programmers to interact with stochadex simulations and visualise their outputs. In order to illustrate the flexibility in interactive user experience and simulation type supported by the stochadex engine, we then define some archetype simulation components which are applicable to a wide variety of real-world problems. In particular, we demonstrate how these archetypes can be used to simulate everything from sports matches and spatial disease spread to traffic networks and supply chain logistics. With these examples (and many others) in mind, we also consider the realistic types of partial observation and interaction which are possible in each case.
 articleId: dexetera
 codeLink: https://github.com/umbralcalc/dexetera
-year: [WIP]
+year: 2024
 ---
 
 ## Web application design
@@ -16,15 +16,19 @@ In this article, we're going to sidestep this barrier by providing the necessary
 
 ![](../assets/dexetera/dexetera-dexetera-main.drawio.png)
 
-- Need explanation of how the sim is embedded within the JavaScript application (using direct param setting for input passing in a callback for output) as well as potentially a diagram to help explain it.
-- Need to then talk through the dexAct and the python package distribution user motivations: [https://pypi.org/project/dexact/](https://pypi.org/project/dexact/).
-- Talk about performance limitations; restriction to single-threading but maintaining asynchronous runtime retained when goroutines are compiled to WebAssembly.
-- Introduce the dexetera app, hosted statically here: [https://umbralcalc.github.io/dexetera](https://umbralcalc.github.io/dexetera).
-- Discuss how specific examples will be introduced in the next section.
+In order to run the stochadex engine inside the browser simulation step client, we can embed a WebAssembly-compiled stochadex binary inside the encapsulating JavaScript code by registering the former as a function. On receiving messages from the client code over websocket, we can then simply pass this data into the function and use it to set the relevant simulation iterator parameters. Extracting current simulation state from the simulation binary is a little less obvious: in this case, we have chosen to register a 'websocket sender' callback function inside a new $\texttt{OutputFunction}$ implementation. The latter can then be plugged into the stochadex configuration as usual.
+
+Compiling the stochadex to WebAssembly comes with some performance limitations. Most notable is the restriction to single-threaded execution of the code. However, we are still able to maintain an asynchronous runtime thanks to how goroutines are compiled to WebAssembly. This is because effectively we are running with $\texttt{GOMAXPROCS=1}$ --- for more details about the Go runtime execution model, see here [@goruntime].
+
+Now let's recall that a local python server which must be run by the user in order to interact with the simulation client over a websocket connection. In order make this a straightforward experience for the pure python programmer, we have created a small python package to wrap all of the details into a single $\texttt{launch_websocket_server}$ function and $\texttt{ActionTaker}$ protocol for the user to implement as desired for their interactions with the simulation. This server code is now distributed as a python package called 'dexAct' for anyone to easily install here: [https://pypi.org/project/dexact](https://pypi.org/project/dexact).
+
+At this point, we can now introduce the dexetera web application. This is hosted statically by GitHub pages with this url: [https://umbralcalc.github.io/dexetera](https://umbralcalc.github.io/dexetera). On this site, any user may run and visualise a selection of stochadex simulations as purely-frontend applications, while interacting with them over local websocket connections and easily-installable python server code.
+
+Having introduced our new web application and outlined its essential design patterns, we can now move on to demonstrate the flexibility in interactive user experience and simulation type that are now supported by both the stochadex engine and dexetera.
 
 ## Archetype simulation components
 
-In this section we're going to define some archetype components which are typically useful in developing simulations of real-world systems. These archetypes will help to both illustrate how partitioning the state can be helpful to conceptualise the phenomena one wishes to simulate, and provide some practical insights into how the stochadex may be configured for different purposes.
+In this section we're going to define some archetype components which are typically useful in developing simulations of real-world systems. These archetypes will help to both illustrate how partitioning the state can be helpful in conceptualising the phenomena one wishes to simulate, and provide some practical insights into how the stochadex may be configured for different purposes.
 
 We begin with the _entity state transition archetype_, which refers to state transitions of any individual 'entity' that occur stochastically according to their respective transition rates. These transition rates may themselves be time-varying (even stochastically) and so it is useful to separate their values into a separate state partition and create a direct dependency channel on them, as in the rough schematic below.
 
