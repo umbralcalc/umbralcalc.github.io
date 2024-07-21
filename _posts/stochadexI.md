@@ -1,5 +1,5 @@
 ---
-title: "Self-learning simulations series: Building a generalised simulation engine"
+title: "Building a generalised simulation engine"
 author: Hardwick, Robert J
 date: 2024-03-28
 concept: To lay out the fundamental mathematical foundations for describing practically any stochastic simulation on a computer. Having provided these foundations, we then design and build a generalised simulation engine called the 'stochadex' which is able to generate samples from practically any real-world stochastic processes that a researcher could encounter. With such a thing pre-built and self-contained as a highly-configurable simulation binary, it can become the basis upon which to build generalised software solutions for a lot of different problems.
@@ -10,9 +10,7 @@ year: 2024
 
 ## Introduction and computational formalism
 
-Simulation engines can help us understand how to decompose a complex, real-world system into smaller, more easily understood causal relationships between variables. While machine learning, AI and deep learning methods can be very predictive and accurate, it is in understanding how these causal relationships work through simulation that we can solve problems in domains where data completeness or quality is not as good as we would like. To facilitate this kind of benefit in the most general way possible, in this series of articles, we essentially want to enable any type of user-defined simulation to 'learn itself' from an injested stream (or streams) of data. Having passed this point, we then want to explore the various use cases that such a learning and simulation framework can unlock.
-
-In this first article of the series, we will be introducing a new generalised simulation engine (written in Go, but we'll get to that later). Before diving into the design of software we need to mathematically define the general computational approach that we're going to take. Because the language of stochastic processes is primarily mathematics, we'd argue this step is essential in enabling a really general description. From experience, it seems reasonable to start by writing down the following formula which describes iterating some arbitrary process forward in time (by one finite step) and adding a new row each to some matrix $X_{0:{\sf t}} \rightarrow X_{0:{\sf t}+1}$
+In this article we will be introducing a new generalised simulation engine (written in Go, but we'll get to that later). Before diving into the design of software we need to mathematically define the general computational approach that we're going to take. Because the language of stochastic processes is primarily mathematics, we'd argue this step is essential in enabling a really general description. From experience, it seems reasonable to start by writing down the following formula which describes iterating some arbitrary process forward in time (by one finite step) and adding a new row each to some matrix $X_{0:{\sf t}} \rightarrow X_{0:{\sf t}+1}$
 
 $$
 \begin{align}
@@ -22,7 +20,7 @@ $$
 
 where: $i$ is an index for the dimensions of the 'state' space; ${\sf t}$ is the current time index for either a discrete-time process or some discrete approximation to a continuous-time process; $X_{0:{\sf t}+1}$ is the next version of $X_{0:{\sf t}}$ after one timestep (and hence one new row has been added); $z$ is a vector of arbitrary size which contains the 'hidden' other parameters that are necessary to iterate the process; and $F^i_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t})$ as the latest element of an arbitrary matrix-valued function.
 
-Throughout this series of articles, the notation $A_{{{\sf b}:{\sf c}}}$ will always refer to a slice of rows from index ${\sf b}$ to ${\sf c}$ in a matrix (or row vector) $A$. As we shall discuss shortly, $F^i_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t})$ may represent not just operations on deterministic variables, but also on stochastic ones. There is also no requirement for the function to be continuous.
+The notation $A_{{{\sf b}:{\sf c}}}$ will always refer to a slice of rows from index ${\sf b}$ to ${\sf c}$ in a matrix (or row vector) $A$. As we shall discuss shortly, $F^i_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t})$ may represent not just operations on deterministic variables, but also on stochastic ones. There is also no requirement for the function to be continuous.
 
 ![](../assets/stochadexI/stochadexI-fundamental-loop.drawio.png)
 

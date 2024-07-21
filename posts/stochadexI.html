@@ -160,7 +160,7 @@ About
 </br>
 </br>
 
-<h1>Self-learning simulations series: Building a generalised simulation engine</h1>
+<h1>Building a generalised simulation engine</h1>
 </br>
 <hr color="LightGray">
 <div class="articleHeader">
@@ -173,15 +173,14 @@ About
 <hr color="LightGray">
 </br>
 <h2 id="introduction-and-computational-formalism">Introduction and computational formalism</h2>
-<p>Simulation engines can help us understand how to decompose a complex, real-world system into smaller, more easily understood causal relationships between variables. While machine learning, AI and deep learning methods can be very predictive and accurate, it is in understanding how these causal relationships work through simulation that we can solve problems in domains where data completeness or quality is not as good as we would like. To facilitate this kind of benefit in the most general way possible, in this series of articles, we essentially want to enable any type of user-defined simulation to ‘learn itself’ from an injested stream (or streams) of data. Having passed this point, we then want to explore the various use cases that such a learning and simulation framework can unlock.</p>
-<p>In this first article of the series, we will be introducing a new generalised simulation engine (written in Go, but we’ll get to that later). Before diving into the design of software we need to mathematically define the general computational approach that we’re going to take. Because the language of stochastic processes is primarily mathematics, we’d argue this step is essential in enabling a really general description. From experience, it seems reasonable to start by writing down the following formula which describes iterating some arbitrary process forward in time (by one finite step) and adding a new row each to some matrix <span class="math inline">\(X_{0:{\sf t}} \rightarrow X_{0:{\sf t}+1}\)</span></p>
+<p>In this article we will be introducing a new generalised simulation engine (written in Go, but we’ll get to that later). Before diving into the design of software we need to mathematically define the general computational approach that we’re going to take. Because the language of stochastic processes is primarily mathematics, we’d argue this step is essential in enabling a really general description. From experience, it seems reasonable to start by writing down the following formula which describes iterating some arbitrary process forward in time (by one finite step) and adding a new row each to some matrix <span class="math inline">\(X_{0:{\sf t}} \rightarrow X_{0:{\sf t}+1}\)</span></p>
 <p><span class="math display">\[
 \begin{align}
 X^{i}_{{\sf t}+1} &amp;= F^{i}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t}) \,, \label{eq:x-step-def}
 \end{align}
 \]</span></p>
 <p>where: <span class="math inline">\(i\)</span> is an index for the dimensions of the ‘state’ space; <span class="math inline">\({\sf t}\)</span> is the current time index for either a discrete-time process or some discrete approximation to a continuous-time process; <span class="math inline">\(X_{0:{\sf t}+1}\)</span> is the next version of <span class="math inline">\(X_{0:{\sf t}}\)</span> after one timestep (and hence one new row has been added); <span class="math inline">\(z\)</span> is a vector of arbitrary size which contains the ‘hidden’ other parameters that are necessary to iterate the process; and <span class="math inline">\(F^i_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t})\)</span> as the latest element of an arbitrary matrix-valued function.</p>
-<p>Throughout this series of articles, the notation <span class="math inline">\(A_{{{\sf b}:{\sf c}}}\)</span> will always refer to a slice of rows from index <span class="math inline">\({\sf b}\)</span> to <span class="math inline">\({\sf c}\)</span> in a matrix (or row vector) <span class="math inline">\(A\)</span>. As we shall discuss shortly, <span class="math inline">\(F^i_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t})\)</span> may represent not just operations on deterministic variables, but also on stochastic ones. There is also no requirement for the function to be continuous.</p>
+<p>The notation <span class="math inline">\(A_{{{\sf b}:{\sf c}}}\)</span> will always refer to a slice of rows from index <span class="math inline">\({\sf b}\)</span> to <span class="math inline">\({\sf c}\)</span> in a matrix (or row vector) <span class="math inline">\(A\)</span>. As we shall discuss shortly, <span class="math inline">\(F^i_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t})\)</span> may represent not just operations on deterministic variables, but also on stochastic ones. There is also no requirement for the function to be continuous.</p>
 <p><img src="../assets/stochadexI/stochadexI-fundamental-loop.drawio.png" /></p>
 <p>The basic computational idea here is illustrated above; we iterate the matrix forward in time by a row, and use its previous version <span class="math inline">\(X_{0:{\sf t}}\)</span> as an entire matrix input into a function which populates the elements of its latest rows. One can easily draw a rough schematic with the same idea in it, and it would probably look something like the rough schematic below.</p>
 <p><img src="../assets/stochadexI/stochadexI-fundamental-loop-code.drawio.png" /></p>
@@ -368,7 +367,7 @@ S^{1}_{{\sf t}+1}(X_{{\sf t}-{\sf s}:{\sf t}},z,{\sf t}) &amp;= u\sum^{{\sf t}}_
 <div class="articleHeader">
   <strong> Cite. </strong> You can cite this article using the following BibTeX:
 <code><pre>@article{stochadexI-2024,
-  title = {Self-learning simulations series: Building a generalised simulation engine},
+  title = {Building a generalised simulation engine},
   author = {Hardwick, Robert J},
   journal = {umbralcalculations (umbralcalc.github.io/posts/stochadexI.html)},
   year = {2024},

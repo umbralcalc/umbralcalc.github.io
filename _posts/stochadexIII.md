@@ -1,8 +1,8 @@
 ---
-title: "Self-learning simulations series: Optimising interactions with the system"
+title: "Optimising agent interactions with a simulated system"
 author: Hardwick, Robert J
 date: [WIP]
-concept: To optimise agent interactions with a (typically stochastic) simulation environment. We will take a similar approach to that of more standard 'model-free' Reinforcement Learning (RL) approaches in this article, however, our control-learning software will use a more 'model-based' algorithm which leverages the self-learning simulation algorithms we have already studied in this series. As was the case with the online learning framework, we demonstrate how the system components which optimise agent interactions can be expressed as an extension to the computational graph of the simulation itself.
+concept: To optimise agent interactions with a (typically stochastic) simulation environment. We will take a similar approach to that of more standard 'model-free' Reinforcement Learning (RL) approaches in this article, however, our control-learning software will use a more 'model-based' algorithm which leverages the self-learning simulation algorithms we have previously studied. As was the case with the online learning framework, we demonstrate how the system components which optimise agent interactions can be expressed as an extension to the computational graph of the simulation itself.
 articleId: stochadexIII
 codeLink: https://github.com/umbralcalc/stochadex
 year: [WIP]
