@@ -2,7 +2,7 @@
 title: "Self-learning simulations and probabilistic learning methods"
 author: Hardwick, Robert J
 date: 2024-05-03
-concept: To extend the mathematical formalism from a previous article to describe the time evolution of state probabilities. Having introduced the basic concepts, we then use this formalism to motivate some important methods for probabilistic learning, which we then use in developing a framework for online simulation inference. We also show how the software abstractions provided by the stochadex package allow us to easily embed these inference algorithms within the computation graph of the simulation itself; giving rise to the idea of a generalised 'self-learning simulation'.
+concept: To extend the mathematical formalism from a previous article to describe the time evolution of state probabilities. Having introduced the basic concepts, we use this formalism to motivate some important methods for probabilistic learning, which we then use in developing a framework for online simulation inference. We also show how the software abstractions provided by the stochadex package allow us to easily embed these inference algorithms within the computation graph of the simulation itself; giving rise to the idea of a generalised 'self-learning simulation'.
 articleId: stochadexII
 codeLink: https://github.com/umbralcalc/stochadex
 year: 2024
