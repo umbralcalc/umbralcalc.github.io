@@ -15,7 +15,7 @@ title: Robert J. Hardwick
 * In my free time I develop code and write in this technical article repository.
 * I also like to [create some human art](https://umbralcalc.github.io/human-art/) 🖌️ every now and then.
 
-**and here's a bit about the technical articles:**
+**...and here's a bit about the technical articles:**
 
 * Like other repositories and pre-print servers, e.g., [arXiv](https://arxiv.org/), these articles are not formally peer-reviewed.
 * They represent a collection of research interests that I've retained having left formal academic study.
