@@ -18,8 +18,6 @@ To get online learning working for a simulation in the general case, we need to 
 
 ## Online learning a generalised simulation
 
-In a previous article [@stochadexII-2024], we motivated the use of some specific probabilistic learning methods, and these will be useful to develop comparison methods between any simulation and a data stream in due course. However, this article is about implementing a generalised inference algorithm for simulations. There are many examples demonstrating how to do this in the literature [@cranmer2020frontier], however, in this section we are going to derive one which works in the online learning context.
-
 Since simulations are a kind of causal model which we would like to infer from the data, we will begin by reviewing the basics of Bayesian inference in the present context. Following Bayes' rule, one can relate the prior probability distribution over a parameter set ${\cal P}(z)$ and the likelihood ${\cal L}_{{\sf t}+1}(Y\vert z)$  of some data matrix $Y$ up to timestep ${\sf t}+1$ given the parameters $z$ of a model to the posterior probability distribution of parameters given the data ${\cal P}_{{\sf t}+1}(z \vert Y)$ up to some proportionality constant, i.e.,
 
 $$
