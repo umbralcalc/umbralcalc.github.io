@@ -14,7 +14,7 @@ Let's begin by considering how one might structure the learning of an objective 
 
 This article is about getting to the point where we can leave a simulation to 'learn itself' from an injested stream (or streams) of data. In order to do this learning in a robust manner, we must ensure the resulting framework has adaptability to _new data_. Note also that stochastic processes are inherently sequential, and many types of system evolve not just their states, but also dynamical description, over time. Online learning is the natural framework to use in this context.
 
-To get online learning working for a simulation in the general case, we need to contend with more issues that just the number of hyperparameters. In addition, the objective functions are typically stochastic and gradients are not directly available. Hence, in the next section on generalised simulation inference, it will be necessary to develop our own online learning concepts which work robustly even in this challenging optimisation environment.
+To get online learning working for a simulation in the general case, we need to contend with more issues that just the number of hyperparameters. Furthermore, the objective functions are typically stochastic and gradients are not directly available. Hence, in the next section on generalised simulation inference, it will be necessary to develop our own online learning concepts which work robustly even in this challenging optimisation environment.
 
 ## Online learning a generalised simulation
 
