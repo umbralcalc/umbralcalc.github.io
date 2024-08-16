@@ -27,22 +27,27 @@ In addition to occupying some state in the event graph, the state of a rugby mat
 Since a rugby match exists in continuous time, it is natural to choose a continuous-time event-based simulation model for our game engine. As we have discussed in previous articles already [@stochadexI-2024], this means we will be characterising transition probabilities of the event graph above by ratios of event rates in time. Recalling our notation in previous articles, if we consider the current state vector of the match $X_{\sf t}$, we can start by assigning each transition ${\sf a}\rightarrow {\sf b}$ on the event graph an associated expected rate of occurance $\lambda_{{\sf a}\rightarrow {\sf b}}$ which is defined in units of continuous time, e.g., seconds. In addition to the transitions displayed on the graph, we can add a 'possession change transition'; where the possession of the ball in play moves to the opposing team. This transition may occur while the match is also in most of the white-coloured states on the graph apart from ${\sf Knock}$-${\sf on}$ (which determines a possession change immediately through a ${\sf Scrum}$) or a ${\sf Kickoff}$ (which directly proceeds a ${\sf Kick}$ ${\sf Phase}$ from which the ball may change possession). Let's assign possession changes with a state and timestep-dependent expected rate of occurance $\lambda_{\rm pos}(X_{\sf t}, {\sf t})$.
 
 Based on our dicussion above, an appropriate encoding for the overall game state at timestep index ${\sf t}$ could be a state vector $X_{{\sf t}}$ whose elements are
+
 $$
 \begin{align}
 X^0_{{\sf t}}&=\begin{cases} 0 & \text{Match State} = \text{${\sf Penalty}$}\\ 1 & \text{Match State} = \text{${\sf Free}$ ${\sf Kick}$} \\ \dots & \end{cases} \\
-X^1_{{\sf t}}&=\begin{cases} 0 & \text{Possession} = \text{${\sf Home}$ ${\sf Team}$}\\ 1 & \text{Possession} = \text{${\sf Away}$ ${\sf Team}$} \end{cases} .
+X^1_{{\sf t}}&=\begin{cases} 0 & \text{Possession} = \text{${\sf Home}$ ${\sf Team}$}\\ 1 & \text{Possession} = \text{${\sf Away}$ ${\sf Team}$} \end{cases} \,.
 \end{align}
 $$
+
 But how does this overall game state connect to the event rates? The probabilistic answer is quite straightforward. If the probability of the match state being $X^0_{{\sf t}}={\sf a}$ at timestep ${\sf t}$ is written as $P^0_{{\sf t}}({\sf a})$, then the probability of $X^0_{{\sf t}+1}={\sf b}$ in the following timestep is
+
 $$
 \begin{align}
-P^0_{{\sf t}+1}({\sf b}) = \frac{\frac{1}{\tau}P^0_{{\sf t}}({\sf b})+\sum_{\forall {\sf a}\neq {\sf b}}\lambda_{{\sf a}\rightarrow {\sf b}}{\cal T}_{{\sf a}\rightarrow {\sf b}}(X_{\sf t}, {\sf t})P^0_{{\sf t}}({\sf a})}{\big[ \frac{1}{\tau} + \sum_{\forall {\sf a}\neq {\sf b}}\lambda_{{\sf a}\rightarrow {\sf b}} {\cal T}_{{\sf a}\rightarrow {\sf b}}(X_{\sf t}, {\sf t})\big]} ,
+P^0_{{\sf t}+1}({\sf b}) = \frac{\frac{1}{\tau}P^0_{{\sf t}}({\sf b})+\sum_{\forall {\sf a}\neq {\sf b}}\lambda_{{\sf a}\rightarrow {\sf b}}{\cal T}_{{\sf a}\rightarrow {\sf b}}(X_{\sf t}, {\sf t})P^0_{{\sf t}}({\sf a})}{\big[ \frac{1}{\tau} + \sum_{\forall {\sf a}\neq {\sf b}}\lambda_{{\sf a}\rightarrow {\sf b}} {\cal T}_{{\sf a}\rightarrow {\sf b}}(X_{\sf t}, {\sf t})\big]} \,,
 \end{align}
 $$
+
 where $\forall {\sf a} \neq {\sf b}$ in the summation indicates that all the available transitions from ${\sf a}$ to ${\sf b}$, where ${\sf a}\neq {\sf b}$, should be summed over and ${\cal T}_{{\sf a}\rightarrow {\sf b}}(X_{\sf t}, {\sf t})$ is a time and state-dependent transition probability that is determined by the playing tactics of each team as well as the general likelihoods of gameplay which are expected from a real rugby match. Note that in the expression above, we have also defined $\tau$ as a timescale short enough such that no transition is likely to occur during that interval. An equivalent to the expression above should also apply to the possession change transition rate, i.e., the probability that the ${\sf Home}$ ${\sf Team}$ has possession $P^1_{{\sf t}}({\sf H})$ at time ${\sf t}$ evolves according to
+
 $$
 \begin{align}
-P^1_{{\sf t}+1}({\sf H}) = \frac{ \frac{1}{\tau}P^1_{{\sf t}}({\sf H}) + \lambda_{\rm pos}(X_{\sf t}, {\sf t}) [1-P^1_{{\sf t}}({\sf H})]}{\big[ \frac{1}{\tau} + \lambda_{\rm pos}(X_{\sf t}, {\sf t})\big]} .
+P^1_{{\sf t}+1}({\sf H}) = \frac{ \frac{1}{\tau}P^1_{{\sf t}}({\sf H}) + \lambda_{\rm pos}(X_{\sf t}, {\sf t}) [1-P^1_{{\sf t}}({\sf H})]}{\big[ \frac{1}{\tau} + \lambda_{\rm pos}(X_{\sf t}, {\sf t})\big]} \,.
 \end{align}
 $$
 
@@ -51,17 +56,21 @@ Before we move on to other details, it's quite important to recognise that becau
 While these match state transitions and possession changes are taking place, we also need to come up with a model for how the ball location $L_{{\sf t}}$ changes during the course of a game, and as a function of the current game state. Note that, because the ball location is a part of the overall game state, it will be included as information contained within some elements of $X_{{\sf t}}$ as well. To make this explicit, we can simply set $X^2_{{\sf t}}=L^{\rm lon}_{{\sf t}}$ and $X^3_{{\sf t}}=L^{\rm lat}_{{\sf t}}$ - where $L^{\rm lon}_{{\sf t}}$ denotes the longitudinal component (lengthwise along the pitch) and $L^{\rm lat}_{{\sf t}}$ denotes the lateral component (widthwise across the pitch). If we associate every state on the event graph with a single change in spatial location of the ball on the pitch, we then need to construct a process which makes 'jumps' in 2-dimensional space each time a state transition occurs. To keep things simple and intuitive, we will say that movements of the ball are only allowed to occur during either a ${\sf Run}$ ${\sf Phase}$ or a ${\sf Kick}$ ${\sf Phase}$. In most cases this restriction makes sense given the real-world game patterns, but perhaps the only clear exception is the ${\sf Penalty}$ $\longrightarrow$ ${\sf Goal}$ transition; which is easier to think of as a kind of '${\sf Kick}$ ${\sf Phase}$ transition' anyway.
 
 In the case of a ${\sf Run}$ ${\sf Phase}$, let's choose the longitudinal component of the ball location $L^{\rm lon}_{{\sf t}}$ to be updated by the difference between samples drawn from two exponential distributions (one associated to each team). Hence, the probability density $P_{{\sf t}+1}(\ell )$ of $L^{\rm lon}_{{\sf t}+1}-L^{\rm lon}_{{\sf t}}=\ell$, evolves according to
+
 $$
 \begin{align}
-P_{{\sf t}+1}(\ell ) = \int^\infty_0 {\rm d}\ell'\, {\sf ExponentialPDF}(\ell + \ell'; a_{\rm run}){\sf ExponentialPDF}(\ell'; d_{\rm run}) ,
+P_{{\sf t}+1}(\ell ) = \int^\infty_0 {\rm d}\ell'\, {\sf ExponentialPDF}(\ell + \ell'; a_{\rm run}){\sf ExponentialPDF}(\ell'; d_{\rm run}) \,,
 \end{align}
 $$
+
 where $a_{\rm run}$ and $d_{\rm run}$ are the exponential distribution scale parameters for an attacking and defending player, respectively, and we have chosen positive values of $\ell$ to be aligned with the forward direction for the attacking team. We shall elaborate on where $a_{\rm run}$ and $d_{\rm run}$ come from when we discuss associating events for player abilities in due course. If we now consider lateral component of the ball location $L^{\rm lat}_{{\sf t}}$ during a ${\sf Run}$ ${\sf Phase}$; it makes sense that this wouldn't be affected much by either team within the scope of detail in this first version of our model. Hence, the probability density $P_{{\sf t}+1}(w)$ of $L^{\rm lat}_{{\sf t}+1}-L^{\rm lat}_{{\sf t}}=w$ can just be updated like so
+
 $$
 \begin{align}
-P_{{\sf t}+1}(w) = {\sf NormalPDF}(w; 0, \sigma_{\rm run}^2) ,
+P_{{\sf t}+1}(w) = {\sf NormalPDF}(w; 0, \sigma_{\rm run}^2) \,,
 \end{align}
 $$
+
 where $\sigma_{\rm run}$ is the typical jump in lateral motion (the standard deviation parameter of the normal distribution).
 
 Turning our attention to the ${\sf Kick}$ ${\sf Phase}$; the longitudinal and lateral components are only realistically controlled by the attacking team --- specifically, by the player who is currently the kicker. Referring back to the state transitions which precede a ${\sf Kick}$ ${\sf Phase}$ in the event graph, we note that there are several types of kick which can dictate what the mechanics of the process should look like. To keep things simple, we can cluster these types of event into the following categories
@@ -86,11 +95,13 @@ Turning our attention to the ${\sf Kick}$ ${\sf Phase}$; the longitudinal and la
 To model case (1.) above, the simplest option would be to associate the attempt at goal with a goal success probability for the kicker $p_{\rm goal}$ which, in the simple first version of our model, will not depend on the location on the pitch from which the kick is taken. We will, however, restrict kickers to only be allowed an attempt at goal if they are within their opposing team's half - this is not strictly a rule in rugby, but it simplifies the automation of the decision logic quite nicely for now.
 
 In case (2.) above, we can think of two main tactical options that a team might be employing. The first of these is kicking a further longitudinal distance in the field of play in order to gain territory, but lose possession, and the second is to kick to regain possession but with a shorter longitudinal distance. When kicking to gain territory, we'll just assign a uniform probability to the lateral position update of the ball location for simplicity and for the probability density $P_{{\sf t}+1}(\ell )$ of $L^{\rm lon}_{{\sf t}+1}-L^{\rm lon}_{{\sf t}}=\ell$, we'll use
+
 $$
 \begin{align}
-P_{{\sf t}+1}(\ell ) = {\sf ExponentialPDF}(\ell ; a_{\rm kick}) ,
+P_{{\sf t}+1}(\ell ) = {\sf ExponentialPDF}(\ell ; a_{\rm kick}) \,,
 \end{align}
 $$
+
 where $a_{\rm kick}$ is the kicking player's longitudinal scale parameter. When kicking to regain possession, we will use another exponential distribution with another constant scale parameter $\ell_{\rm typ}$ for the typical distance gained by this type of kick (unassociated to either team's abilities) and also assign a 'regain possession' probability $p_{\rm reg}$ which is associated to the abilities of the players chasing the kick (on the kicker's team).
 
 Lastly, to model case (3.) above, the event has determined that the ball will leave the field of play and so the remaining unknowns that need to be determined are: which side of the field this occurred (we'll just choose the side closest to touch when the ball was last in play), the longitudinal distance of the kick and whether or not the ball bounced before leaving the field. For simplicity, let's determine the last of these through another kind of kick accuracy probability $p_{\rm kick}$ associated to the kicker. This just leaves the longitudinal distance that the kick achieved along the touchline; in this case we'll just assign the probability density $P_{{\sf t}+1}(\ell )$ of $L^{\rm lon}_{{\sf t}+1}-L^{\rm lon}_{{\sf t}}=\ell$ to that of the longitudinal kick distribution.
@@ -110,19 +121,22 @@ In the figure below we have begun by separating playing positions on the rugby f
 Let's now say that $z$ contains all of these parameters for all of the players on both sides, including those on the bench. With these parameters, the knowledge of which team is in possession from $X^1_{\sf t}$, and the identifiers of those players who are actively playing on the field, it should be simple to create a vector-valued function $a_{\rm pos}(X_{\sf t})$ which returns all of the possession attacking attributes that are associated to match state $X^0_{\sf t}$ and an analogous one $d_{\rm pos}(X_{\sf t})$ for the possession defending attributes. The dependencies of these functions on the ball possession state $X^1_{\sf t}$ comes from the fact that when, e.g., the ${\sf Home}$ ${\sf Team}$ has possession of the ball it will be their possession attacking attributes that are returned by $a_{\rm pos}(X_{\sf t})$ and the ${\sf Away}$ ${\sf Team}$'s possession defending attributes that are returned by $d_{\rm pos}(X_{\sf t})$.
 
 In order to model the effect of player fatigue over the course of a match, we can add some vectors of player fatigue values $f$ into the collection of parameters that are contained within $z$. These new parameters can then be used to define a formula for the decline of each attribute over the course of a match. Let's redefine these declining values as
+
 $$
 \begin{align}
 a^i_{\rm pos}(X_{\sf t}, {\sf t}) &= a^i_{\rm pos}(X_{\sf t})e^{-f^i[t({\sf t})-t^i_{\rm start}]} \\
-d^i_{\rm pos}(X_{\sf t}, {\sf t}) &= d^i_{\rm pos}(X_{\sf t})e^{-f^i[t({\sf t})-t^i_{\rm start}]} .
+d^i_{\rm pos}(X_{\sf t}, {\sf t}) &= d^i_{\rm pos}(X_{\sf t})e^{-f^i[t({\sf t})-t^i_{\rm start}]} \,.
 \end{align}
 $$
 
 So how does each player affect the events of a match? In our model, we would argue that players should be able to directly influence the possession change rate $\lambda_{\rm pos}(X_{\sf t}, {\sf t})$ through a balance of attacking and defensive attributes in the following relation
+
 $$
 \begin{align}
-\lambda_{\rm pos}(X_{\sf t}, {\sf t}) &= \frac{\lambda^*_{\rm pos}\sum_{\forall i}d^i_{\rm pos}(X_{\sf t}, {\sf t})}{\sum_{\forall i}a^i_{\rm pos}(X_{\sf t}, {\sf t}) + \sum_{\forall i}d^i_{\rm pos}(X_{\sf t}, {\sf t})} ,
+\lambda_{\rm pos}(X_{\sf t}, {\sf t}) &= \frac{\lambda^*_{\rm pos}\sum_{\forall i}d^i_{\rm pos}(X_{\sf t}, {\sf t})}{\sum_{\forall i}a^i_{\rm pos}(X_{\sf t}, {\sf t}) + \sum_{\forall i}d^i_{\rm pos}(X_{\sf t}, {\sf t})} \,,
 \end{align}
 $$
+
 where $\lambda^*_{\rm pos}$ is the maximum rate that is physically possible and the $\forall i$ in the summations indicates summing over all attacking or defending player attributes of the vector in each instance. In addition to this possession change influence, players who have ${\sf Run}$ ${\sf Phase}$ and ${\sf Kick}$ ${\sf Phase}$ longitudinal scale attributes may affect the gain in distance that each state translates to on the pitch.
 
 Let's first describe how we intend the ${\sf Run}$ ${\sf Phase}$ to work. Every time the match state transitions into a ${\sf Run}$ ${\sf Phase}$, an individual player on the attacking side is chosen at random (uniformally across the team - this uniform sampling could be refined later to associate sampling probabilities with game state and player roles) to be the nominal 'attacker'. At the same time, an individual player on the defending side is chosen at random (again, uniformally across the team) to be the the nominal 'defender'. Once these players have been chosen (and hence the $a_{\rm run}$ and $d_{\rm run}$ parameters have been determined), the longitudinal motion update we described in the equation earlier can then be applied. Note that the $a_{\rm run}$ and $d_{\rm run}$ parameters should also receive a fatigue decrement depending on the time that each player has remained on the pitch, much like the exponential factors we applied in the equations earlier.
