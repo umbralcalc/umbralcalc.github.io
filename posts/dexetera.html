@@ -5,6 +5,7 @@
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+  <meta name="dcterms.date" content="2024-07-20" />
   <style>
     .body {
       box-sizing: border-box;
@@ -167,13 +168,13 @@ About
 </br>
 </br>
 
-<h1>Simulated decision problems on the web</h1>
+<h1>Serving a menu of interactive simulations on the web</h1>
 </br>
 <hr color="LightGray">
 <div class="articleHeader">
 <strong> Author. </strong> Hardwick, Robert J
 </br>
-<strong> Date. </strong> WIP
+<strong> Date. </strong> 2024-07-20
 </br>
 <strong> Concept. </strong> To outline the design of a static web application which enables pure Python programmers to interact with stochadex simulations and visualise their outputs. In order to illustrate the flexibility in interactive user experience and simulation type supported by the stochadex engine, we then define some archetype simulation subgraphs which are applicable to a wide variety of real-world problems. In particular, we demonstrate how these archetypes can be used to simulate everything from sports matches and spatial disease spread to traffic networks and supply chain logistics. With these examples (and many others) in mind, we also consider the realistic types of partial observation and interaction which are possible in each case.
 </div>
@@ -212,8 +213,7 @@ About
 <li>Computational models of human brain conditions, e.g., Parkinson’s disease <span class="citation" data-cites="lu2019application">[13]</span>, epilepsy <span class="citation" data-cites="pineau2009treating">[14]</span>, Alzheimer’s <span class="citation" data-cites="saboo2021reinforcement">[15]</span>, etc., for deep brain stimulation control and other forms of treatment.</li>
 <li>Simulations of complex urban infrastructure networks to target various kinds of optimisation, e.g., traffic signal control <span class="citation" data-cites="yau2017survey">[16]</span>, power dispatch <span class="citation" data-cites="li2021integrating">[17]</span> and water pipe maintainance <span class="citation" data-cites="bukhsh2023maintenance">[18]</span>.</li>
 </ul>
-<p>Observations of the node histogram archetype in the real world typically take the form of either partial or noisy detections of the counts. Actors in systems which require this archetype could be a neurologist, traffic light controller or even city infrastructure maintainer. In all cases, interactions with these systems would typically be directly changing the state of some subset of nodes in the network itself.</p>
-<!-- To illustrate these kinds of problem domains, we created the 'Hyperspace Traffic Control' simulation: [https://umbralcalc.github.io/dexetera/app/hyperspacetc.html](https://umbralcalc.github.io/dexetera/app/hyperspacetc.html). -->
+<p>Observations of the node histogram archetype in the real world typically take the form of either partial or noisy detections of the counts. Actors in systems which require this archetype could be a neurologist, traffic light controller or even city infrastructure maintainer. In all cases, interactions with these systems would typically be directly changing the state of some subset of nodes in the network itself. To illustrate these kinds of problem domains, we created the ‘Hyperspace Traffic Control’ simulation: <a href="https://umbralcalc.github.io/dexetera/app/hyperspacetc.html">https://umbralcalc.github.io/dexetera/app/hyperspacetc.html</a>.</p>
 <p>The <em>pipeline stage state histogram archetype</em> refers to simulation subgraphs which count the frequencies of entity types which exist in a particular stage of some pipeline. These subgraphs can be connected together in a directed graph to represent a multi-stage pipeline structure. We’ve provided a rough schematic for this archetype below.</p>
 <p><img src="../assets/dexetera/dexetera-pipeline-state-partition-graph.drawio.png" /></p>
 <p>Which real-world control problems would this archetype be useful for? If we think about multi-stage pipelines whose future states depend on the frequencies of entity types which exist at each stage, the following real-world examples come to mind:</p>
@@ -230,8 +230,7 @@ About
 <li>Financial (see <span class="citation" data-cites="fischer2018reinforcement">[27]</span> and <span class="citation" data-cites="meng2019reinforcement">[28]</span>) and sports betting <span class="citation" data-cites="cliff2021bbe">[29]</span> market simulations for developing algo-trading strategies and portfolio optimisation <span class="citation" data-cites="dangi2013financial">[30]</span>, as well as housing market simulations (see <span class="citation" data-cites="yilmaz2018stochastic">[31]</span> and <span class="citation" data-cites="carro2023heterogeneous">[32]</span>) to evaluate government policies.</li>
 <li>Simulations of other forms of resource exchange through centralised mediation, such as in prosumer energy markets <span class="citation" data-cites="may2023multi">[33]</span>.</li>
 </ul>
-<p>Observations of the centralised entity interactions archetype in the real world typically take the form of either partial or noisy detections of the states and state changes. Actors in systems which require this archetype could be sports team managers, financial/betting/other market traders or market exchange mediators. The interactions with these systems would therefore typically focus on changing which entities are present, changing their parameters and/or changing the parameters of the centralised state iteration.</p>
-<!-- To illustrate these kinds of problem domains, we created the 'Flounceball Tactics' simulation: [https://umbralcalc.github.io/dexetera/app/flounceball.html](https://umbralcalc.github.io/dexetera/app/flounceball.html). -->
+<p>Observations of the centralised entity interactions archetype in the real world typically take the form of either partial or noisy detections of the states and state changes. Actors in systems which require this archetype could be sports team managers, financial/betting/other market traders or market exchange mediators. The interactions with these systems would therefore typically focus on changing which entities are present, changing their parameters and/or changing the parameters of the centralised state iteration. To illustrate these kinds of problem domains, we created the ‘Flounceball Tactics’ simulation: <a href="https://umbralcalc.github.io/dexetera/app/flounceball.html">https://umbralcalc.github.io/dexetera/app/flounceball.html</a>.</p>
 <h2 class="unnumbered" id="references">References</h2>
 <div id="refs" class="references" role="doc-bibliography">
 <div id="ref-stochadexI-2024">
@@ -338,7 +337,7 @@ About
 <div class="articleHeader">
   <strong> Cite. </strong> You can cite this article using the following BibTeX:
 <code><pre>@article{dexetera-2024,
-  title = {Simulated decision problems on the web},
+  title = {Serving a menu of interactive simulations on the web},
   author = {Hardwick, Robert J},
   journal = {umbralcalculations (umbralcalc.github.io/posts/dexetera.html)},
   year = {2024},
