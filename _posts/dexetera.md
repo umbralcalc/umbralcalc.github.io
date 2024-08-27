@@ -24,7 +24,7 @@ Now let's recall that a local python server which must be run by the user in ord
 
 At this point, we can now introduce the dexetera web application. This is hosted statically by GitHub pages with this url: [https://umbralcalc.github.io/dexetera](https://umbralcalc.github.io/dexetera). On this site, any user may run and visualise a selection of stochadex simulations as purely-frontend applications, while interacting with them over local websocket connections and easily-installable python server code.
 
-Having introduced our new web application and outlined its essential design patterns, we can now move on to demonstrate the flexibility in interactive user experience and simulation type that are now supported by both the stochadex engine and dexetera.
+Having introduced our new web application and outlined its essential design patterns, we can now move on to discuss the interactive user experiences and simulation types which are supported by dexetera and the stochadex engine, respectively.
 
 ## Archetype simulation subgraphs
 
