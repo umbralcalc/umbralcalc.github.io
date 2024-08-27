@@ -1,7 +1,7 @@
 ---
-title: Serving a menu of interactive simulations on the web
+title: Simulated decision problems on the web
 author: Hardwick, Robert J
-date: 2024-07-20
+date: [WIP]
 concept: To outline the design of a static web application which enables pure Python programmers to interact with stochadex simulations and visualise their outputs. In order to illustrate the flexibility in interactive user experience and simulation type supported by the stochadex engine, we then define some archetype simulation subgraphs which are applicable to a wide variety of real-world problems. In particular, we demonstrate how these archetypes can be used to simulate everything from sports matches and spatial disease spread to traffic networks and supply chain logistics. With these examples (and many others) in mind, we also consider the realistic types of partial observation and interaction which are possible in each case.
 articleId: dexetera
 codeLink: https://github.com/umbralcalc/dexetera
