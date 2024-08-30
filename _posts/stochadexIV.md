@@ -2,7 +2,7 @@
 title: Useful state partitions for real-world simulations
 author: Hardwick, Robert J
 date: 2024-08-30
-concept: To provide some practical examples of the real-world simulation types which are supported by the stochadex engine by describing a group of widely-applicable state partitions. In particular, we discuss how these partitions can be useful in simulating everything from sports matches and spatial disease spread to traffic networks and supply chain logistics. With these examples (and many others) in mind, we also consider the realistic types of observation and interaction which are possible in each case.
+concept: To provide some practical examples of the real-world simulation types which are supported in the stochadex engine by describing a group of widely-applicable state partitions. In particular, we discuss how these partitions can be useful in simulating everything from sports matches and spatial disease spread to traffic networks and supply chain logistics. With these examples (and many others) in mind, we also consider the realistic types of observation and interaction which are possible in each case.
 articleId: stochadexIV
 codeLink: https://github.com/umbralcalc/stochadex
 year: 2024
@@ -66,7 +66,7 @@ Observations of the pipeline stage state histogram in the real world typically t
 
 ## Centralised entity interactions
 
-The _centralised entity interactions_ divides the representation of the system state into a collection of 'entity states' and some 'centralised state' upon which interactions between entities can depend. The subgraph topology is hence a star configuration where every entity state is connected to the centralised state, but not necessarily to each other. We have provided a rough schematic for the structure below.
+_Centralised entity interactions_ divide the representation of the system state into a partitions of 'entity states' and some partition of 'centralised state' upon which interactions between entities can depend. The subgraph topology is hence a star configuration where every entity state is connected to the centralised state, but not necessarily to each other. We have provided a rough schematic for the structure below.
 
 ![](../assets/stochadexIV/stochadexIV-star-state-partition-graph.drawio.png)
 
