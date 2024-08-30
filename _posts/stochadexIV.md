@@ -10,7 +10,7 @@ year: 2024
 
 ## Entity state transitions
 
-In this article we're going to define some commonly-used state partitions which are typically useful in developing simulations of real-world systems. These will help to both illustrate how partitioning the state can be helpful in conceptualising the phenomena one wishes to simulate, and provide some practical insights into how the stochadex may be configured for different purposes.
+In this article we're going to define some widely-applicable state partitions which are useful in developing simulations of real-world systems. These will help to both illustrate how partitioning the state can be helpful in conceptualising the phenomena one wishes to simulate, and provide some practical insights into how the stochadex may be configured for different purposes.
 
 We begin with the _entity state transition_, which refers to state transitions of any individual 'entity' that occur stochastically according to their respective transition rates. These transition rates may themselves be time-varying (even stochastically) and so it is useful to separate their values into a separate state partition and create a direct dependency channel on them, as in the rough schematic below.
 
