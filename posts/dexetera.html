@@ -136,6 +136,15 @@
       color: rgb(42, 65, 83);
     }
 
+    .csl-entry {
+      display: flex;
+      margin-top: 10px;
+    }
+
+    .csl-left-margin {
+      margin-right: 10px;
+    }
+
     @media (max-width: 767px) {
       .body {
         padding: 15px;
@@ -150,7 +159,8 @@
       }
     }
   </style>
-  <script src="/usr/share/javascript/mathjax/tex-mml-chtml.js" type="text/javascript"></script>
+  <script src="/usr/share/javascript/mathjax/MathJax.js"
+  type="text/javascript"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <article class="body">
@@ -175,29 +185,97 @@ About
 </br>
 <strong> Date. </strong> WIP
 </br>
-<strong> Concept. </strong> To outline the design of a static web application which enables pure Python programmers to interact with stochadex simulations and visualise their outputs.
+<strong> Concept. </strong> To outline the design of a static web
+application which enables pure Python programmers to interact with
+stochadex simulations and visualise their outputs.
 </div>
 <hr color="LightGray">
 </br>
 <h2 id="web-application-design">Web application design</h2>
-<p>Previously, we have conceptualised and built the stochadex engine <span class="citation" data-cites="stochadexI-2024">[1]</span>; which provides a generalised framework for constructing stochastic simulations of practically any kind. In addition to enabling the construction of simulations which model real-world phenomena, we would also like to enable interactivity with these simulations and empower users to build their own control algorithms over them. Even though an API was built to minimise the amount of code required in these constructions, the requirement that new simulation iterations are written in Go may be a higher barrier to entry than is desirable — especially for pure python programmers and machine learning engineers.</p>
-<p>In this article, we’re going to sidestep this barrier by providing the necessary tools to support web applications out of pre-built stochadex simulations. This application-building framework makes use of both WebAssembly <span class="citation" data-cites="wasm">[2]</span> technology for browser-based user experience (eliminating the need for a Go compiler on the user’s side), and websocket client I/O with a local python server run by the user. The basic functionality of the framework is illustrated in the diagram below, in which the core application logic is also outlined.</p>
-<p><img src="../assets/dexetera/dexetera-dexetera-main.drawio.png" /></p>
-<p>In order to run the stochadex engine inside the browser simulation step client, we can embed a WebAssembly-compiled stochadex binary inside the encapsulating JavaScript code by registering the former as a function. On receiving messages from the client code over websocket, we can then simply pass this data into the function and use it to set the relevant simulation iterator parameters. Extracting current simulation state from the simulation binary is a little less obvious: in this case, we have chosen to register a ‘websocket sender’ callback function inside a new <span class="math inline">\(\texttt{OutputFunction}\)</span> implementation. The latter can then be plugged into the stochadex configuration as usual.</p>
-<p>Compiling the stochadex to WebAssembly comes with some performance limitations. Most notable is the restriction to single-threaded execution of the code. However, we are still able to maintain an asynchronous runtime thanks to how goroutines are compiled to WebAssembly. This is because effectively we are running with <span class="math inline">\(\texttt{GOMAXPROCS=1}\)</span> — for more details about the Go runtime execution model, see here <span class="citation" data-cites="goruntime">[3]</span>.</p>
-<p>Now let’s recall that a local python server must be run by the user in order to interact with the simulation client over a websocket connection. In order to make this a straightforward experience for the pure python programmer, we have created a small python package to wrap all of the details into a single <span class="math inline">\(\texttt{launch_websocket_server}\)</span> function and <span class="math inline">\(\texttt{ActionTaker}\)</span> protocol for the user to implement as desired for their interactions with the simulation. This server code is now distributed as a python package called ‘dexAct’ for anyone to easily install here: <a href="https://pypi.org/project/dexact">https://pypi.org/project/dexact</a>.</p>
-<p>At this point, we can now introduce the dexetera web application. This is hosted statically by GitHub pages with this url: <a href="https://umbralcalc.github.io/dexetera">https://umbralcalc.github.io/dexetera</a>. On this site, any user may run and visualise a selection of stochadex simulations as purely-frontend applications, while interacting with them over local websocket connections and easily-installable python server code.</p>
-<p>Having introduced our new web application and outlined its essential design patterns, we can now move on to discuss some of the interactive user experiences and simulation types which are supported by dexetera and the stochadex engine, respectively.</p>
+<p>Previously, we have conceptualised and built the stochadex engine
+<span class="citation" data-cites="stochadexI-2024">[1]</span>; which
+provides a generalised framework for constructing stochastic simulations
+of practically any kind. In addition to enabling the construction of
+simulations which model real-world phenomena, we would also like to
+enable interactivity with these simulations and empower users to build
+their own control algorithms over them. Even though an API was built to
+minimise the amount of code required in these constructions, the
+requirement that new simulation iterations are written in Go may be a
+higher barrier to entry than is desirable — especially for pure python
+programmers and machine learning engineers.</p>
+<p>In this article, we’re going to sidestep this barrier by providing
+the necessary tools to support web applications out of pre-built
+stochadex simulations. This application-building framework makes use of
+both WebAssembly <span class="citation" data-cites="wasm">[2]</span>
+technology for browser-based user experience (eliminating the need for a
+Go compiler on the user’s side), and websocket client I/O with a local
+python server run by the user. The basic functionality of the framework
+is illustrated in the diagram below, in which the core application logic
+is also outlined.</p>
+<p><img
+src="../assets/dexetera/dexetera-dexetera-main.drawio.png" /></p>
+<p>In order to run the stochadex engine inside the browser simulation
+step client, we can embed a WebAssembly-compiled stochadex binary inside
+the encapsulating JavaScript code by registering the former as a
+function. On receiving messages from the client code over websocket, we
+can then simply pass this data into the function and use it to set the
+relevant simulation iterator parameters. Extracting current simulation
+state from the simulation binary is a little less obvious: in this case,
+we have chosen to register a ‘websocket sender’ callback function inside
+a new <span class="math inline">\(\texttt{OutputFunction}\)</span>
+implementation. The latter can then be plugged into the stochadex
+configuration as usual.</p>
+<p>Compiling the stochadex to WebAssembly comes with some performance
+limitations. Most notable is the restriction to single-threaded
+execution of the code. However, we are still able to maintain an
+asynchronous runtime thanks to how goroutines are compiled to
+WebAssembly. This is because effectively we are running with <span
+class="math inline">\(\texttt{GOMAXPROCS=1}\)</span> — for more details
+about the Go runtime execution model, see here <span class="citation"
+data-cites="goruntime">[3]</span>.</p>
+<p>Now let’s recall that a local python server must be run by the user
+in order to interact with the simulation client over a websocket
+connection. In order to make this a straightforward experience for the
+pure python programmer, we have created a small python package to wrap
+all of the details into a single <span
+class="math inline">\(\texttt{launch_websocket_server}\)</span> function
+and <span class="math inline">\(\texttt{ActionTaker}\)</span> protocol
+for the user to implement as desired for their interactions with the
+simulation. This server code is now distributed as a python package
+called ‘dexAct’ for anyone to easily install here: <a
+href="https://pypi.org/project/dexact">https://pypi.org/project/dexact</a>.</p>
+<p>At this point, we can now introduce the dexetera web application.
+This is hosted statically by GitHub pages with this url: <a
+href="https://umbralcalc.github.io/dexetera">https://umbralcalc.github.io/dexetera</a>.
+On this site, any user may run and visualise a selection of stochadex
+simulations as purely-frontend applications, while interacting with them
+over local websocket connections and easily-installable python server
+code.</p>
+<p>Having introduced our new web application and outlined its essential
+design patterns, we can now move on to discuss some of the interactive
+user experiences and simulation types which are supported by dexetera
+and the stochadex engine, respectively.</p>
 <h2 class="unnumbered" id="references">References</h2>
-<div id="refs" class="references" role="doc-bibliography">
-<div id="ref-stochadexI-2024">
-<p>[1] R. J. Hardwick, “Building a generalised simulation engine,” <em>umbralcalculations (umbralcalc.github.io/posts/stochadexI.html)</em>, 2024.</p>
+<div id="refs" class="references csl-bib-body" role="list">
+<div id="ref-stochadexI-2024" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[1] </div><div class="csl-right-inline">R.
+J. Hardwick, <span>“Building a generalised simulation engine,”</span>
+<em>umbralcalculations
+(umbralcalc.github.io/posts/stochadexI.html)</em>, 2024.</div>
 </div>
-<div id="ref-wasm">
-<p>[2] “WebAssembly: A binary instruction format for a stack-based virtual machine.” <a href="https://webassembly.org/">https://webassembly.org/</a>.</p>
+<div id="ref-wasm" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[2] </div><div
+class="csl-right-inline"><span>“<span class="nocase">WebAssembly: A
+binary instruction format for a stack-based virtual
+machine</span>.”</span> <a href="https://webassembly.org/"
+class="uri">https://webassembly.org/</a>.</div>
 </div>
-<div id="ref-goruntime">
-<p>[3] “Go Runtime Package: Operations which interact with Go’s runtime system.” <a href="https://pkg.go.dev/runtime/">https://pkg.go.dev/runtime/</a>.</p>
+<div id="ref-goruntime" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[3] </div><div
+class="csl-right-inline"><span>“<span class="nocase">Go Runtime Package:
+Operations which interact with Go’s runtime system</span>.”</span> <a
+href="https://pkg.go.dev/runtime/"
+class="uri">https://pkg.go.dev/runtime/</a>.</div>
 </div>
 </div>
 <hr color="LightGray">

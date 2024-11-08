@@ -137,6 +137,15 @@
       color: rgb(42, 65, 83);
     }
 
+    .csl-entry {
+      display: flex;
+      margin-top: 10px;
+    }
+
+    .csl-left-margin {
+      margin-right: 10px;
+    }
+
     @media (max-width: 767px) {
       .body {
         padding: 15px;
@@ -151,7 +160,8 @@
       }
     }
   </style>
-  <script src="/usr/share/javascript/mathjax/tex-mml-chtml.js" type="text/javascript"></script>
+  <script src="/usr/share/javascript/mathjax/MathJax.js"
+  type="text/javascript"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <article class="body">
@@ -176,129 +186,346 @@ About
 </br>
 <strong> Date. </strong> 2021-06-15
 </br>
-<strong> Concept. </strong> To build some simple Bayesian graphical models for forecasting generic n-dimensional time series data. In one model we take the time series, compress it into autoregressive features using kernel convolutions and then couple the resulting variances in a Gaussian model. In the other, we try compressing with k-means clustering and dynamic time warping (using the tslearn package). In this short post we describe the models and outline the calculations required to compute their gradients for more efficient parameter optimisation.
+<strong> Concept. </strong> To build some simple Bayesian graphical
+models for forecasting generic n-dimensional time series data. In one
+model we take the time series, compress it into autoregressive features
+using kernel convolutions and then couple the resulting variances in a
+Gaussian model. In the other, we try compressing with k-means clustering
+and dynamic time warping (using the tslearn package). In this short post
+we describe the models and outline the calculations required to compute
+their gradients for more efficient parameter optimisation.
 </div>
 <hr color="LightGray">
 </br>
-<h2 id="dynamic-bayesian-graphical-model-structure">Dynamic Bayesian graphical model structure</h2>
-<p>A dynamic Bayesian graphical model (or network) can be denoted as <span class="math inline">\({\rm DBN}(G,p)\)</span> where <span class="math inline">\(G\)</span> denotes the graph structure and <span class="math inline">\(p\)</span> denotes the joint probability distribution over vertices. The latter, for the observation vector of an <span class="math inline">\(N\)</span>-dimensional time series process <span class="math inline">\(x_{t}\)</span> (with <span class="math inline">\(i\)</span> indexing an element of the vector <span class="math inline">\(x\)</span>, and <span class="math inline">\(t\)</span> denoting a discrete observation timepoint index) is factorisable with respect to the graph structure in the following manner</p>
+<h2 id="dynamic-bayesian-graphical-model-structure">Dynamic Bayesian
+graphical model structure</h2>
+<p>A dynamic Bayesian graphical model (or network) can be denoted as
+<span class="math inline">\({\rm DBN}(G,p)\)</span> where <span
+class="math inline">\(G\)</span> denotes the graph structure and <span
+class="math inline">\(p\)</span> denotes the joint probability
+distribution over vertices. The latter, for the observation vector of an
+<span class="math inline">\(N\)</span>-dimensional time series process
+<span class="math inline">\(x_{t}\)</span> (with <span
+class="math inline">\(i\)</span> indexing an element of the vector <span
+class="math inline">\(x\)</span>, and <span
+class="math inline">\(t\)</span> denoting a discrete observation
+timepoint index) is factorisable with respect to the graph structure in
+the following manner</p>
 <p><span class="math display">\[
 \begin{equation}
-p(x_{t},x_{t-1},\dots ,x_{1}) = \prod_{n=0}^{t-1}p[x_{t-n}\vert {\rm pa}(x_{t-n})]\,,
+p(x_{t},x_{t-1},\dots ,x_{1}) = \prod_{n=0}^{t-1}p[x_{t-n}\vert {\rm
+pa}(x_{t-n})]\,,
 \end{equation}
 \]</span></p>
-<p>where <span class="math inline">\({\rm pa}(x_{t})\)</span> denotes the parent nodes of <span class="math inline">\(x_{t}\)</span> which are defined by <span class="math inline">\(G\)</span>. Choosing a set of parameters <span class="math inline">\(\Theta\)</span> (defined within their prior domain <span class="math inline">\(\Omega_\Theta\)</span>), graph <span class="math inline">\(G\)</span>, and an observation of <span class="math inline">\(x_t\)</span>, Bayes’ rule yields the following for the posterior distribution over <span class="math inline">\(\Theta\)</span> at timepoint <span class="math inline">\(t\)</span>, given the data <span class="math inline">\(x_{t}, x_{t-1}, \dots\)</span></p>
+<p>where <span class="math inline">\({\rm pa}(x_{t})\)</span> denotes
+the parent nodes of <span class="math inline">\(x_{t}\)</span> which are
+defined by <span class="math inline">\(G\)</span>. Choosing a set of
+parameters <span class="math inline">\(\Theta\)</span> (defined within
+their prior domain <span class="math inline">\(\Omega_\Theta\)</span>),
+graph <span class="math inline">\(G\)</span>, and an observation of
+<span class="math inline">\(x_t\)</span>, Bayes’ rule yields the
+following for the posterior distribution over <span
+class="math inline">\(\Theta\)</span> at timepoint <span
+class="math inline">\(t\)</span>, given the data <span
+class="math inline">\(x_{t}, x_{t-1}, \dots\)</span></p>
 <p><span class="math display">\[
 \begin{equation}
-{\cal P}_G(\Theta \vert x_{t}, x_{t-1}, \dots ) = \frac{\prod_{n=0}^{t-1}P_G(x_{t-n},\Theta )}{\prod_{n=0}^{t-1}\int_{\Theta \in \Omega_\Theta} {\rm d}\Theta P_G(x_{t-n},\Theta )} = \frac{\prod_{n=0}^{t-1}{\cal L}_G(x_{t-n} \vert \Theta )\pi_G (\Theta )}{\prod_{n=0}^{t-1}{\cal E}_G(x_{t-n})}\,,
+{\cal P}_G(\Theta \vert x_{t}, x_{t-1}, \dots ) =
+\frac{\prod_{n=0}^{t-1}P_G(x_{t-n},\Theta
+)}{\prod_{n=0}^{t-1}\int_{\Theta \in \Omega_\Theta} {\rm d}\Theta
+P_G(x_{t-n},\Theta )} = \frac{\prod_{n=0}^{t-1}{\cal L}_G(x_{t-n} \vert
+\Theta )\pi_G (\Theta )}{\prod_{n=0}^{t-1}{\cal E}_G(x_{t-n})}\,,
 \end{equation}
 \]</span></p>
-<p>where we have assumed that each data point <span class="math inline">\(x_t\)</span> is an independent observation from its predecessor <span class="math inline">\(x_{t-1}\)</span> and, as usual, <span class="math inline">\({\cal L}_G\)</span> is the likelihood, <span class="math inline">\(\pi_G\)</span> is the prior and <span class="math inline">\({\cal E}_G\)</span> is the evidence.</p>
-<p>From an empirical Bayes <span class="citation" data-cites="carlin2000empirical">[1]</span> standpoint, one may define an auxiliary time-dependent vector variable <span class="math inline">\(m_t\)</span> (which <span class="math inline">\(\pi_G\)</span> and <span class="math inline">\({\cal E}_G\)</span> are typically conditioned on) to marginalise over in this posterior definition like so</p>
+<p>where we have assumed that each data point <span
+class="math inline">\(x_t\)</span> is an independent observation from
+its predecessor <span class="math inline">\(x_{t-1}\)</span> and, as
+usual, <span class="math inline">\({\cal L}_G\)</span> is the
+likelihood, <span class="math inline">\(\pi_G\)</span> is the prior and
+<span class="math inline">\({\cal E}_G\)</span> is the evidence.</p>
+<p>From an empirical Bayes <span class="citation"
+data-cites="carlin2000empirical">[1]</span> standpoint, one may define
+an auxiliary time-dependent vector variable <span
+class="math inline">\(m_t\)</span> (which <span
+class="math inline">\(\pi_G\)</span> and <span
+class="math inline">\({\cal E}_G\)</span> are typically conditioned on)
+to marginalise over in this posterior definition like so</p>
 <p><span class="math display">\[
 \begin{equation}
-{\cal P}_G(\Theta \vert x_{t}, x_{t-1}, \dots ) = \prod_{n=0}^{t-1}\int_{m \in \Omega_{m_{t-n}}} {\rm d}m \, P_G(m\vert x_{t-n}, x_{t-n-1}, \dots )\frac{{\cal L}_G(x_{t-n}\vert \Theta )\pi_G (\Theta \vert m)}{{\cal E}_G(x_{t-n}\vert m)} \,.
+{\cal P}_G(\Theta \vert x_{t}, x_{t-1}, \dots ) =
+\prod_{n=0}^{t-1}\int_{m \in \Omega_{m_{t-n}}} {\rm d}m \, P_G(m\vert
+x_{t-n}, x_{t-n-1}, \dots )\frac{{\cal L}_G(x_{t-n}\vert \Theta )\pi_G
+(\Theta \vert m)}{{\cal E}_G(x_{t-n}\vert m)} \,.
 \end{equation}
 \]</span></p>
-<p>The vector variable <span class="math inline">\(m_t\)</span>, which will form an intermediate layer in our network, acts as a compression of the time series <span class="math inline">\(x_{t}, x_{t-1}, \dots\)</span> into the mean vector of a Gaussian at time <span class="math inline">\(t\)</span> which we will importantly assume to be <em>Markovian</em> (note that this assumption will clearly not always hold well for the best compressions). For some references on Gaussian processes (a related, but different kind of inference model), see, e.g., <span class="citation" data-cites="friedman2013gaussian">[2]</span>, <span class="citation" data-cites="titsias2010bayesian">[3]</span>, <span class="citation" data-cites="damianou2013deep">[4]</span> or <span class="citation" data-cites="frigola2015bayesian">[5]</span>.</p>
-<p>Up until this point in our study, the technique used for compressing <span class="math inline">\(x_{t}, x_{t-1}, \dots \rightarrow m_t\)</span> is still undetermined.</p>
-<h2 id="ar-g-a-simple-gaussian-model-with-autoregressive-kernel-convolution-compression">‘AR-G’: a simple Gaussian model with autoregressive kernel convolution compression</h2>
-<p>A simple nonparametric way to obtain <span class="math inline">\(m_t\)</span> is through autoregressive techniques with convolution kernels. This models the whole vector process as</p>
+<p>The vector variable <span class="math inline">\(m_t\)</span>, which
+will form an intermediate layer in our network, acts as a compression of
+the time series <span class="math inline">\(x_{t}, x_{t-1},
+\dots\)</span> into the mean vector of a Gaussian at time <span
+class="math inline">\(t\)</span> which we will importantly assume to be
+<em>Markovian</em> (note that this assumption will clearly not always
+hold well for the best compressions). For some references on Gaussian
+processes (a related, but different kind of inference model), see, e.g.,
+<span class="citation" data-cites="friedman2013gaussian">[2]</span>,
+<span class="citation" data-cites="titsias2010bayesian">[3]</span>,
+<span class="citation" data-cites="damianou2013deep">[4]</span> or <span
+class="citation" data-cites="frigola2015bayesian">[5]</span>.</p>
+<p>Up until this point in our study, the technique used for compressing
+<span class="math inline">\(x_{t}, x_{t-1}, \dots \rightarrow
+m_t\)</span> is still undetermined.</p>
+<h2
+id="ar-g-a-simple-gaussian-model-with-autoregressive-kernel-convolution-compression">‘AR-G’:
+a simple Gaussian model with autoregressive kernel convolution
+compression</h2>
+<p>A simple nonparametric way to obtain <span
+class="math inline">\(m_t\)</span> is through autoregressive techniques
+with convolution kernels. This models the whole vector process as</p>
 <p><span class="math display">\[
 \begin{align}
-P(x_{t}\vert m_{t}, f_t, {\sf V}) &amp;= {\cal N}( x_{t}; m_{t} + f_t, {\sf V}) \\
-P[m_{t}\vert {\rm pa}(x_{t}), h, \Sigma] &amp;= {\cal N}\big\{ m_{t};M_t[{\rm pa}(x_{t}) \vert h] ,\Sigma \big\} \\
-M^i_t[{\rm pa}(x^i_{t}) \vert h^i] &amp;= \sum_{n=1}^{t-1}\frac{x^i_{t-n}}{H^i}\exp \left[ -\frac{A^i(n)}{(h^i)^2}\right] \,,
+P(x_{t}\vert m_{t}, f_t, {\sf V}) &amp;= {\cal N}( x_{t}; m_{t} + f_t,
+{\sf V}) \\
+P[m_{t}\vert {\rm pa}(x_{t}), h, \Sigma] &amp;= {\cal N}\big\{
+m_{t};M_t[{\rm pa}(x_{t}) \vert h] ,\Sigma \big\} \\
+M^i_t[{\rm pa}(x^i_{t}) \vert h^i] &amp;=
+\sum_{n=1}^{t-1}\frac{x^i_{t-n}}{H^i}\exp \left[
+-\frac{A^i(n)}{(h^i)^2}\right] \,,
 \end{align}
 \]</span></p>
-<p>where the kernel we are using requires the following additional set of definitions</p>
+<p>where the kernel we are using requires the following additional set
+of definitions</p>
 <p><span class="math display">\[
 \begin{equation}
-H^i = \sum_{n=1}^{t-1}\exp \left[ -\frac{A^i(n)}{(h^i)^2}\right]\,, \quad A^i(n) = \begin{cases} \frac{n^2}{2} \,\, ({\rm and}\,\, f^i_t=0) &amp;  {\rm Squared}\,\,{\rm exponential}\\ 2\sin^2\big( \big\vert \frac{\pi n}{n^i}\big\vert \big) \,\, ({\rm and}\,\, f^i_t=\sin (\frac{\pi t}{n^i} + \pi s^i) ) &amp; {\rm Periodic}\end{cases}\,.
+H^i = \sum_{n=1}^{t-1}\exp \left[ -\frac{A^i(n)}{(h^i)^2}\right]\,,
+\quad A^i(n) = \begin{cases} \frac{n^2}{2} \,\, ({\rm and}\,\, f^i_t=0)
+&amp;  {\rm Squared}\,\,{\rm exponential}\\ 2\sin^2\big( \big\vert
+\frac{\pi n}{n^i}\big\vert \big) \,\, ({\rm and}\,\, f^i_t=\sin
+(\frac{\pi t}{n^i} + \pi s^i) ) &amp; {\rm Periodic}\end{cases}\,.
 \end{equation}
 \]</span></p>
-<p>In the expressions above, <span class="math inline">\({\cal N}(\mu , \Sigma )\)</span> is a multivariate normal distribution with mean vector <span class="math inline">\(\mu\)</span> and covariance matrix <span class="math inline">\(\Sigma\)</span>. The likelihood of data point <span class="math inline">\(x_t\)</span> is therefore very simply</p>
+<p>In the expressions above, <span class="math inline">\({\cal N}(\mu ,
+\Sigma )\)</span> is a multivariate normal distribution with mean vector
+<span class="math inline">\(\mu\)</span> and covariance matrix <span
+class="math inline">\(\Sigma\)</span>. The likelihood of data point
+<span class="math inline">\(x_t\)</span> is therefore very simply</p>
 <p><span class="math display">\[
 \begin{equation}
-{\cal L}_G(x_{t}\vert \Theta ) = {\cal N}\big[ x_{t};\tilde{M}_t(f_t,h),\tilde{\Sigma} \big] \,, \quad \tilde{M}_t(f_t,h) \equiv f_t+M_t[{\rm pa}(x_{t}) \vert h]\,, \quad  \tilde{\Sigma} \equiv {\sf V}+\Sigma\,. 
+{\cal L}_G(x_{t}\vert \Theta ) = {\cal N}\big[
+x_{t};\tilde{M}_t(f_t,h),\tilde{\Sigma} \big] \,, \quad
+\tilde{M}_t(f_t,h) \equiv f_t+M_t[{\rm pa}(x_{t}) \vert h]\,,
+\quad  \tilde{\Sigma} \equiv {\sf V}+\Sigma\,.
 \end{equation}
 \]</span></p>
-<p>The graph displayed below illustrates the structure of this graphical model, where shaded nodes are observed at time <span class="math inline">\(t\)</span> and the edges of the graph indicate functional dependencies (either deterministic or stochastic).</p>
+<p>The graph displayed below illustrates the structure of this graphical
+model, where shaded nodes are observed at time <span
+class="math inline">\(t\)</span> and the edges of the graph indicate
+functional dependencies (either deterministic or stochastic).</p>
 <p><img src="../assets/bants/ARG.png" width="600"/></p>
-<p>It is clear that investigating the data for evidence of seasonality (by, e.g., examining the autocorrelation functions) with be an important first step before deciding on the convolution kernels connecting the input layer to the hidden layer.</p>
-<p>Not all of the graph edges should be strongly weighted by the data so we can (and should) select graph structures based on their combined Bayesian evidence over all of the past observations of the process <span class="math inline">\(Z_t=\prod_{n=0}^{t-1}{\cal E}_G(x_{t-n})\)</span>. In order to convert the evaluation of <span class="math inline">\(Z_t\)</span> into an optimisation problem, we can choose an appropriate prior over <span class="math inline">\(\tilde{\Sigma}\)</span> that parameterises the family of posterior distributions. For a multivariate normal with fixed mean (assuming that the priors over <span class="math inline">\(h\)</span> and <span class="math inline">\(f_t\)</span> are independent) and unknown covariance, the conjugate prior is just the inverse-Wishart distribution <span class="math inline">\({\cal W}^{-1}\)</span> so from the definition of the posterior, we have simply</p>
+<p>It is clear that investigating the data for evidence of seasonality
+(by, e.g., examining the autocorrelation functions) with be an important
+first step before deciding on the convolution kernels connecting the
+input layer to the hidden layer.</p>
+<p>Not all of the graph edges should be strongly weighted by the data so
+we can (and should) select graph structures based on their combined
+Bayesian evidence over all of the past observations of the process <span
+class="math inline">\(Z_t=\prod_{n=0}^{t-1}{\cal E}_G(x_{t-n})\)</span>.
+In order to convert the evaluation of <span
+class="math inline">\(Z_t\)</span> into an optimisation problem, we can
+choose an appropriate prior over <span
+class="math inline">\(\tilde{\Sigma}\)</span> that parameterises the
+family of posterior distributions. For a multivariate normal with fixed
+mean (assuming that the priors over <span
+class="math inline">\(h\)</span> and <span
+class="math inline">\(f_t\)</span> are independent) and unknown
+covariance, the conjugate prior is just the inverse-Wishart distribution
+<span class="math inline">\({\cal W}^{-1}\)</span> so from the
+definition of the posterior, we have simply</p>
 <p><span class="math display">\[
 \begin{aligned}
-&amp;P_G(x_{t}, \Theta ) \propto {\cal N}\big[ x_{t};\tilde{M}_t(f_t,h),\tilde{\Sigma} \big]{\cal W}^{-1}(\tilde{\Sigma};\Psi , \nu) \\
-&amp;\Longleftrightarrow Z_t=\prod_{n=0}^{t-1}{\cal E}_G(x_{t-n}) \propto \prod_{n=0}^{t-1}{\sf t}_{\nu - N +1}\bigg[ x_{t-n};\tilde{M}_{t-n}(f_{t-n},h),\frac{\Psi}{\nu - N + 1} \bigg] \,,
+&amp;P_G(x_{t}, \Theta ) \propto {\cal N}\big[
+x_{t};\tilde{M}_t(f_t,h),\tilde{\Sigma} \big]{\cal
+W}^{-1}(\tilde{\Sigma};\Psi , \nu) \\
+&amp;\Longleftrightarrow Z_t=\prod_{n=0}^{t-1}{\cal E}_G(x_{t-n})
+\propto \prod_{n=0}^{t-1}{\sf t}_{\nu - N +1}\bigg[
+x_{t-n};\tilde{M}_{t-n}(f_{t-n},h),\frac{\Psi}{\nu - N + 1} \bigg] \,,
 \end{aligned}
 \]</span></p>
-<p>where <span class="math inline">\({\sf t}_{\nu}(\mu , \Sigma)\)</span> is a multivariate t-distribution and the latter expression is obtained by marginalisation over the degrees of freedom in <span class="math inline">\(\tilde{\Sigma}\)</span>. It is preferable at this point to define the priors over <span class="math inline">\(h\)</span> and <span class="math inline">\(f_t\)</span> as simply Dirac delta distributions centered on single parameter values (or <span class="math inline">\(n^i\)</span> and <span class="math inline">\(s^i\)</span> in the case of the <span class="math inline">\(f_t^i\)</span> functions) so that all of the epistemic uncertainty is propagated to the hidden-to-output layer weights. Using this prior one may replace the proportionalities above with exact equalities, which correspond to the method that is actually implemented within the ‘bants’ class we’ve written <a href="https://github.com/umbralcalc/bants/blob/master/source/bants.py">here</a>. Note also that one may choose a non-informative prior over the covariance matrix by setting the degrees of freedom <span class="math inline">\(\nu = N\)</span>.</p>
-<p>In case a gradient descent algorithm is used to optimise <span class="math inline">\(\ln Z_t\)</span>, it first derivatives (and other relevant quantities) are</p>
+<p>where <span class="math inline">\({\sf t}_{\nu}(\mu ,
+\Sigma)\)</span> is a multivariate t-distribution and the latter
+expression is obtained by marginalisation over the degrees of freedom in
+<span class="math inline">\(\tilde{\Sigma}\)</span>. It is preferable at
+this point to define the priors over <span
+class="math inline">\(h\)</span> and <span
+class="math inline">\(f_t\)</span> as simply Dirac delta distributions
+centered on single parameter values (or <span
+class="math inline">\(n^i\)</span> and <span
+class="math inline">\(s^i\)</span> in the case of the <span
+class="math inline">\(f_t^i\)</span> functions) so that all of the
+epistemic uncertainty is propagated to the hidden-to-output layer
+weights. Using this prior one may replace the proportionalities above
+with exact equalities, which correspond to the method that is actually
+implemented within the ‘bants’ class we’ve written <a
+href="https://github.com/umbralcalc/bants/blob/master/source/bants.py">here</a>.
+Note also that one may choose a non-informative prior over the
+covariance matrix by setting the degrees of freedom <span
+class="math inline">\(\nu = N\)</span>.</p>
+<p>In case a gradient descent algorithm is used to optimise <span
+class="math inline">\(\ln Z_t\)</span>, it first derivatives (and other
+relevant quantities) are</p>
 <p><span class="math display">\[
 \begin{align}
-\frac{\partial \ln H^i}{\partial (h^i)^2} &amp;= \frac{1}{H^i}\sum_{n=1}^{t-1}\frac{A^i(n)}{(h^i)^4}\exp \left[ -\frac{A^i(n)}{(h^i)^2}\right] \\
-\frac{\partial}{\partial (h^i)^2}M^i_t[{\rm pa}(x^i_{t}) \vert h^i] &amp;= \sum_{n=1}^{t-1} \bigg[ \frac{A^i(n)}{(h^i)^4} - \frac{\partial \ln H^i}{\partial (h^i)^2}\bigg] \frac{x^i_{t-n}}{H^i} \exp \left[ -\frac{A^i(n)}{(h^i)^2}\right] \\
-&amp;= \sum_{n=1}^{t-1} \frac{A^i(n)}{(h^i)^4} \frac{x^i_{t-n}}{H^i} \exp \left[ -\frac{A^i(n)}{(h^i)^2}\right] - \frac{\partial \ln H^i}{\partial (h^i)^2}M^i_t[{\rm pa}(x^i_{t}) \vert h^i] \\
-\ln Z_t &amp;= \ln \Gamma \bigg(\frac{\nu + 1}{2}\bigg) - \ln\Gamma \bigg(\frac{\nu - N + 1}{2}\bigg) - \frac{N}{2}\ln ( \pi ) - \frac{1}{2}\ln {\rm det} ( \Psi ) \\
-&amp;- \frac{\nu + 1}{2}\sum_{n=0}^{t-1}\ln \bigg\{ 1+\big[ x_{t-n}-\tilde{M}_{t-n}(f_{t-n},h) \big]^{\rm T} \Psi^{-1}\big[ x_{t-n}-\tilde{M}_{t-n}(f_{t-n},h) \big] \bigg\} \\
-\frac{\partial \ln Z_t}{\partial (h^i)^2} &amp;= - (\nu + 1)\sum_{n=0}^{t-1}\bigg\{ 1+\big[ x_{t-n}-\tilde{M}_{t-n}(f_{t-n},h) \big]^{\rm T} \Psi^{-1}\big[ x_{t-n}-\tilde{M}_{t-n}(f_{t-n},h) \big] \bigg\}^{-1} \\
-&amp;\qquad \qquad \qquad \times \frac{\partial}{\partial (h^i)^2}M^i_{t-n}[{\rm pa}(x^i_{t-n}) \vert h^i] \sum_{j=1}^N\big( \Psi^{-1}\big)^i_j\big[ x^j_{t-n}-\tilde{M}^j_{t-n}(f^j_{t-n},h^j) \big] \\
-\frac{\partial \ln Z_t}{\partial \Psi^i_j} &amp;= - \frac{1}{2}\delta^i_j + \frac{\nu + 1}{2}\sum_{n=0}^{t-1} \bigg\{ 1+\big[ x_{t-n}-\tilde{M}_{t-n}(f_{t-n},h) \big]^{\rm T} \Psi^{-1}\big[ x_{t-n}-\tilde{M}_{t-n}(f_{t-n},h) \big] \bigg\}^{-1}\\
-&amp;\qquad \qquad \qquad \qquad \times \big[ x^i_{t-n}-\tilde{M}^i_{t-n}(f^i_{t-n},h^i) \big] \big( \Psi^{-2}\big)^i_j\big[ x^j_{t-n}-\tilde{M}^j_{t-n}(f^j_{t-n},h^j) \big]\,.
+\frac{\partial \ln H^i}{\partial (h^i)^2} &amp;=
+\frac{1}{H^i}\sum_{n=1}^{t-1}\frac{A^i(n)}{(h^i)^4}\exp \left[
+-\frac{A^i(n)}{(h^i)^2}\right] \\
+\frac{\partial}{\partial (h^i)^2}M^i_t[{\rm pa}(x^i_{t}) \vert h^i]
+&amp;= \sum_{n=1}^{t-1} \bigg[ \frac{A^i(n)}{(h^i)^4} - \frac{\partial
+\ln H^i}{\partial (h^i)^2}\bigg] \frac{x^i_{t-n}}{H^i} \exp \left[
+-\frac{A^i(n)}{(h^i)^2}\right] \\
+&amp;= \sum_{n=1}^{t-1} \frac{A^i(n)}{(h^i)^4} \frac{x^i_{t-n}}{H^i}
+\exp \left[ -\frac{A^i(n)}{(h^i)^2}\right] - \frac{\partial \ln
+H^i}{\partial (h^i)^2}M^i_t[{\rm pa}(x^i_{t}) \vert h^i] \\
+\ln Z_t &amp;= \ln \Gamma \bigg(\frac{\nu + 1}{2}\bigg) - \ln\Gamma
+\bigg(\frac{\nu - N + 1}{2}\bigg) - \frac{N}{2}\ln ( \pi ) -
+\frac{1}{2}\ln {\rm det} ( \Psi ) \\
+&amp;- \frac{\nu + 1}{2}\sum_{n=0}^{t-1}\ln \bigg\{ 1+\big[
+x_{t-n}-\tilde{M}_{t-n}(f_{t-n},h) \big]^{\rm T} \Psi^{-1}\big[
+x_{t-n}-\tilde{M}_{t-n}(f_{t-n},h) \big] \bigg\} \\
+\frac{\partial \ln Z_t}{\partial (h^i)^2} &amp;= - (\nu +
+1)\sum_{n=0}^{t-1}\bigg\{ 1+\big[ x_{t-n}-\tilde{M}_{t-n}(f_{t-n},h)
+\big]^{\rm T} \Psi^{-1}\big[ x_{t-n}-\tilde{M}_{t-n}(f_{t-n},h) \big]
+\bigg\}^{-1} \\
+&amp;\qquad \qquad \qquad \times \frac{\partial}{\partial
+(h^i)^2}M^i_{t-n}[{\rm pa}(x^i_{t-n}) \vert h^i] \sum_{j=1}^N\big(
+\Psi^{-1}\big)^i_j\big[ x^j_{t-n}-\tilde{M}^j_{t-n}(f^j_{t-n},h^j) \big]
+\\
+\frac{\partial \ln Z_t}{\partial \Psi^i_j} &amp;= -
+\frac{1}{2}\delta^i_j + \frac{\nu + 1}{2}\sum_{n=0}^{t-1} \bigg\{
+1+\big[ x_{t-n}-\tilde{M}_{t-n}(f_{t-n},h) \big]^{\rm T} \Psi^{-1}\big[
+x_{t-n}-\tilde{M}_{t-n}(f_{t-n},h) \big] \bigg\}^{-1}\\
+&amp;\qquad \qquad \qquad \qquad \times \big[
+x^i_{t-n}-\tilde{M}^i_{t-n}(f^i_{t-n},h^i) \big] \big(
+\Psi^{-2}\big)^i_j\big[ x^j_{t-n}-\tilde{M}^j_{t-n}(f^j_{t-n},h^j)
+\big]\,.
 \end{align}
 \]</span></p>
-<h3 id="km-g-a-simple-gaussian-model-with-k-means-clustering-compression">‘KM-G’: a simple Gaussian model with <span class="math inline">\(k\)</span>-means clustering compression</h3>
-<p>Let us now consider an alternative method to perform the compression <span class="math inline">\(x_t, x_{t-1}, \dots \rightarrow m_t\)</span>. In particular, the method we shall choose for the compression in this case is <a href="https://tslearn.readthedocs.io/en/stable/user_guide/clustering.html#k-means-and-dynamic-time-warping"><span class="math inline">\(k\)</span>-means clustering with dynamic time warping</a> (implemented using the brilliant tslearn package <span class="citation" data-cites="JMLR:v21:20-091">[6]</span>). The graph below illustrates the structure of this alternative graphical model, where, once again, the shaded nodes are observed at time <span class="math inline">\(t\)</span>.</p>
+<h3
+id="km-g-a-simple-gaussian-model-with-k-means-clustering-compression">‘KM-G’:
+a simple Gaussian model with <span
+class="math inline">\(k\)</span>-means clustering compression</h3>
+<p>Let us now consider an alternative method to perform the compression
+<span class="math inline">\(x_t, x_{t-1}, \dots \rightarrow
+m_t\)</span>. In particular, the method we shall choose for the
+compression in this case is <a
+href="https://tslearn.readthedocs.io/en/stable/user_guide/clustering.html#k-means-and-dynamic-time-warping"><span
+class="math inline">\(k\)</span>-means clustering with dynamic time
+warping</a> (implemented using the brilliant tslearn package <span
+class="citation" data-cites="JMLR:v21:20-091">[6]</span>). The graph
+below illustrates the structure of this alternative graphical model,
+where, once again, the shaded nodes are observed at time <span
+class="math inline">\(t\)</span>.</p>
 <p><img src="../assets/bants/KMG.png" width="500"/></p>
-<p>In this graphical model, we will assume a linear transformation for <span class="math inline">\(\tilde{M}_{t-n}(f_{t-n},m_{t-n},{\sf U},u)\)</span> such that the vector elements are</p>
+<p>In this graphical model, we will assume a linear transformation for
+<span class="math inline">\(\tilde{M}_{t-n}(f_{t-n},m_{t-n},{\sf
+U},u)\)</span> such that the vector elements are</p>
 <p><span class="math display">\[
 \begin{equation}
-\tilde{M}^i_{t}(f^i_{t},m_{t},{\sf U},u^i) = \sum_{j=1}^N{\sf U}^i_jm_t^j + u^i + f^i_t \,.
+\tilde{M}^i_{t}(f^i_{t},m_{t},{\sf U},u^i) = \sum_{j=1}^N{\sf
+U}^i_jm_t^j + u^i + f^i_t \,.
 \end{equation}
 \]</span></p>
-<p>The empirical Bayes formula we discussed at the beginning of these notes can be used to evaluate the graph posterior, and the overall evidence in this case can be obtained through marginalisation like so</p>
+<p>The empirical Bayes formula we discussed at the beginning of these
+notes can be used to evaluate the graph posterior, and the overall
+evidence in this case can be obtained through marginalisation like
+so</p>
 <p><span class="math display">\[
 \begin{align}
 Z_t &amp;=\prod_{n=0}^{t-1}{\cal E}_G(x_{t-n}) \\
-&amp;= \prod_{n=0}^{t-1}\int_{m \in \Omega_{m_{t-n}}} {\rm d}m \, P_G(m\vert x_{t-n}, x_{t-n-1}, \dots ,\Phi ) \, {\cal E}_G(x_{t-n} \vert m) \\
-&amp;= \prod_{n=0}^{t-1} \int_{m \in \Omega_{m_{t-n}}} {\rm d}m \, P_G(m\vert x_{t-n}, x_{t-n-1}, \dots ,\Phi )\, {\sf t}_{\nu - N +1}\bigg[ x_{t-n}; \tilde{M}_{t-n}(f_{t-n},m,{\sf U},u),\frac{\Psi}{\nu - N + 1} \bigg] \,,
+&amp;= \prod_{n=0}^{t-1}\int_{m \in \Omega_{m_{t-n}}} {\rm d}m \,
+P_G(m\vert x_{t-n}, x_{t-n-1}, \dots ,\Phi ) \, {\cal E}_G(x_{t-n} \vert
+m) \\
+&amp;= \prod_{n=0}^{t-1} \int_{m \in \Omega_{m_{t-n}}} {\rm d}m \,
+P_G(m\vert x_{t-n}, x_{t-n-1}, \dots ,\Phi )\, {\sf t}_{\nu - N
++1}\bigg[ x_{t-n}; \tilde{M}_{t-n}(f_{t-n},m,{\sf U},u),\frac{\Psi}{\nu
+- N + 1} \bigg] \,,
 \end{align}
 \]</span></p>
-<p>where <span class="math inline">\(\Phi\)</span> denotes the hyperparameter set used by the <span class="math inline">\(k\)</span>-means algorithm for the compression. Note that this algorithm renders <span class="math inline">\(P_G(m\vert x_{t-n}, x_{t-n-1}, \dots ,\Phi )\)</span> to a (deterministic) Dirac delta <span class="math inline">\(\delta (m-m_{t-n})\)</span> for each timepoint <span class="math inline">\(t\)</span>, and so we obtain simply</p>
+<p>where <span class="math inline">\(\Phi\)</span> denotes the
+hyperparameter set used by the <span
+class="math inline">\(k\)</span>-means algorithm for the compression.
+Note that this algorithm renders <span class="math inline">\(P_G(m\vert
+x_{t-n}, x_{t-n-1}, \dots ,\Phi )\)</span> to a (deterministic) Dirac
+delta <span class="math inline">\(\delta (m-m_{t-n})\)</span> for each
+timepoint <span class="math inline">\(t\)</span>, and so we obtain
+simply</p>
 <p><span class="math display">\[
 \begin{equation}
-Z_t = \prod_{n=0}^{t-1} {\sf t}_{\nu - N +1}\bigg[ x_{t-n}; \tilde{M}_{t-n}(f_{t-n},m_{t-n},{\sf U},u),\frac{\Psi}{\nu - N + 1} \bigg] \,.
+Z_t = \prod_{n=0}^{t-1} {\sf t}_{\nu - N +1}\bigg[ x_{t-n};
+\tilde{M}_{t-n}(f_{t-n},m_{t-n},{\sf U},u),\frac{\Psi}{\nu - N + 1}
+\bigg] \,.
 \end{equation}
 \]</span></p>
-<p>For each choice of <span class="math inline">\(\Phi\)</span>, a gradient descent algorithm can be used to optimise the remaining parameters in <span class="math inline">\(\ln Z_t\)</span>, where the first derivatives which need to be added for this particular model are</p>
+<p>For each choice of <span class="math inline">\(\Phi\)</span>, a
+gradient descent algorithm can be used to optimise the remaining
+parameters in <span class="math inline">\(\ln Z_t\)</span>, where the
+first derivatives which need to be added for this particular model
+are</p>
 <p><span class="math display">\[
 \begin{align}
-\frac{\partial \ln Z_t}{\partial u^i} &amp;= (\nu + 1)\sum_{n=0}^{t-1}\bigg\{ 1+\big[ x_{t-n}-\tilde{M}_{t-n}(f_{t-n},m_{t-n},{\sf U},u) \big]^{\rm T} \Psi^{-1}\big[ x_{t-n}-\tilde{M}_{t-n}(f_{t-n},m_{t-n},{\sf U},u) \big] \bigg\}^{-1} \\
-&amp;\qquad \qquad \qquad \times \sum_{j=1}^N\big( \Psi^{-1}\big)^i_j\big[ x^j_{t-n}-\tilde{M}^j_{t-n}(f^j_{t-n},m_{t-n},{\sf U},u^j) \big] \\
-\frac{\partial \ln Z_t}{\partial {\sf U}^i_j} &amp;= (\nu + 1)\sum_{n=0}^{t-1}\bigg\{ 1+\big[ x_{t-n}-\tilde{M}_{t-n}(f_{t-n},m_{t-n},{\sf U},u) \big]^{\rm T} \Psi^{-1}\big[ x_{t-n}-\tilde{M}_{t-n}(f_{t-n},m_{t-n},{\sf U},u) \big] \bigg\}^{-1} \\
-&amp;\qquad \qquad \qquad \times m^j_{t-n} \sum_{j&#39;=1}^N\big( \Psi^{-1}\big)^i_{j&#39;}\big[ x^{j&#39;}_{t-n}-\tilde{M}^{j&#39;}_{t-n}(f^{j&#39;}_{t-n},m_{t-n},{\sf U},u^{j&#39;}) \big] \,.
+\frac{\partial \ln Z_t}{\partial u^i} &amp;= (\nu +
+1)\sum_{n=0}^{t-1}\bigg\{ 1+\big[
+x_{t-n}-\tilde{M}_{t-n}(f_{t-n},m_{t-n},{\sf U},u) \big]^{\rm T}
+\Psi^{-1}\big[ x_{t-n}-\tilde{M}_{t-n}(f_{t-n},m_{t-n},{\sf U},u) \big]
+\bigg\}^{-1} \\
+&amp;\qquad \qquad \qquad \times \sum_{j=1}^N\big(
+\Psi^{-1}\big)^i_j\big[
+x^j_{t-n}-\tilde{M}^j_{t-n}(f^j_{t-n},m_{t-n},{\sf U},u^j) \big] \\
+\frac{\partial \ln Z_t}{\partial {\sf U}^i_j} &amp;= (\nu +
+1)\sum_{n=0}^{t-1}\bigg\{ 1+\big[
+x_{t-n}-\tilde{M}_{t-n}(f_{t-n},m_{t-n},{\sf U},u) \big]^{\rm T}
+\Psi^{-1}\big[ x_{t-n}-\tilde{M}_{t-n}(f_{t-n},m_{t-n},{\sf U},u) \big]
+\bigg\}^{-1} \\
+&amp;\qquad \qquad \qquad \times m^j_{t-n} \sum_{j&#39;=1}^N\big(
+\Psi^{-1}\big)^i_{j&#39;}\big[
+x^{j&#39;}_{t-n}-\tilde{M}^{j&#39;}_{t-n}(f^{j&#39;}_{t-n},m_{t-n},{\sf
+U},u^{j&#39;}) \big] \,.
 \end{align}
 \]</span></p>
 <h2 class="unnumbered" id="references">References</h2>
-<div id="refs" class="references" role="doc-bibliography">
-<div id="ref-carlin2000empirical">
-<p>[1] B. P. Carlin and T. A. Louis, “Empirical bayes: Past, present and future,” <em>Journal of the American Statistical Association</em>, vol. 95, no. 452, pp. 1286–1289, 2000.</p>
+<div id="refs" class="references csl-bib-body" role="list">
+<div id="ref-carlin2000empirical" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[1] </div><div class="csl-right-inline">B.
+P. Carlin and T. A. Louis, <span>“Empirical bayes: Past, present and
+future,”</span> <em>Journal of the American Statistical
+Association</em>, vol. 95, no. 452, pp. 1286–1289, 2000.</div>
 </div>
-<div id="ref-friedman2013gaussian">
-<p>[2] N. Friedman and I. Nachman, “Gaussian process networks,” <em>arXiv preprint arXiv:1301.3857</em>, 2013.</p>
+<div id="ref-friedman2013gaussian" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[2] </div><div class="csl-right-inline">N.
+Friedman and I. Nachman, <span>“Gaussian process networks,”</span>
+<em>arXiv preprint arXiv:1301.3857</em>, 2013.</div>
 </div>
-<div id="ref-titsias2010bayesian">
-<p>[3] M. Titsias and N. D. Lawrence, “Bayesian gaussian process latent variable model,” in <em>Proceedings of the thirteenth international conference on artificial intelligence and statistics</em>, JMLR Workshop; Conference Proceedings, 2010, pp. 844–851.</p>
+<div id="ref-titsias2010bayesian" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[3] </div><div class="csl-right-inline">M.
+Titsias and N. D. Lawrence, <span>“Bayesian gaussian process latent
+variable model,”</span> in <em>Proceedings of the thirteenth
+international conference on artificial intelligence and statistics</em>,
+JMLR Workshop; Conference Proceedings, 2010, pp. 844–851.</div>
 </div>
-<div id="ref-damianou2013deep">
-<p>[4] A. Damianou and N. D. Lawrence, “Deep gaussian processes,” in <em>Artificial intelligence and statistics</em>, PMLR, 2013, pp. 207–215.</p>
+<div id="ref-damianou2013deep" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[4] </div><div class="csl-right-inline">A.
+Damianou and N. D. Lawrence, <span>“Deep gaussian processes,”</span> in
+<em>Artificial intelligence and statistics</em>, PMLR, 2013, pp.
+207–215.</div>
 </div>
-<div id="ref-frigola2015bayesian">
-<p>[5] R. Frigola, “Bayesian time series learning with gaussian processes,” PhD thesis, University of Cambridge, 2015.</p>
+<div id="ref-frigola2015bayesian" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[5] </div><div class="csl-right-inline">R.
+Frigola, <span>“Bayesian time series learning with gaussian
+processes,”</span> PhD thesis, University of Cambridge, 2015.</div>
 </div>
-<div id="ref-JMLR:v21:20-091">
-<p>[6] R. Tavenard <em>et al.</em>, “Tslearn, a machine learning toolkit for time series data,” <em>Journal of Machine Learning Research</em>, vol. 21, no. 118, pp. 1–6, 2020, Available: <a href="http://jmlr.org/papers/v21/20-091.html">http://jmlr.org/papers/v21/20-091.html</a></p>
+<div id="ref-JMLR:v21:20-091" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[6] </div><div class="csl-right-inline">R.
+Tavenard <em>et al.</em>, <span>“Tslearn, a machine learning toolkit for
+time series data,”</span> <em>Journal of Machine Learning Research</em>,
+vol. 21, no. 118, pp. 1–6, 2020, Available: <a
+href="http://jmlr.org/papers/v21/20-091.html">http://jmlr.org/papers/v21/20-091.html</a></div>
 </div>
 </div>
 <hr color="LightGray">

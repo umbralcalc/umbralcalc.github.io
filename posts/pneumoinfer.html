@@ -137,6 +137,15 @@
       color: rgb(42, 65, 83);
     }
 
+    .csl-entry {
+      display: flex;
+      margin-top: 10px;
+    }
+
+    .csl-left-margin {
+      margin-right: 10px;
+    }
+
     @media (max-width: 767px) {
       .body {
         padding: 15px;
@@ -151,7 +160,8 @@
       }
     }
   </style>
-  <script src="/usr/share/javascript/mathjax/tex-mml-chtml.js" type="text/javascript"></script>
+  <script src="/usr/share/javascript/mathjax/MathJax.js"
+  type="text/javascript"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <article class="body">
@@ -168,7 +178,8 @@ About
 </br>
 </br>
 
-<h1>Mean-field inference of multi-state models with a counting memory: applications to pneumococcus</h1>
+<h1>Mean-field inference of multi-state models with a counting memory:
+applications to pneumococcus</h1>
 </br>
 <hr color="LightGray">
 <div class="articleHeader">
@@ -176,216 +187,624 @@ About
 </br>
 <strong> Date. </strong> 2021-05-25
 </br>
-<strong> Concept. </strong> To study a type of multi-state models (stochastic processes occupying one of a finite set of states at each moment in time) which exhibit a memory of past occurances through a counting variable. The statistical inference (or selection) of these models for real-world applications frequently involves data in the form of a sequence of individual state observations, which are often coupled with some diagnostic uncertainty (as is the case for pneumococcus). In this post, we are able to demonstrate an ODE mean-field description for these types of system is valid and can be used to accelerate the statistical inference from this type of data. The model case study we use is for systems which simulate the spread of pneumococcus in human populations.
+<strong> Concept. </strong> To study a type of multi-state models
+(stochastic processes occupying one of a finite set of states at each
+moment in time) which exhibit a memory of past occurances through a
+counting variable. The statistical inference (or selection) of these
+models for real-world applications frequently involves data in the form
+of a sequence of individual state observations, which are often coupled
+with some diagnostic uncertainty (as is the case for pneumococcus). In
+this post, we are able to demonstrate an ODE mean-field description for
+these types of system is valid and can be used to accelerate the
+statistical inference from this type of data. The model case study we
+use is for systems which simulate the spread of pneumococcus in human
+populations.
 </div>
 <hr color="LightGray">
 </br>
 <h2 id="motivating-background">Motivating background</h2>
-<p>Multi-state models (stochastic processes occupying one of a finite set of states at each moment in time) appear to describe many natural phenomena, but are probably most frequently used in the mathematical modelling of population health. The statistical inference (or selection) of these models for real-world applications frequently involves data in the form of a sequence of individual state observations, which are often coupled with some diagnostic uncertainty.</p>
-<p>There are over 90 known capsular serotypes of <em>Streptococcus pneumoniae</em>, which persist despite their mutual competition for the same ecological niche (the nasopharynx) and a known fitness gradient. Motivated by the global pneumococcal disease burden, a specific class of multi-state models has been developed to describe the carriage dynamics which offers a neat explanation of this persistence through immunity-driven stabilisation effects (see <span class="citation" data-cites="cobey2012niche">[1]</span>). This class of model typically uses a counting memory of past state (or serotype) occupations (or colonisations) as a model for human immunity (see, e.g., <span class="citation" data-cites="flasche2013impact">[2]</span> for an alternative formulation and <span class="citation" data-cites="lochen2020dynamic">[3]</span> for a general review of the carriage transmission models). Building from these mathematical models, a range of statistical approaches have also been used to infer the pneumococcal carriage through a given population from nasopharyngeal swab sample data (e.g., <span class="citation" data-cites="lipsitch2012estimating">[4]</span> and <span class="citation" data-cites="numminen2013estimating">[5]</span>). All of this is obviously really important, e.g., to understanding more precisely how a vaccine covering a restricted range of serotypes can impact colonisation in a given community or region.</p>
-<p>The design of policies for gathering data will always have a direct impact on the quality and utility of information that can be learned about a model via statistical inference. Therefore, it’s typically useful to know <em>a priori</em> the fundamental constraints a given policy might impose on this procedure. The purpose of the pneumoinfer class is to provide researchers with a rigorous framework to investigate these limitations for the inference of multi-state models with a counting memory - which are structurally inspired by the pneumococcus carriage models of <span class="citation" data-cites="cobey2012niche">[1]</span> and <span class="citation" data-cites="lipsitch2012estimating">[4]</span>. The framework should also useful in model inference with real data.</p>
-<p>In this post, we’re going to analyse the master equation of a stochastic model which includes memory effects from individual immunity and investigate a novel (to our knowledge) approximate ODE description for the dynamics, while assessing its validity. By then exploiting the new efficient ODE description, we will be able to develop a new method of inference that is very rapid in comparison to simulated likelihoods (or even ABC/likelihood-free inference methods). This is the main inference method that is implemented in the pneumoinfer class.</p>
-<h2 id="the-fixed-lambda_i-model">The fixed <span class="math inline">\(\Lambda_i\)</span> model</h2>
-<p>Let’s now construct a multi-state model which incorporates a counting memory of past state occupations. This will include: an event rate of state clearance <span class="math inline">\(\tilde{\mu}_i\)</span> - the rate at which an individual occupying the <span class="math inline">\(i\)</span>-th indexed state returns to the null state; an event rate of susceptibility <span class="math inline">\(\tilde{\Lambda}_i\)</span> for an individual moving to the <span class="math inline">\(i\)</span>-th state from the null state; and a state-specific factor matrix <span class="math inline">\(f_{ii&#39;}\)</span> which rescales <span class="math inline">\(\tilde{\Lambda}_{i&#39;}\)</span> to create an event rate for an individual moving directly between the <span class="math inline">\(i\)</span>-th and <span class="math inline">\(i&#39;\)</span>-th states.</p>
-<p>Now consider <span class="math inline">\(\tilde{\mu}_i=\tilde{\mu}_i( \dots, n_{i}, \dots )\)</span>, i.e., a function of all previous state occupations by the individual, where <span class="math inline">\(n_i\)</span> are the state-specific counts of past occupations. The rate <span class="math inline">\(\tilde{\mu}_i\)</span> hence maintains a ‘record’ of past state occupations and updates accordingly through this memory. Additionally, we will make each rate <span class="math inline">\(\tilde{\Lambda}_i=\tilde{\Lambda}_i(n_{i})\)</span>, i.e., a function <em>only</em> of the state-specific count associated to each rate, respectively. The choice in the latter case comes from interpreting the counting memory as a model for capsular immunity - this will also turn out to be quite important for our approximation further on.</p>
-<p>Note that in <span class="citation" data-cites="cobey2012niche">[1]</span>, the models of nonspecific and specific immunity suggest choosing the following functions</p>
+<p>Multi-state models (stochastic processes occupying one of a finite
+set of states at each moment in time) appear to describe many natural
+phenomena, but are probably most frequently used in the mathematical
+modelling of population health. The statistical inference (or selection)
+of these models for real-world applications frequently involves data in
+the form of a sequence of individual state observations, which are often
+coupled with some diagnostic uncertainty.</p>
+<p>There are over 90 known capsular serotypes of <em>Streptococcus
+pneumoniae</em>, which persist despite their mutual competition for the
+same ecological niche (the nasopharynx) and a known fitness gradient.
+Motivated by the global pneumococcal disease burden, a specific class of
+multi-state models has been developed to describe the carriage dynamics
+which offers a neat explanation of this persistence through
+immunity-driven stabilisation effects (see <span class="citation"
+data-cites="cobey2012niche">[1]</span>). This class of model typically
+uses a counting memory of past state (or serotype) occupations (or
+colonisations) as a model for human immunity (see, e.g., <span
+class="citation" data-cites="flasche2013impact">[2]</span> for an
+alternative formulation and <span class="citation"
+data-cites="lochen2020dynamic">[3]</span> for a general review of the
+carriage transmission models). Building from these mathematical models,
+a range of statistical approaches have also been used to infer the
+pneumococcal carriage through a given population from nasopharyngeal
+swab sample data (e.g., <span class="citation"
+data-cites="lipsitch2012estimating">[4]</span> and <span
+class="citation" data-cites="numminen2013estimating">[5]</span>). All of
+this is obviously really important, e.g., to understanding more
+precisely how a vaccine covering a restricted range of serotypes can
+impact colonisation in a given community or region.</p>
+<p>The design of policies for gathering data will always have a direct
+impact on the quality and utility of information that can be learned
+about a model via statistical inference. Therefore, it’s typically
+useful to know <em>a priori</em> the fundamental constraints a given
+policy might impose on this procedure. The purpose of the pneumoinfer
+class is to provide researchers with a rigorous framework to investigate
+these limitations for the inference of multi-state models with a
+counting memory - which are structurally inspired by the pneumococcus
+carriage models of <span class="citation"
+data-cites="cobey2012niche">[1]</span> and <span class="citation"
+data-cites="lipsitch2012estimating">[4]</span>. The framework should
+also useful in model inference with real data.</p>
+<p>In this post, we’re going to analyse the master equation of a
+stochastic model which includes memory effects from individual immunity
+and investigate a novel (to our knowledge) approximate ODE description
+for the dynamics, while assessing its validity. By then exploiting the
+new efficient ODE description, we will be able to develop a new method
+of inference that is very rapid in comparison to simulated likelihoods
+(or even ABC/likelihood-free inference methods). This is the main
+inference method that is implemented in the pneumoinfer class.</p>
+<h2 id="the-fixed-lambda_i-model">The fixed <span
+class="math inline">\(\Lambda_i\)</span> model</h2>
+<p>Let’s now construct a multi-state model which incorporates a counting
+memory of past state occupations. This will include: an event rate of
+state clearance <span class="math inline">\(\tilde{\mu}_i\)</span> - the
+rate at which an individual occupying the <span
+class="math inline">\(i\)</span>-th indexed state returns to the null
+state; an event rate of susceptibility <span
+class="math inline">\(\tilde{\Lambda}_i\)</span> for an individual
+moving to the <span class="math inline">\(i\)</span>-th state from the
+null state; and a state-specific factor matrix <span
+class="math inline">\(f_{ii&#39;}\)</span> which rescales <span
+class="math inline">\(\tilde{\Lambda}_{i&#39;}\)</span> to create an
+event rate for an individual moving directly between the <span
+class="math inline">\(i\)</span>-th and <span
+class="math inline">\(i&#39;\)</span>-th states.</p>
+<p>Now consider <span class="math inline">\(\tilde{\mu}_i=\tilde{\mu}_i(
+\dots, n_{i}, \dots )\)</span>, i.e., a function of all previous state
+occupations by the individual, where <span
+class="math inline">\(n_i\)</span> are the state-specific counts of past
+occupations. The rate <span class="math inline">\(\tilde{\mu}_i\)</span>
+hence maintains a ‘record’ of past state occupations and updates
+accordingly through this memory. Additionally, we will make each rate
+<span
+class="math inline">\(\tilde{\Lambda}_i=\tilde{\Lambda}_i(n_{i})\)</span>,
+i.e., a function <em>only</em> of the state-specific count associated to
+each rate, respectively. The choice in the latter case comes from
+interpreting the counting memory as a model for capsular immunity - this
+will also turn out to be quite important for our approximation further
+on.</p>
+<p>Note that in <span class="citation"
+data-cites="cobey2012niche">[1]</span>, the models of nonspecific and
+specific immunity suggest choosing the following functions</p>
 <p><span class="math display">\[
 \begin{align}
-\tilde{\mu}_i( \dots, n_{i}, \dots ) &amp;= \mu_{\rm max} + (\mu_i - \mu_{\rm max})\exp \bigg( -\epsilon \sum_{\forall i&#39;}n_{i&#39;} \bigg) \\
-\tilde{\Lambda}_i(n_i) &amp;= \Lambda_{i}{\bf 1}_{n_i=0} + \sigma \Lambda_{i}{\bf 1}_{n_i&gt;0} \,.
+\tilde{\mu}_i( \dots, n_{i}, \dots ) &amp;= \mu_{\rm max} + (\mu_i -
+\mu_{\rm max})\exp \bigg( -\epsilon \sum_{\forall i&#39;}n_{i&#39;}
+\bigg) \\
+\tilde{\Lambda}_i(n_i) &amp;= \Lambda_{i}{\bf 1}_{n_i=0} + \sigma
+\Lambda_{i}{\bf 1}_{n_i&gt;0} \,.
 \end{align}
 \]</span></p>
-<p>In the expressions above: <span class="math inline">\(\epsilon\)</span> governs the level of (immune system maturation) with respect to the number of past state occupations; <span class="math inline">\({\bf 1}_A\)</span> denotes an indicator function whose argument is unity when <span class="math inline">\(A\)</span> is satisfied, else <span class="math inline">\(0\)</span>; and the susceptibility of an individual is assumed to be reduced by a constant factor of <span class="math inline">\(\sigma\)</span> after having occupied that state once or more.</p>
-<p>The multi-state process that we’re going to consider would be normally be described as a non-Markovian phenomenon. However, the modelling approach we will take is instead a bit more similar to the formal concept of a Markov embedding (as studied, e.g., recently in <span class="citation" data-cites="kanazawa2021ubiquitous">[6]</span>). By creating a binary state occupation variable <span class="math inline">\(x_i\)</span> for the <span class="math inline">\(i\)</span>-th serotype, and the probability of occupying state <span class="math inline">\((\dots , x_i , \dots , n_i , \dots )\)</span> at time <span class="math inline">\(t\)</span> as <span class="math inline">\(P(\dots , x_i , \dots , n_i , \dots , t)\)</span>, we may write a Markovian master equation for the process. Let’s now define</p>
+<p>In the expressions above: <span
+class="math inline">\(\epsilon\)</span> governs the level of (immune
+system maturation) with respect to the number of past state occupations;
+<span class="math inline">\({\bf 1}_A\)</span> denotes an indicator
+function whose argument is unity when <span
+class="math inline">\(A\)</span> is satisfied, else <span
+class="math inline">\(0\)</span>; and the susceptibility of an
+individual is assumed to be reduced by a constant factor of <span
+class="math inline">\(\sigma\)</span> after having occupied that state
+once or more.</p>
+<p>The multi-state process that we’re going to consider would be
+normally be described as a non-Markovian phenomenon. However, the
+modelling approach we will take is instead a bit more similar to the
+formal concept of a Markov embedding (as studied, e.g., recently in
+<span class="citation" data-cites="kanazawa2021ubiquitous">[6]</span>).
+By creating a binary state occupation variable <span
+class="math inline">\(x_i\)</span> for the <span
+class="math inline">\(i\)</span>-th serotype, and the probability of
+occupying state <span class="math inline">\((\dots , x_i , \dots , n_i ,
+\dots )\)</span> at time <span class="math inline">\(t\)</span> as <span
+class="math inline">\(P(\dots , x_i , \dots , n_i , \dots , t)\)</span>,
+we may write a Markovian master equation for the process. Let’s now
+define</p>
 <p><span class="math display">\[
 \begin{align}
-p_i(\dots ,n_i,\dots ,t) &amp;\equiv P(\dots, x_{i}=1, x_{i&#39;}=0, \dots ,n_{i},\dots ,t)\quad  \forall i&#39;\neq i \\
-q(\dots ,n_i,\dots ,t) &amp;\equiv P(\dots, x_{i}=0, \dots ,n_{i},\dots ,t) \quad \forall i\,.
+p_i(\dots ,n_i,\dots ,t) &amp;\equiv P(\dots, x_{i}=1, x_{i&#39;}=0,
+\dots ,n_{i},\dots ,t)\quad  \forall i&#39;\neq i \\
+q(\dots ,n_i,\dots ,t) &amp;\equiv P(\dots, x_{i}=0, \dots ,n_{i},\dots
+,t) \quad \forall i\,.
 \end{align}
 \]</span></p>
-<p>Using these definitions, it is straightforward to show that the master equation satisfies</p>
+<p>Using these definitions, it is straightforward to show that the
+master equation satisfies</p>
 <p><span class="math display">\[
 \begin{align}
-\frac{{\rm d}}{{\rm d}t}p_i(\dots ,n_i,\dots ,t) &amp;= \tilde{\Lambda}_i(n_i-1)q(\dots ,n_{i}-1,\dots ,t) + \sum_{\forall i&#39; \neq i}f_{i&#39;i}\tilde{\Lambda}_i (n_i-1)p_{i&#39;}(\dots ,n_{i&#39;}, n_i-1,\dots ,t) \\
-&amp;\quad - \tilde{\mu}_i( \dots, n_{i}, \dots ) p_i(\dots ,n_i,\dots ,t) - \sum_{\forall i&#39;\neq i}f_{ii&#39;}\tilde{\Lambda}_{i&#39;} (n_{i&#39;}) p_i(\dots ,n_i,\dots ,t) \\
-\frac{{\rm d}}{{\rm d}t}q(\dots ,n_i,\dots ,t) &amp;= \sum_{\forall i}\tilde{\mu}_i( \dots, n_{i}, \dots )p_i(\dots ,n_i,\dots ,t) - \sum_{\forall i}\tilde{\Lambda}_i(n_i) q(\dots ,n_i,\dots ,t) \,.
+\frac{{\rm d}}{{\rm d}t}p_i(\dots ,n_i,\dots ,t) &amp;=
+\tilde{\Lambda}_i(n_i-1)q(\dots ,n_{i}-1,\dots ,t) + \sum_{\forall
+i&#39; \neq i}f_{i&#39;i}\tilde{\Lambda}_i (n_i-1)p_{i&#39;}(\dots
+,n_{i&#39;}, n_i-1,\dots ,t) \\
+&amp;\quad - \tilde{\mu}_i( \dots, n_{i}, \dots ) p_i(\dots ,n_i,\dots
+,t) - \sum_{\forall i&#39;\neq i}f_{ii&#39;}\tilde{\Lambda}_{i&#39;}
+(n_{i&#39;}) p_i(\dots ,n_i,\dots ,t) \\
+\frac{{\rm d}}{{\rm d}t}q(\dots ,n_i,\dots ,t) &amp;= \sum_{\forall
+i}\tilde{\mu}_i( \dots, n_{i}, \dots )p_i(\dots ,n_i,\dots ,t) -
+\sum_{\forall i}\tilde{\Lambda}_i(n_i) q(\dots ,n_i,\dots ,t) \,.
 \end{align}
 \]</span></p>
-<p>By defining the state space to encode the memory of past state occupations using the <span class="math inline">\(n_i\)</span> values themselves, the process is Markovian over the full <span class="math inline">\((\dots , x_i,\dots ,n_i,\dots)\)</span> space. Note also that one may obtain the time-dependent joint distribution over the <span class="math inline">\((\dots ,n_i,\dots)\)</span> space, i.e., <span class="math inline">\(P(\dots, n_i, \dots, t)\)</span>, through marginalisation at any time</p>
+<p>By defining the state space to encode the memory of past state
+occupations using the <span class="math inline">\(n_i\)</span> values
+themselves, the process is Markovian over the full <span
+class="math inline">\((\dots , x_i,\dots ,n_i,\dots)\)</span> space.
+Note also that one may obtain the time-dependent joint distribution over
+the <span class="math inline">\((\dots ,n_i,\dots)\)</span> space, i.e.,
+<span class="math inline">\(P(\dots, n_i, \dots, t)\)</span>, through
+marginalisation at any time</p>
 <p><span class="math display">\[
 \begin{equation}
-P(\dots, n_i, \dots, t) = q(\dots, n_i, \dots, t) + \sum_{\forall i} p_i(\dots, n_i, \dots, t) \,.
+P(\dots, n_i, \dots, t) = q(\dots, n_i, \dots, t) + \sum_{\forall i}
+p_i(\dots, n_i, \dots, t) \,.
 \end{equation}
 \]</span></p>
-<p>Though we intend our analysis of this class of multi-state models to apply more generally beyond immediate applications to pneumococcus, it also is worth noting that restricting individuals to occupy a single state at a time only approximates the full pneumococcal carriage dynamics. The true process actually allows for some individuals to carry more than one serotype at at time. However, due to the relatively low and variable reported prevalence of simultaneous serotype carriers (or ‘co-colonised’ individuals) across different studies (see, e.g., <span class="citation" data-cites="gratten1989multiple">[7]</span>, <span class="citation" data-cites="huebner2000lack">[8]</span> and many others…), the single-state occupation model should still a good tracer model of the underlying dynamical behaviour of the system. Note also that this additional complexity in the dynamics should be straightforward to incorporate into our framework for future analyses.</p>
-<p>Let’s now try an approximation for the joint distributions of <span class="math inline">\(p_i(\dots, n_i, \dots, t)\)</span> and <span class="math inline">\(q(\dots, n_i, \dots, t)\)</span> which assumes separability, such that</p>
+<p>Though we intend our analysis of this class of multi-state models to
+apply more generally beyond immediate applications to pneumococcus, it
+also is worth noting that restricting individuals to occupy a single
+state at a time only approximates the full pneumococcal carriage
+dynamics. The true process actually allows for some individuals to carry
+more than one serotype at at time. However, due to the relatively low
+and variable reported prevalence of simultaneous serotype carriers (or
+‘co-colonised’ individuals) across different studies (see, e.g., <span
+class="citation" data-cites="gratten1989multiple">[7]</span>, <span
+class="citation" data-cites="huebner2000lack">[8]</span> and many
+others…), the single-state occupation model should still a good tracer
+model of the underlying dynamical behaviour of the system. Note also
+that this additional complexity in the dynamics should be
+straightforward to incorporate into our framework for future
+analyses.</p>
+<p>Let’s now try an approximation for the joint distributions of <span
+class="math inline">\(p_i(\dots, n_i, \dots, t)\)</span> and <span
+class="math inline">\(q(\dots, n_i, \dots, t)\)</span> which assumes
+separability, such that</p>
 <p><span class="math display">\[
 \begin{align}
 \ p_i(\dots, n_i, \dots, t) &amp;\simeq p_i(t)P(\dots, n_i, \dots, t) \\
 \ q(\dots, n_i, \dots, t) &amp;\simeq q(t)P(\dots, n_i, \dots, t) \,.
 \end{align}
 \]</span></p>
-<p>We shall evaluate the quality of this approximation later on (so don’t worry) under different parametric conditions, but for now, let’s just treat it as an ansatz.</p>
-<p>By marginalising over states in the master equation, then substituting in the approximations above, and finally marginalising (each a summation from <span class="math inline">\(n_{i&#39;}=0\)</span> to <span class="math inline">\(\infty\)</span>) over the resulting relation <span class="math inline">\(\forall n_{i&#39;} \,\, i&#39;\neq i\)</span>, one finds that the following time evolution equation is separately satisfied by each marginal <span class="math inline">\(P(n_i,t)\)</span> distribution</p>
+<p>We shall evaluate the quality of this approximation later on (so
+don’t worry) under different parametric conditions, but for now, let’s
+just treat it as an ansatz.</p>
+<p>By marginalising over states in the master equation, then
+substituting in the approximations above, and finally marginalising
+(each a summation from <span class="math inline">\(n_{i&#39;}=0\)</span>
+to <span class="math inline">\(\infty\)</span>) over the resulting
+relation <span class="math inline">\(\forall n_{i&#39;} \,\, i&#39;\neq
+i\)</span>, one finds that the following time evolution equation is
+separately satisfied by each marginal <span
+class="math inline">\(P(n_i,t)\)</span> distribution</p>
 <p><span class="math display">\[
 \begin{align}
-\frac{{\rm d}}{{\rm d}t}P(n_i,t) &amp;= \bigg[ \tilde{\Lambda}_i(n_i-1)q(t) + \sum_{\forall i&#39;\neq i}  f_{i&#39;i}\tilde{\Lambda}_{i} (n_{i}-1) p_{i&#39;}(t) \bigg] P(n_{i}-1,t) \\
-&amp;\quad - \bigg[ \tilde{\Lambda}_i(n_i)q(t) + \sum_{\forall i&#39;\neq i} f_{ii&#39;}\tilde{\Lambda}_{i&#39;} (n_{i&#39;}) p_i(t)\bigg] P(n_i,t) \,.
+\frac{{\rm d}}{{\rm d}t}P(n_i,t) &amp;= \bigg[
+\tilde{\Lambda}_i(n_i-1)q(t) + \sum_{\forall i&#39;\neq
+i}  f_{i&#39;i}\tilde{\Lambda}_{i} (n_{i}-1) p_{i&#39;}(t) \bigg]
+P(n_{i}-1,t) \\
+&amp;\quad - \bigg[ \tilde{\Lambda}_i(n_i)q(t) + \sum_{\forall
+i&#39;\neq i} f_{ii&#39;}\tilde{\Lambda}_{i&#39;} (n_{i&#39;})
+p_i(t)\bigg] P(n_i,t) \,.
 \end{align}
 \]</span></p>
-<p>In addition to the separability assumption, the key point which allowed us to derive this one-step marginal master equation was the dependence of <span class="math inline">\(\tilde{\Lambda}_i\)</span> on <em>only</em> <span class="math inline">\(n_i\)</span>; in contrast to all of the past recorded states <span class="math inline">\((\dots, n_i, \dots)\)</span> like <span class="math inline">\(\tilde{\mu}_i\)</span>.</p>
-<p>From this point on we’ll focus on the specific pneumococcus model by inserting the rate function definitions from <span class="citation" data-cites="cobey2012niche">[1]</span> that we introduced at the start into the marginal master equation for <span class="math inline">\(P(n_i,t)\)</span>. The pneumoinfer class is currently written for only these models (i.e., with just these choices of function), but it’s useful to see how the steps above could be performed for more general models too. The solution to the marginal master equation with these function substitutions is simply a Poisson distribution <span class="math inline">\(P(n_i,t) = {\rm Poisson}[n_i;{\rm E}_t(n_i)]\)</span>, where</p>
+<p>In addition to the separability assumption, the key point which
+allowed us to derive this one-step marginal master equation was the
+dependence of <span class="math inline">\(\tilde{\Lambda}_i\)</span> on
+<em>only</em> <span class="math inline">\(n_i\)</span>; in contrast to
+all of the past recorded states <span class="math inline">\((\dots, n_i,
+\dots)\)</span> like <span
+class="math inline">\(\tilde{\mu}_i\)</span>.</p>
+<p>From this point on we’ll focus on the specific pneumococcus model by
+inserting the rate function definitions from <span class="citation"
+data-cites="cobey2012niche">[1]</span> that we introduced at the start
+into the marginal master equation for <span
+class="math inline">\(P(n_i,t)\)</span>. The pneumoinfer class is
+currently written for only these models (i.e., with just these choices
+of function), but it’s useful to see how the steps above could be
+performed for more general models too. The solution to the marginal
+master equation with these function substitutions is simply a Poisson
+distribution <span class="math inline">\(P(n_i,t) = {\rm
+Poisson}[n_i;{\rm E}_t(n_i)]\)</span>, where</p>
 <p><span class="math display">\[
 \begin{equation}
-{\rm E}_t (n_i) = {\rm E}_{t_{\rm init}}(n_i) + \int^t_{t_{\rm init}}{\rm d}t&#39;\bigg[ \sigma \Lambda_iq(t&#39;) +\sum_{\forall i&#39;\neq i}  f_{i&#39;i}\sigma \Lambda_{i} p_{i&#39;}(t&#39;)\bigg] \,.
+{\rm E}_t (n_i) = {\rm E}_{t_{\rm init}}(n_i) + \int^t_{t_{\rm
+init}}{\rm d}t&#39;\bigg[ \sigma \Lambda_iq(t&#39;) +\sum_{\forall
+i&#39;\neq i}  f_{i&#39;i}\sigma \Lambda_{i} p_{i&#39;}(t&#39;)\bigg]
+\,.
 \end{equation}
 \]</span></p>
-<p>Exploiting the properties of this Poisson distribution, if we now return to the full master equation and marginalise them over all <span class="math inline">\(n_i\)</span>, while noting that</p>
+<p>Exploiting the properties of this Poisson distribution, if we now
+return to the full master equation and marginalise them over all <span
+class="math inline">\(n_i\)</span>, while noting that</p>
 <p><span class="math display">\[
 \begin{align}
-\ p_i(t) &amp;= \sum_{\forall n_i}\sum_{n_{i}=0}^\infty p_i(\dots, n_i, \dots, t) \\
-\ q(t) &amp;= \sum_{\forall n_i}\sum_{n_{i}=0}^\infty q(\dots, n_i, \dots, t) \,,
+\ p_i(t) &amp;= \sum_{\forall n_i}\sum_{n_{i}=0}^\infty p_i(\dots, n_i,
+\dots, t) \\
+\ q(t) &amp;= \sum_{\forall n_i}\sum_{n_{i}=0}^\infty q(\dots, n_i,
+\dots, t) \,,
 \end{align}
 \]</span></p>
-<p>one arrives at the following finite (implicitly integro-differential) system</p>
+<p>one arrives at the following finite (implicitly integro-differential)
+system</p>
 <p><span class="math display">\[
 \begin{align}
-\frac{{\rm d}}{{\rm d}t}p_i(t) &amp;= \Lambda_iF_{it} q(t) + \sum_{\forall i&#39;\neq i} f_{i&#39;i} \Lambda_iF_{it} p_{i&#39;}(t) - \mu_iG_{it} p_i(t)-\sum_{\forall i&#39;\neq i}f_{ii&#39;}\Lambda_{i&#39;}F_{i&#39;t} p_i(t) \\
-\frac{{\rm d}}{{\rm d}t}q(t) &amp;= \sum_{\forall i}\mu_iG_{it}p_i(t) - \sum_{\forall i}\Lambda_iF_{it}q(t)\,,
+\frac{{\rm d}}{{\rm d}t}p_i(t) &amp;= \Lambda_iF_{it} q(t) +
+\sum_{\forall i&#39;\neq i} f_{i&#39;i} \Lambda_iF_{it} p_{i&#39;}(t) -
+\mu_iG_{it} p_i(t)-\sum_{\forall i&#39;\neq
+i}f_{ii&#39;}\Lambda_{i&#39;}F_{i&#39;t} p_i(t) \\
+\frac{{\rm d}}{{\rm d}t}q(t) &amp;= \sum_{\forall i}\mu_iG_{it}p_i(t) -
+\sum_{\forall i}\Lambda_iF_{it}q(t)\,,
 \end{align}
 \]</span></p>
 <p>where, to avoid repetition, we have defined</p>
 <p><span class="math display">\[
 \begin{align}
-\ F_{it} &amp;= P(n_i=0,t)+\sigma P(n_i&gt;0,t) = e^{-{\rm E}_t(n_i)}+\sigma \big[ 1-e^{-{\rm E}_t(n_i)}\big] \\
-\ G_{it} &amp;= \frac{\mu_{\rm max}}{\mu_i} + \bigg( 1-\frac{\mu_{\rm max}}{\mu_i}\bigg) e^{\sum_{\forall i}{\rm E}_t(n_i)(e^{-\epsilon}-1)}\,, 
+\ F_{it} &amp;= P(n_i=0,t)+\sigma P(n_i&gt;0,t) = e^{-{\rm
+E}_t(n_i)}+\sigma \big[ 1-e^{-{\rm E}_t(n_i)}\big] \\
+\ G_{it} &amp;= \frac{\mu_{\rm max}}{\mu_i} + \bigg( 1-\frac{\mu_{\rm
+max}}{\mu_i}\bigg) e^{\sum_{\forall i}{\rm
+E}_t(n_i)(e^{-\epsilon}-1)}\,,
 \end{align}
 \]</span></p>
-<p>where to derive <span class="math inline">\(G_{it}\)</span> we have had to assume conditional independence between <span class="math inline">\(n_i\)</span> and <span class="math inline">\(n_{i&#39;}\,\,\forall i&#39;\neq i\)</span>. The equation for <span class="math inline">\({\rm E}_t (n_i)\)</span> can be differentiated to provide an equation for the time derivative of <span class="math inline">\({\rm E}_t(n_i)\)</span> - evolving this equation alongside the system defined above yields an explicit finite ODE system. Note also that this approximation technique should apply to other forms of memory functions used for <span class="math inline">\(\tilde{\mu}_i(\dots, n_i, \dots)\)</span> and <span class="math inline">\(\tilde{\Lambda}_i(n_i)\)</span> by simply marginalising over their <span class="math inline">\(n_i\)</span> values, and so this approximate approach appears to be quite generalisable to other simlar systems.</p>
-<p>In order to analyse the system properties and check the validity of the approach above, we’re now going to make some decisions about the parameter space to explore. Let’s independently draw the <span class="math inline">\((\mu_i,\Lambda_i)\)</span> values from Gamma distributions with shapes <span class="math inline">\((\mu_\alpha,\Lambda_\alpha)\)</span> and rates <span class="math inline">\((\mu_\beta,\Lambda_\beta)\)</span>. Let’s also constrain the matrix values <span class="math inline">\(f_{ii&#39;}=f_{i}{\bf I}_{i&#39;}\)</span> (where <span class="math inline">\({\bf I}_{i&#39;}\)</span> denotes the elements of a simple vector of ones) which also happens to be consistent with pneumococcus data anyway (see, e.g., <span class="citation" data-cites="lipsitch2012estimating">[4]</span>). We’ll also need a metric of comparison between the marginalised distribution outputs from the fully simulated master equation and our approximation. To this end, it probably makes sense to look at the Kullback-Leibler divergence <span class="citation" data-cites="kullback1951information">[9]</span> between the marginal distributions for <span class="math inline">\(x_i\)</span> and <span class="math inline">\(n_i\)</span> in a full stochastic simulation and our approximation. In other words</p>
+<p>where to derive <span class="math inline">\(G_{it}\)</span> we have
+had to assume conditional independence between <span
+class="math inline">\(n_i\)</span> and <span
+class="math inline">\(n_{i&#39;}\,\,\forall i&#39;\neq i\)</span>. The
+equation for <span class="math inline">\({\rm E}_t (n_i)\)</span> can be
+differentiated to provide an equation for the time derivative of <span
+class="math inline">\({\rm E}_t(n_i)\)</span> - evolving this equation
+alongside the system defined above yields an explicit finite ODE system.
+Note also that this approximation technique should apply to other forms
+of memory functions used for <span
+class="math inline">\(\tilde{\mu}_i(\dots, n_i, \dots)\)</span> and
+<span class="math inline">\(\tilde{\Lambda}_i(n_i)\)</span> by simply
+marginalising over their <span class="math inline">\(n_i\)</span>
+values, and so this approximate approach appears to be quite
+generalisable to other simlar systems.</p>
+<p>In order to analyse the system properties and check the validity of
+the approach above, we’re now going to make some decisions about the
+parameter space to explore. Let’s independently draw the <span
+class="math inline">\((\mu_i,\Lambda_i)\)</span> values from Gamma
+distributions with shapes <span
+class="math inline">\((\mu_\alpha,\Lambda_\alpha)\)</span> and rates
+<span class="math inline">\((\mu_\beta,\Lambda_\beta)\)</span>. Let’s
+also constrain the matrix values <span
+class="math inline">\(f_{ii&#39;}=f_{i}{\bf I}_{i&#39;}\)</span> (where
+<span class="math inline">\({\bf I}_{i&#39;}\)</span> denotes the
+elements of a simple vector of ones) which also happens to be consistent
+with pneumococcus data anyway (see, e.g., <span class="citation"
+data-cites="lipsitch2012estimating">[4]</span>). We’ll also need a
+metric of comparison between the marginalised distribution outputs from
+the fully simulated master equation and our approximation. To this end,
+it probably makes sense to look at the Kullback-Leibler divergence <span
+class="citation" data-cites="kullback1951information">[9]</span> between
+the marginal distributions for <span class="math inline">\(x_i\)</span>
+and <span class="math inline">\(n_i\)</span> in a full stochastic
+simulation and our approximation. In other words</p>
 <p><span class="math display">\[
 \begin{align}
-\ D^{(x)}_{{}_{\rm KL}} &amp;= \sum_{\forall i} p_{i, {\rm sim}}(t) \ln \Bigg[ \frac{p_{i, {\rm sim}}(t)}{p_i(t)} \Bigg]  \\ 
-&amp;\simeq - \sum_{\forall i} \frac{\ln Z_{\rm sim}(x_i, t)}{Z_{\rm sim}(x_i, t)} -\sum_{\forall i} \frac{\ln p_i(t)}{Z_{\rm sim}(x_i, t)} \\
-\ D^{(n_i)}_{{}_{\rm KL}} &amp;= \sum_{n_i=0}^{\infty} P_{\rm sim}(n_i, t) \ln \Bigg[ \frac{P_{\rm sim}(n_i, t)}{P(n_i,t)} \Bigg] \\ 
-&amp;\simeq - \sum_{n_i=0}^{\infty}\frac{\ln Z_{\rm sim}(n_i, t)}{Z_{\rm sim}(n_i, t)} - \sum_{n_i=0}^{\infty} \frac{\ln {\rm Poisson}[n_i;{\rm E}_t(n_i)]}{Z_{\rm sim}(n_i, t)} \\
-&amp;\simeq - \sum_{n_i=0}^{\infty}\frac{\ln Z_{\rm sim}(n_i, t)}{Z_{\rm sim}(n_i, t)} - \sum_{n_i=0}^{\infty} \bigg[ \frac{n_i\ln {\rm E}_t(n_i) - {\rm E}_t(n_i) - \ln \Gamma (n_i+1)}{Z_{\rm sim}(n_i, t)} \bigg] \,,
+\ D^{(x)}_{{}_{\rm KL}} &amp;= \sum_{\forall i} p_{i, {\rm sim}}(t) \ln
+\Bigg[ \frac{p_{i, {\rm sim}}(t)}{p_i(t)} \Bigg]  \\
+&amp;\simeq - \sum_{\forall i} \frac{\ln Z_{\rm sim}(x_i, t)}{Z_{\rm
+sim}(x_i, t)} -\sum_{\forall i} \frac{\ln p_i(t)}{Z_{\rm sim}(x_i, t)}
+\\
+\ D^{(n_i)}_{{}_{\rm KL}} &amp;= \sum_{n_i=0}^{\infty} P_{\rm sim}(n_i,
+t) \ln \Bigg[ \frac{P_{\rm sim}(n_i, t)}{P(n_i,t)} \Bigg] \\
+&amp;\simeq - \sum_{n_i=0}^{\infty}\frac{\ln Z_{\rm sim}(n_i, t)}{Z_{\rm
+sim}(n_i, t)} - \sum_{n_i=0}^{\infty} \frac{\ln {\rm Poisson}[n_i;{\rm
+E}_t(n_i)]}{Z_{\rm sim}(n_i, t)} \\
+&amp;\simeq - \sum_{n_i=0}^{\infty}\frac{\ln Z_{\rm sim}(n_i, t)}{Z_{\rm
+sim}(n_i, t)} - \sum_{n_i=0}^{\infty} \bigg[ \frac{n_i\ln {\rm E}_t(n_i)
+- {\rm E}_t(n_i) - \ln \Gamma (n_i+1)}{Z_{\rm sim}(n_i, t)} \bigg] \,,
 \end{align}
 \]</span></p>
-<p>where <span class="math inline">\(Z_{\rm sim}(x_i, t)\)</span> and <span class="math inline">\(Z_{\rm sim}(n_i, t)\)</span> denote the marginal frequency counts in each state space derived from a stochastic simulation of the master equation. Note that for the whole <span class="math inline">\((\dots, n_i, \dots)\)</span> space, a better comparison would involve Monte Carlo integration of the joint counts <span class="math inline">\(Z_{\rm sim}(\dots, n_i, \dots, t)\)</span>. However, this is quite a lot more challenging with many dimensions (usually necessitating nested sampling) and so we’ll consider it to be beyond the present scope.</p>
-<p>Using the .run_sim method of the pneumoinfer class, and the equations above, we can generate numerically-approximate plots of the Kullback-Leibler divergence on the marginal distributions over a range of numbers of states, parameters and points in time.</p>
+<p>where <span class="math inline">\(Z_{\rm sim}(x_i, t)\)</span> and
+<span class="math inline">\(Z_{\rm sim}(n_i, t)\)</span> denote the
+marginal frequency counts in each state space derived from a stochastic
+simulation of the master equation. Note that for the whole <span
+class="math inline">\((\dots, n_i, \dots)\)</span> space, a better
+comparison would involve Monte Carlo integration of the joint counts
+<span class="math inline">\(Z_{\rm sim}(\dots, n_i, \dots, t)\)</span>.
+However, this is quite a lot more challenging with many dimensions
+(usually necessitating nested sampling) and so we’ll consider it to be
+beyond the present scope.</p>
+<p>Using the .run_sim method of the pneumoinfer class, and the equations
+above, we can generate numerically-approximate plots of the
+Kullback-Leibler divergence on the marginal distributions over a range
+of numbers of states, parameters and points in time.</p>
 <p><img src="../assets/pneumoinfer/dkl-fixed.png" /></p>
-<p>The value of <span class="math inline">\(D_{{}_{\rm KL}}^{(x)}\)</span> generally stays small (and stable) throughout for most parameter choices. Interestingly, the same cannot be said for the <span class="math inline">\(D_{{}_{\rm KL}}^{(n_i)}\)</span> values, which appear to tend towards a deviation which is linearly proportional in time. If we now plot the time evolution of each set of quantities explicitly in time, we can see this is consistent with the observed deviations between the simulation and the ODE approximation.</p>
+<p>The value of <span class="math inline">\(D_{{}_{\rm
+KL}}^{(x)}\)</span> generally stays small (and stable) throughout for
+most parameter choices. Interestingly, the same cannot be said for the
+<span class="math inline">\(D_{{}_{\rm KL}}^{(n_i)}\)</span> values,
+which appear to tend towards a deviation which is linearly proportional
+in time. If we now plot the time evolution of each set of quantities
+explicitly in time, we can see this is consistent with the observed
+deviations between the simulation and the ODE approximation.</p>
 <p><img src="../assets/pneumoinfer/dynamics-fixed.png" /></p>
-<h2 id="a-varying-lambda_iu-model">A varying <span class="math inline">\(\Lambda_{iu}\)</span> model</h2>
-<p>We’re now ready to introduce an alternative model which accounts for a stochastically-varying susceptibility <span class="math inline">\(\Lambda_{iu}\)</span> (a possible model for community exposure to infectious individuals), which is now additionally indexed by ‘<span class="math inline">\(u\)</span>’ which corresponds to each individual. In this model, we have</p>
+<h2 id="a-varying-lambda_iu-model">A varying <span
+class="math inline">\(\Lambda_{iu}\)</span> model</h2>
+<p>We’re now ready to introduce an alternative model which accounts for
+a stochastically-varying susceptibility <span
+class="math inline">\(\Lambda_{iu}\)</span> (a possible model for
+community exposure to infectious individuals), which is now additionally
+indexed by ‘<span class="math inline">\(u\)</span>’ which corresponds to
+each individual. In this model, we have</p>
 <p><span class="math display">\[
 \begin{equation}
-\Lambda_{iu} = \Lambda_{\rm min} + \lambda\sum_{\forall u&#39;\neq u}\beta_{uu&#39;} \frac{x_{iu&#39;}}{N_{\rm p}}\,,
+\Lambda_{iu} = \Lambda_{\rm min} + \lambda\sum_{\forall u&#39;\neq
+u}\beta_{uu&#39;} \frac{x_{iu&#39;}}{N_{\rm p}}\,,
 \end{equation}
 \]</span></p>
-<p>where: the total population number is <span class="math inline">\(N_{\rm p}\)</span>; <span class="math inline">\(\beta_{uu&#39;}\)</span> are elements of a ‘contact matrix’ which rescales the event rate according to the spreading behaviour between the <span class="math inline">\(u\)</span>-th and <span class="math inline">\(u&#39;\)</span>-th individuals; <span class="math inline">\(\lambda\)</span> is a constant normalisation for <span class="math inline">\(\beta_{uu&#39;}\)</span>; and <span class="math inline">\(x_{iu&#39;}\)</span> records the state of the <span class="math inline">\(u&#39;\)</span>-th individual.</p>
-<p>Extending the master equation we introduced in the previous section to include the susceptibility above and the states of <span class="math inline">\(N_{\rm p}\)</span> individuals, one can easily adapt the argument of the previous section to arrive at the following generalisation of the ODE system we found earlier</p>
+<p>where: the total population number is <span
+class="math inline">\(N_{\rm p}\)</span>; <span
+class="math inline">\(\beta_{uu&#39;}\)</span> are elements of a
+‘contact matrix’ which rescales the event rate according to the
+spreading behaviour between the <span
+class="math inline">\(u\)</span>-th and <span
+class="math inline">\(u&#39;\)</span>-th individuals; <span
+class="math inline">\(\lambda\)</span> is a constant normalisation for
+<span class="math inline">\(\beta_{uu&#39;}\)</span>; and <span
+class="math inline">\(x_{iu&#39;}\)</span> records the state of the
+<span class="math inline">\(u&#39;\)</span>-th individual.</p>
+<p>Extending the master equation we introduced in the previous section
+to include the susceptibility above and the states of <span
+class="math inline">\(N_{\rm p}\)</span> individuals, one can easily
+adapt the argument of the previous section to arrive at the following
+generalisation of the ODE system we found earlier</p>
 <p><span class="math display">\[
 \begin{align}
-\frac{{\rm d}}{{\rm d}t}p_{iu}(t) &amp;= {\rm E}_t(\Lambda_{iu})F_{it} q_u(t) + \sum_{\forall i&#39;\neq i} f_{i&#39;i} {\rm E}_t(\Lambda_{iu})F_{it} p_{i&#39;u}(t) - \mu_iG_{it} p_{iu}(t)-\sum_{\forall i&#39;\neq i}f_{ii&#39;}{\rm E}_t(\Lambda_{i&#39;u})F_{i&#39;t} p_{iu}(t) \\
-\frac{{\rm d}}{{\rm d}t}q_u(t) &amp;= \sum_{\forall i}\mu_iG_{it}p_{iu}(t) - \sum_{\forall i}{\rm E}_t(\Lambda_{iu})F_{it}q_u(t)\,.
+\frac{{\rm d}}{{\rm d}t}p_{iu}(t) &amp;= {\rm E}_t(\Lambda_{iu})F_{it}
+q_u(t) + \sum_{\forall i&#39;\neq i} f_{i&#39;i} {\rm
+E}_t(\Lambda_{iu})F_{it} p_{i&#39;u}(t) - \mu_iG_{it}
+p_{iu}(t)-\sum_{\forall i&#39;\neq i}f_{ii&#39;}{\rm
+E}_t(\Lambda_{i&#39;u})F_{i&#39;t} p_{iu}(t) \\
+\frac{{\rm d}}{{\rm d}t}q_u(t) &amp;= \sum_{\forall
+i}\mu_iG_{it}p_{iu}(t) - \sum_{\forall i}{\rm
+E}_t(\Lambda_{iu})F_{it}q_u(t)\,.
 \end{align}
 \]</span></p>
-<p>In the equations above, the state occupation probabilities of separate <span class="math inline">\(u\)</span>-indexed individuals (or <span class="math inline">\(u\)</span>-indexed categories of individual) are <span class="math inline">\(p_{iu}(t)\)</span> and <span class="math inline">\(q_u(t)\)</span>, and we’ve also computed the expectation</p>
+<p>In the equations above, the state occupation probabilities of
+separate <span class="math inline">\(u\)</span>-indexed individuals (or
+<span class="math inline">\(u\)</span>-indexed categories of individual)
+are <span class="math inline">\(p_{iu}(t)\)</span> and <span
+class="math inline">\(q_u(t)\)</span>, and we’ve also computed the
+expectation</p>
 <p><span class="math display">\[
 \begin{equation}
-{\rm E}_t(\Lambda_{iu}) = \Lambda_{\rm min} + \lambda\sum_{\forall u&#39;\neq u}\beta_{uu&#39;} \frac{p_{iu&#39;}(t)}{N_{\rm p}}\,.
+{\rm E}_t(\Lambda_{iu}) = \Lambda_{\rm min} + \lambda\sum_{\forall
+u&#39;\neq u}\beta_{uu&#39;} \frac{p_{iu&#39;}(t)}{N_{\rm p}}\,.
 \end{equation}
 \]</span></p>
-<p>The pneumoinfer class also implements ODE and full simulations for the varying <span class="math inline">\(\Lambda_{iu}\)</span> model, and we plot an example run of this method below.</p>
+<p>The pneumoinfer class also implements ODE and full simulations for
+the varying <span class="math inline">\(\Lambda_{iu}\)</span> model, and
+we plot an example run of this method below.</p>
 <p><img src="../assets/pneumoinfer/dynamics-varying.png" /></p>
-<h2 id="computing-the-log-likelihood-for-inference">Computing the log-likelihood for inference</h2>
-<p>We’re now ready to apply our ODE approximation to the statistical inference of the full simulation. We’re going to assume that all data sets considered come in the form of a sequence of state observations (or longitudinally-monitored swab samples if you’re talking about pneumococcus) for each sampled individual from the population which takes the form of counts, times and associated sample sizes <span class="math inline">\({\cal D}\equiv \{d_c,d_t,d_s\}\)</span> (where <span class="math inline">\(d_c=\{c_{ij}\}\)</span>, <span class="math inline">\(d_t=\{t_j \, : \, t_{\rm init}&lt;t_j\leq t_{\rm end}\}\)</span> and <span class="math inline">\(d_s=\{s_j\}\)</span>). Note that this sequence of state observations may also be regarded as a form of <em>filtration</em> of the underlying stochastic process. Given a likelihood <span class="math inline">\({\cal L}\)</span> of <span class="math inline">\({\cal D}\)</span>, these time intervals are independent of each other and so one may decompose <span class="math inline">\({\cal L}\)</span> for the whole population as follows</p>
+<h2 id="computing-the-log-likelihood-for-inference">Computing the
+log-likelihood for inference</h2>
+<p>We’re now ready to apply our ODE approximation to the statistical
+inference of the full simulation. We’re going to assume that all data
+sets considered come in the form of a sequence of state observations (or
+longitudinally-monitored swab samples if you’re talking about
+pneumococcus) for each sampled individual from the population which
+takes the form of counts, times and associated sample sizes <span
+class="math inline">\({\cal D}\equiv \{d_c,d_t,d_s\}\)</span> (where
+<span class="math inline">\(d_c=\{c_{ij}\}\)</span>, <span
+class="math inline">\(d_t=\{t_j \, : \, t_{\rm init}&lt;t_j\leq t_{\rm
+end}\}\)</span> and <span class="math inline">\(d_s=\{s_j\}\)</span>).
+Note that this sequence of state observations may also be regarded as a
+form of <em>filtration</em> of the underlying stochastic process. Given
+a likelihood <span class="math inline">\({\cal L}\)</span> of <span
+class="math inline">\({\cal D}\)</span>, these time intervals are
+independent of each other and so one may decompose <span
+class="math inline">\({\cal L}\)</span> for the whole population as
+follows</p>
 <p><span class="math display">\[
 \begin{equation}
-\ {\cal L}({\cal D} \vert \Theta ) = \prod_{\forall j \, : \, t_j\,\in \,d_t}{\cal L}( t_j \vert \Theta ) \,.
+\ {\cal L}({\cal D} \vert \Theta ) = \prod_{\forall j \, : \, t_j\,\in
+\,d_t}{\cal L}( t_j \vert \Theta ) \,.
 \end{equation}
 \]</span></p>
-<p>Assuming here the fixed <span class="math inline">\(\Lambda_i\)</span> model, the ODE solution then allows us to easily compute the multinomial likelihoods for the initial condition and into the future</p>
+<p>Assuming here the fixed <span
+class="math inline">\(\Lambda_i\)</span> model, the ODE solution then
+allows us to easily compute the multinomial likelihoods for the initial
+condition and into the future</p>
 <p><span class="math display">\[
 \begin{equation}
-{\cal L}( t_j \vert \Theta ) = \frac{\Gamma (s_j+1)}{\prod_{\forall i}\Gamma (c_{ij}+1)}q(t_j)^{s_j-\sum_{\forall i}c_{ij}} \prod_{\forall i}p_i(t_j)^{c_{ij}} \,.
+{\cal L}( t_j \vert \Theta ) = \frac{\Gamma (s_j+1)}{\prod_{\forall
+i}\Gamma (c_{ij}+1)}q(t_j)^{s_j-\sum_{\forall i}c_{ij}} \prod_{\forall
+i}p_i(t_j)^{c_{ij}} \,.
 \end{equation}
 \]</span></p>
-<p>Note that the independence of the expression above with respect to previous timepoints is not trivial and relies on the Markovian embedding of the system that we have already discussed. Note also that the above relations can be easily adapted to accomodate the varying <span class="math inline">\(\Lambda_{iu}\)</span> model (and these are also implemented in the pneumoinfer log-likelihood code).</p>
-<p>Let’s now run a full simulation using the fixed <span class="math inline">\(\Lambda_i\)</span> model and use its output at different timepoints to construct a mock data set of state observations. Given this mock data set, we can then verify that the log-likelihood of pneumoinfer correctly identifies the maximum (up to some observation noise).</p>
+<p>Note that the independence of the expression above with respect to
+previous timepoints is not trivial and relies on the Markovian embedding
+of the system that we have already discussed. Note also that the above
+relations can be easily adapted to accomodate the varying <span
+class="math inline">\(\Lambda_{iu}\)</span> model (and these are also
+implemented in the pneumoinfer log-likelihood code).</p>
+<p>Let’s now run a full simulation using the fixed <span
+class="math inline">\(\Lambda_i\)</span> model and use its output at
+different timepoints to construct a mock data set of state observations.
+Given this mock data set, we can then verify that the log-likelihood of
+pneumoinfer correctly identifies the maximum (up to some observation
+noise).</p>
 <p><img src="../assets/pneumoinfer/loglike.png" /></p>
-<h2 id="a-method-to-compute-the-gradient-of-the-log-likelihood">A method to compute the gradient of the log-likelihood</h2>
-<p>The current version of pneumoinfer does not support a gradient calculation for the log-likelihood (mainly because this post is already a bit long!). However, to assist anyone wanting to implement this themselves, it makes sense to go through a sketch of the calculation which computes the gradient (in principle) without resorting to numerical derivatives. This makes use of the ‘multiple-adjoint’ method as implemented in <span class="citation" data-cites="zhuang2020adaptive">[10]</span>. Consider the following ‘data Lagrangian’</p>
+<h2 id="a-method-to-compute-the-gradient-of-the-log-likelihood">A method
+to compute the gradient of the log-likelihood</h2>
+<p>The current version of pneumoinfer does not support a gradient
+calculation for the log-likelihood (mainly because this post is already
+a bit long!). However, to assist anyone wanting to implement this
+themselves, it makes sense to go through a sketch of the calculation
+which computes the gradient (in principle) without resorting to
+numerical derivatives. This makes use of the ‘multiple-adjoint’ method
+as implemented in <span class="citation"
+data-cites="zhuang2020adaptive">[10]</span>. Consider the following
+‘data Lagrangian’</p>
 <p><span class="math display">\[
 \begin{align}
 L &amp;=  \sum_{\forall j \, : \, t_j\,\in \,d_t} L_j\\
-L_j &amp;= \ln{\cal L}( t_j \vert \Theta ) + \int^{t_{j}}_{t_{j-1}}{\rm d}t \,{\sf h}(t)^{\rm T}\bigg[ \frac{{\rm d}}{{\rm d}t}{\sf V}(t) - {\sf M}_\Theta (t)\bigg] \\
-&amp;= \ln{\cal L}( t_j \vert \Theta) + {\sf h}(t_j)^{\rm T}{\sf V}(t_j)-{\sf h}(t_{j-1})^{\rm T}{\sf V}(t_{j-1}) - \int^{t_{j}}_{t_{j-1}}{\rm d}t \bigg[\frac{{\rm d}}{{\rm d}t}{\sf h}(t)^{\rm T} {\sf V}(t) + {\sf h}(t)^{\rm T}{\sf M}_\Theta (t)\bigg] \,,
+L_j &amp;= \ln{\cal L}( t_j \vert \Theta ) + \int^{t_{j}}_{t_{j-1}}{\rm
+d}t \,{\sf h}(t)^{\rm T}\bigg[ \frac{{\rm d}}{{\rm d}t}{\sf V}(t) - {\sf
+M}_\Theta (t)\bigg] \\
+&amp;= \ln{\cal L}( t_j \vert \Theta) + {\sf h}(t_j)^{\rm T}{\sf
+V}(t_j)-{\sf h}(t_{j-1})^{\rm T}{\sf V}(t_{j-1}) -
+\int^{t_{j}}_{t_{j-1}}{\rm d}t \bigg[\frac{{\rm d}}{{\rm d}t}{\sf
+h}(t)^{\rm T} {\sf V}(t) + {\sf h}(t)^{\rm T}{\sf M}_\Theta (t)\bigg]
+\,,
 \end{align}
 \]</span></p>
-<p>where <span class="math inline">\({\sf V}(t)=[\dots, {\rm E}_t(n_i),\dots, p_i(t), \dots , q(t)]^{\rm T}\)</span>, <span class="math inline">\({\sf h}(t)\)</span> is a dynamical vector of Lagrange multipliers and <span class="math inline">\({\sf M}_\Theta (t)\)</span> is just compact notation for the vector of ODE terms on the RHS. Varying <span class="math inline">\(L_j\)</span> with respect to the boundary condition <span class="math inline">\({\sf V}(t_j)\)</span> and <span class="math inline">\({\sf V}(t)\)</span>, we obtain the constraints</p>
+<p>where <span class="math inline">\({\sf V}(t)=[\dots, {\rm
+E}_t(n_i),\dots, p_i(t), \dots , q(t)]^{\rm T}\)</span>, <span
+class="math inline">\({\sf h}(t)\)</span> is a dynamical vector of
+Lagrange multipliers and <span class="math inline">\({\sf M}_\Theta
+(t)\)</span> is just compact notation for the vector of ODE terms on the
+RHS. Varying <span class="math inline">\(L_j\)</span> with respect to
+the boundary condition <span class="math inline">\({\sf V}(t_j)\)</span>
+and <span class="math inline">\({\sf V}(t)\)</span>, we obtain the
+constraints</p>
 <p><span class="math display">\[
 \begin{align}
-\frac{\partial L_j}{\partial {\sf V}(t_j)} &amp;= 0 \quad \Longleftrightarrow \quad \frac{\partial}{\partial {\sf V}(t_j)}\ln{\cal L}( t_j \vert \Theta ) + {\sf h}(t_j ) = 0 \\
-\frac{\delta L_j}{\delta {\sf V}(t)} &amp;= 0 \quad \Longleftrightarrow \quad \frac{{\rm d}}{{\rm d}t}{\sf h}(t) + \bigg[\frac{\partial}{\partial {\sf V}(t)}{\sf M}_\Theta (t)\bigg]^{\rm T}{\sf h}(t) = 0\,,
+\frac{\partial L_j}{\partial {\sf V}(t_j)} &amp;= 0 \quad
+\Longleftrightarrow \quad \frac{\partial}{\partial {\sf V}(t_j)}\ln{\cal
+L}( t_j \vert \Theta ) + {\sf h}(t_j ) = 0 \\
+\frac{\delta L_j}{\delta {\sf V}(t)} &amp;= 0 \quad \Longleftrightarrow
+\quad \frac{{\rm d}}{{\rm d}t}{\sf h}(t) +
+\bigg[\frac{\partial}{\partial {\sf V}(t)}{\sf M}_\Theta (t)\bigg]^{\rm
+T}{\sf h}(t) = 0\,,
 \end{align}
 \]</span></p>
-<p>Let us also note that if we vary <span class="math inline">\(L_j\)</span> with respect to <span class="math inline">\(\Theta\)</span> and optimise the likelihood, one obtains</p>
+<p>Let us also note that if we vary <span
+class="math inline">\(L_j\)</span> with respect to <span
+class="math inline">\(\Theta\)</span> and optimise the likelihood, one
+obtains</p>
 <p><span class="math display">\[
 \begin{align}
-\frac{\partial L_j}{\partial \Theta} &amp;= \frac{\partial}{\partial \Theta}\ln{\cal L}( t_j \vert \Theta ) - \int^{t_{j}}_{t_{j-1}}{\rm d}t \,{\sf h}(t)^{\rm T}\frac{\partial}{\partial \Theta}{\sf M}_\Theta (t) \\
-&amp;\underset{{\rm opt}}{\longrightarrow} \int_{t_{j}}^{t_{j-1}}{\rm d}t \,{\sf h}(t)^{\rm T}\frac{\partial}{\partial \Theta}{\sf M}_\Theta (t)\,.
+\frac{\partial L_j}{\partial \Theta} &amp;= \frac{\partial}{\partial
+\Theta}\ln{\cal L}( t_j \vert \Theta ) - \int^{t_{j}}_{t_{j-1}}{\rm d}t
+\,{\sf h}(t)^{\rm T}\frac{\partial}{\partial \Theta}{\sf M}_\Theta (t)
+\\
+&amp;\underset{{\rm opt}}{\longrightarrow} \int_{t_{j}}^{t_{j-1}}{\rm
+d}t \,{\sf h}(t)^{\rm T}\frac{\partial}{\partial \Theta}{\sf M}_\Theta
+(t)\,.
 \end{align}
 \]</span></p>
 <p>The method proposed from here would be something like:</p>
 <ul>
-<li>Treat initial values of <span class="math inline">\({\rm E}_{t_0}(n_i)\)</span> as a prior that should be varied to test the robustness of the inference.</li>
-<li>From the initialised states of the set of individuals run the forward ODE in time to obtain the value of <span class="math inline">\(\frac{\partial}{\partial \Theta}{\sf M}_\Theta (t)\)</span> at every observed timestep.</li>
-<li>For each interval edge determine <span class="math inline">\({\sf h}(t_j)\)</span> using the first constraint equation and the <span class="math inline">\({\sf V}(t_j)\)</span>-gradient of the forward-time likelihood.</li>
-<li>For each interval solve the second equation to get its backward-time trajectory <span class="math inline">\({\sf h}(t)\)</span>.</li>
-<li>Integrate over <span class="math inline">\({\sf h}(t)\)</span> and <span class="math inline">\(\frac{\partial}{\partial \Theta}{\sf M}_\Theta (t)\)</span> to determine the gradient in the last expression.</li>
+<li>Treat initial values of <span class="math inline">\({\rm
+E}_{t_0}(n_i)\)</span> as a prior that should be varied to test the
+robustness of the inference.</li>
+<li>From the initialised states of the set of individuals run the
+forward ODE in time to obtain the value of <span
+class="math inline">\(\frac{\partial}{\partial \Theta}{\sf M}_\Theta
+(t)\)</span> at every observed timestep.</li>
+<li>For each interval edge determine <span class="math inline">\({\sf
+h}(t_j)\)</span> using the first constraint equation and the <span
+class="math inline">\({\sf V}(t_j)\)</span>-gradient of the forward-time
+likelihood.</li>
+<li>For each interval solve the second equation to get its backward-time
+trajectory <span class="math inline">\({\sf h}(t)\)</span>.</li>
+<li>Integrate over <span class="math inline">\({\sf h}(t)\)</span> and
+<span class="math inline">\(\frac{\partial}{\partial \Theta}{\sf
+M}_\Theta (t)\)</span> to determine the gradient in the last
+expression.</li>
 </ul>
-<p>Seems like overkill, but could be interesting to implement in future if a large number of states/parameters are varied, e.g., for HMC sampling of the model posterior from a decent data set.</p>
+<p>Seems like overkill, but could be interesting to implement in future
+if a large number of states/parameters are varied, e.g., for HMC
+sampling of the model posterior from a decent data set.</p>
 <h2 class="unnumbered" id="references">References</h2>
-<div id="refs" class="references" role="doc-bibliography">
-<div id="ref-cobey2012niche">
-<p>[1] S. Cobey and M. Lipsitch, “Niche and neutral effects of acquired immunity permit coexistence of pneumococcal serotypes,” <em>Science</em>, vol. 335, no. 6074, pp. 1376–1380, 2012.</p>
+<div id="refs" class="references csl-bib-body" role="list">
+<div id="ref-cobey2012niche" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[1] </div><div class="csl-right-inline">S.
+Cobey and M. Lipsitch, <span>“Niche and neutral effects of acquired
+immunity permit coexistence of pneumococcal serotypes,”</span>
+<em>Science</em>, vol. 335, no. 6074, pp. 1376–1380, 2012.</div>
 </div>
-<div id="ref-flasche2013impact">
-<p>[2] S. Flasche, W. J. Edmunds, E. Miller, D. Goldblatt, C. Robertson, and Y. H. Choi, “The impact of specific and non-specific immunity on the ecology of streptococcus pneumoniae and the implications for vaccination,” <em>Proceedings of the Royal Society B: Biological Sciences</em>, vol. 280, no. 1771, p. 20131939, 2013.</p>
+<div id="ref-flasche2013impact" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[2] </div><div class="csl-right-inline">S.
+Flasche, W. J. Edmunds, E. Miller, D. Goldblatt, C. Robertson, and Y. H.
+Choi, <span>“The impact of specific and non-specific immunity on the
+ecology of streptococcus pneumoniae and the implications for
+vaccination,”</span> <em>Proceedings of the Royal Society B: Biological
+Sciences</em>, vol. 280, no. 1771, p. 20131939, 2013.</div>
 </div>
-<div id="ref-lochen2020dynamic">
-<p>[3] A. Løchen and R. Anderson, “Dynamic transmission models and economic evaluations of pneumococcal conjugate vaccines: A quality appraisal and limitations,” <em>Clinical Microbiology and Infection</em>, vol. 26, no. 1, pp. 60–70, 2020.</p>
+<div id="ref-lochen2020dynamic" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[3] </div><div class="csl-right-inline">A.
+Løchen and R. Anderson, <span>“Dynamic transmission models and economic
+evaluations of pneumococcal conjugate vaccines: A quality appraisal and
+limitations,”</span> <em>Clinical Microbiology and Infection</em>, vol.
+26, no. 1, pp. 60–70, 2020.</div>
 </div>
-<div id="ref-lipsitch2012estimating">
-<p>[4] M. Lipsitch <em>et al.</em>, “Estimating rates of carriage acquisition and clearance and competitive ability for pneumococcal serotypes in kenya with a markov transition model,” <em>Epidemiology</em>, vol. 23, no. 4, pp. 510–519, 2012.</p>
+<div id="ref-lipsitch2012estimating" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[4] </div><div class="csl-right-inline">M.
+Lipsitch <em>et al.</em>, <span>“Estimating rates of carriage
+acquisition and clearance and competitive ability for pneumococcal
+serotypes in kenya with a markov transition model,”</span>
+<em>Epidemiology</em>, vol. 23, no. 4, pp. 510–519, 2012.</div>
 </div>
-<div id="ref-numminen2013estimating">
-<p>[5] E. Numminen, L. Cheng, M. Gyllenberg, and J. Corander, “Estimating the transmission dynamics of streptococcus pneumoniae from strain prevalence data,” <em>Biometrics</em>, vol. 69, no. 3, pp. 748–757, 2013.</p>
+<div id="ref-numminen2013estimating" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[5] </div><div class="csl-right-inline">E.
+Numminen, L. Cheng, M. Gyllenberg, and J. Corander, <span>“Estimating
+the transmission dynamics of streptococcus pneumoniae from strain
+prevalence data,”</span> <em>Biometrics</em>, vol. 69, no. 3, pp.
+748–757, 2013.</div>
 </div>
-<div id="ref-kanazawa2021ubiquitous">
-<p>[6] K. Kanazawa and D. Sornette, “Ubiquitous power law scaling in nonlinear self-excited hawkes processes,” <em>Physical review letters</em>, vol. 127, no. 18, p. 188301, 2021.</p>
+<div id="ref-kanazawa2021ubiquitous" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[6] </div><div class="csl-right-inline">K.
+Kanazawa and D. Sornette, <span>“Ubiquitous power law scaling in
+nonlinear self-excited hawkes processes,”</span> <em>Physical review
+letters</em>, vol. 127, no. 18, p. 188301, 2021.</div>
 </div>
-<div id="ref-gratten1989multiple">
-<p>[7] M. Gratten <em>et al.</em>, “Multiple colonization of the upper respiratory tract of papua new guinea children with haemophilus influenzae and streptococcus pneumoniae.” <em>The Southeast Asian journal of tropical medicine and public health</em>, vol. 20, no. 4, pp. 501–509, 1989.</p>
+<div id="ref-gratten1989multiple" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[7] </div><div class="csl-right-inline">M.
+Gratten <em>et al.</em>, <span>“Multiple colonization of the upper
+respiratory tract of papua new guinea children with haemophilus
+influenzae and streptococcus pneumoniae.”</span> <em>The Southeast Asian
+journal of tropical medicine and public health</em>, vol. 20, no. 4, pp.
+501–509, 1989.</div>
 </div>
-<div id="ref-huebner2000lack">
-<p>[8] R. E. Huebner, R. Dagan, N. Porath, A. D. Wasas, K. P. Klugman, and others, “Lack of utility of serotyping multiple colonies for detection of simultaneous nasopharyngeal carriage of different pneumococcal serotypes,” <em>The Pediatric infectious disease journal</em>, vol. 19, no. 10, pp. 1017–1020, 2000.</p>
+<div id="ref-huebner2000lack" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[8] </div><div class="csl-right-inline">R.
+E. Huebner, R. Dagan, N. Porath, A. D. Wasas, K. P. Klugman, <em>et
+al.</em>, <span>“Lack of utility of serotyping multiple colonies for
+detection of simultaneous nasopharyngeal carriage of different
+pneumococcal serotypes,”</span> <em>The Pediatric infectious disease
+journal</em>, vol. 19, no. 10, pp. 1017–1020, 2000.</div>
 </div>
-<div id="ref-kullback1951information">
-<p>[9] S. Kullback and R. A. Leibler, “On information and sufficiency,” <em>The annals of mathematical statistics</em>, vol. 22, no. 1, pp. 79–86, 1951.</p>
+<div id="ref-kullback1951information" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[9] </div><div class="csl-right-inline">S.
+Kullback and R. A. Leibler, <span>“On information and
+sufficiency,”</span> <em>The annals of mathematical statistics</em>,
+vol. 22, no. 1, pp. 79–86, 1951.</div>
 </div>
-<div id="ref-zhuang2020adaptive">
-<p>[10] J. Zhuang, N. Dvornek, X. Li, S. Tatikonda, X. Papademetris, and J. Duncan, “Adaptive checkpoint adjoint method for gradient estimation in neural ode,” in <em>International conference on machine learning</em>, PMLR, 2020, pp. 11639–11649.</p>
+<div id="ref-zhuang2020adaptive" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[10] </div><div class="csl-right-inline">J.
+Zhuang, N. Dvornek, X. Li, S. Tatikonda, X. Papademetris, and J. Duncan,
+<span>“Adaptive checkpoint adjoint method for gradient estimation in
+neural ode,”</span> in <em>International conference on machine
+learning</em>, PMLR, 2020, pp. 11639–11649.</div>
 </div>
 </div>
 <hr color="LightGray">
 <div class="articleHeader">
   <strong> Cite. </strong> You can cite this article using the following BibTeX:
 <code><pre>@article{pneumoinfer-2021,
-  title = {Mean-field inference of multi-state models with a counting memory: applications to pneumococcus},
+  title = {Mean-field inference of multi-state models with a counting
+memory: applications to pneumococcus},
   author = {Hardwick, Robert J},
   journal = {umbralcalculations (umbralcalc.github.io/posts/pneumoinfer.html)},
   year = {2021},

@@ -8,6 +8,18 @@ codeLink: https://github.com/umbralcalc/modest
 year: [WIP]
 ---
 
+## Research context
+
+In a previous article [@stochadexIII-2024] we used a simple, but effective, technique for approximating the conditional density of simulation parameters $P_{({\sf t}+1){\sf t}}(z\vert X',{\sf Y})$ such that we are able to both update its shape with the arrival of new data as well as sample new values from it --- in both cases being able to incorporate a discounted distribution ansatz into the model. This technique estimated only the first two moments of this distribution, but with techniques like particle filtering it should be possible to generate approximate samples without this limitation. In this article, we will motivate Sequential Importance Resampling (SIR) using a kernel-smoothed approximation of the distribution which takes the form
+
+$$
+\begin{align}
+P_{({\sf t}+1){\sf t}}(z\vert X',{\sf Y}) &\simeq \int_{\zeta_{{\sf t}+1}} {\rm d}z' P_{({\sf t}+1){\sf t}}(z'\vert X',{\sf Y})K(z,z';H) \,,
+\end{align}
+$$
+
+where $K(z,z';H)$ is some smoothing kernel which helps to approximate the posterior distribution up to some specified scale using the bandwidth matrix $H$. Note that the expression above can also be extended to make use of the full history of $z$ samples by applying the discount factor $\beta$.
+
 ## Problem statement
 
 Say that we have a generator of probabilistic weights which takes a state history matrix $X$ as input. This generator represents a non-stationary probability distribution and the weights are effectively stochastic around the true value for each given $X$ as input. The problem is that we would like to be able to efficiently sample from the underlying distribution regardless of its shape or modality.
@@ -88,7 +100,7 @@ $$
 
 We could then input these expectation values as the centre of the sampler for the next $H$ (inverse-Wishart distribution) and $\sigma$ (Gaussian distribution) values in the sequence.
 
-Scaling in time history is probably the main nuisance here! Might motivate the use of Rust though since having a really good handle on what memory is actually necessary will be very useful.
+Scaling in time history is probably the main nuisance here! Performance tweaking via controlling the state history depth of the stochadex will become important.
 
 ## Resampling
 
@@ -96,6 +108,8 @@ Start by drawing samples centred from different points, where each centre is ran
 
 ## Implementation
 
-Implement this from scratch in Rust (and a Python interop) using an actor pattern design which allows the number of samples to scale up or down dynamically through successive generations of actors producing more or less future actors.
+Implement this in a new Go project using the stochadex and base the design on the SIR inference example (and make that config redundant). Iterate development using Go notebooks and example datasets.
+
+The early (not really working) implementation can be found within this config folder of the stochadex repository: [https://github.com/umbralcalc/stochadex/tree/main/cfg](https://github.com/umbralcalc/stochadex/tree/main/cfg).
 
 ## References

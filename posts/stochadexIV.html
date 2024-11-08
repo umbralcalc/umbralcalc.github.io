@@ -137,6 +137,15 @@
       color: rgb(42, 65, 83);
     }
 
+    .csl-entry {
+      display: flex;
+      margin-top: 10px;
+    }
+
+    .csl-left-margin {
+      margin-right: 10px;
+    }
+
     @media (max-width: 767px) {
       .body {
         padding: 15px;
@@ -175,150 +184,422 @@ About
 </br>
 <strong> Date. </strong> 2024-08-30
 </br>
-<strong> Concept. </strong> To provide some practical examples of the real-world simulation types which are supported in the stochadex engine by describing a group of widely-applicable state partitions. In particular, we discuss how these partitions can be useful in simulating everything from sports matches and spatial disease spread to traffic networks and supply chain logistics. With these examples (and many others) in mind, we also consider the realistic types of observation and interaction which are possible in each case.
+<strong> Concept. </strong> To provide some practical examples of the
+real-world simulation types which are supported in the stochadex engine
+by describing a group of widely-applicable state partitions. In
+particular, we discuss how these partitions can be useful in simulating
+everything from sports matches and spatial disease spread to traffic
+networks and supply chain logistics. With these examples (and many
+others) in mind, we also consider the realistic types of observation and
+interaction which are possible in each case.
 </div>
 <hr color="LightGray">
 </br>
 <h2 id="entity-state-transitions">Entity state transitions</h2>
-<p>In this article we’re going to define some widely-applicable state partitions which are useful in developing simulations of real-world systems. These will help to both illustrate how partitioning the state can be helpful in conceptualising the phenomena one wishes to simulate, and provide some practical insights into how the stochadex may be configured for different purposes.</p>
-<p>We begin with the <em>entity state transition</em>, which refers to state transitions of any individual ‘entity’ that occur stochastically according to their respective transition rates. These transition rates may themselves be time-varying (even stochastically) and so it is useful to separate their values into a separate state partition and create a direct dependency channel on them, as in the rough schematic below.</p>
-<p><img src="../assets/stochadexIV/stochadexIV-simple-state-partition-graph.drawio.png" /></p>
-<p>Note how this computational structure is slightly more generic than (but related to) the event-based simulation schematics in <span class="citation" data-cites="stochadexI-2024">[1]</span>.</p>
-<p>Observations of the entity state transition in the real world typically take the form of either partial or noisy detections of the state transition times themselves over some period. Interactions with systems which require this kind of partitioning take the form of either direct changes to the entity state itself at some points in time or modifications to the rates at which state transitions occur.</p>
-<p>It seems less useful to provide all of the examples of real-world problems which might use this kind of partitioning as it applies extremely generally. It will be more informative to discuss how these same examples apply in the context of the other partitions which are more specifically applicable. Having said this, it’s worth noting that our event-based representation of state transitions can also be trivially adapted to avoid the necessity for a continuous-time representation of the system. The applications for state transition models which only require sequential ordering (but not a continuous time variable) include sequential experimental design problems, e.g., astronomical telescopes (see <span class="citation" data-cites="jia2023observation">[2]</span> and <span class="citation" data-cites="yatawatta2021deep">[3]</span>) and biological experiments <span class="citation" data-cites="treloar2022deep">[4]</span>.</p>
+<p>In this article we’re going to define some widely-applicable state
+partitions which are useful in developing simulations of real-world
+systems. These will help to both illustrate how partitioning the state
+can be helpful in conceptualising the phenomena one wishes to simulate,
+and provide some practical insights into how the stochadex may be
+configured for different purposes.</p>
+<p>We begin with the <em>entity state transition</em>, which refers to
+state transitions of any individual ‘entity’ that occur stochastically
+according to their respective transition rates. These transition rates
+may themselves be time-varying (even stochastically) and so it is useful
+to separate their values into a separate state partition and create a
+direct dependency channel on them, as in the rough schematic below.</p>
+<p><img
+src="../assets/stochadexIV/stochadexIV-simple-state-partition-graph.drawio.png" /></p>
+<p>Note how this computational structure is slightly more generic than
+(but related to) the event-based simulation schematics in <span
+class="citation" data-cites="stochadexI-2024">[1]</span>.</p>
+<p>Observations of the entity state transition in the real world
+typically take the form of either partial or noisy detections of the
+state transition times themselves over some period. Interactions with
+systems which require this kind of partitioning take the form of either
+direct changes to the entity state itself at some points in time or
+modifications to the rates at which state transitions occur.</p>
+<p>It seems less useful to provide all of the examples of real-world
+problems which might use this kind of partitioning as it applies
+extremely generally. It will be more informative to discuss how these
+same examples apply in the context of the other partitions which are
+more specifically applicable. Having said this, it’s worth noting that
+our event-based representation of state transitions can also be
+trivially adapted to avoid the necessity for a continuous-time
+representation of the system. The applications for state transition
+models which only require sequential ordering (but not a continuous time
+variable) include sequential experimental design problems, e.g.,
+astronomical telescopes (see <span class="citation"
+data-cites="jia2023observation">[2]</span> and <span class="citation"
+data-cites="yatawatta2021deep">[3]</span>) and biological experiments
+<span class="citation" data-cites="treloar2022deep">[4]</span>.</p>
 <h2 id="weighted-mean-points">Weighted mean points</h2>
-<p>The <em>weighted mean point</em> performs a weighted average over a specified collection of neighbouring states. Given that one of the more natural uses cases for this partition is in spatial field averaging, the topology of the subgraph is typically totally connected and highly structured. However, some connections matter more than others, according to the weighting. We have created a rough schematic below.</p>
-<p><img src="../assets/stochadexIV/stochadexIV-spatial-state-partition-graph.drawio.png" /></p>
-<p>In the case of spatial fields, you can think of each point as being structured topologically in a kind of ‘lattice’ configuration where connections to other points are controlled indirectly by the relationship between states and their weighted point averages over time. Different distances in the lattice can contribute different importance weights in affecting each local average.</p>
-<p>Which real-world control problems would this partition be useful for? Given the natural spatial interpetation, the kinds of simulation that would leverage it are:</p>
+<p>The <em>weighted mean point</em> performs a weighted average over a
+specified collection of neighbouring states. Given that one of the more
+natural uses cases for this partition is in spatial field averaging, the
+topology of the subgraph is typically totally connected and highly
+structured. However, some connections matter more than others, according
+to the weighting. We have created a rough schematic below.</p>
+<p><img
+src="../assets/stochadexIV/stochadexIV-spatial-state-partition-graph.drawio.png" /></p>
+<p>In the case of spatial fields, you can think of each point as being
+structured topologically in a kind of ‘lattice’ configuration where
+connections to other points are controlled indirectly by the
+relationship between states and their weighted point averages over time.
+Different distances in the lattice can contribute different importance
+weights in affecting each local average.</p>
+<p>Which real-world control problems would this partition be useful for?
+Given the natural spatial interpetation, the kinds of simulation that
+would leverage it are:</p>
 <ul>
-<li>Spatial simulations of population disease spread and control in the context of global disease outbreaks <span class="citation" data-cites="ohi2020exploring">[5]</span> or endemic, spatially-clustered infections like malaria <span class="citation" data-cites="carter2000spatial">[6]</span>.</li>
-<li>Spatial ecosystem management environments to infer forest wildfire dynamics <span class="citation" data-cites="ganapathi2018using">[7]</span> or improve conservation decision-making <span class="citation" data-cites="lapeyrolerie2022deep">[8]</span>.</li>
-<li>Weather system simulations to improve decision-making for agricultural yields <span class="citation" data-cites="chen2021reinforcement">[9]</span> or enhance stormwater flood mitigations <span class="citation" data-cites="saliba2020deep">[10]</span>.</li>
+<li>Spatial simulations of population disease spread and control in the
+context of global disease outbreaks <span class="citation"
+data-cites="ohi2020exploring">[5]</span> or endemic, spatially-clustered
+infections like malaria <span class="citation"
+data-cites="carter2000spatial">[6]</span>.</li>
+<li>Spatial ecosystem management environments to infer forest wildfire
+dynamics <span class="citation"
+data-cites="ganapathi2018using">[7]</span> or improve conservation
+decision-making <span class="citation"
+data-cites="lapeyrolerie2022deep">[8]</span>.</li>
+<li>Weather system simulations to improve decision-making for
+agricultural yields <span class="citation"
+data-cites="chen2021reinforcement">[9]</span> or enhance stormwater
+flood mitigations <span class="citation"
+data-cites="saliba2020deep">[10]</span>.</li>
 </ul>
-<p>Observations of the weighted mean point in the real world typically take the form of either partial or noisy detections of the raw state values before averaging. Actors in systems which require this kind of partitioning could be public health or wildlife/national park authorities as well as livestock/crop farmers. The interactions with these systems would therefore focus on modifying the parameters for spatial detection of disease or damage and changing a subset of the population states directly through interventions.</p>
+<p>Observations of the weighted mean point in the real world typically
+take the form of either partial or noisy detections of the raw state
+values before averaging. Actors in systems which require this kind of
+partitioning could be public health or wildlife/national park
+authorities as well as livestock/crop farmers. The interactions with
+these systems would therefore focus on modifying the parameters for
+spatial detection of disease or damage and changing a subset of the
+population states directly through interventions.</p>
 <h2 id="node-histograms">Node histograms</h2>
-<p>The <em>node histogram</em> counts the frequencies of state occupations exhibited by all of the specified connected states. This partition provides a summary of information about a single network node which exists as part of a larger ‘state network’, and can be configured in collection with other partitions of the same type to represent any desirable connectivity structure. We have illustrated how it works in the rough schematic below.</p>
-<p><img src="../assets/stochadexIV/stochadexIV-network-state-partition-graph.drawio.png" /></p>
-<p>Which real-world control problems would this partition be useful for? If we consider networks which rely on counting the frequencies of neighbouring node states, the kinds of simulation that would leverage it are:</p>
+<p>The <em>node histogram</em> counts the frequencies of state
+occupations exhibited by all of the specified connected states. This
+partition provides a summary of information about a single network node
+which exists as part of a larger ‘state network’, and can be configured
+in collection with other partitions of the same type to represent any
+desirable connectivity structure. We have illustrated how it works in
+the rough schematic below.</p>
+<p><img
+src="../assets/stochadexIV/stochadexIV-network-state-partition-graph.drawio.png" /></p>
+<p>Which real-world control problems would this partition be useful for?
+If we consider networks which rely on counting the frequencies of
+neighbouring node states, the kinds of simulation that would leverage it
+are:</p>
 <ul>
-<li>Computational models of human brain conditions, e.g., Parkinson’s disease <span class="citation" data-cites="lu2019application">[11]</span>, epilepsy <span class="citation" data-cites="pineau2009treating">[12]</span>, Alzheimer’s <span class="citation" data-cites="saboo2021reinforcement">[13]</span>, etc., for deep brain stimulation control and other forms of treatment.</li>
-<li>Simulations of complex urban infrastructure networks to target various kinds of optimisation, e.g., traffic signal control <span class="citation" data-cites="yau2017survey">[14]</span>, power dispatch <span class="citation" data-cites="li2021integrating">[15]</span> and water pipe maintainance <span class="citation" data-cites="bukhsh2023maintenance">[16]</span>.</li>
+<li>Computational models of human brain conditions, e.g., Parkinson’s
+disease <span class="citation"
+data-cites="lu2019application">[11]</span>, epilepsy <span
+class="citation" data-cites="pineau2009treating">[12]</span>,
+Alzheimer’s <span class="citation"
+data-cites="saboo2021reinforcement">[13]</span>, etc., for deep brain
+stimulation control and other forms of treatment.</li>
+<li>Simulations of complex urban infrastructure networks to target
+various kinds of optimisation, e.g., traffic signal control <span
+class="citation" data-cites="yau2017survey">[14]</span>, power dispatch
+<span class="citation" data-cites="li2021integrating">[15]</span> and
+water pipe maintainance <span class="citation"
+data-cites="bukhsh2023maintenance">[16]</span>.</li>
 </ul>
-<p>Observations of the node histogram in the real world typically take the form of either partial or noisy detections of the counts. Actors in systems which require this kind of partitioning could be a neurologist, traffic light controller or even city infrastructure maintainer. In all cases, interactions with these systems would typically be directly changing the state of some subset of nodes in the network itself.</p>
-<h2 id="pipeline-stage-state-histograms">Pipeline stage state histograms</h2>
-<p>The <em>pipeline stage state histogram</em> counts the frequencies of entity types which exist in a particular stage of some pipeline. These partitions can be connected together in a directed subgraph to represent a multi-stage pipeline structure. We’ve provided a rough schematic below.</p>
-<p><img src="../assets/stochadexIV/stochadexIV-pipeline-state-partition-graph.drawio.png" /></p>
-<p>Which real-world control problems would this partition be useful for? If we think about multi-stage pipelines whose future states depend on the frequencies of entity types which exist at each stage, the following real-world examples come to mind:</p>
+<p>Observations of the node histogram in the real world typically take
+the form of either partial or noisy detections of the counts. Actors in
+systems which require this kind of partitioning could be a neurologist,
+traffic light controller or even city infrastructure maintainer. In all
+cases, interactions with these systems would typically be directly
+changing the state of some subset of nodes in the network itself.</p>
+<h2 id="pipeline-stage-state-histograms">Pipeline stage state
+histograms</h2>
+<p>The <em>pipeline stage state histogram</em> counts the frequencies of
+entity types which exist in a particular stage of some pipeline. These
+partitions can be connected together in a directed subgraph to represent
+a multi-stage pipeline structure. We’ve provided a rough schematic
+below.</p>
+<p><img
+src="../assets/stochadexIV/stochadexIV-pipeline-state-partition-graph.drawio.png" /></p>
+<p>Which real-world control problems would this partition be useful for?
+If we think about multi-stage pipelines whose future states depend on
+the frequencies of entity types which exist at each stage, the following
+real-world examples come to mind:</p>
 <ul>
-<li>Logistics problems, e.g., organised supply chains <span class="citation" data-cites="yan2022reinforcement">[17]</span>, humanitarian aid distribution pipelines <span class="citation" data-cites="yu2021reinforcement">[18]</span> and hospital capacity planning <span class="citation" data-cites="shuvo2021deep">[19]</span>.</li>
-<li>Software development and engineering improvements, such as frontend user interface journeys <span class="citation" data-cites="lomas2016interface">[20]</span> across a population of users or backend data pipeline optimisation problems <span class="citation" data-cites="nagrecha2023intune">[21]</span>.</li>
+<li>Logistics problems, e.g., organised supply chains <span
+class="citation" data-cites="yan2022reinforcement">[17]</span>,
+humanitarian aid distribution pipelines <span class="citation"
+data-cites="yu2021reinforcement">[18]</span> and hospital capacity
+planning <span class="citation"
+data-cites="shuvo2021deep">[19]</span>.</li>
+<li>Software development and engineering improvements, such as frontend
+user interface journeys <span class="citation"
+data-cites="lomas2016interface">[20]</span> across a population of users
+or backend data pipeline optimisation problems <span class="citation"
+data-cites="nagrecha2023intune">[21]</span>.</li>
 </ul>
-<p>Observations of the pipeline stage state histogram in the real world typically take the form of either partial or noisy detections of the entity stage transtition events in time and/or the frequency counts in the stage itself. Actors in systems which require this kind of partitioning could be a supply/relief chain controller, hospital logistics manager, data pipeline maintainer or even software engineer. In all cases, interactions with these systems would likely be directly modifying the relative flows between different pipeline stages.</p>
-<h2 id="centralised-entity-interactions">Centralised entity interactions</h2>
-<p><em>Centralised entity interactions</em> divide the representation of the system state into a partitions of ‘entity states’ and some partition of ‘centralised state’ upon which interactions between entities can depend. The subgraph topology is hence a star configuration where every entity state is connected to the centralised state, but not necessarily to each other. We have provided a rough schematic for the structure below.</p>
-<p><img src="../assets/stochadexIV/stochadexIV-star-state-partition-graph.drawio.png" /></p>
-<p>Which real-world control problems would this partition be useful for? Dividing the state up into a collection of entity states and some centralised state can be useful in a variety of settings. In particular, we can think of:</p>
+<p>Observations of the pipeline stage state histogram in the real world
+typically take the form of either partial or noisy detections of the
+entity stage transtition events in time and/or the frequency counts in
+the stage itself. Actors in systems which require this kind of
+partitioning could be a supply/relief chain controller, hospital
+logistics manager, data pipeline maintainer or even software engineer.
+In all cases, interactions with these systems would likely be directly
+modifying the relative flows between different pipeline stages.</p>
+<h2 id="centralised-entity-interactions">Centralised entity
+interactions</h2>
+<p><em>Centralised entity interactions</em> divide the representation of
+the system state into a partitions of ‘entity states’ and some partition
+of ‘centralised state’ upon which interactions between entities can
+depend. The subgraph topology is hence a star configuration where every
+entity state is connected to the centralised state, but not necessarily
+to each other. We have provided a rough schematic for the structure
+below.</p>
+<p><img
+src="../assets/stochadexIV/stochadexIV-star-state-partition-graph.drawio.png" /></p>
+<p>Which real-world control problems would this partition be useful for?
+Dividing the state up into a collection of entity states and some
+centralised state can be useful in a variety of settings. In particular,
+we can think of:</p>
 <ul>
-<li>Simulations of sports matches, e.g., football <span class="citation" data-cites="pulis2022reinforcement">[22]</span>, rugby <span class="citation" data-cites="sawczuk2022markov">[23]</span>, tennis <span class="citation" data-cites="ding2022deep">[24]</span>, etc., and other forms of game — all of which typically define a relatively simple global match/gameplay context as their centralised state and players as their entity states.</li>
-<li>Financial (see <span class="citation" data-cites="fischer2018reinforcement">[25]</span> and <span class="citation" data-cites="meng2019reinforcement">[26]</span>) and sports betting <span class="citation" data-cites="cliff2021bbe">[27]</span> market simulations for developing algo-trading strategies and portfolio optimisation <span class="citation" data-cites="dangi2013financial">[28]</span>, as well as housing market simulations (see <span class="citation" data-cites="yilmaz2018stochastic">[29]</span> and <span class="citation" data-cites="carro2023heterogeneous">[30]</span>) to evaluate government policies.</li>
-<li>Simulations of other forms of resource exchange through centralised mediation, such as in prosumer energy markets <span class="citation" data-cites="may2023multi">[31]</span>.</li>
+<li>Simulations of sports matches, e.g., football <span class="citation"
+data-cites="pulis2022reinforcement">[22]</span>, rugby <span
+class="citation" data-cites="sawczuk2022markov">[23]</span>, tennis
+<span class="citation" data-cites="ding2022deep">[24]</span>, etc., and
+other forms of game — all of which typically define a relatively simple
+global match/gameplay context as their centralised state and players as
+their entity states.</li>
+<li>Financial (see <span class="citation"
+data-cites="fischer2018reinforcement">[25]</span> and <span
+class="citation" data-cites="meng2019reinforcement">[26]</span>) and
+sports betting <span class="citation"
+data-cites="cliff2021bbe">[27]</span> market simulations for developing
+algo-trading strategies and portfolio optimisation <span
+class="citation" data-cites="dangi2013financial">[28]</span>, as well as
+housing market simulations (see <span class="citation"
+data-cites="yilmaz2018stochastic">[29]</span> and <span class="citation"
+data-cites="carro2023heterogeneous">[30]</span>) to evaluate government
+policies.</li>
+<li>Simulations of other forms of resource exchange through centralised
+mediation, such as in prosumer energy markets <span class="citation"
+data-cites="may2023multi">[31]</span>.</li>
 </ul>
-<p>Observations of the centralised entity interactions in the real world typically take the form of either partial or noisy detections of the states and state changes. Actors in systems which require this kind of partitioning could be sports team managers, financial/betting/other market traders or market exchange mediators. The interactions with these systems would therefore typically focus on changing which entities are present, changing their parameters and/or changing the parameters of the centralised state iteration.</p>
+<p>Observations of the centralised entity interactions in the real world
+typically take the form of either partial or noisy detections of the
+states and state changes. Actors in systems which require this kind of
+partitioning could be sports team managers, financial/betting/other
+market traders or market exchange mediators. The interactions with these
+systems would therefore typically focus on changing which entities are
+present, changing their parameters and/or changing the parameters of the
+centralised state iteration.</p>
 <h2 class="unnumbered" id="references">References</h2>
-<div id="refs" class="references" role="doc-bibliography">
-<div id="ref-stochadexI-2024">
-<p>[1] R. J. Hardwick, “Building a generalised simulation engine,” <em>umbralcalculations (umbralcalc.github.io/posts/stochadexI.html)</em>, 2024.</p>
+<div id="refs" class="references csl-bib-body" role="list">
+<div id="ref-stochadexI-2024" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[1] </div><div class="csl-right-inline">R.
+J. Hardwick, <span>“Building a generalised simulation engine,”</span>
+<em>umbralcalculations
+(umbralcalc.github.io/posts/stochadexI.html)</em>, 2024.</div>
 </div>
-<div id="ref-jia2023observation">
-<p>[2] P. Jia, Q. Jia, T. Jiang, and J. Liu, “Observation strategy optimization for distributed telescope arrays with deep reinforcement learning,” <em>The Astronomical Journal</em>, vol. 165, no. 6, p. 233, 2023.</p>
+<div id="ref-jia2023observation" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[2] </div><div class="csl-right-inline">P.
+Jia, Q. Jia, T. Jiang, and J. Liu, <span>“Observation strategy
+optimization for distributed telescope arrays with deep reinforcement
+learning,”</span> <em>The Astronomical Journal</em>, vol. 165, no. 6, p.
+233, 2023.</div>
 </div>
-<div id="ref-yatawatta2021deep">
-<p>[3] S. Yatawatta and I. M. Avruch, “Deep reinforcement learning for smart calibration of radio telescopes,” <em>Monthly Notices of the Royal Astronomical Society</em>, vol. 505, no. 2, pp. 2141–2150, 2021.</p>
+<div id="ref-yatawatta2021deep" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[3] </div><div class="csl-right-inline">S.
+Yatawatta and I. M. Avruch, <span>“Deep reinforcement learning for smart
+calibration of radio telescopes,”</span> <em>Monthly Notices of the
+Royal Astronomical Society</em>, vol. 505, no. 2, pp. 2141–2150,
+2021.</div>
 </div>
-<div id="ref-treloar2022deep">
-<p>[4] N. J. Treloar, N. Braniff, B. Ingalls, and C. P. Barnes, “Deep reinforcement learning for optimal experimental design in biology,” <em>PLOS Computational Biology</em>, vol. 18, no. 11, p. e1010695, 2022.</p>
+<div id="ref-treloar2022deep" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[4] </div><div class="csl-right-inline">N.
+J. Treloar, N. Braniff, B. Ingalls, and C. P. Barnes, <span>“Deep
+reinforcement learning for optimal experimental design in
+biology,”</span> <em>PLOS Computational Biology</em>, vol. 18, no. 11,
+p. e1010695, 2022.</div>
 </div>
-<div id="ref-ohi2020exploring">
-<p>[5] A. Q. Ohi, M. Mridha, M. M. Monowar, and M. A. Hamid, “Exploring optimal control of epidemic spread using reinforcement learning,” <em>Scientific reports</em>, vol. 10, no. 1, p. 22106, 2020.</p>
+<div id="ref-ohi2020exploring" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[5] </div><div class="csl-right-inline">A.
+Q. Ohi, M. Mridha, M. M. Monowar, and M. A. Hamid, <span>“Exploring
+optimal control of epidemic spread using reinforcement learning,”</span>
+<em>Scientific reports</em>, vol. 10, no. 1, p. 22106, 2020.</div>
 </div>
-<div id="ref-carter2000spatial">
-<p>[6] R. Carter, K. N. Mendis, and D. Roberts, “Spatial targeting of interventions against malaria,” <em>Bulletin of the World Health Organization</em>, vol. 78, pp. 1401–1411, 2000.</p>
+<div id="ref-carter2000spatial" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[6] </div><div class="csl-right-inline">R.
+Carter, K. N. Mendis, and D. Roberts, <span>“Spatial targeting of
+interventions against malaria,”</span> <em>Bulletin of the World Health
+Organization</em>, vol. 78, pp. 1401–1411, 2000.</div>
 </div>
-<div id="ref-ganapathi2018using">
-<p>[7] S. Ganapathi Subramanian and M. Crowley, “Using spatial reinforcement learning to build forest wildfire dynamics models from satellite images,” <em>Frontiers in ICT</em>, vol. 5, p. 6, 2018.</p>
+<div id="ref-ganapathi2018using" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[7] </div><div class="csl-right-inline">S.
+Ganapathi Subramanian and M. Crowley, <span>“Using spatial reinforcement
+learning to build forest wildfire dynamics models from satellite
+images,”</span> <em>Frontiers in ICT</em>, vol. 5, p. 6, 2018.</div>
 </div>
-<div id="ref-lapeyrolerie2022deep">
-<p>[8] M. Lapeyrolerie, M. S. Chapman, K. E. Norman, and C. Boettiger, “Deep reinforcement learning for conservation decisions,” <em>Methods in Ecology and Evolution</em>, vol. 13, no. 11, pp. 2649–2662, 2022.</p>
+<div id="ref-lapeyrolerie2022deep" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[8] </div><div class="csl-right-inline">M.
+Lapeyrolerie, M. S. Chapman, K. E. Norman, and C. Boettiger, <span>“Deep
+reinforcement learning for conservation decisions,”</span> <em>Methods
+in Ecology and Evolution</em>, vol. 13, no. 11, pp. 2649–2662,
+2022.</div>
 </div>
-<div id="ref-chen2021reinforcement">
-<p>[9] M. Chen <em>et al.</em>, “A reinforcement learning approach to irrigation decision-making for rice using weather forecasts,” <em>Agricultural Water Management</em>, vol. 250, p. 106838, 2021.</p>
+<div id="ref-chen2021reinforcement" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[9] </div><div class="csl-right-inline">M.
+Chen <em>et al.</em>, <span>“A reinforcement learning approach to
+irrigation decision-making for rice using weather forecasts,”</span>
+<em>Agricultural Water Management</em>, vol. 250, p. 106838, 2021.</div>
 </div>
-<div id="ref-saliba2020deep">
-<p>[10] S. M. Saliba, B. D. Bowes, S. Adams, P. A. Beling, and J. L. Goodall, “Deep reinforcement learning with uncertain data for real-time stormwater system control and flood mitigation,” <em>Water</em>, vol. 12, no. 11, p. 3222, 2020.</p>
+<div id="ref-saliba2020deep" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[10] </div><div class="csl-right-inline">S.
+M. Saliba, B. D. Bowes, S. Adams, P. A. Beling, and J. L. Goodall,
+<span>“Deep reinforcement learning with uncertain data for real-time
+stormwater system control and flood mitigation,”</span> <em>Water</em>,
+vol. 12, no. 11, p. 3222, 2020.</div>
 </div>
-<div id="ref-lu2019application">
-<p>[11] M. Lu, X. Wei, Y. Che, J. Wang, and K. A. Loparo, “Application of reinforcement learning to deep brain stimulation in a computational model of parkinson’s disease,” <em>IEEE Transactions on Neural Systems and Rehabilitation Engineering</em>, vol. 28, no. 1, pp. 339–349, 2019.</p>
+<div id="ref-lu2019application" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[11] </div><div class="csl-right-inline">M.
+Lu, X. Wei, Y. Che, J. Wang, and K. A. Loparo, <span>“Application of
+reinforcement learning to deep brain stimulation in a computational
+model of parkinson’s disease,”</span> <em>IEEE Transactions on Neural
+Systems and Rehabilitation Engineering</em>, vol. 28, no. 1, pp.
+339–349, 2019.</div>
 </div>
-<div id="ref-pineau2009treating">
-<p>[12] J. Pineau, A. Guez, R. Vincent, G. Panuccio, and M. Avoli, “Treating epilepsy via adaptive neurostimulation: A reinforcement learning approach,” <em>International journal of neural systems</em>, vol. 19, no. 4, pp. 227–240, 2009.</p>
+<div id="ref-pineau2009treating" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[12] </div><div class="csl-right-inline">J.
+Pineau, A. Guez, R. Vincent, G. Panuccio, and M. Avoli, <span>“Treating
+epilepsy via adaptive neurostimulation: A reinforcement learning
+approach,”</span> <em>International journal of neural systems</em>, vol.
+19, no. 4, pp. 227–240, 2009.</div>
 </div>
-<div id="ref-saboo2021reinforcement">
-<p>[13] K. Saboo, A. Choudhary, Y. Cao, G. Worrell, D. Jones, and R. Iyer, “Reinforcement learning based disease progression model for alzheimer’s disease,” <em>Advances in Neural Information Processing Systems</em>, vol. 34, pp. 20903–20915, 2021.</p>
+<div id="ref-saboo2021reinforcement" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[13] </div><div class="csl-right-inline">K.
+Saboo, A. Choudhary, Y. Cao, G. Worrell, D. Jones, and R. Iyer,
+<span>“Reinforcement learning based disease progression model for
+alzheimer’s disease,”</span> <em>Advances in Neural Information
+Processing Systems</em>, vol. 34, pp. 20903–20915, 2021.</div>
 </div>
-<div id="ref-yau2017survey">
-<p>[14] K.-L. A. Yau, J. Qadir, H. L. Khoo, M. H. Ling, and P. Komisarczuk, “A survey on reinforcement learning models and algorithms for traffic signal control,” <em>ACM Computing Surveys (CSUR)</em>, vol. 50, no. 3, pp. 1–38, 2017.</p>
+<div id="ref-yau2017survey" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[14] </div><div
+class="csl-right-inline">K.-L. A. Yau, J. Qadir, H. L. Khoo, M. H. Ling,
+and P. Komisarczuk, <span>“A survey on reinforcement learning models and
+algorithms for traffic signal control,”</span> <em>ACM Computing Surveys
+(CSUR)</em>, vol. 50, no. 3, pp. 1–38, 2017.</div>
 </div>
-<div id="ref-li2021integrating">
-<p>[15] Q. Li <em>et al.</em>, “Integrating reinforcement learning and optimal power dispatch to enhance power grid resilience,” <em>IEEE Transactions on Circuits and Systems II: Express Briefs</em>, vol. 69, no. 3, pp. 1402–1406, 2021.</p>
+<div id="ref-li2021integrating" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[15] </div><div class="csl-right-inline">Q.
+Li <em>et al.</em>, <span>“Integrating reinforcement learning and
+optimal power dispatch to enhance power grid resilience,”</span>
+<em>IEEE Transactions on Circuits and Systems II: Express Briefs</em>,
+vol. 69, no. 3, pp. 1402–1406, 2021.</div>
 </div>
-<div id="ref-bukhsh2023maintenance">
-<p>[16] Z. A. Bukhsh, H. Molegraaf, and N. Jansen, “A maintenance planning framework using online and offline deep reinforcement learning,” <em>Neural Computing and Applications</em>, pp. 1–12, 2023.</p>
+<div id="ref-bukhsh2023maintenance" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[16] </div><div class="csl-right-inline">Z.
+A. Bukhsh, H. Molegraaf, and N. Jansen, <span>“A maintenance planning
+framework using online and offline deep reinforcement learning,”</span>
+<em>Neural Computing and Applications</em>, pp. 1–12, 2023.</div>
 </div>
-<div id="ref-yan2022reinforcement">
-<p>[17] Y. Yan, A. H. Chow, C. P. Ho, Y.-H. Kuo, Q. Wu, and C. Ying, “Reinforcement learning for logistics and supply chain management: Methodologies, state of the art, and future opportunities,” <em>Transportation Research Part E: Logistics and Transportation Review</em>, vol. 162, p. 102712, 2022.</p>
+<div id="ref-yan2022reinforcement" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[17] </div><div class="csl-right-inline">Y.
+Yan, A. H. Chow, C. P. Ho, Y.-H. Kuo, Q. Wu, and C. Ying,
+<span>“Reinforcement learning for logistics and supply chain management:
+Methodologies, state of the art, and future opportunities,”</span>
+<em>Transportation Research Part E: Logistics and Transportation
+Review</em>, vol. 162, p. 102712, 2022.</div>
 </div>
-<div id="ref-yu2021reinforcement">
-<p>[18] L. Yu, C. Zhang, J. Jiang, H. Yang, and H. Shang, “Reinforcement learning approach for resource allocation in humanitarian logistics,” <em>Expert Systems with Applications</em>, vol. 173, p. 114663, 2021.</p>
+<div id="ref-yu2021reinforcement" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[18] </div><div class="csl-right-inline">L.
+Yu, C. Zhang, J. Jiang, H. Yang, and H. Shang, <span>“Reinforcement
+learning approach for resource allocation in humanitarian
+logistics,”</span> <em>Expert Systems with Applications</em>, vol. 173,
+p. 114663, 2021.</div>
 </div>
-<div id="ref-shuvo2021deep">
-<p>[19] S. S. Shuvo, M. R. Ahmed, H. Symum, and Y. Yilmaz, “Deep reinforcement learning based cost-benefit analysis for hospital capacity planning,” in <em>2021 international joint conference on neural networks (ijcnn)</em>, IEEE, 2021, pp. 1–7.</p>
+<div id="ref-shuvo2021deep" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[19] </div><div class="csl-right-inline">S.
+S. Shuvo, M. R. Ahmed, H. Symum, and Y. Yilmaz, <span>“Deep
+reinforcement learning based cost-benefit analysis for hospital capacity
+planning,”</span> in <em>2021 international joint conference on neural
+networks (IJCNN)</em>, IEEE, 2021, pp. 1–7.</div>
 </div>
-<div id="ref-lomas2016interface">
-<p>[20] J. D. Lomas <em>et al.</em>, “Interface design optimization as a multi-armed bandit problem,” in <em>Proceedings of the 2016 chi conference on human factors in computing systems</em>, 2016, pp. 4142–4153.</p>
+<div id="ref-lomas2016interface" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[20] </div><div class="csl-right-inline">J.
+D. Lomas <em>et al.</em>, <span>“Interface design optimization as a
+multi-armed bandit problem,”</span> in <em>Proceedings of the 2016 CHI
+conference on human factors in computing systems</em>, 2016, pp.
+4142–4153.</div>
 </div>
-<div id="ref-nagrecha2023intune">
-<p>[21] K. Nagrecha, L. Liu, P. Delgado, and P. Padmanabhan, “InTune: Reinforcement learning-based data pipeline optimization for deep recommendation models,” in <em>Proceedings of the 17th acm conference on recommender systems</em>, 2023, pp. 430–442.</p>
+<div id="ref-nagrecha2023intune" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[21] </div><div class="csl-right-inline">K.
+Nagrecha, L. Liu, P. Delgado, and P. Padmanabhan, <span>“InTune:
+Reinforcement learning-based data pipeline optimization for deep
+recommendation models,”</span> in <em>Proceedings of the 17th ACM
+conference on recommender systems</em>, 2023, pp. 430–442.</div>
 </div>
-<div id="ref-pulis2022reinforcement">
-<p>[22] M. Pulis and J. Bajada, “Reinforcement learning for football player decision making analysis,” in <em>StatsBomb conference</em>, 2022.</p>
+<div id="ref-pulis2022reinforcement" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[22] </div><div class="csl-right-inline">M.
+Pulis and J. Bajada, <span>“Reinforcement learning for football player
+decision making analysis,”</span> in <em>StatsBomb conference</em>,
+2022.</div>
 </div>
-<div id="ref-sawczuk2022markov">
-<p>[23] T. Sawczuk, A. Palczewska, and B. Jones, “Markov decision processes with contextual nodes as a method of assessing attacking player performance in rugby league,” in <em>Advances in computational intelligence systems: Contributions presented at the 20th uk workshop on computational intelligence, september 8-10, 2021, aberystwyth, wales, uk 20</em>, Springer, 2022, pp. 251–263.</p>
+<div id="ref-sawczuk2022markov" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[23] </div><div class="csl-right-inline">T.
+Sawczuk, A. Palczewska, and B. Jones, <span>“Markov decision processes
+with contextual nodes as a method of assessing attacking player
+performance in rugby league,”</span> in <em>Advances in computational
+intelligence systems: Contributions presented at the 20th UK workshop on
+computational intelligence, september 8-10, 2021, aberystwyth, wales, UK
+20</em>, Springer, 2022, pp. 251–263.</div>
 </div>
-<div id="ref-ding2022deep">
-<p>[24] N. Ding, K. Takeda, and K. Fujii, “Deep reinforcement learning in a racket sport for player evaluation with technical and tactical contexts,” <em>IEEE Access</em>, vol. 10, pp. 54764–54772, 2022.</p>
+<div id="ref-ding2022deep" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[24] </div><div class="csl-right-inline">N.
+Ding, K. Takeda, and K. Fujii, <span>“Deep reinforcement learning in a
+racket sport for player evaluation with technical and tactical
+contexts,”</span> <em>IEEE Access</em>, vol. 10, pp. 54764–54772,
+2022.</div>
 </div>
-<div id="ref-fischer2018reinforcement">
-<p>[25] T. G. Fischer, “Reinforcement learning in financial markets-a survey,” FAU Discussion Papers in Economics, 2018.</p>
+<div id="ref-fischer2018reinforcement" class="csl-entry"
+role="listitem">
+<div class="csl-left-margin">[25] </div><div class="csl-right-inline">T.
+G. Fischer, <span>“Reinforcement learning in financial markets-a
+survey,”</span> FAU Discussion Papers in Economics, 2018.</div>
 </div>
-<div id="ref-meng2019reinforcement">
-<p>[26] T. L. Meng and M. Khushi, “Reinforcement learning in financial markets,” <em>Data</em>, vol. 4, no. 3, p. 110, 2019.</p>
+<div id="ref-meng2019reinforcement" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[26] </div><div class="csl-right-inline">T.
+L. Meng and M. Khushi, <span>“Reinforcement learning in financial
+markets,”</span> <em>Data</em>, vol. 4, no. 3, p. 110, 2019.</div>
 </div>
-<div id="ref-cliff2021bbe">
-<p>[27] D. Cliff, “BBE: Simulating the microstructural dynamics of an in-play betting exchange via agent-based modelling,” <em>arXiv preprint arXiv:2105.08310</em>, 2021.</p>
+<div id="ref-cliff2021bbe" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[27] </div><div class="csl-right-inline">D.
+Cliff, <span>“BBE: Simulating the microstructural dynamics of an in-play
+betting exchange via agent-based modelling,”</span> <em>arXiv preprint
+arXiv:2105.08310</em>, 2021.</div>
 </div>
-<div id="ref-dangi2013financial">
-<p>[28] A. Dangi, “Financial portfolio optimization: Computationally guided agents to investigate, analyse and invest!?” <em>arXiv preprint arXiv:1301.4194</em>, 2013.</p>
+<div id="ref-dangi2013financial" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[28] </div><div class="csl-right-inline">A.
+Dangi, <span>“Financial portfolio optimization: Computationally guided
+agents to investigate, analyse and invest!?”</span> <em>arXiv preprint
+arXiv:1301.4194</em>, 2013.</div>
 </div>
-<div id="ref-yilmaz2018stochastic">
-<p>[29] B. Yilmaz and A. Selcuk-Kestel, “A stochastic approach to model housing markets: The us housing market case,” <em>Numerical Algebra Control and Optimization</em>, vol. 8, no. 4, 2018.</p>
+<div id="ref-yilmaz2018stochastic" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[29] </div><div class="csl-right-inline">B.
+Yilmaz and A. Selcuk-Kestel, <span>“A stochastic approach to model
+housing markets: The US housing market case,”</span> <em>Numerical
+Algebra Control and Optimization</em>, vol. 8, no. 4, 2018.</div>
 </div>
-<div id="ref-carro2023heterogeneous">
-<p>[30] A. Carro, M. Hinterschweiger, A. Uluc, and J. D. Farmer, “Heterogeneous effects and spillovers of macroprudential policy in an agent-based model of the uk housing market,” <em>Industrial and Corporate Change</em>, vol. 32, no. 2, pp. 386–432, 2023.</p>
+<div id="ref-carro2023heterogeneous" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[30] </div><div class="csl-right-inline">A.
+Carro, M. Hinterschweiger, A. Uluc, and J. D. Farmer,
+<span>“Heterogeneous effects and spillovers of macroprudential policy in
+an agent-based model of the UK housing market,”</span> <em>Industrial
+and Corporate Change</em>, vol. 32, no. 2, pp. 386–432, 2023.</div>
 </div>
-<div id="ref-may2023multi">
-<p>[31] R. May and P. Huang, “A multi-agent reinforcement learning approach for investigating and optimising peer-to-peer prosumer energy markets,” <em>Applied Energy</em>, vol. 334, p. 120705, 2023.</p>
+<div id="ref-may2023multi" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[31] </div><div class="csl-right-inline">R.
+May and P. Huang, <span>“A multi-agent reinforcement learning approach
+for investigating and optimising peer-to-peer prosumer energy
+markets,”</span> <em>Applied Energy</em>, vol. 334, p. 120705,
+2023.</div>
 </div>
 </div>
 <hr color="LightGray">
