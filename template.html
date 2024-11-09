@@ -147,8 +147,17 @@ $endif$
       margin-top: 15px;
     }
 
+    #references {
+      margin-bottom: 0.5em;
+    }
+
     .csl-left-margin {
       margin-right: 10px;
+    }
+
+    .custom-spacer {
+      display: block;
+      height: 1em;
     }
 
     @media (max-width: 767px) {
@@ -207,7 +216,7 @@ $if(concept)$
 $endif$
 $body$
 $if(articleId)$
-</br>
+<span class="custom-spacer"></span>
 <hr color="LightGray">
 <div class="articleHeader">
   <strong> Cite. </strong> You can cite this article using the following BibTeX:
