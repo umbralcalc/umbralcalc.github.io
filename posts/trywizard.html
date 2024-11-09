@@ -160,8 +160,7 @@
       }
     }
   </style>
-  <script src="/usr/share/javascript/mathjax/MathJax.js"
-  type="text/javascript"></script>
+  <script src="/usr/share/javascript/mathjax/MathJax.js" type="text/javascript"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <article class="body">
@@ -186,598 +185,127 @@ About
 </br>
 <strong> Date. </strong> 2024-05-05
 </br>
-<strong> Concept. </strong> To outline the basic design of an
-event-based rugby match simulator which uses the stochadex simulation
-engine to evolve its state forward in time. We also develop an
-alternative visualisation app for the stochadex which displays a 2D view
-of the rugby pitch and ball location. Given this extended functionality,
-we also discuss how this toy model could be developed into a full game
-with user interaction in future.
+<strong> Concept. </strong> To outline the basic design of an event-based rugby match simulator which uses the stochadex simulation engine to evolve its state forward in time. We also develop an alternative visualisation app for the stochadex which displays a 2D view of the rugby pitch and ball location. Given this extended functionality, we also discuss how this toy model could be developed into a full game with user interaction in future.
 </div>
 <hr color="LightGray">
 </br>
-<h2 id="conceptualising-the-event-based-simulation">Conceptualising the
-event-based simulation</h2>
-<p>Since the basic state manipulation framework and simulation engine
-will run using the stochadex (see here: <a
-href="https://github.com/umbralcalc/stochadex">https://github.com/umbralcalc/stochadex</a>),
-the mathematical novelties in this project are all in the design of the
-rugby match model itself. We’re also not especially keen on spending a
-lot of time doing detailed data analysis to come up with the most
-realistic values for the parameters that are dreamed up here. Though
-this would also be interesting — one could do this data analysis, for
-instance, by scraping player-level performance data from one of the
-excellent websites that collect live commentary data such as <span
-class="citation" data-cites="rugbypass">[1]</span> or <span
-class="citation" data-cites="espn-rugby">[2]</span>.</p>
-<p>Let’s begin by specifying an appropriate state space to live in when
-simulating a rugby match. It is important at this level that events are
-defined in quite broadly applicable terms, as it will define the state
-space available to our stochastic sampler and hence the simulated game
-will never be allowed to exist outside of it. It seems reasonable to
-characterise a rugby union match by the following set of states:</p>
+<h2 id="conceptualising-the-event-based-simulation">Conceptualising the event-based simulation</h2>
+<p>Since the basic state manipulation framework and simulation engine will run using the stochadex (see here: <a href="https://github.com/umbralcalc/stochadex">https://github.com/umbralcalc/stochadex</a>), the mathematical novelties in this project are all in the design of the rugby match model itself. We’re also not especially keen on spending a lot of time doing detailed data analysis to come up with the most realistic values for the parameters that are dreamed up here. Though this would also be interesting — one could do this data analysis, for instance, by scraping player-level performance data from one of the excellent websites that collect live commentary data such as <span class="citation" data-cites="rugbypass">[1]</span> or <span class="citation" data-cites="espn-rugby">[2]</span>.</p>
+<p>Let’s begin by specifying an appropriate state space to live in when simulating a rugby match. It is important at this level that events are defined in quite broadly applicable terms, as it will define the state space available to our stochastic sampler and hence the simulated game will never be allowed to exist outside of it. It seems reasonable to characterise a rugby union match by the following set of states:</p>
 <ul>
-<li><span class="math inline">\({\sf Penalty}\)</span>, <span
-class="math inline">\({\sf Free}\)</span> <span
-class="math inline">\({\sf Kick}\)</span> (the punitive states),</li>
-<li><span class="math inline">\({\sf Penalty}\)</span> <span
-class="math inline">\({\sf Goal}\)</span>, <span
-class="math inline">\({\sf Drop}\)</span> <span
-class="math inline">\({\sf Goal}\)</span>, <span
-class="math inline">\({\sf Try}\)</span> (the scoring states),</li>
-<li><span class="math inline">\({\sf Kickoff}\)</span>, <span
-class="math inline">\({\sf Kick}\)</span> <span
-class="math inline">\({\sf Phase}\)</span>, <span
-class="math inline">\({\sf Run}\)</span> <span
-class="math inline">\({\sf Phase}\)</span>, <span
-class="math inline">\({\sf Knock}\)</span>-<span
-class="math inline">\({\sf on}\)</span>, <span
-class="math inline">\({\sf Scrum}\)</span>, <span
-class="math inline">\({\sf Lineout}\)</span>, <span
-class="math inline">\({\sf Maul}\)</span> and <span
-class="math inline">\({\sf Ruck}\)</span> (the general play
-states).</li>
+<li><span class="math inline">\({\sf Penalty}\)</span>, <span class="math inline">\({\sf Free}\)</span> <span class="math inline">\({\sf Kick}\)</span> (the punitive states),</li>
+<li><span class="math inline">\({\sf Penalty}\)</span> <span class="math inline">\({\sf Goal}\)</span>, <span class="math inline">\({\sf Drop}\)</span> <span class="math inline">\({\sf Goal}\)</span>, <span class="math inline">\({\sf Try}\)</span> (the scoring states),</li>
+<li><span class="math inline">\({\sf Kickoff}\)</span>, <span class="math inline">\({\sf Kick}\)</span> <span class="math inline">\({\sf Phase}\)</span>, <span class="math inline">\({\sf Run}\)</span> <span class="math inline">\({\sf Phase}\)</span>, <span class="math inline">\({\sf Knock}\)</span>-<span class="math inline">\({\sf on}\)</span>, <span class="math inline">\({\sf Scrum}\)</span>, <span class="math inline">\({\sf Lineout}\)</span>, <span class="math inline">\({\sf Maul}\)</span> and <span class="math inline">\({\sf Ruck}\)</span> (the general play states).</li>
 </ul>
-<p>Using this set of states, in the figure below we have summarised our
-approach to match state transitions into a single event graph. In order
-to capture the fully detailed range of events that are possible in a
-real-world match, we’ve needed to be a little imaginative in how we
-define the kinds of state transitions which occur. It’s also fair to say
-that our simplified model here represents just a subset of states that a
-real rugby match could exist in. For example, kickoffs, 22m dropouts and
-goal line dropouts are all modelled here as a <span
-class="math inline">\({\sf Kickoff}\)</span> state but with different
-initial ball locations on the pitch (we’ll get to how ball location
-changes later on).</p>
-<p><img
-src="../assets/trywizard/trywizard-event-graph.drawio.png" /></p>
-<p>In addition to occupying some state in the event graph, the state of
-a rugby match must also include a binary ‘possession’ element which
-encodes which team has the ball at any moment. We should also include
-the 2-dimensional pitch location of the ball as an element of the match
-state in order to get a better sense of how likely some state
-transitions are, e.g., when playing on the edge of the pitch near the
-touchline it’s clearly more likely that a <span
-class="math inline">\({\sf Run}\)</span> <span
-class="math inline">\({\sf Phase}\)</span> is going to result in a <span
-class="math inline">\({\sf Lineout}\)</span> than if the state is
-currently in the centre of the pitch. To add even more detail; in the
-next section we will introduce states for each player.</p>
-<p>Since a rugby match exists in continuous time, it is natural to
-choose a continuous-time event-based simulation model for our game
-engine. As we have discussed in previous articles already <span
-class="citation" data-cites="stochadexI-2024">[3]</span>, this means we
-will be characterising transition probabilities of the event graph above
-by ratios of event rates in time. Recalling our notation in previous
-articles, if we consider the current state vector of the match <span
-class="math inline">\(X_{\sf t}\)</span>, we can start by assigning each
-transition <span class="math inline">\({\sf a}\rightarrow {\sf
-b}\)</span> on the event graph an associated expected rate of occurance
-<span class="math inline">\(\lambda_{{\sf a}\rightarrow {\sf
-b}}\)</span> which is defined in units of continuous time, e.g.,
-seconds. In addition to the transitions displayed on the graph, we can
-add a ‘possession change transition’; where the possession of the ball
-in play moves to the opposing team. This transition may occur while the
-match is also in most of the white-coloured states on the graph apart
-from <span class="math inline">\({\sf Knock}\)</span>-<span
-class="math inline">\({\sf on}\)</span> (which determines a possession
-change immediately through a <span class="math inline">\({\sf
-Scrum}\)</span>) or a <span class="math inline">\({\sf Kickoff}\)</span>
-(which directly proceeds a <span class="math inline">\({\sf
-Kick}\)</span> <span class="math inline">\({\sf Phase}\)</span> from
-which the ball may change possession). Let’s assign possession changes
-with a state and timestep-dependent expected rate of occurance <span
-class="math inline">\(\lambda_{\rm pos}(X_{\sf t}, {\sf
-t})\)</span>.</p>
-<p>Based on our dicussion above, an appropriate encoding for the overall
-game state at timestep index <span class="math inline">\({\sf
-t}\)</span> could be a state vector <span class="math inline">\(X_{{\sf
-t}}\)</span> whose elements are</p>
+<p>Using this set of states, in the figure below we have summarised our approach to match state transitions into a single event graph. In order to capture the fully detailed range of events that are possible in a real-world match, we’ve needed to be a little imaginative in how we define the kinds of state transitions which occur. It’s also fair to say that our simplified model here represents just a subset of states that a real rugby match could exist in. For example, kickoffs, 22m dropouts and goal line dropouts are all modelled here as a <span class="math inline">\({\sf Kickoff}\)</span> state but with different initial ball locations on the pitch (we’ll get to how ball location changes later on).</p>
+<p><img src="../assets/trywizard/trywizard-event-graph.drawio.png" /></p>
+<p>In addition to occupying some state in the event graph, the state of a rugby match must also include a binary ‘possession’ element which encodes which team has the ball at any moment. We should also include the 2-dimensional pitch location of the ball as an element of the match state in order to get a better sense of how likely some state transitions are, e.g., when playing on the edge of the pitch near the touchline it’s clearly more likely that a <span class="math inline">\({\sf Run}\)</span> <span class="math inline">\({\sf Phase}\)</span> is going to result in a <span class="math inline">\({\sf Lineout}\)</span> than if the state is currently in the centre of the pitch. To add even more detail; in the next section we will introduce states for each player.</p>
+<p>Since a rugby match exists in continuous time, it is natural to choose a continuous-time event-based simulation model for our game engine. As we have discussed in previous articles already <span class="citation" data-cites="stochadexI-2024">[3]</span>, this means we will be characterising transition probabilities of the event graph above by ratios of event rates in time. Recalling our notation in previous articles, if we consider the current state vector of the match <span class="math inline">\(X_{\sf t}\)</span>, we can start by assigning each transition <span class="math inline">\({\sf a}\rightarrow {\sf b}\)</span> on the event graph an associated expected rate of occurance <span class="math inline">\(\lambda_{{\sf a}\rightarrow {\sf b}}\)</span> which is defined in units of continuous time, e.g., seconds. In addition to the transitions displayed on the graph, we can add a ‘possession change transition’; where the possession of the ball in play moves to the opposing team. This transition may occur while the match is also in most of the white-coloured states on the graph apart from <span class="math inline">\({\sf Knock}\)</span>-<span class="math inline">\({\sf on}\)</span> (which determines a possession change immediately through a <span class="math inline">\({\sf Scrum}\)</span>) or a <span class="math inline">\({\sf Kickoff}\)</span> (which directly proceeds a <span class="math inline">\({\sf Kick}\)</span> <span class="math inline">\({\sf Phase}\)</span> from which the ball may change possession). Let’s assign possession changes with a state and timestep-dependent expected rate of occurance <span class="math inline">\(\lambda_{\rm pos}(X_{\sf t}, {\sf t})\)</span>.</p>
+<p>Based on our dicussion above, an appropriate encoding for the overall game state at timestep index <span class="math inline">\({\sf t}\)</span> could be a state vector <span class="math inline">\(X_{{\sf t}}\)</span> whose elements are</p>
 <p><span class="math display">\[
 \begin{align}
-X^0_{{\sf t}}&amp;=\begin{cases} 0 &amp; \text{Match State} =
-\text{${\sf Penalty}$}\\ 1 &amp; \text{Match State} = \text{${\sf Free}$
-${\sf Kick}$} \\ \dots &amp; \end{cases} \\
-X^1_{{\sf t}}&amp;=\begin{cases} 0 &amp; \text{Possession} = \text{${\sf
-Home}$ ${\sf Team}$}\\ 1 &amp; \text{Possession} = \text{${\sf Away}$
-${\sf Team}$} \end{cases} \,.
+X^0_{{\sf t}}&amp;=\begin{cases} 0 &amp; \text{Match State} = \text{${\sf Penalty}$}\\ 1 &amp; \text{Match State} = \text{${\sf Free}$ ${\sf Kick}$} \\ \dots &amp; \end{cases} \\
+X^1_{{\sf t}}&amp;=\begin{cases} 0 &amp; \text{Possession} = \text{${\sf Home}$ ${\sf Team}$}\\ 1 &amp; \text{Possession} = \text{${\sf Away}$ ${\sf Team}$} \end{cases} \,.
 \end{align}
 \]</span></p>
-<p>But how does this overall game state connect to the event rates? The
-probabilistic answer is quite straightforward. If the probability of the
-match state being <span class="math inline">\(X^0_{{\sf t}}={\sf
-a}\)</span> at timestep <span class="math inline">\({\sf t}\)</span> is
-written as <span class="math inline">\(P^0_{{\sf t}}({\sf a})\)</span>,
-then the probability of <span class="math inline">\(X^0_{{\sf t}+1}={\sf
-b}\)</span> in the following timestep is</p>
+<p>But how does this overall game state connect to the event rates? The probabilistic answer is quite straightforward. If the probability of the match state being <span class="math inline">\(X^0_{{\sf t}}={\sf a}\)</span> at timestep <span class="math inline">\({\sf t}\)</span> is written as <span class="math inline">\(P^0_{{\sf t}}({\sf a})\)</span>, then the probability of <span class="math inline">\(X^0_{{\sf t}+1}={\sf b}\)</span> in the following timestep is</p>
 <p><span class="math display">\[
 \begin{align}
-P^0_{{\sf t}+1}({\sf b}) = \frac{\frac{1}{\tau}P^0_{{\sf t}}({\sf
-b})+\sum_{\forall {\sf a}\neq {\sf b}}\lambda_{{\sf a}\rightarrow {\sf
-b}}{\cal T}_{{\sf a}\rightarrow {\sf b}}(X_{\sf t}, {\sf t})P^0_{{\sf
-t}}({\sf a})}{\big[ \frac{1}{\tau} + \sum_{\forall {\sf a}\neq {\sf
-b}}\lambda_{{\sf a}\rightarrow {\sf b}} {\cal T}_{{\sf a}\rightarrow
-{\sf b}}(X_{\sf t}, {\sf t})\big]} \,,
+P^0_{{\sf t}+1}({\sf b}) = \frac{\frac{1}{\tau}P^0_{{\sf t}}({\sf b})+\sum_{\forall {\sf a}\neq {\sf b}}\lambda_{{\sf a}\rightarrow {\sf b}}{\cal T}_{{\sf a}\rightarrow {\sf b}}(X_{\sf t}, {\sf t})P^0_{{\sf t}}({\sf a})}{\big[ \frac{1}{\tau} + \sum_{\forall {\sf a}\neq {\sf b}}\lambda_{{\sf a}\rightarrow {\sf b}} {\cal T}_{{\sf a}\rightarrow {\sf b}}(X_{\sf t}, {\sf t})\big]} \,,
 \end{align}
 \]</span></p>
-<p>where <span class="math inline">\(\forall {\sf a} \neq {\sf
-b}\)</span> in the summation indicates that all the available
-transitions from <span class="math inline">\({\sf a}\)</span> to <span
-class="math inline">\({\sf b}\)</span>, where <span
-class="math inline">\({\sf a}\neq {\sf b}\)</span>, should be summed
-over and <span class="math inline">\({\cal T}_{{\sf a}\rightarrow {\sf
-b}}(X_{\sf t}, {\sf t})\)</span> is a time and state-dependent
-transition probability that is determined by the playing tactics of each
-team as well as the general likelihoods of gameplay which are expected
-from a real rugby match. Note that in the expression above, we have also
-defined <span class="math inline">\(\tau\)</span> as a timescale short
-enough such that no transition is likely to occur during that interval.
-An equivalent to the expression above should also apply to the
-possession change transition rate, i.e., the probability that the <span
-class="math inline">\({\sf Home}\)</span> <span
-class="math inline">\({\sf Team}\)</span> has possession <span
-class="math inline">\(P^1_{{\sf t}}({\sf H})\)</span> at time <span
-class="math inline">\({\sf t}\)</span> evolves according to</p>
+<p>where <span class="math inline">\(\forall {\sf a} \neq {\sf b}\)</span> in the summation indicates that all the available transitions from <span class="math inline">\({\sf a}\)</span> to <span class="math inline">\({\sf b}\)</span>, where <span class="math inline">\({\sf a}\neq {\sf b}\)</span>, should be summed over and <span class="math inline">\({\cal T}_{{\sf a}\rightarrow {\sf b}}(X_{\sf t}, {\sf t})\)</span> is a time and state-dependent transition probability that is determined by the playing tactics of each team as well as the general likelihoods of gameplay which are expected from a real rugby match. Note that in the expression above, we have also defined <span class="math inline">\(\tau\)</span> as a timescale short enough such that no transition is likely to occur during that interval. An equivalent to the expression above should also apply to the possession change transition rate, i.e., the probability that the <span class="math inline">\({\sf Home}\)</span> <span class="math inline">\({\sf Team}\)</span> has possession <span class="math inline">\(P^1_{{\sf t}}({\sf H})\)</span> at time <span class="math inline">\({\sf t}\)</span> evolves according to</p>
 <p><span class="math display">\[
 \begin{align}
-P^1_{{\sf t}+1}({\sf H}) = \frac{ \frac{1}{\tau}P^1_{{\sf t}}({\sf H}) +
-\lambda_{\rm pos}(X_{\sf t}, {\sf t}) [1-P^1_{{\sf t}}({\sf H})]}{\big[
-\frac{1}{\tau} + \lambda_{\rm pos}(X_{\sf t}, {\sf t})\big]} \,.
+P^1_{{\sf t}+1}({\sf H}) = \frac{ \frac{1}{\tau}P^1_{{\sf t}}({\sf H}) + \lambda_{\rm pos}(X_{\sf t}, {\sf t}) [1-P^1_{{\sf t}}({\sf H})]}{\big[ \frac{1}{\tau} + \lambda_{\rm pos}(X_{\sf t}, {\sf t})\big]} \,.
 \end{align}
 \]</span></p>
-<p>Before we move on to other details, it’s quite important to recognise
-that because our process is defined in continuous time, the possession
-change rate may well vary continuously (this will be especially true
-when we talk about, e.g., player fatigue). Hence, the expression for the
-match state transition probabilities is only an <em>approximation</em>
-of the true underlying dynamics that we are trying to simulate - and
-this approximation will only be accurate if <span
-class="math inline">\(\tau\)</span> is small. The reader may recall that
-we discussed this same issue from the point of view of simulating
-time-inhomogeneous Poisson processes with the rejection method when we
-were building the stochadex <span class="citation"
-data-cites="stochadexI-2024">[3]</span>.</p>
-<p>While these match state transitions and possession changes are taking
-place, we also need to come up with a model for how the ball location
-<span class="math inline">\(L_{{\sf t}}\)</span> changes during the
-course of a game, and as a function of the current game state. Note
-that, because the ball location is a part of the overall game state, it
-will be included as information contained within some elements of <span
-class="math inline">\(X_{{\sf t}}\)</span> as well. To make this
-explicit, we can simply set <span class="math inline">\(X^2_{{\sf
-t}}=L^{\rm lon}_{{\sf t}}\)</span> and <span
-class="math inline">\(X^3_{{\sf t}}=L^{\rm lat}_{{\sf t}}\)</span> -
-where <span class="math inline">\(L^{\rm lon}_{{\sf t}}\)</span> denotes
-the longitudinal component (lengthwise along the pitch) and <span
-class="math inline">\(L^{\rm lat}_{{\sf t}}\)</span> denotes the lateral
-component (widthwise across the pitch). If we associate every state on
-the event graph with a single change in spatial location of the ball on
-the pitch, we then need to construct a process which makes ‘jumps’ in
-2-dimensional space each time a state transition occurs. To keep things
-simple and intuitive, we will say that movements of the ball are only
-allowed to occur during either a <span class="math inline">\({\sf
-Run}\)</span> <span class="math inline">\({\sf Phase}\)</span> or a
-<span class="math inline">\({\sf Kick}\)</span> <span
-class="math inline">\({\sf Phase}\)</span>. In most cases this
-restriction makes sense given the real-world game patterns, but perhaps
-the only clear exception is the <span class="math inline">\({\sf
-Penalty}\)</span> <span class="math inline">\(\longrightarrow\)</span>
-<span class="math inline">\({\sf Goal}\)</span> transition; which is
-easier to think of as a kind of ‘<span class="math inline">\({\sf
-Kick}\)</span> <span class="math inline">\({\sf Phase}\)</span>
-transition’ anyway.</p>
-<p>In the case of a <span class="math inline">\({\sf Run}\)</span> <span
-class="math inline">\({\sf Phase}\)</span>, let’s choose the
-longitudinal component of the ball location <span
-class="math inline">\(L^{\rm lon}_{{\sf t}}\)</span> to be updated by
-the difference between samples drawn from two exponential distributions
-(one associated to each team). Hence, the probability density <span
-class="math inline">\(P_{{\sf t}+1}(\ell )\)</span> of <span
-class="math inline">\(L^{\rm lon}_{{\sf t}+1}-L^{\rm lon}_{{\sf
-t}}=\ell\)</span>, evolves according to</p>
+<p>Before we move on to other details, it’s quite important to recognise that because our process is defined in continuous time, the possession change rate may well vary continuously (this will be especially true when we talk about, e.g., player fatigue). Hence, the expression for the match state transition probabilities is only an <em>approximation</em> of the true underlying dynamics that we are trying to simulate - and this approximation will only be accurate if <span class="math inline">\(\tau\)</span> is small. The reader may recall that we discussed this same issue from the point of view of simulating time-inhomogeneous Poisson processes with the rejection method when we were building the stochadex <span class="citation" data-cites="stochadexI-2024">[3]</span>.</p>
+<p>While these match state transitions and possession changes are taking place, we also need to come up with a model for how the ball location <span class="math inline">\(L_{{\sf t}}\)</span> changes during the course of a game, and as a function of the current game state. Note that, because the ball location is a part of the overall game state, it will be included as information contained within some elements of <span class="math inline">\(X_{{\sf t}}\)</span> as well. To make this explicit, we can simply set <span class="math inline">\(X^2_{{\sf t}}=L^{\rm lon}_{{\sf t}}\)</span> and <span class="math inline">\(X^3_{{\sf t}}=L^{\rm lat}_{{\sf t}}\)</span> - where <span class="math inline">\(L^{\rm lon}_{{\sf t}}\)</span> denotes the longitudinal component (lengthwise along the pitch) and <span class="math inline">\(L^{\rm lat}_{{\sf t}}\)</span> denotes the lateral component (widthwise across the pitch). If we associate every state on the event graph with a single change in spatial location of the ball on the pitch, we then need to construct a process which makes ‘jumps’ in 2-dimensional space each time a state transition occurs. To keep things simple and intuitive, we will say that movements of the ball are only allowed to occur during either a <span class="math inline">\({\sf Run}\)</span> <span class="math inline">\({\sf Phase}\)</span> or a <span class="math inline">\({\sf Kick}\)</span> <span class="math inline">\({\sf Phase}\)</span>. In most cases this restriction makes sense given the real-world game patterns, but perhaps the only clear exception is the <span class="math inline">\({\sf Penalty}\)</span> <span class="math inline">\(\longrightarrow\)</span> <span class="math inline">\({\sf Goal}\)</span> transition; which is easier to think of as a kind of ‘<span class="math inline">\({\sf Kick}\)</span> <span class="math inline">\({\sf Phase}\)</span> transition’ anyway.</p>
+<p>In the case of a <span class="math inline">\({\sf Run}\)</span> <span class="math inline">\({\sf Phase}\)</span>, let’s choose the longitudinal component of the ball location <span class="math inline">\(L^{\rm lon}_{{\sf t}}\)</span> to be updated by the difference between samples drawn from two exponential distributions (one associated to each team). Hence, the probability density <span class="math inline">\(P_{{\sf t}+1}(\ell )\)</span> of <span class="math inline">\(L^{\rm lon}_{{\sf t}+1}-L^{\rm lon}_{{\sf t}}=\ell\)</span>, evolves according to</p>
 <p><span class="math display">\[
 \begin{align}
-P_{{\sf t}+1}(\ell ) = \int^\infty_0 {\rm d}\ell&#39;\, {\sf
-ExponentialPDF}(\ell + \ell&#39;; a_{\rm run}){\sf
-ExponentialPDF}(\ell&#39;; d_{\rm run}) \,,
+P_{{\sf t}+1}(\ell ) = \int^\infty_0 {\rm d}\ell&#39;\, {\sf ExponentialPDF}(\ell + \ell&#39;; a_{\rm run}){\sf ExponentialPDF}(\ell&#39;; d_{\rm run}) \,,
 \end{align}
 \]</span></p>
-<p>where <span class="math inline">\(a_{\rm run}\)</span> and <span
-class="math inline">\(d_{\rm run}\)</span> are the exponential
-distribution scale parameters for an attacking and defending player,
-respectively, and we have chosen positive values of <span
-class="math inline">\(\ell\)</span> to be aligned with the forward
-direction for the attacking team. We shall elaborate on where <span
-class="math inline">\(a_{\rm run}\)</span> and <span
-class="math inline">\(d_{\rm run}\)</span> come from when we discuss
-associating events for player abilities in due course. If we now
-consider lateral component of the ball location <span
-class="math inline">\(L^{\rm lat}_{{\sf t}}\)</span> during a <span
-class="math inline">\({\sf Run}\)</span> <span
-class="math inline">\({\sf Phase}\)</span>; it makes sense that this
-wouldn’t be affected much by either team within the scope of detail in
-this first version of our model. Hence, the probability density <span
-class="math inline">\(P_{{\sf t}+1}(w)\)</span> of <span
-class="math inline">\(L^{\rm lat}_{{\sf t}+1}-L^{\rm lat}_{{\sf
-t}}=w\)</span> can just be updated like so</p>
+<p>where <span class="math inline">\(a_{\rm run}\)</span> and <span class="math inline">\(d_{\rm run}\)</span> are the exponential distribution scale parameters for an attacking and defending player, respectively, and we have chosen positive values of <span class="math inline">\(\ell\)</span> to be aligned with the forward direction for the attacking team. We shall elaborate on where <span class="math inline">\(a_{\rm run}\)</span> and <span class="math inline">\(d_{\rm run}\)</span> come from when we discuss associating events for player abilities in due course. If we now consider lateral component of the ball location <span class="math inline">\(L^{\rm lat}_{{\sf t}}\)</span> during a <span class="math inline">\({\sf Run}\)</span> <span class="math inline">\({\sf Phase}\)</span>; it makes sense that this wouldn’t be affected much by either team within the scope of detail in this first version of our model. Hence, the probability density <span class="math inline">\(P_{{\sf t}+1}(w)\)</span> of <span class="math inline">\(L^{\rm lat}_{{\sf t}+1}-L^{\rm lat}_{{\sf t}}=w\)</span> can just be updated like so</p>
 <p><span class="math display">\[
 \begin{align}
 P_{{\sf t}+1}(w) = {\sf NormalPDF}(w; 0, \sigma_{\rm run}^2) \,,
 \end{align}
 \]</span></p>
-<p>where <span class="math inline">\(\sigma_{\rm run}\)</span> is the
-typical jump in lateral motion (the standard deviation parameter of the
-normal distribution).</p>
-<p>Turning our attention to the <span class="math inline">\({\sf
-Kick}\)</span> <span class="math inline">\({\sf Phase}\)</span>; the
-longitudinal and lateral components are only realistically controlled by
-the attacking team — specifically, by the player who is currently the
-kicker. Referring back to the state transitions which precede a <span
-class="math inline">\({\sf Kick}\)</span> <span
-class="math inline">\({\sf Phase}\)</span> in the event graph, we note
-that there are several types of kick which can dictate what the
-mechanics of the process should look like. To keep things simple, we can
-cluster these types of event into the following categories</p>
+<p>where <span class="math inline">\(\sigma_{\rm run}\)</span> is the typical jump in lateral motion (the standard deviation parameter of the normal distribution).</p>
+<p>Turning our attention to the <span class="math inline">\({\sf Kick}\)</span> <span class="math inline">\({\sf Phase}\)</span>; the longitudinal and lateral components are only realistically controlled by the attacking team — specifically, by the player who is currently the kicker. Referring back to the state transitions which precede a <span class="math inline">\({\sf Kick}\)</span> <span class="math inline">\({\sf Phase}\)</span> in the event graph, we note that there are several types of kick which can dictate what the mechanics of the process should look like. To keep things simple, we can cluster these types of event into the following categories</p>
 <p>(1.) Kicks at the goalposts for points:</p>
 <ul>
-<li><span class="math inline">\({\sf Penalty}\)</span> <span
-class="math inline">\(\longrightarrow\)</span> <span
-class="math inline">\({\sf Goal}\)</span></li>
-<li><span class="math inline">\({\sf Kick}\)</span> <span
-class="math inline">\({\sf Phase}\)</span> <span
-class="math inline">\(\longrightarrow\)</span> <span
-class="math inline">\({\sf Drop}\)</span> <span
-class="math inline">\({\sf Goal}\)</span></li>
+<li><span class="math inline">\({\sf Penalty}\)</span> <span class="math inline">\(\longrightarrow\)</span> <span class="math inline">\({\sf Goal}\)</span></li>
+<li><span class="math inline">\({\sf Kick}\)</span> <span class="math inline">\({\sf Phase}\)</span> <span class="math inline">\(\longrightarrow\)</span> <span class="math inline">\({\sf Drop}\)</span> <span class="math inline">\({\sf Goal}\)</span></li>
 </ul>
-<p>(2.) Kicks in the general field of play where the ball does not leave
-the field:</p>
+<p>(2.) Kicks in the general field of play where the ball does not leave the field:</p>
 <ul>
-<li><span class="math inline">\({\sf Kick}\)</span> <span
-class="math inline">\({\sf Phase}\)</span> <span
-class="math inline">\(\longrightarrow\)</span> <span
-class="math inline">\({\sf Try}\)</span></li>
-<li><span class="math inline">\({\sf Kick}\)</span> <span
-class="math inline">\({\sf Phase}\)</span> <span
-class="math inline">\(\longrightarrow\)</span> <span
-class="math inline">\({\sf Run}\)</span> <span
-class="math inline">\({\sf Phase}\)</span></li>
-<li><span class="math inline">\({\sf Kick}\)</span> <span
-class="math inline">\({\sf Phase}\)</span> <span
-class="math inline">\(\longrightarrow\)</span> <span
-class="math inline">\({\sf Knock}\)</span>-<span
-class="math inline">\({\sf on}\)</span></li>
-<li><span class="math inline">\({\sf Kick}\)</span> <span
-class="math inline">\({\sf Phase}\)</span> <span
-class="math inline">\(\longrightarrow\)</span> <span
-class="math inline">\({\sf Ruck}\)</span></li>
-<li><span class="math inline">\({\sf Kick}\)</span> <span
-class="math inline">\({\sf Phase}\)</span> <span
-class="math inline">\(\longrightarrow\)</span> <span
-class="math inline">\({\sf Maul}\)</span></li>
+<li><span class="math inline">\({\sf Kick}\)</span> <span class="math inline">\({\sf Phase}\)</span> <span class="math inline">\(\longrightarrow\)</span> <span class="math inline">\({\sf Try}\)</span></li>
+<li><span class="math inline">\({\sf Kick}\)</span> <span class="math inline">\({\sf Phase}\)</span> <span class="math inline">\(\longrightarrow\)</span> <span class="math inline">\({\sf Run}\)</span> <span class="math inline">\({\sf Phase}\)</span></li>
+<li><span class="math inline">\({\sf Kick}\)</span> <span class="math inline">\({\sf Phase}\)</span> <span class="math inline">\(\longrightarrow\)</span> <span class="math inline">\({\sf Knock}\)</span>-<span class="math inline">\({\sf on}\)</span></li>
+<li><span class="math inline">\({\sf Kick}\)</span> <span class="math inline">\({\sf Phase}\)</span> <span class="math inline">\(\longrightarrow\)</span> <span class="math inline">\({\sf Ruck}\)</span></li>
+<li><span class="math inline">\({\sf Kick}\)</span> <span class="math inline">\({\sf Phase}\)</span> <span class="math inline">\(\longrightarrow\)</span> <span class="math inline">\({\sf Maul}\)</span></li>
 </ul>
 <p>(3.) Kicks to the touchline where the ball leaves the field:</p>
 <ul>
-<li><span class="math inline">\({\sf Kick}\)</span> <span
-class="math inline">\({\sf Phase}\)</span> <span
-class="math inline">\(\longrightarrow\)</span> <span
-class="math inline">\({\sf Lineout}\)</span></li>
+<li><span class="math inline">\({\sf Kick}\)</span> <span class="math inline">\({\sf Phase}\)</span> <span class="math inline">\(\longrightarrow\)</span> <span class="math inline">\({\sf Lineout}\)</span></li>
 </ul>
-<p>To model case (1.) above, the simplest option would be to associate
-the attempt at goal with a goal success probability for the kicker <span
-class="math inline">\(p_{\rm goal}\)</span> which, in the simple first
-version of our model, will not depend on the location on the pitch from
-which the kick is taken. We will, however, restrict kickers to only be
-allowed an attempt at goal if they are within their opposing team’s half
-- this is not strictly a rule in rugby, but it simplifies the automation
-of the decision logic quite nicely for now.</p>
-<p>In case (2.) above, we can think of two main tactical options that a
-team might be employing. The first of these is kicking a further
-longitudinal distance in the field of play in order to gain territory,
-but lose possession, and the second is to kick to regain possession but
-with a shorter longitudinal distance. When kicking to gain territory,
-we’ll just assign a uniform probability to the lateral position update
-of the ball location for simplicity and for the probability density
-<span class="math inline">\(P_{{\sf t}+1}(\ell )\)</span> of <span
-class="math inline">\(L^{\rm lon}_{{\sf t}+1}-L^{\rm lon}_{{\sf
-t}}=\ell\)</span>, we’ll use</p>
+<p>To model case (1.) above, the simplest option would be to associate the attempt at goal with a goal success probability for the kicker <span class="math inline">\(p_{\rm goal}\)</span> which, in the simple first version of our model, will not depend on the location on the pitch from which the kick is taken. We will, however, restrict kickers to only be allowed an attempt at goal if they are within their opposing team’s half - this is not strictly a rule in rugby, but it simplifies the automation of the decision logic quite nicely for now.</p>
+<p>In case (2.) above, we can think of two main tactical options that a team might be employing. The first of these is kicking a further longitudinal distance in the field of play in order to gain territory, but lose possession, and the second is to kick to regain possession but with a shorter longitudinal distance. When kicking to gain territory, we’ll just assign a uniform probability to the lateral position update of the ball location for simplicity and for the probability density <span class="math inline">\(P_{{\sf t}+1}(\ell )\)</span> of <span class="math inline">\(L^{\rm lon}_{{\sf t}+1}-L^{\rm lon}_{{\sf t}}=\ell\)</span>, we’ll use</p>
 <p><span class="math display">\[
 \begin{align}
 P_{{\sf t}+1}(\ell ) = {\sf ExponentialPDF}(\ell ; a_{\rm kick}) \,,
 \end{align}
 \]</span></p>
-<p>where <span class="math inline">\(a_{\rm kick}\)</span> is the
-kicking player’s longitudinal scale parameter. When kicking to regain
-possession, we will use another exponential distribution with another
-constant scale parameter <span class="math inline">\(\ell_{\rm
-typ}\)</span> for the typical distance gained by this type of kick
-(unassociated to either team’s abilities) and also assign a ‘regain
-possession’ probability <span class="math inline">\(p_{\rm reg}\)</span>
-which is associated to the abilities of the players chasing the kick (on
-the kicker’s team).</p>
-<p>Lastly, to model case (3.) above, the event has determined that the
-ball will leave the field of play and so the remaining unknowns that
-need to be determined are: which side of the field this occurred (we’ll
-just choose the side closest to touch when the ball was last in play),
-the longitudinal distance of the kick and whether or not the ball
-bounced before leaving the field. For simplicity, let’s determine the
-last of these through another kind of kick accuracy probability <span
-class="math inline">\(p_{\rm kick}\)</span> associated to the kicker.
-This just leaves the longitudinal distance that the kick achieved along
-the touchline; in this case we’ll just assign the probability density
-<span class="math inline">\(P_{{\sf t}+1}(\ell )\)</span> of <span
-class="math inline">\(L^{\rm lon}_{{\sf t}+1}-L^{\rm lon}_{{\sf
-t}}=\ell\)</span> to that of the longitudinal kick distribution.</p>
-<p>Generally, the proceeding <span class="math inline">\({\sf
-Lineout}\)</span> will be taken with the opposition team (to the kicker)
-in possession at the point where the ball left the field. However, there
-are two notable exceptions to this rule. The first is if the ball does
-not bounce before leaving the field of play and the player is outside of
-their team’s 22m line - the <span class="math inline">\({\sf
-Lineout}\)</span> then must occur where the ball was last kicked from
-with the opposition team in possession. The second exception is if the
-ball bounces into touch when the player who kicked it was inside their
-team’s half of the pitch - the <span class="math inline">\({\sf
-Lineout}\)</span> then occurs where the ball left the field but is taken
-with the kicker’s team in possession.</p>
-<p>Before moving on to player states and abilities it’s important to
-note that, in addition to the other state variables we have discussed
-above, the score of the match obviously needs to be recorded in the
-overall match state <span class="math inline">\(X_{\sf t}\)</span> as
-well. To be explicit, we’ll say that <span
-class="math inline">\(X^4_{\sf t}=\)</span> <span
-class="math inline">\({\sf Home}\)</span> <span
-class="math inline">\({\sf Team}\)</span> <span
-class="math inline">\({\sf Score}\)</span> and <span
-class="math inline">\(X^5_{\sf t}=\)</span> <span
-class="math inline">\({\sf Away}\)</span> <span
-class="math inline">\({\sf Team}\)</span> <span
-class="math inline">\({\sf Score}\)</span>, recalling that kicks at goal
-from a <span class="math inline">\({\sf Penalty}\)</span> <span
-class="math inline">\({\sf Goal}\)</span> or <span
-class="math inline">\({\sf Drop}\)</span> <span
-class="math inline">\({\sf Goal}\)</span> are worth 3 points, a <span
-class="math inline">\({\sf Try}\)</span> is worth 5 points and if this
-is proceeded by a conversion (another kick at goal taken laterally
-inline with where the <span class="math inline">\({\sf Try}\)</span> was
-scored across the pitch) then this is worth an additional 2 points.</p>
-<h2 id="associating-events-to-player-states-and-abilities">Associating
-events to player states and abilities</h2>
-<p>In the last section, we introduced a continuous-time event-based
-simulation model for a rugby union match. In this section we are going
-to add more detail into this model by inventing how to associate
-specific player states and abilities to the event rates of the
-simulation. Before continuing, we want to reiterate that this model is
-entirely made up and, while we hope it illustrates some interesting
-mathematical modeling ideas in the context of rugby, there’s no
-particular reason why a statistical inference with a reliable dataset
-should prefer our model to others which may exist.</p>
-<p>In the figure below we have begun by separating playing positions on
-the rugby field into their usual descriptions and then associating each
-player type with a short list of simplified attributes. Note that our
-model associates a player with a ‘possession attacking’ and ‘possession
-defending’ ability which corresponds to each of their possession
-attributes that are indicated by the diagram. For example, a Front Row
-Forward will have 10 possession abilities associated to them: 2 for each
-of their <span class="math inline">\({\sf Scrum}\)</span>, <span
-class="math inline">\({\sf Lineout}\)</span>, <span
-class="math inline">\({\sf Ruck}\)</span>, <span
-class="math inline">\({\sf Maul}\)</span> and <span
-class="math inline">\({\sf Run}\)</span> attributes.</p>
-<p><img
-src="../assets/trywizard/trywizard-rugby-player-abilities.drawio.png" /></p>
-<p>Let’s now say that <span class="math inline">\(z\)</span> contains
-all of these parameters for all of the players on both sides, including
-those on the bench. With these parameters, the knowledge of which team
-is in possession from <span class="math inline">\(X^1_{\sf t}\)</span>,
-and the identifiers of those players who are actively playing on the
-field, it should be simple to create a vector-valued function <span
-class="math inline">\(a_{\rm pos}(X_{\sf t})\)</span> which returns all
-of the possession attacking attributes that are associated to match
-state <span class="math inline">\(X^0_{\sf t}\)</span> and an analogous
-one <span class="math inline">\(d_{\rm pos}(X_{\sf t})\)</span> for the
-possession defending attributes. The dependencies of these functions on
-the ball possession state <span class="math inline">\(X^1_{\sf
-t}\)</span> comes from the fact that when, e.g., the <span
-class="math inline">\({\sf Home}\)</span> <span
-class="math inline">\({\sf Team}\)</span> has possession of the ball it
-will be their possession attacking attributes that are returned by <span
-class="math inline">\(a_{\rm pos}(X_{\sf t})\)</span> and the <span
-class="math inline">\({\sf Away}\)</span> <span
-class="math inline">\({\sf Team}\)</span>’s possession defending
-attributes that are returned by <span class="math inline">\(d_{\rm
-pos}(X_{\sf t})\)</span>.</p>
-<p>In order to model the effect of player fatigue over the course of a
-match, we can add some vectors of player fatigue values <span
-class="math inline">\(f\)</span> into the collection of parameters that
-are contained within <span class="math inline">\(z\)</span>. These new
-parameters can then be used to define a formula for the decline of each
-attribute over the course of a match. Let’s redefine these declining
-values as</p>
+<p>where <span class="math inline">\(a_{\rm kick}\)</span> is the kicking player’s longitudinal scale parameter. When kicking to regain possession, we will use another exponential distribution with another constant scale parameter <span class="math inline">\(\ell_{\rm typ}\)</span> for the typical distance gained by this type of kick (unassociated to either team’s abilities) and also assign a ‘regain possession’ probability <span class="math inline">\(p_{\rm reg}\)</span> which is associated to the abilities of the players chasing the kick (on the kicker’s team).</p>
+<p>Lastly, to model case (3.) above, the event has determined that the ball will leave the field of play and so the remaining unknowns that need to be determined are: which side of the field this occurred (we’ll just choose the side closest to touch when the ball was last in play), the longitudinal distance of the kick and whether or not the ball bounced before leaving the field. For simplicity, let’s determine the last of these through another kind of kick accuracy probability <span class="math inline">\(p_{\rm kick}\)</span> associated to the kicker. This just leaves the longitudinal distance that the kick achieved along the touchline; in this case we’ll just assign the probability density <span class="math inline">\(P_{{\sf t}+1}(\ell )\)</span> of <span class="math inline">\(L^{\rm lon}_{{\sf t}+1}-L^{\rm lon}_{{\sf t}}=\ell\)</span> to that of the longitudinal kick distribution.</p>
+<p>Generally, the proceeding <span class="math inline">\({\sf Lineout}\)</span> will be taken with the opposition team (to the kicker) in possession at the point where the ball left the field. However, there are two notable exceptions to this rule. The first is if the ball does not bounce before leaving the field of play and the player is outside of their team’s 22m line - the <span class="math inline">\({\sf Lineout}\)</span> then must occur where the ball was last kicked from with the opposition team in possession. The second exception is if the ball bounces into touch when the player who kicked it was inside their team’s half of the pitch - the <span class="math inline">\({\sf Lineout}\)</span> then occurs where the ball left the field but is taken with the kicker’s team in possession.</p>
+<p>Before moving on to player states and abilities it’s important to note that, in addition to the other state variables we have discussed above, the score of the match obviously needs to be recorded in the overall match state <span class="math inline">\(X_{\sf t}\)</span> as well. To be explicit, we’ll say that <span class="math inline">\(X^4_{\sf t}=\)</span> <span class="math inline">\({\sf Home}\)</span> <span class="math inline">\({\sf Team}\)</span> <span class="math inline">\({\sf Score}\)</span> and <span class="math inline">\(X^5_{\sf t}=\)</span> <span class="math inline">\({\sf Away}\)</span> <span class="math inline">\({\sf Team}\)</span> <span class="math inline">\({\sf Score}\)</span>, recalling that kicks at goal from a <span class="math inline">\({\sf Penalty}\)</span> <span class="math inline">\({\sf Goal}\)</span> or <span class="math inline">\({\sf Drop}\)</span> <span class="math inline">\({\sf Goal}\)</span> are worth 3 points, a <span class="math inline">\({\sf Try}\)</span> is worth 5 points and if this is proceeded by a conversion (another kick at goal taken laterally inline with where the <span class="math inline">\({\sf Try}\)</span> was scored across the pitch) then this is worth an additional 2 points.</p>
+<h2 id="associating-events-to-player-states-and-abilities">Associating events to player states and abilities</h2>
+<p>In the last section, we introduced a continuous-time event-based simulation model for a rugby union match. In this section we are going to add more detail into this model by inventing how to associate specific player states and abilities to the event rates of the simulation. Before continuing, we want to reiterate that this model is entirely made up and, while we hope it illustrates some interesting mathematical modeling ideas in the context of rugby, there’s no particular reason why a statistical inference with a reliable dataset should prefer our model to others which may exist.</p>
+<p>In the figure below we have begun by separating playing positions on the rugby field into their usual descriptions and then associating each player type with a short list of simplified attributes. Note that our model associates a player with a ‘possession attacking’ and ‘possession defending’ ability which corresponds to each of their possession attributes that are indicated by the diagram. For example, a Front Row Forward will have 10 possession abilities associated to them: 2 for each of their <span class="math inline">\({\sf Scrum}\)</span>, <span class="math inline">\({\sf Lineout}\)</span>, <span class="math inline">\({\sf Ruck}\)</span>, <span class="math inline">\({\sf Maul}\)</span> and <span class="math inline">\({\sf Run}\)</span> attributes.</p>
+<p><img src="../assets/trywizard/trywizard-rugby-player-abilities.drawio.png" /></p>
+<p>Let’s now say that <span class="math inline">\(z\)</span> contains all of these parameters for all of the players on both sides, including those on the bench. With these parameters, the knowledge of which team is in possession from <span class="math inline">\(X^1_{\sf t}\)</span>, and the identifiers of those players who are actively playing on the field, it should be simple to create a vector-valued function <span class="math inline">\(a_{\rm pos}(X_{\sf t})\)</span> which returns all of the possession attacking attributes that are associated to match state <span class="math inline">\(X^0_{\sf t}\)</span> and an analogous one <span class="math inline">\(d_{\rm pos}(X_{\sf t})\)</span> for the possession defending attributes. The dependencies of these functions on the ball possession state <span class="math inline">\(X^1_{\sf t}\)</span> comes from the fact that when, e.g., the <span class="math inline">\({\sf Home}\)</span> <span class="math inline">\({\sf Team}\)</span> has possession of the ball it will be their possession attacking attributes that are returned by <span class="math inline">\(a_{\rm pos}(X_{\sf t})\)</span> and the <span class="math inline">\({\sf Away}\)</span> <span class="math inline">\({\sf Team}\)</span>’s possession defending attributes that are returned by <span class="math inline">\(d_{\rm pos}(X_{\sf t})\)</span>.</p>
+<p>In order to model the effect of player fatigue over the course of a match, we can add some vectors of player fatigue values <span class="math inline">\(f\)</span> into the collection of parameters that are contained within <span class="math inline">\(z\)</span>. These new parameters can then be used to define a formula for the decline of each attribute over the course of a match. Let’s redefine these declining values as</p>
 <p><span class="math display">\[
 \begin{align}
-a^i_{\rm pos}(X_{\sf t}, {\sf t}) &amp;= a^i_{\rm pos}(X_{\sf
-t})e^{-f^i[t({\sf t})-t^i_{\rm start}]} \\
-d^i_{\rm pos}(X_{\sf t}, {\sf t}) &amp;= d^i_{\rm pos}(X_{\sf
-t})e^{-f^i[t({\sf t})-t^i_{\rm start}]} \,.
+a^i_{\rm pos}(X_{\sf t}, {\sf t}) &amp;= a^i_{\rm pos}(X_{\sf t})e^{-f^i[t({\sf t})-t^i_{\rm start}]} \\
+d^i_{\rm pos}(X_{\sf t}, {\sf t}) &amp;= d^i_{\rm pos}(X_{\sf t})e^{-f^i[t({\sf t})-t^i_{\rm start}]} \,.
 \end{align}
 \]</span></p>
-<p>So how does each player affect the events of a match? In our model,
-we would argue that players should be able to directly influence the
-possession change rate <span class="math inline">\(\lambda_{\rm
-pos}(X_{\sf t}, {\sf t})\)</span> through a balance of attacking and
-defensive attributes in the following relation</p>
+<p>So how does each player affect the events of a match? In our model, we would argue that players should be able to directly influence the possession change rate <span class="math inline">\(\lambda_{\rm pos}(X_{\sf t}, {\sf t})\)</span> through a balance of attacking and defensive attributes in the following relation</p>
 <p><span class="math display">\[
 \begin{align}
-\lambda_{\rm pos}(X_{\sf t}, {\sf t}) &amp;= \frac{\lambda^*_{\rm
-pos}\sum_{\forall i}d^i_{\rm pos}(X_{\sf t}, {\sf t})}{\sum_{\forall
-i}a^i_{\rm pos}(X_{\sf t}, {\sf t}) + \sum_{\forall i}d^i_{\rm
-pos}(X_{\sf t}, {\sf t})} \,,
+\lambda_{\rm pos}(X_{\sf t}, {\sf t}) &amp;= \frac{\lambda^*_{\rm pos}\sum_{\forall i}d^i_{\rm pos}(X_{\sf t}, {\sf t})}{\sum_{\forall i}a^i_{\rm pos}(X_{\sf t}, {\sf t}) + \sum_{\forall i}d^i_{\rm pos}(X_{\sf t}, {\sf t})} \,,
 \end{align}
 \]</span></p>
-<p>where <span class="math inline">\(\lambda^*_{\rm pos}\)</span> is the
-maximum rate that is physically possible and the <span
-class="math inline">\(\forall i\)</span> in the summations indicates
-summing over all attacking or defending player attributes of the vector
-in each instance. In addition to this possession change influence,
-players who have <span class="math inline">\({\sf Run}\)</span> <span
-class="math inline">\({\sf Phase}\)</span> and <span
-class="math inline">\({\sf Kick}\)</span> <span
-class="math inline">\({\sf Phase}\)</span> longitudinal scale attributes
-may affect the gain in distance that each state translates to on the
-pitch.</p>
-<p>Let’s first describe how we intend the <span
-class="math inline">\({\sf Run}\)</span> <span
-class="math inline">\({\sf Phase}\)</span> to work. Every time the match
-state transitions into a <span class="math inline">\({\sf Run}\)</span>
-<span class="math inline">\({\sf Phase}\)</span>, an individual player
-on the attacking side is chosen at random (uniformally across the team -
-this uniform sampling could be refined later to associate sampling
-probabilities with game state and player roles) to be the nominal
-‘attacker’. At the same time, an individual player on the defending side
-is chosen at random (again, uniformally across the team) to be the the
-nominal ‘defender’. Once these players have been chosen (and hence the
-<span class="math inline">\(a_{\rm run}\)</span> and <span
-class="math inline">\(d_{\rm run}\)</span> parameters have been
-determined), the longitudinal motion update we described in the equation
-earlier can then be applied. Note that the <span
-class="math inline">\(a_{\rm run}\)</span> and <span
-class="math inline">\(d_{\rm run}\)</span> parameters should also
-receive a fatigue decrement depending on the time that each player has
-remained on the pitch, much like the exponential factors we applied in
-the equations earlier.</p>
-<p>Finally, we turn our attention to the mechanics of a <span
-class="math inline">\({\sf Kick}\)</span> <span
-class="math inline">\({\sf Phase}\)</span>. For tactical kicking in the
-middle of play, this operates in a similar way as a <span
-class="math inline">\({\sf Run}\)</span> <span
-class="math inline">\({\sf Phase}\)</span>; one of the players on the
-attacking side with kicking parameters is chosen at random (uniformally)
-and their <span class="math inline">\(a_{\rm kick}\)</span> or <span
-class="math inline">\(p_{\rm kick}\)</span> attributes are used in the
-relevant equations. If a kick stays within the field of play for the
-attacking team to attempt to regain possession, an additional ‘chaser’
-player on the attacking team who possesses a kick regain <span
-class="math inline">\(p_{\rm reg}\)</span> probability is randomly
-chosen. In the specific case of <span class="math inline">\({\sf
-Goal}\)</span> kicking from a <span class="math inline">\({\sf
-Penalty}\)</span>, the designated place kicker on each side uses their
-<span class="math inline">\(p_{\rm goal}\)</span> attribute to determine
-the success/failure of the kick at the posts.</p>
-<h2 id="implementation-display-and-future-work">Implementation, display
-and future work</h2>
-<p>There are many ways to implement state evolution of the rugby match
-we have described within the stochadex framework. Perhaps the simplest
-(if not the cleanest) way is to simply implement all of the logic
-described above in one single <span
-class="math inline">\(\texttt{simulator.Iteration}\)</span>. Given that
-this is a toy model, it seems acceptable to implement our simulation in
-this way. However, it’s worth noting that the stochadex affords better
-ways to partition this design into smaller, more coherent chunks of
-logic if desired in future.</p>
-<p>The <a
-href="https://github.com/umbralcalc/stochadex/tree/main/pkg/api">stochadex
-simulation engine API</a> also comes with the capability to launch a
-React <span class="citation" data-cites="react">[4]</span> app which
-visualises the live output from a simulation on a dashboard. Under the
-hood, this works by passing serialised data out of the simulation
-process into another process which runs the app, via a websocket
-connection. In order to create a more specific live pitch visualisation
-for our rugby match simulator, it is then a simple matter to change the
-app which is launched and send the live state data to that instead. We
-have written some publicly-available code which does all of this here in
-the ‘trywizard’ repo: <a
-href="https://github.com/umbralcalc/trywizard">https://github.com/umbralcalc/trywizard</a>,
-where the pitch visualisation looks like the diagram displayed
-below.</p>
+<p>where <span class="math inline">\(\lambda^*_{\rm pos}\)</span> is the maximum rate that is physically possible and the <span class="math inline">\(\forall i\)</span> in the summations indicates summing over all attacking or defending player attributes of the vector in each instance. In addition to this possession change influence, players who have <span class="math inline">\({\sf Run}\)</span> <span class="math inline">\({\sf Phase}\)</span> and <span class="math inline">\({\sf Kick}\)</span> <span class="math inline">\({\sf Phase}\)</span> longitudinal scale attributes may affect the gain in distance that each state translates to on the pitch.</p>
+<p>Let’s first describe how we intend the <span class="math inline">\({\sf Run}\)</span> <span class="math inline">\({\sf Phase}\)</span> to work. Every time the match state transitions into a <span class="math inline">\({\sf Run}\)</span> <span class="math inline">\({\sf Phase}\)</span>, an individual player on the attacking side is chosen at random (uniformally across the team - this uniform sampling could be refined later to associate sampling probabilities with game state and player roles) to be the nominal ‘attacker’. At the same time, an individual player on the defending side is chosen at random (again, uniformally across the team) to be the the nominal ‘defender’. Once these players have been chosen (and hence the <span class="math inline">\(a_{\rm run}\)</span> and <span class="math inline">\(d_{\rm run}\)</span> parameters have been determined), the longitudinal motion update we described in the equation earlier can then be applied. Note that the <span class="math inline">\(a_{\rm run}\)</span> and <span class="math inline">\(d_{\rm run}\)</span> parameters should also receive a fatigue decrement depending on the time that each player has remained on the pitch, much like the exponential factors we applied in the equations earlier.</p>
+<p>Finally, we turn our attention to the mechanics of a <span class="math inline">\({\sf Kick}\)</span> <span class="math inline">\({\sf Phase}\)</span>. For tactical kicking in the middle of play, this operates in a similar way as a <span class="math inline">\({\sf Run}\)</span> <span class="math inline">\({\sf Phase}\)</span>; one of the players on the attacking side with kicking parameters is chosen at random (uniformally) and their <span class="math inline">\(a_{\rm kick}\)</span> or <span class="math inline">\(p_{\rm kick}\)</span> attributes are used in the relevant equations. If a kick stays within the field of play for the attacking team to attempt to regain possession, an additional ‘chaser’ player on the attacking team who possesses a kick regain <span class="math inline">\(p_{\rm reg}\)</span> probability is randomly chosen. In the specific case of <span class="math inline">\({\sf Goal}\)</span> kicking from a <span class="math inline">\({\sf Penalty}\)</span>, the designated place kicker on each side uses their <span class="math inline">\(p_{\rm goal}\)</span> attribute to determine the success/failure of the kick at the posts.</p>
+<h2 id="implementation-display-and-future-work">Implementation, display and future work</h2>
+<p>There are many ways to implement state evolution of the rugby match we have described within the stochadex framework. Perhaps the simplest (if not the cleanest) way is to simply implement all of the logic described above in one single <span class="math inline">\(\texttt{simulator.Iteration}\)</span>. Given that this is a toy model, it seems acceptable to implement our simulation in this way. However, it’s worth noting that the stochadex affords better ways to partition this design into smaller, more coherent chunks of logic if desired in future.</p>
+<p>The <a href="https://github.com/umbralcalc/stochadex/tree/main/pkg/api">stochadex simulation engine API</a> also comes with the capability to launch a React <span class="citation" data-cites="react">[4]</span> app which visualises the live output from a simulation on a dashboard. Under the hood, this works by passing serialised data out of the simulation process into another process which runs the app, via a websocket connection. In order to create a more specific live pitch visualisation for our rugby match simulator, it is then a simple matter to change the app which is launched and send the live state data to that instead. We have written some publicly-available code which does all of this here in the ‘trywizard’ repo: <a href="https://github.com/umbralcalc/trywizard">https://github.com/umbralcalc/trywizard</a>, where the pitch visualisation looks like the diagram displayed below.</p>
 <p><img src="../assets/trywizard/pitch-background.png" /></p>
-<p>In future work, it would be interesting to consider how a manager
-might take actions which affect the state (and future states) of the
-match. This could even be adapted to become a game if these actions were
-taken from user input. So how does managing a rugby match map to taking
-actions with our formalism? We’d have to start by figuring out what
-sorts of managerial actions exist in the real world and then specify how
-we would map these to changes in state.</p>
-<p>Our model structure would suggest that the only way in which a
-manager can influence the state of a match is through modifying the
-parameters which are used by the <span class="math inline">\(a_{\rm
-pos}(X_{\sf t})\)</span>, <span class="math inline">\(d_{\rm pos}(X_{\sf
-t})\)</span> or <span class="math inline">\({\cal T}_{{\sf a}\rightarrow
-{\sf b}}(X_{\sf t},{\sf t})\)</span> functions. In the case of the
-possession attacking and defending attributes <span
-class="math inline">\(a_{\rm pos}(X_{\sf t})\)</span> and <span
-class="math inline">\(d_{\rm pos}(X_{\sf t})\)</span>, an action that
-the manager can perform would be to modify which players are actively
-playing through substitutions.</p>
-<p>But what about <span class="math inline">\({\cal T}_{{\sf
-a}\rightarrow {\sf b}}(X_{\sf t},{\sf t})\)</span>? What kinds of
-managerial actions can change the state transition probabilities? Given
-that these transition probabilities mostly arise from the tactics of
-each team, if the tactics of either team were changed throughout the
-match due to managerial decisions, these actions could be mapped to
-<span class="math inline">\({\cal T}_{{\sf a}\rightarrow {\sf b}}(X_{\sf
-t},{\sf t})\)</span>. In order for these actions to have a clear
-influence on the game, however, we’d need to specify how team tactics
-get translated into transition probabilities. To keep things as simple
-as possible, we could specify only two tactical ‘axes’ on which a
-manager has to decide a position during each moment of the match.</p>
-<p>The first, and perhaps more obvious, tactical decision axis to
-dynamically manipulate is the ratio between <span
-class="math inline">\({\sf Kick}\)</span> <span
-class="math inline">\({\sf Phase}\)</span> and <span
-class="math inline">\({\sf Run}\)</span> <span
-class="math inline">\({\sf Phase}\)</span> that the team chooses when it
-has possession of the ball, depending on what part of the pitch they are
-playing in. The second axis maps how aggressively a team pursues scoring
-tries over any other points (even when they may be on offer from a <span
-class="math inline">\({\sf Penalty}\)</span> <span
-class="math inline">\({\sf Goal}\)</span>). This latter axis also only
-really matters for the team in possession of the ball, so it might also
-be interesting to consider mapping out basic defensive tactics in future
-as well.</p>
+<p>In future work, it would be interesting to consider how a manager might take actions which affect the state (and future states) of the match. This could even be adapted to become a game if these actions were taken from user input. So how does managing a rugby match map to taking actions with our formalism? We’d have to start by figuring out what sorts of managerial actions exist in the real world and then specify how we would map these to changes in state.</p>
+<p>Our model structure would suggest that the only way in which a manager can influence the state of a match is through modifying the parameters which are used by the <span class="math inline">\(a_{\rm pos}(X_{\sf t})\)</span>, <span class="math inline">\(d_{\rm pos}(X_{\sf t})\)</span> or <span class="math inline">\({\cal T}_{{\sf a}\rightarrow {\sf b}}(X_{\sf t},{\sf t})\)</span> functions. In the case of the possession attacking and defending attributes <span class="math inline">\(a_{\rm pos}(X_{\sf t})\)</span> and <span class="math inline">\(d_{\rm pos}(X_{\sf t})\)</span>, an action that the manager can perform would be to modify which players are actively playing through substitutions.</p>
+<p>But what about <span class="math inline">\({\cal T}_{{\sf a}\rightarrow {\sf b}}(X_{\sf t},{\sf t})\)</span>? What kinds of managerial actions can change the state transition probabilities? Given that these transition probabilities mostly arise from the tactics of each team, if the tactics of either team were changed throughout the match due to managerial decisions, these actions could be mapped to <span class="math inline">\({\cal T}_{{\sf a}\rightarrow {\sf b}}(X_{\sf t},{\sf t})\)</span>. In order for these actions to have a clear influence on the game, however, we’d need to specify how team tactics get translated into transition probabilities. To keep things as simple as possible, we could specify only two tactical ‘axes’ on which a manager has to decide a position during each moment of the match.</p>
+<p>The first, and perhaps more obvious, tactical decision axis to dynamically manipulate is the ratio between <span class="math inline">\({\sf Kick}\)</span> <span class="math inline">\({\sf Phase}\)</span> and <span class="math inline">\({\sf Run}\)</span> <span class="math inline">\({\sf Phase}\)</span> that the team chooses when it has possession of the ball, depending on what part of the pitch they are playing in. The second axis maps how aggressively a team pursues scoring tries over any other points (even when they may be on offer from a <span class="math inline">\({\sf Penalty}\)</span> <span class="math inline">\({\sf Goal}\)</span>). This latter axis also only really matters for the team in possession of the ball, so it might also be interesting to consider mapping out basic defensive tactics in future as well.</p>
 <h2 class="unnumbered" id="references">References</h2>
 <div id="refs" class="references csl-bib-body" role="list">
 <div id="ref-rugbypass" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[1] </div><div
-class="csl-right-inline"><span>“<span>The RugbyPass
-Website</span>.”</span> <a href="https://www.rugbypass.com/"
-class="uri">https://www.rugbypass.com/</a>.</div>
+<div class="csl-left-margin">[1] </div><div class="csl-right-inline"><span>“<span>The RugbyPass Website</span>.”</span> <a href="https://www.rugbypass.com/" class="uri">https://www.rugbypass.com/</a>.</div>
 </div>
 <div id="ref-espn-rugby" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[2] </div><div
-class="csl-right-inline"><span>“<span>The ESPN Rugby
-Webpage</span>.”</span> <a href="https://www.espn.co.uk/rugby/"
-class="uri">https://www.espn.co.uk/rugby/</a>.</div>
+<div class="csl-left-margin">[2] </div><div class="csl-right-inline"><span>“<span>The ESPN Rugby Webpage</span>.”</span> <a href="https://www.espn.co.uk/rugby/" class="uri">https://www.espn.co.uk/rugby/</a>.</div>
 </div>
 <div id="ref-stochadexI-2024" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[3] </div><div class="csl-right-inline">R.
-J. Hardwick, <span>“Building a generalised simulation engine,”</span>
-<em>umbralcalculations
-(umbralcalc.github.io/posts/stochadexI.html)</em>, 2024.</div>
+<div class="csl-left-margin">[3] </div><div class="csl-right-inline">R. J. Hardwick, <span>“Building a generalised simulation engine,”</span> <em>umbralcalculations (umbralcalc.github.io/posts/stochadexI.html)</em>, 2024.</div>
 </div>
 <div id="ref-react" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[4] </div><div
-class="csl-right-inline"><span>“<span>The React Library</span>.”</span>
-<a href="https://react.dev/" class="uri">https://react.dev/</a>.</div>
+<div class="csl-left-margin">[4] </div><div class="csl-right-inline"><span>“<span>The React Library</span>.”</span> <a href="https://react.dev/" class="uri">https://react.dev/</a>.</div>
 </div>
 </div>
 </br>

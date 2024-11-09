@@ -2,6 +2,7 @@
 
 # generate about page
 pandoc --template template.html \
+--wrap=preserve \
 --citeproc \
 --csl=ieee.csl \
 --bibliography=biblio.bib \
@@ -18,6 +19,7 @@ for filename in _posts/*.md; do
     newFilename=${filename%"$suffix"}
     newFilename=${newFilename#"$prefix"}
     pandoc --template template.html \
+    --wrap=preserve \
     --citeproc \
     --csl=ieee.csl \
     --bibliography=biblio.bib \
