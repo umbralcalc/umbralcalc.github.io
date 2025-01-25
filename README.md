@@ -13,7 +13,7 @@ title: Robert J. Hardwick
 * My expertise is in Bayesian statistics, machine learning methods and all things stochastic.
 * My domain knowledge includes statistics, physics (cosmology), epidemiology, sports betting and traffic control.
 * In my free time I develop code and write in this technical article repository.
-* I also like to [create some human art](https://umbralcalc.github.io/eddys-of-the-lethe/) 🖌️ every now and then.
+* I also like to create [games for python programmers](https://umbralcalc.github.io/dexetera/) and [human-drawn webcomics](https://umbralcalc.github.io/eddys-of-the-lethe/).
 
 **...and here's a bit about the technical articles:**
 
