@@ -25,10 +25,9 @@ title: Robert J. Hardwick
 <hr color="LightGray">
 
 </br>
-<img src="https://github.com/user-attachments/assets/2830d9f9-fbee-4442-9bf9-cb32e9c5b070" alt="beach" width="400"/>
-</br>
-<img src="https://github.com/user-attachments/assets/aad6b073-8f95-44fa-a122-d1929f4a8e19" alt="tree" width="400"/>
-</br>
-<img src="https://github.com/user-attachments/assets/89ec393b-2f1c-4b2b-b60e-61dea5ba6f39" alt="sunset" width="400"/>
-</br>
-<img src="https://github.com/user-attachments/assets/6780fa9a-e135-4503-b9dd-cd74392133c1" alt="planet" width="300"/>
+<div class="otherimgs">
+  <img src="https://github.com/user-attachments/assets/974ad02d-d03f-4dff-bd39-880fc190f20d" alt="wolf" width="370"/>
+  <img src="https://github.com/user-attachments/assets/2830d9f9-fbee-4442-9bf9-cb32e9c5b070" alt="beach" width="500"/>
+  <img src="https://github.com/user-attachments/assets/aad6b073-8f95-44fa-a122-d1929f4a8e19" alt="tree" width="400"/>
+  <img src="https://github.com/user-attachments/assets/89ec393b-2f1c-4b2b-b60e-61dea5ba6f39" alt="sunset" width="480"/>
+</div>
