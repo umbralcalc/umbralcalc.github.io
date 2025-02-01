@@ -13,7 +13,7 @@ title: Robert J. Hardwick
 * My expertise is in Bayesian statistics, machine learning methods and all things stochastic.
 * My domain knowledge includes statistics, physics (cosmology), epidemiology, sports betting and traffic control.
 * In my free time I develop code and write in this technical article repository.
-* I also like to create [games for python programmers](https://umbralcalc.github.io/dexetera/) and pencil/pastel paintings.
+* I also like to create [games for python programmers](https://umbralcalc.github.io/dexetera/) and pencil/pastel sketches.
 
 **...and here's a bit about the technical articles:**
 
@@ -26,8 +26,8 @@ title: Robert J. Hardwick
 
 </br>
 <div class="otherimgs">
-  <img src="https://github.com/user-attachments/assets/974ad02d-d03f-4dff-bd39-880fc190f20d" alt="wolf" width="370"/>
-  <img src="https://github.com/user-attachments/assets/2830d9f9-fbee-4442-9bf9-cb32e9c5b070" alt="beach" width="500"/>
-  <img src="https://github.com/user-attachments/assets/aad6b073-8f95-44fa-a122-d1929f4a8e19" alt="tree" width="400"/>
-  <img src="https://github.com/user-attachments/assets/89ec393b-2f1c-4b2b-b60e-61dea5ba6f39" alt="sunset" width="480"/>
+  <img src="https://github.com/user-attachments/assets/974ad02d-d03f-4dff-bd39-880fc190f20d" alt="wolf" width="100"/>
+  <img src="https://github.com/user-attachments/assets/2830d9f9-fbee-4442-9bf9-cb32e9c5b070" alt="beach" width="110"/>
+  <img src="https://github.com/user-attachments/assets/aad6b073-8f95-44fa-a122-d1929f4a8e19" alt="tree" width="110"/>
+  <img src="https://github.com/user-attachments/assets/89ec393b-2f1c-4b2b-b60e-61dea5ba6f39" alt="sunset" width="110"/>
 </div>
