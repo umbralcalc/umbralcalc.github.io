@@ -2,7 +2,7 @@
 title: "Building a generalised simulation engine"
 author: Hardwick, Robert J
 date: 2024-03-28
-concept: To lay out the fundamental mathematical foundations for describing practically any stochastic simulation on a computer. Having provided these foundations, we then design and build a generalised simulation engine called the 'stochadex' which is able to generate samples from practically any real-world stochastic processes that a researcher could encounter. With such a thing pre-built and self-contained as a highly-configurable simulation binary, it can become the basis upon which to build generalised software solutions for a lot of different problems.
+concept: To lay out the fundamental mathematical foundations for describing practically any system simulation on a computer. Having provided these foundations, we then design and build a generalised simulation engine called the 'stochadex' which is able to generate samples from practically any real-world system that a researcher could encounter. With such a thing pre-built and self-contained as a highly-configurable simulation framework, it can become the basis upon which to build generalised software solutions for a lot of different problems.
 articleId: stochadexI
 codeLink: https://github.com/umbralcalc/stochadex
 year: 2024
@@ -10,7 +10,7 @@ year: 2024
 
 ## Introduction and computational formalism
 
-In this article we will be introducing a new generalised simulation engine (written in Go, but we'll get to that later). Before diving into the design of software we need to mathematically define the general computational approach that we're going to take. Because the language of stochastic processes is primarily mathematics, we'd argue this step is essential in enabling a really general description. From experience, it seems reasonable to start by writing down the following formula which describes iterating some arbitrary process forward in time (by one finite step) and adding a new row each to some matrix $X_{0:{\sf t}} \rightarrow X_{0:{\sf t}+1}$
+In this article we will be introducing a new generalised simulation engine (written in Go, but we'll get to that later). Before diving into the design of software we need to mathematically define the general computational approach that we are going to take. Because the language of stochastic processes is primarily mathematics, this step is essential in validating a really general description. From experience, it seems reasonable to start by writing down the following formula which describes iterating some arbitrary process forward in time (by one finite step) and adding a new row each to some matrix $X_{0:{\sf t}} \rightarrow X_{0:{\sf t}+1}$
 
 $$
 \begin{align}
@@ -24,7 +24,7 @@ The notation $A_{{{\sf b}:{\sf c}}}$ will always refer to a slice of rows from i
 
 ![](../assets/stochadexI/stochadexI-fundamental-loop.drawio.png)
 
-The basic computational idea here is illustrated above; we iterate the matrix forward in time by a row, and use its previous version $X_{0:{\sf t}}$ as an entire matrix input into a function which populates the elements of its latest rows. One can easily draw a rough schematic with the same idea in it, and it would probably look something like the rough schematic below.
+The basic computational idea here is illustrated above; we iterate the matrix forward in time by a row, and use its previous version $X_{0:{\sf t}}$ as an entire matrix input into a function which populates the elements of its latest rows. One can easily draw a rough schematic with the same idea in it, and it would probably look something like the one below.
 
 ![](../assets/stochadexI/stochadexI-fundamental-loop-code.drawio.png)
 
@@ -50,7 +50,7 @@ $$
 
 ## Example phenomena
 
-So, now that we've mathematically defined a really general notion of iterating the stochastic process forward in time, it makes sense to discuss some simple examples. For instance, it is frequently possible to split $F$ up into deteministic (denoted $D$) and stochastic (denoted $S$) matrix-valued functions like so
+So, now that we've mathematically defined a really general notion of iterating the system process forward in time, it makes sense to discuss some simple examples. For instance, it is frequently possible to split $F$ up into deteministic (denoted $D$) and stochastic (denoted $S$) matrix-valued functions like so
 
 $$
 \begin{align}
@@ -102,18 +102,6 @@ $$
 where $g(x,t)$ is some continuous function of its arguments which has been expanded out with Itô's Lemma on the second line. Note also that the computations in the relation above could be performed with numerical derivatives in principle, even if the function were extremely complicated. This is unlikely to be the best way to describe the process of interest, however, the mathematical expressions above can still be made a bit more meaningful to the programmer in this way. We have drawn another rough schematic for the corresponding code below.
 
 ![](../assets/stochadexI/stochadexI-ito-lemma.drawio.png)
-
-Let's now look at a more complicated type of noise. For example, we might consider sampling from a _fractional Brownian motion_ process $[B_{H}]_{\sf t}$, where $H$ is known as the 'Hurst exponent'. Following [@decreusefond1999stochastic], we can simulate this process in one of our state space dimensions by modifying the standard Wiener process by a fairly complicated integral factor which looks like this
-
-$$
-\begin{align}
-S^{0}_{{\sf t}+1}(X_{{\sf t}-{\sf s}:{\sf t}},z,{\sf t}) &= \frac{(W^0_{{\sf t}+1} - W^0_{\sf t})}{\delta t({\sf t})}\int^{t({\sf t}+1)}_{t({\sf t})}{\rm d}t' \frac{(t'-t)^{H-\frac{1}{2}}}{\Gamma (H+\frac{1}{2})} {}_2F_1 \bigg( H-\frac{1}{2};\frac{1}{2}-H;H+\frac{1}{2};1-\frac{t'}{t}\bigg) \label{eq:fbm} \,,
-\end{align}
-$$
-
-where $S^{0}_{{\sf t}+1}(X_{{\sf t}-{\sf s}:{\sf t}},z,{\sf t})=[B_{H}]_{{\sf t}+1}-[B_{H}]_{{\sf t}}$. The integral in the equation above can be approximated using an appropriate numerical procedure (like the trapezium rule, for instance). In the expression above, we have used the symbols ${}_2F_1$ and $\Gamma$ to denote the ordinary hypergeometric and gamma functions, respectively. A rough algorithm schematic which represents the same computation as this integral is illustrated below to try and simplify some of the mathematics as a program.
-
-![](../assets/stochadexI/stochadexI-fractional-brownian-motion.drawio.png)
 
 So far we have mostly been discussing noises with continuous sample paths, but we can easily adapt our computation to discontinuous sample paths as well. For instance, _Poisson process noises_ would generally take the form
 
@@ -200,7 +188,7 @@ where $u$ is inversely proportional to the length of memory in continuous time.
 
 ## Software design and implementation
 
-So we've proposed a computational formalism and then studied it in more detail to demonstrate that it can cope with a variety of different stochastic phenomena. We're now ready to design a software package which uses this computational formalism to simulate any of these phenomena. Enter the 'stochadex' package! This will be our generalised simulation engine to generate samples from and statistically infer a 'Pokédex' of possible stochastic processes. A 'Pokédex' here is just a fanciful description for a very general class of multidimensional stochastic processes that pop up everywhere in taming the mathematical wilds of real-world phenomena, and which also leads to a name for the software. Note that other generalised simulation frameworks exist as well --- such as SimPy [@simpy], StoSpa [@stospa] and FLAME GPU [@flamegpu] --- and all of these approach simulating stochastic processes with different software architectures and languages; though there are obvious similarities which can be drawn between them as they all must ultimately achieve the same goal. For the stochadex, we will choose Go for implementation, due to its powerful concurrency features.
+So we've proposed a computational formalism and then studied it in more detail to demonstrate that it can cope with simulating a wide variety of different systems. We're now ready to design a software package which uses this computational formalism to simulate any of these phenomena. Enter the 'stochadex' package! This will be our generalised simulation engine to generate samples from and statistically infer a 'Pokédex' of possible systems. A 'Pokédex' here is just a fanciful metaphor for the large range of simulations that might come in useful when taming the complex descriptions of real world systems... and kind of gives us the name 'stochadex'. Note that other generalised simulation frameworks exist as well --- such as SimPy [@simpy], StoSpa [@stospa] and FLAME GPU [@flamegpu] --- and all of these approach simulating systems with different software architectures and languages; though there are obvious similarities which can be drawn between them as they all must ultimately achieve the same goal. For the stochadex, we will choose Go for implementation, due to its powerful concurrency features.
 
 Now we're ready to summarise what we want the stochadex software package to be able to do. But what's so complicated about the first iteration equation we wrote? Can't we just implement an iterative algorithm with a single function? It's true that the fundamental concept is very straightforward, but as we'll discuss in due course; we want to be able to design something which abstracts away many of the common features that sampling algorithms have for performing these computations behind a highly-configurable interface. And, ideally, it should be designed to try and maintain a balance between performance and flexibility of utilisation.
 
@@ -235,9 +223,5 @@ Now let's look at the data types which make sense for the criteria we want to sa
 ![](../assets/stochadexI/stochadexI-stochadex-data-types.drawio.png)
 
 As we stated at the beginning of this article: the full implementation of the stochadex can be found on GitHub by following this link: [https://github.com/umbralcalc/stochadex](https://github.com/umbralcalc/stochadex). Users can build the main binary executable of this repository and determine what configuration of the stochadex they would like to have through config at runtime (one can infer these configurations from the data types in the diagram above). As Go is a statically typed language, this level of flexibility has been achieved using code templating and generation proceeding runtime build and execution via $\texttt{go run}$ 'under-the-hood'. Users who find this particular execution pattern undesirable can also use all of the stochadex types, tools and methods as part of a standard Go package import.
-
-In order to debug the simulation code and gain a more intuitive understanding of the outputs from a model as it is being developed, we have also written a lightweight frontend dashboard React [@react] app in TypeScript to visualise any stochadex simulation as it is running. This dashboard can be launched by passing config at runtime to the main stochadex executable, and we have illustrated how all this fits together in a flowchart shown in the diagram below.
-
-![](../assets/stochadexI/stochadexI-stochadex-main.drawio.png)
 
 ## References
