@@ -2,7 +2,7 @@
 title: "Probabilistic learning methods embedded within a simulation engine"
 author: Hardwick, Robert J
 date: 2024-05-03
-concept: To extend the mathematical formalism from a previous article to describe the time evolution of state probabilities. Having introduced the basic concepts, we use this formalism to motivate some important methods for probabilistic learning that are well-suited to the software abstractions provided by the stochadex package. In order to illustrate the point, we demonstrate how to embed these learning algorithms within the computation graph of the simulation itself.
+concept: To extend the mathematical formalism from a previous article to describe the time evolution of state probabilities. Having introduced the basic concepts, we use this formalism to motivate some important methods for probabilistic learning that are well-suited to the software abstractions provided by the stochadex package. In order to illustrate the point, we demonstrate how to embed these learning algorithms within the computational graph of the simulation itself.
 articleId: stochadexII
 codeLink: https://github.com/umbralcalc/stochadex
 year: 2024

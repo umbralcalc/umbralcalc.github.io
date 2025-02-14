@@ -10,7 +10,7 @@ year: 2024
 
 ## Introduction and computational formalism
 
-In this article we will be introducing a new generalised simulation engine (written in Go, but we'll get to that later). Before diving into the design of software we need to mathematically define the general computational approach that we are going to take. Because the language of stochastic processes is primarily mathematics, this step is essential in validating a really general description. From experience, it seems reasonable to start by writing down the following formula which describes iterating some arbitrary process forward in time (by one finite step) and adding a new row each to some matrix $X_{0:{\sf t}} \rightarrow X_{0:{\sf t}+1}$
+In this article we will be introducing a new generalised simulation engine (written in Go, but we'll get to that later). Before diving into the design of software we need to mathematically define the general computational approach that we are going to take. The language of all real-world phenomena is that of stochastic processes (at least for the non-quantum bits), and because the language of stochastic processes is primarily mathematics, this step is essential in validating a really general description. From experience, it seems reasonable to start by writing down the following formula which describes iterating some arbitrary process forward in time (by one finite step) and adding a new row each to some matrix $X_{0:{\sf t}} \rightarrow X_{0:{\sf t}+1}$
 
 $$
 \begin{align}
