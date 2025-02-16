@@ -279,8 +279,23 @@ B_{{\sf t}+1} &amp;= \sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\s
 <h2 id="resampling">Resampling</h2>
 <p>Start by drawing samples centred from different points, where each centre is randomly chosen from the current pool of samples with a frequency weighted by the smoothed new density of that point. If we then sample around each point using <span class="math inline">\(fH\)</span> as the covariance around the point (where <span class="math inline">\(f\)</span> is some exploration factor <span class="math inline">\(&lt;1\)</span>), we end up being able to effectively sample from the smoothed density.</p>
 <h2 id="implementation">Implementation</h2>
-<p>Implement this in a new Go project using the stochadex and base the design on the SIR inference example (and make that config redundant). Iterate development using Go notebooks and example datasets.</p>
-<p>The early (not really working) implementation can be found within this config folder of the stochadex repository: <a href="https://github.com/umbralcalc/stochadex/tree/main/cfg">https://github.com/umbralcalc/stochadex/tree/main/cfg</a>.</p>
+<p>In order to get this to work:</p>
+<ul>
+<li>Gaussian processes will need to be implemented in the stochadex framework</li>
+<li>Online learning via gradients will need to be implemented as well</li>
+</ul>
+<p><strong>Notes migrated from another article which are now more relevant here:</strong></p>
+<p>In the case of the purely time-dependent kernel with a choice of Gaussian data linking distribution above, the hyperparameters that would be optimised could relate to the kernel in a wide variety of ways. Optimising them would make our optimised reweighting similar to (but very much <em>not</em> the same as) evaluating maximum a posteriori (MAP) of a Gaussian process regression. In a Gaussian process regression, one is concerned with inferring the the whole of <span class="math inline">\(X_{{\sf t}}\)</span> as a function of time using the pairwise correlations implied by the second-order log expansion we wrote earlier. Based on this expression, the cumulative log-likelihood for a Gaussian process can be calculated as follows</p>
+<p><span class="math display">\[
+\begin{align}
+\ln {\cal L}_{{\sf t}+1}(Y\vert z) &amp;= -\frac{1}{2}\sum_{{\sf t}&#39;=({\sf t}+1)-{\sf s}}^{({\sf t}+1)}\sum_{{\sf t}&#39;&#39;=({\sf t}+1)-{\sf s}}^{{\sf t}&#39;} \bigg[ n\ln (2\pi ) + \ln \big\vert {\cal H}_{{\sf t}&#39;{\sf t}&#39;&#39;}(z)\big\vert + \sum_{i=0}^{n}\sum_{j=0}^{n} Y^i_{{\sf t}&#39;} {\cal H}^{ij}_{{\sf t}&#39;{\sf t}&#39;&#39;}(z) Y^j_{{\sf t}&#39;&#39;} \bigg] \,. \label{eq:log-likelihood-gaussian-proc}
+\end{align}
+\]</span></p>
+<p><strong>Rewrite from here to cover the theory behind optimisation code that will be put into practice in the follow-up article…</strong></p>
+<p>As we did for the reweighting algorithm, we have illustrated another rough schematic below for the multi-threaded code needed to compute the objective function of a learning algorithm in the stochadex, based on the equation above. Note that, in this diagram, we have assumed that the data has already been shifted such that its values are positioned around the distribution peak. Knowing where this peak will be a priori is not possible. However, for Gaussian data, an unbiased estimator for this peak will be the sample mean and so we have included an initial data standardisation in the steps outlined by the schematic.</p>
+<p><img src="../assets/modest/modest-gaussian-process-code.drawio.png" /></p>
+<p><strong>Here should also talk about how this paper shows online learning of gradients should equilibrate and then be used for debiasing the predictions:</strong> <span class="citation" data-cites="angelopoulos2025gradientequilibriumonlinelearning">[8]</span></p>
+<p>The optimisation approach that we choose to use for obtaining the best hyperparameters in the conditional probability of the reweighting approach will depend on a few factors. For example, if the number of hyperparameters is relatively low, but their gradients are difficult to calculate exactly; then a gradient-free optimiser (such as the Nelder-Mead <span class="citation" data-cites="nelder1965simplex">[9]</span> method or something like a particle swarm; see <span class="citation" data-cites="kennedy1995particle">[10]</span> or <span class="citation" data-cites="shi1998modified">[11]</span>) would likely be the most effective choice. On the other hand, when the number of hyperparameters ends up being relatively large, it’s usually quite desirable to utilise the gradients in algorithms like vanilla Stochastic Gradient Descent <span class="citation" data-cites="robbins1951stochastic">[12]</span> (SGD) or Adam <span class="citation" data-cites="kingma2014adam">[13]</span>.</p>
 <h2 class="unnumbered" id="references">References</h2>
 <div id="refs" class="references csl-bib-body" role="list">
 <div id="ref-stochadexIII-2024" class="csl-entry" role="listitem">
@@ -303,6 +318,24 @@ B_{{\sf t}+1} &amp;= \sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\s
 </div>
 <div id="ref-williams2006gaussian" class="csl-entry" role="listitem">
 <div class="csl-left-margin">[7] </div><div class="csl-right-inline">C. K. Williams and C. E. Rasmussen, <em>Gaussian processes for machine learning</em>, vol. 2. MIT press Cambridge, MA, 2006.</div>
+</div>
+<div id="ref-angelopoulos2025gradientequilibriumonlinelearning" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[8] </div><div class="csl-right-inline">A. N. Angelopoulos, M. I. Jordan, and R. J. Tibshirani, <span>“Gradient equilibrium in online learning: Theory and applications.”</span> 2025. Available: <a href="https://arxiv.org/abs/2501.08330">https://arxiv.org/abs/2501.08330</a></div>
+</div>
+<div id="ref-nelder1965simplex" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[9] </div><div class="csl-right-inline">J. A. Nelder and R. Mead, <span>“A simplex method for function minimization,”</span> <em>The computer journal</em>, vol. 7, no. 4, pp. 308–313, 1965.</div>
+</div>
+<div id="ref-kennedy1995particle" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[10] </div><div class="csl-right-inline">J. Kennedy and R. Eberhart, <span>“Particle swarm optimization,”</span> in <em>Proceedings of ICNN’95-international conference on neural networks</em>, IEEE, 1995, pp. 1942–1948.</div>
+</div>
+<div id="ref-shi1998modified" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[11] </div><div class="csl-right-inline">Y. Shi and R. Eberhart, <span>“A modified particle swarm optimizer,”</span> in <em>1998 IEEE international conference on evolutionary computation proceedings. IEEE world congress on computational intelligence (cat. No. 98TH8360)</em>, IEEE, 1998, pp. 69–73.</div>
+</div>
+<div id="ref-robbins1951stochastic" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[12] </div><div class="csl-right-inline">H. Robbins and S. Monro, <span>“A stochastic approximation method,”</span> <em>The annals of mathematical statistics</em>, pp. 400–407, 1951.</div>
+</div>
+<div id="ref-kingma2014adam" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[13] </div><div class="csl-right-inline">D. P. Kingma and J. Ba, <span>“Adam: A method for stochastic optimization,”</span> <em>arXiv preprint arXiv:1412.6980</em>, 2014.</div>
 </div>
 </div>
 <span class="custom-spacer"></span>
