@@ -300,8 +300,8 @@ P_{{\sf t}+1}(x\vert z) &amp;= \lambda ({\sf t}) \delta t({\sf t}{+}1)P_{{\sf t}
 <p><span class="math display">\[
 \begin{align}
 P_{{\sf t}+1}(x\vert z) &amp;= \mu \delta t({\sf t}{+}1)P_{{\sf t}}(x{-}1\vert z) + \big[ 1-\mu \delta t({\sf t}{+}1)\big] P_{{\sf t}}(x\vert z) \nonumber \\
-&amp; + \sum_{x&#39;=0}^\infty\sum_{{\sf t}&#39;={\sf t}-{\sf s}}^{{\sf t}} \phi [t({\sf t})-t({\sf t}&#39;)] \delta t({\sf t}{+}1)P_{{\sf t}{\sf t}&#39;({\sf t}&#39;-1)}(x{-}1,x&#39;,x&#39;{-}1\vert z) \nonumber \\
-&amp;+ \sum_{x&#39;=0}^\infty\bigg\lbrace 1-\sum_{{\sf t}&#39;={\sf t}-{\sf s}}^{{\sf t}} \phi [t({\sf t})-t({\sf t}&#39;)] \delta t({\sf t}{+}1)\bigg\rbrace P_{{\sf t}{\sf t}&#39;({\sf t}&#39;-1)}(x, x&#39;, x&#39;{-}1\vert z) \,,
+&amp; + \sum_{x&#39;=0}^{x-1}\sum_{{\sf t}&#39;={\sf t}-{\sf s}}^{{\sf t}} \phi [t({\sf t})-t({\sf t}&#39;)] \delta t({\sf t}{+}1)P_{{\sf t}{\sf t}&#39;({\sf t}&#39;-1)}(x{-}1,x&#39;,x&#39;{-}1\vert z) \nonumber \\
+&amp;+ \sum_{x&#39;=0}^{x}\bigg\lbrace 1-\sum_{{\sf t}&#39;={\sf t}-{\sf s}}^{{\sf t}} \phi [t({\sf t})-t({\sf t}&#39;)] \delta t({\sf t}{+}1)\bigg\rbrace P_{{\sf t}{\sf t}&#39;({\sf t}&#39;-1)}(x, x&#39;, x&#39;{-}1\vert z) \,,
 \end{align}
 \]</span></p>
 <p>where we note the complexity in this expression arises because it has to include a coupling between the rate at which events occur and an explicit memory of when the previous ones did occur (recorded by differencing the count between adjacent timesteps by 1).</p>
