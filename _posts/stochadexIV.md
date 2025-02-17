@@ -1,11 +1,11 @@
 ---
 title: Useful state partitions for real-world simulations
 author: Hardwick, Robert J
-date: 2024-08-30
+date: [WIP]
 concept: To provide some practical examples of the real-world simulation types which are supported in the stochadex engine by describing a group of widely-applicable state partitions. In particular, we discuss how these partitions can be useful in simulating everything from sports matches and spatial disease spread to traffic networks and supply chain logistics. With these examples (and many others) in mind, we also consider the realistic types of observation and interaction which are possible in each case.
 articleId: stochadexIV
 codeLink: https://github.com/umbralcalc/stochadex
-year: 2024
+year: [WIP]
 ---
 
 ## Entity state transitions

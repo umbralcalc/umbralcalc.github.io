@@ -1,11 +1,11 @@
 ---
 title: Creating a toy rugby match simulator
 author: Hardwick, Robert J
-date: 2024-05-05
+date: [WIP]
 concept: To outline the basic design of an event-based rugby match simulator which uses the stochadex simulation engine to evolve its state forward in time. We also develop an alternative visualisation app for the stochadex which displays a 2D view of the rugby pitch and ball location. Given this extended functionality, we also discuss how this toy model could be developed into a full game with user interaction in future.
 articleId: trywizard
 codeLink: https://github.com/umbralcalc/trywizard
-year: 2024
+year: [WIP]
 ---
 
 ## Conceptualising the event-based simulation
