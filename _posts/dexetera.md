@@ -1,5 +1,5 @@
 ---
-title: Interactive simulations on the web
+title: Browser-based simulation games for python programmers using websockets
 author: Hardwick, Robert J
 date: [WIP]
 concept: To outline the design of a static web application which enables pure Python programmers to interact with stochadex simulations and visualise their outputs.
