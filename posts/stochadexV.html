@@ -180,7 +180,6 @@
       }
     }
   </style>
-  <script src="/usr/share/javascript/mathjax/MathJax.js" type="text/javascript"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <article class="body">
@@ -197,7 +196,7 @@ About
 </br>
 </br>
 
-<h1>Optimising agent interactions with a simulated system</h1>
+<h1>Useful state partitions for real-world simulations</h1>
 </br>
 <hr color="LightGray">
 <div class="articleHeader">
@@ -205,129 +204,150 @@ About
 </br>
 <strong> Date. </strong> WIP
 </br>
-<strong> Concept. </strong> To optimise agent interactions with a (typically stochastic) simulation environment. We will take a similar approach to that of more standard ‘model-free’ Reinforcement Learning (RL) approaches in this article, however, our control-learning software will use a more ‘model-based’ algorithm which leverages the self-learning simulation algorithms we have previously studied. As was the case with the online learning framework, we demonstrate how the system components which optimise agent interactions can be expressed as an extension to the computational graph of the simulation itself.
+<strong> Concept. </strong> To provide some practical examples of the real-world simulation types which are supported in the stochadex engine by describing a group of widely-applicable state partitions. In particular, we discuss how these partitions can be useful in simulating everything from sports matches and spatial disease spread to traffic networks and supply chain logistics. With these examples (and many others) in mind, we also consider the realistic types of observation and interaction which are possible in each case.
 </div>
 <hr color="LightGray">
 </br>
-<h2 id="introduction">Introduction</h2>
-<p>In designing automated control algorithms of practical importance to the real world it’s common to find that only partial observations of the system state are possible. You need only to think of the measurement uncertainties in any scientific experiment, the latent demand behind orders in a financial market, the unknown reservoirs of infection for a disease pathogen or even the limits to complete supply chain component observability in recognising just how commonly we find ourselves in this situation. When data is our only guide, this obscurity can make the learning of algorithms to control these systems an extreme — if not frequently impossible — challenge, without further insight provided by a more domain-specific model.</p>
-<p> is a book about building more realistic training environments for machine learning algorithms to control these `noisy’ systems in the real world. Model-free reinforcement learning is a popular and very powerful approach to generating such algorithms <span class="citation" data-cites="sutton2018reinforcement">[1]</span>, especially when there is plenty of data and the system is fully observable. However, this book will not spend much time thinking about the model-free approach. We will instead be designing and building learning environments with a more model-based approach to control in mind. These environments are intended to replicate situations where the data isn’t always so complete and useful, and will provide robust tools to cope with these tricky scenarios. Those readers who are data scientists, research engineers or statistically-minded programmers may find our mathematically descriptive, yet practically-minded, approach in this book quite interesting and maybe a little different to the usual perspectives.</p>
-<p>This book is about building more realistic training environments for machine learning systems in the real world. In the previous articles we formalised, designed and built a generalised simulation engine which could serve as the essential scaffolding for these environments. So why then, in this article, do we want to extend our formalism to talk about probabilistic learning methods?</p>
-<p>For many of these realistic environments where only partial state observations are possible, probabilistic learning tools can immediately become an essential tool to robustly infer the state of a system and predict its future states from any given point in time. Given that these tools are often so important for extending the capability of learning algorithms to deal with partially-observed domains; we propose to extend the idea of what is more conventionally considered a ‘machine learning environment’ to include tools for system state inference and future state prediction. In this sense, this article, will consider probabilistic learning as an essential part of the environment for a machine learning system.</p>
-<p>{} To design and build software which enables the optimisation of automated control objectives over stochastic phenomena of any kind. The theory in this article will overlap significantly with that of Reinforcement Learning (RL), however, in contrast to more standard RL approaches, we shall be relying on all of the work from previous parts of this book to help agents characterise, measure and learn from their environment. The software which implements our generalised control optimisation algorithm will be implemented as an extension to the learnadex. For the mathematically-inclined, this article will cover how we formalise model-based automated control optimisation within the frameworks that we have already introduced in this book. For the programmers, the public Git repository for the code described in this article can be found here: .</p>
-<h2 id="formalising-general-interactions">Formalising general interactions</h2>
-<p>Let’s start by considering how we might adapt the mathematical formalism we have been using so far to be able to take actions which can manipulate the state at each timestep. Using the mathematical notation that we inherited from the stochadex, we may extend the formula for updating the state history matrix <span class="math inline">\(X_{0:{\sf t}}\rightarrow X_{0:{\sf t}+1}\)</span> to include a new layer of possible interactions which is facilitated by a new vector-valued ‘take action’ function <span class="math inline">\(G_{{\sf t}}\)</span>. In doing so we shall be defining the domain of an acting entity in the stochastic process environment — which we shall hereafter refer to as simply the ‘agent’.</p>
-<p>During a timestep over which actions are performed by the agent, the stochadex state update formula can be extended to include interactions by composition with the original state update function like so
-%%
-<span class="math display">\[\begin{align}
-X_{{\sf t}+1}^i &amp;= G^i_{{\sf t}+1}[F_{{\sf t}+1}(X_{0:{\sf t}}, z, {\sf t}), A_{{\sf t}+1}] = {\cal F}^i_{{\sf t}+1}(X_{0:{\sf t}}, z, A_{{\sf t}+1}, {\sf t}) \label{eq:generalised-state-actions} \,,
-\end{align}\]</span>
-%%
-where we have also introduced the concept of the ‘actions’ performed <span class="math inline">\(A_{{\sf t}+1}\)</span> on the system; some vector of parameters which define what actions are taken at timestep <span class="math inline">\({\sf t}+1\)</span>. The code for the new iteration formula would look something like Fig.~<span class="math inline">\(\ref{fig:iterations-with-actions}\)</span>.</p>
-<p><img src="../assets/stochadexV/stochadexV-iterations-with-actions.drawio.png" /></p>
-<p>So far, Eq.~(<span class="math inline">\(\ref{eq:generalised-state-actions}\)</span>) on its own will allow the agent to take actions that are scheduled up front through some fixed process or perhaps through user interaction via a game interface. So what’s next? In order to start creating algorithms which will act on the system state for us, we need to develop a formalism which ‘closes the loop’ by feeding information back from the stochastic process to the agent’s decision-making algorithm.</p>
-<p>If we use <span class="math inline">\(A_{0:{\sf t}+1}\)</span> a referring to the matrix of historically-taken actions which up to time <span class="math inline">\({\sf t}+1\)</span>, we can build up a more generalised, non-Markovian picture of automated interactions with the system which matches the notation we are already using for <span class="math inline">\(X_{0:{\sf t}+1}\)</span>. Let us now define a Non-Markovian Decision Process (NMDP) as a probabilistic model which draws an actions matrix <span class="math inline">\(A_{0:{\sf t}+1}=A\)</span> from a ‘policy’ distribution <span class="math inline">\(\Pi_{({\sf t}+1){\sf t}}(A\vert X,\theta)\)</span> given <span class="math inline">\(X_{0:{\sf t}}=X\)</span> and a new vector of parameters which fully specify the automated interations. Using the probabilistic notation from the previous part of the book, the joint probability that <span class="math inline">\(X_{0:{\sf t}+1}=X\)</span> and <span class="math inline">\(A_{0:{\sf t}+1}=A\)</span> at time <span class="math inline">\({\sf t}+1\)</span> is
-%%
-<span class="math display">\[\begin{align}
-P_{{\sf t}+1}(X,A\vert z, \theta ) &amp;= P_{{\sf t}}(X&#39;\vert z,\theta ) \, \Pi_{({\sf t}+1){\sf t}}(A\vert X&#39;,\theta)P_{({\sf t}+1){\sf t}}(x\vert X&#39;,z,A) \label{eq:joint-prob-x-and-a} \,,
-\end{align}\]</span>
-%%
-where we recall that <span class="math inline">\(P_{({\sf t}+1){\sf t}}(x\vert X&#39;,z,A)\)</span> is the conditional probability of <span class="math inline">\(X_{{\sf t}+1}=x\)</span> given <span class="math inline">\(X_{0:{\sf t}}= X&#39;\)</span> and <span class="math inline">\(z\)</span> that we have encountered before, but it now requires <span class="math inline">\(A_{0:{\sf t}+1}=A\)</span> as another given input. We have illustrated Eq.~(<span class="math inline">\(\ref{eq:generalised-state-actions}\)</span>) and how it relates to the policy distribution of Eq.~(<span class="math inline">\(\ref{eq:joint-prob-x-and-a}\)</span>) with a new graph representation in Fig.~<span class="math inline">\(\ref{fig:fundamental-loop-with-actions}\)</span>.</p>
-<p><img src="../assets/stochadexV/stochadexV-fundamental-loop-with-actions.drawio.png" /></p>
-<p>For additional clarity, let’s take a moment to think about what <span class="math inline">\(\Pi_{({\sf t}+1){\sf t}}(A\vert X,\theta)\)</span> represents and how generally descriptive it can be. If an agent is acting under and entirely deterministic policy, then the policy distribution may be simplified to a direct function mapping which is parameterised by <span class="math inline">\(\theta\)</span>. At the other extreme, the distribution may also describe a fully stochastic policy where actions are drawn randomly in time. If we combine this consideration of noise with the observation that policies described by a distribution <span class="math inline">\(\Pi_{({\sf t}+1){\sf t}}(A\vert X,\theta)\)</span> permit a memory of past actions and states, it’s easy to see that this structure can be used in a wide variety of different use cases.</p>
-<p>By marginalising over Eq.~(<span class="math inline">\(\ref{eq:joint-prob-x-and-a}\)</span>) we find an updated probabilistic iteration formula for the stochastic process state which now takes the influence of agent actions into account
-%%
-<span class="math display">\[\begin{align}
-P_{{\sf t}+1}(X\vert z,\theta ) &amp;= \int_{\Xi_{{\sf t}+1}}{\rm d}A \, P_{{\sf t}}(X&#39;\vert z,\theta ) \, \Pi_{({\sf t}+1){\sf t}}(A\vert X&#39;,\theta)P_{({\sf t}+1){\sf t}}(x\vert X&#39;,z,A)  \,.
-\end{align}\]</span>
-%%
-This relationship will be very useful in the last part of this book when we begin to look at optimising control algorithms.</p>
-<p>What are the main categories of action which are possible in the rows of <span class="math inline">\(A\)</span>? Since the NMDP described by <span class="math inline">\(\Pi_{({\sf t}+1){\sf t}}(A\vert X&#39;,\theta)\)</span> is just another form of stochastic process, the main categories of action will fall into the same as those we covered in defining the stochadex formalism. The first, and perhaps most obvious, category would probably where the actions are defined in a continuous space and are continuously applied on every timestep. Some examples of these ‘continuously-acting’ decision processes include controlling the temperature of chemical reactions <span class="citation" data-cites="beeler2023chemgymrl">[2]</span> (such as those in a brewery), spacecraft control <span class="citation" data-cites="tipaldi2022reinforcement">[3]</span> and guidance systems, as well as the driving of autonomous vehicles <span class="citation" data-cites="kiran2021deep">[4]</span>. Within a kind of subset of the continuously-acting category; we can also find the event-based acting decision processes (where actions are not necessarily taken every timestep), e.g. controlling traffic through signal timings <span class="citation" data-cites="garg2018deep">[5]</span>, managing disease spread through treatment intervals <span class="citation" data-cites="ohi2020exploring">[6]</span> and automated trading on stock markets <span class="citation" data-cites="meng2019reinforcement">[7]</span>.</p>
-<p>Many of the examples we have given above have continuous action spaces, but we might also consider classes of decision processes where actions are defined discretely. Examples of these include the famous multi-armed bandit problem <span class="citation" data-cites="gittins2011multi">[8]</span> (like choosing between website layouts for E-commerce <span class="citation" data-cites="liu2021map">[9]</span>), managing a sports team through player substitutions, sensor measurement scheduling <span class="citation" data-cites="leong2020deep">[10]</span> and the sequential design prioritisation of large-scale scientific experiments <span class="citation" data-cites="blau2022optimizing">[11]</span>.</p>
-<p>In the previous parts of this book we laid out the concept for a generalised framework to simulate and learn stochastic phenomena continually as data is received. Given that we have also introduced a framework for the automated control of these phenomena, we have all the ingredients we need to create optimal decision-making algorithms. The key question to answer then, is: <em>optimal with respect to what objective?</em></p>
-<p>The objective of an automated control algorithm could take many forms depending on the specific context. Since there is no loss in generality in doing so, it seems natural to follow the naming convention used by Markov Decision Processes (MDP) (see <span class="citation" data-cites="bertsekas2011dynamic">[12]</span> and <span class="citation" data-cites="sutton2018reinforcement">[1]</span>) by referring to the objective outcome of an action at a particular point in time as having a ‘reward’ value <span class="math inline">\(r\)</span>. Since the relationship between reward, actions and states may be stochastic, it makes sense to relate the reward outcome <span class="math inline">\(r\)</span> given a state history <span class="math inline">\(X\)</span> and action history <span class="math inline">\(A\)</span> at timestep <span class="math inline">\({\sf t}+1\)</span> through the probability distribution <span class="math inline">\(P_{{\sf t}+1}(r\vert X,A)\)</span>. Hence, generally, this reward signal is non-Markovian — as is the case in many real-world problems <span class="citation" data-cites="gaon2020reinforcement">[13]</span>.</p>
-<p>We can use the reward probability distribution to derive a joint distribution over both state history <span class="math inline">\(X&#39;\)</span> and reward <span class="math inline">\(r\)</span> at timestep <span class="math inline">\({\sf t}+1\)</span> like so
-%%
-<span class="math display">\[\begin{align}
-P_{({\sf t}+1){\sf t}}(r,x&#39;\vert X, z,\theta) &amp;= P_{{\sf t}+1}(r\vert X&#39;,A)\Pi_{({\sf t}+1){\sf t}}(A\vert X,\theta)P_{({\sf t}+1){\sf t}}(x&#39;\vert X,z,A) \label{eq:joint-x-and-r}\,.
-\end{align}\]</span>
-%%
-In this expression, let’s recall that we are using the policy distribution <span class="math inline">\(\Pi_{({\sf t}+1){\sf t}}(A\vert X,\theta)\)</span> for agent interactions and the fundamental state update conditional probability for the underlying stochastic process <span class="math inline">\(P_{({\sf t}+1){\sf t}}(x&#39;\vert X,z,A)\)</span>.</p>
-<p>Note that in most use cases, the state of real-world phenomena cannot be measured perfectly. So to enable any agent trained on simulated phenomena to potentially act in the real world, we will need to include a measurement process as part of the information retrieval step. This is the part where we can leverage our work in a previous article which develops an online learning system for stochastic process models. But we’re jumping ahead with this thinking and will return to this point later on.</p>
-<p>Using Eq.~(<span class="math inline">\(\ref{eq:joint-x-and-r}\)</span>), we can now define a ‘state value function’ <span class="math inline">\(V_{{\sf t}}\)</span> at timestep <span class="math inline">\({\sf t}\)</span> which is the expected <span class="math inline">\(\gamma\)</span>-discounted future reward given the current state history <span class="math inline">\(X\)</span> and the other parameters like this
-%%
-<span class="math display">\[\begin{align}
-V_{{\sf t}}(X,z,\theta) &amp;= {\rm E}_{{\sf t}}({\sf Discounted \,Return}\vert X, z, \theta ) \nonumber \\
-&amp;= \sum_{{\sf t}&#39;={\sf t}}^{\infty} \int_{\omega_{{\sf t}&#39;+1}}{\rm d}^nx&#39;\int_{\rho_{{\sf t}&#39;+1}} {\rm d}r \,r\, \gamma^{{\sf t}&#39;-{\sf t}}\prod_{{\sf t}&#39;&#39;={\sf t}}^{{\sf t}&#39;}P_{({\sf t}&#39;&#39;+1){\sf t}&#39;&#39;}(r,x&#39;\vert X, z,\theta) \label{eq:state-value-discounted-return}\,,
-\end{align}\]</span>
-%%
-where <span class="math inline">\(0 &lt; \gamma &lt; 1\)</span>. The idea behind this discount factor <span class="math inline">\(\gamma\)</span> is to decrease the contribution of rewards to the optimisation objective (often called the ‘expected discounted return’ in RL) more and more as the prediction increases into the future. Note also that the state value function is inherently recursively defined, such that
-%%
-<span class="math display">\[\begin{align}
-V_{{\sf t}}(X,z,\theta) &amp;= \int_{\omega_{{\sf t}+1}}{\rm d}^nx\int_{\rho_{{\sf t}+1}} {\rm d}r \, P_{({\sf t}+1){\sf t}}(r,x&#39;\vert X, z,\theta)\big[ r+\gamma V_{{\sf t}+1}(X&#39;,z,\theta)\big] \,,
-\end{align}\]</span>
-%%
-and the optimal <span class="math inline">\(\theta\)</span> can hence be derived from
-%%
-<span class="math display">\[\begin{align}
-\theta^*_{{\sf t}}(X,z) &amp;= \underset{\theta}{{\rm argmax}} \big[ V_{{\sf t}}(X,z,\theta)\big] \,.
-\end{align}\]</span>
-%%
-By deriving the optimal policy in terms of the parameters <span class="math inline">\(\theta^*_{{\sf t}}(X,z)\)</span>, the optimal state value function and policy distribution can therefore be derived from
-%%
-<span class="math display">\[\begin{align}
-V^*_{{\sf t}}(X,z) &amp;= V_{{\sf t}}[X,z,\theta^*_{{\sf t}}(X,z)] \\
-\Pi^*_{({\sf t}+1){\sf t}}(A\vert X,z) &amp;= \Pi_{({\sf t}+1){\sf t}}[A\vert X,\theta^*_{{\sf t}}(X,z)] \,.
-\end{align}\]</span>
-%%</p>
-<p>Note that the type of decision process optimisation which we have introduced above differs from standard RL methodology. In the more conventional ‘model-free’ RL approaches, the state-action value function
-%%
-<span class="math display">\[\begin{align}
-Q_{{\sf t}}(X,A,z)={\rm E}_{{\sf t}}({\sf Discounted \,Return}\vert X,A,z) \,,
-\end{align}\]</span>
-%%
-would be used to evaluate the optimal policy instead of the state value function <span class="math inline">\(V_{{\sf t}}(X,z,\theta )\)</span> that we are using above. We are able to use the latter here because the simulation model gives us explicit knowledge of the <span class="math inline">\(P_{({\sf t}+1){\sf t}}(x&#39;\vert X,z,A)\)</span> distribution which is utilised by Eq.~(<span class="math inline">\(\ref{eq:joint-x-and-r}\)</span>). When this model is not known, the state-action value function <span class="math inline">\(Q_{{\sf t}}(X,A,z)\)</span> must be learned explicitly through sample estimation from the measured state and experienced outcomes of actions taken by the agent.</p>
-<p>When an agent takes an action to measure the state of the system (or when it is given measurements without needing to take action) there will typically be some uncertainty in how the history of measured real-world data <span class="math inline">\(Y\)</span> maps to the latent states of the system <span class="math inline">\(X\)</span> and its parameters <span class="math inline">\(z\)</span> at time <span class="math inline">\({\sf t}+1\)</span>. It is natural, then, to represent this uncertainty with a posterior probability distribution <span class="math inline">\({\cal P}_{{\sf t}+1}(X,z\vert Y)\)</span> as we did in the previous article.</p>
+<h2 id="entity-state-transitions">Entity state transitions</h2>
+<p>In this article we’re going to define some widely-applicable state partitions which are useful in developing simulations of real-world systems. These will help to both illustrate how partitioning the state can be helpful in conceptualising the phenomena one wishes to simulate, and provide some practical insights into how the stochadex may be configured for different purposes.</p>
+<p>We begin with the <em>entity state transition</em>, which refers to state transitions of any individual ‘entity’ that occur stochastically according to their respective transition rates. These transition rates may themselves be time-varying (even stochastically) and so it is useful to separate their values into a separate state partition and create a direct dependency channel on them, as in the rough schematic below.</p>
+<p><img src="../assets/stochadexV/stochadexV-simple-state-partition-graph.drawio.png" /></p>
+<p>Note how this computational structure is slightly more generic than (but related to) the event-based simulation schematics in <span class="citation" data-cites="stochadexI-2024">[1]</span>.</p>
+<p>Observations of the entity state transition in the real world typically take the form of either partial or noisy detections of the state transition times themselves over some period. Interactions with systems which require this kind of partitioning take the form of either direct changes to the entity state itself at some points in time or modifications to the rates at which state transitions occur.</p>
+<p>It seems less useful to provide all of the examples of real-world problems which might use this kind of partitioning as it applies extremely generally. It will be more informative to discuss how these same examples apply in the context of the other partitions which are more specifically applicable. Having said this, it’s worth noting that our event-based representation of state transitions can also be trivially adapted to avoid the necessity for a continuous-time representation of the system. The applications for state transition models which only require sequential ordering (but not a continuous time variable) include sequential experimental design problems, e.g., astronomical telescopes (see <span class="citation" data-cites="jia2023observation">[2]</span> and <span class="citation" data-cites="yatawatta2021deep">[3]</span>) and biological experiments <span class="citation" data-cites="treloar2022deep">[4]</span>.</p>
+<h2 id="weighted-mean-points">Weighted mean points</h2>
+<p>The <em>weighted mean point</em> performs a weighted average over a specified collection of neighbouring states. Given that one of the more natural uses cases for this partition is in spatial field averaging, the topology of the subgraph is typically totally connected and highly structured. However, some connections matter more than others, according to the weighting. We have created a rough schematic below.</p>
+<p><img src="../assets/stochadexV/stochadexV-spatial-state-partition-graph.drawio.png" /></p>
+<p>In the case of spatial fields, you can think of each point as being structured topologically in a kind of ‘lattice’ configuration where connections to other points are controlled indirectly by the relationship between states and their weighted point averages over time. Different distances in the lattice can contribute different importance weights in affecting each local average.</p>
+<p>Which real-world control problems would this partition be useful for? Given the natural spatial interpetation, the kinds of simulation that would leverage it are:</p>
+<ul>
+<li>Spatial simulations of population disease spread and control in the context of global disease outbreaks <span class="citation" data-cites="ohi2020exploring">[5]</span> or endemic, spatially-clustered infections like malaria <span class="citation" data-cites="carter2000spatial">[6]</span>.</li>
+<li>Spatial ecosystem management environments to infer forest wildfire dynamics <span class="citation" data-cites="ganapathi2018using">[7]</span> or improve conservation decision-making <span class="citation" data-cites="lapeyrolerie2022deep">[8]</span>.</li>
+<li>Weather system simulations to improve decision-making for agricultural yields <span class="citation" data-cites="chen2021reinforcement">[9]</span> or enhance stormwater flood mitigations <span class="citation" data-cites="saliba2020deep">[10]</span>.</li>
+</ul>
+<p>Observations of the weighted mean point in the real world typically take the form of either partial or noisy detections of the raw state values before averaging. Actors in systems which require this kind of partitioning could be public health or wildlife/national park authorities as well as livestock/crop farmers. The interactions with these systems would therefore focus on modifying the parameters for spatial detection of disease or damage and changing a subset of the population states directly through interventions.</p>
+<h2 id="node-histograms">Node histograms</h2>
+<p>The <em>node histogram</em> counts the frequencies of state occupations exhibited by all of the specified connected states. This partition provides a summary of information about a single network node which exists as part of a larger ‘state network’, and can be configured in collection with other partitions of the same type to represent any desirable connectivity structure. We have illustrated how it works in the rough schematic below.</p>
+<p><img src="../assets/stochadexV/stochadexV-network-state-partition-graph.drawio.png" /></p>
+<p>Which real-world control problems would this partition be useful for? If we consider networks which rely on counting the frequencies of neighbouring node states, the kinds of simulation that would leverage it are:</p>
+<ul>
+<li>Computational models of human brain conditions, e.g., Parkinson’s disease <span class="citation" data-cites="lu2019application">[11]</span>, epilepsy <span class="citation" data-cites="pineau2009treating">[12]</span>, Alzheimer’s <span class="citation" data-cites="saboo2021reinforcement">[13]</span>, etc., for deep brain stimulation control and other forms of treatment.</li>
+<li>Simulations of complex urban infrastructure networks to target various kinds of optimisation, e.g., traffic signal control <span class="citation" data-cites="yau2017survey">[14]</span>, power dispatch <span class="citation" data-cites="li2021integrating">[15]</span> and water pipe maintainance <span class="citation" data-cites="bukhsh2023maintenance">[16]</span>.</li>
+</ul>
+<p>Observations of the node histogram in the real world typically take the form of either partial or noisy detections of the counts. Actors in systems which require this kind of partitioning could be a neurologist, traffic light controller or even city infrastructure maintainer. In all cases, interactions with these systems would typically be directly changing the state of some subset of nodes in the network itself.</p>
+<h2 id="pipeline-stage-state-histograms">Pipeline stage state histograms</h2>
+<p>The <em>pipeline stage state histogram</em> counts the frequencies of entity types which exist in a particular stage of some pipeline. These partitions can be connected together in a directed subgraph to represent a multi-stage pipeline structure. We’ve provided a rough schematic below.</p>
+<p><img src="../assets/stochadexV/stochadexV-pipeline-state-partition-graph.drawio.png" /></p>
+<p>Which real-world control problems would this partition be useful for? If we think about multi-stage pipelines whose future states depend on the frequencies of entity types which exist at each stage, the following real-world examples come to mind:</p>
+<ul>
+<li>Logistics problems, e.g., organised supply chains <span class="citation" data-cites="yan2022reinforcement">[17]</span>, humanitarian aid distribution pipelines <span class="citation" data-cites="yu2021reinforcement">[18]</span> and hospital capacity planning <span class="citation" data-cites="shuvo2021deep">[19]</span>.</li>
+<li>Software development and engineering improvements, such as frontend user interface journeys <span class="citation" data-cites="lomas2016interface">[20]</span> across a population of users or backend data pipeline optimisation problems <span class="citation" data-cites="nagrecha2023intune">[21]</span>.</li>
+</ul>
+<p>Observations of the pipeline stage state histogram in the real world typically take the form of either partial or noisy detections of the entity stage transtition events in time and/or the frequency counts in the stage itself. Actors in systems which require this kind of partitioning could be a supply/relief chain controller, hospital logistics manager, data pipeline maintainer or even software engineer. In all cases, interactions with these systems would likely be directly modifying the relative flows between different pipeline stages.</p>
+<h2 id="centralised-entity-interactions">Centralised entity interactions</h2>
+<p><em>Centralised entity interactions</em> divide the representation of the system state into a partitions of ‘entity states’ and some partition of ‘centralised state’ upon which interactions between entities can depend. The subgraph topology is hence a star configuration where every entity state is connected to the centralised state, but not necessarily to each other. We have provided a rough schematic for the structure below.</p>
+<p><img src="../assets/stochadexV/stochadexV-star-state-partition-graph.drawio.png" /></p>
+<p>Which real-world control problems would this partition be useful for? Dividing the state up into a collection of entity states and some centralised state can be useful in a variety of settings. In particular, we can think of:</p>
+<ul>
+<li>Simulations of sports matches, e.g., football <span class="citation" data-cites="pulis2022reinforcement">[22]</span>, rugby <span class="citation" data-cites="sawczuk2022markov">[23]</span>, tennis <span class="citation" data-cites="ding2022deep">[24]</span>, etc., and other forms of game — all of which typically define a relatively simple global match/gameplay context as their centralised state and players as their entity states.</li>
+<li>Financial (see <span class="citation" data-cites="fischer2018reinforcement">[25]</span> and <span class="citation" data-cites="meng2019reinforcement">[26]</span>) and sports betting <span class="citation" data-cites="cliff2021bbe">[27]</span> market simulations for developing algo-trading strategies and portfolio optimisation <span class="citation" data-cites="dangi2013financial">[28]</span>, as well as housing market simulations (see <span class="citation" data-cites="yilmaz2018stochastic">[29]</span> and <span class="citation" data-cites="carro2023heterogeneous">[30]</span>) to evaluate government policies.</li>
+<li>Simulations of other forms of resource exchange through centralised mediation, such as in prosumer energy markets <span class="citation" data-cites="may2023multi">[31]</span>.</li>
+</ul>
+<p>Observations of the centralised entity interactions in the real world typically take the form of either partial or noisy detections of the states and state changes. Actors in systems which require this kind of partitioning could be sports team managers, financial/betting/other market traders or market exchange mediators. The interactions with these systems would therefore typically focus on changing which entities are present, changing their parameters and/or changing the parameters of the centralised state iteration.</p>
 <h2 class="unnumbered" id="references">References</h2>
 <div id="refs" class="references csl-bib-body" role="list">
-<div id="ref-sutton2018reinforcement" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[1] </div><div class="csl-right-inline">R. S. Sutton and A. G. Barto, <em>Reinforcement learning: An introduction</em>. MIT press, 2018.</div>
+<div id="ref-stochadexI-2024" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[1] </div><div class="csl-right-inline">R. J. Hardwick, <span>“Building a generalised simulation engine,”</span> <em>umbralcalculations (umbralcalc.github.io/posts/stochadexI.html)</em>, 2024.</div>
 </div>
-<div id="ref-beeler2023chemgymrl" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[2] </div><div class="csl-right-inline">C. Beeler <em>et al.</em>, <span>“ChemGymRL: An interactive framework for reinforcement learning for digital chemistry,”</span> <em>arXiv preprint arXiv:2305.14177</em>, 2023.</div>
+<div id="ref-jia2023observation" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[2] </div><div class="csl-right-inline">P. Jia, Q. Jia, T. Jiang, and J. Liu, <span>“Observation strategy optimization for distributed telescope arrays with deep reinforcement learning,”</span> <em>The Astronomical Journal</em>, vol. 165, no. 6, p. 233, 2023.</div>
 </div>
-<div id="ref-tipaldi2022reinforcement" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[3] </div><div class="csl-right-inline">M. Tipaldi, R. Iervolino, and P. R. Massenio, <span>“Reinforcement learning in spacecraft control applications: Advances, prospects, and challenges,”</span> <em>Annual Reviews in Control</em>, 2022.</div>
+<div id="ref-yatawatta2021deep" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[3] </div><div class="csl-right-inline">S. Yatawatta and I. M. Avruch, <span>“Deep reinforcement learning for smart calibration of radio telescopes,”</span> <em>Monthly Notices of the Royal Astronomical Society</em>, vol. 505, no. 2, pp. 2141–2150, 2021.</div>
 </div>
-<div id="ref-kiran2021deep" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[4] </div><div class="csl-right-inline">B. R. Kiran <em>et al.</em>, <span>“Deep reinforcement learning for autonomous driving: A survey,”</span> <em>IEEE Transactions on Intelligent Transportation Systems</em>, vol. 23, no. 6, pp. 4909–4926, 2021.</div>
-</div>
-<div id="ref-garg2018deep" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[5] </div><div class="csl-right-inline">D. Garg, M. Chli, and G. Vogiatzis, <span>“Deep reinforcement learning for autonomous traffic light control,”</span> in <em>2018 3rd IEEE international conference on intelligent transportation engineering (ICITE)</em>, IEEE, 2018, pp. 214–218.</div>
+<div id="ref-treloar2022deep" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[4] </div><div class="csl-right-inline">N. J. Treloar, N. Braniff, B. Ingalls, and C. P. Barnes, <span>“Deep reinforcement learning for optimal experimental design in biology,”</span> <em>PLOS Computational Biology</em>, vol. 18, no. 11, p. e1010695, 2022.</div>
 </div>
 <div id="ref-ohi2020exploring" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[6] </div><div class="csl-right-inline">A. Q. Ohi, M. Mridha, M. M. Monowar, and M. A. Hamid, <span>“Exploring optimal control of epidemic spread using reinforcement learning,”</span> <em>Scientific reports</em>, vol. 10, no. 1, p. 22106, 2020.</div>
+<div class="csl-left-margin">[5] </div><div class="csl-right-inline">A. Q. Ohi, M. Mridha, M. M. Monowar, and M. A. Hamid, <span>“Exploring optimal control of epidemic spread using reinforcement learning,”</span> <em>Scientific reports</em>, vol. 10, no. 1, p. 22106, 2020.</div>
+</div>
+<div id="ref-carter2000spatial" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[6] </div><div class="csl-right-inline">R. Carter, K. N. Mendis, and D. Roberts, <span>“Spatial targeting of interventions against malaria,”</span> <em>Bulletin of the World Health Organization</em>, vol. 78, pp. 1401–1411, 2000.</div>
+</div>
+<div id="ref-ganapathi2018using" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[7] </div><div class="csl-right-inline">S. Ganapathi Subramanian and M. Crowley, <span>“Using spatial reinforcement learning to build forest wildfire dynamics models from satellite images,”</span> <em>Frontiers in ICT</em>, vol. 5, p. 6, 2018.</div>
+</div>
+<div id="ref-lapeyrolerie2022deep" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[8] </div><div class="csl-right-inline">M. Lapeyrolerie, M. S. Chapman, K. E. Norman, and C. Boettiger, <span>“Deep reinforcement learning for conservation decisions,”</span> <em>Methods in Ecology and Evolution</em>, vol. 13, no. 11, pp. 2649–2662, 2022.</div>
+</div>
+<div id="ref-chen2021reinforcement" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[9] </div><div class="csl-right-inline">M. Chen <em>et al.</em>, <span>“A reinforcement learning approach to irrigation decision-making for rice using weather forecasts,”</span> <em>Agricultural Water Management</em>, vol. 250, p. 106838, 2021.</div>
+</div>
+<div id="ref-saliba2020deep" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[10] </div><div class="csl-right-inline">S. M. Saliba, B. D. Bowes, S. Adams, P. A. Beling, and J. L. Goodall, <span>“Deep reinforcement learning with uncertain data for real-time stormwater system control and flood mitigation,”</span> <em>Water</em>, vol. 12, no. 11, p. 3222, 2020.</div>
+</div>
+<div id="ref-lu2019application" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[11] </div><div class="csl-right-inline">M. Lu, X. Wei, Y. Che, J. Wang, and K. A. Loparo, <span>“Application of reinforcement learning to deep brain stimulation in a computational model of parkinson’s disease,”</span> <em>IEEE Transactions on Neural Systems and Rehabilitation Engineering</em>, vol. 28, no. 1, pp. 339–349, 2019.</div>
+</div>
+<div id="ref-pineau2009treating" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[12] </div><div class="csl-right-inline">J. Pineau, A. Guez, R. Vincent, G. Panuccio, and M. Avoli, <span>“Treating epilepsy via adaptive neurostimulation: A reinforcement learning approach,”</span> <em>International journal of neural systems</em>, vol. 19, no. 4, pp. 227–240, 2009.</div>
+</div>
+<div id="ref-saboo2021reinforcement" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[13] </div><div class="csl-right-inline">K. Saboo, A. Choudhary, Y. Cao, G. Worrell, D. Jones, and R. Iyer, <span>“Reinforcement learning based disease progression model for alzheimer’s disease,”</span> <em>Advances in Neural Information Processing Systems</em>, vol. 34, pp. 20903–20915, 2021.</div>
+</div>
+<div id="ref-yau2017survey" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[14] </div><div class="csl-right-inline">K.-L. A. Yau, J. Qadir, H. L. Khoo, M. H. Ling, and P. Komisarczuk, <span>“A survey on reinforcement learning models and algorithms for traffic signal control,”</span> <em>ACM Computing Surveys (CSUR)</em>, vol. 50, no. 3, pp. 1–38, 2017.</div>
+</div>
+<div id="ref-li2021integrating" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[15] </div><div class="csl-right-inline">Q. Li <em>et al.</em>, <span>“Integrating reinforcement learning and optimal power dispatch to enhance power grid resilience,”</span> <em>IEEE Transactions on Circuits and Systems II: Express Briefs</em>, vol. 69, no. 3, pp. 1402–1406, 2021.</div>
+</div>
+<div id="ref-bukhsh2023maintenance" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[16] </div><div class="csl-right-inline">Z. A. Bukhsh, H. Molegraaf, and N. Jansen, <span>“A maintenance planning framework using online and offline deep reinforcement learning,”</span> <em>Neural Computing and Applications</em>, pp. 1–12, 2023.</div>
+</div>
+<div id="ref-yan2022reinforcement" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[17] </div><div class="csl-right-inline">Y. Yan, A. H. Chow, C. P. Ho, Y.-H. Kuo, Q. Wu, and C. Ying, <span>“Reinforcement learning for logistics and supply chain management: Methodologies, state of the art, and future opportunities,”</span> <em>Transportation Research Part E: Logistics and Transportation Review</em>, vol. 162, p. 102712, 2022.</div>
+</div>
+<div id="ref-yu2021reinforcement" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[18] </div><div class="csl-right-inline">L. Yu, C. Zhang, J. Jiang, H. Yang, and H. Shang, <span>“Reinforcement learning approach for resource allocation in humanitarian logistics,”</span> <em>Expert Systems with Applications</em>, vol. 173, p. 114663, 2021.</div>
+</div>
+<div id="ref-shuvo2021deep" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[19] </div><div class="csl-right-inline">S. S. Shuvo, M. R. Ahmed, H. Symum, and Y. Yilmaz, <span>“Deep reinforcement learning based cost-benefit analysis for hospital capacity planning,”</span> in <em>2021 international joint conference on neural networks (IJCNN)</em>, IEEE, 2021, pp. 1–7.</div>
+</div>
+<div id="ref-lomas2016interface" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[20] </div><div class="csl-right-inline">J. D. Lomas <em>et al.</em>, <span>“Interface design optimization as a multi-armed bandit problem,”</span> in <em>Proceedings of the 2016 CHI conference on human factors in computing systems</em>, 2016, pp. 4142–4153.</div>
+</div>
+<div id="ref-nagrecha2023intune" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[21] </div><div class="csl-right-inline">K. Nagrecha, L. Liu, P. Delgado, and P. Padmanabhan, <span>“InTune: Reinforcement learning-based data pipeline optimization for deep recommendation models,”</span> in <em>Proceedings of the 17th ACM conference on recommender systems</em>, 2023, pp. 430–442.</div>
+</div>
+<div id="ref-pulis2022reinforcement" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[22] </div><div class="csl-right-inline">M. Pulis and J. Bajada, <span>“Reinforcement learning for football player decision making analysis,”</span> in <em>StatsBomb conference</em>, 2022.</div>
+</div>
+<div id="ref-sawczuk2022markov" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[23] </div><div class="csl-right-inline">T. Sawczuk, A. Palczewska, and B. Jones, <span>“Markov decision processes with contextual nodes as a method of assessing attacking player performance in rugby league,”</span> in <em>Advances in computational intelligence systems: Contributions presented at the 20th UK workshop on computational intelligence, september 8-10, 2021, aberystwyth, wales, UK 20</em>, Springer, 2022, pp. 251–263.</div>
+</div>
+<div id="ref-ding2022deep" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[24] </div><div class="csl-right-inline">N. Ding, K. Takeda, and K. Fujii, <span>“Deep reinforcement learning in a racket sport for player evaluation with technical and tactical contexts,”</span> <em>IEEE Access</em>, vol. 10, pp. 54764–54772, 2022.</div>
+</div>
+<div id="ref-fischer2018reinforcement" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[25] </div><div class="csl-right-inline">T. G. Fischer, <span>“Reinforcement learning in financial markets-a survey,”</span> FAU Discussion Papers in Economics, 2018.</div>
 </div>
 <div id="ref-meng2019reinforcement" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[7] </div><div class="csl-right-inline">T. L. Meng and M. Khushi, <span>“Reinforcement learning in financial markets,”</span> <em>Data</em>, vol. 4, no. 3, p. 110, 2019.</div>
+<div class="csl-left-margin">[26] </div><div class="csl-right-inline">T. L. Meng and M. Khushi, <span>“Reinforcement learning in financial markets,”</span> <em>Data</em>, vol. 4, no. 3, p. 110, 2019.</div>
 </div>
-<div id="ref-gittins2011multi" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[8] </div><div class="csl-right-inline">J. Gittins, K. Glazebrook, and R. Weber, <em>Multi-armed bandit allocation indices</em>. John Wiley &amp; Sons, 2011.</div>
+<div id="ref-cliff2021bbe" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[27] </div><div class="csl-right-inline">D. Cliff, <span>“BBE: Simulating the microstructural dynamics of an in-play betting exchange via agent-based modelling,”</span> <em>arXiv preprint arXiv:2105.08310</em>, 2021.</div>
 </div>
-<div id="ref-liu2021map" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[9] </div><div class="csl-right-inline">Y. Liu and L. Li, <span>“A map of bandits for e-commerce,”</span> <em>arXiv preprint arXiv:2107.00680</em>, 2021.</div>
+<div id="ref-dangi2013financial" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[28] </div><div class="csl-right-inline">A. Dangi, <span>“Financial portfolio optimization: Computationally guided agents to investigate, analyse and invest!?”</span> <em>arXiv preprint arXiv:1301.4194</em>, 2013.</div>
 </div>
-<div id="ref-leong2020deep" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[10] </div><div class="csl-right-inline">A. S. Leong, A. Ramaswamy, D. E. Quevedo, H. Karl, and L. Shi, <span>“Deep reinforcement learning for wireless sensor scheduling in cyber–physical systems,”</span> <em>Automatica</em>, vol. 113, p. 108759, 2020.</div>
+<div id="ref-yilmaz2018stochastic" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[29] </div><div class="csl-right-inline">B. Yilmaz and A. Selcuk-Kestel, <span>“A stochastic approach to model housing markets: The US housing market case,”</span> <em>Numerical Algebra Control and Optimization</em>, vol. 8, no. 4, 2018.</div>
 </div>
-<div id="ref-blau2022optimizing" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[11] </div><div class="csl-right-inline">T. Blau, E. V. Bonilla, I. Chades, and A. Dezfouli, <span>“Optimizing sequential experimental design with deep reinforcement learning,”</span> in <em>International conference on machine learning</em>, PMLR, 2022, pp. 2107–2128.</div>
+<div id="ref-carro2023heterogeneous" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[30] </div><div class="csl-right-inline">A. Carro, M. Hinterschweiger, A. Uluc, and J. D. Farmer, <span>“Heterogeneous effects and spillovers of macroprudential policy in an agent-based model of the UK housing market,”</span> <em>Industrial and Corporate Change</em>, vol. 32, no. 2, pp. 386–432, 2023.</div>
 </div>
-<div id="ref-bertsekas2011dynamic" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[12] </div><div class="csl-right-inline">D. P. Bertsekas <em>et al.</em>, <span>“Dynamic programming and optimal control 3rd edition, volume ii,”</span> <em>Belmont, MA: Athena Scientific</em>, vol. 1, 2011.</div>
-</div>
-<div id="ref-gaon2020reinforcement" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[13] </div><div class="csl-right-inline">M. Gaon and R. Brafman, <span>“Reinforcement learning with non-markovian rewards,”</span> in <em>Proceedings of the AAAI conference on artificial intelligence</em>, 2020, pp. 3980–3987.</div>
+<div id="ref-may2023multi" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[31] </div><div class="csl-right-inline">R. May and P. Huang, <span>“A multi-agent reinforcement learning approach for investigating and optimising peer-to-peer prosumer energy markets,”</span> <em>Applied Energy</em>, vol. 334, p. 120705, 2023.</div>
 </div>
 </div>
 <span class="custom-spacer"></span>
@@ -335,7 +355,7 @@ would be used to evaluate the optimal policy instead of the state value function
 <div class="articleHeader">
   <strong> Cite. </strong> You can cite this article using the following BibTeX:
 <code><pre>@article{stochadexV-WIP,
-  title = {Optimising agent interactions with a simulated system},
+  title = {Useful state partitions for real-world simulations},
   author = {Hardwick, Robert J},
   journal = {umbralcalculations (umbralcalc.github.io/posts/stochadexV.html)},
   year = {WIP},

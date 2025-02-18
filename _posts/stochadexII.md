@@ -1,8 +1,8 @@
 ---
-title: "A probabilistic framework for generalised simulation engines"
+title: "A generalised probabilistic framework for simulation engines"
 author: Hardwick, Robert J
 date: 2024-05-03
-concept: To extend the mathematical formalism from a previous article to describe the time evolution of state probabilities in a generalised simulation engine. Having introduced the basic concepts, we use this formalism to motivate a useful method for probabilistic estimation which is well-suited to the software abstractions provided by the stochadex package. In order to illustrate the point, we also demonstrate how to embed this algorithm within the computational graph of the simulation itself.
+concept: To extend the mathematical formalism from a previous article to describe the time evolution of state probabilities in a simulation engine. Having introduced the basic concepts, we use this formalism to motivate a useful method for probabilistic estimation which is well-suited to the software abstractions provided by the stochadex package. In order to illustrate the point, we also demonstrate how to embed this algorithm within the computational graph of the simulation itself.
 articleId: stochadexII
 codeLink: https://github.com/umbralcalc/stochadex
 year: 2024

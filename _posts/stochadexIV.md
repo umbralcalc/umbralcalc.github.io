@@ -1,81 +1,136 @@
 ---
-title: Useful state partitions for real-world simulations
+title: Online optimisation of parameters using a simulation engine
 author: Hardwick, Robert J
 date: [WIP]
-concept: To provide some practical examples of the real-world simulation types which are supported in the stochadex engine by describing a group of widely-applicable state partitions. In particular, we discuss how these partitions can be useful in simulating everything from sports matches and spatial disease spread to traffic networks and supply chain logistics. With these examples (and many others) in mind, we also consider the realistic types of observation and interaction which are possible in each case.
+concept: To describe the design and implementation of a sequential Monte Carlo sampler which can dynamically adapt to sampling new points from nonstationary, multivariate and potentially multi-modal distributions using only a stream of noisy weighted samples as input. We control the sensitivity of this algorithm to temporal changes in the target distribution through a discounted history approach.
 articleId: stochadexIV
 codeLink: https://github.com/umbralcalc/stochadex
 year: [WIP]
 ---
 
-## Entity state transitions
+## Research context
 
-In this article we're going to define some widely-applicable state partitions which are useful in developing simulations of real-world systems. These will help to both illustrate how partitioning the state can be helpful in conceptualising the phenomena one wishes to simulate, and provide some practical insights into how the stochadex may be configured for different purposes.
+In a previous article [@stochadexIII-2024] we used a simple, but effective, technique for approximating the conditional density of simulation parameters $P_{({\sf t}+1){\sf t}}(z\vert X',{\sf Y})$ such that we are able to both update its shape with the arrival of new data as well as sample new values from it --- in both cases being able to incorporate a discounted distribution ansatz into the model. This technique estimated only the first two moments of this distribution, but with techniques like particle filtering it should be possible to generate approximate samples without this limitation. In this article, we will motivate Sequential Importance Resampling (SIR) using a kernel-smoothed approximation of the distribution which takes the form
 
-We begin with the _entity state transition_, which refers to state transitions of any individual 'entity' that occur stochastically according to their respective transition rates. These transition rates may themselves be time-varying (even stochastically) and so it is useful to separate their values into a separate state partition and create a direct dependency channel on them, as in the rough schematic below.
+$$
+\begin{align}
+P_{({\sf t}+1){\sf t}}(z\vert X',{\sf Y}) &\simeq \int_{\zeta_{{\sf t}+1}} {\rm d}z' P_{({\sf t}+1){\sf t}}(z'\vert X',{\sf Y})K(z,z';H) \,,
+\end{align}
+$$
 
-![](../assets/stochadexIV/stochadexIV-simple-state-partition-graph.drawio.png)
+where $K(z,z';H)$ is some smoothing kernel which helps to approximate the posterior distribution up to some specified scale using the bandwidth matrix $H$. Note that the expression above can also be extended to make use of the full history of $z$ samples by applying the discount factor $\beta$.
 
-Note how this computational structure is slightly more generic than (but related to) the event-based simulation schematics in [@stochadexI-2024].
+## Problem statement
 
-Observations of the entity state transition in the real world typically take the form of either partial or noisy detections of the state transition times themselves over some period. Interactions with systems which require this kind of partitioning take the form of either direct changes to the entity state itself at some points in time or modifications to the rates at which state transitions occur.
+Say that we have a generator of probabilistic weights which takes a state history matrix $X$ as input. This generator represents a non-stationary probability distribution and the weights are effectively stochastic around the true value for each given $X$ as input. The problem is that we would like to be able to efficiently sample from the underlying distribution regardless of its shape or modality.
 
-It seems less useful to provide all of the examples of real-world problems which might use this kind of partitioning as it applies extremely generally. It will be more informative to discuss how these same examples apply in the context of the other partitions which are more specifically applicable. Having said this, it's worth noting that our event-based representation of state transitions can also be trivially adapted to avoid the necessity for a continuous-time representation of the system. The applications for state transition models which only require sequential ordering (but not a continuous time variable) include sequential experimental design problems, e.g., astronomical telescopes (see [@jia2023observation] and [@yatawatta2021deep]) and biological experiments [@treloar2022deep].
+Solution we will study is to create an adaptive sequential Monte Carlo algorithm, e.g., see [@del2006sequential] or [@wills2023sequential].
 
-## Weighted mean points
+## Adaptively estimating a smoothed density
 
-The _weighted mean point_ performs a weighted average over a specified collection of neighbouring states. Given that one of the more natural uses cases for this partition is in spatial field averaging, the topology of the subgraph is typically totally connected and highly structured. However, some connections matter more than others, according to the weighting. We have created a rough schematic below.
+We can motivate the density smoothing model through specifying the following functional 'distribution over distributions' which uses a symmetrised form of the Kullback-Leibler divergence [@kullback1951information]
 
-![](../assets/stochadexIV/stochadexIV-spatial-state-partition-graph.drawio.png)
+$$
+\begin{align}
+{\cal P}_{{\sf t}+1}[Q] &\propto e^{-D^{\rm sym}_{\rm KL}[Q,P_{{\sf t}+1}]} \\
+D^{\rm sym}_{\rm KL}[Q,P_{{\sf t}+1}] &= \frac{1}{2}D_{\rm KL}[Q\vert\vert P_{{\sf t}+1}] + \frac{1}{2}D_{\rm KL}[P_{{\sf t}+1} \vert\vert Q] \\
+ &= \frac{1}{2}\int_{\Omega_{{\sf t}+1}} {\rm d}X \, Q(X)\ln \frac{Q(X)}{P_{{\sf t}+1}(X)} + \frac{1}{2}\int_{\Omega_{{\sf t}+1}} {\rm d}X \, P_{{\sf t}+1}(X)\ln \frac{P_{{\sf t}+1}(X)}{Q(X)} \,,
+\end{align}
+$$
 
-In the case of spatial fields, you can think of each point as being structured topologically in a kind of 'lattice' configuration where connections to other points are controlled indirectly by the relationship between states and their weighted point averages over time. Different distances in the lattice can contribute different importance weights in affecting each local average.
+where we are using the state history matrix formalism used in [@stochadexI-2024] and [@stochadexII-2024] such that $X$ corresponds to a matrix which adds a row for every new instantaneous $x$ state vector which time evolves to. Note that we can take 'functional expectation values' with this distribution, such that
 
-Which real-world control problems would this partition be useful for? Given the natural spatial interpetation, the kinds of simulation that would leverage it are:
+$$
+\begin{align}
+{\rm E}_{{\sf t}+1}[Q(X)] &= \frac{\int {\cal D}[Q(X)] Q(X) e^{-D^{\rm sym}_{\rm KL}[Q(X),P_{{\sf t}+1}(X)]}}{\int {\cal D}[Q(X)] e^{-D^{\rm sym}_{\rm KL}[Q(X),P_{{\sf t}+1}(X)]}} \,.
+\end{align}
+$$
 
-- Spatial simulations of population disease spread and control in the context of global disease outbreaks [@ohi2020exploring] or endemic, spatially-clustered infections like malaria [@carter2000spatial].
-- Spatial ecosystem management environments to infer forest wildfire dynamics [@ganapathi2018using] or improve conservation decision-making [@lapeyrolerie2022deep].
-- Weather system simulations to improve decision-making for agricultural yields [@chen2021reinforcement] or enhance stormwater flood mitigations [@saliba2020deep].
+If we then expand $D^{\rm sym}_{\rm KL}$ logarithmically around $\ln P_{{\sf t}+1}$ such that $\ln Q=\ln P_{{\sf t}+1} + \delta \ln P_{{\sf t}+1}$, we arrive at the following approximation up to second order in the expansion
 
-Observations of the weighted mean point in the real world typically take the form of either partial or noisy detections of the raw state values before averaging. Actors in systems which require this kind of partitioning could be public health or wildlife/national park authorities as well as livestock/crop farmers. The interactions with these systems would therefore focus on modifying the parameters for spatial detection of disease or damage and changing a subset of the population states directly through interventions.
+$$
+\begin{align}
+D^{\rm sym}_{\rm KL}[e^{\ln P_{{\sf t}+1} + \delta \ln P_{{\sf t}+1}},P_{{\sf t}+1}] &\simeq \frac{1}{2}\int_{\Omega_{{\sf t}+1}} {\rm d}X \,P_{{\sf t}+1}(X) [\delta \ln P_{{\sf t}+1}(X)]^2 \,.
+\end{align}
+$$
 
-## Node histograms
+Idea is to dynamically train the noise scale $\sigma$ and kernel bandwidth matrix $H$ of a Gaussian Process-based [@williams2006gaussian] density estimation algorithm which can be used to calculate the latest density
 
-The _node histogram_ counts the frequencies of state occupations exhibited by all of the specified connected states. This partition provides a summary of information about a single network node which exists as part of a larger 'state network', and can be configured in collection with other partitions of the same type to represent any desirable connectivity structure. We have illustrated how it works in the rough schematic below.
+$$
+\begin{align}
+{\cal P}_{{\sf t}+1}[Q(x);H,\sigma] &\simeq \frac{\exp \bigg[ -\frac{1}{2} \sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\sum_{{\cal S}}(\ell_{{\sf t}'}-\ell)K^{-1}_{({\sf t}+1){\sf t}'{\sf t}''}(x;H,\sigma)(\ell_{{\sf t}''}-\ell) \bigg]}{\prod_{{\sf t}+1\geq {\sf t}'}\prod_{{\sf t}'\geq {\sf t}''}\prod_{{\cal S}}\sqrt{2\pi K_{({\sf t}+1){\sf t}'{\sf t}''}(x;H,\sigma)}} \,,
+\end{align}
+$$
 
-![](../assets/stochadexIV/stochadexIV-network-state-partition-graph.drawio.png)
+where ${\cal S}$ indicates the set of weighted samples and we may choose to define the kernel $K_{({\sf t}+1){\sf t}'{\sf t}''}(x;H,\sigma)$ itself as
 
-Which real-world control problems would this partition be useful for? If we consider networks which rely on counting the frequencies of neighbouring node states, the kinds of simulation that would leverage it are:
+$$
+\begin{align}
+K_{({\sf t}+1){\sf t}'{\sf t}''}(x;H,\sigma) &= \sigma^2 \beta^{{\sf t}''-{\sf t}-1} B_{{\sf t}+1} \exp \bigg[ -\frac{1}{2}\sum_{i,j}(x_{{\sf t}'}-x)^i(H^{-1})^{ij}(x_{{\sf t}''}-x)^j\bigg] \\
+B_{{\sf t}+1} &= \sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\sum_{{\cal S}}\beta^{{\sf t}+1-{\sf t}''} \,.
+\end{align}
+$$
 
-- Computational models of human brain conditions, e.g., Parkinson's disease [@lu2019application], epilepsy [@pineau2009treating], Alzheimer's [@saboo2021reinforcement], etc., for deep brain stimulation control and other forms of treatment.
-- Simulations of complex urban infrastructure networks to target various kinds of optimisation, e.g., traffic signal control [@yau2017survey], power dispatch [@li2021integrating] and water pipe maintainance [@bukhsh2023maintenance].
+If we were to vary $\ell$, $H$ and $\sigma$, the 'distribution over distributions' represents a probabilistic weighting for cross-validation which maximises when the best representation of $P_{{\sf t}+1}$ has been found. To find this maximum, we may use the gradient in the direction of the weights
 
-Observations of the node histogram in the real world typically take the form of either partial or noisy detections of the counts. Actors in systems which require this kind of partitioning could be a neurologist, traffic light controller or even city infrastructure maintainer. In all cases, interactions with these systems would typically be directly changing the state of some subset of nodes in the network itself.
+$$
+\begin{align}
+\frac{\partial}{\partial \ell}\ln {\cal P}_{{\sf t}+1}[Q(x);H,\sigma] &\simeq \frac{1}{2} \sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\sum_{{\cal S}} \big[ (\ell_{{\sf t}'}-\ell)K^{-1}_{({\sf t}+1){\sf t}'{\sf t}''}(x;H,\sigma) + K^{-1}_{({\sf t}+1){\sf t}'{\sf t}''}(x;H,\sigma)(\ell_{{\sf t}''}-\ell) \big] \,,
+\end{align}
+$$
 
-## Pipeline stage state histograms
+or the gradient defined over the $(H,\sigma)$ parameter space
 
-The _pipeline stage state histogram_ counts the frequencies of entity types which exist in a particular stage of some pipeline. These partitions can be connected together in a directed subgraph to represent a multi-stage pipeline structure. We've provided a rough schematic below.
+$$
+\begin{align}
+&\frac{\partial}{\partial (H,\sigma )}\ln {\cal P}_{{\sf t}+1}[Q(x);H,\sigma] \simeq \\
+&\qquad \quad \frac{1}{2}\sum_{{\sf t}+1\geq {\sf t}'}\sum_{{\sf t}'\geq {\sf t}''}\sum_{{\cal S}}\big[(\ell_{{\sf t}'}-\ell)K^{-1}_{({\sf t}+1){\sf t}'{\sf t}''}(x;H,\sigma)(\ell_{{\sf t}''}-\ell) - 1\big]\frac{\partial}{\partial (H,\sigma)}\ln K_{({\sf t}+1){\sf t}'{\sf t}''}(x;H,\sigma) \,,
+\end{align}
+$$
 
-![](../assets/stochadexIV/stochadexIV-pipeline-state-partition-graph.drawio.png)
+in either a global optimisation program or alternating between maximising individual samples with respect to $\ell$ and maximising globally with respect to $(H,\sigma)$.
 
-Which real-world control problems would this partition be useful for? If we think about multi-stage pipelines whose future states depend on the frequencies of entity types which exist at each stage, the following real-world examples come to mind:
+Another pattern to consider is that of the Expectation-Maximisation algorithm, where we can alternate between optimising with respect to $\ell$ and computing the marginal expectation values for $H$ and $\sigma$ using the resulting samples and their corresponding weights like this
 
-- Logistics problems, e.g., organised supply chains [@yan2022reinforcement], humanitarian aid distribution pipelines [@yu2021reinforcement] and hospital capacity planning [@shuvo2021deep].
-- Software development and engineering improvements, such as frontend user interface journeys [@lomas2016interface] across a population of users or backend data pipeline optimisation problems [@nagrecha2023intune].
+$$
+\begin{align}
+{\rm E}_{{\sf t}+1}[(H,\sigma )] &\simeq \frac{\sum_{X_{{\sf t}+1}} (H,\sigma ){\cal P}_{{\sf t}+1}[Q(X_{{\sf t}+1});H,\sigma]}{\sum_{X_{{\sf t}+1}}{\cal P}_{{\sf t}+1}[Q(X_{{\sf t}+1});H,\sigma]} \,.
+\end{align}
+$$
 
-Observations of the pipeline stage state histogram in the real world typically take the form of either partial or noisy detections of the entity stage transtition events in time and/or the frequency counts in the stage itself. Actors in systems which require this kind of partitioning could be a supply/relief chain controller, hospital logistics manager, data pipeline maintainer or even software engineer. In all cases, interactions with these systems would likely be directly modifying the relative flows between different pipeline stages.
+We could then input these expectation values as the centre of the sampler for the next $H$ (inverse-Wishart distribution) and $\sigma$ (Gaussian distribution) values in the sequence.
 
-## Centralised entity interactions
+Scaling in time history is probably the main nuisance here! Performance tweaking via controlling the state history depth of the stochadex will become important.
 
-_Centralised entity interactions_ divide the representation of the system state into a partitions of 'entity states' and some partition of 'centralised state' upon which interactions between entities can depend. The subgraph topology is hence a star configuration where every entity state is connected to the centralised state, but not necessarily to each other. We have provided a rough schematic for the structure below.
+## Resampling
 
-![](../assets/stochadexIV/stochadexIV-star-state-partition-graph.drawio.png)
+Start by drawing samples centred from different points, where each centre is randomly chosen from the current pool of samples with a frequency weighted by the smoothed new density of that point. If we then sample around each point using $fH$ as the covariance around the point (where $f$ is some exploration factor $<1$), we end up being able to effectively sample from the smoothed density.
 
-Which real-world control problems would this partition be useful for? Dividing the state up into a collection of entity states and some centralised state can be useful in a variety of settings. In particular, we can think of:
+## Implementation
 
-- Simulations of sports matches, e.g., football [@pulis2022reinforcement], rugby [@sawczuk2022markov], tennis [@ding2022deep], etc., and other forms of game --- all of which typically define a relatively simple global match/gameplay context as their centralised state and players as their entity states.
-- Financial (see [@fischer2018reinforcement] and [@meng2019reinforcement]) and sports betting [@cliff2021bbe] market simulations for developing algo-trading strategies and portfolio optimisation [@dangi2013financial], as well as housing market simulations (see [@yilmaz2018stochastic] and [@carro2023heterogeneous]) to evaluate government policies.
-- Simulations of other forms of resource exchange through centralised mediation, such as in prosumer energy markets [@may2023multi].
+In order to get this to work:
 
-Observations of the centralised entity interactions in the real world typically take the form of either partial or noisy detections of the states and state changes. Actors in systems which require this kind of partitioning could be sports team managers, financial/betting/other market traders or market exchange mediators. The interactions with these systems would therefore typically focus on changing which entities are present, changing their parameters and/or changing the parameters of the centralised state iteration.
+- Gaussian processes will need to be implemented in the stochadex framework
+- Online learning via gradients will need to be implemented as well
+
+**Notes migrated from another article which are now more relevant here:**
+
+In the case of the purely time-dependent kernel with a choice of Gaussian data linking distribution above, the hyperparameters that would be optimised could relate to the kernel in a wide variety of ways. Optimising them would make our optimised reweighting similar to (but very much _not_ the same as) evaluating maximum a posteriori (MAP) of a Gaussian process regression. In a Gaussian process regression, one is concerned with inferring the the whole of $X_{{\sf t}}$ as a function of time using the pairwise correlations implied by the second-order log expansion we wrote earlier. Based on this expression, the cumulative log-likelihood for a Gaussian process can be calculated as follows
+
+$$
+\begin{align}
+\ln {\cal L}_{{\sf t}+1}(Y\vert z) &= -\frac{1}{2}\sum_{{\sf t}'=({\sf t}+1)-{\sf s}}^{({\sf t}+1)}\sum_{{\sf t}''=({\sf t}+1)-{\sf s}}^{{\sf t}'} \bigg[ n\ln (2\pi ) + \ln \big\vert {\cal H}_{{\sf t}'{\sf t}''}(z)\big\vert + \sum_{i=0}^{n}\sum_{j=0}^{n} Y^i_{{\sf t}'} {\cal H}^{ij}_{{\sf t}'{\sf t}''}(z) Y^j_{{\sf t}''} \bigg] \,. \label{eq:log-likelihood-gaussian-proc}
+\end{align}
+$$
+
+**Rewrite from here to cover the theory behind optimisation code that will be put into practice in the follow-up article...**
+
+As we did for the reweighting algorithm, we have illustrated another rough schematic below for the multi-threaded code needed to compute the objective function of a learning algorithm in the stochadex, based on the equation above. Note that, in this diagram, we have assumed that the data has already been shifted such that its values are positioned around the distribution peak. Knowing where this peak will be a priori is not possible. However, for Gaussian data, an unbiased estimator for this peak will be the sample mean and so we have included an initial data standardisation in the steps outlined by the schematic.
+
+![](../assets/stochadexIV/stochadexIV-gaussian-process-code.drawio.png)
+
+**Here should also talk about how this paper shows online learning of gradients should equilibrate and then be used for debiasing the predictions:** [@angelopoulos2025gradientequilibriumonlinelearning]
+
+The optimisation approach that we choose to use for obtaining the best hyperparameters in the conditional probability of the reweighting approach will depend on a few factors. For example, if the number of hyperparameters is relatively low, but their gradients are difficult to calculate exactly; then a gradient-free optimiser (such as the Nelder-Mead [@nelder1965simplex] method or something like a particle swarm; see [@kennedy1995particle] or [@shi1998modified]) would likely be the most effective choice. On the other hand, when the number of hyperparameters ends up being relatively large, it's usually quite desirable to utilise the gradients in algorithms like vanilla Stochastic Gradient Descent [@robbins1951stochastic] (SGD) or Adam [@kingma2014adam].
 
 ## References

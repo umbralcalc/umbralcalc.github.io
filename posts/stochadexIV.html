@@ -180,6 +180,7 @@
       }
     }
   </style>
+  <script src="/usr/share/javascript/mathjax/MathJax.js" type="text/javascript"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <article class="body">
@@ -196,7 +197,7 @@ About
 </br>
 </br>
 
-<h1>Useful state partitions for real-world simulations</h1>
+<h1>Online optimisation of parameters using a simulation engine</h1>
 </br>
 <hr color="LightGray">
 <div class="articleHeader">
@@ -204,150 +205,137 @@ About
 </br>
 <strong> Date. </strong> WIP
 </br>
-<strong> Concept. </strong> To provide some practical examples of the real-world simulation types which are supported in the stochadex engine by describing a group of widely-applicable state partitions. In particular, we discuss how these partitions can be useful in simulating everything from sports matches and spatial disease spread to traffic networks and supply chain logistics. With these examples (and many others) in mind, we also consider the realistic types of observation and interaction which are possible in each case.
+<strong> Concept. </strong> To describe the design and implementation of a sequential Monte Carlo sampler which can dynamically adapt to sampling new points from nonstationary, multivariate and potentially multi-modal distributions using only a stream of noisy weighted samples as input. We control the sensitivity of this algorithm to temporal changes in the target distribution through a discounted history approach.
 </div>
 <hr color="LightGray">
 </br>
-<h2 id="entity-state-transitions">Entity state transitions</h2>
-<p>In this article we’re going to define some widely-applicable state partitions which are useful in developing simulations of real-world systems. These will help to both illustrate how partitioning the state can be helpful in conceptualising the phenomena one wishes to simulate, and provide some practical insights into how the stochadex may be configured for different purposes.</p>
-<p>We begin with the <em>entity state transition</em>, which refers to state transitions of any individual ‘entity’ that occur stochastically according to their respective transition rates. These transition rates may themselves be time-varying (even stochastically) and so it is useful to separate their values into a separate state partition and create a direct dependency channel on them, as in the rough schematic below.</p>
-<p><img src="../assets/stochadexIV/stochadexIV-simple-state-partition-graph.drawio.png" /></p>
-<p>Note how this computational structure is slightly more generic than (but related to) the event-based simulation schematics in <span class="citation" data-cites="stochadexI-2024">[1]</span>.</p>
-<p>Observations of the entity state transition in the real world typically take the form of either partial or noisy detections of the state transition times themselves over some period. Interactions with systems which require this kind of partitioning take the form of either direct changes to the entity state itself at some points in time or modifications to the rates at which state transitions occur.</p>
-<p>It seems less useful to provide all of the examples of real-world problems which might use this kind of partitioning as it applies extremely generally. It will be more informative to discuss how these same examples apply in the context of the other partitions which are more specifically applicable. Having said this, it’s worth noting that our event-based representation of state transitions can also be trivially adapted to avoid the necessity for a continuous-time representation of the system. The applications for state transition models which only require sequential ordering (but not a continuous time variable) include sequential experimental design problems, e.g., astronomical telescopes (see <span class="citation" data-cites="jia2023observation">[2]</span> and <span class="citation" data-cites="yatawatta2021deep">[3]</span>) and biological experiments <span class="citation" data-cites="treloar2022deep">[4]</span>.</p>
-<h2 id="weighted-mean-points">Weighted mean points</h2>
-<p>The <em>weighted mean point</em> performs a weighted average over a specified collection of neighbouring states. Given that one of the more natural uses cases for this partition is in spatial field averaging, the topology of the subgraph is typically totally connected and highly structured. However, some connections matter more than others, according to the weighting. We have created a rough schematic below.</p>
-<p><img src="../assets/stochadexIV/stochadexIV-spatial-state-partition-graph.drawio.png" /></p>
-<p>In the case of spatial fields, you can think of each point as being structured topologically in a kind of ‘lattice’ configuration where connections to other points are controlled indirectly by the relationship between states and their weighted point averages over time. Different distances in the lattice can contribute different importance weights in affecting each local average.</p>
-<p>Which real-world control problems would this partition be useful for? Given the natural spatial interpetation, the kinds of simulation that would leverage it are:</p>
+<h2 id="research-context">Research context</h2>
+<p>In a previous article <span class="citation" data-cites="stochadexIII-2024">[1]</span> we used a simple, but effective, technique for approximating the conditional density of simulation parameters <span class="math inline">\(P_{({\sf t}+1){\sf t}}(z\vert X&#39;,{\sf Y})\)</span> such that we are able to both update its shape with the arrival of new data as well as sample new values from it — in both cases being able to incorporate a discounted distribution ansatz into the model. This technique estimated only the first two moments of this distribution, but with techniques like particle filtering it should be possible to generate approximate samples without this limitation. In this article, we will motivate Sequential Importance Resampling (SIR) using a kernel-smoothed approximation of the distribution which takes the form</p>
+<p><span class="math display">\[
+\begin{align}
+P_{({\sf t}+1){\sf t}}(z\vert X&#39;,{\sf Y}) &amp;\simeq \int_{\zeta_{{\sf t}+1}} {\rm d}z&#39; P_{({\sf t}+1){\sf t}}(z&#39;\vert X&#39;,{\sf Y})K(z,z&#39;;H) \,,
+\end{align}
+\]</span></p>
+<p>where <span class="math inline">\(K(z,z&#39;;H)\)</span> is some smoothing kernel which helps to approximate the posterior distribution up to some specified scale using the bandwidth matrix <span class="math inline">\(H\)</span>. Note that the expression above can also be extended to make use of the full history of <span class="math inline">\(z\)</span> samples by applying the discount factor <span class="math inline">\(\beta\)</span>.</p>
+<h2 id="problem-statement">Problem statement</h2>
+<p>Say that we have a generator of probabilistic weights which takes a state history matrix <span class="math inline">\(X\)</span> as input. This generator represents a non-stationary probability distribution and the weights are effectively stochastic around the true value for each given <span class="math inline">\(X\)</span> as input. The problem is that we would like to be able to efficiently sample from the underlying distribution regardless of its shape or modality.</p>
+<p>Solution we will study is to create an adaptive sequential Monte Carlo algorithm, e.g., see <span class="citation" data-cites="del2006sequential">[2]</span> or <span class="citation" data-cites="wills2023sequential">[3]</span>.</p>
+<h2 id="adaptively-estimating-a-smoothed-density">Adaptively estimating a smoothed density</h2>
+<p>We can motivate the density smoothing model through specifying the following functional ‘distribution over distributions’ which uses a symmetrised form of the Kullback-Leibler divergence <span class="citation" data-cites="kullback1951information">[4]</span></p>
+<p><span class="math display">\[
+\begin{align}
+{\cal P}_{{\sf t}+1}[Q] &amp;\propto e^{-D^{\rm sym}_{\rm KL}[Q,P_{{\sf t}+1}]} \\
+D^{\rm sym}_{\rm KL}[Q,P_{{\sf t}+1}] &amp;= \frac{1}{2}D_{\rm KL}[Q\vert\vert P_{{\sf t}+1}] + \frac{1}{2}D_{\rm KL}[P_{{\sf t}+1} \vert\vert Q] \\
+&amp;= \frac{1}{2}\int_{\Omega_{{\sf t}+1}} {\rm d}X \, Q(X)\ln \frac{Q(X)}{P_{{\sf t}+1}(X)} + \frac{1}{2}\int_{\Omega_{{\sf t}+1}} {\rm d}X \, P_{{\sf t}+1}(X)\ln \frac{P_{{\sf t}+1}(X)}{Q(X)} \,,
+\end{align}
+\]</span></p>
+<p>where we are using the state history matrix formalism used in <span class="citation" data-cites="stochadexI-2024">[5]</span> and <span class="citation" data-cites="stochadexII-2024">[6]</span> such that <span class="math inline">\(X\)</span> corresponds to a matrix which adds a row for every new instantaneous <span class="math inline">\(x\)</span> state vector which time evolves to. Note that we can take ‘functional expectation values’ with this distribution, such that</p>
+<p><span class="math display">\[
+\begin{align}
+{\rm E}_{{\sf t}+1}[Q(X)] &amp;= \frac{\int {\cal D}[Q(X)] Q(X) e^{-D^{\rm sym}_{\rm KL}[Q(X),P_{{\sf t}+1}(X)]}}{\int {\cal D}[Q(X)] e^{-D^{\rm sym}_{\rm KL}[Q(X),P_{{\sf t}+1}(X)]}} \,.
+\end{align}
+\]</span></p>
+<p>If we then expand <span class="math inline">\(D^{\rm sym}_{\rm KL}\)</span> logarithmically around <span class="math inline">\(\ln P_{{\sf t}+1}\)</span> such that <span class="math inline">\(\ln Q=\ln P_{{\sf t}+1} + \delta \ln P_{{\sf t}+1}\)</span>, we arrive at the following approximation up to second order in the expansion</p>
+<p><span class="math display">\[
+\begin{align}
+D^{\rm sym}_{\rm KL}[e^{\ln P_{{\sf t}+1} + \delta \ln P_{{\sf t}+1}},P_{{\sf t}+1}] &amp;\simeq \frac{1}{2}\int_{\Omega_{{\sf t}+1}} {\rm d}X \,P_{{\sf t}+1}(X) [\delta \ln P_{{\sf t}+1}(X)]^2 \,.
+\end{align}
+\]</span></p>
+<p>Idea is to dynamically train the noise scale <span class="math inline">\(\sigma\)</span> and kernel bandwidth matrix <span class="math inline">\(H\)</span> of a Gaussian Process-based <span class="citation" data-cites="williams2006gaussian">[7]</span> density estimation algorithm which can be used to calculate the latest density</p>
+<p><span class="math display">\[
+\begin{align}
+{\cal P}_{{\sf t}+1}[Q(x);H,\sigma] &amp;\simeq \frac{\exp \bigg[ -\frac{1}{2} \sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\sum_{{\cal S}}(\ell_{{\sf t}&#39;}-\ell)K^{-1}_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x;H,\sigma)(\ell_{{\sf t}&#39;&#39;}-\ell) \bigg]}{\prod_{{\sf t}+1\geq {\sf t}&#39;}\prod_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\prod_{{\cal S}}\sqrt{2\pi K_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x;H,\sigma)}} \,,
+\end{align}
+\]</span></p>
+<p>where <span class="math inline">\({\cal S}\)</span> indicates the set of weighted samples and we may choose to define the kernel <span class="math inline">\(K_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x;H,\sigma)\)</span> itself as</p>
+<p><span class="math display">\[
+\begin{align}
+K_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x;H,\sigma) &amp;= \sigma^2 \beta^{{\sf t}&#39;&#39;-{\sf t}-1} B_{{\sf t}+1} \exp \bigg[ -\frac{1}{2}\sum_{i,j}(x_{{\sf t}&#39;}-x)^i(H^{-1})^{ij}(x_{{\sf t}&#39;&#39;}-x)^j\bigg] \\
+B_{{\sf t}+1} &amp;= \sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\sum_{{\cal S}}\beta^{{\sf t}+1-{\sf t}&#39;&#39;} \,.
+\end{align}
+\]</span></p>
+<p>If we were to vary <span class="math inline">\(\ell\)</span>, <span class="math inline">\(H\)</span> and <span class="math inline">\(\sigma\)</span>, the ‘distribution over distributions’ represents a probabilistic weighting for cross-validation which maximises when the best representation of <span class="math inline">\(P_{{\sf t}+1}\)</span> has been found. To find this maximum, we may use the gradient in the direction of the weights</p>
+<p><span class="math display">\[
+\begin{align}
+\frac{\partial}{\partial \ell}\ln {\cal P}_{{\sf t}+1}[Q(x);H,\sigma] &amp;\simeq \frac{1}{2} \sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\sum_{{\cal S}} \big[ (\ell_{{\sf t}&#39;}-\ell)K^{-1}_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x;H,\sigma) + K^{-1}_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x;H,\sigma)(\ell_{{\sf t}&#39;&#39;}-\ell) \big] \,,
+\end{align}
+\]</span></p>
+<p>or the gradient defined over the <span class="math inline">\((H,\sigma)\)</span> parameter space</p>
+<p><span class="math display">\[
+\begin{align}
+&amp;\frac{\partial}{\partial (H,\sigma )}\ln {\cal P}_{{\sf t}+1}[Q(x);H,\sigma] \simeq \\
+&amp;\qquad \quad \frac{1}{2}\sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\sum_{{\cal S}}\big[(\ell_{{\sf t}&#39;}-\ell)K^{-1}_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x;H,\sigma)(\ell_{{\sf t}&#39;&#39;}-\ell) - 1\big]\frac{\partial}{\partial (H,\sigma)}\ln K_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x;H,\sigma) \,,
+\end{align}
+\]</span></p>
+<p>in either a global optimisation program or alternating between maximising individual samples with respect to <span class="math inline">\(\ell\)</span> and maximising globally with respect to <span class="math inline">\((H,\sigma)\)</span>.</p>
+<p>Another pattern to consider is that of the Expectation-Maximisation algorithm, where we can alternate between optimising with respect to <span class="math inline">\(\ell\)</span> and computing the marginal expectation values for <span class="math inline">\(H\)</span> and <span class="math inline">\(\sigma\)</span> using the resulting samples and their corresponding weights like this</p>
+<p><span class="math display">\[
+\begin{align}
+{\rm E}_{{\sf t}+1}[(H,\sigma )] &amp;\simeq \frac{\sum_{X_{{\sf t}+1}} (H,\sigma ){\cal P}_{{\sf t}+1}[Q(X_{{\sf t}+1});H,\sigma]}{\sum_{X_{{\sf t}+1}}{\cal P}_{{\sf t}+1}[Q(X_{{\sf t}+1});H,\sigma]} \,.
+\end{align}
+\]</span></p>
+<p>We could then input these expectation values as the centre of the sampler for the next <span class="math inline">\(H\)</span> (inverse-Wishart distribution) and <span class="math inline">\(\sigma\)</span> (Gaussian distribution) values in the sequence.</p>
+<p>Scaling in time history is probably the main nuisance here! Performance tweaking via controlling the state history depth of the stochadex will become important.</p>
+<h2 id="resampling">Resampling</h2>
+<p>Start by drawing samples centred from different points, where each centre is randomly chosen from the current pool of samples with a frequency weighted by the smoothed new density of that point. If we then sample around each point using <span class="math inline">\(fH\)</span> as the covariance around the point (where <span class="math inline">\(f\)</span> is some exploration factor <span class="math inline">\(&lt;1\)</span>), we end up being able to effectively sample from the smoothed density.</p>
+<h2 id="implementation">Implementation</h2>
+<p>In order to get this to work:</p>
 <ul>
-<li>Spatial simulations of population disease spread and control in the context of global disease outbreaks <span class="citation" data-cites="ohi2020exploring">[5]</span> or endemic, spatially-clustered infections like malaria <span class="citation" data-cites="carter2000spatial">[6]</span>.</li>
-<li>Spatial ecosystem management environments to infer forest wildfire dynamics <span class="citation" data-cites="ganapathi2018using">[7]</span> or improve conservation decision-making <span class="citation" data-cites="lapeyrolerie2022deep">[8]</span>.</li>
-<li>Weather system simulations to improve decision-making for agricultural yields <span class="citation" data-cites="chen2021reinforcement">[9]</span> or enhance stormwater flood mitigations <span class="citation" data-cites="saliba2020deep">[10]</span>.</li>
+<li>Gaussian processes will need to be implemented in the stochadex framework</li>
+<li>Online learning via gradients will need to be implemented as well</li>
 </ul>
-<p>Observations of the weighted mean point in the real world typically take the form of either partial or noisy detections of the raw state values before averaging. Actors in systems which require this kind of partitioning could be public health or wildlife/national park authorities as well as livestock/crop farmers. The interactions with these systems would therefore focus on modifying the parameters for spatial detection of disease or damage and changing a subset of the population states directly through interventions.</p>
-<h2 id="node-histograms">Node histograms</h2>
-<p>The <em>node histogram</em> counts the frequencies of state occupations exhibited by all of the specified connected states. This partition provides a summary of information about a single network node which exists as part of a larger ‘state network’, and can be configured in collection with other partitions of the same type to represent any desirable connectivity structure. We have illustrated how it works in the rough schematic below.</p>
-<p><img src="../assets/stochadexIV/stochadexIV-network-state-partition-graph.drawio.png" /></p>
-<p>Which real-world control problems would this partition be useful for? If we consider networks which rely on counting the frequencies of neighbouring node states, the kinds of simulation that would leverage it are:</p>
-<ul>
-<li>Computational models of human brain conditions, e.g., Parkinson’s disease <span class="citation" data-cites="lu2019application">[11]</span>, epilepsy <span class="citation" data-cites="pineau2009treating">[12]</span>, Alzheimer’s <span class="citation" data-cites="saboo2021reinforcement">[13]</span>, etc., for deep brain stimulation control and other forms of treatment.</li>
-<li>Simulations of complex urban infrastructure networks to target various kinds of optimisation, e.g., traffic signal control <span class="citation" data-cites="yau2017survey">[14]</span>, power dispatch <span class="citation" data-cites="li2021integrating">[15]</span> and water pipe maintainance <span class="citation" data-cites="bukhsh2023maintenance">[16]</span>.</li>
-</ul>
-<p>Observations of the node histogram in the real world typically take the form of either partial or noisy detections of the counts. Actors in systems which require this kind of partitioning could be a neurologist, traffic light controller or even city infrastructure maintainer. In all cases, interactions with these systems would typically be directly changing the state of some subset of nodes in the network itself.</p>
-<h2 id="pipeline-stage-state-histograms">Pipeline stage state histograms</h2>
-<p>The <em>pipeline stage state histogram</em> counts the frequencies of entity types which exist in a particular stage of some pipeline. These partitions can be connected together in a directed subgraph to represent a multi-stage pipeline structure. We’ve provided a rough schematic below.</p>
-<p><img src="../assets/stochadexIV/stochadexIV-pipeline-state-partition-graph.drawio.png" /></p>
-<p>Which real-world control problems would this partition be useful for? If we think about multi-stage pipelines whose future states depend on the frequencies of entity types which exist at each stage, the following real-world examples come to mind:</p>
-<ul>
-<li>Logistics problems, e.g., organised supply chains <span class="citation" data-cites="yan2022reinforcement">[17]</span>, humanitarian aid distribution pipelines <span class="citation" data-cites="yu2021reinforcement">[18]</span> and hospital capacity planning <span class="citation" data-cites="shuvo2021deep">[19]</span>.</li>
-<li>Software development and engineering improvements, such as frontend user interface journeys <span class="citation" data-cites="lomas2016interface">[20]</span> across a population of users or backend data pipeline optimisation problems <span class="citation" data-cites="nagrecha2023intune">[21]</span>.</li>
-</ul>
-<p>Observations of the pipeline stage state histogram in the real world typically take the form of either partial or noisy detections of the entity stage transtition events in time and/or the frequency counts in the stage itself. Actors in systems which require this kind of partitioning could be a supply/relief chain controller, hospital logistics manager, data pipeline maintainer or even software engineer. In all cases, interactions with these systems would likely be directly modifying the relative flows between different pipeline stages.</p>
-<h2 id="centralised-entity-interactions">Centralised entity interactions</h2>
-<p><em>Centralised entity interactions</em> divide the representation of the system state into a partitions of ‘entity states’ and some partition of ‘centralised state’ upon which interactions between entities can depend. The subgraph topology is hence a star configuration where every entity state is connected to the centralised state, but not necessarily to each other. We have provided a rough schematic for the structure below.</p>
-<p><img src="../assets/stochadexIV/stochadexIV-star-state-partition-graph.drawio.png" /></p>
-<p>Which real-world control problems would this partition be useful for? Dividing the state up into a collection of entity states and some centralised state can be useful in a variety of settings. In particular, we can think of:</p>
-<ul>
-<li>Simulations of sports matches, e.g., football <span class="citation" data-cites="pulis2022reinforcement">[22]</span>, rugby <span class="citation" data-cites="sawczuk2022markov">[23]</span>, tennis <span class="citation" data-cites="ding2022deep">[24]</span>, etc., and other forms of game — all of which typically define a relatively simple global match/gameplay context as their centralised state and players as their entity states.</li>
-<li>Financial (see <span class="citation" data-cites="fischer2018reinforcement">[25]</span> and <span class="citation" data-cites="meng2019reinforcement">[26]</span>) and sports betting <span class="citation" data-cites="cliff2021bbe">[27]</span> market simulations for developing algo-trading strategies and portfolio optimisation <span class="citation" data-cites="dangi2013financial">[28]</span>, as well as housing market simulations (see <span class="citation" data-cites="yilmaz2018stochastic">[29]</span> and <span class="citation" data-cites="carro2023heterogeneous">[30]</span>) to evaluate government policies.</li>
-<li>Simulations of other forms of resource exchange through centralised mediation, such as in prosumer energy markets <span class="citation" data-cites="may2023multi">[31]</span>.</li>
-</ul>
-<p>Observations of the centralised entity interactions in the real world typically take the form of either partial or noisy detections of the states and state changes. Actors in systems which require this kind of partitioning could be sports team managers, financial/betting/other market traders or market exchange mediators. The interactions with these systems would therefore typically focus on changing which entities are present, changing their parameters and/or changing the parameters of the centralised state iteration.</p>
+<p><strong>Notes migrated from another article which are now more relevant here:</strong></p>
+<p>In the case of the purely time-dependent kernel with a choice of Gaussian data linking distribution above, the hyperparameters that would be optimised could relate to the kernel in a wide variety of ways. Optimising them would make our optimised reweighting similar to (but very much <em>not</em> the same as) evaluating maximum a posteriori (MAP) of a Gaussian process regression. In a Gaussian process regression, one is concerned with inferring the the whole of <span class="math inline">\(X_{{\sf t}}\)</span> as a function of time using the pairwise correlations implied by the second-order log expansion we wrote earlier. Based on this expression, the cumulative log-likelihood for a Gaussian process can be calculated as follows</p>
+<p><span class="math display">\[
+\begin{align}
+\ln {\cal L}_{{\sf t}+1}(Y\vert z) &amp;= -\frac{1}{2}\sum_{{\sf t}&#39;=({\sf t}+1)-{\sf s}}^{({\sf t}+1)}\sum_{{\sf t}&#39;&#39;=({\sf t}+1)-{\sf s}}^{{\sf t}&#39;} \bigg[ n\ln (2\pi ) + \ln \big\vert {\cal H}_{{\sf t}&#39;{\sf t}&#39;&#39;}(z)\big\vert + \sum_{i=0}^{n}\sum_{j=0}^{n} Y^i_{{\sf t}&#39;} {\cal H}^{ij}_{{\sf t}&#39;{\sf t}&#39;&#39;}(z) Y^j_{{\sf t}&#39;&#39;} \bigg] \,. \label{eq:log-likelihood-gaussian-proc}
+\end{align}
+\]</span></p>
+<p><strong>Rewrite from here to cover the theory behind optimisation code that will be put into practice in the follow-up article…</strong></p>
+<p>As we did for the reweighting algorithm, we have illustrated another rough schematic below for the multi-threaded code needed to compute the objective function of a learning algorithm in the stochadex, based on the equation above. Note that, in this diagram, we have assumed that the data has already been shifted such that its values are positioned around the distribution peak. Knowing where this peak will be a priori is not possible. However, for Gaussian data, an unbiased estimator for this peak will be the sample mean and so we have included an initial data standardisation in the steps outlined by the schematic.</p>
+<p><img src="../assets/stochadexIV/stochadexIV-gaussian-process-code.drawio.png" /></p>
+<p><strong>Here should also talk about how this paper shows online learning of gradients should equilibrate and then be used for debiasing the predictions:</strong> <span class="citation" data-cites="angelopoulos2025gradientequilibriumonlinelearning">[8]</span></p>
+<p>The optimisation approach that we choose to use for obtaining the best hyperparameters in the conditional probability of the reweighting approach will depend on a few factors. For example, if the number of hyperparameters is relatively low, but their gradients are difficult to calculate exactly; then a gradient-free optimiser (such as the Nelder-Mead <span class="citation" data-cites="nelder1965simplex">[9]</span> method or something like a particle swarm; see <span class="citation" data-cites="kennedy1995particle">[10]</span> or <span class="citation" data-cites="shi1998modified">[11]</span>) would likely be the most effective choice. On the other hand, when the number of hyperparameters ends up being relatively large, it’s usually quite desirable to utilise the gradients in algorithms like vanilla Stochastic Gradient Descent <span class="citation" data-cites="robbins1951stochastic">[12]</span> (SGD) or Adam <span class="citation" data-cites="kingma2014adam">[13]</span>.</p>
 <h2 class="unnumbered" id="references">References</h2>
 <div id="refs" class="references csl-bib-body" role="list">
+<div id="ref-stochadexIII-2024" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[1] </div><div class="csl-right-inline">R. J. Hardwick, <span>“Self-learning simulations,”</span> <em>umbralcalculations (umbralcalc.github.io/posts/stochadexIII.html)</em>, 2024.</div>
+</div>
+<div id="ref-del2006sequential" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[2] </div><div class="csl-right-inline">P. Del Moral, A. Doucet, and A. Jasra, <span>“Sequential monte carlo samplers,”</span> <em>Journal of the Royal Statistical Society Series B: Statistical Methodology</em>, vol. 68, no. 3, pp. 411–436, 2006.</div>
+</div>
+<div id="ref-wills2023sequential" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[3] </div><div class="csl-right-inline">A. G. Wills and T. B. Schön, <span>“Sequential monte carlo: A unified review,”</span> <em>Annual Review of Control, Robotics, and Autonomous Systems</em>, vol. 6, pp. 159–182, 2023.</div>
+</div>
+<div id="ref-kullback1951information" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[4] </div><div class="csl-right-inline">S. Kullback and R. A. Leibler, <span>“On information and sufficiency,”</span> <em>The annals of mathematical statistics</em>, vol. 22, no. 1, pp. 79–86, 1951.</div>
+</div>
 <div id="ref-stochadexI-2024" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[1] </div><div class="csl-right-inline">R. J. Hardwick, <span>“Building a generalised simulation engine,”</span> <em>umbralcalculations (umbralcalc.github.io/posts/stochadexI.html)</em>, 2024.</div>
+<div class="csl-left-margin">[5] </div><div class="csl-right-inline">R. J. Hardwick, <span>“Building a generalised simulation engine,”</span> <em>umbralcalculations (umbralcalc.github.io/posts/stochadexI.html)</em>, 2024.</div>
 </div>
-<div id="ref-jia2023observation" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[2] </div><div class="csl-right-inline">P. Jia, Q. Jia, T. Jiang, and J. Liu, <span>“Observation strategy optimization for distributed telescope arrays with deep reinforcement learning,”</span> <em>The Astronomical Journal</em>, vol. 165, no. 6, p. 233, 2023.</div>
+<div id="ref-stochadexII-2024" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[6] </div><div class="csl-right-inline">R. J. Hardwick, <span>“Probabilistic learning methods embedded within a simulation engine,”</span> <em>umbralcalculations (umbralcalc.github.io/posts/stochadexII.html)</em>, 2024.</div>
 </div>
-<div id="ref-yatawatta2021deep" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[3] </div><div class="csl-right-inline">S. Yatawatta and I. M. Avruch, <span>“Deep reinforcement learning for smart calibration of radio telescopes,”</span> <em>Monthly Notices of the Royal Astronomical Society</em>, vol. 505, no. 2, pp. 2141–2150, 2021.</div>
+<div id="ref-williams2006gaussian" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[7] </div><div class="csl-right-inline">C. K. Williams and C. E. Rasmussen, <em>Gaussian processes for machine learning</em>, vol. 2. MIT press Cambridge, MA, 2006.</div>
 </div>
-<div id="ref-treloar2022deep" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[4] </div><div class="csl-right-inline">N. J. Treloar, N. Braniff, B. Ingalls, and C. P. Barnes, <span>“Deep reinforcement learning for optimal experimental design in biology,”</span> <em>PLOS Computational Biology</em>, vol. 18, no. 11, p. e1010695, 2022.</div>
+<div id="ref-angelopoulos2025gradientequilibriumonlinelearning" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[8] </div><div class="csl-right-inline">A. N. Angelopoulos, M. I. Jordan, and R. J. Tibshirani, <span>“Gradient equilibrium in online learning: Theory and applications.”</span> 2025. Available: <a href="https://arxiv.org/abs/2501.08330">https://arxiv.org/abs/2501.08330</a></div>
 </div>
-<div id="ref-ohi2020exploring" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[5] </div><div class="csl-right-inline">A. Q. Ohi, M. Mridha, M. M. Monowar, and M. A. Hamid, <span>“Exploring optimal control of epidemic spread using reinforcement learning,”</span> <em>Scientific reports</em>, vol. 10, no. 1, p. 22106, 2020.</div>
+<div id="ref-nelder1965simplex" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[9] </div><div class="csl-right-inline">J. A. Nelder and R. Mead, <span>“A simplex method for function minimization,”</span> <em>The computer journal</em>, vol. 7, no. 4, pp. 308–313, 1965.</div>
 </div>
-<div id="ref-carter2000spatial" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[6] </div><div class="csl-right-inline">R. Carter, K. N. Mendis, and D. Roberts, <span>“Spatial targeting of interventions against malaria,”</span> <em>Bulletin of the World Health Organization</em>, vol. 78, pp. 1401–1411, 2000.</div>
+<div id="ref-kennedy1995particle" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[10] </div><div class="csl-right-inline">J. Kennedy and R. Eberhart, <span>“Particle swarm optimization,”</span> in <em>Proceedings of ICNN’95-international conference on neural networks</em>, IEEE, 1995, pp. 1942–1948.</div>
 </div>
-<div id="ref-ganapathi2018using" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[7] </div><div class="csl-right-inline">S. Ganapathi Subramanian and M. Crowley, <span>“Using spatial reinforcement learning to build forest wildfire dynamics models from satellite images,”</span> <em>Frontiers in ICT</em>, vol. 5, p. 6, 2018.</div>
+<div id="ref-shi1998modified" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[11] </div><div class="csl-right-inline">Y. Shi and R. Eberhart, <span>“A modified particle swarm optimizer,”</span> in <em>1998 IEEE international conference on evolutionary computation proceedings. IEEE world congress on computational intelligence (cat. No. 98TH8360)</em>, IEEE, 1998, pp. 69–73.</div>
 </div>
-<div id="ref-lapeyrolerie2022deep" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[8] </div><div class="csl-right-inline">M. Lapeyrolerie, M. S. Chapman, K. E. Norman, and C. Boettiger, <span>“Deep reinforcement learning for conservation decisions,”</span> <em>Methods in Ecology and Evolution</em>, vol. 13, no. 11, pp. 2649–2662, 2022.</div>
+<div id="ref-robbins1951stochastic" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[12] </div><div class="csl-right-inline">H. Robbins and S. Monro, <span>“A stochastic approximation method,”</span> <em>The annals of mathematical statistics</em>, pp. 400–407, 1951.</div>
 </div>
-<div id="ref-chen2021reinforcement" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[9] </div><div class="csl-right-inline">M. Chen <em>et al.</em>, <span>“A reinforcement learning approach to irrigation decision-making for rice using weather forecasts,”</span> <em>Agricultural Water Management</em>, vol. 250, p. 106838, 2021.</div>
-</div>
-<div id="ref-saliba2020deep" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[10] </div><div class="csl-right-inline">S. M. Saliba, B. D. Bowes, S. Adams, P. A. Beling, and J. L. Goodall, <span>“Deep reinforcement learning with uncertain data for real-time stormwater system control and flood mitigation,”</span> <em>Water</em>, vol. 12, no. 11, p. 3222, 2020.</div>
-</div>
-<div id="ref-lu2019application" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[11] </div><div class="csl-right-inline">M. Lu, X. Wei, Y. Che, J. Wang, and K. A. Loparo, <span>“Application of reinforcement learning to deep brain stimulation in a computational model of parkinson’s disease,”</span> <em>IEEE Transactions on Neural Systems and Rehabilitation Engineering</em>, vol. 28, no. 1, pp. 339–349, 2019.</div>
-</div>
-<div id="ref-pineau2009treating" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[12] </div><div class="csl-right-inline">J. Pineau, A. Guez, R. Vincent, G. Panuccio, and M. Avoli, <span>“Treating epilepsy via adaptive neurostimulation: A reinforcement learning approach,”</span> <em>International journal of neural systems</em>, vol. 19, no. 4, pp. 227–240, 2009.</div>
-</div>
-<div id="ref-saboo2021reinforcement" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[13] </div><div class="csl-right-inline">K. Saboo, A. Choudhary, Y. Cao, G. Worrell, D. Jones, and R. Iyer, <span>“Reinforcement learning based disease progression model for alzheimer’s disease,”</span> <em>Advances in Neural Information Processing Systems</em>, vol. 34, pp. 20903–20915, 2021.</div>
-</div>
-<div id="ref-yau2017survey" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[14] </div><div class="csl-right-inline">K.-L. A. Yau, J. Qadir, H. L. Khoo, M. H. Ling, and P. Komisarczuk, <span>“A survey on reinforcement learning models and algorithms for traffic signal control,”</span> <em>ACM Computing Surveys (CSUR)</em>, vol. 50, no. 3, pp. 1–38, 2017.</div>
-</div>
-<div id="ref-li2021integrating" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[15] </div><div class="csl-right-inline">Q. Li <em>et al.</em>, <span>“Integrating reinforcement learning and optimal power dispatch to enhance power grid resilience,”</span> <em>IEEE Transactions on Circuits and Systems II: Express Briefs</em>, vol. 69, no. 3, pp. 1402–1406, 2021.</div>
-</div>
-<div id="ref-bukhsh2023maintenance" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[16] </div><div class="csl-right-inline">Z. A. Bukhsh, H. Molegraaf, and N. Jansen, <span>“A maintenance planning framework using online and offline deep reinforcement learning,”</span> <em>Neural Computing and Applications</em>, pp. 1–12, 2023.</div>
-</div>
-<div id="ref-yan2022reinforcement" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[17] </div><div class="csl-right-inline">Y. Yan, A. H. Chow, C. P. Ho, Y.-H. Kuo, Q. Wu, and C. Ying, <span>“Reinforcement learning for logistics and supply chain management: Methodologies, state of the art, and future opportunities,”</span> <em>Transportation Research Part E: Logistics and Transportation Review</em>, vol. 162, p. 102712, 2022.</div>
-</div>
-<div id="ref-yu2021reinforcement" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[18] </div><div class="csl-right-inline">L. Yu, C. Zhang, J. Jiang, H. Yang, and H. Shang, <span>“Reinforcement learning approach for resource allocation in humanitarian logistics,”</span> <em>Expert Systems with Applications</em>, vol. 173, p. 114663, 2021.</div>
-</div>
-<div id="ref-shuvo2021deep" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[19] </div><div class="csl-right-inline">S. S. Shuvo, M. R. Ahmed, H. Symum, and Y. Yilmaz, <span>“Deep reinforcement learning based cost-benefit analysis for hospital capacity planning,”</span> in <em>2021 international joint conference on neural networks (IJCNN)</em>, IEEE, 2021, pp. 1–7.</div>
-</div>
-<div id="ref-lomas2016interface" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[20] </div><div class="csl-right-inline">J. D. Lomas <em>et al.</em>, <span>“Interface design optimization as a multi-armed bandit problem,”</span> in <em>Proceedings of the 2016 CHI conference on human factors in computing systems</em>, 2016, pp. 4142–4153.</div>
-</div>
-<div id="ref-nagrecha2023intune" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[21] </div><div class="csl-right-inline">K. Nagrecha, L. Liu, P. Delgado, and P. Padmanabhan, <span>“InTune: Reinforcement learning-based data pipeline optimization for deep recommendation models,”</span> in <em>Proceedings of the 17th ACM conference on recommender systems</em>, 2023, pp. 430–442.</div>
-</div>
-<div id="ref-pulis2022reinforcement" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[22] </div><div class="csl-right-inline">M. Pulis and J. Bajada, <span>“Reinforcement learning for football player decision making analysis,”</span> in <em>StatsBomb conference</em>, 2022.</div>
-</div>
-<div id="ref-sawczuk2022markov" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[23] </div><div class="csl-right-inline">T. Sawczuk, A. Palczewska, and B. Jones, <span>“Markov decision processes with contextual nodes as a method of assessing attacking player performance in rugby league,”</span> in <em>Advances in computational intelligence systems: Contributions presented at the 20th UK workshop on computational intelligence, september 8-10, 2021, aberystwyth, wales, UK 20</em>, Springer, 2022, pp. 251–263.</div>
-</div>
-<div id="ref-ding2022deep" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[24] </div><div class="csl-right-inline">N. Ding, K. Takeda, and K. Fujii, <span>“Deep reinforcement learning in a racket sport for player evaluation with technical and tactical contexts,”</span> <em>IEEE Access</em>, vol. 10, pp. 54764–54772, 2022.</div>
-</div>
-<div id="ref-fischer2018reinforcement" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[25] </div><div class="csl-right-inline">T. G. Fischer, <span>“Reinforcement learning in financial markets-a survey,”</span> FAU Discussion Papers in Economics, 2018.</div>
-</div>
-<div id="ref-meng2019reinforcement" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[26] </div><div class="csl-right-inline">T. L. Meng and M. Khushi, <span>“Reinforcement learning in financial markets,”</span> <em>Data</em>, vol. 4, no. 3, p. 110, 2019.</div>
-</div>
-<div id="ref-cliff2021bbe" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[27] </div><div class="csl-right-inline">D. Cliff, <span>“BBE: Simulating the microstructural dynamics of an in-play betting exchange via agent-based modelling,”</span> <em>arXiv preprint arXiv:2105.08310</em>, 2021.</div>
-</div>
-<div id="ref-dangi2013financial" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[28] </div><div class="csl-right-inline">A. Dangi, <span>“Financial portfolio optimization: Computationally guided agents to investigate, analyse and invest!?”</span> <em>arXiv preprint arXiv:1301.4194</em>, 2013.</div>
-</div>
-<div id="ref-yilmaz2018stochastic" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[29] </div><div class="csl-right-inline">B. Yilmaz and A. Selcuk-Kestel, <span>“A stochastic approach to model housing markets: The US housing market case,”</span> <em>Numerical Algebra Control and Optimization</em>, vol. 8, no. 4, 2018.</div>
-</div>
-<div id="ref-carro2023heterogeneous" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[30] </div><div class="csl-right-inline">A. Carro, M. Hinterschweiger, A. Uluc, and J. D. Farmer, <span>“Heterogeneous effects and spillovers of macroprudential policy in an agent-based model of the UK housing market,”</span> <em>Industrial and Corporate Change</em>, vol. 32, no. 2, pp. 386–432, 2023.</div>
-</div>
-<div id="ref-may2023multi" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[31] </div><div class="csl-right-inline">R. May and P. Huang, <span>“A multi-agent reinforcement learning approach for investigating and optimising peer-to-peer prosumer energy markets,”</span> <em>Applied Energy</em>, vol. 334, p. 120705, 2023.</div>
+<div id="ref-kingma2014adam" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[13] </div><div class="csl-right-inline">D. P. Kingma and J. Ba, <span>“Adam: A method for stochastic optimization,”</span> <em>arXiv preprint arXiv:1412.6980</em>, 2014.</div>
 </div>
 </div>
 <span class="custom-spacer"></span>
@@ -355,7 +343,7 @@ About
 <div class="articleHeader">
   <strong> Cite. </strong> You can cite this article using the following BibTeX:
 <code><pre>@article{stochadexIV-WIP,
-  title = {Useful state partitions for real-world simulations},
+  title = {Online optimisation of parameters using a simulation engine},
   author = {Hardwick, Robert J},
   journal = {umbralcalculations (umbralcalc.github.io/posts/stochadexIV.html)},
   year = {WIP},
