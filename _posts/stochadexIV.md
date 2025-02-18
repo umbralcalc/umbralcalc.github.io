@@ -1,5 +1,5 @@
 ---
-title: Online optimisation of parameters using a simulation engine
+title: Online learning of arbitrary probability distributions using a simulation engine
 author: Hardwick, Robert J
 date: [WIP]
 concept: To describe the design and implementation of a sequential Monte Carlo sampler which can dynamically adapt to sampling new points from nonstationary, multivariate and potentially multi-modal distributions using only a stream of noisy weighted samples as input. We control the sensitivity of this algorithm to temporal changes in the target distribution through a discounted history approach.
@@ -9,6 +9,8 @@ year: [WIP]
 ---
 
 ## Research context
+
+**Rewrite this article from the perspective of not just inferring $P(z)$ but also $P(x)$!**
 
 In a previous article [@stochadexIII-2024] we used a simple, but effective, technique for approximating the conditional density of simulation parameters $P_{({\sf t}+1){\sf t}}(z\vert X',{\sf Y})$ such that we are able to both update its shape with the arrival of new data as well as sample new values from it --- in both cases being able to incorporate a discounted distribution ansatz into the model. This technique estimated only the first two moments of this distribution, but with techniques like particle filtering it should be possible to generate approximate samples without this limitation. In this article, we will motivate Sequential Importance Resampling (SIR) using a kernel-smoothed approximation of the distribution which takes the form
 
