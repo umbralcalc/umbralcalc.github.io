@@ -210,7 +210,6 @@ About
 <hr color="LightGray">
 </br>
 <h2 id="research-context">Research context</h2>
-<p><strong>Rewrite this article from the perspective of not just inferring <span class="math inline">\(P(z)\)</span> but also <span class="math inline">\(P(x)\)</span>!</strong></p>
 <p>In a previous article <span class="citation" data-cites="stochadexIII-2024">[1]</span> we used a simple, but effective, technique for approximating the conditional density of simulation parameters <span class="math inline">\(P_{({\sf t}+1){\sf t}}(z\vert X&#39;,{\sf Y})\)</span> such that we are able to both update its shape with the arrival of new data as well as sample new values from it — in both cases being able to incorporate a discounted distribution ansatz into the model. This technique estimated only the first two moments of this distribution, but with techniques like particle filtering it should be possible to generate approximate samples without this limitation. In this article, we will motivate Sequential Importance Resampling (SIR) using a kernel-smoothed approximation of the distribution which takes the form</p>
 <p><span class="math display">\[
 \begin{align}
