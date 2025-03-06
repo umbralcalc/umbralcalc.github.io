@@ -213,78 +213,43 @@ About
 <p>In a previous article <span class="citation" data-cites="stochadexIII-2024">[1]</span> we used a simple, but effective, technique for approximating the conditional density of simulation parameters <span class="math inline">\(P_{({\sf t}+1){\sf t}}(z\vert X&#39;,{\sf Y})\)</span> such that we are able to both update its shape with the arrival of new data as well as sample new values from it — in both cases being able to incorporate a discounted distribution ansatz into the model. This technique estimated only the first two moments of this distribution, but with techniques like particle filtering it should be possible to generate approximate samples without this limitation. In this article, we will motivate Sequential Importance Resampling (SIR) using a kernel-smoothed approximation of the distribution which takes the form</p>
 <p><span class="math display">\[
 \begin{align}
-P_{({\sf t}+1){\sf t}}(z\vert X&#39;,{\sf Y}) &amp;\simeq \int_{\zeta_{{\sf t}+1}} {\rm d}z&#39; P_{({\sf t}+1){\sf t}}(z&#39;\vert X&#39;,{\sf Y})K(z,z&#39;;H) \,,
+P_{({\sf t}+1){\sf t}}(z\vert X&#39;,{\sf Y}) \simeq Q_{({\sf t}+1){\sf t}}(z\vert X&#39;,{\sf Y}) \propto \sum_{{\sf t}&#39;={\sf t}-{\sf s}}^{{\sf t}}\int_{\zeta_{{\sf t}&#39;+1}} {\rm d}z&#39; P_{({\sf t}&#39;+1){\sf t}&#39;}(z&#39;\vert X&#39;&#39;,{\sf Y})K_{({\sf t}+1){\sf t}&#39;}(z,z&#39;;H) \,,
 \end{align}
 \]</span></p>
-<p>where <span class="math inline">\(K(z,z&#39;;H)\)</span> is some smoothing kernel which helps to approximate the posterior distribution up to some specified scale using the bandwidth matrix <span class="math inline">\(H\)</span>. Note that the expression above can also be extended to make use of the full history of <span class="math inline">\(z\)</span> samples by applying the discount factor <span class="math inline">\(\beta\)</span>.</p>
-<h2 id="problem-statement">Problem statement</h2>
-<p>Say that we have a generator of probabilistic weights which takes a state history matrix <span class="math inline">\(X\)</span> as input. This generator represents a non-stationary probability distribution and the weights are effectively stochastic around the true value for each given <span class="math inline">\(X\)</span> as input. The problem is that we would like to be able to efficiently sample from the underlying distribution regardless of its shape or modality.</p>
+<p>where <span class="math inline">\(K_{({\sf t}+1){\sf t}&#39;}(z,z&#39;;H)\)</span> is some smoothing kernel which helps to approximate the posterior distribution up to some specified scale using the bandwidth matrix <span class="math inline">\(H\)</span>, making use of the full history of <span class="math inline">\(z\)</span> samples. A Gaussian kernel would take the form</p>
+<p><span class="math display">\[
+\begin{align}
+K_{({\sf t}+1){\sf t}&#39;}(z,z&#39;;H) &amp;= \beta^{{\sf t}+1-{\sf t}&#39;} \exp \bigg[ -\frac{1}{2}\sum_{i,j}(z&#39;-z)^i(H^{-1})^{ij}(z&#39;-z)^j\bigg] \,,
+\end{align}
+\]</span></p>
+<p>where <span class="math inline">\(\beta\)</span> is the past-discounting factor. Say that we have a generator of probabilistic weights and <span class="math inline">\(z\)</span> values in time. This generator represents a non-stationary probability distribution and the weights are effectively stochastic around the true value for each given <span class="math inline">\(z\)</span> as input. The problem is that we would like to be able to efficiently sample from the underlying distribution regardless of its shape or modality.</p>
 <p>Solution we will study is to create an adaptive sequential Monte Carlo algorithm, e.g., see <span class="citation" data-cites="del2006sequential">[2]</span> or <span class="citation" data-cites="wills2023sequential">[3]</span>.</p>
 <h2 id="adaptively-estimating-a-smoothed-density">Adaptively estimating a smoothed density</h2>
 <p>We can motivate the density smoothing model through specifying the following functional ‘distribution over distributions’ which uses a symmetrised form of the Kullback-Leibler divergence <span class="citation" data-cites="kullback1951information">[4]</span></p>
 <p><span class="math display">\[
 \begin{align}
-{\cal P}_{{\sf t}+1}[Q] &amp;\propto e^{-D^{\rm sym}_{\rm KL}[Q,P_{{\sf t}+1}]} \\
-D^{\rm sym}_{\rm KL}[Q,P_{{\sf t}+1}] &amp;= \frac{1}{2}D_{\rm KL}[Q\vert\vert P_{{\sf t}+1}] + \frac{1}{2}D_{\rm KL}[P_{{\sf t}+1} \vert\vert Q] \\
-&amp;= \frac{1}{2}\int_{\Omega_{{\sf t}+1}} {\rm d}X \, Q(X)\ln \frac{Q(X)}{P_{{\sf t}+1}(X)} + \frac{1}{2}\int_{\Omega_{{\sf t}+1}} {\rm d}X \, P_{{\sf t}+1}(X)\ln \frac{P_{{\sf t}+1}(X)}{Q(X)} \,,
+{\cal P}_{({\sf t}+1){\sf t}}[Q_{({\sf t}+1){\sf t}}] &amp;\propto e^{-D^{\rm sym}_{\rm KL}[Q_{({\sf t}+1){\sf t}},P_{({\sf t}+1){\sf t}}]} \\
+D^{\rm sym}_{\rm KL}[Q_{({\sf t}+1){\sf t}},P_{({\sf t}+1){\sf t}}] &amp;= \frac{1}{2}D_{\rm KL}[Q_{({\sf t}+1){\sf t}}\vert\vert P_{({\sf t}+1){\sf t}}] + \frac{1}{2}D_{\rm KL}[P_{({\sf t}+1){\sf t}} \vert\vert Q_{({\sf t}+1){\sf t}}] \\
+&amp;= \frac{1}{2}\int_{\zeta_{{\sf t}+1}} {\rm d}z \, Q_{({\sf t}+1){\sf t}}(z\vert X&#39;,{\sf Y})\ln \frac{Q_{({\sf t}+1){\sf t}}(z\vert X&#39;,{\sf Y})}{P_{({\sf t}+1){\sf t}}(z\vert X&#39;,{\sf Y})} \\
+&amp;\qquad + \frac{1}{2}\int_{\zeta_{{\sf t}+1}} {\rm d}z \, P_{({\sf t}+1){\sf t}}(z\vert X&#39;,{\sf Y})\ln \frac{P_{({\sf t}+1){\sf t}}(z\vert X&#39;,{\sf Y})}{Q_{({\sf t}+1){\sf t}}(z\vert X&#39;,{\sf Y})} \,,
 \end{align}
 \]</span></p>
-<p>where we are using the state history matrix formalism used in <span class="citation" data-cites="stochadexI-2024">[5]</span> and <span class="citation" data-cites="stochadexII-2024">[6]</span> such that <span class="math inline">\(X\)</span> corresponds to a matrix which adds a row for every new instantaneous <span class="math inline">\(x\)</span> state vector which time evolves to. Note that we can take ‘functional expectation values’ with this distribution, such that</p>
+<p>Note that we can take ‘functional expectation values’ with this distribution, such that</p>
 <p><span class="math display">\[
 \begin{align}
-{\rm E}_{{\sf t}+1}[Q(X)] &amp;= \frac{\int {\cal D}[Q(X)] Q(X) e^{-D^{\rm sym}_{\rm KL}[Q(X),P_{{\sf t}+1}(X)]}}{\int {\cal D}[Q(X)] e^{-D^{\rm sym}_{\rm KL}[Q(X),P_{{\sf t}+1}(X)]}} \,.
+{\rm E}_{{\sf t}+1}[Q_{({\sf t}+1){\sf t}}] &amp;= \frac{\int {\cal D}[Q_{({\sf t}+1){\sf t}}] Q_{({\sf t}+1){\sf t}} e^{-D^{\rm sym}_{\rm KL}[Q_{({\sf t}+1){\sf t}},P_{({\sf t}+1){\sf t}}]}}{\int {\cal D}[Q_{({\sf t}+1){\sf t}}] e^{-D^{\rm sym}_{\rm KL}[Q_{({\sf t}+1){\sf t}},P_{({\sf t}+1){\sf t}}]}} \,.
 \end{align}
 \]</span></p>
-<p>If we then expand <span class="math inline">\(D^{\rm sym}_{\rm KL}\)</span> logarithmically around <span class="math inline">\(\ln P_{{\sf t}+1}\)</span> such that <span class="math inline">\(\ln Q=\ln P_{{\sf t}+1} + \delta \ln P_{{\sf t}+1}\)</span>, we arrive at the following approximation up to second order in the expansion</p>
+<p>Another pattern to consider is that of the Expectation-Maximisation algorithm, where we can alternate between optimising with respect to <span class="math inline">\(\ell\)</span> and computing the marginal expectation values for <span class="math inline">\(H\)</span> using the resulting samples and their corresponding weights like this</p>
 <p><span class="math display">\[
 \begin{align}
-D^{\rm sym}_{\rm KL}[e^{\ln P_{{\sf t}+1} + \delta \ln P_{{\sf t}+1}},P_{{\sf t}+1}] &amp;\simeq \frac{1}{2}\int_{\Omega_{{\sf t}+1}} {\rm d}X \,P_{{\sf t}+1}(X) [\delta \ln P_{{\sf t}+1}(X)]^2 \,.
+{\rm E}_{{\sf t}+1}[H] &amp;\simeq \frac{\sum_{H}H{\cal P}_{({\sf t}+1){\sf t}}[Q_{({\sf t}+1){\sf t}};H]}{\sum_{H}{\cal P}_{({\sf t}+1){\sf t}}[Q_{({\sf t}+1){\sf t}};H]} \,.
 \end{align}
 \]</span></p>
-<p>Idea is to dynamically train the noise scale <span class="math inline">\(\sigma\)</span> and kernel bandwidth matrix <span class="math inline">\(H\)</span> of a Gaussian Process-based <span class="citation" data-cites="williams2006gaussian">[7]</span> density estimation algorithm which can be used to calculate the latest density</p>
-<p><span class="math display">\[
-\begin{align}
-{\cal P}_{{\sf t}+1}[Q(x);H,\sigma] &amp;\simeq \frac{\exp \bigg[ -\frac{1}{2} \sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\sum_{{\cal S}}(\ell_{{\sf t}&#39;}-\ell)K^{-1}_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x;H,\sigma)(\ell_{{\sf t}&#39;&#39;}-\ell) \bigg]}{\prod_{{\sf t}+1\geq {\sf t}&#39;}\prod_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\prod_{{\cal S}}\sqrt{2\pi K_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x;H,\sigma)}} \,,
-\end{align}
-\]</span></p>
-<p>where <span class="math inline">\({\cal S}\)</span> indicates the set of weighted samples and we may choose to define the kernel <span class="math inline">\(K_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x;H,\sigma)\)</span> itself as</p>
-<p><span class="math display">\[
-\begin{align}
-K_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x;H,\sigma) &amp;= \sigma^2 \beta^{{\sf t}&#39;&#39;-{\sf t}-1} B_{{\sf t}+1} \exp \bigg[ -\frac{1}{2}\sum_{i,j}(x_{{\sf t}&#39;}-x)^i(H^{-1})^{ij}(x_{{\sf t}&#39;&#39;}-x)^j\bigg] \\
-B_{{\sf t}+1} &amp;= \sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\sum_{{\cal S}}\beta^{{\sf t}+1-{\sf t}&#39;&#39;} \,.
-\end{align}
-\]</span></p>
-<p>If we were to vary <span class="math inline">\(\ell\)</span>, <span class="math inline">\(H\)</span> and <span class="math inline">\(\sigma\)</span>, the ‘distribution over distributions’ represents a probabilistic weighting for cross-validation which maximises when the best representation of <span class="math inline">\(P_{{\sf t}+1}\)</span> has been found. To find this maximum, we may use the gradient in the direction of the weights</p>
-<p><span class="math display">\[
-\begin{align}
-\frac{\partial}{\partial \ell}\ln {\cal P}_{{\sf t}+1}[Q(x);H,\sigma] &amp;\simeq \frac{1}{2} \sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\sum_{{\cal S}} \big[ (\ell_{{\sf t}&#39;}-\ell)K^{-1}_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x;H,\sigma) + K^{-1}_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x;H,\sigma)(\ell_{{\sf t}&#39;&#39;}-\ell) \big] \,,
-\end{align}
-\]</span></p>
-<p>or the gradient defined over the <span class="math inline">\((H,\sigma)\)</span> parameter space</p>
-<p><span class="math display">\[
-\begin{align}
-&amp;\frac{\partial}{\partial (H,\sigma )}\ln {\cal P}_{{\sf t}+1}[Q(x);H,\sigma] \simeq \\
-&amp;\qquad \quad \frac{1}{2}\sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\sf t}&#39;&#39;}\sum_{{\cal S}}\big[(\ell_{{\sf t}&#39;}-\ell)K^{-1}_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x;H,\sigma)(\ell_{{\sf t}&#39;&#39;}-\ell) - 1\big]\frac{\partial}{\partial (H,\sigma)}\ln K_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x;H,\sigma) \,,
-\end{align}
-\]</span></p>
-<p>in either a global optimisation program or alternating between maximising individual samples with respect to <span class="math inline">\(\ell\)</span> and maximising globally with respect to <span class="math inline">\((H,\sigma)\)</span>.</p>
-<p>Another pattern to consider is that of the Expectation-Maximisation algorithm, where we can alternate between optimising with respect to <span class="math inline">\(\ell\)</span> and computing the marginal expectation values for <span class="math inline">\(H\)</span> and <span class="math inline">\(\sigma\)</span> using the resulting samples and their corresponding weights like this</p>
-<p><span class="math display">\[
-\begin{align}
-{\rm E}_{{\sf t}+1}[(H,\sigma )] &amp;\simeq \frac{\sum_{X_{{\sf t}+1}} (H,\sigma ){\cal P}_{{\sf t}+1}[Q(X_{{\sf t}+1});H,\sigma]}{\sum_{X_{{\sf t}+1}}{\cal P}_{{\sf t}+1}[Q(X_{{\sf t}+1});H,\sigma]} \,.
-\end{align}
-\]</span></p>
-<p>We could then input these expectation values as the centre of the sampler for the next <span class="math inline">\(H\)</span> (inverse-Wishart distribution) and <span class="math inline">\(\sigma\)</span> (Gaussian distribution) values in the sequence.</p>
-<p>Scaling in time history is probably the main nuisance here! Performance tweaking via controlling the state history depth of the stochadex will become important.</p>
+<p>We could then input these expectation values as the centre of the sampler for the next <span class="math inline">\(H\)</span> (inverse-Wishart distribution) values in the sequence.</p>
 <h2 id="resampling">Resampling</h2>
 <p>Start by drawing samples centred from different points, where each centre is randomly chosen from the current pool of samples with a frequency weighted by the smoothed new density of that point. If we then sample around each point using <span class="math inline">\(fH\)</span> as the covariance around the point (where <span class="math inline">\(f\)</span> is some exploration factor <span class="math inline">\(&lt;1\)</span>), we end up being able to effectively sample from the smoothed density.</p>
 <h2 id="implementation">Implementation</h2>
-<p>In order to get this to work:</p>
-<ul>
-<li>Gaussian processes will need to be implemented in the stochadex framework</li>
-<li>Online learning via gradients will need to be implemented as well</li>
-</ul>
-<p><strong>Notes migrated from another article which are now more relevant here:</strong></p>
 <p>In the case of the purely time-dependent kernel with a choice of Gaussian data linking distribution above, the hyperparameters that would be optimised could relate to the kernel in a wide variety of ways. Optimising them would make our optimised reweighting similar to (but very much <em>not</em> the same as) evaluating maximum a posteriori (MAP) of a Gaussian process regression. In a Gaussian process regression, one is concerned with inferring the the whole of <span class="math inline">\(X_{{\sf t}}\)</span> as a function of time using the pairwise correlations implied by the second-order log expansion we wrote earlier. Based on this expression, the cumulative log-likelihood for a Gaussian process can be calculated as follows</p>
 <p><span class="math display">\[
 \begin{align}
@@ -294,8 +259,8 @@ B_{{\sf t}+1} &amp;= \sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\s
 <p><strong>Rewrite from here to cover the theory behind optimisation code that will be put into practice in the follow-up article…</strong></p>
 <p>As we did for the reweighting algorithm, we have illustrated another rough schematic below for the multi-threaded code needed to compute the objective function of a learning algorithm in the stochadex, based on the equation above. Note that, in this diagram, we have assumed that the data has already been shifted such that its values are positioned around the distribution peak. Knowing where this peak will be a priori is not possible. However, for Gaussian data, an unbiased estimator for this peak will be the sample mean and so we have included an initial data standardisation in the steps outlined by the schematic.</p>
 <p><img src="../assets/stochadexIV/stochadexIV-gaussian-process-code.drawio.png" /></p>
-<p><strong>Here should also talk about how this paper shows online learning of gradients should equilibrate and then be used for debiasing the predictions:</strong> <span class="citation" data-cites="angelopoulos2025gradientequilibriumonlinelearning">[8]</span></p>
-<p>The optimisation approach that we choose to use for obtaining the best hyperparameters in the conditional probability of the reweighting approach will depend on a few factors. For example, if the number of hyperparameters is relatively low, but their gradients are difficult to calculate exactly; then a gradient-free optimiser (such as the Nelder-Mead <span class="citation" data-cites="nelder1965simplex">[9]</span> method or something like a particle swarm; see <span class="citation" data-cites="kennedy1995particle">[10]</span> or <span class="citation" data-cites="shi1998modified">[11]</span>) would likely be the most effective choice. On the other hand, when the number of hyperparameters ends up being relatively large, it’s usually quite desirable to utilise the gradients in algorithms like vanilla Stochastic Gradient Descent <span class="citation" data-cites="robbins1951stochastic">[12]</span> (SGD) or Adam <span class="citation" data-cites="kingma2014adam">[13]</span>.</p>
+<p><strong>Here should also talk about how this paper shows online learning of gradients should equilibrate and then be used for debiasing the predictions:</strong> <span class="citation" data-cites="angelopoulos2025gradientequilibriumonlinelearning">[5]</span></p>
+<p>The optimisation approach that we choose to use for obtaining the best hyperparameters in the conditional probability of the reweighting approach will depend on a few factors. For example, if the number of hyperparameters is relatively low, but their gradients are difficult to calculate exactly; then a gradient-free optimiser (such as the Nelder-Mead <span class="citation" data-cites="nelder1965simplex">[6]</span> method or something like a particle swarm; see <span class="citation" data-cites="kennedy1995particle">[7]</span> or <span class="citation" data-cites="shi1998modified">[8]</span>) would likely be the most effective choice. On the other hand, when the number of hyperparameters ends up being relatively large, it’s usually quite desirable to utilise the gradients in algorithms like vanilla Stochastic Gradient Descent <span class="citation" data-cites="robbins1951stochastic">[9]</span> (SGD) or Adam <span class="citation" data-cites="kingma2014adam">[10]</span>.</p>
 <h2 class="unnumbered" id="references">References</h2>
 <div id="refs" class="references csl-bib-body" role="list">
 <div id="ref-stochadexIII-2024" class="csl-entry" role="listitem">
@@ -310,32 +275,23 @@ B_{{\sf t}+1} &amp;= \sum_{{\sf t}+1\geq {\sf t}&#39;}\sum_{{\sf t}&#39;\geq {\s
 <div id="ref-kullback1951information" class="csl-entry" role="listitem">
 <div class="csl-left-margin">[4] </div><div class="csl-right-inline">S. Kullback and R. A. Leibler, <span>“On information and sufficiency,”</span> <em>The annals of mathematical statistics</em>, vol. 22, no. 1, pp. 79–86, 1951.</div>
 </div>
-<div id="ref-stochadexI-2024" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[5] </div><div class="csl-right-inline">R. J. Hardwick, <span>“Building a generalised simulation engine,”</span> <em>umbralcalculations (umbralcalc.github.io/posts/stochadexI.html)</em>, 2024.</div>
-</div>
-<div id="ref-stochadexII-2024" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[6] </div><div class="csl-right-inline">R. J. Hardwick, <span>“Probabilistic learning methods embedded within a simulation engine,”</span> <em>umbralcalculations (umbralcalc.github.io/posts/stochadexII.html)</em>, 2024.</div>
-</div>
-<div id="ref-williams2006gaussian" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[7] </div><div class="csl-right-inline">C. K. Williams and C. E. Rasmussen, <em>Gaussian processes for machine learning</em>, vol. 2. MIT press Cambridge, MA, 2006.</div>
-</div>
 <div id="ref-angelopoulos2025gradientequilibriumonlinelearning" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[8] </div><div class="csl-right-inline">A. N. Angelopoulos, M. I. Jordan, and R. J. Tibshirani, <span>“Gradient equilibrium in online learning: Theory and applications.”</span> 2025. Available: <a href="https://arxiv.org/abs/2501.08330">https://arxiv.org/abs/2501.08330</a></div>
+<div class="csl-left-margin">[5] </div><div class="csl-right-inline">A. N. Angelopoulos, M. I. Jordan, and R. J. Tibshirani, <span>“Gradient equilibrium in online learning: Theory and applications.”</span> 2025. Available: <a href="https://arxiv.org/abs/2501.08330">https://arxiv.org/abs/2501.08330</a></div>
 </div>
 <div id="ref-nelder1965simplex" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[9] </div><div class="csl-right-inline">J. A. Nelder and R. Mead, <span>“A simplex method for function minimization,”</span> <em>The computer journal</em>, vol. 7, no. 4, pp. 308–313, 1965.</div>
+<div class="csl-left-margin">[6] </div><div class="csl-right-inline">J. A. Nelder and R. Mead, <span>“A simplex method for function minimization,”</span> <em>The computer journal</em>, vol. 7, no. 4, pp. 308–313, 1965.</div>
 </div>
 <div id="ref-kennedy1995particle" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[10] </div><div class="csl-right-inline">J. Kennedy and R. Eberhart, <span>“Particle swarm optimization,”</span> in <em>Proceedings of ICNN’95-international conference on neural networks</em>, IEEE, 1995, pp. 1942–1948.</div>
+<div class="csl-left-margin">[7] </div><div class="csl-right-inline">J. Kennedy and R. Eberhart, <span>“Particle swarm optimization,”</span> in <em>Proceedings of ICNN’95-international conference on neural networks</em>, IEEE, 1995, pp. 1942–1948.</div>
 </div>
 <div id="ref-shi1998modified" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[11] </div><div class="csl-right-inline">Y. Shi and R. Eberhart, <span>“A modified particle swarm optimizer,”</span> in <em>1998 IEEE international conference on evolutionary computation proceedings. IEEE world congress on computational intelligence (cat. No. 98TH8360)</em>, IEEE, 1998, pp. 69–73.</div>
+<div class="csl-left-margin">[8] </div><div class="csl-right-inline">Y. Shi and R. Eberhart, <span>“A modified particle swarm optimizer,”</span> in <em>1998 IEEE international conference on evolutionary computation proceedings. IEEE world congress on computational intelligence (cat. No. 98TH8360)</em>, IEEE, 1998, pp. 69–73.</div>
 </div>
 <div id="ref-robbins1951stochastic" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[12] </div><div class="csl-right-inline">H. Robbins and S. Monro, <span>“A stochastic approximation method,”</span> <em>The annals of mathematical statistics</em>, pp. 400–407, 1951.</div>
+<div class="csl-left-margin">[9] </div><div class="csl-right-inline">H. Robbins and S. Monro, <span>“A stochastic approximation method,”</span> <em>The annals of mathematical statistics</em>, pp. 400–407, 1951.</div>
 </div>
 <div id="ref-kingma2014adam" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[13] </div><div class="csl-right-inline">D. P. Kingma and J. Ba, <span>“Adam: A method for stochastic optimization,”</span> <em>arXiv preprint arXiv:1412.6980</em>, 2014.</div>
+<div class="csl-left-margin">[10] </div><div class="csl-right-inline">D. P. Kingma and J. Ba, <span>“Adam: A method for stochastic optimization,”</span> <em>arXiv preprint arXiv:1412.6980</em>, 2014.</div>
 </div>
 </div>
 <span class="custom-spacer"></span>
