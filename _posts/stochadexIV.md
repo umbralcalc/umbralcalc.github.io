@@ -10,7 +10,11 @@ year: [WIP]
 
 ## Research context
 
-In a previous article [@stochadexIII-2024] we used a simple, but effective, technique for approximating the conditional density of simulation parameters $P_{({\sf t}+1){\sf t}}(z\vert X',{\sf Y})$ such that we are able to both update its shape with the arrival of new data as well as sample new values from it --- in both cases being able to incorporate a discounted distribution ansatz into the model. This technique estimated only the first two moments of this distribution, but with techniques like particle filtering it should be possible to generate approximate samples without this limitation. In this article, we will motivate Sequential Importance Resampling (SIR) using a kernel-smoothed approximation of the distribution which takes the form
+Say that we have a generator of probabilistic weights and $z$ values in time. This generator represents a non-stationary probability distribution and the weights are effectively stochastic around the true value for each given $z$ as input. The problem is that we would like to be able to efficiently sample from the underlying distribution regardless of its shape or modality.
+
+In a previous article [@stochadexIII-2024] we used a simple, but effective, technique to solve this problem by approximating the conditional density of simulation parameters $P_{({\sf t}+1){\sf t}}(z\vert X',{\sf Y})$ (the probabilistic weights) such that we are able to both update its shape with the arrival of new data as well as sample new values from it --- in both cases being able to incorporate a discounted distribution ansatz into the model. This technique estimated only the first two moments of this distribution, but with techniques like particle filtering it should be possible to generate approximate samples without this limitation.
+
+It is the aim of this article to generalise our distribution sampler using an adaptive sequential Monte Carlo algorithm (see [@del2006sequential] or [@wills2023sequential]) which uses a density kernel to update the importance weights of $z$ samples as they are taken. The density kernel approximation of the distribution which takes the form
 
 $$
 \begin{align}
@@ -26,9 +30,9 @@ K_{({\sf t}+1){\sf t}'}(z,z';H) &= \beta^{{\sf t}+1-{\sf t}'} \exp \bigg[ -\frac
 \end{align}
 $$
 
-where $\beta$ is the past-discounting factor. Say that we have a generator of probabilistic weights and $z$ values in time. This generator represents a non-stationary probability distribution and the weights are effectively stochastic around the true value for each given $z$ as input. The problem is that we would like to be able to efficiently sample from the underlying distribution regardless of its shape or modality.
+where $\beta$ is the past-discounting factor.
 
-Solution we will study is to create an adaptive sequential Monte Carlo algorithm, e.g., see [@del2006sequential] or [@wills2023sequential].
+In order for the kernel to adapt to the changes in the shape of the probability density over time, we will need to provide a mechanism for updating $H$ in response to these changes.
 
 ## Adaptively estimating a smoothed density
 
