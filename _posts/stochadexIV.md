@@ -1,14 +1,14 @@
 ---
-title: Online learning of arbitrary probability distributions using a simulation engine
+title: Online sampling from arbitrary probability distributions using a simulation engine
 author: Hardwick, Robert J
 date: [WIP]
-concept: To describe the design and implementation of a sequential Monte Carlo sampler which can dynamically adapt to sampling new points from nonstationary, multivariate and potentially multi-modal distributions using only a stream of noisy weighted samples as input. We control the sensitivity of this algorithm to temporal changes in the target distribution through a discounted history approach.
+concept: To describe the design and implementation of a sequential Monte Carlo sampler which can dynamically adapt to sampling new points from nonstationary, multivariate and potentially multi-modal distributions using only a stream of noisy weighted samples as input. We control the sensitivity of this algorithm to temporal changes in the target distribution using a discounted history and adaptive bandwidth for the density approximation kernel.
 articleId: stochadexIV
 codeLink: https://github.com/umbralcalc/stochadex
 year: [WIP]
 ---
 
-## Research context
+## Introduction
 
 Say that we have a generator of probabilistic weights and $z$ values in time. This generator represents a non-stationary probability distribution and the weights are effectively stochastic around the true value for each given $z$ as input. The problem is that we would like to be able to efficiently sample from the underlying distribution regardless of its shape or modality.
 
@@ -34,7 +34,7 @@ where $\beta$ is the past-discounting factor.
 
 In order for the kernel to adapt to the changes in the shape of the probability density over time, we will need to provide a mechanism for updating $H(z')$ in response to these changes.
 
-## Adaptively estimating a smoothed density
+## Algorithm design
 
 We can motivate the density smoothing model through specifying the following functional 'distribution over distributions' which uses a symmetrised form of the Kullback-Leibler divergence [@kullback1951information]
 
@@ -43,11 +43,21 @@ $$
 {\cal P}_{({\sf t}+1){\sf t}}[Q_{({\sf t}+1){\sf t}}] &\propto e^{-D^{\rm sym}_{\rm KL}[Q_{({\sf t}+1){\sf t}},P_{({\sf t}+1){\sf t}}]} \\
 D^{\rm sym}_{\rm KL}[Q_{({\sf t}+1){\sf t}},P_{({\sf t}+1){\sf t}}] &= \frac{1}{2}D_{\rm KL}[Q_{({\sf t}+1){\sf t}}\vert\vert P_{({\sf t}+1){\sf t}}] + \frac{1}{2}D_{\rm KL}[P_{({\sf t}+1){\sf t}} \vert\vert Q_{({\sf t}+1){\sf t}}] \\
 &= \frac{1}{2}\int_{\zeta_{{\sf t}+1}} {\rm d}z \, Q_{({\sf t}+1){\sf t}}(z\vert X',{\sf Y})\ln \frac{Q_{({\sf t}+1){\sf t}}(z\vert X',{\sf Y})}{P_{({\sf t}+1){\sf t}}(z\vert X',{\sf Y})} \\
-&\qquad + \frac{1}{2}\int_{\zeta_{{\sf t}+1}} {\rm d}z \, P_{({\sf t}+1){\sf t}}(z\vert X',{\sf Y})\ln \frac{P_{({\sf t}+1){\sf t}}(z\vert X',{\sf Y})}{Q_{({\sf t}+1){\sf t}}(z\vert X',{\sf Y})} \,,
+&\qquad + \frac{1}{2}\int_{\zeta_{{\sf t}+1}} {\rm d}z \, P_{({\sf t}+1){\sf t}}(z\vert X',{\sf Y})\ln \frac{P_{({\sf t}+1){\sf t}}(z\vert X',{\sf Y})}{Q_{({\sf t}+1){\sf t}}(z\vert X',{\sf Y})} \,.
 \end{align}
 $$
 
-Note that we can take 'functional expectation values' with this distribution, such that
+Now consider the situation where we would like to track the progress of a single weighted sample of $z$ from our approximation to $P_{({\sf t}+1){\sf t}}(z\vert X',{\sf Y})$ at time ${\sf t}+1$. Let's refer to this sample as $Z_{{\sf t}+1}$ and examine how it maps to a log-probability from the distribution above
+
+$$
+\begin{align}
+\ln {\cal P}_{({\sf t}+1){\sf t}}[Q_{({\sf t}+1){\sf t}}] &\simeq \frac{1}{2}Q_{({\sf t}+1){\sf t}}(Z_{{\sf t}+1}\vert X',{\sf Y})\ln \frac{Q_{({\sf t}+1){\sf t}}(Z_{{\sf t}+1}\vert X',{\sf Y})}{{\sf w}_{{\sf t}+1}} + \frac{1}{2}{\sf w}_{{\sf t}+1}\ln \frac{{\sf w}_{{\sf t}+1}}{Q_{({\sf t}+1){\sf t}}(Z_{{\sf t}+1}\vert X',{\sf Y})} \,,
+\end{align}
+$$
+
+where ${\sf w}_{{\sf t}+1}$ corresponds to the weight of the sample which comes from the kernel approximation to the density of $P_{({\sf t}+1){\sf t}}(z\vert X',{\sf Y})$.
+
+Note that we can also take expectation values with this distribution over other parameters. For instance, we can compute the expected bandwidth matrix
 
 $$
 \begin{align}
@@ -55,9 +65,9 @@ $$
 \end{align}
 $$
 
-where $\sum_{H}$ represents a summation over possible values for $H(z')$. Given that this must be a symmetric matrix, it would be natural to draw such a sample from an Inverse-Wishart distribution.
+where $\sum_{H}$ represents a summation over possible values for $H(z')$. Given that this must be a symmetric matrix, it would be natural to draw such a sample from a Wishart distribution.
 
-## Resampling
+Since there is no variation in $z$ when computing expectation value, we can alternate it with drawing new samples of $z$ from this approximation to $P_{({\sf t}+1){\sf t}}(z\vert X',{\sf Y})$ to iteratively improve the kernel algorithm approximation itself (and hence the accuracy of the weights like ${\sf w}_{{\sf t}+1}$) at the same time. But how do we select the $z$ samples?
 
 Start by drawing samples centred from different points, where each centre is randomly chosen from the current pool of samples with a frequency weighted by the smoothed new density of that point. If we then sample around each point using $fH(z')$ as the covariance around the point (where $f$ is some exploration factor $<1$), we end up being able to effectively sample from the smoothed density.
 
