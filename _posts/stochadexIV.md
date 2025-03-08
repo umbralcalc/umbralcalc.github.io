@@ -67,7 +67,11 @@ $$
 
 where $\sum_{H}$ represents a summation over possible values for $H(z')$. Given that this must be a symmetric matrix, it would be natural to draw such a sample from a Wishart distribution.
 
+**TODO: Add iterative algorithm for ${\rm E}_{{\sf t}+1}[H(z')]$ which is used to update the mean of the Wishart distribution + write the Wishart distribution explicitly + the degrees of freedom number is added to after each step**
+
 Since there is no variation in $z$ when computing expectation value, we can alternate it with drawing new samples of $z$ from this approximation to $P_{({\sf t}+1){\sf t}}(z\vert X',{\sf Y})$ to iteratively improve the kernel algorithm approximation itself (and hence the accuracy of the weights like ${\sf w}_{{\sf t}+1}$) at the same time. But how do we select the $z$ samples?
+
+**TODO: Improve the text from below...**
 
 Start by drawing samples centred from different points, where each centre is randomly chosen from the current pool of samples with a frequency weighted by the smoothed new density of that point. If we then sample around each point using $fH(z')$ as the covariance around the point (where $f$ is some exploration factor $<1$), we end up being able to effectively sample from the smoothed density.
 
