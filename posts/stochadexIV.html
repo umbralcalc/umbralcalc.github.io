@@ -215,17 +215,17 @@ About
 <p>It is the aim of this article to generalise our distribution sampler using an adaptive sequential Monte Carlo algorithm (see <span class="citation" data-cites="del2006sequential">[2]</span> or <span class="citation" data-cites="wills2023sequential">[3]</span>) which uses a density kernel to update the importance weights of <span class="math inline">\(z\)</span> samples as they are taken. The density kernel approximation of the distribution which takes the form</p>
 <p><span class="math display">\[
 \begin{align}
-P_{({\sf t}+1){\sf t}}(z\vert X&#39;,{\sf Y}) \simeq Q_{({\sf t}+1){\sf t}}(z\vert X&#39;,{\sf Y}) \propto \sum_{{\sf t}&#39;={\sf t}-{\sf s}}^{{\sf t}}\int_{\zeta_{{\sf t}&#39;+1}} {\rm d}z&#39; P_{({\sf t}&#39;+1){\sf t}&#39;}(z&#39;\vert X&#39;&#39;,{\sf Y})K_{({\sf t}+1){\sf t}&#39;}(z,z&#39;;H) \,,
+P_{({\sf t}+1){\sf t}}(z\vert X&#39;,{\sf Y}) \simeq Q_{({\sf t}+1){\sf t}}(z\vert X&#39;,{\sf Y}) \propto \sum_{{\sf t}&#39;={\sf t}-{\sf s}}^{{\sf t}}\int_{\zeta_{{\sf t}&#39;+1}} {\rm d}z&#39; P_{({\sf t}&#39;+1){\sf t}&#39;}(z&#39;\vert X&#39;&#39;,{\sf Y})K_{({\sf t}+1){\sf t}&#39;}[z,z&#39;;H(z&#39;)] \,,
 \end{align}
 \]</span></p>
-<p>where <span class="math inline">\(K_{({\sf t}+1){\sf t}&#39;}(z,z&#39;;H)\)</span> is some smoothing kernel which helps to approximate the posterior distribution up to some specified scale using the bandwidth matrix <span class="math inline">\(H\)</span>, making use of the full history of <span class="math inline">\(z\)</span> samples. A Gaussian kernel would take the form</p>
+<p>where <span class="math inline">\(K_{({\sf t}+1){\sf t}&#39;}[z,z&#39;;H(z&#39;)]\)</span> is some smoothing kernel which helps to approximate the posterior distribution up to some specified scale using the bandwidth matrix <span class="math inline">\(H\)</span>, making use of the full history of <span class="math inline">\(z\)</span> samples. A Gaussian kernel would take the form</p>
 <p><span class="math display">\[
 \begin{align}
-K_{({\sf t}+1){\sf t}&#39;}(z,z&#39;;H) &amp;= \beta^{{\sf t}+1-{\sf t}&#39;} \exp \bigg[ -\frac{1}{2}\sum_{i,j}(z&#39;-z)^i(H^{-1})^{ij}(z&#39;-z)^j\bigg] \,,
+K_{({\sf t}+1){\sf t}&#39;}[z,z&#39;;H(z&#39;)] &amp;\propto \beta^{{\sf t}+1-{\sf t}&#39;}\big\vert H(z&#39;) \big\vert^{-\frac{1}{2}} \exp \bigg\{ -\frac{1}{2}\sum_{i=0}^n\sum_{j=0}^n(z&#39;-z)^i[H^{-1}(z&#39;)]^{ij}(z&#39;-z)^j\bigg\} \,,
 \end{align}
 \]</span></p>
 <p>where <span class="math inline">\(\beta\)</span> is the past-discounting factor.</p>
-<p>In order for the kernel to adapt to the changes in the shape of the probability density over time, we will need to provide a mechanism for updating <span class="math inline">\(H\)</span> in response to these changes.</p>
+<p>In order for the kernel to adapt to the changes in the shape of the probability density over time, we will need to provide a mechanism for updating <span class="math inline">\(H(z&#39;)\)</span> in response to these changes.</p>
 <h2 id="adaptively-estimating-a-smoothed-density">Adaptively estimating a smoothed density</h2>
 <p>We can motivate the density smoothing model through specifying the following functional ‘distribution over distributions’ which uses a symmetrised form of the Kullback-Leibler divergence <span class="citation" data-cites="kullback1951information">[4]</span></p>
 <p><span class="math display">\[
@@ -239,18 +239,12 @@ D^{\rm sym}_{\rm KL}[Q_{({\sf t}+1){\sf t}},P_{({\sf t}+1){\sf t}}] &amp;= \frac
 <p>Note that we can take ‘functional expectation values’ with this distribution, such that</p>
 <p><span class="math display">\[
 \begin{align}
-{\rm E}_{{\sf t}+1}[Q_{({\sf t}+1){\sf t}}] &amp;= \frac{\int {\cal D}[Q_{({\sf t}+1){\sf t}}] Q_{({\sf t}+1){\sf t}} e^{-D^{\rm sym}_{\rm KL}[Q_{({\sf t}+1){\sf t}},P_{({\sf t}+1){\sf t}}]}}{\int {\cal D}[Q_{({\sf t}+1){\sf t}}] e^{-D^{\rm sym}_{\rm KL}[Q_{({\sf t}+1){\sf t}},P_{({\sf t}+1){\sf t}}]}} \,.
+{\rm E}_{{\sf t}+1}[H(z&#39;)] &amp;\simeq \frac{\sum_{H}H(z&#39;){\cal P}_{({\sf t}+1){\sf t}}[Q_{({\sf t}+1){\sf t}};H(z&#39;)]}{\sum_{H}{\cal P}_{({\sf t}+1){\sf t}}[Q_{({\sf t}+1){\sf t}};H(z&#39;)]} \,,
 \end{align}
 \]</span></p>
-<p>Another pattern to consider is that of the Expectation-Maximisation algorithm, where we can alternate between optimising with respect to <span class="math inline">\(\ell\)</span> and computing the marginal expectation values for <span class="math inline">\(H\)</span> using the resulting samples and their corresponding weights like this</p>
-<p><span class="math display">\[
-\begin{align}
-{\rm E}_{{\sf t}+1}[H] &amp;\simeq \frac{\sum_{H}H{\cal P}_{({\sf t}+1){\sf t}}[Q_{({\sf t}+1){\sf t}};H]}{\sum_{H}{\cal P}_{({\sf t}+1){\sf t}}[Q_{({\sf t}+1){\sf t}};H]} \,.
-\end{align}
-\]</span></p>
-<p>We could then input these expectation values as the centre of the sampler for the next <span class="math inline">\(H\)</span> (inverse-Wishart distribution) values in the sequence.</p>
+<p>where <span class="math inline">\(\sum_{H}\)</span> represents a summation over possible values for <span class="math inline">\(H(z&#39;)\)</span>. Given that this must be a symmetric matrix, it would be natural to draw such a sample from an Inverse-Wishart distribution.</p>
 <h2 id="resampling">Resampling</h2>
-<p>Start by drawing samples centred from different points, where each centre is randomly chosen from the current pool of samples with a frequency weighted by the smoothed new density of that point. If we then sample around each point using <span class="math inline">\(fH\)</span> as the covariance around the point (where <span class="math inline">\(f\)</span> is some exploration factor <span class="math inline">\(&lt;1\)</span>), we end up being able to effectively sample from the smoothed density.</p>
+<p>Start by drawing samples centred from different points, where each centre is randomly chosen from the current pool of samples with a frequency weighted by the smoothed new density of that point. If we then sample around each point using <span class="math inline">\(fH(z&#39;)\)</span> as the covariance around the point (where <span class="math inline">\(f\)</span> is some exploration factor <span class="math inline">\(&lt;1\)</span>), we end up being able to effectively sample from the smoothed density.</p>
 <h2 id="implementation">Implementation</h2>
 <p>In the case of the purely time-dependent kernel with a choice of Gaussian data linking distribution above, the hyperparameters that would be optimised could relate to the kernel in a wide variety of ways. Optimising them would make our optimised reweighting similar to (but very much <em>not</em> the same as) evaluating maximum a posteriori (MAP) of a Gaussian process regression. In a Gaussian process regression, one is concerned with inferring the the whole of <span class="math inline">\(X_{{\sf t}}\)</span> as a function of time using the pairwise correlations implied by the second-order log expansion we wrote earlier. Based on this expression, the cumulative log-likelihood for a Gaussian process can be calculated as follows</p>
 <p><span class="math display">\[

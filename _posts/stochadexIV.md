@@ -18,21 +18,21 @@ It is the aim of this article to generalise our distribution sampler using an ad
 
 $$
 \begin{align}
-P_{({\sf t}+1){\sf t}}(z\vert X',{\sf Y}) \simeq Q_{({\sf t}+1){\sf t}}(z\vert X',{\sf Y}) \propto \sum_{{\sf t}'={\sf t}-{\sf s}}^{{\sf t}}\int_{\zeta_{{\sf t}'+1}} {\rm d}z' P_{({\sf t}'+1){\sf t}'}(z'\vert X'',{\sf Y})K_{({\sf t}+1){\sf t}'}(z,z';H) \,,
+P_{({\sf t}+1){\sf t}}(z\vert X',{\sf Y}) \simeq Q_{({\sf t}+1){\sf t}}(z\vert X',{\sf Y}) \propto \sum_{{\sf t}'={\sf t}-{\sf s}}^{{\sf t}}\int_{\zeta_{{\sf t}'+1}} {\rm d}z' P_{({\sf t}'+1){\sf t}'}(z'\vert X'',{\sf Y})K_{({\sf t}+1){\sf t}'}[z,z';H(z')] \,,
 \end{align}
 $$
 
-where $K_{({\sf t}+1){\sf t}'}(z,z';H)$ is some smoothing kernel which helps to approximate the posterior distribution up to some specified scale using the bandwidth matrix $H$, making use of the full history of $z$ samples. A Gaussian kernel would take the form
+where $K_{({\sf t}+1){\sf t}'}[z,z';H(z')]$ is some smoothing kernel which helps to approximate the posterior distribution up to some specified scale using the bandwidth matrix $H$, making use of the full history of $z$ samples. A Gaussian kernel would take the form
 
 $$
 \begin{align}
-K_{({\sf t}+1){\sf t}'}(z,z';H) &= \beta^{{\sf t}+1-{\sf t}'} \exp \bigg[ -\frac{1}{2}\sum_{i,j}(z'-z)^i(H^{-1})^{ij}(z'-z)^j\bigg] \,,
+K_{({\sf t}+1){\sf t}'}[z,z';H(z')] &\propto \beta^{{\sf t}+1-{\sf t}'}\big\vert H(z') \big\vert^{-\frac{1}{2}} \exp \bigg\{ -\frac{1}{2}\sum_{i=0}^n\sum_{j=0}^n(z'-z)^i[H^{-1}(z')]^{ij}(z'-z)^j\bigg\} \,,
 \end{align}
 $$
 
 where $\beta$ is the past-discounting factor.
 
-In order for the kernel to adapt to the changes in the shape of the probability density over time, we will need to provide a mechanism for updating $H$ in response to these changes.
+In order for the kernel to adapt to the changes in the shape of the probability density over time, we will need to provide a mechanism for updating $H(z')$ in response to these changes.
 
 ## Adaptively estimating a smoothed density
 
@@ -51,23 +51,15 @@ Note that we can take 'functional expectation values' with this distribution, su
 
 $$
 \begin{align}
-{\rm E}_{{\sf t}+1}[Q_{({\sf t}+1){\sf t}}] &= \frac{\int {\cal D}[Q_{({\sf t}+1){\sf t}}] Q_{({\sf t}+1){\sf t}} e^{-D^{\rm sym}_{\rm KL}[Q_{({\sf t}+1){\sf t}},P_{({\sf t}+1){\sf t}}]}}{\int {\cal D}[Q_{({\sf t}+1){\sf t}}] e^{-D^{\rm sym}_{\rm KL}[Q_{({\sf t}+1){\sf t}},P_{({\sf t}+1){\sf t}}]}} \,.
+{\rm E}_{{\sf t}+1}[H(z')] &\simeq \frac{\sum_{H}H(z'){\cal P}_{({\sf t}+1){\sf t}}[Q_{({\sf t}+1){\sf t}};H(z')]}{\sum_{H}{\cal P}_{({\sf t}+1){\sf t}}[Q_{({\sf t}+1){\sf t}};H(z')]} \,,
 \end{align}
 $$
 
-Another pattern to consider is that of the Expectation-Maximisation algorithm, where we can alternate between optimising with respect to $\ell$ and computing the marginal expectation values for $H$ using the resulting samples and their corresponding weights like this
-
-$$
-\begin{align}
-{\rm E}_{{\sf t}+1}[H] &\simeq \frac{\sum_{H}H{\cal P}_{({\sf t}+1){\sf t}}[Q_{({\sf t}+1){\sf t}};H]}{\sum_{H}{\cal P}_{({\sf t}+1){\sf t}}[Q_{({\sf t}+1){\sf t}};H]} \,.
-\end{align}
-$$
-
-We could then input these expectation values as the centre of the sampler for the next $H$ (inverse-Wishart distribution) values in the sequence.
+where $\sum_{H}$ represents a summation over possible values for $H(z')$. Given that this must be a symmetric matrix, it would be natural to draw such a sample from an Inverse-Wishart distribution.
 
 ## Resampling
 
-Start by drawing samples centred from different points, where each centre is randomly chosen from the current pool of samples with a frequency weighted by the smoothed new density of that point. If we then sample around each point using $fH$ as the covariance around the point (where $f$ is some exploration factor $<1$), we end up being able to effectively sample from the smoothed density.
+Start by drawing samples centred from different points, where each centre is randomly chosen from the current pool of samples with a frequency weighted by the smoothed new density of that point. If we then sample around each point using $fH(z')$ as the covariance around the point (where $f$ is some exploration factor $<1$), we end up being able to effectively sample from the smoothed density.
 
 ## Implementation
 
