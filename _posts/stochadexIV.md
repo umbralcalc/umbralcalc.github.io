@@ -10,6 +10,8 @@ year: [WIP]
 
 ## Introduction
 
+**TODO: Need to rewrite a little so that we're talking about a density approximation for $P(X)$ not $P(z)$!**
+
 Say that we have a generator of probabilistic weights and $z$ values in time. This generator represents a non-stationary probability distribution and the weights are effectively stochastic around the true value for each given $z$ as input. The problem is that we would like to be able to efficiently sample from the underlying distribution regardless of its shape or modality.
 
 In a previous article [@stochadexIII-2024] we used a simple, but effective, technique to solve this problem by approximating the conditional density of simulation parameters $P_{({\sf t}+1){\sf t}}(z\vert X',{\sf Y})$ (the probabilistic weights) such that we are able to both update its shape with the arrival of new data as well as sample new values from it --- in both cases being able to incorporate a discounted distribution ansatz into the model. This technique estimated only the first two moments of this distribution, but with techniques like particle filtering it should be possible to generate approximate samples without this limitation.
@@ -86,9 +88,10 @@ $$
 
 Since there is no variation in $z$ when computing expectation value, we can alternate it with drawing new samples of $z$ from this approximation to $P_{({\sf t}+1){\sf t}}(z\vert X',{\sf Y})$ to iteratively improve the kernel algorithm approximation itself (and hence the accuracy of the weights like ${\sf w}_{{\sf t}+1}$) at the same time. But how do we select the $z$ samples?
 
-**TODO: Improve the text from below...**
+Resampling from the distribution of weighted $z$ samples given the kernel approximation which we have already made is actually quite straightforward. To choose a new sample we can:
 
-Start by drawing samples centred from different points, where each centre is randomly chosen from the current pool of samples with a frequency weighted by the smoothed new density of that point. If we then sample around each point using $fH(z')$ as the covariance around the point (where $f$ is some exploration factor $<1$), we end up being able to effectively sample from the smoothed density.
+1. Randomly select a previous sample of $z$, using the weight of each sample to bias the selection towards the higher density regions.
+2. Use the selected sample of $z$ as the centre from which to draw another normally-distributed sample, using $fH(z')$ as the covariance (where $f$ is some exploration factor $<1$).
 
 ## Implementation
 
