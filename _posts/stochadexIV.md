@@ -2,7 +2,7 @@
 title: Online sampling from arbitrary probability distributions using a simulation engine
 author: Hardwick, Robert J
 date: [WIP]
-concept: To describe the design and implementation of a sequential Monte Carlo sampler which can dynamically adapt to sampling new points from nonstationary, multivariate and potentially multi-modal distributions using only a stream of noisy weighted samples as input. We control the sensitivity of this algorithm to temporal changes in the target distribution using a discounted history and adaptive bandwidth for the density approximation kernel.
+concept: To describe the design and implementation of a sequential Monte Carlo sampler which can dynamically adapt to sampling new points from nonstationary, multivariate and potentially multi-modal distributions using only a stream of noisy weighted samples as input. We control the sensitivity of this algorithm to temporal changes in the target distribution using a discounted history and adaptive mean-field bandwidth for the density approximation kernel.
 articleId: stochadexIV
 codeLink: https://github.com/umbralcalc/stochadex
 year: [WIP]
@@ -61,13 +61,28 @@ Note that we can also take expectation values with this distribution over other 
 
 $$
 \begin{align}
-{\rm E}_{{\sf t}+1}[H(z')] &\simeq \frac{\sum_{H}H(z'){\cal P}_{({\sf t}+1){\sf t}}[Q_{({\sf t}+1){\sf t}};H(z')]}{\sum_{H}{\cal P}_{({\sf t}+1){\sf t}}[Q_{({\sf t}+1){\sf t}};H(z')]} \,,
+{\rm E}_{{\sf t}+1}[H(z)] &\simeq \frac{\sum_{H}H(z){\cal P}_{({\sf t}+1){\sf t}}[Q_{({\sf t}+1){\sf t}};H(z)]}{\sum_{H}{\cal P}_{({\sf t}+1){\sf t}}[Q_{({\sf t}+1){\sf t}};H(z)]} \,,
 \end{align}
 $$
 
-where $\sum_{H}$ represents a summation over possible values for $H(z')$. Given that this must be a symmetric matrix, it would be natural to draw such a sample from a Wishart distribution.
+where $\sum_{H}$ represents a summation over possible values for $H(z)$. Choosing this expected bandwidth will not strictly minimise the $D^{\rm sym}_{\rm KL}$ in all situations, but it represents a mean-field approximation to this optimal value which will be less sensitive to extreme fluctuations in the data. For this desirable robustness, we're going to use the expected bandwidth in our adaptive algorithm.
 
-**TODO: Add iterative algorithm for ${\rm E}_{{\sf t}+1}[H(z')]$ which is used to update the mean of the Wishart distribution + write the Wishart distribution explicitly + the degrees of freedom number is added to after each step**
+Given that $H(z)$ must be a symmetric matrix, it would be natural to draw such a sample from a Wishart distribution, with the probability density
+
+$$
+\begin{align}
+{\sf WishartPDF}[H(z);V,d] = 2^{-\frac{dn}{2}}\Gamma^{-1}_n\bigg( \frac{d}{2}\bigg)\vert V\vert^{-\frac{d}{2}} \vert H(z)\vert^{\frac{d-n-1}{2}}{\rm exp}\bigg\{-\frac{1}{2}\sum_{i=0}^n[V^{-1}H(z)]^{ii}\bigg\} \,,
+\end{align}
+$$
+
+where here $\Gamma_n$ is the multivariate gamma function. We can combine both the Wishart distribution and the equation for the expected $H(z)$ together to form an iterative algorithm that converges on ${\rm E}_{{\sf t}+1}[H(z)]$. For the $({\sf m}+1)$-th step of this algorithm, we draw a new sample for $H(z)={\sf H}^{{\sf m}+1}(z)$ from a distribution with probability density ${\sf WishartPDF}\{H(z);{\rm E}^{{\sf m}}_{{\sf t}+1}[H(z)],d_0+{\sf m}+1\}$ and use this sample to update the ${\sf m}$-th iteration value for ${\rm E}^{{\sf m}}_{{\sf t}+1}[H(z)]$ to the next like this
+
+$$
+\begin{align}
+{\sf N}^{{\sf m}+1}(z) &= {\cal P}_{({\sf t}+1){\sf t}}[Q_{({\sf t}+1){\sf t}};{\sf H}^{{\sf m}+1}(z)] + {\sf N}^{{\sf m}}(z)\\
+{\rm E}^{{\sf m}+1}_{{\sf t}+1}[H(z)] &= \frac{{\sf H}^{{\sf m}+1}(z)}{{\sf N}^{{\sf m+1}}(z)}{\cal P}_{({\sf t}+1){\sf t}}[Q_{({\sf t}+1){\sf t}};{\sf H}^{{\sf m}+1}(z)] + \frac{{\sf N}^{{\sf m}}(z)}{{\sf N}^{{\sf m}+1}(z)}{\rm E}^{{\sf m}}_{{\sf t}+1}[H(z)] \,.
+\end{align}
+$$
 
 Since there is no variation in $z$ when computing expectation value, we can alternate it with drawing new samples of $z$ from this approximation to $P_{({\sf t}+1){\sf t}}(z\vert X',{\sf Y})$ to iteratively improve the kernel algorithm approximation itself (and hence the accuracy of the weights like ${\sf w}_{{\sf t}+1}$) at the same time. But how do we select the $z$ samples?
 

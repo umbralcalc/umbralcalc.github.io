@@ -205,7 +205,7 @@ About
 </br>
 <strong> Date. </strong> WIP
 </br>
-<strong> Concept. </strong> To describe the design and implementation of a sequential Monte Carlo sampler which can dynamically adapt to sampling new points from nonstationary, multivariate and potentially multi-modal distributions using only a stream of noisy weighted samples as input. We control the sensitivity of this algorithm to temporal changes in the target distribution using a discounted history and adaptive bandwidth for the density approximation kernel.
+<strong> Concept. </strong> To describe the design and implementation of a sequential Monte Carlo sampler which can dynamically adapt to sampling new points from nonstationary, multivariate and potentially multi-modal distributions using only a stream of noisy weighted samples as input. We control the sensitivity of this algorithm to temporal changes in the target distribution using a discounted history and adaptive mean-field bandwidth for the density approximation kernel.
 </div>
 <hr color="LightGray">
 </br>
@@ -246,11 +246,23 @@ D^{\rm sym}_{\rm KL}[Q_{({\sf t}+1){\sf t}},P_{({\sf t}+1){\sf t}}] &amp;= \frac
 <p>Note that we can also take expectation values with this distribution over other parameters. For instance, we can compute the expected bandwidth matrix</p>
 <p><span class="math display">\[
 \begin{align}
-{\rm E}_{{\sf t}+1}[H(z&#39;)] &amp;\simeq \frac{\sum_{H}H(z&#39;){\cal P}_{({\sf t}+1){\sf t}}[Q_{({\sf t}+1){\sf t}};H(z&#39;)]}{\sum_{H}{\cal P}_{({\sf t}+1){\sf t}}[Q_{({\sf t}+1){\sf t}};H(z&#39;)]} \,,
+{\rm E}_{{\sf t}+1}[H(z)] &amp;\simeq \frac{\sum_{H}H(z){\cal P}_{({\sf t}+1){\sf t}}[Q_{({\sf t}+1){\sf t}};H(z)]}{\sum_{H}{\cal P}_{({\sf t}+1){\sf t}}[Q_{({\sf t}+1){\sf t}};H(z)]} \,,
 \end{align}
 \]</span></p>
-<p>where <span class="math inline">\(\sum_{H}\)</span> represents a summation over possible values for <span class="math inline">\(H(z&#39;)\)</span>. Given that this must be a symmetric matrix, it would be natural to draw such a sample from a Wishart distribution.</p>
-<p><strong>TODO: Add iterative algorithm for <span class="math inline">\({\rm E}_{{\sf t}+1}[H(z&#39;)]\)</span> which is used to update the mean of the Wishart distribution + write the Wishart distribution explicitly + the degrees of freedom number is added to after each step</strong></p>
+<p>where <span class="math inline">\(\sum_{H}\)</span> represents a summation over possible values for <span class="math inline">\(H(z)\)</span>. Choosing this expected bandwidth will not strictly minimise the <span class="math inline">\(D^{\rm sym}_{\rm KL}\)</span> in all situations, but it represents a mean-field approximation to this optimal value which will be less sensitive to extreme fluctuations in the data. For this desirable robustness, we’re going to use the expected bandwidth in our adaptive algorithm.</p>
+<p>Given that <span class="math inline">\(H(z)\)</span> must be a symmetric matrix, it would be natural to draw such a sample from a Wishart distribution, with the probability density</p>
+<p><span class="math display">\[
+\begin{align}
+{\sf WishartPDF}[H(z);V,d] = 2^{-\frac{dn}{2}}\Gamma^{-1}_n\bigg( \frac{d}{2}\bigg)\vert V\vert^{-\frac{d}{2}} \vert H(z)\vert^{\frac{d-n-1}{2}}{\rm exp}\bigg\{-\frac{1}{2}\sum_{i=0}^n[V^{-1}H(z)]^{ii}\bigg\} \,,
+\end{align}
+\]</span></p>
+<p>where here <span class="math inline">\(\Gamma_n\)</span> is the multivariate gamma function. We can combine both the Wishart distribution and the equation for the expected <span class="math inline">\(H(z)\)</span> together to form an iterative algorithm that converges on <span class="math inline">\({\rm E}_{{\sf t}+1}[H(z)]\)</span>. For the <span class="math inline">\(({\sf m}+1)\)</span>-th step of this algorithm, we draw a new sample for <span class="math inline">\(H(z)={\sf H}^{{\sf m}+1}(z)\)</span> from a distribution with probability density <span class="math inline">\({\sf WishartPDF}\{H(z);{\rm E}^{{\sf m}}_{{\sf t}+1}[H(z)],d_0+{\sf m}+1\}\)</span> and use this sample to update the <span class="math inline">\({\sf m}\)</span>-th iteration value for <span class="math inline">\({\rm E}^{{\sf m}}_{{\sf t}+1}[H(z)]\)</span> to the next like this</p>
+<p><span class="math display">\[
+\begin{align}
+{\sf N}^{{\sf m}+1}(z) &amp;= {\cal P}_{({\sf t}+1){\sf t}}[Q_{({\sf t}+1){\sf t}};{\sf H}^{{\sf m}+1}(z)] + {\sf N}^{{\sf m}}(z)\\
+{\rm E}^{{\sf m}+1}_{{\sf t}+1}[H(z)] &amp;= \frac{{\sf H}^{{\sf m}+1}(z)}{{\sf N}^{{\sf m+1}}(z)}{\cal P}_{({\sf t}+1){\sf t}}[Q_{({\sf t}+1){\sf t}};{\sf H}^{{\sf m}+1}(z)] + \frac{{\sf N}^{{\sf m}}(z)}{{\sf N}^{{\sf m}+1}(z)}{\rm E}^{{\sf m}}_{{\sf t}+1}[H(z)] \,.
+\end{align}
+\]</span></p>
 <p>Since there is no variation in <span class="math inline">\(z\)</span> when computing expectation value, we can alternate it with drawing new samples of <span class="math inline">\(z\)</span> from this approximation to <span class="math inline">\(P_{({\sf t}+1){\sf t}}(z\vert X&#39;,{\sf Y})\)</span> to iteratively improve the kernel algorithm approximation itself (and hence the accuracy of the weights like <span class="math inline">\({\sf w}_{{\sf t}+1}\)</span>) at the same time. But how do we select the <span class="math inline">\(z\)</span> samples?</p>
 <p><strong>TODO: Improve the text from below…</strong></p>
 <p>Start by drawing samples centred from different points, where each centre is randomly chosen from the current pool of samples with a frequency weighted by the smoothed new density of that point. If we then sample around each point using <span class="math inline">\(fH(z&#39;)\)</span> as the covariance around the point (where <span class="math inline">\(f\)</span> is some exploration factor <span class="math inline">\(&lt;1\)</span>), we end up being able to effectively sample from the smoothed density.</p>
