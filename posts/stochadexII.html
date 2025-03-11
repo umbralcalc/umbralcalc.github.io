@@ -362,7 +362,7 @@ P_{{\sf t}+1}(x\vert z) &amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;={\sf t}-{\sf 
 P_{({\sf t}+1){\sf t}&#39;&#39;}(x\vert x&#39;&#39;, z) &amp;= \frac{1}{{\sf t}}\sum_{{\sf t}&#39;={\sf t}-{\sf s}}^{{\sf t}}\int_{\omega_{{\sf t}&#39;}}{\rm d}^nx&#39;P_{{\sf t}&#39;{\sf t}&#39;&#39;}(x&#39;\vert x&#39;&#39;,z)P_{({\sf t}+1){\sf t}&#39;{\sf t}&#39;&#39;}(x\vert x&#39;,x&#39;&#39;,z) \,,
 \end{align}
 \]</span></p>
-<p>which describes the time evolution of the conditional probabilities. Note how this implies that a Gaussian process kernel itself can be evolved through time to replicate these higher-order temporal correlations for a regression problem, if desired.</p>
+<p>which describes the time evolution of the conditional probabilities.</p>
 <p>There is another expression for the mean of the distribution that we can derive under certain conditions. If the probability distribution over each row of the state history matrix is <em>stationary</em> — meaning that <span class="math inline">\(P_{{\sf t}+1}(x\vert z)=P_{{\sf t}&#39;}(x\vert z)\)</span> — it’s possible to go one step further than mean field master equation and assert that</p>
 <p><span class="math display">\[
 \begin{align}

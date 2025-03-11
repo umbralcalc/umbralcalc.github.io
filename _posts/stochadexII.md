@@ -220,7 +220,7 @@ P_{({\sf t}+1){\sf t}''}(x\vert x'', z) &= \frac{1}{{\sf t}}\sum_{{\sf t}'={\sf 
 \end{align}
 $$
 
-which describes the time evolution of the conditional probabilities. Note how this implies that a Gaussian process kernel itself can be evolved through time to replicate these higher-order temporal correlations for a regression problem, if desired.
+which describes the time evolution of the conditional probabilities.
 
 There is another expression for the mean of the distribution that we can derive under certain conditions. If the probability distribution over each row of the state history matrix is _stationary_ --- meaning that $P_{{\sf t}+1}(x\vert z)=P_{{\sf t}'}(x\vert z)$ --- it's possible to go one step further than mean field master equation and assert that
 
