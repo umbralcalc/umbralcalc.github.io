@@ -143,7 +143,7 @@ where we note the complexity in this expression arises because it has to include
 
 So now that we are more familiar with the notation used by the previous section, we're now going use it to motivate a useful probabilistic estimation method. The method is straightforward (and quite obvious when implemented) but it's worth understanding it within the probabilistic formalism we introduced above because it will help us clarify its limitations. You could argue it draws on influences from Empirical Dynamical Modeling (EDM) [@sugihara1990nonlinear], some classic nonparametric local regression techniques --- such as LOWESS/Savitzky-Golay filtering [@savitzky1964smoothing] --- and also Gaussian processes (see [@williams2006gaussian] or [@murphy2012machine]), but it's not even that sophisticated.  
 
-Let's begin our discussion of algorithms by integrating the master equation for the latest row over $x$ to obtain a relation for the mean of the distribution
+Let's begin by integrating the master equation for the latest row over $x$ to obtain a relation for the mean of the distribution
 
 $$
 \begin{align}
@@ -153,26 +153,7 @@ $$
 
 where you can view the $M_{({\sf t}+1){\sf t}''}(X'',z)$ values as either terms in some regression model, or derivable explicitly from a known master equation. The latter of these provides one approach to statistically infer the states and parameters of stochastic simulations from data: one begins by knowing what the master equation is, uses this to compute the time evolution of the mean (and potentially higher-order statistics) and then connects these ${\sf t}$ and $z$-dependent statistics back to the likelihood of observing the data. This is what is commonly known as the 'mean-field' inference approach; averaging over the available degrees of freedom in the statistical moments of distributions. Though, knowing what the master equation is for an arbitrarily-defined stochastic phenomenon can be very difficult indeed, and the resulting equations typically require some form of approximation.
 
-Given that the mean-field approach isn't always going to be viable as an inference method for generalised simulations, we could then consider other ways to describe the shape and time evolution characteristics of $P_{{\sf t}+1}(X\vert z)$. For continuous state spaces, it's possible to approximate this whole distribution with a logarithmic expansion like so
-
-$$
-\begin{align}
-\ln P_{{\sf t}+1}(X\vert z) &\simeq \ln P_{{\sf t}+1}(X_*\vert z) + \frac{1}{2}\sum_{{\sf t}'=({\sf t}+1)-{\sf s}}^{({\sf t}+1)}\sum_{i=0}^{n}\sum_{j=0}^{n} (x-x_*)^i {\cal H}^{ij}_{({\sf t}+1){\sf t}'}(z) (x'-x'_*)^j \label{eq:second-order-log-expansion} \\
-{\cal H}^{ij}_{({\sf t}+1){\sf t}'}(z) &= \frac{\partial}{\partial x^i}\frac{\partial}{\partial (x')^j}\ln P_{{\sf t}+1}(X\vert z) \bigg\vert_{X=X_*} \label{eq:second-order-log-expansion-kernel} \,,
-\end{align}
-$$
-
-where the values for $X_*$ (and its rows $x_*, x_*', \dots$) are defined by the vanishing of the first derivative, i.e., these are chosen such that
-
-$$
-\begin{align}
-\frac{\partial}{\partial x^i}\ln P_{{\sf t}+1}(X\vert z) \bigg\vert_{X=X_*} &= 0 \,.
-\end{align}
-$$
-
-This logarithmic expansion is one way to see how a Gaussian process regression is able to approximate $X_{{\sf t}}$ evolving in time for many different processes. By selecting the appropriate function for ${\cal H}$ which depends on the history of values, a Gaussian process regression can be fully specified, with a smoothed trajectory in time implied by $X_*$.
-
-If we keep the truncation up to second order in the expansion, note that this expression implies a pairwise correlation structure of the form
+Let's now consider how the temporal correlation structure within $P_{{\sf t}+1}(X\vert z)$ might be approximated. If we approximated this structure up to pairwise correlations, we would get
 
 $$
 \begin{align}
@@ -192,7 +173,7 @@ We have illustrated these second-order correlations with a graph visualisation b
 
 ![](../assets/stochadexII/stochadexII-second-temporal-correlation.drawio.png)
 
-In a similar fashion, we can increase the expansion order of the log expansion to include third-order correlations such that
+In a similar fashion, we can increase the order of the approximation to include three-point temporal correlations
 
 $$
 \begin{align}
@@ -222,7 +203,7 @@ $$
 
 which describes the time evolution of the conditional probabilities.
 
-There is another expression for the mean of the distribution that we can derive under certain conditions. If the probability distribution over each row of the state history matrix is _stationary_ --- meaning that $P_{{\sf t}+1}(x\vert z)=P_{{\sf t}'}(x\vert z)$ --- it's possible to go one step further than mean field master equation and assert that
+With the expression for second-order correlations in hand, there is another expression for the mean of the distribution that we can derive under certain conditions. If the probability distribution over each row of the state history matrix is _stationary_ --- meaning that $P_{{\sf t}+1}(x\vert z)=P_{{\sf t}'}(x\vert z)$ --- it's possible to go one step further than mean field master equation and assert that
 
 $$
 \begin{align}
