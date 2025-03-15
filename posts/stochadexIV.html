@@ -197,7 +197,7 @@ About
 </br>
 </br>
 
-<h1>Online sampling from arbitrary probability distributions using a simulation engine</h1>
+<h1>Online sampling from arbitrary posterior densities using a simulation engine</h1>
 </br>
 <hr color="LightGray">
 <div class="articleHeader">
@@ -205,12 +205,12 @@ About
 </br>
 <strong> Date. </strong> WIP
 </br>
-<strong> Concept. </strong> To describe the design and implementation of a sequential Monte Carlo sampler which can dynamically adapt to sampling new points from nonstationary, multivariate and potentially multi-modal distributions using only a stream of noisy weighted samples as input. We control the sensitivity of this algorithm to temporal changes in the target distribution using a discounted history and adaptive mean-field bandwidth for the density approximation kernel.
+<strong> Concept. </strong> To describe the design and implementation of a sequential Monte Carlo sampler which can dynamically adapt to sampling new points from nonstationary, multivariate and potentially multi-modal posterior distributions using only a stream of noisy weighted samples as input. We control the sensitivity of this algorithm to temporal changes in the target distribution using a discounted history and partitioned adaptive bandwidths for the density approximation kernel.
 </div>
 <hr color="LightGray">
 </br>
 <h2 id="introduction">Introduction</h2>
-<p><strong>TODO: Need to rewrite a little so that we’re talking about a density approximation for <span class="math inline">\(P(X)\)</span> not <span class="math inline">\(P(z)\)</span>!</strong></p>
+<p><strong>TODO: Need to rewrite a little so that we’re talking about a density approximation for <span class="math inline">\(P(X)\)</span> not <span class="math inline">\(P(z)\)</span>! Talk about the utility of this as a sythetic likelihood in importance sampling from the posterior density.</strong></p>
 <p>Say that we have a generator of probabilistic weights and <span class="math inline">\(z\)</span> values in time. This generator represents a non-stationary probability distribution and the weights are effectively stochastic around the true value for each given <span class="math inline">\(z\)</span> as input. The problem is that we would like to be able to efficiently sample from the underlying distribution regardless of its shape or modality.</p>
 <p>In a previous article <span class="citation" data-cites="stochadexIII-2024">[1]</span> we used a simple, but effective, technique to solve this problem by approximating the conditional density of simulation parameters <span class="math inline">\(P_{({\sf t}+1){\sf t}}(z\vert X&#39;,{\sf Y})\)</span> (the probabilistic weights) such that we are able to both update its shape with the arrival of new data as well as sample new values from it — in both cases being able to incorporate a discounted distribution ansatz into the model. This technique estimated only the first two moments of this distribution, but with techniques like particle filtering it should be possible to generate approximate samples without this limitation.</p>
 <p>It is the aim of this article to generalise our distribution sampler using an adaptive sequential Monte Carlo algorithm (see <span class="citation" data-cites="del2006sequential">[2]</span> or <span class="citation" data-cites="wills2023sequential">[3]</span>) which uses a density kernel to update the importance weights of <span class="math inline">\(z\)</span> samples as they are taken. The density kernel approximation of the distribution which takes the form</p>
@@ -271,6 +271,7 @@ D^{\rm sym}_{\rm KL}[Q_{({\sf t}+1){\sf t}},P_{({\sf t}+1){\sf t}}] &amp;= \frac
 <li>Use the selected sample of <span class="math inline">\(z\)</span> as the centre from which to draw another normally-distributed sample, using <span class="math inline">\(fH(z&#39;)\)</span> as the covariance (where <span class="math inline">\(f\)</span> is some exploration factor <span class="math inline">\(&lt;1\)</span>).</li>
 </ol>
 <h2 id="implementation">Implementation</h2>
+<p><img src="../assets/stochadexIV/stochadexIV-overall-algorithm-code.drawio.png" /></p>
 <p>In the case of the purely time-dependent kernel with a choice of Gaussian data linking distribution above, the hyperparameters that would be optimised could relate to the kernel in a wide variety of ways. Optimising them would make our optimised reweighting similar to (but very much <em>not</em> the same as) evaluating maximum a posteriori (MAP) of a Gaussian process regression. In a Gaussian process regression, one is concerned with inferring the the whole of <span class="math inline">\(X_{{\sf t}}\)</span> as a function of time using the pairwise correlations implied by the second-order log expansion we wrote earlier. Based on this expression, the cumulative log-likelihood for a Gaussian process can be calculated as follows</p>
 <p><span class="math display">\[
 \begin{align}
@@ -278,8 +279,8 @@ D^{\rm sym}_{\rm KL}[Q_{({\sf t}+1){\sf t}},P_{({\sf t}+1){\sf t}}] &amp;= \frac
 \end{align}
 \]</span></p>
 <p><strong>Rewrite from here to cover the theory behind optimisation code that will be put into practice in the follow-up article…</strong></p>
+<p><img src="../assets/stochadexIV/stochadexIV-update-kernel-code.drawio.png" /></p>
 <p>As we did for the reweighting algorithm, we have illustrated another rough schematic below for the multi-threaded code needed to compute the objective function of a learning algorithm in the stochadex, based on the equation above. Note that, in this diagram, we have assumed that the data has already been shifted such that its values are positioned around the distribution peak. Knowing where this peak will be a priori is not possible. However, for Gaussian data, an unbiased estimator for this peak will be the sample mean and so we have included an initial data standardisation in the steps outlined by the schematic.</p>
-<p><img src="../assets/stochadexIV/stochadexIV-gaussian-process-code.drawio.png" /></p>
 <p><strong>Here should also talk about how this paper shows online learning of gradients should equilibrate and then be used for debiasing the predictions:</strong> <span class="citation" data-cites="angelopoulos2025gradientequilibriumonlinelearning">[5]</span></p>
 <p>The optimisation approach that we choose to use for obtaining the best hyperparameters in the conditional probability of the reweighting approach will depend on a few factors. For example, if the number of hyperparameters is relatively low, but their gradients are difficult to calculate exactly; then a gradient-free optimiser (such as the Nelder-Mead <span class="citation" data-cites="nelder1965simplex">[6]</span> method or something like a particle swarm; see <span class="citation" data-cites="kennedy1995particle">[7]</span> or <span class="citation" data-cites="shi1998modified">[8]</span>) would likely be the most effective choice. On the other hand, when the number of hyperparameters ends up being relatively large, it’s usually quite desirable to utilise the gradients in algorithms like vanilla Stochastic Gradient Descent <span class="citation" data-cites="robbins1951stochastic">[9]</span> (SGD) or Adam <span class="citation" data-cites="kingma2014adam">[10]</span>.</p>
 <h2 class="unnumbered" id="references">References</h2>
@@ -320,7 +321,7 @@ D^{\rm sym}_{\rm KL}[Q_{({\sf t}+1){\sf t}},P_{({\sf t}+1){\sf t}}] &amp;= \frac
 <div class="articleHeader">
   <strong> Cite. </strong> You can cite this article using the following BibTeX:
 <code><pre>@article{stochadexIV-WIP,
-  title = {Online sampling from arbitrary probability distributions using a simulation engine},
+  title = {Online sampling from arbitrary posterior densities using a simulation engine},
   author = {Hardwick, Robert J},
   journal = {umbralcalculations (umbralcalc.github.io/posts/stochadexIV.html)},
   year = {WIP},

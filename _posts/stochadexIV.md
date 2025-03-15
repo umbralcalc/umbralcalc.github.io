@@ -1,8 +1,8 @@
 ---
-title: Online sampling from arbitrary probability distributions using a simulation engine
+title: Online sampling from arbitrary posterior densities using a simulation engine
 author: Hardwick, Robert J
 date: [WIP]
-concept: To describe the design and implementation of a sequential Monte Carlo sampler which can dynamically adapt to sampling new points from nonstationary, multivariate and potentially multi-modal distributions using only a stream of noisy weighted samples as input. We control the sensitivity of this algorithm to temporal changes in the target distribution using a discounted history and adaptive mean-field bandwidth for the density approximation kernel.
+concept: To describe the design and implementation of a sequential Monte Carlo sampler which can dynamically adapt to sampling new points from nonstationary, multivariate and potentially multi-modal posterior distributions using only a stream of noisy weighted samples as input. We control the sensitivity of this algorithm to temporal changes in the target distribution using a discounted history and partitioned adaptive bandwidths for the density approximation kernel.
 articleId: stochadexIV
 codeLink: https://github.com/umbralcalc/stochadex
 year: [WIP]
@@ -10,7 +10,7 @@ year: [WIP]
 
 ## Introduction
 
-**TODO: Need to rewrite a little so that we're talking about a density approximation for $P(X)$ not $P(z)$!**
+**TODO: Need to rewrite a little so that we're talking about a density approximation for $P(X)$ not $P(z)$! Talk about the utility of this as a sythetic likelihood in importance sampling from the posterior density.**
 
 Say that we have a generator of probabilistic weights and $z$ values in time. This generator represents a non-stationary probability distribution and the weights are effectively stochastic around the true value for each given $z$ as input. The problem is that we would like to be able to efficiently sample from the underlying distribution regardless of its shape or modality.
 
@@ -95,6 +95,8 @@ Resampling from the distribution of weighted $z$ samples given the kernel approx
 
 ## Implementation
 
+![](../assets/stochadexIV/stochadexIV-overall-algorithm-code.drawio.png)
+
 In the case of the purely time-dependent kernel with a choice of Gaussian data linking distribution above, the hyperparameters that would be optimised could relate to the kernel in a wide variety of ways. Optimising them would make our optimised reweighting similar to (but very much _not_ the same as) evaluating maximum a posteriori (MAP) of a Gaussian process regression. In a Gaussian process regression, one is concerned with inferring the the whole of $X_{{\sf t}}$ as a function of time using the pairwise correlations implied by the second-order log expansion we wrote earlier. Based on this expression, the cumulative log-likelihood for a Gaussian process can be calculated as follows
 
 $$
@@ -105,9 +107,9 @@ $$
 
 **Rewrite from here to cover the theory behind optimisation code that will be put into practice in the follow-up article...**
 
-As we did for the reweighting algorithm, we have illustrated another rough schematic below for the multi-threaded code needed to compute the objective function of a learning algorithm in the stochadex, based on the equation above. Note that, in this diagram, we have assumed that the data has already been shifted such that its values are positioned around the distribution peak. Knowing where this peak will be a priori is not possible. However, for Gaussian data, an unbiased estimator for this peak will be the sample mean and so we have included an initial data standardisation in the steps outlined by the schematic.
+![](../assets/stochadexIV/stochadexIV-update-kernel-code.drawio.png)
 
-![](../assets/stochadexIV/stochadexIV-gaussian-process-code.drawio.png)
+As we did for the reweighting algorithm, we have illustrated another rough schematic below for the multi-threaded code needed to compute the objective function of a learning algorithm in the stochadex, based on the equation above. Note that, in this diagram, we have assumed that the data has already been shifted such that its values are positioned around the distribution peak. Knowing where this peak will be a priori is not possible. However, for Gaussian data, an unbiased estimator for this peak will be the sample mean and so we have included an initial data standardisation in the steps outlined by the schematic.
 
 **Here should also talk about how this paper shows online learning of gradients should equilibrate and then be used for debiasing the predictions:** [@angelopoulos2025gradientequilibriumonlinelearning]
 
