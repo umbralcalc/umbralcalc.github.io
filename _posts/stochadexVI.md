@@ -10,7 +10,128 @@ year: [WIP]
 
 ## Introduction
 
-**Big picture: implement a generalised form of Thompson Sampling [@thompson1933likelihood], i.e., sampling from the posterior over beliefs $z$ to compute a maximised $\theta$ (wrt the expected reward) each time! The posterior sampling of $z$ has already been handled by previous articles so in this one we need to figure out gradient-free dynamic optimisation of $\theta$ - we could use some adaptive form of particle swarm (see [@kennedy1995particle] or [@shi1998modified]) but need to figure out how get this to respond to changes by keeping exploration going...**
+**Best solution to this optimisation problem appears to the Streaming Evolution Strategies using Cumulative discounted Rewards computed via Monte Carlo Rollouts. Work from this...**
+
+<!-- Here's the description of this method:
+Yes! **Streaming Evolution Strategies (Streaming ES) + Cumulative Rewards (Rollouts)** gives you a powerful, **general-purpose optimization algorithm** that:  
+
+1. **Handles high-dimensional search spaces** (like neural network policies).  
+2. **Optimizes sequential decision-making** (by maximizing cumulative rewards over time).  
+3. **Adapts dynamically to non-stationary reward distributions** (by updating in an online streaming manner).  
+4. **Doesn’t require gradients** (ideal for black-box simulators).  
+
+---
+
+## **📜 Algorithm: Streaming Evolution Strategies + Rollouts**  
+
+We aim to optimize a **policy parameterized by \( \theta \)** such that it maximizes **expected cumulative rewards** over time:
+
+\[
+J(\theta) = \mathbb{E} \left[ \sum_{t=0}^{T} \gamma^t R_t(s_t, a_t) \right]
+\]
+
+where:  
+- \( \theta \) is the parameterized policy (e.g., weights of a neural network).  
+- \( s_t, a_t \) are states and actions at time \( t \).  
+- \( R_t(s_t, a_t) \) is the reward at \( t \).  
+- \( \gamma \in [0,1] \) is a discount factor that prioritizes short-term vs long-term rewards.  
+
+---
+
+### **🔹 Step 1: Initialize Policy Parameters**
+- Start with a **randomly initialized policy** \( \theta_0 \).  
+- Set a **perturbation noise level** \( \sigma \) and a **learning rate** \( \alpha \).  
+- Maintain a **buffer of recent rollouts** (e.g., sliding window memory).  
+
+---
+
+### **🔹 Step 2: Generate Perturbed Policies (Exploration)**
+Instead of waiting for a full batch, continuously generate **perturbed policies** \( \theta' \) by adding noise:  
+
+\[
+\theta' = \theta + \sigma \epsilon, \quad \epsilon \sim \mathcal{N}(0, I)
+\]
+
+Each perturbation represents a **possible policy variation** that we test in the environment.
+
+---
+
+### **🔹 Step 3: Evaluate Rollouts (Cumulative Rewards)**
+- For each perturbed policy \( \theta' \), **simulate a full trajectory**:  
+
+\[
+\tau = \{ (s_0, a_0, R_0), (s_1, a_1, R_1), ..., (s_T, a_T, R_T) \}
+\]
+
+- Compute the **discounted cumulative reward**:
+
+\[
+G(\theta') = \sum_{t=0}^{T} \gamma^t R_t
+\]
+
+- Store \( (\theta', G(\theta')) \) in the **rolling memory buffer**.
+
+---
+
+### **🔹 Step 4: Streaming Policy Update (Online Learning)**
+- Instead of waiting for a full batch of samples, apply an **incremental update** using an **exponentially weighted moving average (EMA)**:
+
+\[
+\theta \leftarrow \theta + \alpha \sum_{i} w_i \cdot \epsilon_i
+\]
+
+where:  
+- \( w_i \) is a **reward-weighted** update weight (higher for better rollouts).  
+- Older updates are **decayed** using EMA:  
+
+\[
+w_i = \beta w_i + (1-\beta) \frac{G(\theta_i) - \bar{G}}{\sigma}
+\]
+
+where \( \bar{G} \) is the mean cumulative reward from recent rollouts.  
+
+---
+
+### **🔹 Step 5: Adapt Exploration (Self-Tuning Noise)**
+- If recent updates **improve rewards**, **increase exploration noise** \( \sigma \) to explore more.  
+- If rewards **decrease**, **reduce \( \sigma \)** to refine policy adjustments.  
+
+\[
+\sigma \leftarrow \sigma \cdot \exp\left( \eta \cdot \frac{\bar{G} - G_{\text{prev}}}{G_{\text{prev}}} \right)
+\]
+
+where \( \eta \) is a learning rate for noise adaptation.
+
+---
+
+### **🔹 Step 6: Continue Streaming Updates**
+- Discard old rollouts **to prioritize the most recent environment changes**.  
+- Keep learning in an **online streaming fashion** as the environment evolves.  
+
+---
+
+## **💡 Summary of Algorithm**
+| Step | Action |
+|------|--------|
+| **1. Initialize** | Set policy \( \theta \), noise \( \sigma \), learning rate \( \alpha \). |
+| **2. Generate Perturbed Policies** | Sample \( \theta' = \theta + \sigma \epsilon \). |
+| **3. Evaluate Rollouts** | Run simulations, compute cumulative rewards. |
+| **4. Online Policy Update** | Update \( \theta \) using reward-weighted rollouts. |
+| **5. Adaptive Exploration** | Adjust \( \sigma \) dynamically based on recent performance. |
+| **6. Continue Learning** | Discard old samples, adapt continuously. |
+
+---
+
+## **🔥 Key Advantages**
+✅ **Adapts to Non-Stationary Environments** – Updates in real time, keeping up with changing rewards.  
+✅ **Works for High-Dimensional Policies** – No explicit gradients required, scalable.  
+✅ **Efficient Exploration** – Perturbations help escape local optima.  
+✅ **More Sample-Efficient Than Regular ES** – Streaming updates reduce wasted rollouts.  
+
+---
+
+## **🚀 Would You Like Code for This?**
+I can provide a **Python implementation** of this algorithm, possibly using **NumPy or JAX** for efficiency. Let me know if you'd like that! 🚀 -->
 
 In designing automated control algorithms of practical importance to the real world it's common to find that only partial observations of the system state are possible. You need only to think of the measurement uncertainties in any scientific experiment, the latent demand behind orders in a financial market, the unknown reservoirs of infection for a disease pathogen or even the limits to complete supply chain component observability in recognising just how commonly we find ourselves in this situation. When data is our only guide, this obscurity can make the learning of algorithms to control these systems an extreme --- if not frequently impossible --- challenge, without further insight provided by a more domain-specific model.
 

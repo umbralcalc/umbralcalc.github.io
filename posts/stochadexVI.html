@@ -210,9 +210,129 @@ About
 <hr color="LightGray">
 </br>
 <h2 id="introduction">Introduction</h2>
-<p><strong>Big picture: implement a generalised form of Thompson Sampling <span class="citation" data-cites="thompson1933likelihood">[1]</span>, i.e., sampling from the posterior over beliefs <span class="math inline">\(z\)</span> to compute a maximised <span class="math inline">\(\theta\)</span> (wrt the expected reward) each time! The posterior sampling of <span class="math inline">\(z\)</span> has already been handled by previous articles so in this one we need to figure out gradient-free dynamic optimisation of <span class="math inline">\(\theta\)</span> - we could use some adaptive form of particle swarm (see <span class="citation" data-cites="kennedy1995particle">[2]</span> or <span class="citation" data-cites="shi1998modified">[3]</span>) but need to figure out how get this to respond to changes by keeping exploration going…</strong></p>
+<p><strong>Best solution to this optimisation problem appears to the Streaming Evolution Strategies using Cumulative discounted Rewards computed via Monte Carlo Rollouts. Work from this…</strong></p>
+<!-- Here's the description of this method:
+Yes! **Streaming Evolution Strategies (Streaming ES) + Cumulative Rewards (Rollouts)** gives you a powerful, **general-purpose optimization algorithm** that:  
+
+1. **Handles high-dimensional search spaces** (like neural network policies).  
+2. **Optimizes sequential decision-making** (by maximizing cumulative rewards over time).  
+3. **Adapts dynamically to non-stationary reward distributions** (by updating in an online streaming manner).  
+4. **Doesn’t require gradients** (ideal for black-box simulators).  
+
+---
+
+## **📜 Algorithm: Streaming Evolution Strategies + Rollouts**  
+
+We aim to optimize a **policy parameterized by \( \theta \)** such that it maximizes **expected cumulative rewards** over time:
+
+\[
+J(\theta) = \mathbb{E} \left[ \sum_{t=0}^{T} \gamma^t R_t(s_t, a_t) \right]
+\]
+
+where:  
+- \( \theta \) is the parameterized policy (e.g., weights of a neural network).  
+- \( s_t, a_t \) are states and actions at time \( t \).  
+- \( R_t(s_t, a_t) \) is the reward at \( t \).  
+- \( \gamma \in [0,1] \) is a discount factor that prioritizes short-term vs long-term rewards.  
+
+---
+
+### **🔹 Step 1: Initialize Policy Parameters**
+- Start with a **randomly initialized policy** \( \theta_0 \).  
+- Set a **perturbation noise level** \( \sigma \) and a **learning rate** \( \alpha \).  
+- Maintain a **buffer of recent rollouts** (e.g., sliding window memory).  
+
+---
+
+### **🔹 Step 2: Generate Perturbed Policies (Exploration)**
+Instead of waiting for a full batch, continuously generate **perturbed policies** \( \theta' \) by adding noise:  
+
+\[
+\theta' = \theta + \sigma \epsilon, \quad \epsilon \sim \mathcal{N}(0, I)
+\]
+
+Each perturbation represents a **possible policy variation** that we test in the environment.
+
+---
+
+### **🔹 Step 3: Evaluate Rollouts (Cumulative Rewards)**
+- For each perturbed policy \( \theta' \), **simulate a full trajectory**:  
+
+\[
+\tau = \{ (s_0, a_0, R_0), (s_1, a_1, R_1), ..., (s_T, a_T, R_T) \}
+\]
+
+- Compute the **discounted cumulative reward**:
+
+\[
+G(\theta') = \sum_{t=0}^{T} \gamma^t R_t
+\]
+
+- Store \( (\theta', G(\theta')) \) in the **rolling memory buffer**.
+
+---
+
+### **🔹 Step 4: Streaming Policy Update (Online Learning)**
+- Instead of waiting for a full batch of samples, apply an **incremental update** using an **exponentially weighted moving average (EMA)**:
+
+\[
+\theta \leftarrow \theta + \alpha \sum_{i} w_i \cdot \epsilon_i
+\]
+
+where:  
+- \( w_i \) is a **reward-weighted** update weight (higher for better rollouts).  
+- Older updates are **decayed** using EMA:  
+
+\[
+w_i = \beta w_i + (1-\beta) \frac{G(\theta_i) - \bar{G}}{\sigma}
+\]
+
+where \( \bar{G} \) is the mean cumulative reward from recent rollouts.  
+
+---
+
+### **🔹 Step 5: Adapt Exploration (Self-Tuning Noise)**
+- If recent updates **improve rewards**, **increase exploration noise** \( \sigma \) to explore more.  
+- If rewards **decrease**, **reduce \( \sigma \)** to refine policy adjustments.  
+
+\[
+\sigma \leftarrow \sigma \cdot \exp\left( \eta \cdot \frac{\bar{G} - G_{\text{prev}}}{G_{\text{prev}}} \right)
+\]
+
+where \( \eta \) is a learning rate for noise adaptation.
+
+---
+
+### **🔹 Step 6: Continue Streaming Updates**
+- Discard old rollouts **to prioritize the most recent environment changes**.  
+- Keep learning in an **online streaming fashion** as the environment evolves.  
+
+---
+
+## **💡 Summary of Algorithm**
+| Step | Action |
+|------|--------|
+| **1. Initialize** | Set policy \( \theta \), noise \( \sigma \), learning rate \( \alpha \). |
+| **2. Generate Perturbed Policies** | Sample \( \theta' = \theta + \sigma \epsilon \). |
+| **3. Evaluate Rollouts** | Run simulations, compute cumulative rewards. |
+| **4. Online Policy Update** | Update \( \theta \) using reward-weighted rollouts. |
+| **5. Adaptive Exploration** | Adjust \( \sigma \) dynamically based on recent performance. |
+| **6. Continue Learning** | Discard old samples, adapt continuously. |
+
+---
+
+## **🔥 Key Advantages**
+✅ **Adapts to Non-Stationary Environments** – Updates in real time, keeping up with changing rewards.  
+✅ **Works for High-Dimensional Policies** – No explicit gradients required, scalable.  
+✅ **Efficient Exploration** – Perturbations help escape local optima.  
+✅ **More Sample-Efficient Than Regular ES** – Streaming updates reduce wasted rollouts.  
+
+---
+
+## **🚀 Would You Like Code for This?**
+I can provide a **Python implementation** of this algorithm, possibly using **NumPy or JAX** for efficiency. Let me know if you'd like that! 🚀 -->
 <p>In designing automated control algorithms of practical importance to the real world it’s common to find that only partial observations of the system state are possible. You need only to think of the measurement uncertainties in any scientific experiment, the latent demand behind orders in a financial market, the unknown reservoirs of infection for a disease pathogen or even the limits to complete supply chain component observability in recognising just how commonly we find ourselves in this situation. When data is our only guide, this obscurity can make the learning of algorithms to control these systems an extreme — if not frequently impossible — challenge, without further insight provided by a more domain-specific model.</p>
-<p>Model-free reinforcement learning is a popular and very powerful approach to optimising actions for ‘noisy’ systems in the real world <span class="citation" data-cites="sutton2018reinforcement">[4]</span>, especially when there is plenty of data and the system is fully observable. However, this book will not spend much time thinking about the model-free approach. We will instead be designing and building learning environments with a more model-based approach to control in mind. These environments are intended to replicate situations where the data isn’t always so complete and useful, and will provide robust tools to cope with these tricky scenarios. Those readers who are data scientists, research engineers or statistically-minded programmers may find our mathematically descriptive, yet practically-minded, approach in this book quite interesting and maybe a little different to the usual perspectives.</p>
+<p>Model-free reinforcement learning is a popular and very powerful approach to optimising actions for ‘noisy’ systems in the real world <span class="citation" data-cites="sutton2018reinforcement">[1]</span>, especially when there is plenty of data and the system is fully observable. However, this book will not spend much time thinking about the model-free approach. We will instead be designing and building learning environments with a more model-based approach to control in mind. These environments are intended to replicate situations where the data isn’t always so complete and useful, and will provide robust tools to cope with these tricky scenarios. Those readers who are data scientists, research engineers or statistically-minded programmers may find our mathematically descriptive, yet practically-minded, approach in this book quite interesting and maybe a little different to the usual perspectives.</p>
 <p>This book is about building more realistic training environments for machine learning systems in the real world. In the previous articles we formalised, designed and built a generalised simulation engine which could serve as the essential scaffolding for these environments. So why then, in this article, do we want to extend our formalism to talk about probabilistic learning methods?</p>
 <p>For many of these realistic environments where only partial state observations are possible, probabilistic learning tools can immediately become an essential tool to robustly infer the state of a system and predict its future states from any given point in time. Given that these tools are often so important for extending the capability of learning algorithms to deal with partially-observed domains; we propose to extend the idea of what is more conventionally considered a ‘machine learning environment’ to include tools for system state inference and future state prediction. In this sense, this article, will consider probabilistic learning as an essential part of the environment for a machine learning system.</p>
 <h2 id="formalising-general-interactions">Formalising general interactions</h2>
@@ -242,11 +362,11 @@ P_{{\sf t}+1}(X\vert z,\theta ) &amp;= \int_{\Xi_{{\sf t}+1}}{\rm d}A \, P_{{\sf
 \end{align}
 \]</span></p>
 <p>This relationship will be very useful in the last part of this book when we begin to look at optimising control algorithms.</p>
-<p>What are the main categories of action which are possible in the rows of <span class="math inline">\(A\)</span>? Since the NMDP described by <span class="math inline">\(\Pi_{({\sf t}+1){\sf t}}(A\vert X&#39;,\theta)\)</span> is just another form of stochastic process, the main categories of action will fall into the same as those we covered in defining the stochadex formalism. The first, and perhaps most obvious, category would probably where the actions are defined in a continuous space and are continuously applied on every timestep. Some examples of these ‘continuously-acting’ decision processes include controlling the temperature of chemical reactions <span class="citation" data-cites="beeler2023chemgymrl">[5]</span> (such as those in a brewery), spacecraft control <span class="citation" data-cites="tipaldi2022reinforcement">[6]</span> and guidance systems, as well as the driving of autonomous vehicles <span class="citation" data-cites="kiran2021deep">[7]</span>. Within a kind of subset of the continuously-acting category; we can also find the event-based acting decision processes (where actions are not necessarily taken every timestep), e.g. controlling traffic through signal timings <span class="citation" data-cites="garg2018deep">[8]</span>, managing disease spread through treatment intervals <span class="citation" data-cites="ohi2020exploring">[9]</span> and automated trading on stock markets <span class="citation" data-cites="meng2019reinforcement">[10]</span>.</p>
-<p>Many of the examples we have given above have continuous action spaces, but we might also consider classes of decision processes where actions are defined discretely. Examples of these include the famous multi-armed bandit problem <span class="citation" data-cites="gittins2011multi">[11]</span> (like choosing between website layouts for E-commerce <span class="citation" data-cites="liu2021map">[12]</span>), managing a sports team through player substitutions, sensor measurement scheduling <span class="citation" data-cites="leong2020deep">[13]</span> and the sequential design prioritisation of large-scale scientific experiments <span class="citation" data-cites="blau2022optimizing">[14]</span>.</p>
+<p>What are the main categories of action which are possible in the rows of <span class="math inline">\(A\)</span>? Since the NMDP described by <span class="math inline">\(\Pi_{({\sf t}+1){\sf t}}(A\vert X&#39;,\theta)\)</span> is just another form of stochastic process, the main categories of action will fall into the same as those we covered in defining the stochadex formalism. The first, and perhaps most obvious, category would probably where the actions are defined in a continuous space and are continuously applied on every timestep. Some examples of these ‘continuously-acting’ decision processes include controlling the temperature of chemical reactions <span class="citation" data-cites="beeler2023chemgymrl">[2]</span> (such as those in a brewery), spacecraft control <span class="citation" data-cites="tipaldi2022reinforcement">[3]</span> and guidance systems, as well as the driving of autonomous vehicles <span class="citation" data-cites="kiran2021deep">[4]</span>. Within a kind of subset of the continuously-acting category; we can also find the event-based acting decision processes (where actions are not necessarily taken every timestep), e.g. controlling traffic through signal timings <span class="citation" data-cites="garg2018deep">[5]</span>, managing disease spread through treatment intervals <span class="citation" data-cites="ohi2020exploring">[6]</span> and automated trading on stock markets <span class="citation" data-cites="meng2019reinforcement">[7]</span>.</p>
+<p>Many of the examples we have given above have continuous action spaces, but we might also consider classes of decision processes where actions are defined discretely. Examples of these include the famous multi-armed bandit problem <span class="citation" data-cites="gittins2011multi">[8]</span> (like choosing between website layouts for E-commerce <span class="citation" data-cites="liu2021map">[9]</span>), managing a sports team through player substitutions, sensor measurement scheduling <span class="citation" data-cites="leong2020deep">[10]</span> and the sequential design prioritisation of large-scale scientific experiments <span class="citation" data-cites="blau2022optimizing">[11]</span>.</p>
 <h2 id="states-actions-and-attributing-rewards">States, actions and attributing rewards</h2>
 <p>In the previous parts of this book we laid out the concept for a generalised framework to simulate and learn stochastic phenomena continually as data is received. Given that we have also introduced a framework for the automated control of these phenomena, we have all the ingredients we need to create optimal decision-making algorithms. The key question to answer then, is: <em>optimal with respect to what objective?</em></p>
-<p>The objective of an automated control algorithm could take many forms depending on the specific context. Since there is no loss in generality in doing so, it seems natural to follow the naming convention used by Markov Decision Processes (MDP) (see <span class="citation" data-cites="bertsekas2011dynamic">[15]</span> and <span class="citation" data-cites="sutton2018reinforcement">[4]</span>) by referring to the objective outcome of an action at a particular point in time as having a ‘reward’ value <span class="math inline">\(r\)</span>. Since the relationship between reward, actions and states may be stochastic, it makes sense to relate the reward outcome <span class="math inline">\(r\)</span> given a state history <span class="math inline">\(X\)</span> and action history <span class="math inline">\(A\)</span> at timestep <span class="math inline">\({\sf t}+1\)</span> through the probability distribution <span class="math inline">\(P_{{\sf t}+1}(r\vert X,A)\)</span>. Hence, generally, this reward signal is non-Markovian — as is the case in many real-world problems <span class="citation" data-cites="gaon2020reinforcement">[16]</span>.</p>
+<p>The objective of an automated control algorithm could take many forms depending on the specific context. Since there is no loss in generality in doing so, it seems natural to follow the naming convention used by Markov Decision Processes (MDP) (see <span class="citation" data-cites="bertsekas2011dynamic">[12]</span> and <span class="citation" data-cites="sutton2018reinforcement">[1]</span>) by referring to the objective outcome of an action at a particular point in time as having a ‘reward’ value <span class="math inline">\(r\)</span>. Since the relationship between reward, actions and states may be stochastic, it makes sense to relate the reward outcome <span class="math inline">\(r\)</span> given a state history <span class="math inline">\(X\)</span> and action history <span class="math inline">\(A\)</span> at timestep <span class="math inline">\({\sf t}+1\)</span> through the probability distribution <span class="math inline">\(P_{{\sf t}+1}(r\vert X,A)\)</span>. Hence, generally, this reward signal is non-Markovian — as is the case in many real-world problems <span class="citation" data-cites="gaon2020reinforcement">[13]</span>.</p>
 <p>We can use the reward probability distribution to derive a joint distribution over both state history <span class="math inline">\(X&#39;\)</span> and reward <span class="math inline">\(r\)</span> at timestep <span class="math inline">\({\sf t}+1\)</span> like so</p>
 <p><span class="math display">\[
 \begin{align}
@@ -296,60 +416,51 @@ Q_{{\sf t}}(X,A,z)={\rm E}_{{\sf t}}({\sf Discounted \,Return}\vert X,A,z) \,,
 <p>would be used to evaluate the optimal policy instead of the state value function <span class="math inline">\(V_{{\sf t}}(X,z,\theta )\)</span> that we are using above. We are able to use the latter here because the simulation model gives us explicit knowledge of the <span class="math inline">\(P_{({\sf t}+1){\sf t}}(x&#39;\vert X,z,A)\)</span> distribution which is utilised by Eq.~(<span class="math inline">\(\ref{eq:joint-x-and-r}\)</span>). When this model is not known, the state-action value function <span class="math inline">\(Q_{{\sf t}}(X,A,z)\)</span> must be learned explicitly through sample estimation from the measured state and experienced outcomes of actions taken by the agent.</p>
 <p>When an agent takes an action to measure the state of the system (or when it is given measurements without needing to take action) there will typically be some uncertainty in how the history of measured real-world data <span class="math inline">\(Y\)</span> maps to the latent states of the system <span class="math inline">\(X\)</span> and its parameters <span class="math inline">\(z\)</span> at time <span class="math inline">\({\sf t}+1\)</span>. It is natural, then, to represent this uncertainty with a posterior probability distribution <span class="math inline">\({\cal P}_{{\sf t}+1}(X,z\vert Y)\)</span> as we did in the previous article.</p>
 <h2 id="algorithm-designs">Algorithm designs</h2>
-<p>Talk about the utility of the model-based online learning approach in the case of partially observed systems <span class="citation" data-cites="aastrom1965optimal">[17]</span>. Also look into the overlaps with this approach and Thompson sampling for exploration — discuss here. Looking at a stochastic policy iteration algorithm here combined with Monte Carlo rollouts.</p>
+<p>Talk about the utility of the model-based online learning approach in the case of partially observed systems <span class="citation" data-cites="aastrom1965optimal">[14]</span>. Also look into the overlaps with this approach and Thompson sampling for exploration — discuss here. Looking at a stochastic policy iteration algorithm here combined with Monte Carlo rollouts.</p>
 <h2 id="software-design">Software design</h2>
 <h2 class="unnumbered" id="references">References</h2>
 <div id="refs" class="references csl-bib-body" role="list">
-<div id="ref-thompson1933likelihood" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[1] </div><div class="csl-right-inline">W. R. Thompson, <span>“On the likelihood that one unknown probability exceeds another in view of the evidence of two samples,”</span> <em>Biometrika</em>, vol. 25, no. 3–4, pp. 285–294, 1933.</div>
-</div>
-<div id="ref-kennedy1995particle" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[2] </div><div class="csl-right-inline">J. Kennedy and R. Eberhart, <span>“Particle swarm optimization,”</span> in <em>Proceedings of ICNN’95-international conference on neural networks</em>, IEEE, 1995, pp. 1942–1948.</div>
-</div>
-<div id="ref-shi1998modified" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[3] </div><div class="csl-right-inline">Y. Shi and R. Eberhart, <span>“A modified particle swarm optimizer,”</span> in <em>1998 IEEE international conference on evolutionary computation proceedings. IEEE world congress on computational intelligence (cat. No. 98TH8360)</em>, IEEE, 1998, pp. 69–73.</div>
-</div>
 <div id="ref-sutton2018reinforcement" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[4] </div><div class="csl-right-inline">R. S. Sutton and A. G. Barto, <em>Reinforcement learning: An introduction</em>. MIT press, 2018.</div>
+<div class="csl-left-margin">[1] </div><div class="csl-right-inline">R. S. Sutton and A. G. Barto, <em>Reinforcement learning: An introduction</em>. MIT press, 2018.</div>
 </div>
 <div id="ref-beeler2023chemgymrl" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[5] </div><div class="csl-right-inline">C. Beeler <em>et al.</em>, <span>“ChemGymRL: An interactive framework for reinforcement learning for digital chemistry,”</span> <em>arXiv preprint arXiv:2305.14177</em>, 2023.</div>
+<div class="csl-left-margin">[2] </div><div class="csl-right-inline">C. Beeler <em>et al.</em>, <span>“ChemGymRL: An interactive framework for reinforcement learning for digital chemistry,”</span> <em>arXiv preprint arXiv:2305.14177</em>, 2023.</div>
 </div>
 <div id="ref-tipaldi2022reinforcement" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[6] </div><div class="csl-right-inline">M. Tipaldi, R. Iervolino, and P. R. Massenio, <span>“Reinforcement learning in spacecraft control applications: Advances, prospects, and challenges,”</span> <em>Annual Reviews in Control</em>, 2022.</div>
+<div class="csl-left-margin">[3] </div><div class="csl-right-inline">M. Tipaldi, R. Iervolino, and P. R. Massenio, <span>“Reinforcement learning in spacecraft control applications: Advances, prospects, and challenges,”</span> <em>Annual Reviews in Control</em>, 2022.</div>
 </div>
 <div id="ref-kiran2021deep" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[7] </div><div class="csl-right-inline">B. R. Kiran <em>et al.</em>, <span>“Deep reinforcement learning for autonomous driving: A survey,”</span> <em>IEEE Transactions on Intelligent Transportation Systems</em>, vol. 23, no. 6, pp. 4909–4926, 2021.</div>
+<div class="csl-left-margin">[4] </div><div class="csl-right-inline">B. R. Kiran <em>et al.</em>, <span>“Deep reinforcement learning for autonomous driving: A survey,”</span> <em>IEEE Transactions on Intelligent Transportation Systems</em>, vol. 23, no. 6, pp. 4909–4926, 2021.</div>
 </div>
 <div id="ref-garg2018deep" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[8] </div><div class="csl-right-inline">D. Garg, M. Chli, and G. Vogiatzis, <span>“Deep reinforcement learning for autonomous traffic light control,”</span> in <em>2018 3rd IEEE international conference on intelligent transportation engineering (ICITE)</em>, IEEE, 2018, pp. 214–218.</div>
+<div class="csl-left-margin">[5] </div><div class="csl-right-inline">D. Garg, M. Chli, and G. Vogiatzis, <span>“Deep reinforcement learning for autonomous traffic light control,”</span> in <em>2018 3rd IEEE international conference on intelligent transportation engineering (ICITE)</em>, IEEE, 2018, pp. 214–218.</div>
 </div>
 <div id="ref-ohi2020exploring" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[9] </div><div class="csl-right-inline">A. Q. Ohi, M. Mridha, M. M. Monowar, and M. A. Hamid, <span>“Exploring optimal control of epidemic spread using reinforcement learning,”</span> <em>Scientific reports</em>, vol. 10, no. 1, p. 22106, 2020.</div>
+<div class="csl-left-margin">[6] </div><div class="csl-right-inline">A. Q. Ohi, M. Mridha, M. M. Monowar, and M. A. Hamid, <span>“Exploring optimal control of epidemic spread using reinforcement learning,”</span> <em>Scientific reports</em>, vol. 10, no. 1, p. 22106, 2020.</div>
 </div>
 <div id="ref-meng2019reinforcement" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[10] </div><div class="csl-right-inline">T. L. Meng and M. Khushi, <span>“Reinforcement learning in financial markets,”</span> <em>Data</em>, vol. 4, no. 3, p. 110, 2019.</div>
+<div class="csl-left-margin">[7] </div><div class="csl-right-inline">T. L. Meng and M. Khushi, <span>“Reinforcement learning in financial markets,”</span> <em>Data</em>, vol. 4, no. 3, p. 110, 2019.</div>
 </div>
 <div id="ref-gittins2011multi" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[11] </div><div class="csl-right-inline">J. Gittins, K. Glazebrook, and R. Weber, <em>Multi-armed bandit allocation indices</em>. John Wiley &amp; Sons, 2011.</div>
+<div class="csl-left-margin">[8] </div><div class="csl-right-inline">J. Gittins, K. Glazebrook, and R. Weber, <em>Multi-armed bandit allocation indices</em>. John Wiley &amp; Sons, 2011.</div>
 </div>
 <div id="ref-liu2021map" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[12] </div><div class="csl-right-inline">Y. Liu and L. Li, <span>“A map of bandits for e-commerce,”</span> <em>arXiv preprint arXiv:2107.00680</em>, 2021.</div>
+<div class="csl-left-margin">[9] </div><div class="csl-right-inline">Y. Liu and L. Li, <span>“A map of bandits for e-commerce,”</span> <em>arXiv preprint arXiv:2107.00680</em>, 2021.</div>
 </div>
 <div id="ref-leong2020deep" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[13] </div><div class="csl-right-inline">A. S. Leong, A. Ramaswamy, D. E. Quevedo, H. Karl, and L. Shi, <span>“Deep reinforcement learning for wireless sensor scheduling in cyber–physical systems,”</span> <em>Automatica</em>, vol. 113, p. 108759, 2020.</div>
+<div class="csl-left-margin">[10] </div><div class="csl-right-inline">A. S. Leong, A. Ramaswamy, D. E. Quevedo, H. Karl, and L. Shi, <span>“Deep reinforcement learning for wireless sensor scheduling in cyber–physical systems,”</span> <em>Automatica</em>, vol. 113, p. 108759, 2020.</div>
 </div>
 <div id="ref-blau2022optimizing" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[14] </div><div class="csl-right-inline">T. Blau, E. V. Bonilla, I. Chades, and A. Dezfouli, <span>“Optimizing sequential experimental design with deep reinforcement learning,”</span> in <em>International conference on machine learning</em>, PMLR, 2022, pp. 2107–2128.</div>
+<div class="csl-left-margin">[11] </div><div class="csl-right-inline">T. Blau, E. V. Bonilla, I. Chades, and A. Dezfouli, <span>“Optimizing sequential experimental design with deep reinforcement learning,”</span> in <em>International conference on machine learning</em>, PMLR, 2022, pp. 2107–2128.</div>
 </div>
 <div id="ref-bertsekas2011dynamic" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[15] </div><div class="csl-right-inline">D. P. Bertsekas <em>et al.</em>, <span>“Dynamic programming and optimal control 3rd edition, volume ii,”</span> <em>Belmont, MA: Athena Scientific</em>, vol. 1, 2011.</div>
+<div class="csl-left-margin">[12] </div><div class="csl-right-inline">D. P. Bertsekas <em>et al.</em>, <span>“Dynamic programming and optimal control 3rd edition, volume ii,”</span> <em>Belmont, MA: Athena Scientific</em>, vol. 1, 2011.</div>
 </div>
 <div id="ref-gaon2020reinforcement" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[16] </div><div class="csl-right-inline">M. Gaon and R. Brafman, <span>“Reinforcement learning with non-markovian rewards,”</span> in <em>Proceedings of the AAAI conference on artificial intelligence</em>, 2020, pp. 3980–3987.</div>
+<div class="csl-left-margin">[13] </div><div class="csl-right-inline">M. Gaon and R. Brafman, <span>“Reinforcement learning with non-markovian rewards,”</span> in <em>Proceedings of the AAAI conference on artificial intelligence</em>, 2020, pp. 3980–3987.</div>
 </div>
 <div id="ref-aastrom1965optimal" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[17] </div><div class="csl-right-inline">K. J. Åström, <span>“Optimal control of markov processes with incomplete state information i,”</span> <em>Journal of mathematical analysis and applications</em>, vol. 10, pp. 174–205, 1965.</div>
+<div class="csl-left-margin">[14] </div><div class="csl-right-inline">K. J. Åström, <span>“Optimal control of markov processes with incomplete state information i,”</span> <em>Journal of mathematical analysis and applications</em>, vol. 10, pp. 174–205, 1965.</div>
 </div>
 </div>
 <span class="custom-spacer"></span>
