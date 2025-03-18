@@ -215,21 +215,22 @@ About
 <p>Before launching into a description of the algorithm, let’s ensure the mathematical details have been covered. One might formalise our approach to density estimation by first recalling from <span class="citation" data-cites="stochadexII-2024">[4]</span> our fully general description for the time evolution of probabilities over simulation states</p>
 <p><span class="math display">\[
 \begin{align}
-P_{{\sf t}+1}(X\vert z) &amp;= P_{{\sf t}}(X&#39;\vert z) P_{({\sf t}+1){\sf t}}(x\vert X&#39;,z) \,.
+P_{{\sf t}+1}(x\vert z) &amp;= \int_{\Omega_{{\sf t}}} {\rm d}X&#39; P_{{\sf t}}(X&#39;\vert z) P_{({\sf t}+1){\sf t}}(x\vert X&#39;,z) \,.
 \end{align}
 \]</span></p>
+<p><strong>Continue from here - need to figure out precisely the right expression for the expansion…</strong></p>
 <p>Assuming that the state space is continuous (transformations will always exist to handle discrete variables too), we can approximate the conditional probability of this expression with a sum of logarithmic expansions around past states which are truncated at second order</p>
 <p><span class="math display">\[
 \begin{align}
-\ln P_{({\sf t}+1){\sf t}}(x\vert X&#39;,z) &amp;\simeq \sum_{{\sf t}&#39;={\sf t}-{\sf s}}^{\sf t}\bigg[ \ln P_{({\sf t}+1){\sf t}&#39;}(x&#39;\vert X&#39;&#39;,z) + \frac{1}{2}\sum^n_{i=0}\sum^n_{j=0}(x-x&#39;)^i{\cal H}^{ij}_{({\sf t}+1){\sf t}&#39;}(X&#39;&#39;)(x-x&#39;)^j \bigg] \\
+\ln P_{({\sf t}+1){\sf t}}(x\vert X&#39;,z) &amp;\simeq \sum_{{\sf t}&#39;={\sf t}-{\sf s}}^{\sf t}\bigg[ \ln P_{({\sf t}+1){\sf t}}(x&#39;\vert X&#39;,z) + \frac{1}{2}\sum^n_{i=0}\sum^n_{j=0}(x-x&#39;)^i{\cal H}^{ij}_{({\sf t}+1){\sf t}&#39;}(X&#39;&#39;)(x-x&#39;)^j \bigg] \\
 {\cal H}^{ij}_{({\sf t}+1){\sf t}&#39;}(X&#39;&#39;) &amp;= \frac{\partial^2}{\partial x^i\partial x^j}\ln P_{({\sf t}+1){\sf t}&#39;}(x\vert X&#39;&#39;,z) \bigg\vert_{x=x&#39;} \,,
 \end{align}
 \]</span></p>
 <p>where we have assumed that the conditional probability peaks when the past state equals the future one <span class="math inline">\(x&#39;=x\)</span>. Note that we have also truncated the state history depth up to some number of timesteps <span class="math inline">\({\sf s}\)</span> to write an expression which is closer to that of the computation in practice, as in previous work.</p>
-<p><strong>Continue editing from here…</strong></p>
+<p>Given the expression above, it’s therefore quite natural to consider the following kernel density approximation</p>
 <p><span class="math display">\[
 \begin{align}
-P_{{\sf t}+1}(X\vert z) \simeq Q_{{\sf t}+1}(X\vert z) \propto \sum_{{\sf t}&#39;={\sf t}-{\sf s}}^{{\sf t}}\int_{\zeta_{{\sf t}&#39;+1}} {\rm d}z&#39; P_{({\sf t}&#39;+1){\sf t}&#39;}(z&#39;\vert X&#39;&#39;,{\sf Y})K_{({\sf t}+1){\sf t}&#39;}[z,z&#39;;H(z&#39;)] \,,
+P_{{\sf t}+1}(X\vert z) \simeq Q_{{\sf t}+1}(X\vert z) \propto \sum_{{\sf t}&#39;={\sf t}-{\sf s}}^{{\sf t}}\int_{\Omega_{{\sf t}&#39;}} {\rm d}X&#39; P_{{\sf t}&#39;}(X&#39;\vert z) K_{({\sf t}+1){\sf t}&#39;}[x,x&#39;;{\cal H}(X&#39;)] \,,
 \end{align}
 \]</span></p>
 <p>where <span class="math inline">\(K_{({\sf t}+1){\sf t}&#39;}[z,z&#39;;H(z&#39;)]\)</span> is some smoothing kernel which helps to approximate the posterior distribution up to some specified scale using the bandwidth matrix <span class="math inline">\(H\)</span>, making use of the full history of <span class="math inline">\(z\)</span> samples. A Gaussian kernel would take the form</p>

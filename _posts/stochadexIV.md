@@ -18,26 +18,28 @@ Before launching into a description of the algorithm, let's ensure the mathemati
 
 $$
 \begin{align}
-P_{{\sf t}+1}(X\vert z) &= P_{{\sf t}}(X'\vert z) P_{({\sf t}+1){\sf t}}(x\vert X',z) \,.
+P_{{\sf t}+1}(x\vert z) &= \int_{\Omega_{{\sf t}}} {\rm d}X' P_{{\sf t}}(X'\vert z) P_{({\sf t}+1){\sf t}}(x\vert X',z) \,.
 \end{align}
 $$
+
+**Continue from here - need to figure out precisely the right expression for the expansion...**
 
 Assuming that the state space is continuous (transformations will always exist to handle discrete variables too), we can approximate the conditional probability of this expression with a sum of logarithmic expansions around past states which are truncated at second order
 
 $$
 \begin{align}
-\ln P_{({\sf t}+1){\sf t}}(x\vert X',z) &\simeq \sum_{{\sf t}'={\sf t}-{\sf s}}^{\sf t}\bigg[ \ln P_{({\sf t}+1){\sf t}'}(x'\vert X'',z) + \frac{1}{2}\sum^n_{i=0}\sum^n_{j=0}(x-x')^i{\cal H}^{ij}_{({\sf t}+1){\sf t}'}(X'')(x-x')^j \bigg] \\
+\ln P_{({\sf t}+1){\sf t}}(x\vert X',z) &\simeq \sum_{{\sf t}'={\sf t}-{\sf s}}^{\sf t}\bigg[ \ln P_{({\sf t}+1){\sf t}}(x'\vert X',z) + \frac{1}{2}\sum^n_{i=0}\sum^n_{j=0}(x-x')^i{\cal H}^{ij}_{({\sf t}+1){\sf t}'}(X'')(x-x')^j \bigg] \\
 {\cal H}^{ij}_{({\sf t}+1){\sf t}'}(X'') &= \frac{\partial^2}{\partial x^i\partial x^j}\ln P_{({\sf t}+1){\sf t}'}(x\vert X'',z) \bigg\vert_{x=x'} \,,
 \end{align}
 $$
 
 where we have assumed that the conditional probability peaks when the past state equals the future one $x'=x$. Note that we have also truncated the state history depth up to some number of timesteps ${\sf s}$ to write an expression which is closer to that of the computation in practice, as in previous work.
 
-**Continue editing from here...**
+Given the expression above, it's therefore quite natural to consider the following kernel density approximation
 
 $$
 \begin{align}
-P_{{\sf t}+1}(X\vert z) \simeq Q_{{\sf t}+1}(X\vert z) \propto \sum_{{\sf t}'={\sf t}-{\sf s}}^{{\sf t}}\int_{\zeta_{{\sf t}'+1}} {\rm d}z' P_{({\sf t}'+1){\sf t}'}(z'\vert X'',{\sf Y})K_{({\sf t}+1){\sf t}'}[z,z';H(z')] \,,
+P_{{\sf t}+1}(X\vert z) \simeq Q_{{\sf t}+1}(X\vert z) \propto \sum_{{\sf t}'={\sf t}-{\sf s}}^{{\sf t}}\int_{\Omega_{{\sf t}'}} {\rm d}X' P_{{\sf t}'}(X'\vert z) K_{({\sf t}+1){\sf t}'}[x,x';{\cal H}(X')] \,,
 \end{align}
 $$
 
