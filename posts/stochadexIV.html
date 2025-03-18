@@ -210,9 +210,22 @@ About
 <hr color="LightGray">
 </br>
 <h2 id="introduction">Introduction</h2>
-<p>In a previous article <span class="citation" data-cites="stochadexIII-2024">[1]</span> we used a simple, but effective, technique to approximate the conditional density of simulation parameters <span class="math inline">\(P_{({\sf t}+1){\sf t}}(z\vert X&#39;,{\sf Y})\)</span> (the probabilistic weights) such that we are able to both update its shape with the arrival of new data as well as sample new values from it while incorporating a past-discounting distribution ansatz into the model. While robust, this technique only estimated the first two moments of the posterior distribution and that of the synethetic likelihood used to compare simulation states to the data. Ideally, we would like to be able to efficiently sample from the posterior regardless of likelihood/posterior shape and modality.</p>
+<p>In a previous article <span class="citation" data-cites="stochadexIII-2024">[1]</span> we used a simple, but effective, technique to approximate the conditional density of simulation parameters <span class="math inline">\(P_{({\sf t}+1){\sf t}}(z\vert X&#39;,{\sf Y})\)</span> such that we were able to both update its shape with the arrival of new data as well as sample new values from it while incorporating a past-discounting distribution ansatz into the model. While robust, this technique only estimated the first two moments of the posterior distribution and that of the synethetic likelihood used to compare simulation states to the data. Ideally, we would like to be able to efficiently sample from the posterior regardless of likelihood/posterior shape and modality.</p>
 <p>It is the aim of this article to generalise our distribution sampler using an adaptive sequential Monte Carlo algorithm (see <span class="citation" data-cites="del2006sequential">[2]</span> or <span class="citation" data-cites="wills2023sequential">[3]</span>) which uses a density kernel to update the importance weights of simulation <span class="math inline">\((X,z)\)</span> samples as they are taken. This particle filter will, in principle, be capable of adaptively sampling from practically any posterior distribution shape, regardless of stationarity.</p>
-<p>Before launching into a description of the algorithm, let’s ensure the mathematical details have been covered. One might formalise our approach to density estimation by considering the following approximation</p>
+<p>Before launching into a description of the algorithm, let’s ensure the mathematical details have been covered. One might formalise our approach to density estimation by first recalling from <span class="citation" data-cites="stochadexII-2024">[4]</span> our fully general description for the time evolution of probabilities over simulation states</p>
+<p><span class="math display">\[
+\begin{align}
+P_{{\sf t}+1}(X\vert z) &amp;= P_{{\sf t}}(X&#39;\vert z) P_{({\sf t}+1){\sf t}}(x\vert X&#39;,z) \,.
+\end{align}
+\]</span></p>
+<p>Assuming that the state space is continuous (transformations will always exist to handle discrete variables too), we can approximate the conditional probability of this expression with a sum of logarithmic expansions around past states which are truncated at second order</p>
+<p><span class="math display">\[
+\begin{align}
+\ln P_{({\sf t}+1){\sf t}}(x\vert X&#39;,z) &amp;\simeq \sum_{{\sf t}&#39;={\sf t}-{\sf s}}^{\sf t}\bigg[ \ln P_{({\sf t}+1){\sf t}&#39;}(x&#39;\vert X&#39;&#39;,z) + \frac{1}{2}\sum^n_{i=0}\sum^n_{j=0}(x-x&#39;)^i{\cal H}^{ij}_{({\sf t}+1){\sf t}&#39;}(X&#39;&#39;)(x-x&#39;)^j \bigg] \\
+{\cal H}^{ij}_{({\sf t}+1){\sf t}&#39;}(X&#39;&#39;) &amp;= \frac{\partial^2}{\partial x^i\partial x^j}\ln P_{({\sf t}+1){\sf t}&#39;}(x\vert X&#39;&#39;,z) \bigg\vert_{x=x&#39;} \,,
+\end{align}
+\]</span></p>
+<p>where we have assumed that the conditional probability peaks when the past state equals the future one <span class="math inline">\(x&#39;=x\)</span>. Note that we have also truncated the state history depth up to some number of timesteps <span class="math inline">\({\sf s}\)</span> to write an expression which is closer to that of the computation in practice, as in previous work.</p>
 <p><strong>Continue editing from here…</strong></p>
 <p><span class="math display">\[
 \begin{align}
@@ -228,7 +241,7 @@ K_{({\sf t}+1){\sf t}&#39;}[z,z&#39;;H(z&#39;)] &amp;\propto \beta^{{\sf t}+1-{\
 <p>where <span class="math inline">\(\beta\)</span> is the past-discounting factor.</p>
 <p>In order for the kernel to adapt to the changes in the shape of the probability density over time, we will need to provide a mechanism for updating <span class="math inline">\(H(z&#39;)\)</span> in response to these changes.</p>
 <h2 id="algorithm-design">Algorithm design</h2>
-<p>We can motivate the density smoothing model through specifying the following functional ‘distribution over distributions’ which uses a symmetrised form of the Kullback-Leibler divergence <span class="citation" data-cites="kullback1951information">[4]</span></p>
+<p>We can motivate the density smoothing model through specifying the following functional ‘distribution over distributions’ which uses a symmetrised form of the Kullback-Leibler divergence <span class="citation" data-cites="kullback1951information">[5]</span></p>
 <p><span class="math display">\[
 \begin{align}
 {\cal P}_{({\sf t}+1){\sf t}}[Q_{({\sf t}+1){\sf t}}] &amp;\propto e^{-D^{\rm sym}_{\rm KL}[Q_{({\sf t}+1){\sf t}},P_{({\sf t}+1){\sf t}}]} \\
@@ -281,8 +294,8 @@ D^{\rm sym}_{\rm KL}[Q_{({\sf t}+1){\sf t}},P_{({\sf t}+1){\sf t}}] &amp;= \frac
 <p><strong>Rewrite from here to cover the theory behind optimisation code that will be put into practice in the follow-up article…</strong></p>
 <p><img src="../assets/stochadexIV/stochadexIV-update-kernel-code.drawio.png" /></p>
 <p>As we did for the reweighting algorithm, we have illustrated another rough schematic below for the multi-threaded code needed to compute the objective function of a learning algorithm in the stochadex, based on the equation above. Note that, in this diagram, we have assumed that the data has already been shifted such that its values are positioned around the distribution peak. Knowing where this peak will be a priori is not possible. However, for Gaussian data, an unbiased estimator for this peak will be the sample mean and so we have included an initial data standardisation in the steps outlined by the schematic.</p>
-<p><strong>Here should also talk about how this paper shows online learning of gradients should equilibrate and then be used for debiasing the predictions:</strong> <span class="citation" data-cites="angelopoulos2025gradientequilibriumonlinelearning">[5]</span></p>
-<p>The optimisation approach that we choose to use for obtaining the best hyperparameters in the conditional probability of the reweighting approach will depend on a few factors. For example, if the number of hyperparameters is relatively low, but their gradients are difficult to calculate exactly; then a gradient-free optimiser (such as the Nelder-Mead <span class="citation" data-cites="nelder1965simplex">[6]</span> method or something like a particle swarm; see <span class="citation" data-cites="kennedy1995particle">[7]</span> or <span class="citation" data-cites="shi1998modified">[8]</span>) would likely be the most effective choice. On the other hand, when the number of hyperparameters ends up being relatively large, it’s usually quite desirable to utilise the gradients in algorithms like vanilla Stochastic Gradient Descent <span class="citation" data-cites="robbins1951stochastic">[9]</span> (SGD) or Adam <span class="citation" data-cites="kingma2014adam">[10]</span>.</p>
+<p><strong>Here should also talk about how this paper shows online learning of gradients should equilibrate and then be used for debiasing the predictions:</strong> <span class="citation" data-cites="angelopoulos2025gradientequilibriumonlinelearning">[6]</span></p>
+<p>The optimisation approach that we choose to use for obtaining the best hyperparameters in the conditional probability of the reweighting approach will depend on a few factors. For example, if the number of hyperparameters is relatively low, but their gradients are difficult to calculate exactly; then a gradient-free optimiser (such as the Nelder-Mead <span class="citation" data-cites="nelder1965simplex">[7]</span> method or something like a particle swarm; see <span class="citation" data-cites="kennedy1995particle">[8]</span> or <span class="citation" data-cites="shi1998modified">[9]</span>) would likely be the most effective choice. On the other hand, when the number of hyperparameters ends up being relatively large, it’s usually quite desirable to utilise the gradients in algorithms like vanilla Stochastic Gradient Descent <span class="citation" data-cites="robbins1951stochastic">[10]</span> (SGD) or Adam <span class="citation" data-cites="kingma2014adam">[11]</span>.</p>
 <h2 class="unnumbered" id="references">References</h2>
 <div id="refs" class="references csl-bib-body" role="list">
 <div id="ref-stochadexIII-2024" class="csl-entry" role="listitem">
@@ -294,26 +307,29 @@ D^{\rm sym}_{\rm KL}[Q_{({\sf t}+1){\sf t}},P_{({\sf t}+1){\sf t}}] &amp;= \frac
 <div id="ref-wills2023sequential" class="csl-entry" role="listitem">
 <div class="csl-left-margin">[3] </div><div class="csl-right-inline">A. G. Wills and T. B. Schön, <span>“Sequential monte carlo: A unified review,”</span> <em>Annual Review of Control, Robotics, and Autonomous Systems</em>, vol. 6, pp. 159–182, 2023.</div>
 </div>
+<div id="ref-stochadexII-2024" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[4] </div><div class="csl-right-inline">R. J. Hardwick, <span>“Probabilistic learning methods embedded within a simulation engine,”</span> <em>umbralcalculations (umbralcalc.github.io/posts/stochadexII.html)</em>, 2024.</div>
+</div>
 <div id="ref-kullback1951information" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[4] </div><div class="csl-right-inline">S. Kullback and R. A. Leibler, <span>“On information and sufficiency,”</span> <em>The annals of mathematical statistics</em>, vol. 22, no. 1, pp. 79–86, 1951.</div>
+<div class="csl-left-margin">[5] </div><div class="csl-right-inline">S. Kullback and R. A. Leibler, <span>“On information and sufficiency,”</span> <em>The annals of mathematical statistics</em>, vol. 22, no. 1, pp. 79–86, 1951.</div>
 </div>
 <div id="ref-angelopoulos2025gradientequilibriumonlinelearning" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[5] </div><div class="csl-right-inline">A. N. Angelopoulos, M. I. Jordan, and R. J. Tibshirani, <span>“Gradient equilibrium in online learning: Theory and applications.”</span> 2025. Available: <a href="https://arxiv.org/abs/2501.08330">https://arxiv.org/abs/2501.08330</a></div>
+<div class="csl-left-margin">[6] </div><div class="csl-right-inline">A. N. Angelopoulos, M. I. Jordan, and R. J. Tibshirani, <span>“Gradient equilibrium in online learning: Theory and applications.”</span> 2025. Available: <a href="https://arxiv.org/abs/2501.08330">https://arxiv.org/abs/2501.08330</a></div>
 </div>
 <div id="ref-nelder1965simplex" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[6] </div><div class="csl-right-inline">J. A. Nelder and R. Mead, <span>“A simplex method for function minimization,”</span> <em>The computer journal</em>, vol. 7, no. 4, pp. 308–313, 1965.</div>
+<div class="csl-left-margin">[7] </div><div class="csl-right-inline">J. A. Nelder and R. Mead, <span>“A simplex method for function minimization,”</span> <em>The computer journal</em>, vol. 7, no. 4, pp. 308–313, 1965.</div>
 </div>
 <div id="ref-kennedy1995particle" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[7] </div><div class="csl-right-inline">J. Kennedy and R. Eberhart, <span>“Particle swarm optimization,”</span> in <em>Proceedings of ICNN’95-international conference on neural networks</em>, IEEE, 1995, pp. 1942–1948.</div>
+<div class="csl-left-margin">[8] </div><div class="csl-right-inline">J. Kennedy and R. Eberhart, <span>“Particle swarm optimization,”</span> in <em>Proceedings of ICNN’95-international conference on neural networks</em>, IEEE, 1995, pp. 1942–1948.</div>
 </div>
 <div id="ref-shi1998modified" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[8] </div><div class="csl-right-inline">Y. Shi and R. Eberhart, <span>“A modified particle swarm optimizer,”</span> in <em>1998 IEEE international conference on evolutionary computation proceedings. IEEE world congress on computational intelligence (cat. No. 98TH8360)</em>, IEEE, 1998, pp. 69–73.</div>
+<div class="csl-left-margin">[9] </div><div class="csl-right-inline">Y. Shi and R. Eberhart, <span>“A modified particle swarm optimizer,”</span> in <em>1998 IEEE international conference on evolutionary computation proceedings. IEEE world congress on computational intelligence (cat. No. 98TH8360)</em>, IEEE, 1998, pp. 69–73.</div>
 </div>
 <div id="ref-robbins1951stochastic" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[9] </div><div class="csl-right-inline">H. Robbins and S. Monro, <span>“A stochastic approximation method,”</span> <em>The annals of mathematical statistics</em>, pp. 400–407, 1951.</div>
+<div class="csl-left-margin">[10] </div><div class="csl-right-inline">H. Robbins and S. Monro, <span>“A stochastic approximation method,”</span> <em>The annals of mathematical statistics</em>, pp. 400–407, 1951.</div>
 </div>
 <div id="ref-kingma2014adam" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[10] </div><div class="csl-right-inline">D. P. Kingma and J. Ba, <span>“Adam: A method for stochastic optimization,”</span> <em>arXiv preprint arXiv:1412.6980</em>, 2014.</div>
+<div class="csl-left-margin">[11] </div><div class="csl-right-inline">D. P. Kingma and J. Ba, <span>“Adam: A method for stochastic optimization,”</span> <em>arXiv preprint arXiv:1412.6980</em>, 2014.</div>
 </div>
 </div>
 <span class="custom-spacer"></span>

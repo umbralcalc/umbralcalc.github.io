@@ -10,11 +10,28 @@ year: [WIP]
 
 ## Introduction
 
-In a previous article [@stochadexIII-2024] we used a simple, but effective, technique to approximate the conditional density of simulation parameters $P_{({\sf t}+1){\sf t}}(z\vert X',{\sf Y})$ (the probabilistic weights) such that we are able to both update its shape with the arrival of new data as well as sample new values from it while incorporating a past-discounting distribution ansatz into the model. While robust, this technique only estimated the first two moments of the posterior distribution and that of the synethetic likelihood used to compare simulation states to the data. Ideally, we would like to be able to efficiently sample from the posterior regardless of likelihood/posterior shape and modality.
+In a previous article [@stochadexIII-2024] we used a simple, but effective, technique to approximate the conditional density of simulation parameters $P_{({\sf t}+1){\sf t}}(z\vert X',{\sf Y})$ such that we were able to both update its shape with the arrival of new data as well as sample new values from it while incorporating a past-discounting distribution ansatz into the model. While robust, this technique only estimated the first two moments of the posterior distribution and that of the synethetic likelihood used to compare simulation states to the data. Ideally, we would like to be able to efficiently sample from the posterior regardless of likelihood/posterior shape and modality.
 
 It is the aim of this article to generalise our distribution sampler using an adaptive sequential Monte Carlo algorithm (see [@del2006sequential] or [@wills2023sequential]) which uses a density kernel to update the importance weights of simulation $(X,z)$ samples as they are taken. This particle filter will, in principle, be capable of adaptively sampling from practically any posterior distribution shape, regardless of stationarity.
 
-Before launching into a description of the algorithm, let's ensure the mathematical details have been covered. One might formalise our approach to density estimation by considering the following approximation
+Before launching into a description of the algorithm, let's ensure the mathematical details have been covered. One might formalise our approach to density estimation by first recalling from [@stochadexII-2024] our fully general description for the time evolution of probabilities over simulation states
+
+$$
+\begin{align}
+P_{{\sf t}+1}(X\vert z) &= P_{{\sf t}}(X'\vert z) P_{({\sf t}+1){\sf t}}(x\vert X',z) \,.
+\end{align}
+$$
+
+Assuming that the state space is continuous (transformations will always exist to handle discrete variables too), we can approximate the conditional probability of this expression with a sum of logarithmic expansions around past states which are truncated at second order
+
+$$
+\begin{align}
+\ln P_{({\sf t}+1){\sf t}}(x\vert X',z) &\simeq \sum_{{\sf t}'={\sf t}-{\sf s}}^{\sf t}\bigg[ \ln P_{({\sf t}+1){\sf t}'}(x'\vert X'',z) + \frac{1}{2}\sum^n_{i=0}\sum^n_{j=0}(x-x')^i{\cal H}^{ij}_{({\sf t}+1){\sf t}'}(X'')(x-x')^j \bigg] \\
+{\cal H}^{ij}_{({\sf t}+1){\sf t}'}(X'') &= \frac{\partial^2}{\partial x^i\partial x^j}\ln P_{({\sf t}+1){\sf t}'}(x\vert X'',z) \bigg\vert_{x=x'} \,,
+\end{align}
+$$
+
+where we have assumed that the conditional probability peaks when the past state equals the future one $x'=x$. Note that we have also truncated the state history depth up to some number of timesteps ${\sf s}$ to write an expression which is closer to that of the computation in practice, as in previous work.
 
 **Continue editing from here...**
 
