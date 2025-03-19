@@ -14,7 +14,7 @@ In a previous article [@stochadexIII-2024] we used a simple, but effective, tech
 
 It is the aim of this article to generalise our distribution sampler using an adaptive sequential Monte Carlo algorithm (see [@del2006sequential] or [@wills2023sequential]) which uses a density kernel to update the importance weights of simulation $(X,z)$ samples as they are taken. This particle filter will, in principle, be capable of adaptively sampling from practically any posterior distribution shape, regardless of stationarity.
 
-Before launching into a description of the algorithm, let's ensure the mathematical details have been covered. One might formalise our approach to density estimation by first recalling from [@stochadexII-2024] our fully general description for the time evolution of probabilities over simulation states
+Before launching into a description of the algorithm, let's ensure the mathematical details have been covered. To formalise our approach to density estimation, we first recall from [@stochadexII-2024] our fully general description for the time evolution of probabilities over simulation states
 
 $$
 \begin{align}
@@ -22,38 +22,38 @@ P_{{\sf t}+1}(x\vert z) &= \int_{\Omega_{{\sf t}}} {\rm d}X' P_{{\sf t}}(X'\vert
 \end{align}
 $$
 
-**Continue from here - need to figure out precisely the right expression for the expansion...**
-
 Assuming that the state space is continuous (transformations will always exist to handle discrete variables too), we can approximate the conditional probability of this expression with a sum of logarithmic expansions around past states which are truncated at second order
 
 $$
 \begin{align}
-\ln P_{({\sf t}+1){\sf t}}(x\vert X',z) &\simeq \sum_{{\sf t}'={\sf t}-{\sf s}}^{\sf t}\bigg[ \ln P_{({\sf t}+1){\sf t}}(x'\vert X',z) + \frac{1}{2}\sum^n_{i=0}\sum^n_{j=0}(x-x')^i{\cal H}^{ij}_{({\sf t}+1){\sf t}'}(X'')(x-x')^j \bigg] \\
-{\cal H}^{ij}_{({\sf t}+1){\sf t}'}(X'') &= \frac{\partial^2}{\partial x^i\partial x^j}\ln P_{({\sf t}+1){\sf t}'}(x\vert X'',z) \bigg\vert_{x=x'} \,,
+\ln P_{({\sf t}+1){\sf t}}(x\vert X',z) &\simeq \sum_{{\sf t}'={\sf t}-{\sf s}}^{\sf t}\bigg[ \ln P_{({\sf t}+1){\sf t}}(x{=}X_{{\sf t}'}\vert X',z) + \frac{1}{2}\sum^n_{i=0}\sum^n_{j=0}(x-X_{{\sf t}'})^i{\cal H}^{ij}_{({\sf t}+1){\sf t}'}(X')(x-X_{{\sf t}'})^j \bigg] \\
+{\cal H}^{ij}_{({\sf t}+1){\sf t}'}(X') &= \frac{\partial^2}{\partial x^i\partial x^j}\ln P_{({\sf t}+1){\sf t}}(x\vert X',z) \bigg\vert_{x{=}X_{{\sf t}'}} \,,
 \end{align}
 $$
 
-where we have assumed that the conditional probability peaks when the past state equals the future one $x'=x$. Note that we have also truncated the state history depth up to some number of timesteps ${\sf s}$ to write an expression which is closer to that of the computation in practice, as in previous work.
+where we have assumed that the conditional probability peaks when the past state equals the future one $X_{{\sf t}'}=x$ (such that the first derivatives of the expansion all vanish). Note that we have also truncated the state history depth up to some number of timesteps ${\sf s}$ to write an expression which is closer to that of the computation in practice, as in previous work.
 
 Given the expression above, it's therefore quite natural to consider the following kernel density approximation
 
 $$
 \begin{align}
-P_{{\sf t}+1}(X\vert z) \simeq Q_{{\sf t}+1}(X\vert z) \propto \sum_{{\sf t}'={\sf t}-{\sf s}}^{{\sf t}}\int_{\Omega_{{\sf t}'}} {\rm d}X' P_{{\sf t}'}(X'\vert z) K_{({\sf t}+1){\sf t}'}[x,x';{\cal H}(X')] \,,
+P_{{\sf t}+1}(X\vert z) \simeq Q_{{\sf t}+1}(X\vert z) \propto \sum_{{\sf t}'={\sf t}-{\sf s}}^{{\sf t}}\int_{\Omega_{{\sf t}}} {\rm d}X' P_{{\sf t}}(X'\vert z) K[x,X_{{\sf t}'};{\cal H}_{({\sf t}+1){\sf t}'}(X')] \,,
 \end{align}
 $$
 
-where $K_{({\sf t}+1){\sf t}'}[z,z';H(z')]$ is some smoothing kernel which helps to approximate the posterior distribution up to some specified scale using the bandwidth matrix $H$, making use of the full history of $z$ samples. A Gaussian kernel would take the form
+where $K(x,x';H)$ is some smoothing kernel which takes the form
 
 $$
 \begin{align}
-K_{({\sf t}+1){\sf t}'}[z,z';H(z')] &\propto \beta^{{\sf t}+1-{\sf t}'}\big\vert H(z') \big\vert^{-\frac{1}{2}} \exp \bigg\{ -\frac{1}{2}\sum_{i=0}^n\sum_{j=0}^n(z'-z)^i[H^{-1}(z')]^{ij}(z'-z)^j\bigg\} \,,
+K(x,x';H) &\propto \big\vert H \big\vert^{-\frac{1}{2}} \exp \bigg\{ -\frac{1}{2}\sum_{i=0}^n\sum_{j=0}^n(x-x')^i[H^{-1}]^{ij}(x-x')^j\bigg\} \,,
 \end{align}
 $$
 
-where $\beta$ is the past-discounting factor.
+where $H$ is the bandwidth matrix.
 
-In order for the kernel to adapt to the changes in the shape of the probability density over time, we will need to provide a mechanism for updating $H(z')$ in response to these changes.
+In order for the kernel to adapt to the changes in the shape of the probability density over time, we will need to provide a mechanism for updating each bandwidth matrix ${\cal H}_{({\sf t}+1){\sf t}'}(X')$ in response to these changes.
+
+**Continue to derive the estimator update and demonstrate how treating this as a Bayesian estimator by considering the effect on the kernel allows us to derive a multivariate t-distribution posterior update for the kernel!**
 
 ## Algorithm design
 
