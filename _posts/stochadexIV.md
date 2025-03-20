@@ -45,15 +45,45 @@ where $K(x,x';H)$ is some smoothing kernel which takes the form
 
 $$
 \begin{align}
-K(x,x';H) &\propto \big\vert H \big\vert^{-\frac{1}{2}} \exp \bigg\{ -\frac{1}{2}\sum_{i=0}^n\sum_{j=0}^n(x-x')^i[H^{-1}]^{ij}(x-x')^j\bigg\} \,,
+K(x,x';H) &\propto \big\vert H \big\vert^{-\frac{1}{2}} \exp \bigg[ -\frac{1}{2}\sum_{i=0}^n\sum_{j=0}^n(x-x')^i(H^{-1})^{ij}(x-x')^j\bigg] \,,
 \end{align}
 $$
 
 where $H$ is the bandwidth matrix.
 
-In order for the kernel to adapt to the changes in the shape of the probability density over time, we will need to provide a mechanism for updating each bandwidth matrix ${\cal H}_{({\sf t}+1){\sf t}'}(X')$ in response to these changes.
+In order for the kernel to adapt to the changes in the shape of the probability density over time, we will need to provide a mechanism for updating each bandwidth matrix ${\cal H}_{({\sf t}+1){\sf t}'}(X')$ in response to these changes. This ends up being fairly straightforward if we borrow some concepts from Bayesian analysis.
 
-**Continue to derive the estimator update and demonstrate how treating this as a Bayesian estimator by considering the effect on the kernel allows us to derive a multivariate t-distribution posterior update for the kernel!**
+The conjugate prior for a Bayesian update of the bandwidth matrix would naturally be the inverse-Wishart distribution
+
+$$
+\begin{align}
+&{\sf InverseWishartPDF}[{\cal H}_{({\sf t}+1){\sf t}'};\Psi_{({\sf t}+1){\sf t}'},d] = \\
+& \qquad 2^{-\frac{dn}{2}}\Gamma^{-1}_n\bigg( \frac{d}{2}\bigg)\vert \Psi\vert^{\frac{d}{2}} \vert H_{({\sf t}+1){\sf t}'}\vert^{-\frac{(d+n+1)}{2}}{\rm exp}\bigg\{-\frac{1}{2}\sum_{i=0}^n[\Psi_{({\sf t}+1){\sf t}'}{\cal H}^{-1}_{({\sf t}+1){\sf t}'}]^{ii}\bigg\} \,,
+\end{align}
+$$
+
+where here $\Gamma_n$ is the multivariate gamma function. Upon updating this prior with a likelihood which follows the same square-exponential (multivariate normal) shape as the smoothing kernel we introduced above via Bayes' rule, it is equivalent to simply update the parameters of the inverse-Wishart distribution like so
+
+$$
+\begin{align}
+(\Psi^{ij}_{({\sf t}+1){\sf t}'})^{{\sf m}+1} &= (\Psi^{ij}_{({\sf t}+1){\sf t}'})^{\sf m} + (x-x')^i(x-x')^j \\
+(d)^{{\sf m}+1} &= (d)^{{\sf m}} + 1\,,
+\end{align}
+$$
+
+where the ${\sf m}$ superscript here denotes the '${\sf m}$-th' update to the parameter.
+
+Given this prior and data update, a closed-form expression for the posterior distribution can then be used as the smoothing kernel
+
+$$
+\begin{align}
+K(x,x';\Psi_{({\sf t}+1){\sf t}'},d) &\propto \big\vert \Psi_{({\sf t}+1){\sf t}'} \big\vert^{-\frac{1}{2}} \bigg[ 1+\frac{1}{d}\sum_{i=0}^n\sum_{j=0}^n(x-x')^i(\Psi_{({\sf t}+1){\sf t}'}^{-1})^{ij}(x-x')^j\bigg]^{-\frac{(d + n)}{2}} \,,
+\end{align}
+$$
+
+since one can marginalise over the possible post-update bandwidth matrices that can exist to arrive at a posterior distribution expressed in terms of updated parameters from the prior. Note that this posterior-updated kernel density is proportional to a multivariate t-distribution.
+
+**Continue from here and consider add in references to the above calculations and distributions...**
 
 ## Algorithm design
 
