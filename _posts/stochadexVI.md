@@ -10,7 +10,7 @@ year: [WIP]
 
 ## Introduction
 
-**Best solution to this optimisation problem appears to the Streaming Evolution Strategies using Cumulative discounted Rewards computed via Monte Carlo Rollouts. Work from this...**
+**Best solution to this optimisation problem appears to the Streaming Evolution Strategies (CMA-ES) using Cumulative discounted Rewards computed via Monte Carlo Rollouts. Work from this...**
 
 <!-- Here's the description of this method:
 Yes! **Streaming Evolution Strategies (Streaming ES) + Cumulative Rewards (Rollouts)** gives you a powerful, **general-purpose optimization algorithm** that:  

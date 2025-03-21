@@ -134,25 +134,9 @@ this implies that by sampling new histories of the simulation from the past wind
 
 So the more computationally-intensive solution to the original problem (which works much more generally) is to simply rerun the past steps of the simulation from the timestep at the edge of the window $({\sf t}+1)-{\sf s}$ up to ${\sf t}+1$ for each new timestep. This method ensures that $z$ is constant throughout the past time window and we may also update the value of $z$ on any timescale of reactiveness. In order to facilitate this solution, we will need to be able to run a simulation for a fixed number of steps _inside_ the step of another simulation. We will discuss how this new concept of 'embedded simulations' should work within the stochadex package in the next section.
 
-How might we deliberately control how reactive this $z$-learning framework is to changes in the data? One possibility is to impose an evidence normalisation ansatz which applies a 'past-discounting factor' between the distribution over $(X,z)$ in the present moment and the distributions evaluated in the past, like this
+How might we deliberately control how reactive this $z$-learning framework is to changes in the data? One possibility is to apply increasing multiples of a 'past-discounting' factor $\beta^{{\sf t}+1-{\sf t}'}$ (where $0 < \beta < 1$) to the evidence normalisation of distributions evaluated further into the past relative to the distribution over $(X,z)$ in the present moment (which receives a normalisation weight of 1). This discount factor $\beta$ reduces the dependence of the update on data which is much further in the past, providing some control over the responsiveness in the simulation inference algorithm. This responsiveness would have to be balanced with the tradeoffs associated with discounting potentially valuable data that may offer greater long-term stability. Readers who are familiar with Reinforcement Learning [@sutton2018reinforcement] may be starting to feel in familiar territory here --- but they will have to wait for future articles to see more on discounting!
 
-$$
-\begin{align}
-{\sf e}_{{\sf t}+1}({\sf y}\vert {\sf Y}') = \beta {\sf e}_{{\sf t}}({\sf y}'\vert {\sf Y}'') \,\, \Longleftrightarrow \,\, {\sf e}_{{\sf t}+1}({\sf y}\vert {\sf Y}') = \beta^{{\sf s}+1}{\sf e}_{{\sf t}-{\sf s}}({\sf y}''\vert {\sf Y}''') + \sum_{{\sf t}'=({\sf t}+1)-{\sf s}}^{({\sf t}+1)} \beta^{{\sf t}+1-{\sf t}'} {\sf e}_{{\sf t}'}({\sf y}'\vert {\sf Y}'') \,.
-\end{align}
-$$
-
-One might also call this a 'past-discounted' version of the distribution where $0 < \beta < 1$. Note that in the continuous-time version, this past-discounting factor could depend on the stepsize such that we replace
-
-$$
-\begin{align}
-\beta^{{\sf t}+1-{\sf t}'} \longrightarrow \frac{1}{\beta [\delta t({\sf t}+1)]}\prod_{{\sf t}''={\sf t}'}^{{\sf t}+1} \beta [\delta t({\sf t}'')] \,.
-\end{align}
-$$
-
-The discount factor $\beta$ reduces the dependence of the update on data which is much further in the past, providing some control over the responsiveness in the simulation inference algorithm. This responsiveness would have to be balanced with the tradeoffs associated with discounting potentially valuable data that may offer greater long-term stability. Readers who are familiar with Reinforcement Learning may be starting to feel in familiar territory here --- but they will have to wait for a future article to see more on discounting!
-
-The update equation for the joint distribution tells us how to probabilistically translate the current state of knowledge about $(X,z)$ forward through time in response to the arrival of new data --- where we may also apply our discounted distribution ansatz to control the responsiveness of this update. We also know how to connect the simulated measurements to the real data because the BSL techniques we discussed earlier essentially give us an objective function to maximise for each step in time. Lastly, by rerunning the simulation from the past window edge up to the present moment for each new timestep of the data stream, we have the last piece of the puzzle which connects the inference of the simulation posterior to some form of online learning framework. It's now time to discuss the algorithm in more detail.
+The update equation for the joint distribution tells us how to probabilistically translate the current state of knowledge about $(X,z)$ forward through time in response to the arrival of new data --- where we may now also apply our 'discounted distribution' ansatz to control the responsiveness of this update through $\beta$. We also know how to connect the simulated measurements to the real data because the BSL techniques we discussed earlier essentially give us an objective function to maximise for each step in time. Lastly, by rerunning the simulation from the past window edge up to the present moment for each new timestep of the data stream, we have the last piece of the puzzle which connects the inference of the simulation posterior to some form of online learning framework. It's now time to discuss the algorithm in more detail.
 
 ## Algorithm design and implementation
 
