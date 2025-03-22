@@ -77,20 +77,22 @@ Given this prior and data update, a closed-form expression for the posterior dis
 
 $$
 \begin{align}
-K(x,x';\Psi_{({\sf t}+1){\sf t}'},d) &\propto \big\vert \Psi_{({\sf t}+1){\sf t}'} \big\vert^{-\frac{1}{2}} \bigg[ 1+\frac{1}{d}\sum_{i=0}^n\sum_{j=0}^n(x-x')^i(\Psi_{({\sf t}+1){\sf t}'}^{-1})^{ij}(x-x')^j\bigg]^{-\frac{(d + n)}{2}} \,,
+K[x,x';\Psi_{({\sf t}+1){\sf t}'},d] &\propto \big\vert \Psi_{({\sf t}+1){\sf t}'} \big\vert^{-\frac{1}{2}} \bigg[ 1+\frac{1}{d}\sum_{i=0}^n\sum_{j=0}^n(x-x')^i(\Psi_{({\sf t}+1){\sf t}'}^{-1})^{ij}(x-x')^j\bigg]^{-\frac{(d + n)}{2}} \,,
 \end{align}
 $$
 
 since one can marginalise over the possible post-update bandwidth matrices that can exist to arrive at a posterior distribution expressed in terms of updated parameters from the prior. Note that this posterior-updated kernel density is proportional to a multivariate t-distribution [@murphy2012machine].
 
+So we now have a density kernel motivated by a generalised approximation to any simulation which encodes a posterior update from previously seen data, enabling it to be used within an adaptive algorithm. Recalling the original purpose, we now have all we need to construct a kernel-based simulation-to-data comparison likelihood which can be used to weight $z$ samples with 'importances' that encode the $P_{({\sf t}+1){\sf t}}(z\vert X',{\sf Y})$ distribution density. But in order for this posterior sampling algorithm to proceed, how do we use the densities to draw new posterior samples over $z$?
+
 **Continue from here...**
 
-## Algorithm design
-
-Resampling from the distribution of weighted $z$ samples given the kernel approximation which we have already made is actually quite straightforward. To choose a new sample we can:
+Resampling from the distribution of density-weighted $z$ samples is quite straightforward. To choose a new sample we can:
 
 1. Randomly select a previous sample of $z$, using the weight of each sample to bias the selection towards the higher density regions.
-2. Use the selected sample of $z$ as the centre from which to draw another normally-distributed sample, using $fH(z')$ as the covariance (where $f$ is some exploration factor $<1$).
+2. Use this selected sample of $z$ as the centre from which to draw another normally-distributed sample, using some new sampling covariance $\Sigma$ to provide local variation or exploration.
+
+## Algorithm design
 
 ![](../assets/stochadexIV/stochadexIV-overall-algorithm-code.drawio.png)
 

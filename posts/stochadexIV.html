@@ -258,17 +258,18 @@ K(x,x&#39;;H) &amp;\propto \big\vert H \big\vert^{-\frac{1}{2}} \exp \bigg[ -\fr
 <p>Given this prior and data update, a closed-form expression for the posterior distribution can then be used as the smoothing kernel</p>
 <p><span class="math display">\[
 \begin{align}
-K(x,x&#39;;\Psi_{({\sf t}+1){\sf t}&#39;},d) &amp;\propto \big\vert \Psi_{({\sf t}+1){\sf t}&#39;} \big\vert^{-\frac{1}{2}} \bigg[ 1+\frac{1}{d}\sum_{i=0}^n\sum_{j=0}^n(x-x&#39;)^i(\Psi_{({\sf t}+1){\sf t}&#39;}^{-1})^{ij}(x-x&#39;)^j\bigg]^{-\frac{(d + n)}{2}} \,,
+K[x,x&#39;;\Psi_{({\sf t}+1){\sf t}&#39;},d] &amp;\propto \big\vert \Psi_{({\sf t}+1){\sf t}&#39;} \big\vert^{-\frac{1}{2}} \bigg[ 1+\frac{1}{d}\sum_{i=0}^n\sum_{j=0}^n(x-x&#39;)^i(\Psi_{({\sf t}+1){\sf t}&#39;}^{-1})^{ij}(x-x&#39;)^j\bigg]^{-\frac{(d + n)}{2}} \,,
 \end{align}
 \]</span></p>
 <p>since one can marginalise over the possible post-update bandwidth matrices that can exist to arrive at a posterior distribution expressed in terms of updated parameters from the prior. Note that this posterior-updated kernel density is proportional to a multivariate t-distribution <span class="citation" data-cites="murphy2012machine">[5]</span>.</p>
+<p>So we now have a density kernel motivated by a generalised approximation to any simulation which encodes a posterior update from previously seen data, enabling it to be used within an adaptive algorithm. Recalling the original purpose, we now have all we need to construct a kernel-based simulation-to-data comparison likelihood which can be used to weight <span class="math inline">\(z\)</span> samples with ‘importances’ that encode the <span class="math inline">\(P_{({\sf t}+1){\sf t}}(z\vert X&#39;,{\sf Y})\)</span> distribution density. But in order for this posterior sampling algorithm to proceed, how do we use the densities to draw new posterior samples over <span class="math inline">\(z\)</span>?</p>
 <p><strong>Continue from here…</strong></p>
-<h2 id="algorithm-design">Algorithm design</h2>
-<p>Resampling from the distribution of weighted <span class="math inline">\(z\)</span> samples given the kernel approximation which we have already made is actually quite straightforward. To choose a new sample we can:</p>
+<p>Resampling from the distribution of density-weighted <span class="math inline">\(z\)</span> samples is quite straightforward. To choose a new sample we can:</p>
 <ol type="1">
 <li>Randomly select a previous sample of <span class="math inline">\(z\)</span>, using the weight of each sample to bias the selection towards the higher density regions.</li>
-<li>Use the selected sample of <span class="math inline">\(z\)</span> as the centre from which to draw another normally-distributed sample, using <span class="math inline">\(fH(z&#39;)\)</span> as the covariance (where <span class="math inline">\(f\)</span> is some exploration factor <span class="math inline">\(&lt;1\)</span>).</li>
+<li>Use this selected sample of <span class="math inline">\(z\)</span> as the centre from which to draw another normally-distributed sample, using some new sampling covariance <span class="math inline">\(\Sigma\)</span> to provide local variation or exploration.</li>
 </ol>
+<h2 id="algorithm-design">Algorithm design</h2>
 <p><img src="../assets/stochadexIV/stochadexIV-overall-algorithm-code.drawio.png" /></p>
 <p><img src="../assets/stochadexIV/stochadexIV-update-kernel-code.drawio.png" /></p>
 <h2 class="unnumbered" id="references">References</h2>
