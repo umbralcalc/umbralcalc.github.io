@@ -209,7 +209,7 @@ About
 </div>
 <hr color="LightGray">
 </br>
-<h2 id="introduction">Introduction</h2>
+<h2 id="algorithm-design">Algorithm design</h2>
 <p>In a previous article <span class="citation" data-cites="stochadexIII-2024">[1]</span> we used a simple, but effective, technique to approximate the conditional density of simulation parameters <span class="math inline">\(P_{({\sf t}+1){\sf t}}(z\vert X&#39;,{\sf Y})\)</span> such that we were able to both update its shape with the arrival of new data as well as sample new values from it while incorporating a past-discounting distribution ansatz into the model. While robust, this technique only estimated the first two moments of the posterior distribution and that of the synethetic likelihood used to compare simulation states to the data. Ideally, we would like to be able to efficiently sample from the posterior regardless of likelihood/posterior shape and modality.</p>
 <p>It is the aim of this article to generalise our distribution sampler using an adaptive sequential Monte Carlo algorithm (see <span class="citation" data-cites="del2006sequential">[2]</span> or <span class="citation" data-cites="wills2023sequential">[3]</span>) which uses a density kernel to update the importance weights of simulation <span class="math inline">\((X,z)\)</span> samples as they are taken. This particle filter will, in principle, be capable of adaptively sampling from practically any posterior distribution shape, regardless of stationarity.</p>
 <p>Before launching into a description of the algorithm, let’s ensure the mathematical details have been covered. To formalise our approach to density estimation, we first recall from <span class="citation" data-cites="stochadexII-2024">[4]</span> our fully general description for the time evolution of probabilities over simulation states</p>
@@ -263,15 +263,17 @@ K[x,x&#39;;\Psi_{({\sf t}+1){\sf t}&#39;},d] &amp;\propto \big\vert \Psi_{({\sf 
 \]</span></p>
 <p>since one can marginalise over the possible post-update bandwidth matrices that can exist to arrive at a posterior distribution expressed in terms of updated parameters from the prior. Note that this posterior-updated kernel density is proportional to a multivariate t-distribution <span class="citation" data-cites="murphy2012machine">[5]</span>.</p>
 <p>So we now have a density kernel motivated by a generalised approximation to any simulation which encodes a posterior update from previously seen data, enabling it to be used within an adaptive algorithm. Recalling the original purpose, we now have all we need to construct a kernel-based simulation-to-data comparison likelihood which can be used to weight <span class="math inline">\(z\)</span> samples with ‘importances’ that encode the <span class="math inline">\(P_{({\sf t}+1){\sf t}}(z\vert X&#39;,{\sf Y})\)</span> distribution density. But in order for this posterior sampling algorithm to proceed, how do we use the densities to draw new posterior samples over <span class="math inline">\(z\)</span>?</p>
-<p><strong>Continue from here…</strong></p>
 <p>Resampling from the distribution of density-weighted <span class="math inline">\(z\)</span> samples is quite straightforward. To choose a new sample we can:</p>
 <ol type="1">
 <li>Randomly select a previous sample of <span class="math inline">\(z\)</span>, using the weight of each sample to bias the selection towards the higher density regions.</li>
 <li>Use this selected sample of <span class="math inline">\(z\)</span> as the centre from which to draw another normally-distributed sample, using some new sampling covariance <span class="math inline">\(\Sigma\)</span> to provide local variation or exploration.</li>
 </ol>
-<h2 id="algorithm-design">Algorithm design</h2>
+<h2 id="implementation">Implementation</h2>
+<p>With both density estimation and resampling concepts in hand, we’re now ready to consider how best to embed these within the simulation architecture of the stochadex engine. We can immediately borrow much of the structure from <span class="citation" data-cites="stochadexIII-2024">[1]</span> to sketch out the broad schematic below.</p>
 <p><img src="../assets/stochadexIV/stochadexIV-overall-algorithm-code.drawio.png" /></p>
+<p>Within this diagram we’ve specified a <span class="math inline">\(\texttt{.UpdateKernelParams}\)</span> computation block which performs the posterior update of the kernel. This task can be further partitioned into updates of separate kernels, each of which applying only to a specific time range in the past. We’ve sketched out what the computational diagram for this partitioning might look like below.</p>
 <p><img src="../assets/stochadexIV/stochadexIV-update-kernel-code.drawio.png" /></p>
+<p><strong>Continue from here…</strong></p>
 <h2 class="unnumbered" id="references">References</h2>
 <div id="refs" class="references csl-bib-body" role="list">
 <div id="ref-stochadexIII-2024" class="csl-entry" role="listitem">

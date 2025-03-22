@@ -8,7 +8,7 @@ codeLink: https://github.com/umbralcalc/stochadex
 year: [WIP]
 ---
 
-## Introduction
+## Algorithm design
 
 In a previous article [@stochadexIII-2024] we used a simple, but effective, technique to approximate the conditional density of simulation parameters $P_{({\sf t}+1){\sf t}}(z\vert X',{\sf Y})$ such that we were able to both update its shape with the arrival of new data as well as sample new values from it while incorporating a past-discounting distribution ansatz into the model. While robust, this technique only estimated the first two moments of the posterior distribution and that of the synethetic likelihood used to compare simulation states to the data. Ideally, we would like to be able to efficiently sample from the posterior regardless of likelihood/posterior shape and modality.
 
@@ -85,18 +85,21 @@ since one can marginalise over the possible post-update bandwidth matrices that 
 
 So we now have a density kernel motivated by a generalised approximation to any simulation which encodes a posterior update from previously seen data, enabling it to be used within an adaptive algorithm. Recalling the original purpose, we now have all we need to construct a kernel-based simulation-to-data comparison likelihood which can be used to weight $z$ samples with 'importances' that encode the $P_{({\sf t}+1){\sf t}}(z\vert X',{\sf Y})$ distribution density. But in order for this posterior sampling algorithm to proceed, how do we use the densities to draw new posterior samples over $z$?
 
-**Continue from here...**
-
 Resampling from the distribution of density-weighted $z$ samples is quite straightforward. To choose a new sample we can:
 
 1. Randomly select a previous sample of $z$, using the weight of each sample to bias the selection towards the higher density regions.
 2. Use this selected sample of $z$ as the centre from which to draw another normally-distributed sample, using some new sampling covariance $\Sigma$ to provide local variation or exploration.
 
-## Algorithm design
+## Implementation
+
+With both density estimation and resampling concepts in hand, we're now ready to consider how best to embed these within the simulation architecture of the stochadex engine. We can immediately borrow much of the structure from [@stochadexIII-2024] to sketch out the broad schematic below.
 
 ![](../assets/stochadexIV/stochadexIV-overall-algorithm-code.drawio.png)
 
+Within this diagram we've specified a $\texttt{.UpdateKernelParams}$ computation block which performs the posterior update of the kernel. This task can be further partitioned into updates of separate kernels, each of which applying only to a specific time range in the past. We've sketched out what the computational diagram for this partitioning might look like below.
+
 ![](../assets/stochadexIV/stochadexIV-update-kernel-code.drawio.png)
 
+**Continue from here...**
 
 ## References
