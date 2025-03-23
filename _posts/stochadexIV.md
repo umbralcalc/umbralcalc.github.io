@@ -100,6 +100,6 @@ Within this diagram we've specified a $\texttt{.UpdateKernelParams}$ computation
 
 ![](../assets/stochadexIV/stochadexIV-update-kernel-code.drawio.png)
 
-**Continue from here...**
+Note that structuring the data into time bins opens up the possibility of bin edge artifacts affecting the density model output. To mitigate this potential problem, we can provide flexible options for defining what ranges in time that each of these bins applies to, and how the data might be weighted within them. For example: we might allow users to define only a specific point in time for the partition (no range), or we could provide the option to use trangular window weightings between neighbouring bin centres to ensure no 'double counting' of data occurs.
 
 ## References

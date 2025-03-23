@@ -273,7 +273,7 @@ K[x,x&#39;;\Psi_{({\sf t}+1){\sf t}&#39;},d] &amp;\propto \big\vert \Psi_{({\sf 
 <p><img src="../assets/stochadexIV/stochadexIV-overall-algorithm-code.drawio.png" /></p>
 <p>Within this diagram we’ve specified a <span class="math inline">\(\texttt{.UpdateKernelParams}\)</span> computation block which performs the posterior update of the kernel. This task can be further partitioned into updates of separate kernels, each of which applying only to a specific time range in the past. We’ve sketched out what the computational diagram for this partitioning might look like below.</p>
 <p><img src="../assets/stochadexIV/stochadexIV-update-kernel-code.drawio.png" /></p>
-<p><strong>Continue from here…</strong></p>
+<p>Note that structuring the data into time bins opens up the possibility of bin edge artifacts affecting the density model output. To mitigate this potential problem, we can provide flexible options for defining what ranges in time that each of these bins applies to, and how the data might be weighted within them. For example: we might allow users to define only a specific point in time for the partition (no range), or we could provide the option to use trangular window weightings between neighbouring bin centres to ensure no ‘double counting’ of data occurs.</p>
 <h2 class="unnumbered" id="references">References</h2>
 <div id="refs" class="references csl-bib-body" role="list">
 <div id="ref-stochadexIII-2024" class="csl-entry" role="listitem">
