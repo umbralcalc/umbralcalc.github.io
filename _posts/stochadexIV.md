@@ -1,105 +1,148 @@
 ---
-title: Online sampling from arbitrary posterior densities using a simulation engine
+title: Optimising agent interactions with a simulated system
 author: Hardwick, Robert J
 date: [WIP]
-concept: To describe the design and implementation of a sequential Monte Carlo sampler which can dynamically adapt to sampling new points from nonstationary, multivariate and potentially multi-modal posterior distributions using only a stream of noisy weighted samples as input. We control the sensitivity of this algorithm to temporal changes in the target distribution using a discounted history and partitioned adaptive bandwidths for the density approximation kernel.
+concept: To optimise agent interactions with a (typically stochastic) simulation environment. We will take a similar approach to that of more standard 'model-free' Reinforcement Learning (RL) approaches in this article, however, our control-learning software will use a more 'model-based' algorithm which leverages the self-learning simulation algorithms we have previously studied. As was the case with the online learning framework, we demonstrate how the system components which optimise agent interactions can be expressed as an extension to the computational graph of the simulation itself.
 articleId: stochadexIV
 codeLink: https://github.com/umbralcalc/stochadex
 year: [WIP]
 ---
 
-## Algorithm design
+## Introduction
 
-In a previous article [@stochadexIII-2024] we used a simple, but effective, technique to approximate the conditional density of simulation parameters $P_{({\sf t}+1){\sf t}}(z\vert X',{\sf Y})$ such that we were able to both update its shape with the arrival of new data as well as sample new values from it while incorporating a past-discounting distribution ansatz into the model. While robust, this technique only estimated the first two moments of the posterior distribution and that of the synethetic likelihood used to compare simulation states to the data. Ideally, we would like to be able to efficiently sample from the posterior regardless of likelihood/posterior shape and modality.
+**Best solution to this optimisation problem appears to the Streaming Evolution Strategies (CMA-ES) using Cumulative discounted Rewards computed via Monte Carlo Rollouts. Work from this...**
 
-It is the aim of this article to generalise our distribution sampler using an adaptive sequential Monte Carlo algorithm (see [@del2006sequential] or [@wills2023sequential]) which uses a density kernel to update the importance weights of simulation $(X,z)$ samples as they are taken. This particle filter will, in principle, be capable of adaptively sampling from practically any posterior distribution shape, regardless of stationarity.
+In designing automated control algorithms of practical importance to the real world it's common to find that only partial observations of the system state are possible. You need only to think of the measurement uncertainties in any scientific experiment, the latent demand behind orders in a financial market, the unknown reservoirs of infection for a disease pathogen or even the limits to complete supply chain component observability in recognising just how commonly we find ourselves in this situation. When data is our only guide, this obscurity can make the learning of algorithms to control these systems an extreme --- if not frequently impossible --- challenge, without further insight provided by a more domain-specific model.
 
-Before launching into a description of the algorithm, let's ensure the mathematical details have been covered. To formalise our approach to density estimation, we first recall from [@stochadexII-2024] our fully general description for the time evolution of probabilities over simulation states
+Model-free reinforcement learning is a popular and very powerful approach to optimising actions for 'noisy' systems in the real world [@sutton2018reinforcement], especially when there is plenty of data and the system is fully observable. However, this book will not spend much time thinking about the model-free approach. We will instead be designing and building learning environments with a more model-based approach to control in mind. These environments are intended to replicate situations where the data isn't always so complete and useful, and will provide robust tools to cope with these tricky scenarios. Those readers who are data scientists, research engineers or statistically-minded programmers may find our mathematically descriptive, yet practically-minded, approach in this book quite interesting and maybe a little different to the usual perspectives.
 
-$$
-\begin{align}
-P_{{\sf t}+1}(x\vert z) &= \int_{\Omega_{{\sf t}}} {\rm d}X' P_{{\sf t}}(X'\vert z) P_{({\sf t}+1){\sf t}}(x\vert X',z) \,.
-\end{align}
-$$
+This book is about building more realistic training environments for machine learning systems in the real world. In the previous articles we formalised, designed and built a generalised simulation engine which could serve as the essential scaffolding for these environments. So why then, in this article, do we want to extend our formalism to talk about probabilistic learning methods?
 
-Assuming that the state space is continuous (transformations will always exist to handle discrete variables too), we can approximate the conditional probability of this expression with a sum of logarithmic expansions around past states which are truncated at second order
+For many of these realistic environments where only partial state observations are possible, probabilistic learning tools can immediately become an essential tool to robustly infer the state of a system and predict its future states from any given point in time. Given that these tools are often so important for extending the capability of learning algorithms to deal with partially-observed domains; we propose to extend the idea of what is more conventionally considered a 'machine learning environment' to include tools for system state inference and future state prediction. In this sense, this article, will consider probabilistic learning as an essential part of the environment for a machine learning system.
 
-$$
-\begin{align}
-\ln P_{({\sf t}+1){\sf t}}(x\vert X',z) &\simeq \sum_{{\sf t}'={\sf t}-{\sf s}}^{\sf t}\bigg[ \ln P_{({\sf t}+1){\sf t}}(x{=}X_{{\sf t}'}\vert X',z) + \frac{1}{2}\sum^n_{i=0}\sum^n_{j=0}(x-X_{{\sf t}'})^i{\cal H}^{ij}_{({\sf t}+1){\sf t}'}(X')(x-X_{{\sf t}'})^j \bigg] \\
-{\cal H}^{ij}_{({\sf t}+1){\sf t}'}(X') &= \frac{\partial^2}{\partial x^i\partial x^j}\ln P_{({\sf t}+1){\sf t}}(x\vert X',z) \bigg\vert_{x{=}X_{{\sf t}'}} \,,
-\end{align}
-$$
+## Formalising general interactions
 
-where we have assumed that the conditional probability peaks when the past state equals the future one $X_{{\sf t}'}=x$ (such that the first derivatives of the expansion all vanish). Note that we have also truncated the state history depth up to some number of timesteps ${\sf s}$ to write an expression which is closer to that of the computation in practice, as in previous work.
+Let's start by considering how we might adapt the mathematical formalism we have been using so far to be able to take actions which can manipulate the state at each timestep. Using the mathematical notation that we inherited from the stochadex, we may extend the formula for updating the state history matrix $X_{0:{\sf t}}\rightarrow X_{0:{\sf t}+1}$ to include a new layer of possible interactions which is facilitated by a new vector-valued 'take action' function $G_{{\sf t}}$. In doing so we shall be defining the domain of an acting entity in the stochastic process environment --- which we shall hereafter refer to as simply the 'agent'.
 
-Given the expression above, it's therefore quite natural to consider the following kernel density approximation
+During a timestep over which actions are performed by the agent, the stochadex state update formula can be extended to include interactions by composition with the original state update function like so
 
 $$
 \begin{align}
-P_{{\sf t}+1}(X\vert z) \simeq Q_{{\sf t}+1}(X\vert z) \propto \sum_{{\sf t}'={\sf t}-{\sf s}}^{{\sf t}}\int_{\Omega_{{\sf t}}} {\rm d}X' P_{{\sf t}}(X'\vert z) K[x,X_{{\sf t}'};{\cal H}_{({\sf t}+1){\sf t}'}(X')] \,,
+X_{{\sf t}+1}^i &= G^i_{{\sf t}+1}[F_{{\sf t}+1}(X_{0:{\sf t}}, z, {\sf t}), A_{{\sf t}+1}] = {\cal F}^i_{{\sf t}+1}(X_{0:{\sf t}}, z, A_{{\sf t}+1}, {\sf t}) \,,
 \end{align}
 $$
 
-where $K(x,x';H)$ is some smoothing kernel which takes the form
+where we have also introduced the concept of the 'actions' performed $A_{{\sf t}+1}$ on the system; some vector of parameters which define what actions are taken at timestep ${\sf t}+1$. The code for the new iteration formula would look something like this.
+
+![](../assets/stochadexIV/stochadexIV-iterations-with-actions.drawio.png)
+
+So far, the equation we wrote above on its own will allow the agent to take actions that are scheduled up front through some fixed process or perhaps through user interaction via a game interface. So what's next? In order to start creating algorithms which will act on the system state for us, we need to develop a formalism which 'closes the loop' by feeding information back from the stochastic process to the agent's decision-making algorithm.
+
+If we use $A_{0:{\sf t}+1}$ a referring to the matrix of historically-taken actions which up to time ${\sf t}+1$, we can build up a more generalised, non-Markovian picture of automated interactions with the system which matches the notation we are already using for $X_{0:{\sf t}+1}$. Let us now define a Non-Markovian Decision Process (NMDP) as a probabilistic model which draws an actions matrix $A_{0:{\sf t}+1}=A$ from a 'policy' distribution $\Pi_{({\sf t}+1){\sf t}}(A\vert X,\theta)$ given $X_{0:{\sf t}}=X$ and a new vector of parameters which fully specify the automated interations. Using the probabilistic notation from the previous part of the book, the joint probability that $X_{0:{\sf t}+1}=X$ and $A_{0:{\sf t}+1}=A$ at time ${\sf t}+1$ is
 
 $$
 \begin{align}
-K(x,x';H) &\propto \big\vert H \big\vert^{-\frac{1}{2}} \exp \bigg[ -\frac{1}{2}\sum_{i=0}^n\sum_{j=0}^n(x-x')^i(H^{-1})^{ij}(x-x')^j\bigg] \,,
+P_{{\sf t}+1}(X,A\vert z, \theta ) &= P_{{\sf t}}(X'\vert z,\theta ) \, \Pi_{({\sf t}+1){\sf t}}(A\vert X',\theta)P_{({\sf t}+1){\sf t}}(x\vert X',z,A) \,,
 \end{align}
 $$
 
-where $H$ is the bandwidth matrix.
+where we recall that $P_{({\sf t}+1){\sf t}}(x\vert X',z,A)$ is the conditional probability of $X_{{\sf t}+1}=x$ given $X_{0:{\sf t}}=
+X'$ and $z$ that we have encountered before, but it now requires $A_{0:{\sf t}+1}=A$ as another given input. We have illustrated taking of actions while evolving the system state and how it relates to the policy distribution with a new graph representation below.
 
-In order for the kernel to adapt to the changes in the shape of the probability density over time, we will need to provide a mechanism for updating each bandwidth matrix ${\cal H}_{({\sf t}+1){\sf t}'}(X')$ in response to these changes. This ends up being fairly straightforward if we borrow some concepts from Bayesian analysis.
+![](../assets/stochadexIV/stochadexIV-fundamental-loop-with-actions.drawio.png)
 
-The conjugate prior for a Bayesian update of the bandwidth matrix would naturally be the inverse-Wishart distribution
+For additional clarity, let's take a moment to think about what $\Pi_{({\sf t}+1){\sf t}}(A\vert X,\theta)$ represents and how generally descriptive it can be. If an agent is acting under and entirely deterministic policy, then the policy distribution may be simplified to a direct function mapping which is parameterised by $\theta$. At the other extreme, the distribution may also describe a fully stochastic policy where actions are drawn randomly in time. If we combine this consideration of noise with the observation that policies described by a distribution $\Pi_{({\sf t}+1){\sf t}}(A\vert X,\theta)$ permit a memory of past actions and states, it's easy to see that this structure can be used in a wide variety of different use cases.
+
+By marginalising over Eq.~(\ref{eq:joint-prob-x-and-a}) we find an updated probabilistic iteration formula for the stochastic process state which now takes the influence of agent actions into account
 
 $$
 \begin{align}
-&{\sf InverseWishartPDF}[{\cal H}_{({\sf t}+1){\sf t}'};\Psi_{({\sf t}+1){\sf t}'},d] = \\
-& \qquad 2^{-\frac{dn}{2}}\Gamma^{-1}_n\bigg( \frac{d}{2}\bigg)\vert \Psi\vert^{\frac{d}{2}} \vert H_{({\sf t}+1){\sf t}'}\vert^{-\frac{(d+n+1)}{2}}{\rm exp}\bigg\{-\frac{1}{2}\sum_{i=0}^n[\Psi_{({\sf t}+1){\sf t}'}{\cal H}^{-1}_{({\sf t}+1){\sf t}'}]^{ii}\bigg\} \,,
+P_{{\sf t}+1}(X\vert z,\theta ) &= \int_{\Xi_{{\sf t}+1}}{\rm d}A \, P_{{\sf t}}(X'\vert z,\theta ) \, \Pi_{({\sf t}+1){\sf t}}(A\vert X',\theta)P_{({\sf t}+1){\sf t}}(x\vert X',z,A)  \,.
 \end{align}
 $$
 
-where here $\Gamma_n$ is the multivariate gamma function. Upon updating this prior with a likelihood which follows the same square-exponential (multivariate normal) shape as the smoothing kernel we introduced above via Bayes' rule, it is equivalent to simply update the parameters of the inverse-Wishart distribution like so
+This relationship will be very useful in the last part of this book when we begin to look at optimising control algorithms.
+
+What are the main categories of action which are possible in the rows of $A$? Since the NMDP described by $\Pi_{({\sf t}+1){\sf t}}(A\vert X',\theta)$ is just another form of stochastic process, the main categories of action will fall into the same as those we covered in defining the stochadex formalism. The first, and perhaps most obvious, category would probably where the actions are defined in a continuous space and are continuously applied on every timestep. Some examples of these 'continuously-acting' decision processes include controlling the temperature of chemical reactions [@beeler2023chemgymrl] (such as those in a brewery), spacecraft control [@tipaldi2022reinforcement] and guidance systems,  as well as the driving of autonomous vehicles [@kiran2021deep]. Within a kind of subset of the continuously-acting category; we can also find the event-based acting decision processes (where actions are not necessarily taken every timestep), e.g. controlling traffic through signal timings [@garg2018deep], managing disease spread through treatment intervals [@ohi2020exploring] and automated trading on stock markets [@meng2019reinforcement].
+
+Many of the examples we have given above have continuous action spaces, but we might also consider classes of decision processes where actions are defined discretely. Examples of these include the famous multi-armed bandit problem [@gittins2011multi] (like choosing between website layouts for E-commerce [@liu2021map]), managing a sports team through player substitutions, sensor measurement scheduling [@leong2020deep] and the sequential design prioritisation of large-scale scientific experiments [@blau2022optimizing].
+
+## States, actions and attributing rewards
+
+In the previous parts of this book we laid out the concept for a generalised framework to simulate and learn stochastic phenomena continually as data is received. Given that we have also introduced a framework for the automated control of these phenomena, we have all the ingredients we need to create optimal decision-making algorithms. The key question to answer then, is: _optimal with respect to what objective?_
+
+The objective of an automated control algorithm could take many forms depending on the specific context. Since there is no loss in generality in doing so, it seems natural to follow the naming convention used by Markov Decision Processes (MDP) (see [@bertsekas2011dynamic] and [@sutton2018reinforcement]) by referring to the objective outcome of an action at a particular point in time as having a 'reward' value $r$. Since the relationship between reward, actions and states may be stochastic, it makes sense to relate the reward outcome $r$ given a state history $X$ and action history $A$ at timestep ${\sf t}+1$ through the probability distribution $P_{{\sf t}+1}(r\vert X,A)$. Hence, generally, this reward signal is non-Markovian --- as is the case in many real-world problems [@gaon2020reinforcement].
+
+We can use the reward probability distribution to derive a joint distribution over both state history $X'$ and reward $r$ at timestep ${\sf t}+1$ like so
 
 $$
 \begin{align}
-(\Psi^{ij}_{({\sf t}+1){\sf t}'})^{{\sf m}+1} &= \beta (\Psi^{ij}_{({\sf t}+1){\sf t}'})^{\sf m} + (x-x')^i(x-x')^j \\
-(d)^{{\sf m}+1} &= \beta (d)^{{\sf m}} + 1\,,
+P_{({\sf t}+1){\sf t}}(r,x'\vert X, z,\theta) &= P_{{\sf t}+1}(r\vert X',A)\Pi_{({\sf t}+1){\sf t}}(A\vert X,\theta)P_{({\sf t}+1){\sf t}}(x'\vert X,z,A)\,.
 \end{align}
 $$
 
-where the ${\sf m}$ superscript here denotes the '${\sf m}$-th' update to the parameter. Note that we have also applied a 'past-discounting' factor $\beta$ (where $0<\beta <1$) to control the responsiveness of the update (as in [@stochadexIII-2024]) in preparation for its application in an online learning context.
+In this expression, let's recall that we are using the policy distribution $\Pi_{({\sf t}+1){\sf t}}(A\vert X,\theta)$ for agent interactions and the fundamental state update conditional probability for the underlying stochastic process $P_{({\sf t}+1){\sf t}}(x'\vert X,z,A)$.
 
-Given this prior and data update, a closed-form expression for the posterior distribution can then be used as the smoothing kernel
+Note that in most use cases, the state of real-world phenomena cannot be measured perfectly. So to enable any agent trained on simulated phenomena to potentially act in the real world, we will need to include a measurement process as part of the information retrieval step. This is the part where we can leverage our work in a previous article which develops an online learning system for stochastic process models. But we're jumping ahead with this thinking and will return to this point later on.
+
+Using Eq.~(\ref{eq:joint-x-and-r}), we can now define a 'state value function' $V_{{\sf t}}$ at timestep ${\sf t}$ which is the expected $\gamma$-discounted future reward given the current state history $X$ and the other parameters like this
 
 $$
 \begin{align}
-K[x,x';\Psi_{({\sf t}+1){\sf t}'},d] &\propto \big\vert \Psi_{({\sf t}+1){\sf t}'} \big\vert^{-\frac{1}{2}} \bigg[ 1+\frac{1}{d}\sum_{i=0}^n\sum_{j=0}^n(x-x')^i(\Psi_{({\sf t}+1){\sf t}'}^{-1})^{ij}(x-x')^j\bigg]^{-\frac{(d + n)}{2}} \,,
+V_{{\sf t}}(X,z,\theta) &= {\rm E}_{{\sf t}}({\sf Discounted \,Return}\vert X, z, \theta ) \nonumber \\
+&= \sum_{{\sf t}'={\sf t}}^{\infty} \int_{\omega_{{\sf t}'+1}}{\rm d}^nx'\int_{\rho_{{\sf t}'+1}} {\rm d}r \,r\, \gamma^{{\sf t}'-{\sf t}}\prod_{{\sf t}''={\sf t}}^{{\sf t}'}P_{({\sf t}''+1){\sf t}''}(r,x'\vert X, z,\theta)\,,
 \end{align}
 $$
 
-since one can marginalise over the possible post-update bandwidth matrices that can exist to arrive at a posterior distribution expressed in terms of updated parameters from the prior. Note that this posterior-updated kernel density is proportional to a multivariate t-distribution [@murphy2012machine].
+where $0 < \gamma < 1$. Note that the discount factor in continuous time could also be explicitly dependent on the stepsize such that we would replace the discount factor with
 
-So we now have a density kernel motivated by a generalised approximation to any simulation which encodes a posterior update from previously seen data, enabling it to be used within an adaptive algorithm. Recalling the original purpose, we now have all we need to construct a kernel-based simulation-to-data comparison likelihood which can be used to weight $z$ samples with 'importances' that encode the $P_{({\sf t}+1){\sf t}}(z\vert X',{\sf Y})$ distribution density. But in order for this posterior sampling algorithm to proceed, how do we use the densities to draw new posterior samples over $z$?
+$$
+\begin{align}
+\gamma^{{\sf t}'-{\sf t}} \longrightarrow \frac{1}{\gamma [\delta t({\sf t}+1)]}\prod_{{\sf t}''={\sf t}}^{{\sf t}'} \gamma [\delta t({\sf t}''+1)] \,.
+\end{align}
+$$
 
-Resampling from the distribution of density-weighted $z$ samples is quite straightforward. To choose a new sample we can:
+The idea behind this discount factor $\gamma$ is to decrease the contribution of rewards to the optimisation objective (often called the 'expected discounted return' in RL) more and more as the prediction increases into the future. Note also that the state value function is inherently recursively defined, such that
 
-1. Randomly select a previous sample of $z$, using the weight of each sample to bias the selection towards the higher density regions.
-2. Use this selected sample of $z$ as the centre from which to draw another normally-distributed sample, using some new sampling covariance $\Sigma$ to provide local variation or exploration.
+$$
+\begin{align}
+V_{{\sf t}}(X,z,\theta) &= \int_{\omega_{{\sf t}+1}}{\rm d}^nx\int_{\rho_{{\sf t}+1}} {\rm d}r \, P_{({\sf t}+1){\sf t}}(r,x'\vert X, z,\theta)\big[ r+\gamma V_{{\sf t}+1}(X',z,\theta)\big] \,,
+\end{align}
+$$
 
-## Implementation
+and the optimal $\theta$ can hence be derived from
 
-With both density estimation and resampling concepts in hand, we're now ready to consider how best to embed these within the simulation architecture of the stochadex engine. We can immediately borrow much of the structure from [@stochadexIII-2024] to sketch out the broad schematic below.
+$$
+\begin{align}
+\theta^*_{{\sf t}}(X,z) &= \underset{\theta}{{\rm argmax}} \big[ V_{{\sf t}}(X,z,\theta)\big] \,.
+\end{align}
+$$
 
-![](../assets/stochadexIV/stochadexIV-overall-algorithm-code.drawio.png)
+By deriving the optimal policy in terms of the parameters $\theta^*_{{\sf t}}(X,z)$, the optimal state value function and policy distribution can therefore be derived from
 
-Within this diagram we've specified a $\texttt{.UpdateKernelParams}$ computation block which performs the posterior update of the kernel. This task can be further partitioned into updates of separate kernels, each of which applying only to a specific time range in the past. We've sketched out what the computational diagram for this partitioning might look like below.
+$$
+\begin{align}
+V^*_{{\sf t}}(X,z) &= V_{{\sf t}}[X,z,\theta^*_{{\sf t}}(X,z)] \\
+\Pi^*_{({\sf t}+1){\sf t}}(A\vert X,z) &= \Pi_{({\sf t}+1){\sf t}}[A\vert X,\theta^*_{{\sf t}}(X,z)] \,.
+\end{align}
+$$
 
-![](../assets/stochadexIV/stochadexIV-update-kernel-code.drawio.png)
+Note that the type of decision process optimisation which we have introduced above differs from standard RL methodology. In the more conventional 'model-free' RL approaches, the state-action value function
 
-Note that structuring the data into time bins opens up the possibility of bin edge artifacts affecting the density model output. To mitigate this potential problem, we can provide flexible options for defining what ranges in time that each of these bins applies to, and how the data might be weighted within them. For example: we might allow users to define only a specific point in time for the partition (no range), or we could provide the option to use trangular window weightings between neighbouring bin centres to ensure no 'double counting' of data occurs.
+$$
+\begin{align}
+Q_{{\sf t}}(X,A,z)={\rm E}_{{\sf t}}({\sf Discounted \,Return}\vert X,A,z) \,,
+\end{align}
+$$
+
+would be used to evaluate the optimal policy instead of the state value function $V_{{\sf t}}(X,z,\theta )$ that we are using above. We are able to use the latter here because the simulation model gives us explicit knowledge of the $P_{({\sf t}+1){\sf t}}(x'\vert X,z,A)$ distribution which is utilised by Eq.~(\ref{eq:joint-x-and-r}). When this model is not known, the state-action value function $Q_{{\sf t}}(X,A,z)$ must be learned explicitly through sample estimation from the measured state and experienced outcomes of actions taken by the agent.
+
+When an agent takes an action to measure the state of the system (or when it is given measurements without needing to take action) there will typically be some uncertainty in how the history of measured real-world data $Y$ maps to the latent states of the system $X$ and its parameters $z$ at time ${\sf t}+1$. It is natural, then, to represent this uncertainty with a posterior probability distribution ${\cal P}_{{\sf t}+1}(X,z\vert Y)$ as we did in the previous article.
+
+## Algorithm designs
+
+Talk about the utility of the model-based online learning approach in the case of partially observed systems [@aastrom1965optimal]. Also look into the overlaps with this approach and Thompson sampling for exploration --- discuss here. Looking at a stochastic policy iteration algorithm here combined with Monte Carlo rollouts.
+
+## Software design
 
 ## References
