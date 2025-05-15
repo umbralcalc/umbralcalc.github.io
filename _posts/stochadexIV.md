@@ -2,7 +2,7 @@
 title: "Optimising actions within a simulated system"
 author: Hardwick, Robert J
 date: [WIP]
-concept: To outline a general methodology for optimising actions taken within a simulated system environment. The calculations we discuss formalise the resemblance of our approach to that of Reinforcement Learning (RL), however, we also demonstrate how the system components which optimise actions can be expressed as an extension to the computational graph of the simulation itself. The resulting software is hence able to leverage the self-learning simulation concepts we have previously studied, providing significant user flexibility in the environment model and generalising the concept of 'optimal action taking' within simulations as part of the stochadex package.
+concept: To outline a general methodology for optimising actions taken within a simulated system environment. The calculations we discuss formalise the resemblance of our approach to that of Reinforcement Learning (RL), however, we also demonstrate how the system components which optimise actions can be expressed as an extension to the computational graph of the simulation itself. The resulting software is hence able to leverage the self-learning simulation concepts we have previously studied, providing significant user flexibility in the environment model and generalising the concept of 'optimal action-taking' within simulations as part of the stochadex package.
 articleId: stochadexIV
 codeLink: https://github.com/umbralcalc/stochadex
 year: [WIP]
