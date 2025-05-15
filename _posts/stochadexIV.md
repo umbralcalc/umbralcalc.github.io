@@ -1,16 +1,14 @@
 ---
-title: Optimising agent interactions with a simulated system
+title: "Optimising actions within a simulated system"
 author: Hardwick, Robert J
 date: [WIP]
-concept: To optimise agent interactions with a (typically stochastic) simulation environment. We will take a similar approach to that of more standard 'model-free' Reinforcement Learning (RL) approaches in this article, however, our control-learning software will use a more 'model-based' algorithm which leverages the self-learning simulation algorithms we have previously studied. As was the case with the online learning framework, we demonstrate how the system components which optimise agent interactions can be expressed as an extension to the computational graph of the simulation itself.
+concept: To outline a general methodology for optimising actions taken within a simulated system environment. The calculations we discuss formalise the resemblance of our approach to that of Reinforcement Learning (RL), however, we also demonstrate how the system components which optimise actions can be expressed as an extension to the computational graph of the simulation itself. The resulting software is hence able to leverage the self-learning simulation concepts we have previously studied, providing significant user flexibility in the environment model and generalising the concept of 'optimal action taking' within simulations as part of the stochadex package.
 articleId: stochadexIV
 codeLink: https://github.com/umbralcalc/stochadex
 year: [WIP]
 ---
 
 ## Introduction
-
-**Best solution to this optimisation problem appears to the Streaming Evolution Strategies (CMA-ES) using Cumulative discounted Rewards computed via Monte Carlo Rollouts. Work from this...**
 
 In designing automated control algorithms of practical importance to the real world it's common to find that only partial observations of the system state are possible. You need only to think of the measurement uncertainties in any scientific experiment, the latent demand behind orders in a financial market, the unknown reservoirs of infection for a disease pathogen or even the limits to complete supply chain component observability in recognising just how commonly we find ourselves in this situation. When data is our only guide, this obscurity can make the learning of algorithms to control these systems an extreme --- if not frequently impossible --- challenge, without further insight provided by a more domain-specific model.
 
@@ -140,6 +138,8 @@ would be used to evaluate the optimal policy instead of the state value function
 When an agent takes an action to measure the state of the system (or when it is given measurements without needing to take action) there will typically be some uncertainty in how the history of measured real-world data $Y$ maps to the latent states of the system $X$ and its parameters $z$ at time ${\sf t}+1$. It is natural, then, to represent this uncertainty with a posterior probability distribution ${\cal P}_{{\sf t}+1}(X,z\vert Y)$ as we did in the previous article.
 
 ## Algorithm designs
+
+**Best solution to this optimisation problem appears to the Streaming Evolution Strategies (CMA-ES) [@beyer2017simplify] using Cumulative discounted Rewards computed via Monte Carlo Rollouts. Work from this...**
 
 Talk about the utility of the model-based online learning approach in the case of partially observed systems [@aastrom1965optimal]. Also look into the overlaps with this approach and Thompson sampling for exploration --- discuss here. Looking at a stochastic policy iteration algorithm here combined with Monte Carlo rollouts.
 

@@ -197,7 +197,7 @@ About
 </br>
 </br>
 
-<h1>Optimising agent interactions with a simulated system</h1>
+<h1>Optimising actions within a simulated system</h1>
 </br>
 <hr color="LightGray">
 <div class="articleHeader">
@@ -205,12 +205,11 @@ About
 </br>
 <strong> Date. </strong> WIP
 </br>
-<strong> Concept. </strong> To optimise agent interactions with a (typically stochastic) simulation environment. We will take a similar approach to that of more standard ‘model-free’ Reinforcement Learning (RL) approaches in this article, however, our control-learning software will use a more ‘model-based’ algorithm which leverages the self-learning simulation algorithms we have previously studied. As was the case with the online learning framework, we demonstrate how the system components which optimise agent interactions can be expressed as an extension to the computational graph of the simulation itself.
+<strong> Concept. </strong> To outline a general methodology for optimising actions taken within a simulated system environment. The calculations we discuss formalise the resemblance of our approach to that of Reinforcement Learning (RL), however, we also demonstrate how the system components which optimise actions can be expressed as an extension to the computational graph of the simulation itself. The resulting software is hence able to leverage the self-learning simulation concepts we have previously studied, providing significant user flexibility in the environment model and generalising the concept of ‘optimal action taking’ within simulations as part of the stochadex package.
 </div>
 <hr color="LightGray">
 </br>
 <h2 id="introduction">Introduction</h2>
-<p><strong>Best solution to this optimisation problem appears to the Streaming Evolution Strategies (CMA-ES) using Cumulative discounted Rewards computed via Monte Carlo Rollouts. Work from this…</strong></p>
 <p>In designing automated control algorithms of practical importance to the real world it’s common to find that only partial observations of the system state are possible. You need only to think of the measurement uncertainties in any scientific experiment, the latent demand behind orders in a financial market, the unknown reservoirs of infection for a disease pathogen or even the limits to complete supply chain component observability in recognising just how commonly we find ourselves in this situation. When data is our only guide, this obscurity can make the learning of algorithms to control these systems an extreme — if not frequently impossible — challenge, without further insight provided by a more domain-specific model.</p>
 <p>Model-free reinforcement learning is a popular and very powerful approach to optimising actions for ‘noisy’ systems in the real world <span class="citation" data-cites="sutton2018reinforcement">[1]</span>, especially when there is plenty of data and the system is fully observable. However, this book will not spend much time thinking about the model-free approach. We will instead be designing and building learning environments with a more model-based approach to control in mind. These environments are intended to replicate situations where the data isn’t always so complete and useful, and will provide robust tools to cope with these tricky scenarios. Those readers who are data scientists, research engineers or statistically-minded programmers may find our mathematically descriptive, yet practically-minded, approach in this book quite interesting and maybe a little different to the usual perspectives.</p>
 <p>This book is about building more realistic training environments for machine learning systems in the real world. In the previous articles we formalised, designed and built a generalised simulation engine which could serve as the essential scaffolding for these environments. So why then, in this article, do we want to extend our formalism to talk about probabilistic learning methods?</p>
@@ -296,7 +295,8 @@ Q_{{\sf t}}(X,A,z)={\rm E}_{{\sf t}}({\sf Discounted \,Return}\vert X,A,z) \,,
 <p>would be used to evaluate the optimal policy instead of the state value function <span class="math inline">\(V_{{\sf t}}(X,z,\theta )\)</span> that we are using above. We are able to use the latter here because the simulation model gives us explicit knowledge of the <span class="math inline">\(P_{({\sf t}+1){\sf t}}(x&#39;\vert X,z,A)\)</span> distribution which is utilised by Eq.~(<span class="math inline">\(\ref{eq:joint-x-and-r}\)</span>). When this model is not known, the state-action value function <span class="math inline">\(Q_{{\sf t}}(X,A,z)\)</span> must be learned explicitly through sample estimation from the measured state and experienced outcomes of actions taken by the agent.</p>
 <p>When an agent takes an action to measure the state of the system (or when it is given measurements without needing to take action) there will typically be some uncertainty in how the history of measured real-world data <span class="math inline">\(Y\)</span> maps to the latent states of the system <span class="math inline">\(X\)</span> and its parameters <span class="math inline">\(z\)</span> at time <span class="math inline">\({\sf t}+1\)</span>. It is natural, then, to represent this uncertainty with a posterior probability distribution <span class="math inline">\({\cal P}_{{\sf t}+1}(X,z\vert Y)\)</span> as we did in the previous article.</p>
 <h2 id="algorithm-designs">Algorithm designs</h2>
-<p>Talk about the utility of the model-based online learning approach in the case of partially observed systems <span class="citation" data-cites="aastrom1965optimal">[14]</span>. Also look into the overlaps with this approach and Thompson sampling for exploration — discuss here. Looking at a stochastic policy iteration algorithm here combined with Monte Carlo rollouts.</p>
+<p><strong>Best solution to this optimisation problem appears to the Streaming Evolution Strategies (CMA-ES) <span class="citation" data-cites="beyer2017simplify">[14]</span> using Cumulative discounted Rewards computed via Monte Carlo Rollouts. Work from this…</strong></p>
+<p>Talk about the utility of the model-based online learning approach in the case of partially observed systems <span class="citation" data-cites="aastrom1965optimal">[15]</span>. Also look into the overlaps with this approach and Thompson sampling for exploration — discuss here. Looking at a stochastic policy iteration algorithm here combined with Monte Carlo rollouts.</p>
 <h2 id="software-design">Software design</h2>
 <h2 class="unnumbered" id="references">References</h2>
 <div id="refs" class="references csl-bib-body" role="list">
@@ -339,8 +339,11 @@ Q_{{\sf t}}(X,A,z)={\rm E}_{{\sf t}}({\sf Discounted \,Return}\vert X,A,z) \,,
 <div id="ref-gaon2020reinforcement" class="csl-entry" role="listitem">
 <div class="csl-left-margin">[13] </div><div class="csl-right-inline">M. Gaon and R. Brafman, <span>“Reinforcement learning with non-markovian rewards,”</span> in <em>Proceedings of the AAAI conference on artificial intelligence</em>, 2020, pp. 3980–3987.</div>
 </div>
+<div id="ref-beyer2017simplify" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[14] </div><div class="csl-right-inline">H.-G. Beyer and B. Sendhoff, <span>“Simplify your covariance matrix adaptation evolution strategy,”</span> <em>IEEE Transactions on Evolutionary Computation</em>, vol. 21, no. 5, pp. 746–759, 2017.</div>
+</div>
 <div id="ref-aastrom1965optimal" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[14] </div><div class="csl-right-inline">K. J. Åström, <span>“Optimal control of markov processes with incomplete state information i,”</span> <em>Journal of mathematical analysis and applications</em>, vol. 10, pp. 174–205, 1965.</div>
+<div class="csl-left-margin">[15] </div><div class="csl-right-inline">K. J. Åström, <span>“Optimal control of markov processes with incomplete state information i,”</span> <em>Journal of mathematical analysis and applications</em>, vol. 10, pp. 174–205, 1965.</div>
 </div>
 </div>
 <span class="custom-spacer"></span>
@@ -348,7 +351,7 @@ Q_{{\sf t}}(X,A,z)={\rm E}_{{\sf t}}({\sf Discounted \,Return}\vert X,A,z) \,,
 <div class="articleHeader">
   <strong> Cite. </strong> You can cite this article using the following BibTeX:
 <code><pre>@article{stochadexIV-WIP,
-  title = {Optimising agent interactions with a simulated system},
+  title = {Optimising actions within a simulated system},
   author = {Hardwick, Robert J},
   journal = {umbralcalculations (umbralcalc.github.io/posts/stochadexIV.html)},
   year = {WIP},
