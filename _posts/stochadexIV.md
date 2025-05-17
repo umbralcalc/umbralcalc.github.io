@@ -123,6 +123,8 @@ would be used to evaluate the optimal policy instead of the state value function
 
 We're now ready to discuss how we will embed the optimal action learning algorithm described in the previous section in the computational graph structure of the stochadex simulation itself.
 
+![](../assets/stochadexIV/stochadexIV-action-optimisation-code.drawio.png)
+
 **Continue editing from here...**
 
 Best solution to this optimisation problem appears to the Streaming Evolution Strategies (CMA-ES) [@beyer2017simplify] using Cumulative discounted Rewards computed via Monte Carlo Rollouts. Work from this...
