@@ -289,8 +289,7 @@ Q_{{\sf t}}(X,A,z)={\rm E}_{{\sf t}}({\sf Discounted \,Return}\vert X,A,z) \,,
 <p>We’re now ready to discuss how we will embed the optimal action learning algorithm described in the previous section in the computational graph structure of the stochadex simulation itself.</p>
 <p><strong>Continue editing from here…</strong></p>
 <p>Best solution to this optimisation problem appears to the Streaming Evolution Strategies (CMA-ES) <span class="citation" data-cites="beyer2017simplify">[15]</span> using Cumulative discounted Rewards computed via Monte Carlo Rollouts. Work from this…</p>
-<p>Talk about the utility of the model-based online learning approach in the case of partially observed systems <span class="citation" data-cites="aastrom1965optimal">[16]</span>. Also look into the overlaps with this approach and Thompson sampling for exploration — discuss here. Looking at a stochastic policy iteration algorithm here combined with Monte Carlo rollouts.</p>
-<p>Note that, in most use cases, the state of real-world phenomena cannot be measured perfectly. So in order to use simulated phenomena to potentially act in the real world, one typically will need to include a measurement process as part of the information retrieval step. For this we could leverage our work in a previous article <span class="citation" data-cites="stochadexIII-2024">[17]</span> which develops an online learning system for stochastic process models. The partitioning structure of stochadex simulations should make adding this capability on to the action-taking algorithms described in this article extremely easy, and we anticipate many interesting applications to projects in the future.</p>
+<p>Note that, in most use cases, the state of real-world phenomena cannot be measured perfectly. So in order to use simulated phenomena to potentially act in the real world, one typically will need to include a measurement process as part of the information retrieval step. For this we could leverage our work in a previous article <span class="citation" data-cites="stochadexIII-2024">[16]</span> which develops an online learning system for stochastic process models. The partitioning structure of stochadex simulations should make adding this capability on to the action-taking algorithms described in this article extremely easy, and we anticipate many interesting applications to projects in the future.</p>
 <h2 class="unnumbered" id="references">References</h2>
 <div id="refs" class="references csl-bib-body" role="list">
 <div id="ref-stochadexI-2024" class="csl-entry" role="listitem">
@@ -338,11 +337,8 @@ Q_{{\sf t}}(X,A,z)={\rm E}_{{\sf t}}({\sf Discounted \,Return}\vert X,A,z) \,,
 <div id="ref-beyer2017simplify" class="csl-entry" role="listitem">
 <div class="csl-left-margin">[15] </div><div class="csl-right-inline">H.-G. Beyer and B. Sendhoff, <span>“Simplify your covariance matrix adaptation evolution strategy,”</span> <em>IEEE Transactions on Evolutionary Computation</em>, vol. 21, no. 5, pp. 746–759, 2017.</div>
 </div>
-<div id="ref-aastrom1965optimal" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[16] </div><div class="csl-right-inline">K. J. Åström, <span>“Optimal control of markov processes with incomplete state information i,”</span> <em>Journal of mathematical analysis and applications</em>, vol. 10, pp. 174–205, 1965.</div>
-</div>
 <div id="ref-stochadexIII-2024" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[17] </div><div class="csl-right-inline">R. J. Hardwick, <span>“Self-learning simulations,”</span> <em>umbralcalculations (umbralcalc.github.io/posts/stochadexIII.html)</em>, 2024.</div>
+<div class="csl-left-margin">[16] </div><div class="csl-right-inline">R. J. Hardwick, <span>“Self-learning simulations,”</span> <em>umbralcalculations (umbralcalc.github.io/posts/stochadexIII.html)</em>, 2024.</div>
 </div>
 </div>
 <span class="custom-spacer"></span>
