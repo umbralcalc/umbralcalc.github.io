@@ -238,7 +238,7 @@ P_{{\sf t}+1}(X\vert z,\theta ) &amp;= \int_{\Xi_{{\sf t}+1}}{\rm d}A \, P_{{\sf
 <p>Many of the examples we have given above have continuous action spaces, but we might also consider classes of decision processes where actions are defined discretely. Examples of these include the famous multi-armed bandit problem <span class="citation" data-cites="gittins2011multi">[9]</span> (like choosing between website layouts for E-commerce <span class="citation" data-cites="liu2021map">[10]</span>), managing a sports team through player substitutions, sensor measurement scheduling <span class="citation" data-cites="leong2020deep">[11]</span> and the sequential design prioritisation of large-scale scientific experiments <span class="citation" data-cites="blau2022optimizing">[12]</span></p>
 <h2 id="states-actions-and-attributing-rewards">States, actions and attributing rewards</h2>
 <p>We now have the basic building blocks needed to generate and take actions within our simulated system. So the next step in this article is to find a way to create optimal decision-making algorithms. The key question to answer then, is: <em>optimal with respect to what objective?</em></p>
-<p>The objective of some action-taking algorithm could take many forms depending on the specific context. Since there is no loss in generality in doing so, it seems natural to follow the naming convention used by Markov Decision Processes (MDP) (see <span class="citation" data-cites="bertsekas2011dynamic">[13]</span> and <span class="citation" data-cites="sutton2018reinforcement">[14]</span>) by referring to the objective outcome of an action at a particular point in time as having a ‘reward’ value <span class="math inline">\(r\)</span>. Since the relationship between reward, actions and states may be stochastic, it makes sense to relate the reward outcome <span class="math inline">\(r\)</span> given a state history <span class="math inline">\(X\)</span> and action history <span class="math inline">\(A\)</span> at timestep <span class="math inline">\({\sf t}+1\)</span> through the probability distribution <span class="math inline">\(P_{{\sf t}+1}(r\vert X,A)\)</span>. Our formalism is more general than MDPs, however, since this reward signal is non-Markovian — as is the case in many real-world problems <span class="citation" data-cites="gaon2020reinforcement">[15]</span>.</p>
+<p>The objective of some action-taking algorithm could take many forms depending on the specific context. Since there is no loss in generality in doing so, it seems natural to follow the naming convention used by standard Markov Decision Processes (MDP) (see <span class="citation" data-cites="bertsekas2011dynamic">[13]</span> and <span class="citation" data-cites="sutton2018reinforcement">[14]</span>) by referring to the objective outcome of an action at a particular point in time as having a ‘reward’ value <span class="math inline">\(r\)</span>. Since the relationship between reward, actions and states may be stochastic, it makes sense to relate the reward outcome <span class="math inline">\(r\)</span> given a state history <span class="math inline">\(X\)</span> and action history <span class="math inline">\(A\)</span> at timestep <span class="math inline">\({\sf t}+1\)</span> through the probability distribution <span class="math inline">\(P_{{\sf t}+1}(r\vert X,A)\)</span>.</p>
 <p>We can use the reward probability distribution to derive a joint distribution over both state history <span class="math inline">\(X&#39;\)</span> and reward <span class="math inline">\(r\)</span> at timestep <span class="math inline">\({\sf t}+1\)</span> like so</p>
 <p><span class="math display">\[
 \begin{align}
@@ -246,11 +246,10 @@ P_{({\sf t}+1){\sf t}}(r,x&#39;\vert X, z,\theta) &amp;= P_{{\sf t}+1}(r\vert X&
 \end{align}
 \]</span></p>
 <p>In this expression, let’s recall that we are using the policy distribution <span class="math inline">\(\Pi_{({\sf t}+1){\sf t}}(A\vert X,\theta)\)</span> for action generation and the fundamental state update conditional probability for the underlying stochastic process <span class="math inline">\(P_{({\sf t}+1){\sf t}}(x&#39;\vert X,z,A)\)</span>.</p>
-<p><strong>Continue editing from here…</strong></p>
-<p>Using the equation above, we can now define a ‘state value function’ <span class="math inline">\(V_{{\sf t}}\)</span> at timestep <span class="math inline">\({\sf t}\)</span> which is the expected <span class="math inline">\(\gamma\)</span>-discounted future reward given the current state history <span class="math inline">\(X\)</span> and the other parameters like this</p>
+<p>Using the equation above, we can now define a ‘state value function’ <span class="math inline">\(V_{{\sf t}}\)</span> at timestep <span class="math inline">\({\sf t}\)</span> which is the expected <span class="math inline">\(\gamma\)</span>-discounted cumulative future reward given the current state history <span class="math inline">\(X\)</span> and the other parameters like this</p>
 <p><span class="math display">\[
 \begin{align}
-V_{{\sf t}}(X,z,\theta) &amp;= {\rm E}_{{\sf t}}({\sf Discounted \,Return}\vert X, z, \theta ) \nonumber \\
+V_{{\sf t}}(X,z,\theta) &amp;= {\rm E}_{{\sf t}}({\sf Discounted \,Cumulative \,Reward}\vert X, z, \theta ) \nonumber \\
 &amp;= \sum_{{\sf t}&#39;={\sf t}}^{\infty} \int_{\omega_{{\sf t}&#39;+1}}{\rm d}^nx&#39;\int_{\rho_{{\sf t}&#39;+1}} {\rm d}r \,r\, \gamma^{{\sf t}&#39;-{\sf t}}\prod_{{\sf t}&#39;&#39;={\sf t}}^{{\sf t}&#39;}P_{({\sf t}&#39;&#39;+1){\sf t}&#39;&#39;}(r,x&#39;\vert X, z,\theta)\,,
 \end{align}
 \]</span></p>
@@ -260,7 +259,7 @@ V_{{\sf t}}(X,z,\theta) &amp;= {\rm E}_{{\sf t}}({\sf Discounted \,Return}\vert 
 \gamma^{{\sf t}&#39;-{\sf t}} \longrightarrow \frac{1}{\gamma [\delta t({\sf t}+1)]}\prod_{{\sf t}&#39;&#39;={\sf t}}^{{\sf t}&#39;} \gamma [\delta t({\sf t}&#39;&#39;+1)] \,.
 \end{align}
 \]</span></p>
-<p>The idea behind this discount factor <span class="math inline">\(\gamma\)</span> is to decrease the contribution of rewards to the optimisation objective (often called the ‘expected discounted return’ in RL) more and more as the prediction increases into the future. Note also that the state value function is inherently recursively defined, such that</p>
+<p>The idea behind this discount factor <span class="math inline">\(\gamma\)</span> is to decrease the contribution of rewards to the optimisation objective — often called the ‘expected discounted return’ in Reinforcement Learning (RL) — more and more as the prediction evolves into the future. Note also that the state value function is inherently recursively defined, such that</p>
 <p><span class="math display">\[
 \begin{align}
 V_{{\sf t}}(X,z,\theta) &amp;= \int_{\omega_{{\sf t}+1}}{\rm d}^nx\int_{\rho_{{\sf t}+1}} {\rm d}r \, P_{({\sf t}+1){\sf t}}(r,x&#39;\vert X, z,\theta)\big[ r+\gamma V_{{\sf t}+1}(X&#39;,z,\theta)\big] \,,
@@ -279,19 +278,19 @@ V^*_{{\sf t}}(X,z) &amp;= V_{{\sf t}}[X,z,\theta^*_{{\sf t}}(X,z)] \\
 \Pi^*_{({\sf t}+1){\sf t}}(A\vert X,z) &amp;= \Pi_{({\sf t}+1){\sf t}}[A\vert X,\theta^*_{{\sf t}}(X,z)] \,.
 \end{align}
 \]</span></p>
-<p>Note that the type of decision process optimisation which we have introduced above differs from standard RL methodology. In the more conventional ‘model-free’ RL approaches, the state-action value function</p>
+<p>Note that the type of decision process optimisation which we have introduced above differs from standard <span class="math inline">\(Q\)</span>-learning RL methodology. In the more conventional ‘model-free’ RL approaches, the state-action value function</p>
 <p><span class="math display">\[
 \begin{align}
 Q_{{\sf t}}(X,A,z)={\rm E}_{{\sf t}}({\sf Discounted \,Return}\vert X,A,z) \,,
 \end{align}
 \]</span></p>
-<p>would be used to evaluate the optimal policy instead of the state value function <span class="math inline">\(V_{{\sf t}}(X,z,\theta )\)</span> that we are using above. We are able to use the latter here because the simulation model gives us explicit knowledge of the <span class="math inline">\(P_{({\sf t}+1){\sf t}}(x&#39;\vert X,z,A)\)</span> distribution which is utilised by Eq.~(<span class="math inline">\(\ref{eq:joint-x-and-r}\)</span>). When this model is not known, the state-action value function <span class="math inline">\(Q_{{\sf t}}(X,A,z)\)</span> must be learned explicitly through sample estimation from the measured state and experienced outcomes of actions taken by the agent.</p>
-<p>Note that in most use cases, the state of real-world phenomena cannot be measured perfectly. So to enable any agent trained on simulated phenomena to potentially act in the real world, we will need to include a measurement process as part of the information retrieval step. This is the part where we can leverage our work in a previous article which develops an online learning system for stochastic process models.</p>
-<p>When an agent takes an action to measure the state of the system (or when it is given measurements without needing to take action) there will typically be some uncertainty in how the history of measured real-world data <span class="math inline">\(Y\)</span> maps to the latent states of the system <span class="math inline">\(X\)</span> and its parameters <span class="math inline">\(z\)</span> at time <span class="math inline">\({\sf t}+1\)</span>. It is natural, then, to represent this uncertainty with a posterior probability distribution <span class="math inline">\({\cal P}_{{\sf t}+1}(X,z\vert Y)\)</span> as we did in the previous article.</p>
-<h2 id="algorithm-designs">Algorithm designs</h2>
-<p><strong>Best solution to this optimisation problem appears to the Streaming Evolution Strategies (CMA-ES) <span class="citation" data-cites="beyer2017simplify">[16]</span> using Cumulative discounted Rewards computed via Monte Carlo Rollouts. Work from this…</strong></p>
-<p>Talk about the utility of the model-based online learning approach in the case of partially observed systems <span class="citation" data-cites="aastrom1965optimal">[17]</span>. Also look into the overlaps with this approach and Thompson sampling for exploration — discuss here. Looking at a stochastic policy iteration algorithm here combined with Monte Carlo rollouts.</p>
-<h2 id="software-design">Software design</h2>
+<p>would be used to evaluate the optimal policy instead of the state value function <span class="math inline">\(V_{{\sf t}}(X,z,\theta )\)</span> that we are using above. We are able to use the latter here because the simulation model gives us explicit knowledge of the <span class="math inline">\(P_{({\sf t}+1){\sf t}}(x&#39;\vert X,z,A)\)</span> distribution which is utilised in the computation of <span class="math inline">\(V_{{\sf t}}(X,z,\theta )\)</span>. When this model is not known, the state-action value function <span class="math inline">\(Q_{{\sf t}}(X,A,z)\)</span> must be learned explicitly through sample estimation from the measured state and experienced outcomes of the actions taken.</p>
+<h2 id="algorithm-design-and-implementation">Algorithm design and implementation</h2>
+<p>We’re now ready to discuss how we will embed the optimal action learning algorithm described in the previous section in the computational graph structure of the stochadex simulation itself.</p>
+<p><strong>Continue editing from here…</strong></p>
+<p>Best solution to this optimisation problem appears to the Streaming Evolution Strategies (CMA-ES) <span class="citation" data-cites="beyer2017simplify">[15]</span> using Cumulative discounted Rewards computed via Monte Carlo Rollouts. Work from this…</p>
+<p>Talk about the utility of the model-based online learning approach in the case of partially observed systems <span class="citation" data-cites="aastrom1965optimal">[16]</span>. Also look into the overlaps with this approach and Thompson sampling for exploration — discuss here. Looking at a stochastic policy iteration algorithm here combined with Monte Carlo rollouts.</p>
+<p>Note that, in most use cases, the state of real-world phenomena cannot be measured perfectly. So in order to use simulated phenomena to potentially act in the real world, one typically will need to include a measurement process as part of the information retrieval step. For this we could leverage our work in a previous article <span class="citation" data-cites="stochadexIII-2024">[17]</span> which develops an online learning system for stochastic process models. The partitioning structure of stochadex simulations should make adding this capability on to the action-taking algorithms described in this article extremely easy, and we anticipate many interesting applications to projects in the future.</p>
 <h2 class="unnumbered" id="references">References</h2>
 <div id="refs" class="references csl-bib-body" role="list">
 <div id="ref-stochadexI-2024" class="csl-entry" role="listitem">
@@ -336,14 +335,14 @@ Q_{{\sf t}}(X,A,z)={\rm E}_{{\sf t}}({\sf Discounted \,Return}\vert X,A,z) \,,
 <div id="ref-sutton2018reinforcement" class="csl-entry" role="listitem">
 <div class="csl-left-margin">[14] </div><div class="csl-right-inline">R. S. Sutton and A. G. Barto, <em>Reinforcement learning: An introduction</em>. MIT press, 2018.</div>
 </div>
-<div id="ref-gaon2020reinforcement" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[15] </div><div class="csl-right-inline">M. Gaon and R. Brafman, <span>“Reinforcement learning with non-markovian rewards,”</span> in <em>Proceedings of the AAAI conference on artificial intelligence</em>, 2020, pp. 3980–3987.</div>
-</div>
 <div id="ref-beyer2017simplify" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[16] </div><div class="csl-right-inline">H.-G. Beyer and B. Sendhoff, <span>“Simplify your covariance matrix adaptation evolution strategy,”</span> <em>IEEE Transactions on Evolutionary Computation</em>, vol. 21, no. 5, pp. 746–759, 2017.</div>
+<div class="csl-left-margin">[15] </div><div class="csl-right-inline">H.-G. Beyer and B. Sendhoff, <span>“Simplify your covariance matrix adaptation evolution strategy,”</span> <em>IEEE Transactions on Evolutionary Computation</em>, vol. 21, no. 5, pp. 746–759, 2017.</div>
 </div>
 <div id="ref-aastrom1965optimal" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[17] </div><div class="csl-right-inline">K. J. Åström, <span>“Optimal control of markov processes with incomplete state information i,”</span> <em>Journal of mathematical analysis and applications</em>, vol. 10, pp. 174–205, 1965.</div>
+<div class="csl-left-margin">[16] </div><div class="csl-right-inline">K. J. Åström, <span>“Optimal control of markov processes with incomplete state information i,”</span> <em>Journal of mathematical analysis and applications</em>, vol. 10, pp. 174–205, 1965.</div>
+</div>
+<div id="ref-stochadexIII-2024" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[17] </div><div class="csl-right-inline">R. J. Hardwick, <span>“Self-learning simulations,”</span> <em>umbralcalculations (umbralcalc.github.io/posts/stochadexIII.html)</em>, 2024.</div>
 </div>
 </div>
 <span class="custom-spacer"></span>
