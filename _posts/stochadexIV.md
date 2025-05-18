@@ -22,7 +22,7 @@ $$
 
 where we have also introduced the concept of the 'actions' performed $A_{{\sf t}+1}$ on the system; some vector of parameters which define what actions are taken at timestep ${\sf t}+1$.
 
-So far, the equation we wrote above on its own will allow us to _take_ actions. So what's next? Generating them. Since generating actions will typically require knowledge of the system state, we need to develop a formalism which 'closes the loop' by feeding information back from the system to the decision-maker. To fully appreciate how this will work mathematically, we're also going to need to move into a probabilistic formalism such as the one we introduced in [@stochadexII-2024].
+So far, the equation we wrote above on its own will allow us to _take_ actions. So what's next? _Generating_ them. Since generating actions will typically require knowledge of the system state, we need to develop a formalism which 'closes the loop' by feeding information back from the system to the decision-maker. To fully appreciate how this will work mathematically, we're also going to need to move into a probabilistic formalism such as the one we introduced in [@stochadexII-2024].
 
 If we use $A_{0:{\sf t}+1}$ as referring to the matrix of historically-taken actions which up to time ${\sf t}+1$, we can build up a more generalised, history-dependent picture of interactions with the system which matches the notation we are already using for $X_{0:{\sf t}+1}$. Let us now generally define a Non-Markovian Decision Process (NMDP) as a probabilistic model which draws an actions matrix $A_{0:{\sf t}+1}=A$ from a 'policy' distribution $\Pi_{({\sf t}+1){\sf t}}(A\vert X,\theta)$ given $X_{0:{\sf t}}=X$ and a new vector of parameters which together fully specify the generation of actions. Using the probabilistic notation from the previous part of the book, the joint probability that $X_{0:{\sf t}+1}=X$ and $A_{0:{\sf t}+1}=A$ at time ${\sf t}+1$ is
 
@@ -67,11 +67,11 @@ $$
 
 In this expression, let's recall that we are using the policy distribution $\Pi_{({\sf t}+1){\sf t}}(A\vert X,\theta)$ for action generation and the fundamental state update conditional probability for the underlying stochastic process $P_{({\sf t}+1){\sf t}}(x'\vert X,z,A)$.
 
-Using the equation above, we can now define a 'state value function' $V_{{\sf t}}$ at timestep ${\sf t}$ which is the expected $\gamma$-discounted cumulative future reward given the current state history $X$ and the other parameters like this
+Using the equation above, we can now define a 'state value function' $V_{{\sf t}}$ at timestep ${\sf t}$ which is the expected $\gamma$-discounted cumulative future reward --- often called the 'expected discounted return' in Reinforcement Learning (RL) --- given the current state history $X$ and the other parameters like this
 
 $$
 \begin{align}
-V_{{\sf t}}(X,z,\theta) &= {\rm E}_{{\sf t}}({\sf Discounted \,Cumulative \,Reward}\vert X, z, \theta ) \nonumber \\
+V_{{\sf t}}(X,z,\theta) &= {\rm E}_{{\sf t}}({\sf Discounted \,Return}\vert X, z, \theta ) \nonumber \\
 &= \sum_{{\sf t}'={\sf t}}^{\infty} \int_{\omega_{{\sf t}'+1}}{\rm d}^nx'\int_{\rho_{{\sf t}'+1}} {\rm d}r \,r\, \gamma^{{\sf t}'-{\sf t}}\prod_{{\sf t}''={\sf t}}^{{\sf t}'}P_{({\sf t}''+1){\sf t}''}(r,x'\vert X, z,\theta)\,,
 \end{align}
 $$
@@ -84,7 +84,7 @@ $$
 \end{align}
 $$
 
-The idea behind this discount factor $\gamma$ is to decrease the contribution of rewards to the optimisation objective --- often called the 'expected discounted return' in Reinforcement Learning (RL) --- more and more as the prediction evolves into the future. Note also that the state value function is inherently recursively defined, such that
+The idea behind this discount factor $\gamma$ is to decrease the contribution of rewards to the optimisation objective (the expected discounted return) more and more as the prediction evolves into the future. Note also that the state value function is inherently recursively defined, such that
 
 $$
 \begin{align}

@@ -218,7 +218,7 @@ X_{{\sf t}+1}^i &amp;= G^i_{{\sf t}+1}[F_{{\sf t}+1}(X_{0:{\sf t}}, z, {\sf t}),
 \end{align}
 \]</span></p>
 <p>where we have also introduced the concept of the ‘actions’ performed <span class="math inline">\(A_{{\sf t}+1}\)</span> on the system; some vector of parameters which define what actions are taken at timestep <span class="math inline">\({\sf t}+1\)</span>.</p>
-<p>So far, the equation we wrote above on its own will allow us to <em>take</em> actions. So what’s next? Generating them. Since generating actions will typically require knowledge of the system state, we need to develop a formalism which ‘closes the loop’ by feeding information back from the system to the decision-maker. To fully appreciate how this will work mathematically, we’re also going to need to move into a probabilistic formalism such as the one we introduced in <span class="citation" data-cites="stochadexII-2024">[2]</span>.</p>
+<p>So far, the equation we wrote above on its own will allow us to <em>take</em> actions. So what’s next? <em>Generating</em> them. Since generating actions will typically require knowledge of the system state, we need to develop a formalism which ‘closes the loop’ by feeding information back from the system to the decision-maker. To fully appreciate how this will work mathematically, we’re also going to need to move into a probabilistic formalism such as the one we introduced in <span class="citation" data-cites="stochadexII-2024">[2]</span>.</p>
 <p>If we use <span class="math inline">\(A_{0:{\sf t}+1}\)</span> as referring to the matrix of historically-taken actions which up to time <span class="math inline">\({\sf t}+1\)</span>, we can build up a more generalised, history-dependent picture of interactions with the system which matches the notation we are already using for <span class="math inline">\(X_{0:{\sf t}+1}\)</span>. Let us now generally define a Non-Markovian Decision Process (NMDP) as a probabilistic model which draws an actions matrix <span class="math inline">\(A_{0:{\sf t}+1}=A\)</span> from a ‘policy’ distribution <span class="math inline">\(\Pi_{({\sf t}+1){\sf t}}(A\vert X,\theta)\)</span> given <span class="math inline">\(X_{0:{\sf t}}=X\)</span> and a new vector of parameters which together fully specify the generation of actions. Using the probabilistic notation from the previous part of the book, the joint probability that <span class="math inline">\(X_{0:{\sf t}+1}=X\)</span> and <span class="math inline">\(A_{0:{\sf t}+1}=A\)</span> at time <span class="math inline">\({\sf t}+1\)</span> is</p>
 <p><span class="math display">\[
 \begin{align}
@@ -246,10 +246,10 @@ P_{({\sf t}+1){\sf t}}(r,x&#39;\vert X, z,\theta) &amp;= P_{{\sf t}+1}(r\vert X&
 \end{align}
 \]</span></p>
 <p>In this expression, let’s recall that we are using the policy distribution <span class="math inline">\(\Pi_{({\sf t}+1){\sf t}}(A\vert X,\theta)\)</span> for action generation and the fundamental state update conditional probability for the underlying stochastic process <span class="math inline">\(P_{({\sf t}+1){\sf t}}(x&#39;\vert X,z,A)\)</span>.</p>
-<p>Using the equation above, we can now define a ‘state value function’ <span class="math inline">\(V_{{\sf t}}\)</span> at timestep <span class="math inline">\({\sf t}\)</span> which is the expected <span class="math inline">\(\gamma\)</span>-discounted cumulative future reward given the current state history <span class="math inline">\(X\)</span> and the other parameters like this</p>
+<p>Using the equation above, we can now define a ‘state value function’ <span class="math inline">\(V_{{\sf t}}\)</span> at timestep <span class="math inline">\({\sf t}\)</span> which is the expected <span class="math inline">\(\gamma\)</span>-discounted cumulative future reward — often called the ‘expected discounted return’ in Reinforcement Learning (RL) — given the current state history <span class="math inline">\(X\)</span> and the other parameters like this</p>
 <p><span class="math display">\[
 \begin{align}
-V_{{\sf t}}(X,z,\theta) &amp;= {\rm E}_{{\sf t}}({\sf Discounted \,Cumulative \,Reward}\vert X, z, \theta ) \nonumber \\
+V_{{\sf t}}(X,z,\theta) &amp;= {\rm E}_{{\sf t}}({\sf Discounted \,Return}\vert X, z, \theta ) \nonumber \\
 &amp;= \sum_{{\sf t}&#39;={\sf t}}^{\infty} \int_{\omega_{{\sf t}&#39;+1}}{\rm d}^nx&#39;\int_{\rho_{{\sf t}&#39;+1}} {\rm d}r \,r\, \gamma^{{\sf t}&#39;-{\sf t}}\prod_{{\sf t}&#39;&#39;={\sf t}}^{{\sf t}&#39;}P_{({\sf t}&#39;&#39;+1){\sf t}&#39;&#39;}(r,x&#39;\vert X, z,\theta)\,,
 \end{align}
 \]</span></p>
@@ -259,7 +259,7 @@ V_{{\sf t}}(X,z,\theta) &amp;= {\rm E}_{{\sf t}}({\sf Discounted \,Cumulative \,
 \gamma^{{\sf t}&#39;-{\sf t}} \longrightarrow \frac{1}{\gamma [\delta t({\sf t}+1)]}\prod_{{\sf t}&#39;&#39;={\sf t}}^{{\sf t}&#39;} \gamma [\delta t({\sf t}&#39;&#39;+1)] \,.
 \end{align}
 \]</span></p>
-<p>The idea behind this discount factor <span class="math inline">\(\gamma\)</span> is to decrease the contribution of rewards to the optimisation objective — often called the ‘expected discounted return’ in Reinforcement Learning (RL) — more and more as the prediction evolves into the future. Note also that the state value function is inherently recursively defined, such that</p>
+<p>The idea behind this discount factor <span class="math inline">\(\gamma\)</span> is to decrease the contribution of rewards to the optimisation objective (the expected discounted return) more and more as the prediction evolves into the future. Note also that the state value function is inherently recursively defined, such that</p>
 <p><span class="math display">\[
 \begin{align}
 V_{{\sf t}}(X,z,\theta) &amp;= \int_{\omega_{{\sf t}+1}}{\rm d}^nx\int_{\rho_{{\sf t}+1}} {\rm d}r \, P_{({\sf t}+1){\sf t}}(r,x&#39;\vert X, z,\theta)\big[ r+\gamma V_{{\sf t}+1}(X&#39;,z,\theta)\big] \,,
