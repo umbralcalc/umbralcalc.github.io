@@ -288,7 +288,7 @@ Q_{{\sf t}}(X,A,z)={\rm E}_{{\sf t}}({\sf Discounted \,Return}\vert X,A,z) \,,
 <h2 id="algorithm-design-and-implementation">Algorithm design and implementation</h2>
 <p>We’re now ready to discuss how we will embed the optimal action learning algorithm described in the previous section in the computational graph structure of the stochadex simulation itself.</p>
 <p><strong>Continue editing from here…</strong></p>
-<p><img src="../assets/stochadexIV/stochadexIV-action-optimisation-code.drawio.png" /></p>
+<p><img src="../assets/stochadexIV/stochadexIV-discounted-return-optimiser-code.drawio.png" /></p>
 <p>Best solution to this optimisation problem appears to the Streaming Evolution Strategies (CMA-ES) <span class="citation" data-cites="beyer2017simplify">[15]</span> using Cumulative discounted Rewards computed via Monte Carlo Rollouts. Work from this…</p>
 <p>Note that, in most use cases, the state of real-world phenomena cannot be measured perfectly. So in order to use simulated phenomena to potentially act in the real world, one typically will need to include a measurement process as part of the information retrieval step. For this we could leverage our work in a previous article <span class="citation" data-cites="stochadexIII-2024">[16]</span> which develops an online learning system for stochastic process models. The partitioning structure of stochadex simulations should make adding this capability on to the action-taking algorithms described in this article extremely easy, and we anticipate many interesting applications to projects in the future.</p>
 <h2 class="unnumbered" id="references">References</h2>

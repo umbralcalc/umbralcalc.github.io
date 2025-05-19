@@ -125,7 +125,7 @@ We're now ready to discuss how we will embed the optimal action learning algorit
 
 **Continue editing from here...**
 
-![](../assets/stochadexIV/stochadexIV-action-optimisation-code.drawio.png)
+![](../assets/stochadexIV/stochadexIV-discounted-return-optimiser-code.drawio.png)
 
 Best solution to this optimisation problem appears to the Streaming Evolution Strategies (CMA-ES) [@beyer2017simplify] using Cumulative discounted Rewards computed via Monte Carlo Rollouts. Work from this...
 
