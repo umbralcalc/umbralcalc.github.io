@@ -24,7 +24,7 @@ where we have also introduced the concept of the 'actions' performed $A_{{\sf t}
 
 So far, the equation we wrote above on its own will allow us to _take_ actions. So what's next? _Generating_ them. Since generating actions will typically require knowledge of the system state, we need to develop a formalism which 'closes the loop' by feeding information back from the system to the decision-maker. To fully appreciate how this will work mathematically, we're also going to need to move into a probabilistic formalism such as the one we introduced in [@stochadexII-2024].
 
-If we use $A_{0:{\sf t}+1}$ as referring to the matrix of historically-taken actions which up to time ${\sf t}+1$, we can build up a more generalised, history-dependent picture of interactions with the system which matches the notation we are already using for $X_{0:{\sf t}+1}$. Let us now generally define a Non-Markovian Decision Process (NMDP) as a probabilistic model which draws an actions matrix $A_{0:{\sf t}+1}=A$ from a 'policy' distribution $\Pi_{({\sf t}+1){\sf t}}(A\vert X,\theta)$ given $X_{0:{\sf t}}=X$ and a new vector of parameters which together fully specify the generation of actions. Using the probabilistic notation from the previous part of the book, the joint probability that $X_{0:{\sf t}+1}=X$ and $A_{0:{\sf t}+1}=A$ at time ${\sf t}+1$ is
+If we use $A_{0:{\sf t}+1}$ as referring to the matrix of historically-taken actions which up to time ${\sf t}+1$, we can build up a more generalised, history-dependent picture of interactions with the system which matches the notation we are already using for $X_{0:{\sf t}+1}$. Let us now generally define a Non-Markovian Decision Process (NMDP) as a probabilistic model which draws an actions matrix $A_{0:{\sf t}+1}=A$ from a 'policy' distribution $\Pi_{({\sf t}+1){\sf t}}(A\vert X,\theta)$ given $X_{0:{\sf t}}=X$ and a new vector of policy parameters $\theta$ which together fully specify the generation of actions. Using the probabilistic notation from the previous part of the book, the joint probability that $X_{0:{\sf t}+1}=X$ and $A_{0:{\sf t}+1}=A$ at time ${\sf t}+1$ is
 
 $$
 \begin{align}
@@ -127,7 +127,23 @@ We're now ready to discuss how we will embed the optimal action learning algorit
 
 ![](../assets/stochadexIV/stochadexIV-discounted-return-optimiser-code.drawio.png)
 
-Best solution to this optimisation problem appears to the Streaming Evolution Strategies (CMA-ES) [@beyer2017simplify] using Cumulative discounted Rewards computed via Monte Carlo Rollouts. Work from this...
+Best solution to this optimisation problem appears to the Streaming Evolution Strategies (CMA-ES) [@beyer2017simplify] using Cumulative discounted Rewards computed via Monte Carlo Rollouts.
+
+Maths for the CMA-ES algorithm. First draw a set of $\lambda$ new candidate policy parameters $\{ \theta_i \}$ from a multivariate normal distribution with PDF
+
+$$
+P(\theta \vert \sigma_{{\sf t}}, C_{{\sf t}}) = {\sf MultivariateNormalPDF}(\theta;M_{{\sf t}},\sigma_{{\sf t}}C_{{\sf t}}) \,.
+$$
+
+At this point, we then can use the embedded simulation to sample from the distribution of discounted return values (whose expectation $V_{{\sf t}}(X,z,\theta)$ is the optimisation objective), given the current simulation state history $X$ and parameters $z$ for each $\theta$ value.
+
+The key bit of feedback from the objective function now is that the set of policy parameters $\{ \theta_i \}$ is sorted in order of discounted return value. This sorting determines the weights $w_i$ which are used in computing the update to the distribution mean $M_{{\sf t}}$ like so
+
+$$
+M_{{\sf t}+1} = M_{{\sf t}} + \sum^\lambda_{i=1}w_i(\theta_i - M_{{\sf t}}) \,.
+$$
+
+TODO: Add updates to all the rest...
 
 Note that, in most use cases, the state of real-world phenomena cannot be measured perfectly. So in order to use simulated phenomena to potentially act in the real world, one typically will need to include a measurement process as part of the information retrieval step. For this we could leverage our work in a previous article [@stochadexIII-2024] which develops an online learning system for stochastic process models. The partitioning structure of stochadex simulations should make adding this capability on to the action-taking algorithms described in this article extremely easy, and we anticipate many interesting applications to projects in the future.
 
