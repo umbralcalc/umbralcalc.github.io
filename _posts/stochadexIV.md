@@ -175,7 +175,8 @@ and finally update the covariance matrix
 
 $$
 \begin{align}
-C^{ij}_{{\sf t}+1} &= \Big(1-\beta^{(1)}-\beta^{(\mu)}+\beta^{(s)}\Big) C^{ij}_{{\sf t}} + \beta^{(1)}\Big( {\sf P}^{(C)}_{{\sf t}+1} \Big)^i\Big( {\sf P}^{(C)}_{{\sf t}+1}\Big)^j + \beta^{(\mu)}\sum_{{\sf k}=1}^\lambda w_{{\sf k}} \bigg( \frac{\theta_{{\sf k}}-M_{{\sf t}}}{\sigma_{{\sf t}}}\bigg)^i\bigg( \frac{\theta_{{\sf k}}-M_{{\sf t}}}{\sigma_{{\sf t}}}\bigg)^j \,.
+C^{ij}_{{\sf t}+1} &= \Big(1-\beta^{(1)}-\beta^{(\mu)}+\beta^{(s)}\Big) C^{ij}_{{\sf t}} + \beta^{(1)}\Big( {\sf P}^{(C)}_{{\sf t}+1} \Big)^i\Big( {\sf P}^{(C)}_{{\sf t}+1}\Big)^j + \beta^{(\mu)}\sum_{{\sf k}=1}^\lambda w_{{\sf k}} \bigg( \frac{\theta_{{\sf k}}-M_{{\sf t}}}{\sigma_{{\sf t}}}\bigg)^i\bigg( \frac{\theta_{{\sf k}}-M_{{\sf t}}}{\sigma_{{\sf t}}}\bigg)^j \\
+\beta^{(s)} &= \bigg\{ 1-\Big[ {\sf 1}_{[0,\alpha \sqrt{n}]}\Big( \Vert {\sf P}^{(\sigma )}_{{\sf t}+1}\Vert\Big) \Big]^2\bigg\}\beta^{(1)}\beta^{(C)}(2-\beta^{(C)}) \,.
 \end{align}
 $$
 
