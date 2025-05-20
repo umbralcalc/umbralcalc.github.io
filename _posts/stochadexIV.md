@@ -151,7 +151,7 @@ Having computed the mean update, we can now update the isotropic path (which dir
 
 $$
 \begin{align}
-{\sf P}^{(\sigma )}_{{\sf t}+1} &= \big(1-\beta^{(\sigma )}\big) {\sf P}^{(\sigma )}_{{\sf t}} + \Big[ 1-\big( 1-\beta^{(\sigma )}\big)^2\Big]^{\frac{1}{2}}\mu_w^{\frac{1}{2}}C_{{\sf t}}^{-\frac{1}{2}}\frac{M_{{\sf t}+1} - M_{{\sf t}}}{\sigma_{{\sf t}}} \,,
+{\sf P}^{(\sigma )}_{{\sf t}+1} &= \beta^{(\sigma )} {\sf P}^{(\sigma )}_{{\sf t}} + \Big[ 1-\big( \beta^{(\sigma )}\big)^2\Big]^{\frac{1}{2}}C_{{\sf t}}^{-\frac{1}{2}}\frac{M_{{\sf t}+1} - M_{{\sf t}}}{\sigma_{{\sf t}}\Big( \sum^\lambda_{{\sf k}=1}w_{{\sf k}}^2\Big)^{\frac{1}{2}}} \,,
 \end{align}
 $$
 
@@ -159,7 +159,7 @@ and also update the isotropic path length (which determines the aggregate step s
 
 $$
 \begin{align}
-\sigma_{{\sf t}+1} &= \sigma_{{\sf t}} \exp \Bigg\{ \frac{\beta^{(\sigma )}}{d^{(\sigma )}} \Bigg[ \frac{\Gamma \big( \frac{n}{2}\big)\Vert {\sf P}^{(\sigma )}_{{\sf t}+1}\Vert}{2^{\frac{1}{2}}\Gamma \big( \frac{n}{2}+\frac{1}{2}\big)}-1\Bigg] \Bigg\} \,.
+\sigma_{{\sf t}+1} &= \sigma_{{\sf t}} \exp \Bigg\{ \frac{1-\beta^{(\sigma )}}{d^{(\sigma )}} \Bigg[ \frac{\Gamma \big( \frac{n}{2}\big)\Vert {\sf P}^{(\sigma )}_{{\sf t}+1}\Vert}{2^{\frac{1}{2}}\Gamma \big( \frac{n}{2}+\frac{1}{2}\big)}-1\Bigg] \Bigg\} \,.
 \end{align}
 $$
 
@@ -167,7 +167,7 @@ Following this, we then update the anisotropic path (which encodes the aggregate
 
 $$
 \begin{align}
-{\sf P}^{(C)}_{{\sf t}+1} &= \big(1-\beta^{(C)}\big) {\sf P}^{(C)}_{{\sf t}} + {\sf 1}_{[0,\alpha \sqrt{n}]}\Big( \Vert {\sf P}^{(\sigma )}_{{\sf t}+1}\Vert\Big)\Big[ 1-\big( 1-\beta^{(C)}\big)^2\Big]^{\frac{1}{2}}\mu_w^{\frac{1}{2}}\frac{M_{{\sf t}+1} - M_{{\sf t}}}{\sigma_{{\sf t}}} \,,
+{\sf P}^{(C)}_{{\sf t}+1} &= \beta^{(C)} {\sf P}^{(C)}_{{\sf t}} + {\sf 1}_{[0,\alpha \sqrt{n}]}\Big( \Vert {\sf P}^{(\sigma )}_{{\sf t}+1}\Vert\Big)\Big[ 1-\big( \beta^{(C)}\big)^2\Big]^{\frac{1}{2}}\frac{M_{{\sf t}+1} - M_{{\sf t}}}{\sigma_{{\sf t}}\Big( \sum^\lambda_{{\sf k}=1}w_{{\sf k}}^2\Big)^{\frac{1}{2}}} \,,
 \end{align}
 $$
 
@@ -175,8 +175,8 @@ and finally update the covariance matrix
 
 $$
 \begin{align}
-C^{ij}_{{\sf t}+1} &= \Big(1-\beta^{(1)}-\beta^{(\mu)}+\beta^{(s)}\Big) C^{ij}_{{\sf t}} + \beta^{(1)}\Big( {\sf P}^{(C)}_{{\sf t}+1} \Big)^i\Big( {\sf P}^{(C)}_{{\sf t}+1}\Big)^j + \beta^{(\mu)}\sum_{{\sf k}=1}^\lambda w_{{\sf k}} \bigg( \frac{\theta_{{\sf k}}-M_{{\sf t}}}{\sigma_{{\sf t}}}\bigg)^i\bigg( \frac{\theta_{{\sf k}}-M_{{\sf t}}}{\sigma_{{\sf t}}}\bigg)^j \\
-\beta^{(s)} &= \bigg\{ 1-\Big[ {\sf 1}_{[0,\alpha \sqrt{n}]}\Big( \Vert {\sf P}^{(\sigma )}_{{\sf t}+1}\Vert\Big) \Big]^2\bigg\}\beta^{(1)}\beta^{(C)}(2-\beta^{(C)}) \,.
+C^{ij}_{{\sf t}+1} &= \Big(1-\beta^{(1)}-\beta^{(\lambda )}+\beta^{(s)}\Big) C^{ij}_{{\sf t}} + \beta^{(1)}\Big( {\sf P}^{(C)}_{{\sf t}+1} \Big)^i\Big( {\sf P}^{(C)}_{{\sf t}+1}\Big)^j + \beta^{(\lambda )}\sum_{{\sf k}=1}^\lambda w_{{\sf k}} \bigg( \frac{\theta_{{\sf k}}-M_{{\sf t}}}{\sigma_{{\sf t}}}\bigg)^i\bigg( \frac{\theta_{{\sf k}}-M_{{\sf t}}}{\sigma_{{\sf t}}}\bigg)^j \\
+\beta^{(s)} &= \bigg\{ 1-\Big[ {\sf 1}_{[0,\alpha \sqrt{n}]}\Big( \Vert {\sf P}^{(\sigma )}_{{\sf t}+1}\Vert\Big) \Big]^2\bigg\}\Big[ 1-\big( \beta^{(C)}\big)^2\Big] \beta^{(1)} \,.
 \end{align}
 $$
 
