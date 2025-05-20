@@ -129,21 +129,21 @@ We're now ready to discuss how we will embed the optimal action learning algorit
 
 Best solution to this optimisation problem appears to the Streaming Evolution Strategies (CMA-ES) [@beyer2017simplify] using Cumulative discounted Rewards computed via Monte Carlo Rollouts.
 
-Maths for the CMA-ES algorithm. First draw a set of $\lambda$ new candidate policy parameters $\{ \theta_i \}$ from a multivariate normal distribution with PDF
+Maths for the CMA-ES algorithm. First draw a set of $\lambda$ new candidate policy parameters $\{ \theta_{{\sf k}} \}$ from a multivariate normal distribution with PDF
 
 $$
 \begin{align}
-P(\theta \vert \sigma_{{\sf t}}, C_{{\sf t}}) = {\sf MultivariateNormalPDF}(\theta;M_{{\sf t}},\sigma_{{\sf t}}C_{{\sf t}}) \,.
+P(\theta_{{\sf k}} \vert \sigma_{{\sf t}}, C_{{\sf t}}) = {\sf MultivariateNormalPDF}(\theta_{{\sf k}};M_{{\sf t}},\sigma_{{\sf t}}C_{{\sf t}}) \,.
 \end{align}
 $$
 
 At this point, we then can use the embedded simulation to sample from the distribution of discounted return values (whose expectation $V_{{\sf t}}(X,z,\theta)$ is the optimisation objective), given the current simulation state history $X$ and parameters $z$ for each $\theta$ value.
 
-The key bit of feedback from the objective function now is that the set of policy parameters $\{ \theta_i \}$ is sorted in order of discounted return value. This sorting determines the weights $w_i$ which are used in computing the update to the distribution mean $M_{{\sf t}}$ like so
+The key bit of feedback from the objective function now is that the set of policy parameters $\{ \theta_{{\sf k}} \}$ is sorted in order of discounted return value. This sorting determines the weights $w_{{\sf k}}$ which are used in computing the update to the distribution mean $M_{{\sf t}}$ like so
 
 $$
 \begin{align}
-M_{{\sf t}+1} = M_{{\sf t}} + \sum^\lambda_{i=1}w_i(\theta_i - M_{{\sf t}}) \,.
+M_{{\sf t}+1} = M_{{\sf t}} + \sum^\lambda_{{\sf k}=1}w_{{\sf k}}(\theta_{{\sf k}} - M_{{\sf t}}) \,.
 \end{align}
 $$
 
@@ -175,7 +175,7 @@ and finally update the covariance matrix
 
 $$
 \begin{align}
-C_{{\sf t}+1} &= \Big[1-\frac{2+\mu_w}{n^2}\beta^{(C)}\Big] C_{{\sf t}} + \frac{2}{n^2}\sum_{i=1}^n\big[ {\sf P}^{(C)}_{{\sf t}+1} \big]^i\big[ {\sf P}^{(C)}_{{\sf t}+1}\big]^i + \frac{\mu_w}{n^2}\sum_{i=1}^\lambda ... \,,
+C^{ij}_{{\sf t}+1} &= \Big(1-\beta^{(1)}-\beta^{(\mu)}+\beta^{(s)}\Big) C^{ij}_{{\sf t}} + \beta^{(1)}\Big( {\sf P}^{(C)}_{{\sf t}+1} \Big)^i\Big( {\sf P}^{(C)}_{{\sf t}+1}\Big)^j + \beta^{(\mu)}\sum_{{\sf k}=1}^\lambda w_{{\sf k}} \bigg( \frac{\theta_{{\sf k}}-M_{{\sf t}}}{\sigma_{{\sf t}}}\bigg)^i\bigg( \frac{\theta_{{\sf k}}-M_{{\sf t}}}{\sigma_{{\sf t}}}\bigg)^j \,.
 \end{align}
 $$
 

@@ -290,17 +290,17 @@ Q_{{\sf t}}(X,A,z)={\rm E}_{{\sf t}}({\sf Discounted \,Return}\vert X,A,z) \,,
 <p><strong>Continue editing from here…</strong></p>
 <p><img src="../assets/stochadexIV/stochadexIV-discounted-return-optimiser-code.drawio.png" /></p>
 <p>Best solution to this optimisation problem appears to the Streaming Evolution Strategies (CMA-ES) <span class="citation" data-cites="beyer2017simplify">[15]</span> using Cumulative discounted Rewards computed via Monte Carlo Rollouts.</p>
-<p>Maths for the CMA-ES algorithm. First draw a set of <span class="math inline">\(\lambda\)</span> new candidate policy parameters <span class="math inline">\(\{ \theta_i \}\)</span> from a multivariate normal distribution with PDF</p>
+<p>Maths for the CMA-ES algorithm. First draw a set of <span class="math inline">\(\lambda\)</span> new candidate policy parameters <span class="math inline">\(\{ \theta_{{\sf k}} \}\)</span> from a multivariate normal distribution with PDF</p>
 <p><span class="math display">\[
 \begin{align}
-P(\theta \vert \sigma_{{\sf t}}, C_{{\sf t}}) = {\sf MultivariateNormalPDF}(\theta;M_{{\sf t}},\sigma_{{\sf t}}C_{{\sf t}}) \,.
+P(\theta_{{\sf k}} \vert \sigma_{{\sf t}}, C_{{\sf t}}) = {\sf MultivariateNormalPDF}(\theta_{{\sf k}};M_{{\sf t}},\sigma_{{\sf t}}C_{{\sf t}}) \,.
 \end{align}
 \]</span></p>
 <p>At this point, we then can use the embedded simulation to sample from the distribution of discounted return values (whose expectation <span class="math inline">\(V_{{\sf t}}(X,z,\theta)\)</span> is the optimisation objective), given the current simulation state history <span class="math inline">\(X\)</span> and parameters <span class="math inline">\(z\)</span> for each <span class="math inline">\(\theta\)</span> value.</p>
-<p>The key bit of feedback from the objective function now is that the set of policy parameters <span class="math inline">\(\{ \theta_i \}\)</span> is sorted in order of discounted return value. This sorting determines the weights <span class="math inline">\(w_i\)</span> which are used in computing the update to the distribution mean <span class="math inline">\(M_{{\sf t}}\)</span> like so</p>
+<p>The key bit of feedback from the objective function now is that the set of policy parameters <span class="math inline">\(\{ \theta_{{\sf k}} \}\)</span> is sorted in order of discounted return value. This sorting determines the weights <span class="math inline">\(w_{{\sf k}}\)</span> which are used in computing the update to the distribution mean <span class="math inline">\(M_{{\sf t}}\)</span> like so</p>
 <p><span class="math display">\[
 \begin{align}
-M_{{\sf t}+1} = M_{{\sf t}} + \sum^\lambda_{i=1}w_i(\theta_i - M_{{\sf t}}) \,.
+M_{{\sf t}+1} = M_{{\sf t}} + \sum^\lambda_{{\sf k}=1}w_{{\sf k}}(\theta_{{\sf k}} - M_{{\sf t}}) \,.
 \end{align}
 \]</span></p>
 <p>Having computed the mean update, we can now update the isotropic path (which directs the aggregate search towards the optimum)</p>
@@ -324,7 +324,7 @@ M_{{\sf t}+1} = M_{{\sf t}} + \sum^\lambda_{i=1}w_i(\theta_i - M_{{\sf t}}) \,.
 <p>and finally update the covariance matrix</p>
 <p><span class="math display">\[
 \begin{align}
-C_{{\sf t}+1} &amp;= \Big[1-\frac{2+\mu_w}{n^2}\beta^{(C)}\Big] C_{{\sf t}} + \frac{2}{n^2}\sum_{i=1}^n\big[ {\sf P}^{(C)}_{{\sf t}+1} \big]^i\big[ {\sf P}^{(C)}_{{\sf t}+1}\big]^i + \frac{\mu_w}{n^2}\sum_{i=1}^\lambda ... \,,
+C^{ij}_{{\sf t}+1} &amp;= \Big(1-\beta^{(1)}-\beta^{(\mu)}+\beta^{(s)}\Big) C^{ij}_{{\sf t}} + \beta^{(1)}\Big( {\sf P}^{(C)}_{{\sf t}+1} \Big)^i\Big( {\sf P}^{(C)}_{{\sf t}+1}\Big)^j + \beta^{(\mu)}\sum_{{\sf k}=1}^\lambda w_{{\sf k}} \bigg( \frac{\theta_{{\sf k}}-M_{{\sf t}}}{\sigma_{{\sf t}}}\bigg)^i\bigg( \frac{\theta_{{\sf k}}-M_{{\sf t}}}{\sigma_{{\sf t}}}\bigg)^j \,.
 \end{align}
 \]</span></p>
 <p>Note that, in most use cases, the state of real-world phenomena cannot be measured perfectly. So in order to use simulated phenomena to potentially act in the real world, one typically will need to include a measurement process as part of the information retrieval step. For this we could leverage our work in a previous article <span class="citation" data-cites="stochadexIII-2024">[16]</span> which develops an online learning system for stochastic process models. The partitioning structure of stochadex simulations should make adding this capability on to the action-taking algorithms described in this article extremely easy, and we anticipate many interesting applications to projects in the future.</p>
