@@ -132,7 +132,9 @@ Best solution to this optimisation problem appears to the Streaming Evolution St
 Maths for the CMA-ES algorithm. First draw a set of $\lambda$ new candidate policy parameters $\{ \theta_i \}$ from a multivariate normal distribution with PDF
 
 $$
+\begin{align}
 P(\theta \vert \sigma_{{\sf t}}, C_{{\sf t}}) = {\sf MultivariateNormalPDF}(\theta;M_{{\sf t}},\sigma_{{\sf t}}C_{{\sf t}}) \,.
+\end{align}
 $$
 
 At this point, we then can use the embedded simulation to sample from the distribution of discounted return values (whose expectation $V_{{\sf t}}(X,z,\theta)$ is the optimisation objective), given the current simulation state history $X$ and parameters $z$ for each $\theta$ value.
@@ -140,10 +142,42 @@ At this point, we then can use the embedded simulation to sample from the distri
 The key bit of feedback from the objective function now is that the set of policy parameters $\{ \theta_i \}$ is sorted in order of discounted return value. This sorting determines the weights $w_i$ which are used in computing the update to the distribution mean $M_{{\sf t}}$ like so
 
 $$
+\begin{align}
 M_{{\sf t}+1} = M_{{\sf t}} + \sum^\lambda_{i=1}w_i(\theta_i - M_{{\sf t}}) \,.
+\end{align}
 $$
 
-TODO: Add updates to all the rest...
+Having computed the mean update, we can now update the isotropic path (which directs the aggregate search towards the optimum)
+
+$$
+\begin{align}
+{\sf P}^{(\sigma )}_{{\sf t}+1} &= \big(1-\beta^{(\sigma )}\big) {\sf P}^{(\sigma )}_{{\sf t}} + \Big[ 1-\big( 1-\beta^{(\sigma )}\big)^2\Big]^{\frac{1}{2}}\mu_w^{\frac{1}{2}}C_{{\sf t}}^{-\frac{1}{2}}\frac{M_{{\sf t}+1} - M_{{\sf t}}}{\sigma_{{\sf t}}} \,,
+\end{align}
+$$
+
+and also update the isotropic path length (which determines the aggregate step size towards the optimum)
+
+$$
+\begin{align}
+\sigma_{{\sf t}+1} &= \sigma_{{\sf t}} \exp \Bigg\{ \frac{\beta^{(\sigma )}}{d^{(\sigma )}} \Bigg[ \frac{\Gamma \big( \frac{n}{2}\big)\Vert {\sf P}^{(\sigma )}_{{\sf t}+1}\Vert}{2^{\frac{1}{2}}\Gamma \big( \frac{n}{2}+\frac{1}{2}\big)}-1\Bigg] \Bigg\} \,.
+\end{align}
+$$
+
+Following this, we then update the anisotropic path (which encodes the aggregate anisotropy between the search space dimensions)
+
+$$
+\begin{align}
+{\sf P}^{(C)}_{{\sf t}+1} &= \big(1-\beta^{(C)}\big) {\sf P}^{(C)}_{{\sf t}} + {\sf 1}_{[0,\alpha \sqrt{n}]}\Big( \Vert {\sf P}^{(\sigma )}_{{\sf t}+1}\Vert\Big)\Big[ 1-\big( 1-\beta^{(C)}\big)^2\Big]^{\frac{1}{2}}\mu_w^{\frac{1}{2}}\frac{M_{{\sf t}+1} - M_{{\sf t}}}{\sigma_{{\sf t}}} \,,
+\end{align}
+$$
+
+and finally update the covariance matrix
+
+$$
+\begin{align}
+C_{{\sf t}+1} &= \Big[1-\frac{2+\mu_w}{n^2}\beta^{(C)}\Big] C_{{\sf t}} + \frac{2}{n^2}\sum_{i=1}^n\big[ {\sf P}^{(C)}_{{\sf t}+1} \big]^i\big[ {\sf P}^{(C)}_{{\sf t}+1}\big]^i + \frac{\mu_w}{n^2}\sum_{i=1}^\lambda ... \,,
+\end{align}
+$$
 
 Note that, in most use cases, the state of real-world phenomena cannot be measured perfectly. So in order to use simulated phenomena to potentially act in the real world, one typically will need to include a measurement process as part of the information retrieval step. For this we could leverage our work in a previous article [@stochadexIII-2024] which develops an online learning system for stochastic process models. The partitioning structure of stochadex simulations should make adding this capability on to the action-taking algorithms described in this article extremely easy, and we anticipate many interesting applications to projects in the future.
 
