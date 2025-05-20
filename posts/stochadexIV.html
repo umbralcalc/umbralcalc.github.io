@@ -290,23 +290,24 @@ Q_{{\sf t}}(X,A,z)={\rm E}_{{\sf t}}({\sf Discounted \,Return}\vert X,A,z) \,,
 <p><strong>Continue editing from here…</strong></p>
 <p><img src="../assets/stochadexIV/stochadexIV-discounted-return-optimiser-code.drawio.png" /></p>
 <p>Best solution to this optimisation problem appears to the Streaming Evolution Strategies (CMA-ES) <span class="citation" data-cites="beyer2017simplify">[15]</span> using Cumulative discounted Rewards computed via Monte Carlo Rollouts.</p>
-<p>Maths for the CMA-ES algorithm. First draw a set of <span class="math inline">\(\lambda\)</span> new candidate policy parameters <span class="math inline">\(\{ \theta_{{\sf k}} \}\)</span> from a multivariate normal distribution with PDF</p>
+<p>Maths for the CMA-ES algorithm. First draw a set of <span class="math inline">\(\lambda\)</span> new candidate policy parameters <span class="math inline">\(\{ \theta_{{\sf t}+1} \}\)</span> from a multivariate normal distribution with PDF</p>
 <p><span class="math display">\[
 \begin{align}
-P(\theta_{{\sf k}} \vert \sigma_{{\sf t}}, C_{{\sf t}}) = {\sf MultivariateNormalPDF}(\theta_{{\sf k}};M_{{\sf t}},\sigma_{{\sf t}}C_{{\sf t}}) \,.
+P(\theta_{{\sf t}+1} \vert \sigma_{{\sf t}}, C_{{\sf t}}) = {\sf MultivariateNormalPDF}(\theta_{{\sf t}+1} ;M_{{\sf t}},\sigma_{{\sf t}}C_{{\sf t}}) \,.
 \end{align}
 \]</span></p>
-<p>At this point, we then can use the embedded simulation to sample from the distribution of discounted return values (whose expectation <span class="math inline">\(V_{{\sf t}}(X,z,\theta)\)</span> is the optimisation objective), given the current simulation state history <span class="math inline">\(X\)</span> and parameters <span class="math inline">\(z\)</span> for each <span class="math inline">\(\theta\)</span> value.</p>
-<p>The key bit of feedback from the objective function now is that the set of policy parameters <span class="math inline">\(\{ \theta_{{\sf k}} \}\)</span> is sorted in order of discounted return value. This sorting determines the weights <span class="math inline">\(w_{{\sf k}}\)</span> which are used in computing the update to the distribution mean <span class="math inline">\(M_{{\sf t}}\)</span> like so</p>
+<p>At this point, we then can use the embedded simulation to sample from the distribution of discounted return values (whose expectation <span class="math inline">\(V_{{\sf t}+1}(X,z,\theta )\)</span> is the optimisation objective), given the current simulation state history <span class="math inline">\(X\)</span> and parameters <span class="math inline">\(z\)</span> for each <span class="math inline">\(\theta_{{\sf t}+1}\)</span>.</p>
+<p>The key bit of feedback from the objective function now is that the set of policy parameters <span class="math inline">\(\{ \theta_{{\sf t}+1} \}\)</span> is combined with the set of those sampled previously in the state history and their union is sorted in order of discounted return value and reindexed with a <span class="math inline">\({\sf k}\)</span>-value. This sorting determines the weights <span class="math inline">\(w_{{\sf k}}\)</span> which are used in computing the update to the distribution mean <span class="math inline">\(M_{{\sf t}}\)</span> like so</p>
 <p><span class="math display">\[
 \begin{align}
-M_{{\sf t}+1} = M_{{\sf t}} + \sum^\lambda_{{\sf k}=1}w_{{\sf k}}(\theta_{{\sf k}} - M_{{\sf t}}) \,.
+M_{{\sf t}+1} = M_{{\sf t}} + \sum^\mu_{{\sf k}=1}w_{{\sf k}}(\theta_{{\sf k}} - M_{{\sf t}}) \,,
 \end{align}
 \]</span></p>
+<p>where <span class="math inline">\(\mu\)</span> is the total number of past and new policy param sets.</p>
 <p>Having computed the mean update, we can now update the isotropic path (which directs the aggregate search towards the optimum)</p>
 <p><span class="math display">\[
 \begin{align}
-{\sf P}^{(\sigma )}_{{\sf t}+1} &amp;= \beta^{(\sigma )} {\sf P}^{(\sigma )}_{{\sf t}} + \Big[ 1-\big( \beta^{(\sigma )}\big)^2\Big]^{\frac{1}{2}}C_{{\sf t}}^{-\frac{1}{2}}\frac{M_{{\sf t}+1} - M_{{\sf t}}}{\sigma_{{\sf t}}\Big( \sum^\lambda_{{\sf k}=1}w_{{\sf k}}^2\Big)^{\frac{1}{2}}} \,,
+{\sf P}^{(\sigma )}_{{\sf t}+1} &amp;= \beta^{(\sigma )} {\sf P}^{(\sigma )}_{{\sf t}} + \Big[ 1-\big( \beta^{(\sigma )}\big)^2\Big]^{\frac{1}{2}}C_{{\sf t}}^{-\frac{1}{2}}\frac{M_{{\sf t}+1} - M_{{\sf t}}}{\sigma_{{\sf t}}\Big( \sum^\mu_{{\sf k}=1}w_{{\sf k}}^2\Big)^{\frac{1}{2}}} \,,
 \end{align}
 \]</span></p>
 <p>and also update the isotropic path length (which determines the aggregate step size towards the optimum)</p>
@@ -318,13 +319,13 @@ M_{{\sf t}+1} = M_{{\sf t}} + \sum^\lambda_{{\sf k}=1}w_{{\sf k}}(\theta_{{\sf k
 <p>Following this, we then update the anisotropic path (which encodes the aggregate anisotropy between the search space dimensions)</p>
 <p><span class="math display">\[
 \begin{align}
-{\sf P}^{(C)}_{{\sf t}+1} &amp;= \beta^{(C)} {\sf P}^{(C)}_{{\sf t}} + {\sf 1}_{[0,\alpha \sqrt{n}]}\Big( \Vert {\sf P}^{(\sigma )}_{{\sf t}+1}\Vert\Big)\Big[ 1-\big( \beta^{(C)}\big)^2\Big]^{\frac{1}{2}}\frac{M_{{\sf t}+1} - M_{{\sf t}}}{\sigma_{{\sf t}}\Big( \sum^\lambda_{{\sf k}=1}w_{{\sf k}}^2\Big)^{\frac{1}{2}}} \,,
+{\sf P}^{(C)}_{{\sf t}+1} &amp;= \beta^{(C)} {\sf P}^{(C)}_{{\sf t}} + {\sf 1}_{[0,\alpha \sqrt{n}]}\Big( \Vert {\sf P}^{(\sigma )}_{{\sf t}+1}\Vert\Big)\Big[ 1-\big( \beta^{(C)}\big)^2\Big]^{\frac{1}{2}}\frac{M_{{\sf t}+1} - M_{{\sf t}}}{\sigma_{{\sf t}}\Big( \sum^\mu_{{\sf k}=1}w_{{\sf k}}^2\Big)^{\frac{1}{2}}} \,,
 \end{align}
 \]</span></p>
 <p>and finally update the covariance matrix</p>
 <p><span class="math display">\[
 \begin{align}
-C^{ij}_{{\sf t}+1} &amp;= \Big(1-\beta^{(1)}-\beta^{(\lambda )}+\beta^{(s)}\Big) C^{ij}_{{\sf t}} + \beta^{(1)}\Big( {\sf P}^{(C)}_{{\sf t}+1} \Big)^i\Big( {\sf P}^{(C)}_{{\sf t}+1}\Big)^j + \beta^{(\lambda )}\sum_{{\sf k}=1}^\lambda w_{{\sf k}} \bigg( \frac{\theta_{{\sf k}}-M_{{\sf t}}}{\sigma_{{\sf t}}}\bigg)^i\bigg( \frac{\theta_{{\sf k}}-M_{{\sf t}}}{\sigma_{{\sf t}}}\bigg)^j \\
+C^{ij}_{{\sf t}+1} &amp;= \Big(1-\beta^{(1)}-\beta^{(\mu )}+\beta^{(s)}\Big) C^{ij}_{{\sf t}} + \beta^{(1)}\Big( {\sf P}^{(C)}_{{\sf t}+1} \Big)^i\Big( {\sf P}^{(C)}_{{\sf t}+1}\Big)^j + \beta^{(\mu )}\sum_{{\sf k}=1}^\mu w_{{\sf k}} \bigg( \frac{\theta_{{\sf k}}-M_{{\sf t}}}{\sigma_{{\sf t}}}\bigg)^i\bigg( \frac{\theta_{{\sf k}}-M_{{\sf t}}}{\sigma_{{\sf t}}}\bigg)^j \\
 \beta^{(s)} &amp;= \bigg\{ 1-\Big[ {\sf 1}_{[0,\alpha \sqrt{n}]}\Big( \Vert {\sf P}^{(\sigma )}_{{\sf t}+1}\Vert\Big) \Big]^2\bigg\}\Big[ 1-\big( \beta^{(C)}\big)^2\Big] \beta^{(1)} \,.
 \end{align}
 \]</span></p>
