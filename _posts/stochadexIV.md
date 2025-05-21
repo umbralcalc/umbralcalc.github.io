@@ -51,7 +51,7 @@ What are the main categories of action which are possible in the rows of $A$? Si
 
 Many of the examples we have given above have continuous action spaces, but we might also consider classes of decision processes where actions are defined discretely. Examples of these include the famous multi-armed bandit problem [@gittins2011multi] (like choosing between website layouts for E-commerce [@liu2021map]), managing a sports team through player substitutions, sensor measurement scheduling [@leong2020deep] and the sequential design prioritisation of large-scale scientific experiments [@blau2022optimizing]
 
-## States, actions and attributing rewards
+## Optimising actions
 
 We now have the basic building blocks needed to generate and take actions within our simulated system. So the next step in this article is to find a way to create optimal decision-making algorithms. The key question to answer then, is: _optimal with respect to what objective?_
 
@@ -119,13 +119,7 @@ $$
 
 would be used to evaluate the optimal policy instead of the state value function $V_{{\sf t}}(X,z,\theta )$ that we are using above. We are able to use the latter here because the simulation model gives us explicit knowledge of the $P_{({\sf t}+1){\sf t}}(x'\vert X,z,A)$ distribution which is utilised in the computation of $V_{{\sf t}}(X,z,\theta )$. When this model is not known, the state-action value function $Q_{{\sf t}}(X,A,z)$ must be learned explicitly through sample estimation from the measured state and experienced outcomes of the actions taken.
 
-## Algorithm design and implementation
-
-We're now ready to discuss how we will embed the optimal action learning algorithm described in the previous section in the computational graph structure of the stochadex simulation itself.
-
 **Continue editing from here...**
-
-![](../assets/stochadexIV/stochadexIV-discounted-return-optimiser-code.drawio.png)
 
 Best solution to this optimisation problem appears to the Streaming Evolution Strategies (CMA-ES) [@beyer2017simplify] using Cumulative discounted Rewards computed via Monte Carlo Rollouts.
 
@@ -181,6 +175,12 @@ C^{ij}_{{\sf t}+1} &= \Big(1-\beta^{(1)}-\beta^{(\mu )}+\beta^{(s)}\Big) C^{ij}_
 \beta^{(s)} &= \bigg\{ 1-\Big[ {\sf 1}_{[0,\alpha \sqrt{n}]}\Big( \Vert {\sf P}^{(\sigma )}_{{\sf t}+1}\Vert\Big) \Big]^2\bigg\}\Big[ 1-\big( \beta^{(C)}\big)^2\Big] \beta^{(1)} \,.
 \end{align}
 $$
+
+## Algorithm design and implementation
+
+We're now ready to discuss how we will embed the optimal action learning algorithm described in the previous section in the computational graph structure of the stochadex simulation itself.
+
+![](../assets/stochadexIV/stochadexIV-discounted-return-optimiser-code.drawio.png)
 
 Note that, in most use cases, the state of real-world phenomena cannot be measured perfectly. So in order to use simulated phenomena to potentially act in the real world, one typically will need to include a measurement process as part of the information retrieval step. For this we could leverage our work in a previous article [@stochadexIII-2024] which develops an online learning system for stochastic process models. The partitioning structure of stochadex simulations should make adding this capability on to the action-taking algorithms described in this article extremely easy, and we anticipate many interesting applications to projects in the future.
 
