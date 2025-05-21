@@ -12,7 +12,7 @@ year: 2024
 
 Let's start by returning to the mathematical formalism that we introduced in [@stochadexI-2024]. This formalism is appropriate for sampling from nearly every stochastic phenomenon that one can think of. We are going to extend this description to consider what happens to the probability that the state history matrix takes a particular set of values over time.
 
-So, how do we begin? Previously, we defined the general stochastic process with the formula $X^{i}_{{\sf t}+1} = F^{i}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t})$. Further, we note that in [@stochadexI-2024], it was more practical to truncate the state history depth up to some number of timesteps ${\sf s}$ in the past such that this formula now becomes $X^{i}_{{\sf t}+1} = F^{i}_{{\sf t}+1}(X_{{\sf t}-{\sf s}:{\sf t}},z,{\sf t})$. This equation also has an implicit _master equation_ associated to it that fully describes the time evolution of the _probability density function_ $P_{{\sf t}+1}(X\vert z)$ of $X_{({\sf t}+1)-{\sf s}:({\sf t}+1)}=X$ given that the parameters of the process are $z$. This can be written as
+So, how do we begin? Previously, we defined the general stochastic process with the formula $X^{i}_{{\sf t}+1} = F^{i}_{{\sf t}+1}(X_{0:{\sf t}},z,{\sf t})$. Further, we note that in [@stochadexI-2024], it was more practical to truncate the state history depth up to some number of timesteps ${\sf s}$ in the past such that this formula now becomes $X^{i}_{{\sf t}+1} = F^{i}_{{\sf t}+1}(X_{{\sf t}-{\sf s}:{\sf t}},z,{\sf t})$. This equation also has an implicit _master equation_ associated to it that fully describes the time evolution of the _probability density function_ $P_{{\sf t}+1}(X\vert z)$ of $X_{{\sf t}+1-{\sf s}:{\sf t}+1}=X$ given that the parameters of the process are $z$. This can be written as
 
 $$
 \begin{align}
@@ -262,7 +262,7 @@ We should probably make what we've just said a little more mathematically concre
 
 $$
 \begin{align}
-\ln {\cal L}_{{\sf t}+1}(Y\vert z) &= \sum_{{\sf t}'=({\sf t}+1)-{\sf s}}^{({\sf t}+1)} \ln P_{{\sf t}'}[y;M_{{\sf t}'}(z),C_{{\sf t}'}(z),\dots ] \,, \label{eq:log-likelihood-reweighting}
+\ln {\cal L}_{{\sf t}+1}(Y\vert z) &= \sum_{{\sf t}'={\sf t}+1-{\sf s}}^{{\sf t}+1} \ln P_{{\sf t}'}[y;M_{{\sf t}'}(z),C_{{\sf t}'}(z),\dots ] \,, \label{eq:log-likelihood-reweighting}
 \end{align}
 $$
 

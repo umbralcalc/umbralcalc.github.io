@@ -10,13 +10,13 @@ year: [WIP]
 
 ## Action formalism
 
-Let's start by considering how we might adapt the mathematical formalism we introduced in [@stochadexI-2024] to be able to take actions which can manipulate the state at each timestep. Using the mathematical notation from that article, we may extend the formula for updating the state history matrix $X_{0:{\sf t}}\rightarrow X_{0:{\sf t}+1}$ to include a new layer of possible interactions which is facilitated by a new vector-valued 'action-taking' function $G_{{\sf t}}$.
+Let's start by considering how we might adapt the mathematical formalism we introduced in [@stochadexI-2024] to be able to take actions which can manipulate the state at each timestep. Using the mathematical notation from that article, we may extend the formula for updating the state history matrix $X_{{\sf t}-{\sf s}:{\sf t}}\rightarrow X_{{\sf t}+1-{\sf s}:{\sf t}+1}$ to include a new layer of possible interactions which is facilitated by a new vector-valued 'action-taking' function $G_{{\sf t}}$.
 
 During a timestep over which actions are taken, the stochadex state update formula can be extended to include interactions by composition with the original state update function like so
 
 $$
 \begin{align}
-X_{{\sf t}+1}^i &= G^i_{{\sf t}+1}[F_{{\sf t}+1}(X_{0:{\sf t}}, z, {\sf t}), A_{{\sf t}+1}] = {\cal F}^i_{{\sf t}+1}(X_{0:{\sf t}}, z, A_{{\sf t}+1}, {\sf t}) \,,
+X_{{\sf t}+1}^i &= G^i_{{\sf t}+1}[F_{{\sf t}+1}(X_{{\sf t}-{\sf s}:{\sf t}}, z, {\sf t}), A_{{\sf t}+1}] = {\cal F}^i_{{\sf t}+1}(X_{{\sf t}-{\sf s}:{\sf t}}, z, A_{{\sf t}+1}, {\sf t}) \,,
 \end{align}
 $$
 
@@ -24,7 +24,7 @@ where we have also introduced the concept of the 'actions' performed $A_{{\sf t}
 
 So far, the equation we wrote above on its own will allow us to _take_ actions. So what's next? _Generating_ them. Since generating actions will typically require knowledge of the system state, we need to develop a formalism which 'closes the loop' by feeding information back from the system to the decision-maker. To fully appreciate how this will work mathematically, we're also going to need to move into a probabilistic formalism such as the one we introduced in [@stochadexII-2024].
 
-If we use $A_{0:{\sf t}+1}$ as referring to the matrix of historically-taken actions which up to time ${\sf t}+1$, we can build up a more generalised, history-dependent picture of interactions with the system which matches the notation we are already using for $X_{0:{\sf t}+1}$. Let us now generally define a Non-Markovian Decision Process (NMDP) as a probabilistic model which draws an actions matrix $A_{0:{\sf t}+1}=A$ from a 'policy' distribution $\Pi_{({\sf t}+1){\sf t}}(A\vert X,\theta)$ given $X_{0:{\sf t}}=X$ and a new vector of policy parameters $\theta$ which together fully specify the generation of actions. Using the probabilistic notation from the previous part of the book, the joint probability that $X_{0:{\sf t}+1}=X$ and $A_{0:{\sf t}+1}=A$ at time ${\sf t}+1$ is
+If we use $A_{{\sf t}+1-{\sf s}:{\sf t}+1}$ as referring to the matrix of historically-taken actions from time ${\sf t}+1-{\sf s}$ up to time ${\sf t}+1$, we can build up a more generalised, history-dependent picture of interactions with the system which matches the notation we are already using for $X_{{\sf t}+1-{\sf s}:{\sf t}+1}$. Let us now generally define a Non-Markovian Decision Process (NMDP) as a probabilistic model which draws an actions matrix $A_{{\sf t}+1-{\sf s}:{\sf t}+1}=A$ from a 'policy' distribution $\Pi_{({\sf t}+1){\sf t}}(A\vert X,\theta)$ given $X_{{\sf t}-{\sf s}:{\sf t}}=X$ and a new vector of policy parameters $\theta$ which together fully specify the generation of actions. Using the probabilistic notation from the previous part of the book, the joint probability that $X_{{\sf t}+1-{\sf s}:{\sf t}+1}=X$ and $A_{{\sf t}+1-{\sf s}:{\sf t}+1}=A$ at time ${\sf t}+1$ is
 
 $$
 \begin{align}
@@ -32,8 +32,8 @@ P_{{\sf t}+1}(X,A\vert z, \theta ) &= P_{{\sf t}}(X'\vert z,\theta ) \, \Pi_{({\
 \end{align}
 $$
 
-where we recall that $P_{({\sf t}+1){\sf t}}(x\vert X',z,A)$ is the conditional probability of $X_{{\sf t}+1}=x$ given $X_{0:{\sf t}}=
-X'$ and $z$ that we have encountered before, but it now requires $A_{0:{\sf t}+1}=A$ as another given input. We have illustrated taking of actions while evolving the system state and how it relates to the policy distribution with a new graph representation below.
+where we recall that $P_{({\sf t}+1){\sf t}}(x\vert X',z,A)$ is the conditional probability of $X_{{\sf t}+1}=x$ given $X_{{\sf t}-{\sf s}:{\sf t}}=
+X'$ and $z$ that we have encountered before, but it now requires $A_{{\sf t}+1-{\sf s}:{\sf t}+1}=A$ as another given input. We have illustrated taking of actions while evolving the system state and how it relates to the policy distribution with a new graph representation below.
 
 ![](../assets/stochadexIV/stochadexIV-fundamental-loop-with-actions.drawio.png)
 
