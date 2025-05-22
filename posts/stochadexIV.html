@@ -285,22 +285,21 @@ Q_{{\sf t}}(X,A,z)={\rm E}_{{\sf t}}({\sf Discounted \,Return}\vert X,A,z) \,,
 \end{align}
 \]</span></p>
 <p>would be used to evaluate the optimal policy instead of the state value function <span class="math inline">\(V_{{\sf t}}(X,z,\theta )\)</span> that we are using above. We are able to use the latter here because the simulation model gives us explicit knowledge of the <span class="math inline">\(P_{({\sf t}+1){\sf t}}(x&#39;\vert X,z,A)\)</span> distribution which is utilised in the computation of <span class="math inline">\(V_{{\sf t}}(X,z,\theta )\)</span>. When this model is not known, the state-action value function <span class="math inline">\(Q_{{\sf t}}(X,A,z)\)</span> must be learned explicitly through sample estimation from the measured state and experienced outcomes of the actions taken.</p>
-<p><strong>Continue editing from here…</strong></p>
-<p>Best solution to this optimisation problem appears to the Streaming Evolution Strategies (CMA-ES) <span class="citation" data-cites="beyer2017simplify">[15]</span> using Cumulative discounted Rewards computed via Monte Carlo Rollouts.</p>
-<p>Maths for the CMA-ES algorithm. First draw a set of <span class="math inline">\(\lambda\)</span> new candidate policy parameters <span class="math inline">\(\{ \theta_{{\sf t}+1} \}\)</span> from a multivariate normal distribution with PDF</p>
+<p>By simulating trajectories into the future, we can sample from the distribution of discounted return values (whose expectation <span class="math inline">\(V_{{\sf t}+1}(X,z,\theta )\)</span> is the optimisation objective for optimal action taking). This is generally a stochastic function without gradients and is potentially a high-dimensional optimisation problem. One powerful methodology to solve these kinds of problems is that of a Covariance Matrix Adaptation Evolution Strategies (CMA-ES) <span class="citation" data-cites="beyer2017simplify">[15]</span>.</p>
+<p>The mathematical methodology for these algorithms has a few steps. The first step is to draw a set of <span class="math inline">\(\lambda\)</span> new candidate policy parameters <span class="math inline">\(\{ \theta_{{\sf t}+1} \}\)</span> from a multivariate normal distribution with PDF</p>
 <p><span class="math display">\[
 \begin{align}
-P(\theta_{{\sf t}+1} \vert \sigma_{{\sf t}}, C_{{\sf t}}) = {\sf MultivariateNormalPDF}(\theta_{{\sf t}+1} ;M_{{\sf t}},\sigma_{{\sf t}}C_{{\sf t}}) \,.
+P(\theta_{{\sf t}+1} \vert M_{{\sf t}},\sigma_{{\sf t}}, C_{{\sf t}}) = {\sf MultivariateNormalPDF}(\theta_{{\sf t}+1} ;M_{{\sf t}},\sigma_{{\sf t}}C_{{\sf t}}) \,.
 \end{align}
 \]</span></p>
-<p>At this point, we then can use the embedded simulation to sample from the distribution of discounted return values (whose expectation <span class="math inline">\(V_{{\sf t}+1}(X,z,\theta )\)</span> is the optimisation objective), given the current simulation state history <span class="math inline">\(X\)</span> and parameters <span class="math inline">\(z\)</span> for each <span class="math inline">\(\theta_{{\sf t}+1}\)</span>.</p>
+<p>At this point, we then can use the embedded simulation to sample from the distribution of discounted return values, given the current simulation state history <span class="math inline">\(X\)</span> and parameters <span class="math inline">\(z\)</span> for each <span class="math inline">\(\theta_{{\sf t}+1}\)</span>.</p>
 <p>The key bit of feedback from the objective function now is that the set of policy parameters <span class="math inline">\(\{ \theta_{{\sf t}+1} \}\)</span> is combined with the set of those sampled previously in the state history and their union is sorted in order of discounted return value and reindexed with a <span class="math inline">\({\sf k}\)</span>-value. This sorting determines the weights <span class="math inline">\(w_{{\sf k}}\)</span> which are used in computing the update to the distribution mean <span class="math inline">\(M_{{\sf t}}\)</span> like so</p>
 <p><span class="math display">\[
 \begin{align}
 M_{{\sf t}+1} = M_{{\sf t}} + \sum^\mu_{{\sf k}=1}w_{{\sf k}}(\theta_{{\sf k}} - M_{{\sf t}}) \,,
 \end{align}
 \]</span></p>
-<p>where <span class="math inline">\(\mu\)</span> is the total number of past and new policy param sets.</p>
+<p>where <span class="math inline">\(\mu\)</span> is the total number of past and new policy parameter sets.</p>
 <p>Having computed the mean update, we can now update the isotropic path (which directs the aggregate search towards the optimum)</p>
 <p><span class="math display">\[
 \begin{align}
@@ -326,6 +325,7 @@ C^{ij}_{{\sf t}+1} &amp;= \Big(1-\beta^{(1)}-\beta^{(\mu )}+\beta^{(s)}\Big) C^{
 \beta^{(s)} &amp;= \bigg\{ 1-\Big[ {\sf 1}_{[0,\alpha \sqrt{n}]}\Big( \Vert {\sf P}^{(\sigma )}_{{\sf t}+1}\Vert\Big) \Big]^2\bigg\}\Big[ 1-\big( \beta^{(C)}\big)^2\Big] \beta^{(1)} \,.
 \end{align}
 \]</span></p>
+<p>These updates in the CMA-ES algorithm ensure that the population of possible solutions to the optimisaton problem are always adapting their distribution to efficiently converge towards the global optimum.</p>
 <h2 id="algorithm-design-and-implementation">Algorithm design and implementation</h2>
 <p>We’re now ready to discuss how we will embed the optimal action learning algorithm described in the previous section in the computational graph structure of the stochadex simulation itself.</p>
 <p><img src="../assets/stochadexIV/stochadexIV-discounted-return-optimiser-code.drawio.png" /></p>
