@@ -149,52 +149,59 @@ generate_posts_metadata() {
             # Escape JSON special characters in title and tag
             title=$(echo "$title" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g')
             tag=$(echo "$tag" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g')
-            local excerpt_field=$(grep -E '^excerpt:' "$filename" | head -1 | sed 's/excerpt: *"\(.*\)"/\1/' || echo "")
             
-            # Extract excerpt from frontmatter or first paragraph
-            local excerpt=""
-            if [ -n "$excerpt_field" ]; then
-                excerpt="$excerpt_field"
-            else
-                # Get first paragraph after frontmatter (skip headings, code blocks, HTML, empty lines)
-                excerpt=$(awk '
-                    BEGIN { in_frontmatter=0; in_para=0; para=""; seen="" }
-                    /^---$/ { 
-                        if (in_frontmatter) { in_frontmatter=0; next }
-                        else { in_frontmatter=1; next }
-                    }
-                    in_frontmatter { next }
-                    /^#/ { next }
-                    /^```/ { next }
-                    /^<div/ { next }
-                    /^<\/div>/ { next }
-                    /^$/ { 
-                        if (in_para && length(para) > 0) { 
-                            # Check if we already have this content
-                            if (index(seen, para) == 0) {
-                                print para
-                                seen = seen para
-                            }
-                            exit 
-                        }
-                        in_para=0
-                        para=""
-                        next 
-                    }
-                    NF && !in_para && !/^</ { in_para=1 }
-                    in_para && !/^</ { 
-                        para = para (para ? " " : "") $0
-                        if (length(para) > 200) { 
-                            print substr(para, 1, 200)
-                            exit 
-                        }
-                    }
-                    END { if (in_para && length(para) > 0 && index(seen, para) == 0) print para }
-                ' "$filename" | tr '\n' ' ' | sed 's/"/\\"/g' | sed 's/\\n/ /g' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | sed 's/[[:space:]]\+/ /g')
+            # Extract images from frontmatter (supports YAML array format)
+            # Handles: images: ["img1.jpg", "img2.jpg"] or images: img1.jpg
+            local images_json="[]"
+            local images_line=$(grep -E '^images:' "$filename" | head -1)
+            if [ -n "$images_line" ]; then
+                # Check if it's a YAML array format: images: ["img1.jpg", "img2.jpg"]
+                if echo "$images_line" | grep -q '\['; then
+                    # Use Python to parse the YAML array and convert to JSON
+                    images_json=$(echo "$images_line" | python3 -c "
+import sys
+import re
+line = sys.stdin.read().strip()
+# Match: images: [\"img1\", \"img2\"]
+match = re.search(r'images:\s*\[(.*?)\]', line)
+if match:
+    content = match.group(1).strip()
+    if content:
+        # Split by comma, handling quoted strings
+        items = []
+        current = ''
+        in_quotes = False
+        for i, char in enumerate(content):
+            if char == '\"' and (i == 0 or content[i-1] != '\\\\'):
+                in_quotes = not in_quotes
+                if not in_quotes:
+                    items.append(current.strip('\"').strip())
+                    current = ''
+                continue
+            if in_quotes:
+                current += char
+        if current.strip():
+            items.append(current.strip('\"').strip())
+        # Build JSON array
+        json_items = [f'\"{item.strip()}\"' for item in items if item.strip()]
+        print('[' + ','.join(json_items) + ']')
+    else:
+        print('[]')
+else:
+    print('[]')
+" 2>/dev/null)
+                    # Fallback if Python fails
+                    if [ -z "$images_json" ] || [ "$images_json" = "[]" ]; then
+                        images_json="[]"
+                    fi
+                else
+                    # Single image: images: img1.jpg or images: "img1.jpg"
+                    local single_img=$(echo "$images_line" | sed 's/^images: *"\(.*\)".*/\1/' | sed 's/^images: *\(.*\)/\1/' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | sed 's/^"//;s/"$//')
+                    if [ -n "$single_img" ]; then
+                        images_json="[\"$single_img\"]"
+                    fi
+                fi
             fi
-            
-            # Escape JSON special characters in excerpt
-            excerpt=$(echo "$excerpt" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g' | sed 's/\t/\\t/g' | sed 's/\r/\\r/g')
             
             # Write post metadata to temp file with order prefix for sorting
             # Format: ORDER_BASENAME.json (padded order for proper numeric sort)
@@ -207,7 +214,7 @@ generate_posts_metadata() {
     "tag": "$tag",
     "date": "$date",
     "order": $order,
-    "excerpt": "$excerpt"
+    "images": $images_json
   }
 EOF
         fi

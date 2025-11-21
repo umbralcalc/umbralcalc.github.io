@@ -143,6 +143,20 @@
             line-height: 1.7;
         }
         
+        .post-images {
+            margin-bottom: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .post-images img {
+            height: 120px;
+            width: auto;
+            border-radius: 0.5rem;
+            display: block;
+        }
+        
         .empty-state {
             text-align: center;
             padding: 3rem 0;
@@ -292,6 +306,20 @@
                         const postItem = document.createElement('li');
                         postItem.className = 'post-item';
                         
+                        // Add images above title if they exist
+                        if (post.images && Array.isArray(post.images) && post.images.length > 0) {
+                            const postImages = document.createElement('div');
+                            postImages.className = 'post-images';
+                            post.images.forEach(imagePath => {
+                                const img = document.createElement('img');
+                                // Handle image paths: if starts with /, use as-is; otherwise assume assets directory
+                                img.src = imagePath.startsWith('/') ? imagePath : `/assets/${imagePath}`;
+                                img.alt = post.title;
+                                postImages.appendChild(img);
+                            });
+                            postItem.appendChild(postImages);
+                        }
+                        
                         const postTitle = document.createElement('div');
                         postTitle.className = 'post-title';
                         const titleLink = document.createElement('a');
@@ -305,13 +333,6 @@
                             postMeta.className = 'post-meta';
                             postMeta.textContent = post.date;
                             postItem.appendChild(postMeta);
-                        }
-                        
-                        if (post.excerpt) {
-                            const postExcerpt = document.createElement('div');
-                            postExcerpt.className = 'post-excerpt';
-                            postExcerpt.textContent = post.excerpt + (post.excerpt.length >= 200 ? '...' : '');
-                            postItem.appendChild(postExcerpt);
                         }
                         
                         postList.appendChild(postItem);

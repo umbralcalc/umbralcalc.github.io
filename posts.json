@@ -6,7 +6,7 @@
     "tag": "Simulating Real-World Systems as a Programmer",
     "date": "",
     "order": 1,
-    "excerpt": "Welcome to the documentation for [the stochadex project](https://umbralcalc.github.io/stochadex)!"
+    "images": ["maths-to-diagrams.svg","diagrams-vs-symbols.svg"]
   }
 ,
   {
@@ -16,7 +16,7 @@
     "tag": "Simulating Real-World Systems as a Programmer",
     "date": "",
     "order": 2,
-    "excerpt": "Time is probably the most important variable to track in a simulation. This is because everything that happens within a simulation only has meaning with respect to the real world if we can trace what  Time is probably the most important variable to track in a simulation. This is because everything that happens within a simulation only has meaning with respect to the real world if we can trace what point in simulated Time that it happened."
+    "images": ["cumulative-timesteps-history.svg","state-partitions.svg","state-partition-history.svg"]
   }
 ,
   {
@@ -26,7 +26,7 @@
     "tag": "Simulating Real-World Systems as a Programmer",
     "date": "",
     "order": 3,
-    "excerpt": ""
+    "images": []
   }
 ,
   {
@@ -36,7 +36,7 @@
     "tag": "Simulating Real-World Systems as a Programmer",
     "date": "",
     "order": 4,
-    "excerpt": ""
+    "images": []
   }
 ,
   {
@@ -46,7 +46,7 @@
     "tag": "Simulating Real-World Systems as a Programmer",
     "date": "",
     "order": 5,
-    "excerpt": ""
+    "images": []
   }
 ,
   {
@@ -56,7 +56,7 @@
     "tag": "Simulating Real-World Systems as a Programmer",
     "date": "",
     "order": 6,
-    "excerpt": ""
+    "images": []
   }
 ,
   {
@@ -66,7 +66,7 @@
     "tag": "Simulating Real-World Systems as a Programmer",
     "date": "",
     "order": 7,
-    "excerpt": ""
+    "images": []
   }
 ,
   {
@@ -76,6 +76,6 @@
     "tag": "Simulating Real-World Systems as a Programmer",
     "date": "",
     "order": 8,
-    "excerpt": ""
+    "images": []
   }
 ]

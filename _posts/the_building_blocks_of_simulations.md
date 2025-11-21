@@ -2,6 +2,7 @@
 title: "The building blocks of simulations"
 tag: "Simulating Real-World Systems as a Programmer"
 order: 2
+images: ["cumulative-timesteps-history.svg", "state-partitions.svg", "state-partition-history.svg"]
 logo: true
 ---
 

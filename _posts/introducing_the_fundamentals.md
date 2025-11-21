@@ -2,6 +2,7 @@
 title: "Introducing the fundamentals"
 tag: "Simulating Real-World Systems as a Programmer"
 order: 1
+images: ["maths-to-diagrams.svg", "diagrams-vs-symbols.svg"]
 logo: true
 ---
 
