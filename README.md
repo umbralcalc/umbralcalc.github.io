@@ -1,2 +1,2 @@
-# umbralcalc.github.io
-Personal site
+# umbralcalculations
+Personal site and blog.
