@@ -112,20 +112,32 @@
             padding-bottom: 0;
         }
         
+        .post-card {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            padding: 1.5rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+        
+        .post-card:hover {
+            border-color: #3498db;
+            box-shadow: 0 2px 8px rgba(52, 152, 219, 0.1);
+            transform: translateY(-2px);
+        }
+        
         .post-title {
             font-family: 'Merriweather', serif;
             font-size: 1.5rem;
             color: #2c3e50;
             margin-bottom: 0.5rem;
+            margin-top: 1rem;
         }
         
-        .post-title a {
-            color: #2c3e50;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        
-        .post-title a:hover {
+        .post-card:hover .post-title {
             color: #3498db;
         }
         
@@ -315,6 +327,11 @@
                         const postItem = document.createElement('li');
                         postItem.className = 'post-item';
                         
+                        // Create card link that wraps everything
+                        const postCard = document.createElement('a');
+                        postCard.href = post.url;
+                        postCard.className = 'post-card';
+                        
                         // Add images above title if they exist
                         if (post.images && Array.isArray(post.images) && post.images.length > 0) {
                             const postImages = document.createElement('div');
@@ -326,24 +343,22 @@
                                 img.alt = post.title;
                                 postImages.appendChild(img);
                             });
-                            postItem.appendChild(postImages);
+                            postCard.appendChild(postImages);
                         }
                         
                         const postTitle = document.createElement('div');
                         postTitle.className = 'post-title';
-                        const titleLink = document.createElement('a');
-                        titleLink.href = post.url;
-                        titleLink.textContent = post.title;
-                        postTitle.appendChild(titleLink);
-                        postItem.appendChild(postTitle);
+                        postTitle.textContent = post.title;
+                        postCard.appendChild(postTitle);
                         
                         if (post.date) {
                             const postMeta = document.createElement('div');
                             postMeta.className = 'post-meta';
                             postMeta.textContent = post.date;
-                            postItem.appendChild(postMeta);
+                            postCard.appendChild(postMeta);
                         }
                         
+                        postItem.appendChild(postCard);
                         postList.appendChild(postItem);
                     });
                     
