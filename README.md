@@ -1,2 +1,3 @@
 # umbralcalculations
-Personal site and blog.
+
+Visual explorations in computation, science and creative writing.

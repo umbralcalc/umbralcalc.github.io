@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/umbralcalculations-logo.svg">
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="apple-touch-icon" href="/assets/umbralcalculations-logo.svg">
+    <title>CV - Robert J Hardwick, PhD | Umbral Calculations</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Open+Sans:wght@300;400;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.5;
+            color: #333;
+            max-width: 210mm;
+            margin: 0 auto;
+            padding: 15mm 20mm;
+            background: #fff;
+            font-size: 10.5pt;
+        }
+        
+        nav {
+            margin-bottom: 2em;
+            padding-bottom: 1em;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        nav a {
+            color: #2c3e50;
+            text-decoration: none;
+            font-weight: 600;
+            margin-right: 1.5em;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover {
+            color: #3498db;
+        }
+        
+        h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 2em;
+            color: #1a1a1a;
+            margin-bottom: 0.15em;
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 0.2em;
+        }
+        
+        h1 + p {
+            font-size: 1em;
+            color: #555;
+            font-weight: 600;
+            margin-bottom: 1em;
+        }
+        
+        h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.3em;
+            color: #2c3e50;
+            margin-top: 1.2em;
+            margin-bottom: 0.6em;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 0.2em;
+        }
+        
+        h3 {
+            font-size: 1.1em;
+            color: #2c3e50;
+            margin-top: 0.9em;
+            margin-bottom: 0.3em;
+            font-weight: 600;
+        }
+        
+        hr {
+            border: none;
+            border-top: 1px solid #ddd;
+            margin: 1em 0;
+        }
+        
+        p {
+            margin-bottom: 0.5em;
+        }
+        
+        ul {
+            margin-left: 1.5em;
+            margin-bottom: 0.6em;
+        }
+        
+        li {
+            margin-bottom: 0.25em;
+        }
+        
+        .job-section {
+            margin-bottom: 1.1em;
+        }
+        
+        .education-entry {
+            margin-bottom: 0.9em;
+        }
+        
+        .education-details {
+            margin-left: 1.5em;
+            color: #555;
+            font-size: 0.95em;
+        }
+        
+        .education-details p {
+            margin-bottom: 0.2em;
+        }
+        
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        strong {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.3em;
+            margin-bottom: 0.8em;
+            padding: 0.7em 1em;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .contact-info p {
+            margin: 0;
+        }
+        
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 0.2em;
+        }
+        
+        .job-title {
+            font-size: 1.05em;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .job-dates {
+            font-style: italic;
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .job-company {
+            color: #555;
+            margin-bottom: 0.3em;
+        }
+        
+        .featured-projects {
+            background: #f8f9fa;
+            padding: 0.7em 1em;
+            border-radius: 5px;
+            margin: 0.6em 0;
+        }
+        
+        @media print {
+            nav {
+                display: none;
+            }
+            
+            @page {
+                margin: 12mm 15mm;
+            }
+            
+            body {
+                padding: 0;
+                font-size: 9.5pt;
+                line-height: 1.4;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+                margin-bottom: 0.1em;
+            }
+            
+            h2 {
+                font-size: 1.2em;
+                margin-top: 0.8em;
+                margin-bottom: 0.4em;
+                page-break-after: avoid;
+            }
+            
+            h3 {
+                font-size: 1.05em;
+                margin-top: 0.6em;
+                margin-bottom: 0.2em;
+                page-break-after: avoid;
+            }
+            
+            .job-section {
+                margin-bottom: 0.8em;
+                page-break-inside: avoid;
+            }
+            
+            .job-header {
+                page-break-inside: avoid;
+                page-break-after: avoid;
+            }
+            
+            ul {
+                margin-bottom: 0.4em;
+            }
+            
+            li {
+                margin-bottom: 0.2em;
+            }
+            
+            hr {
+                margin: 0.5em 0;
+            }
+            
+            .contact-info {
+                padding: 0.5em 0.8em;
+                margin-bottom: 0.5em;
+            }
+            
+            .featured-projects {
+                padding: 0.5em 0.8em;
+                margin: 0.4em 0;
+            }
+            
+            .education-entry {
+                margin-bottom: 0.7em;
+            }
+            
+            .education-details {
+                margin-left: 1.2em;
+            }
+            
+            .education-details p {
+                margin-bottom: 0.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/cv.html">CV</a>
+    </nav>
+    <h1>Robert J. Hardwick, PhD</h1>
+    <p><strong>Senior Software Engineer & Data Scientist | Simulation & Decision Intelligence Expert</strong></p>
+    <hr>
+    <h2>Contact Information</h2>
+    <div class="contact-info">
+        <ul>
+        <p><strong><strong>Email:</strong> </strong> umbralcalc@gmail.com</p>
+        <p><strong><strong>GitHub:</strong> </strong> <a href="https://github.com/umbralcalc">github.com/umbralcalc</a></p>
+        <p><strong><strong>ORCID:</strong> </strong> <a href="https://orcid.org/0000-0001-8778-006X">0000-0001-8778-006X</a></p>
+    </div>
+    <hr>
+    <h2>Professional Summary</h2>
+    <p>Senior Software Engineer and Data Scientist with 10+ years experience building simulation and decision intelligence systems in Python, Go and Rust. Expert in stochastic modeling and Bayesian methodology who has delivered 5x performance improvements within 6 months (current role) and production systems across smart cities, sports analytics, public health and enterprise platforms.</p>
+    <p><strong>Key Achievements:</strong></p>
+        <ul>
+            <li>Achieved <strong>5x performance improvement</strong> rewriting Computational Twin Engine in Rust within 6-months</li>
+            <li><strong>22 research publications</strong> with 500+ citations across cosmology, epidemiology and statistical science</li>
+            <li>Built production simulation systems influencing real-world decisions in traffic optimization, public health policy and sports analytics</li>
+        </ul>
+    <p><strong>Open Source Projects:</strong></p>
+        <ul>
+            <li><a href="https://umbralcalc.github.io/stochadex/"><strong>stochadex</strong></a> - Flexible simulation engine written in Go</li>
+            <li><a href="https://umbralcalc.github.io/dexetera/"><strong>dexetera</strong></a> - Decision-making games for Python programmers</li>
+        </ul>
+    <hr>
+    <h2>Technical Skills</h2>
+        <ul>
+            <li><strong>Languages:</strong> Python, Go, Rust, SQL (PostgreSQL), Bash, C++, TypeScript (React)</li>
+            <li><strong>Python Stack:</strong> NumPy, CuPy, SciPy, Pandas, PyTorch, XGBoost, scikit-learn, Matplotlib, Plotly, streamlit</li>
+            <li><strong>Infrastructure:</strong> Docker, Jenkins CI/CD, AWS EC2, Google Cloud Platform, Git/GitHub</li>
+            <li><strong>Databases:</strong> PostgreSQL, TimescaleDB</li>
+            <li><strong>HPC:</strong> GPU acceleration (CUDA), distributed computing, HPC clusters</li>
+        </ul>
+    <hr>
+    <h2>Professional Experience</h2>
+    <div class="job-section">
+        <div class="job-header">
+            <div>
+                <div class="job-title">Senior Data Scientist | Faculty, London, UK</div>
+            </div>
+            <div class="job-dates">August 2025 - Present</div>
+        </div>
+    <div class="job-section">
+        <div class="job-header">
+            <div>
+                <div class="job-title">Senior Software Engineer | Faculty, London, UK</div>
+            </div>
+            <div class="job-dates">March 2024 - August 2025</div>
+        </div>
+    <div class="job-section">
+        <div class="job-header">
+            <div>
+                <div class="job-title">Senior Software Engineer (Consultant) | Faculty, London, UK</div>
+            </div>
+            <div class="job-dates">December 2023 - March 2024</div>
+        </div>
+        <ul>
+            <li>Co-redesigned and rewrote the Computational Twin Engine (core of Frontier platform) in Rust, achieving <strong>5x performance improvement within 6 months</strong></li>
+            <li>Led development of simulation core prototypes in Rust and Go for enterprise decision intelligence</li>
+            <li>Building generalised platform for diverse business decision-making problems at scale</li>
+        </ul>
+    </div>
+    <div class="job-section">
+        <div class="job-header">
+            <div>
+                <div class="job-title">Research Engineer | VivaCity Labs, London, UK</div>
+            </div>
+            <div class="job-dates">December 2021 - November 2023</div>
+        </div>
+        <ul>
+            <li>Co-designed and led development of predictive traffic simulation architecture for multi-modal urban traffic optimization</li>
+            <li>Implemented automated validation and calibration system for digital twin traffic simulation product (InnovateUK funded)</li>
+            <li>Built Jenkins CI/CD pipelines for containerised deployments and infrastructure automation</li>
+        </ul>
+    </div>
+    <div class="job-section">
+        <div class="job-header">
+            <div>
+                <div class="job-title">Quantitative Analyst/Data Scientist | Pythia Sports, London, UK</div>
+            </div>
+            <div class="job-dates">October 2020 - November 2021</div>
+        </div>
+        <ul>
+            <li>Developed GPU-accelerated sports match event simulations in Python on AWS, improving betting decision accuracy</li>
+            <li>Built end-to-end ETL pipeline and feature engineering framework using Bayesian statistical methods</li>
+        </ul>
+    </div>
+    <div class="job-section">
+        <div class="job-header">
+            <div>
+                <div class="job-title">Postdoctoral Research Associate | Imperial College London, London, UK</div>
+            </div>
+            <div class="job-dates">January 2019 - September 2020</div>
+        </div>
+        <ul>
+            <li>Built stochastic simulation framework in Python influencing mass drug administration policy for disease elimination</li>
+            <li>Developed COVID-19 pandemic simulations informing Royal Society rapid review publication</li>
+        </ul>
+    </div>
+    <div class="job-section">
+        <div class="job-header">
+            <div>
+                <div class="job-title">Postgraduate Researcher | University of Portsmouth, Portsmouth, UK</div>
+            </div>
+            <div class="job-dates">October 2015 - March 2019</div>
+        </div>
+        <ul>
+            <li>PhD research building statistical forecasting and Bayesian experimental design toolkit in Python for cosmological applications</li>
+        </ul>
+    </div>
+    <hr>
+    <h2>Education</h2>
+    <div class="education-entry">
+        <h3>PhD in Physics</h3>
+        <div class="education-details">
+            <p>University of Portsmouth | Institute of Cosmology and Gravitation</p>
+            <p>October 2015 - March 2019</p>
+        </div>
+    </div>
+    <div class="education-entry">
+        <h3>MSc in Cosmology (Physics)</h3>
+        <div class="education-details">
+            <p>University of Sussex</p>
+            <p>September 2013 - January 2015</p>
+        </div>
+    </div>
+    <div class="education-entry">
+        <h3>BSc in Physics with Computing</h3>
+        <div class="education-details">
+            <p>University of Bath</p>
+            <p>September 2009 - June 2012</p>
+        </div>
+    </div>
+</body>
+</html>
+
