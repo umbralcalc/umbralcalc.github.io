@@ -1,0 +1,73 @@
+[
+  {
+    "title": "Introducing the fundamentals",
+    "slug": "introducing_the_fundamentals",
+    "url": "/posts/introducing_the_fundamentals.html",
+    "tag": "Simulating Real-World Systems as a Programmer",
+    "date": "",
+    "excerpt": "Welcome to the documentation for [the stochadex project](https://umbralcalc.github.io/stochadex)!"
+  }
+,
+  {
+    "title": "Learning simulations directly with online posterior estimation",
+    "slug": "learning_simulations_directly_with_online_posterior_estimation",
+    "url": "/posts/learning_simulations_directly_with_online_posterior_estimation.html",
+    "tag": "Simulating Real-World Systems as a Programmer",
+    "date": "",
+    "excerpt": ""
+  }
+,
+  {
+    "title": "Machine learning with generalised linear models (GLMs)",
+    "slug": "machine_learning_with_generalised_linear_models",
+    "url": "/posts/machine_learning_with_generalised_linear_models.html",
+    "tag": "Simulating Real-World Systems as a Programmer",
+    "date": "",
+    "excerpt": ""
+  }
+,
+  {
+    "title": "Machine learning with probabilistic reweighting",
+    "slug": "machine_learning_with_probabilistic_reweighting",
+    "url": "/posts/machine_learning_with_probabilistic_reweighting.html",
+    "tag": "Simulating Real-World Systems as a Programmer",
+    "date": "",
+    "excerpt": ""
+  }
+,
+  {
+    "title": "Simulating memoryless phenomena",
+    "slug": "simulating_memoryless_phenomena",
+    "url": "/posts/simulating_memoryless_phenomena.html",
+    "tag": "Simulating Real-World Systems as a Programmer",
+    "date": "",
+    "excerpt": ""
+  }
+,
+  {
+    "title": "Simulating non-memoryless phenomena",
+    "slug": "simulating_non_memoryless_phenomena",
+    "url": "/posts/simulating_non_memoryless_phenomena.html",
+    "tag": "Simulating Real-World Systems as a Programmer",
+    "date": "",
+    "excerpt": ""
+  }
+,
+  {
+    "title": "The building blocks of simulations",
+    "slug": "the_building_blocks_of_simulations",
+    "url": "/posts/the_building_blocks_of_simulations.html",
+    "tag": "Simulating Real-World Systems as a Programmer",
+    "date": "",
+    "excerpt": "Time is probably the most important variable to track in a simulation. This is because everything that happens within a simulation only has meaning with respect to the real world if we can trace what  Time is probably the most important variable to track in a simulation. This is because everything that happens within a simulation only has meaning with respect to the real world if we can trace what point in simulated Time that it happened."
+  }
+,
+  {
+    "title": "Understanding probabilities in simulations",
+    "slug": "understanding_probabilities_in_simulations",
+    "url": "/posts/understanding_probabilities_in_simulations.html",
+    "tag": "Simulating Real-World Systems as a Programmer",
+    "date": "",
+    "excerpt": ""
+  }
+]

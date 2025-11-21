@@ -168,6 +168,23 @@
             text-decoration: underline;
         }
         
+        .tag-section {
+            margin-bottom: 3rem;
+        }
+        
+        .tag-title {
+            font-family: 'Merriweather', serif;
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            margin-top: 2rem;
+            font-weight: 600;
+        }
+        
+        .tag-title:first-child {
+            margin-top: 0;
+        }
+        
         @media (max-width: 768px) {
             .container {
                 padding: 1.5rem;
@@ -205,11 +222,13 @@
         
         <section class="posts-section">
             <h2>Posts</h2>
-            <ul class="post-list">
-                <li class="post-item empty-state">
-                    <p>No posts yet. Check back soon!</p>
-                </li>
-            </ul>
+            <div id="posts-container">
+                <ul class="post-list">
+                    <li class="post-item empty-state">
+                        <p>Loading posts...</p>
+                    </li>
+                </ul>
+            </div>
         </section>
         
         <footer>
@@ -220,5 +239,81 @@
             </p>
         </footer>
     </div>
+    
+    <script>
+        // Load and display posts grouped by tag
+        fetch('/posts.json')
+            .then(response => response.json())
+            .then(posts => {
+                const container = document.getElementById('posts-container');
+                container.innerHTML = '';
+                
+                if (posts.length === 0) {
+                    container.innerHTML = '<ul class="post-list"><li class="post-item empty-state"><p>No posts yet. Check back soon!</p></li></ul>';
+                    return;
+                }
+                
+                // Group posts by tag
+                const postsByTag = {};
+                posts.forEach(post => {
+                    const tag = post.tag || 'Uncategorized';
+                    if (!postsByTag[tag]) {
+                        postsByTag[tag] = [];
+                    }
+                    postsByTag[tag].push(post);
+                });
+                
+                // Render posts grouped by tag
+                Object.keys(postsByTag).sort().forEach(tag => {
+                    const tagSection = document.createElement('div');
+                    tagSection.className = 'tag-section';
+                    
+                    const tagTitle = document.createElement('h3');
+                    tagTitle.className = 'tag-title';
+                    tagTitle.textContent = tag;
+                    tagSection.appendChild(tagTitle);
+                    
+                    const postList = document.createElement('ul');
+                    postList.className = 'post-list';
+                    
+                    postsByTag[tag].forEach(post => {
+                        const postItem = document.createElement('li');
+                        postItem.className = 'post-item';
+                        
+                        const postTitle = document.createElement('div');
+                        postTitle.className = 'post-title';
+                        const titleLink = document.createElement('a');
+                        titleLink.href = post.url;
+                        titleLink.textContent = post.title;
+                        postTitle.appendChild(titleLink);
+                        postItem.appendChild(postTitle);
+                        
+                        if (post.date) {
+                            const postMeta = document.createElement('div');
+                            postMeta.className = 'post-meta';
+                            postMeta.textContent = post.date;
+                            postItem.appendChild(postMeta);
+                        }
+                        
+                        if (post.excerpt) {
+                            const postExcerpt = document.createElement('div');
+                            postExcerpt.className = 'post-excerpt';
+                            postExcerpt.textContent = post.excerpt + (post.excerpt.length >= 200 ? '...' : '');
+                            postItem.appendChild(postExcerpt);
+                        }
+                        
+                        postList.appendChild(postItem);
+                    });
+                    
+                    tagSection.appendChild(postList);
+                    container.appendChild(tagSection);
+                });
+            })
+            .catch(error => {
+                console.error('Error loading posts:', error);
+                const container = document.getElementById('posts-container');
+                container.innerHTML = '<ul class="post-list"><li class="post-item empty-state"><p>Error loading posts. Please try again later.</p></li></ul>';
+            });
+    </script>
 </body>
 </html>
