@@ -1,6 +1,6 @@
 ---
 title: "Machine learning with generalised linear models (GLMs)"
-tag: "Simulating Real-World Systems as a Programmer"
+# tag: "Simulating Real-World Systems as a Programmer"
 order: 7
 ---
 

@@ -23,7 +23,7 @@
     "title": "Understanding probabilities in simulations",
     "slug": "understanding_probabilities_in_simulations",
     "url": "/posts/understanding_probabilities_in_simulations.html",
-    "tag": "Simulating Real-World Systems as a Programmer",
+    "tag": "",
     "date": "",
     "order": 3,
     "images": []
@@ -33,7 +33,7 @@
     "title": "Simulating memoryless phenomena",
     "slug": "simulating_memoryless_phenomena",
     "url": "/posts/simulating_memoryless_phenomena.html",
-    "tag": "Simulating Real-World Systems as a Programmer",
+    "tag": "",
     "date": "",
     "order": 4,
     "images": []
@@ -43,7 +43,7 @@
     "title": "Simulating non-memoryless phenomena",
     "slug": "simulating_non_memoryless_phenomena",
     "url": "/posts/simulating_non_memoryless_phenomena.html",
-    "tag": "Simulating Real-World Systems as a Programmer",
+    "tag": "",
     "date": "",
     "order": 5,
     "images": []
@@ -53,7 +53,7 @@
     "title": "Machine learning with probabilistic reweighting",
     "slug": "machine_learning_with_probabilistic_reweighting",
     "url": "/posts/machine_learning_with_probabilistic_reweighting.html",
-    "tag": "Simulating Real-World Systems as a Programmer",
+    "tag": "",
     "date": "",
     "order": 6,
     "images": []
@@ -63,7 +63,7 @@
     "title": "Machine learning with generalised linear models (GLMs)",
     "slug": "machine_learning_with_generalised_linear_models",
     "url": "/posts/machine_learning_with_generalised_linear_models.html",
-    "tag": "Simulating Real-World Systems as a Programmer",
+    "tag": "",
     "date": "",
     "order": 7,
     "images": []
@@ -73,7 +73,7 @@
     "title": "Learning simulations directly with online posterior estimation",
     "slug": "learning_simulations_directly_with_online_posterior_estimation",
     "url": "/posts/learning_simulations_directly_with_online_posterior_estimation.html",
-    "tag": "Simulating Real-World Systems as a Programmer",
+    "tag": "",
     "date": "",
     "order": 8,
     "images": []

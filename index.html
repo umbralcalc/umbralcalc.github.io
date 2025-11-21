@@ -108,8 +108,8 @@
         }
         
         .post-item {
-            margin-bottom: 2rem;
-            padding-bottom: 2rem;
+            margin-bottom: 0;
+            padding-bottom: 0;
         }
         
         .post-title {
@@ -272,10 +272,14 @@
                     return;
                 }
                 
-                // Group posts by tag
+                // Group posts by tag (exclude posts without tags)
                 const postsByTag = {};
                 posts.forEach(post => {
-                    const tag = post.tag || 'Uncategorized';
+                    // Skip posts without a tag
+                    if (!post.tag || post.tag.trim() === '') {
+                        return;
+                    }
+                    const tag = post.tag;
                     if (!postsByTag[tag]) {
                         postsByTag[tag] = [];
                     }

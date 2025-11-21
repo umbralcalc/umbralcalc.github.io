@@ -1,6 +1,6 @@
 ---
 title: "Simulating non-memoryless phenomena"
-tag: "Simulating Real-World Systems as a Programmer"
+# tag: "Simulating Real-World Systems as a Programmer"
 order: 5
 ---
 
