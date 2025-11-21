@@ -2,7 +2,6 @@
 title: "Understanding probabilities in simulations"
 tag: "Simulating Real-World Systems as a Programmer"
 order: 3
-logo: true
 ---
 
 # Understanding probabilities in simulations
