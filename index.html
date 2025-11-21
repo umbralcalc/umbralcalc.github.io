@@ -56,11 +56,22 @@
             margin-bottom: 3rem;
         }
         
+        header img {
+            vertical-align: middle;
+            margin-right: 1rem;
+        }
+        
+        .header-content {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
         h1 {
             font-family: 'Merriweather', serif;
             font-size: 3rem;
             color: #1a1a1a;
-            margin-bottom: 0.5rem;
+            margin: 0;
             font-weight: 700;
         }
         
@@ -185,8 +196,10 @@
         </nav>
         
         <header>
-            <img src="/assets/umbralcalculations-logo.svg" width="100"/>
-            <h1>umbralcalculations</h1>
+            <div class="header-content">
+                <img src="/assets/umbralcalculations-logo.svg" width="100"/>
+                <h1>umbralcalculations</h1>
+            </div>
             <p class="subtitle">Visual explorations in computation, science and creative writing.</p>
         </header>
         
