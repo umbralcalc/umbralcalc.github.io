@@ -263,6 +263,18 @@
                     postsByTag[tag].push(post);
                 });
                 
+                // Sort posts within each tag by order (then by title)
+                Object.keys(postsByTag).forEach(tag => {
+                    postsByTag[tag].sort((a, b) => {
+                        const orderA = a.order !== undefined ? a.order : 999;
+                        const orderB = b.order !== undefined ? b.order : 999;
+                        if (orderA !== orderB) {
+                            return orderA - orderB;
+                        }
+                        return (a.title || '').localeCompare(b.title || '');
+                    });
+                });
+                
                 // Render posts grouped by tag
                 Object.keys(postsByTag).sort().forEach(tag => {
                     const tagSection = document.createElement('div');

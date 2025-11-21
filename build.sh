@@ -129,17 +129,22 @@ generate_posts_metadata() {
     log_info "Generating posts metadata..."
     
     local posts_json="$DOCS_DIR/posts.json"
+    local temp_dir="$TEMP_DIR/posts_metadata"
     
-    # Start JSON array
-    echo "[" > "$posts_json"
+    # Create temp directory for storing post metadata
+    mkdir -p "$temp_dir"
     
-    local first=true
+    # First pass: extract metadata from all posts
     for filename in "$DOCS_DIR"/_posts/*.md; do
         if [ -f "$filename" ]; then
             local basename=$(basename "$filename" .md)
             local title=$(grep -E '^title:' "$filename" | head -1 | sed 's/title: *"\(.*\)"/\1/' || echo "$basename")
             local tag=$(grep -E '^tag:' "$filename" | head -1 | sed 's/tag: *"\(.*\)"/\1/' || echo "")
             local date=$(grep -E '^date:' "$filename" | head -1 | sed 's/date: *"\(.*\)"/\1/' || echo "")
+            local order=$(grep -E '^order:' "$filename" | head -1 | sed 's/order: *\([0-9][0-9]*\).*/\1/' 2>/dev/null)
+            if [ -z "$order" ]; then
+                order=999
+            fi
             
             # Escape JSON special characters in title and tag
             title=$(echo "$title" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g')
@@ -191,26 +196,40 @@ generate_posts_metadata() {
             # Escape JSON special characters in excerpt
             excerpt=$(echo "$excerpt" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g' | sed 's/\t/\\t/g' | sed 's/\r/\\r/g')
             
-            if [ "$first" = true ]; then
-                first=false
-            else
-                echo "," >> "$posts_json"
-            fi
-            
-            cat >> "$posts_json" << EOF
+            # Write post metadata to temp file with order prefix for sorting
+            # Format: ORDER_BASENAME.json (padded order for proper numeric sort)
+            local order_padded=$(printf "%04d" "$order")
+            cat > "$temp_dir/${order_padded}_${basename}.json" << EOF
   {
     "title": "$title",
     "slug": "$basename",
     "url": "/posts/$basename.html",
     "tag": "$tag",
     "date": "$date",
+    "order": $order,
     "excerpt": "$excerpt"
   }
 EOF
         fi
     done
     
+    # Sort posts by order (numeric sort on filename prefix) and combine into JSON array
+    echo "[" > "$posts_json"
+    local first=true
+    for json_file in $(ls -1 "$temp_dir"/*.json 2>/dev/null | sort); do
+        if [ -f "$json_file" ]; then
+            if [ "$first" = true ]; then
+                first=false
+            else
+                echo "," >> "$posts_json"
+            fi
+            cat "$json_file" >> "$posts_json"
+        fi
+    done
     echo "]" >> "$posts_json"
+    
+    # Clean up temp directory
+    rm -rf "$temp_dir"
     
     log_success "Posts metadata generated"
 }

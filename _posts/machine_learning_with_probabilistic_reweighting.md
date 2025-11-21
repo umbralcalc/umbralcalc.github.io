@@ -1,6 +1,7 @@
 ---
 title: "Machine learning with probabilistic reweighting"
 tag: "Simulating Real-World Systems as a Programmer"
+order: 6
 logo: true
 ---
 
