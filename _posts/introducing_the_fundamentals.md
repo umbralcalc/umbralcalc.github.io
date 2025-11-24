@@ -3,33 +3,29 @@ title: "Introducing the fundamentals"
 tag: "Simulating Real-World Systems as a Programmer"
 order: 1
 images:
-- "assets/introducing_the_fundamentals/simulations-for-decisions.svg" 
-- "assets/introducing_the_fundamentals/maths-to-diagrams.svg"
-- "assets/introducing_the_fundamentals/diagrams-vs-symbols.svg"
+- "/assets/introducing_the_fundamentals/simulations-for-decisions.svg" 
+- "/assets/introducing_the_fundamentals/maths-to-diagrams.svg"
+- "/assets/introducing_the_fundamentals/diagrams-vs-symbols.svg"
 ---
 
 # Introducing the fundamentals
 <div style="height:0.75em;"></div>
 
-## Who are these docs for?
+## Who are these posts for?
 
-Welcome to the documentation for [the stochadex project](https://umbralcalc.github.io/stochadex)!
+These posts are aimed at programmers and non-technical readers wanting to learn the fundamentals in simulating real-world systems.
 
-This documentation is aimed at users wanting to get to grips with the software and/or understand more about simulated systems in general.
+These readers will see the power of stochastic phenomena and probabilistic thinking without the need for mathematical symbols.
 
-In the latter case, treat these docs as an opportunity to explore the technical foundations for constructing simulations of the real world.
+Those eager to follow along with code should check out the [stochadex project](https://umbralcalc.github.io/stochadex), which was also designed with these fundamentals in mind.
 
-You will see the power of stochastic phenomena and probabilistic thinking without mathematical symbols too.
+## What can you do with these simulations?
 
-## What can you do with simulations?
-
-One of the most compelling uses for simulation engines is to empower decision-making technologies.
+One of the most compelling uses for simulations of real-world systems is in powering decision-making technologies.
 
 In other words, if you want to answer questions like 'if I take this action, then what will happen in my system?', then it is often essential to build a simulation of your system and use this to simulate what might happen in the future.
 
 <img src="../assets/introducing_the_fundamentals/simulations-for-decisions.svg" />
-
-The stochadex can be used to create these simulations and ensure that they behave in a way with closely matches the real data for the system that they are supposed to be modeling.
 
 ## Why no mathematical symbols?
 
@@ -47,4 +43,4 @@ The intention is to transfer some level of analytical power from the world of sy
 
 <img src="../assets/introducing_the_fundamentals/diagrams-vs-symbols.svg" width="700"/>
 
-We've used these diagrams instead of any mathematical formalism throughout these docs, where one can rest assured that the mathematical foundations are solid.
+We've used these diagrams instead of any mathematical formalism throughout these posts, where one can rest assured that the mathematical foundations are solid.

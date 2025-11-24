@@ -150,15 +150,26 @@ generate_posts_metadata() {
             title=$(echo "$title" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g')
             tag=$(echo "$tag" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g')
             
-            # Extract images from frontmatter (supports YAML array format)
-            # Handles: images: ["img1.jpg", "img2.jpg"] or images: img1.jpg
+            # Extract images from frontmatter (supports YAML array format and list format)
+            # Handles: images: ["img1.jpg", "img2.jpg"] or images: img1.jpg or images:\n- "img1.jpg"\n- "img2.jpg"
             local images_json="[]"
-            local images_line=$(grep -E '^images:' "$filename" | head -1)
-            if [ -n "$images_line" ]; then
-                # Check if it's a YAML array format: images: ["img1.jpg", "img2.jpg"]
-                if echo "$images_line" | grep -q '\['; then
-                    # Use Python to parse the YAML array and convert to JSON
-                    images_json=$(echo "$images_line" | python3 -c "
+            
+            # Check if images field exists
+            if grep -q '^images:' "$filename"; then
+                # Check if it's a YAML list format (multi-line with dashes)
+                if grep -A 5 '^images:' "$filename" | grep -q '^[[:space:]]*-'; then
+                    # Extract YAML list items (lines starting with - after images:, stop at ---)
+                    local images_list=$(awk '/^images:/{flag=1; next} /^---$/{flag=0} flag && /^[[:space:]]*-/{gsub(/^[[:space:]]*-[[:space:]]*"/, ""); gsub(/"[[:space:]]*$/, ""); gsub(/^[[:space:]]*-[[:space:]]*/, ""); print}' "$filename")
+                    if [ -n "$images_list" ]; then
+                        # Convert to JSON array using awk
+                        images_json=$(echo "$images_list" | awk 'BEGIN{json="["} {if(NR>1) json=json","; gsub(/^[[:space:]]+|[[:space:]]+$/, ""); if($0 != "" && $0 != "---") json=json"\""$0"\""} END{json=json"]"; print json}')
+                    fi
+                else
+                    # Single line format: images: ["img1.jpg", "img2.jpg"] or images: img1.jpg
+                    local images_line=$(grep -E '^images:' "$filename" | head -1)
+                    if echo "$images_line" | grep -q '\['; then
+                        # Use Python to parse the YAML array and convert to JSON
+                        images_json=$(echo "$images_line" | python3 -c "
 import sys
 import re
 line = sys.stdin.read().strip()
@@ -190,15 +201,16 @@ if match:
 else:
     print('[]')
 " 2>/dev/null)
-                    # Fallback if Python fails
-                    if [ -z "$images_json" ] || [ "$images_json" = "[]" ]; then
-                        images_json="[]"
-                    fi
-                else
-                    # Single image: images: img1.jpg or images: "img1.jpg"
-                    local single_img=$(echo "$images_line" | sed 's/^images: *"\(.*\)".*/\1/' | sed 's/^images: *\(.*\)/\1/' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | sed 's/^"//;s/"$//')
-                    if [ -n "$single_img" ]; then
-                        images_json="[\"$single_img\"]"
+                        # Fallback if Python fails
+                        if [ -z "$images_json" ] || [ "$images_json" = "[]" ]; then
+                            images_json="[]"
+                        fi
+                    else
+                        # Single image: images: img1.jpg or images: "img1.jpg"
+                        local single_img=$(echo "$images_line" | sed 's/^images: *"\(.*\)".*/\1/' | sed 's/^images: *\(.*\)/\1/' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | sed 's/^"//;s/"$//')
+                        if [ -n "$single_img" ]; then
+                            images_json="[\"$single_img\"]"
+                        fi
                     fi
                 fi
             fi

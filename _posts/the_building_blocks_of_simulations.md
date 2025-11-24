@@ -3,9 +3,9 @@ title: "The building blocks of simulations"
 tag: "Simulating Real-World Systems as a Programmer"
 order: 2
 images:
-- "assets/the_building_blocks_of_simulations/cumulative-timesteps-history.svg"
-- "assets/the_building_blocks_of_simulations/state-partitions.svg"
-- "assets/the_building_blocks_of_simulations/state-partition-history.svg"
+- "/assets/the_building_blocks_of_simulations/cumulative-timesteps-history.svg"
+- "/assets/the_building_blocks_of_simulations/state-partitions.svg"
+- "/assets/the_building_blocks_of_simulations/state-partition-history.svg"
 ---
 
 # The building blocks of simulations
