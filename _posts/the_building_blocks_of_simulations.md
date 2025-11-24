@@ -2,7 +2,10 @@
 title: "The building blocks of simulations"
 tag: "Simulating Real-World Systems as a Programmer"
 order: 2
-images: ["cumulative-timesteps-history.svg", "state-partitions.svg", "state-partition-history.svg"]
+images:
+- "assets/the_building_blocks_of_simulations/cumulative-timesteps-history.svg"
+- "assets/the_building_blocks_of_simulations/state-partitions.svg"
+- "assets/the_building_blocks_of_simulations/state-partition-history.svg"
 ---
 
 # The building blocks of simulations
@@ -16,7 +19,7 @@ Time is a variable in the simulation which always increases in value. We often w
 
 The first data structure which we shall introduce here is a 'Cumulative Timesteps History', which indexes simulated Times that the simulation _had_ according to _decreasing recency_.
 
-<img src="../assets/cumulative-timesteps-history.svg" />
+<img src="../assets/the_building_blocks_of_simulations/cumulative-timesteps-history.svg" />
 
 ## State partitions and their history
 
@@ -28,13 +31,13 @@ In order to simplify how all of this State data is processed and retrieved, we'r
 
 For example, one of these partitions might hold all the data associated to a player in a sports team, and the whole simulation needs all of the players within its overall State.
 
-<img src="../assets/state-partitions.svg" />
+<img src="../assets/the_building_blocks_of_simulations/state-partitions.svg" />
 
 Each State Partition carries data that can be different for each moment in Time of the simulation. In order to track this evolution, we create a 'State Partition History' data structure for each State Partition.
 
 Each State Partition History has indices which always match those of the Cumulative Timesteps History, so they are always synchronised with each other.
 
-<img src="../assets/state-partition-history.svg" />
+<img src="../assets/the_building_blocks_of_simulations/state-partition-history.svg" />
 
 ## Computing the next timesteps
 
@@ -44,17 +47,17 @@ When simulating systems in the real world, it can be desireable in some situatio
 
 In other situations it can be desirable to have an unstructured or randomly-drawn set of Times along the Timeline.
 
-<img src="../assets/timeline.svg" />
+<img src="../assets/the_building_blocks_of_simulations/timeline.svg" />
 
 In order to allow this flexibility in choice between situations, let's specify an 'Advance Time' calculation which takes in the current Cumulative Timesteps History and outputs the Next Timestep following the latest Time found in the History (at index 0).
 
-<img src="../assets/advance-time.svg" />
+<img src="../assets/the_building_blocks_of_simulations/advance-time.svg" />
 
 ## State partition iteration
 
 For an overall simulation data view, we can create a 'State Partition Histories' structure. This is a collection of each State Partition History that exists within the simulation.
 
-<img src="../assets/state-partition-histories.svg" />
+<img src="../assets/the_building_blocks_of_simulations/state-partition-histories.svg" />
 
 How do we determine the 'Next Values' of each State Partition in Time?
 
@@ -64,7 +67,7 @@ Each of these calculations for a given Partition specifies how the State Partiti
 
 In order to support even more flexibility in configuration, the calculation should also take in a set of Parameters which are specific to that Partition.
 
-<img src="../assets/partition-iteration.svg" />
+<img src="../assets/the_building_blocks_of_simulations/partition-iteration.svg" />
 
 ## State partition and time updates
 
@@ -72,9 +75,9 @@ Having calculated the Next Values of each State Partition and the Next Timestep,
 
 This is an important procedure to perform all at once to ensure that the all of the State Partitions in the simulation are synchronised against its virtual clock.
 
-<img src="../assets/update-time-history.svg" />
+<img src="../assets/the_building_blocks_of_simulations/update-time-history.svg" />
 
-<img src="../assets/update-state-partition-history.svg" />
+<img src="../assets/the_building_blocks_of_simulations/update-state-partition-history.svg" />
 
 ## Composing and coordinating partitions
 
@@ -86,19 +89,19 @@ So how do we compose Partitions together so that information may be passed betwe
 
 In some sense, this happens already. Each Partition may read information from the State Partition Histories in the Iteration to its Next Values.
 
-<img src="../assets/partition-timeline-composition.svg" />
+<img src="../assets/the_building_blocks_of_simulations/partition-timeline-composition.svg" />
 
 This composition allows us to correlate the behaviour of Partitions in Time.
 
 We might also want to coordinate the Iterations of Partitions to occur in a particular order, where the first Iteration may then pass its calculated Next Values immediately into the second.
 
-<img src="../assets/partition-dependencies.svg" />
+<img src="../assets/the_building_blocks_of_simulations/partition-dependencies.svg" />
 
 For example, an Iteration might calculate the Mean statistic from some data and another might calculate the Variance. The Variance depends on the Mean so we need the Mean Next Values to be passed directly into the Variance to make sure these are always aligned in Time.
 
 To enable coordination, all we need is for a 'Computationally Upstream' Iteration to be allowed to pass its Next Values into the Parameters of a 'Computationally Downstream' Iteration.
 
-<img src="../assets/composing-partitions.svg" />
+<img src="../assets/the_building_blocks_of_simulations/composing-partitions.svg" />
 
 ## Simulation runs
 
@@ -106,16 +109,16 @@ A 'Simulation Run' defines the evolution of a simulation State over some specifi
 
 Each Simulation Run has an Initial Time defined by an exact value, but the _end_ Time may not be known exactly until the simulation has evolved to meet some Termination Condition.
 
-<img src="../assets/simulation-run.svg"/>
+<img src="../assets/the_building_blocks_of_simulations/simulation-run.svg"/>
 
 The Termination Condition logically determines when the Simulation Run should end according to a pre-defined calculation.
 
-<img src="../assets/termination-condition.svg"/>
+<img src="../assets/the_building_blocks_of_simulations/termination-condition.svg"/>
 
 ## Embedded simulation runs
 
-<img src="../assets/embedded-simulation-run.svg"/>
+<img src="../assets/the_building_blocks_of_simulations/embedded-simulation-run.svg"/>
 
-<img src="../assets/embedded-sim-iterate.svg" width=600/>
+<img src="../assets/the_building_blocks_of_simulations/embedded-sim-iterate.svg" width=600/>
 
-<img src="../assets/embedded-sim-from-history.svg" width=600/>
+<img src="../assets/the_building_blocks_of_simulations/embedded-sim-from-history.svg" width=600/>

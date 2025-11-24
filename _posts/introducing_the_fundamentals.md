@@ -2,7 +2,10 @@
 title: "Introducing the fundamentals"
 tag: "Simulating Real-World Systems as a Programmer"
 order: 1
-images: ["simulations-for-decisions.svg", "maths-to-diagrams.svg", "diagrams-vs-symbols.svg"]
+images:
+- "assets/introducing_the_fundamentals/simulations-for-decisions.svg" 
+- "assets/introducing_the_fundamentals/maths-to-diagrams.svg"
+- "assets/introducing_the_fundamentals/diagrams-vs-symbols.svg"
 ---
 
 # Introducing the fundamentals
@@ -24,7 +27,7 @@ One of the most compelling uses for simulation engines is to empower decision-ma
 
 In other words, if you want to answer questions like 'if I take this action, then what will happen in my system?', then it is often essential to build a simulation of your system and use this to simulate what might happen in the future.
 
-<img src="../assets/simulations-for-decisions.svg" />
+<img src="../assets/introducing_the_fundamentals/simulations-for-decisions.svg" />
 
 The stochadex can be used to create these simulations and ensure that they behave in a way with closely matches the real data for the system that they are supposed to be modeling.
 
@@ -38,10 +41,10 @@ Instead of churning through all of these interesting concepts with mathematical 
 
 This language owes its mathematical rigor to the fact that [any computation can be written as a series of function abstrations and applications](https://en.wikipedia.org/wiki/Lambda_calculus). Therefore, since all of the practically useful mathematical calculations in these pages ultimately must be expressed in the computer, we can always find some diagrammatic description of the relevant mathematics that leverages the function abstractions.
 
-<img src="../assets/maths-to-diagrams.svg" />
+<img src="../assets/introducing_the_fundamentals/maths-to-diagrams.svg" />
 
 The intention is to transfer some level of analytical power from the world of symbols into the world of diagrams and engage a wider group of analytical thinkers in understanding the deeper aspects of simulated systems.
 
-<img src="../assets/diagrams-vs-symbols.svg" width="700"/>
+<img src="../assets/introducing_the_fundamentals/diagrams-vs-symbols.svg" width="700"/>
 
 We've used these diagrams instead of any mathematical formalism throughout these docs, where one can rest assured that the mathematical foundations are solid.

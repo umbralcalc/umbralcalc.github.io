@@ -334,8 +334,7 @@
                             postImages.className = 'post-images';
                             post.images.forEach(imagePath => {
                                 const img = document.createElement('img');
-                                // Handle image paths: if starts with /, use as-is; otherwise assume assets directory
-                                img.src = imagePath.startsWith('/') ? imagePath : `/assets/${imagePath}`;
+                                img.src = imagePath;
                                 img.alt = post.title;
                                 postImages.appendChild(img);
                             });

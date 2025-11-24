@@ -6,7 +6,7 @@
     "tag": "Simulating Real-World Systems as a Programmer",
     "date": "",
     "order": 1,
-    "images": ["simulations-for-decisions.svg","maths-to-diagrams.svg","diagrams-vs-symbols.svg"]
+    "images": []
   }
 ,
   {
@@ -16,7 +16,7 @@
     "tag": "Simulating Real-World Systems as a Programmer",
     "date": "",
     "order": 2,
-    "images": ["cumulative-timesteps-history.svg","state-partitions.svg","state-partition-history.svg"]
+    "images": []
   }
 ,
   {
