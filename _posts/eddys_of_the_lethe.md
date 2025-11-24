@@ -12,9 +12,9 @@ images:
 
 <comic-panel src="../assets/eddys_of_the_lethe/2.jpg" width="300" top-right="And sometimes, Space."></comic-panel>
 
-<comic-panel src="../assets/eddys_of_the_lethe/3.jpg" width="450"></comic-panel>
+<comic-panel src="../assets/eddys_of_the_lethe/3.jpg" width="450" top-left="Its eddys are of memory itself"></comic-panel>
 
-<comic-panel src="../assets/eddys_of_the_lethe/4.jpg" width="350"></comic-panel>
+<comic-panel src="../assets/eddys_of_the_lethe/4.jpg" width="350" top-left="...and its currents are watched by Demons." ></comic-panel>
 
 <comic-panel src="../assets/eddys_of_the_lethe/6.jpg" width="450"></comic-panel>
 
