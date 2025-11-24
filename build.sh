@@ -99,9 +99,12 @@ generate_html_pages() {
     # Create posts directory
     mkdir -p "$DOCS_DIR/posts"
     
-    # First, build a list of posts with their order and slug for next post lookup
-    local posts_list_file="$TEMP_DIR/posts_list.txt"
-    > "$posts_list_file"
+    # First, build lists of posts grouped by tag for next post lookup
+    # Create a directory structure: tag/order|basename
+    local posts_by_tag_dir="$TEMP_DIR/posts_by_tag"
+    rm -rf "$posts_by_tag_dir"
+    mkdir -p "$posts_by_tag_dir"
+    
     for filename in "$DOCS_DIR"/_posts/*.md; do
         if [ -f "$filename" ]; then
             local basename=$(basename "$filename" .md)
@@ -112,13 +115,20 @@ generate_html_pages() {
             local tag=$(grep -E '^tag:' "$filename" | head -1 | sed 's/tag: *"\(.*\)"/\1/' || echo "")
             # Only include posts with tags
             if [ -n "$tag" ] && [ "$tag" != "" ]; then
-                echo "$order|$basename" >> "$posts_list_file"
+                # Create a safe filename for the tag (replace spaces and special chars)
+                local tag_file=$(echo "$tag" | sed 's/[^a-zA-Z0-9]/_/g')
+                echo "$order|$basename" >> "$posts_by_tag_dir/${tag_file}.txt"
             fi
         fi
     done
     
-    # Sort by order
-    sort -t'|' -k1,1n "$posts_list_file" > "$posts_list_file.sorted"
+    # Sort each tag's posts by order
+    for tag_file in "$posts_by_tag_dir"/*.txt; do
+        if [ -f "$tag_file" ]; then
+            sort -t'|' -k1,1n "$tag_file" > "${tag_file}.sorted"
+            mv "${tag_file}.sorted" "$tag_file"
+        fi
+    done
     
     # Generate posts from _posts directory
     for filename in "$DOCS_DIR"/_posts/*.md; do
@@ -136,24 +146,30 @@ generate_html_pages() {
             local next_post_title=""
             local next_post_images="[]"
             if [ -n "$tag" ] && [ "$tag" != "" ]; then
-                # Get current post's position in sorted list
-                local current_line=$(grep -n "^$order|$basename$" "$posts_list_file.sorted" | cut -d: -f1)
-                if [ -n "$current_line" ]; then
-                    # Get next line
-                    local next_line=$((current_line + 1))
-                    local next_post=$(sed -n "${next_line}p" "$posts_list_file.sorted")
-                    if [ -n "$next_post" ]; then
-                        local next_basename=$(echo "$next_post" | cut -d'|' -f2)
-                        local next_title=$(grep -E '^title:' "$DOCS_DIR/_posts/${next_basename}.md" | head -1 | sed 's/title: *"\(.*\)"/\1/' 2>/dev/null || echo "$next_basename")
-                        next_post_url="/posts/${next_basename}.html"
-                        next_post_title="$next_title"
-                        
-                        # Get next post images
-                        if grep -q '^images:' "$DOCS_DIR/_posts/${next_basename}.md"; then
-                            if grep -A 5 '^images:' "$DOCS_DIR/_posts/${next_basename}.md" | grep -q '^[[:space:]]*-'; then
-                                local next_images_list=$(awk '/^images:/{flag=1; next} /^---$/{flag=0} flag && /^[[:space:]]*-/{gsub(/^[[:space:]]*-[[:space:]]*"/, ""); gsub(/"[[:space:]]*$/, ""); gsub(/^[[:space:]]*-[[:space:]]*/, ""); print}' "$DOCS_DIR/_posts/${next_basename}.md")
-                                if [ -n "$next_images_list" ]; then
-                                    next_post_images=$(echo "$next_images_list" | awk 'BEGIN{json="["} {if(NR>1) json=json","; gsub(/^[[:space:]]+|[[:space:]]+$/, ""); if($0 != "" && $0 != "---") json=json"\""$0"\""} END{json=json"]"; print json}')
+                # Get the tag's sorted list file
+                local tag_file=$(echo "$tag" | sed 's/[^a-zA-Z0-9]/_/g')
+                local tag_posts_file="$posts_by_tag_dir/${tag_file}.txt"
+                
+                if [ -f "$tag_posts_file" ]; then
+                    # Get current post's position in this tag's sorted list
+                    local current_line=$(grep -n "^$order|$basename$" "$tag_posts_file" | cut -d: -f1)
+                    if [ -n "$current_line" ]; then
+                        # Get next line in the same tag's list
+                        local next_line=$((current_line + 1))
+                        local next_post=$(sed -n "${next_line}p" "$tag_posts_file")
+                        if [ -n "$next_post" ]; then
+                            local next_basename=$(echo "$next_post" | cut -d'|' -f2)
+                            local next_title=$(grep -E '^title:' "$DOCS_DIR/_posts/${next_basename}.md" | head -1 | sed 's/title: *"\(.*\)"/\1/' 2>/dev/null || echo "$next_basename")
+                            next_post_url="/posts/${next_basename}.html"
+                            next_post_title="$next_title"
+                            
+                            # Get next post images
+                            if grep -q '^images:' "$DOCS_DIR/_posts/${next_basename}.md"; then
+                                if grep -A 5 '^images:' "$DOCS_DIR/_posts/${next_basename}.md" | grep -q '^[[:space:]]*-'; then
+                                    local next_images_list=$(awk '/^images:/{flag=1; next} /^---$/{flag=0} flag && /^[[:space:]]*-/{gsub(/^[[:space:]]*-[[:space:]]*"/, ""); gsub(/"[[:space:]]*$/, ""); gsub(/^[[:space:]]*-[[:space:]]*/, ""); print}' "$DOCS_DIR/_posts/${next_basename}.md")
+                                    if [ -n "$next_images_list" ]; then
+                                        next_post_images=$(echo "$next_images_list" | awk 'BEGIN{json="["} {if(NR>1) json=json","; gsub(/^[[:space:]]+|[[:space:]]+$/, ""); if($0 != "" && $0 != "---") json=json"\""$0"\""} END{json=json"]"; print json}')
+                                    fi
                                 fi
                             fi
                         fi
@@ -185,7 +201,7 @@ generate_html_pages() {
     done
     
     # Clean up
-    rm -f "$posts_list_file" "$posts_list_file.sorted"
+    rm -rf "$posts_by_tag_dir"
     
     log_success "HTML posts generated"
 }

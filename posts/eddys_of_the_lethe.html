@@ -371,13 +371,6 @@
       <p><img src="../assets/eddys_of_the_lethe/1.jpg" width="300" /></p>
       <p><img src="../assets/eddys_of_the_lethe/3.jpg" width="300" /></p>
       
-            <div class="next-post">
-        <div class="next-post-label">Next Post</div>
-        <a href="/posts/introducing_the_fundamentals.html" class="next-post-card">
-                    <div class="next-post-images" id="next-post-images"></div>
-                    <div class="next-post-title">Introducing the fundamentals</div>
-        </a>
-      </div>
           </main>
   </div>
   
@@ -387,13 +380,13 @@
       const imagesContainer = document.getElementById('next-post-images');
       if (imagesContainer) {
         try {
-          const imagesJson = '["/assets/introducing_the_fundamentals/simulations-for-decisions.svg","/assets/introducing_the_fundamentals/maths-to-diagrams.svg","/assets/introducing_the_fundamentals/diagrams-vs-symbols.svg"]';
+          const imagesJson = '[]';
           const images = JSON.parse(imagesJson);
           if (Array.isArray(images) && images.length > 0) {
             images.forEach(imagePath => {
               const img = document.createElement('img');
               img.src = imagePath;
-              img.alt = 'Introducing the fundamentals';
+              img.alt = '';
               imagesContainer.appendChild(img);
             });
           }
