@@ -1,5 +1,15 @@
 [
   {
+    "title": "Eddys of the Lethe",
+    "slug": "eddys_of_the_lethe",
+    "url": "/posts/eddys_of_the_lethe.html",
+    "tag": "Short Stories for the Sciency Mind",
+    "date": "",
+    "order": 1,
+    "images": ["/assets/eddys_of_the_lethe/title.jpg","/assets/eddys_of_the_lethe/1.jpg","/assets/eddys_of_the_lethe/3.jpg"]
+  }
+,
+  {
     "title": "Introducing the fundamentals",
     "slug": "introducing_the_fundamentals",
     "url": "/posts/introducing_the_fundamentals.html",
