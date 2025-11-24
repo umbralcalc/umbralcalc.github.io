@@ -99,12 +99,72 @@ generate_html_pages() {
     # Create posts directory
     mkdir -p "$DOCS_DIR/posts"
     
+    # First, build a list of posts with their order and slug for next post lookup
+    local posts_list_file="$TEMP_DIR/posts_list.txt"
+    > "$posts_list_file"
+    for filename in "$DOCS_DIR"/_posts/*.md; do
+        if [ -f "$filename" ]; then
+            local basename=$(basename "$filename" .md)
+            local order=$(grep -E '^order:' "$filename" | head -1 | sed 's/order: *\([0-9][0-9]*\).*/\1/' 2>/dev/null)
+            if [ -z "$order" ]; then
+                order=999
+            fi
+            local tag=$(grep -E '^tag:' "$filename" | head -1 | sed 's/tag: *"\(.*\)"/\1/' || echo "")
+            # Only include posts with tags
+            if [ -n "$tag" ] && [ "$tag" != "" ]; then
+                echo "$order|$basename" >> "$posts_list_file"
+            fi
+        fi
+    done
+    
+    # Sort by order
+    sort -t'|' -k1,1n "$posts_list_file" > "$posts_list_file.sorted"
+    
     # Generate posts from _posts directory
     for filename in "$DOCS_DIR"/_posts/*.md; do
         if [ -f "$filename" ]; then
             local basename=$(basename "$filename" .md)
             local title=$(grep -E '^title:' "$filename" | head -1 | sed 's/title: *"\(.*\)"/\1/' || echo "$basename")
+            local order=$(grep -E '^order:' "$filename" | head -1 | sed 's/order: *\([0-9][0-9]*\).*/\1/' 2>/dev/null)
+            if [ -z "$order" ]; then
+                order=999
+            fi
+            local tag=$(grep -E '^tag:' "$filename" | head -1 | sed 's/tag: *"\(.*\)"/\1/' || echo "")
+            
+            # Find next post (same tag, next order)
+            local next_post_url=""
+            local next_post_title=""
+            local next_post_images="[]"
+            if [ -n "$tag" ] && [ "$tag" != "" ]; then
+                # Get current post's position in sorted list
+                local current_line=$(grep -n "^$order|$basename$" "$posts_list_file.sorted" | cut -d: -f1)
+                if [ -n "$current_line" ]; then
+                    # Get next line
+                    local next_line=$((current_line + 1))
+                    local next_post=$(sed -n "${next_line}p" "$posts_list_file.sorted")
+                    if [ -n "$next_post" ]; then
+                        local next_basename=$(echo "$next_post" | cut -d'|' -f2)
+                        local next_title=$(grep -E '^title:' "$DOCS_DIR/_posts/${next_basename}.md" | head -1 | sed 's/title: *"\(.*\)"/\1/' 2>/dev/null || echo "$next_basename")
+                        next_post_url="/posts/${next_basename}.html"
+                        next_post_title="$next_title"
+                        
+                        # Get next post images
+                        if grep -q '^images:' "$DOCS_DIR/_posts/${next_basename}.md"; then
+                            if grep -A 5 '^images:' "$DOCS_DIR/_posts/${next_basename}.md" | grep -q '^[[:space:]]*-'; then
+                                local next_images_list=$(awk '/^images:/{flag=1; next} /^---$/{flag=0} flag && /^[[:space:]]*-/{gsub(/^[[:space:]]*-[[:space:]]*"/, ""); gsub(/"[[:space:]]*$/, ""); gsub(/^[[:space:]]*-[[:space:]]*/, ""); print}' "$DOCS_DIR/_posts/${next_basename}.md")
+                                if [ -n "$next_images_list" ]; then
+                                    next_post_images=$(echo "$next_images_list" | awk 'BEGIN{json="["} {if(NR>1) json=json","; gsub(/^[[:space:]]+|[[:space:]]+$/, ""); if($0 != "" && $0 != "---") json=json"\""$0"\""} END{json=json"]"; print json}')
+                                fi
+                            fi
+                        fi
+                    fi
+                fi
+            fi
+            
             log_info "Generating post: $basename"
+            
+            # Escape metadata for pandoc
+            next_post_title=$(echo "$next_post_title" | sed 's/"/\\"/g')
             
             pandoc --template "$DOCS_DIR/template.html" \
                 --wrap=preserve \
@@ -114,12 +174,18 @@ generate_html_pages() {
                 --mathjax \
                 --syntax-highlighting=pygments \
                 --metadata="title:$title" \
+                --metadata="next-post-url:$next_post_url" \
+                --metadata="next-post-title:$next_post_title" \
+                --metadata="next-post-images:$next_post_images" \
                 -f markdown \
                 -t html \
                 -o "$DOCS_DIR/posts/${basename}.html" \
                 "$filename"
         fi
     done
+    
+    # Clean up
+    rm -f "$posts_list_file" "$posts_list_file.sorted"
     
     log_success "HTML posts generated"
 }

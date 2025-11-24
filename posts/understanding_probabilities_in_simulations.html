@@ -257,6 +257,86 @@
       }
     }
 
+    /* Next post card */
+    .next-post {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid #e0e0e0;
+    }
+    
+    .next-post-label {
+      font-size: 0.9rem;
+      color: #888;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    .next-post-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      padding: 1.5rem;
+      border: 1px solid #e0e0e0;
+      border-radius: 0.5rem;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    
+    .next-post-card:hover {
+      border-color: #3498db;
+      box-shadow: 0 2px 8px rgba(52, 152, 219, 0.1);
+      transform: translateY(-2px);
+    }
+    
+    .next-post-card::after {
+      content: "→";
+      position: absolute;
+      right: 1.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.5rem;
+      color: #3498db;
+      transition: transform 0.3s ease;
+      font-weight: bold;
+    }
+    
+    .next-post-card:hover::after {
+      transform: translateY(-50%) translateX(5px);
+    }
+    
+    @media (max-width: 768px) {
+      .next-post-images img {
+        height: 96px;
+      }
+    }
+    
+    .next-post-images {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .next-post-images img {
+      height: 120px;
+      width: auto;
+      border-radius: 0.5rem;
+      display: block;
+    }
+    
+    .next-post-title {
+      font-family: 'Merriweather', serif;
+      font-size: 1.5rem;
+      color: #2c3e50;
+      margin: 0;
+      padding-right: 2rem;
+    }
+    
+    .next-post-card:hover .next-post-title {
+      color: #3498db;
+    }
+    
     /* Print styles */
     @media print {
       body {
@@ -266,6 +346,10 @@
       .container {
         max-width: 100%;
         padding: 0;
+      }
+      
+      .next-post {
+        display: none;
       }
     }
   </style>
@@ -294,7 +378,31 @@
       <h2 id="estimating-the-mean-state">Estimating the mean state</h2>
       <h2 id="evolving-state-probabilities-in-time">Evolving state probabilities in time</h2>
       <h2 id="returning-to-why-we-care">Returning to why we care</h2>
-    </main>
+      
+          </main>
   </div>
-</body>
+  
+    <script>
+    // Parse and display next post images
+    (function() {
+      const imagesContainer = document.getElementById('next-post-images');
+      if (imagesContainer) {
+        try {
+          const imagesJson = '[]';
+          const images = JSON.parse(imagesJson);
+          if (Array.isArray(images) && images.length > 0) {
+            images.forEach(imagePath => {
+              const img = document.createElement('img');
+              img.src = imagePath;
+              img.alt = '';
+              imagesContainer.appendChild(img);
+            });
+          }
+        } catch (e) {
+          console.error('Error parsing next post images:', e);
+        }
+      }
+    })();
+  </script>
+  </body>
 </html>
