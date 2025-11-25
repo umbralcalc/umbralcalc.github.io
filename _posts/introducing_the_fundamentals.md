@@ -3,9 +3,9 @@ title: "Introducing the fundamentals"
 tag: "Simulating Real-World Systems as a Programmer"
 order: 1
 images:
-- "/assets/introducing_the_fundamentals/simulations-for-decisions.svg" 
 - "/assets/introducing_the_fundamentals/maths-to-diagrams.svg"
 - "/assets/introducing_the_fundamentals/diagrams-vs-symbols.svg"
+- "/assets/introducing_the_fundamentals/simulations-for-decisions.svg"
 ---
 
 # Introducing the fundamentals
