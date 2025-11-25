@@ -13,19 +13,11 @@ images:
 
 ## Who are these posts for?
 
-These posts are aimed at programmers and non-technical readers wanting to learn the fundamentals in simulating real-world systems.
+These posts are aimed at programmers and non-technical readers wanting to learn the fundamentals of simulating real-world systems.
 
 Together, we will explore the power of stochastic phenomena and probabilistic thinking without the need for mathematical symbols.
 
-Those eager to follow along with code should check out the [stochadex project](https://umbralcalc.github.io/stochadex), which was also designed with these fundamentals in mind.
-
-## What can you do with these simulations?
-
-One of the most compelling uses for simulations of real-world systems is in powering decision-making technologies.
-
-In other words, if you want to answer questions like 'if I take this action, then what will happen in my system?', then it is often essential to build a simulation of your system and use this to simulate what might happen in the future.
-
-<img src="../assets/introducing_the_fundamentals/simulations-for-decisions.svg" />
+Those eager to follow along with code should also check out the [stochadex project](https://umbralcalc.github.io/stochadex), which was designed with these fundamentals in mind.
 
 ## Why no mathematical symbols?
 
@@ -44,3 +36,11 @@ The intention is to transfer some level of analytical power from the world of sy
 <img src="../assets/introducing_the_fundamentals/diagrams-vs-symbols.svg" width="700"/>
 
 We've used these diagrams instead of any mathematical formalism throughout these posts, where one can rest assured that the mathematical foundations are solid.
+
+## What can you do with these simulations?
+
+One of the most compelling uses for simulations of real-world systems is in powering decision-making technologies.
+
+If you want to answer questions like 'if I take this action, then what will happen in my system?', then it is often essential to build a simulation of your system and use this to simulate what might happen in the future.
+
+<img src="../assets/introducing_the_fundamentals/simulations-for-decisions.svg" />
