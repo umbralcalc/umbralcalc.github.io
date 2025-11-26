@@ -16,7 +16,17 @@
     "tag": "Simulating Real-World Systems as a Programmer",
     "date": "",
     "order": 1,
-    "images": ["/assets/introducing_the_fundamentals/maths-to-diagrams.svg","/assets/introducing_the_fundamentals/diagrams-vs-symbols.svg","/assets/introducing_the_fundamentals/simulations-for-decisions.svg"]
+    "images": ["/assets/introducing_the_fundamentals/simulations-for-decisions.svg"]
+  }
+,
+  {
+    "title": "Mathematical symbols vs diagrams",
+    "slug": "mathematical_symbols_vs_diagrams",
+    "url": "/posts/mathematical_symbols_vs_diagrams.html",
+    "tag": "Loose Threads",
+    "date": "",
+    "order": 1,
+    "images": ["/assets/introducing_the_fundamentals/diagrams-vs-symbols.svg","/assets/introducing_the_fundamentals/maths-to-diagrams.svg"]
   }
 ,
   {
@@ -26,6 +36,16 @@
     "tag": "",
     "date": "",
     "order": 1,
+    "images": []
+  }
+,
+  {
+    "title": "Data, models and black boxes",
+    "slug": "data_models_and_black_boxes",
+    "url": "/posts/data_models_and_black_boxes.html",
+    "tag": "",
+    "date": "",
+    "order": 2,
     "images": []
   }
 ,
