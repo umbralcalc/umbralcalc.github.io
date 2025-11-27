@@ -40,13 +40,13 @@
   }
 ,
   {
-    "title": "Data, models and black boxes",
-    "slug": "data_models_and_black_boxes",
-    "url": "/posts/data_models_and_black_boxes.html",
-    "tag": "",
+    "title": "Data, world models and black boxes",
+    "slug": "data_world_models_and_black_boxes",
+    "url": "/posts/data_world_models_and_black_boxes.html",
+    "tag": "Loose Threads",
     "date": "",
     "order": 2,
-    "images": []
+    "images": ["/assets/data_world_models_and_black_boxes/world-model-predicts.svg"]
   }
 ,
   {

@@ -475,6 +475,13 @@
       <p><img src="../assets/introducing_the_fundamentals/maths-to-diagrams.svg" /></p>
       <p>So the reader can rest assured that the mathematical foundations are solid!</p>
       
+            <div class="next-post">
+        <div class="next-post-label">Next Post</div>
+        <a href="/posts/data_world_models_and_black_boxes.html" class="next-post-card">
+                    <div class="next-post-images" id="next-post-images"></div>
+                    <div class="next-post-title">Data, world models and black boxes</div>
+        </a>
+      </div>
           </main>
   </div>
   
@@ -558,13 +565,13 @@
       const imagesContainer = document.getElementById('next-post-images');
       if (imagesContainer) {
         try {
-          const imagesJson = '[]';
+          const imagesJson = '["/assets/data_world_models_and_black_boxes/world-model-predicts.svg"]';
           const images = JSON.parse(imagesJson);
           if (Array.isArray(images) && images.length > 0) {
             images.forEach(imagePath => {
               const img = document.createElement('img');
               img.src = imagePath;
-              img.alt = '';
+              img.alt = 'Data, world models and black boxes';
               imagesContainer.appendChild(img);
             });
           }
