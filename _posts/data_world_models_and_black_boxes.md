@@ -12,7 +12,7 @@ images:
 
 ## Data is often indirect, incomplete, scarce or wrong
 
-<img src="../assets/data_world_models_and_black_boxes/data-grid-ai.svg"  width="700"/>
+<img src="../assets/data_world_models_and_black_boxes/data-grid-ai.svg"/>
 
 ## Keeping humans in the loop with world models
 
