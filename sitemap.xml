@@ -55,6 +55,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://umbralcalc.github.io/posts/quantum_simulations.html</loc>
+    <lastmod>2025-11-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://umbralcalc.github.io/posts/simulating_memoryless_phenomena.html</loc>
     <lastmod>2025-11-29</lastmod>
     <changefreq>monthly</changefreq>

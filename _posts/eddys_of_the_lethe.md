@@ -27,4 +27,4 @@ images:
 
 <comic-panel src="../assets/eddys_of_the_lethe/bear.jpg" width="350" top-left="The Bear."></comic-panel>
 
-<comic-panel src="../assets/eddys_of_the_lethe/sunset.jpg" width="350"></comic-panel>
+<comic-panel src="../assets/eddys_of_the_lethe/tendrils.jpg" width="300"></comic-panel>

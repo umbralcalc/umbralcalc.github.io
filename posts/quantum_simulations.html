@@ -12,7 +12,7 @@
   <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
   <link rel="apple-touch-icon" href="../assets/umbralcalculations-logo.svg">
   
-  <title>Eddys of the Lethe</title>
+  <title>Quantum Simulations</title>
   
   <!-- Fonts -->
   <style>
@@ -459,27 +459,15 @@
     </nav>
 
     <main>
-      <h1 id="eddys-of-the-lethe">Eddys of the Lethe</h1>
+      <h1 id="quantum-simulations">Quantum Simulations</h1>
       <div style="height:0.75em;">
 
       </div>
-      <p><comic-panel src="../assets/eddys_of_the_lethe/1.jpg" width="450" top-left="The Lethe" bottom-right="...is a cosmic river, which flows in Time."></comic-panel></p>
-      <p><comic-panel src="../assets/eddys_of_the_lethe/2.jpg" width="300" top-right="And sometimes, Space."></comic-panel></p>
-      <p><comic-panel src="../assets/eddys_of_the_lethe/3.jpg" width="450" top-left="Its Eddys are of memory itself"></comic-panel></p>
-      <p><comic-panel src="../assets/eddys_of_the_lethe/4.jpg" width="350" top-left="...and its currents are watched by Demons." ></comic-panel></p>
-      <p><comic-panel src="../assets/eddys_of_the_lethe/6.jpg" width="450"></comic-panel></p>
-      <p><comic-panel src="../assets/eddys_of_the_lethe/7.jpg" width="250"></comic-panel></p>
-      <p><comic-panel src="../assets/eddys_of_the_lethe/wolf.jpg" width="250" bottom-right="The Wolf."></comic-panel></p>
-      <p><comic-panel src="../assets/eddys_of_the_lethe/bear.jpg" width="350" top-left="The Bear."></comic-panel></p>
-      <p><comic-panel src="../assets/eddys_of_the_lethe/tendrils.jpg" width="300"></comic-panel></p>
+      <p><comic-panel src="../assets/quantum_simulations/planet.jpg" width="300"></comic-panel></p>
+      <p><comic-panel src="../assets/quantum_simulations/beach.jpg" width="400"></comic-panel></p>
+      <p><comic-panel src="../assets/quantum_simulations/tree.jpg" width="400"></comic-panel></p>
+      <p><comic-panel src="../assets/quantum_simulations/sunset.jpg" width="400"></comic-panel></p>
       
-            <div class="next-post">
-        <div class="next-post-label">Next Post</div>
-        <a href="/posts/quantum_simulations.html" class="next-post-card">
-                    <div class="next-post-images" id="next-post-images"></div>
-                    <div class="next-post-title">Quantum Simulations</div>
-        </a>
-      </div>
           </main>
   </div>
   
@@ -563,13 +551,13 @@
       const imagesContainer = document.getElementById('next-post-images');
       if (imagesContainer) {
         try {
-          const imagesJson = '["/assets/quantum_simulations/planet.jpg","/assets/quantum_simulations/beach.jpg","/assets/quantum_simulations/tree.jpg"]';
+          const imagesJson = '[]';
           const images = JSON.parse(imagesJson);
           if (Array.isArray(images) && images.length > 0) {
             images.forEach(imagePath => {
               const img = document.createElement('img');
               img.src = imagePath;
-              img.alt = 'Quantum Simulations';
+              img.alt = '';
               imagesContainer.appendChild(img);
             });
           }
