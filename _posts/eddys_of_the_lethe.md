@@ -21,10 +21,10 @@ images:
 
 <comic-panel src="../assets/eddys_of_the_lethe/6.jpg" width="450"></comic-panel>
 
-<comic-panel src="../assets/eddys_of_the_lethe/7.jpg" width="300"></comic-panel>
+<comic-panel src="../assets/eddys_of_the_lethe/7.jpg" width="250"></comic-panel>
 
-<comic-panel src="../assets/eddys_of_the_lethe/wolf.jpg" width="300"></comic-panel>
+<comic-panel src="../assets/eddys_of_the_lethe/wolf.jpg" width="250" bottom-right="The Wolf."></comic-panel>
 
-<comic-panel src="../assets/eddys_of_the_lethe/bear.jpg" width="350"></comic-panel>
+<comic-panel src="../assets/eddys_of_the_lethe/bear.jpg" width="350" top-left="The Bear."></comic-panel>
 
 <comic-panel src="../assets/eddys_of_the_lethe/sunset.jpg" width="350"></comic-panel>
