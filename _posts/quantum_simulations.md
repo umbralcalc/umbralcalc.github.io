@@ -11,7 +11,11 @@ images:
 # Quantum Simulations
 <div style="height:0.75em;"></div>
 
-<comic-panel src="../assets/quantum_simulations/planet.jpg" width="300"></comic-panel>
+<!--
+Worlds within worlds.
+-->
+
+<comic-panel src="../assets/quantum_simulations/planet.jpg" width="300" top-left="Worlds within worlds."></comic-panel>
 
 <comic-panel src="../assets/quantum_simulations/beach.jpg" width="400"></comic-panel>
 
