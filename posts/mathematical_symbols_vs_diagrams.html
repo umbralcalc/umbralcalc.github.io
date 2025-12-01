@@ -478,9 +478,9 @@
       
             <div class="next-post">
         <div class="next-post-label">Next Post</div>
-        <a href="/posts/black_box_ai_is_an_accelerator.html" class="next-post-card">
+        <a href="/posts/black_box_ai_is_an_accelerator_paradigm.html" class="next-post-card">
                     <div class="next-post-images" id="next-post-images"></div>
-                    <div class="next-post-title">Black box AI is an accelerator</div>
+                    <div class="next-post-title">Black box AI is an accelerator paradigm</div>
         </a>
       </div>
           </main>
@@ -566,13 +566,13 @@
       const imagesContainer = document.getElementById('next-post-images');
       if (imagesContainer) {
         try {
-          const imagesJson = '["/assets/black_box_ai_is_an_accelerator/data-grid-ai.svg","/assets/black_box_ai_is_an_accelerator/world-model-predicts.svg"]';
+          const imagesJson = '["/assets/black_box_ai_is_an_accelerator_paradigm/model-predict.svg","/assets/black_box_ai_is_an_accelerator_paradigm/data-grid-ai.svg"]';
           const images = JSON.parse(imagesJson);
           if (Array.isArray(images) && images.length > 0) {
             images.forEach(imagePath => {
               const img = document.createElement('img');
               img.src = imagePath;
-              img.alt = 'Black box AI is an accelerator';
+              img.alt = 'Black box AI is an accelerator paradigm';
               imagesContainer.appendChild(img);
             });
           }

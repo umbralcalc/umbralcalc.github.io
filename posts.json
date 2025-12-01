@@ -50,13 +50,13 @@
   }
 ,
   {
-    "title": "Black box AI is an accelerator",
-    "slug": "black_box_ai_is_an_accelerator",
-    "url": "/posts/black_box_ai_is_an_accelerator.html",
+    "title": "Black box AI is an accelerator paradigm",
+    "slug": "black_box_ai_is_an_accelerator_paradigm",
+    "url": "/posts/black_box_ai_is_an_accelerator_paradigm.html",
     "tag": "Loose Threads",
     "date": "",
     "order": 2,
-    "images": ["/assets/black_box_ai_is_an_accelerator/data-grid-ai.svg","/assets/black_box_ai_is_an_accelerator/world-model-predicts.svg"]
+    "images": ["/assets/black_box_ai_is_an_accelerator_paradigm/model-predict.svg","/assets/black_box_ai_is_an_accelerator_paradigm/data-grid-ai.svg"]
   }
 ,
   {
