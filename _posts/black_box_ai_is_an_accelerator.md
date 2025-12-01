@@ -3,8 +3,8 @@ title: "Black box AI is an accelerator"
 tag: "Loose Threads"
 order: 2
 images:
-- "/assets/data_world_models_and_black_boxes/data-grid-ai.svg"
-- "/assets/data_world_models_and_black_boxes/world-model-predicts.svg"
+- "/assets/black_box_ai_is_an_accelerator/data-grid-ai.svg"
+- "/assets/black_box_ai_is_an_accelerator/world-model-predicts.svg"
 ---
 
 # Black box AI is an accelerator
