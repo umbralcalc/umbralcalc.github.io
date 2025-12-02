@@ -489,9 +489,9 @@
       
             <div class="next-post">
         <div class="next-post-label">Next Post</div>
-        <a href="/posts/quantum_simulations.html" class="next-post-card">
+        <a href="/posts/non_technical_naturalness.html" class="next-post-card">
                     <div class="next-post-images" id="next-post-images"></div>
-                    <div class="next-post-title">Quantum Simulations</div>
+                    <div class="next-post-title">Non-Technical Naturalness</div>
         </a>
       </div>
           </main>
@@ -577,13 +577,13 @@
       const imagesContainer = document.getElementById('next-post-images');
       if (imagesContainer) {
         try {
-          const imagesJson = '["/assets/quantum_simulations/planet.jpg","/assets/quantum_simulations/beach.jpg","/assets/quantum_simulations/tree.jpg"]';
+          const imagesJson = '["/assets/non_technical_naturalness/1.jpg"]';
           const images = JSON.parse(imagesJson);
           if (Array.isArray(images) && images.length > 0) {
             images.forEach(imagePath => {
               const img = document.createElement('img');
               img.src = imagePath;
-              img.alt = 'Quantum Simulations';
+              img.alt = 'Non-Technical Naturalness';
               imagesContainer.appendChild(img);
             });
           }

@@ -36,10 +36,15 @@ In order to tackle the data environments we described above, it helps to bring a
 
 Black box AI at best encodes only generic statistical or architectural inductive biases (e.g., smoothness, locality, permutation invariance), but they usually lack the rich, domain‑specific structure that an explicit world model can provide.
 
-- AI should be providing _insights_, not just predictive outputs.
-- There is a _lot_ of nuance on what level of predictive 'explainability' is actually needed to achieve a goal with these tools.
+A true world model should enable sources of information _beyond the data_ to be included in its prediction, i.e., domain-specific structure with expert input. This is the only clear way to circumvent data limitations.
+
+Humans 'in the loop' can also interrogate their world models to find explanations for their predictions. In this sense, world models can provide _insights_, not just predictive outputs.
+
+<!-- Needs a diagram here to help with explanation -->
 
 ## Black box AI as an accelerator
 
 - Black box AI therefore can't have all the answers, but can be an enormous accelerator in this paradigm
 - We can see this already with Agentic tools for writing simulation code and bespoke simulation emulators
+
+<!-- Needs a diagram here to help with explanation -->

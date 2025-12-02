@@ -12,7 +12,7 @@
   <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
   <link rel="apple-touch-icon" href="../assets/umbralcalculations-logo.svg">
   
-  <title>Black box AI is an accelerator paradigm</title>
+  <title>Non-Technical Naturalness</title>
   
   <!-- Fonts -->
   <style>
@@ -460,33 +460,22 @@
     </nav>
 
     <main>
-      <h1 id="black-box-ai-is-an-accelerator-paradigm">Black box AI is an accelerator paradigm</h1>
+      <h1 id="non-technical-naturalness">Non-Technical Naturalness</h1>
       <div style="height:0.75em;">
 
       </div>
-      <h2 id="some-opinions">Some opinions</h2>
-      <p>Here are some opinions on the realistic potential for ‘black box’ AI methods to improve human prediction and decision-making processes.</p>
-      <p>A black box AI method for prediction here means a tool we can use to predict outcomes (provided sufficient relevant data), but which cannot be easily interrogated for insights into <em>why</em> a specific prediction was made.</p>
-      <p>Inductive bias is another concept which is worthy of discussion here. This can be thought of as information which is brought in which does not come from the data itself.</p>
-      <p><img src="../assets/black_box_ai_is_an_accelerator_paradigm/model-predict.svg"/></p>
-      <h2 id="data-is-often-irrelevant-incomplete-scarce-or-wrong">Data is often irrelevant, incomplete, scarce or wrong</h2>
-      <p>For many high-value problems that humanity (or just businesses) would like solve, the truth is that data is often irrelevant, incomplete, scarce or wrong.</p>
-      <p>In other words, you often do <em>not</em> have data: which is directly relevant the the problem; which forms a complete set; which is enough for model training; or which is without any false entries, etc.</p>
-      <p>In situations where you do actually have data which satisfies these (or most of these) conditions, then training black box AI models becomes viable.</p>
-      <p><img src="../assets/black_box_ai_is_an_accelerator_paradigm/data-grid-ai.svg"/></p>
-      <h2 id="keeping-humans-in-the-loop-with-world-models">Keeping humans in the loop with world models</h2>
-      <p>In order to tackle the data environments we described above, it helps to bring as much useful information into the problem as possible. This information could come in the form of inductive biases in the model structure or prior knowledge provided by an expert.</p>
-      <p>Black box AI at best encodes only generic statistical or architectural inductive biases (e.g., smoothness, locality, permutation invariance), but they usually lack the rich, domain‑specific structure that an explicit world model can provide.</p>
-      <p>A true world model should enable sources of information <em>beyond the data</em> to be included in its prediction, i.e., domain-specific structure with expert input. This is the only clear way to circumvent data limitations.</p>
-      <p>Humans ‘in the loop’ can also interrogate their world models to find explanations for their predictions. In this sense, world models can provide <em>insights</em>, not just predictive outputs.</p>
-      <!-- Needs a diagram here to help with explanation -->
-      <h2 id="black-box-ai-as-an-accelerator">Black box AI as an accelerator</h2>
-      <ul>
-      <li>Black box AI therefore can’t have all the answers, but can be an enormous accelerator in this paradigm</li>
-      <li>We can see this already with Agentic tools for writing simulation code and bespoke simulation emulators</li>
-      </ul>
-      <!-- Needs a diagram here to help with explanation -->
+      <!--
+      What is Naturalness?
+      -->
+      <p><comic-panel src="../assets/non_technical_naturalness/1.jpg" width="500" top-left="What is Naturalness?"></comic-panel></p>
       
+            <div class="next-post">
+        <div class="next-post-label">Next Post</div>
+        <a href="/posts/quantum_simulations.html" class="next-post-card">
+                    <div class="next-post-images" id="next-post-images"></div>
+                    <div class="next-post-title">Quantum Simulations</div>
+        </a>
+      </div>
           </main>
   </div>
   
@@ -570,13 +559,13 @@
       const imagesContainer = document.getElementById('next-post-images');
       if (imagesContainer) {
         try {
-          const imagesJson = '[]';
+          const imagesJson = '["/assets/quantum_simulations/planet.jpg","/assets/quantum_simulations/beach.jpg","/assets/quantum_simulations/tree.jpg"]';
           const images = JSON.parse(imagesJson);
           if (Array.isArray(images) && images.length > 0) {
             images.forEach(imagePath => {
               const img = document.createElement('img');
               img.src = imagePath;
-              img.alt = '';
+              img.alt = 'Quantum Simulations';
               imagesContainer.appendChild(img);
             });
           }
