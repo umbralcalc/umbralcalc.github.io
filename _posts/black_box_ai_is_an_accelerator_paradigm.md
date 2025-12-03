@@ -34,13 +34,13 @@ In situations where you do actually have data which satisfies these (or most of 
 
 In order to tackle the data environments we described above, it helps to bring as much useful information into the problem as possible. This information could come in the form of inductive biases in the model structure or prior knowledge provided by an expert.
 
-Black box AI at best encodes only generic statistical or architectural inductive biases (e.g., smoothness, locality, permutation invariance), but they usually lack the rich, domain‑specific structure that an explicit world model can provide.
+Black box AI at best encodes only generic statistical or architectural inductive biases, but they usually lack the rich, domain‑specific structure that an explicit world model can provide.
 
-A true world model should enable sources of information _beyond the data_ to be included in its prediction, i.e., domain-specific structure with expert input. This is the only clear way to circumvent data limitations.
+<img src="../assets/black_box_ai_is_an_accelerator_paradigm/shape-statistics.svg"/>
+
+A true world model should enable sources of information _distinct from the data_ to be included in its prediction, i.e., domain-specific structure with expert interpretation. This is the only clear way to circumvent data limitations.
 
 Humans 'in the loop' can also interrogate their world models to find explanations for their predictions. In this sense, world models can provide _insights_, not just predictive outputs.
-
-<!-- Needs a diagram here to help with explanation -->
 
 ## Black box AI as an accelerator
 
