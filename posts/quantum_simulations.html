@@ -465,16 +465,25 @@
 
       </div>
       <!--
-      Worlds within worlds.
+      In a quantum domain
+      brought about by engines of science
+      there were worlds within worlds.
       Hierarchical.
       Nested.
       But truly infinite?
       -->
-      <p><comic-panel src="../assets/quantum_simulations/planet.jpg" width="300" top-left="Worlds within worlds."></comic-panel></p>
-      <p><comic-panel src="../assets/quantum_simulations/beach.jpg" width="400" top-right="Hierarchical."></comic-panel></p>
-      <p><comic-panel src="../assets/quantum_simulations/tree.jpg" width="400" bottom-right="Nested."></comic-panel></p>
-      <p><comic-panel src="../assets/quantum_simulations/sunset.jpg" width="400" top-left="But truly infinite?"></comic-panel></p>
+      <p><comic-panel src="../assets/quantum_simulations/planet.jpg" width="300" top-left="In a quantum domain" bottom-right="brought about by engines of science"></comic-panel></p>
+      <p><comic-panel src="../assets/quantum_simulations/beach.jpg" width="400" top-right="there were worlds within worlds."></comic-panel></p>
+      <p><comic-panel src="../assets/quantum_simulations/tree.jpg" width="400" top-left="Hierarchical." bottom-right="Nested"></comic-panel></p>
+      <p><comic-panel src="../assets/quantum_simulations/sunset.jpg" width="400" top-left="...but truly infinite?"></comic-panel></p>
       
+            <div class="next-post">
+        <div class="next-post-label">Next Post</div>
+        <a href="/posts/technically_unnatural.html" class="next-post-card">
+                    <div class="next-post-images" id="next-post-images"></div>
+                    <div class="next-post-title">Technically Unnatural</div>
+        </a>
+      </div>
           </main>
   </div>
   
@@ -558,13 +567,13 @@
       const imagesContainer = document.getElementById('next-post-images');
       if (imagesContainer) {
         try {
-          const imagesJson = '[]';
+          const imagesJson = '["/assets/technically_unnatural/1.jpg"]';
           const images = JSON.parse(imagesJson);
           if (Array.isArray(images) && images.length > 0) {
             images.forEach(imagePath => {
               const img = document.createElement('img');
               img.src = imagePath;
-              img.alt = '';
+              img.alt = 'Technically Unnatural';
               imagesContainer.appendChild(img);
             });
           }

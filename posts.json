@@ -30,16 +30,6 @@
   }
 ,
   {
-    "title": "Non-Technical Naturalness",
-    "slug": "non_technical_naturalness",
-    "url": "/posts/non_technical_naturalness.html",
-    "tag": "Short Stories for the Sciency Mind",
-    "date": "",
-    "order": 1,
-    "images": ["/assets/non_technical_naturalness/1.jpg"]
-  }
-,
-  {
     "title": "Programmatic gaming with web simulations",
     "slug": "programmatic_gaming_with_web_simulations",
     "url": "/posts/programmatic_gaming_with_web_simulations.html",
@@ -57,6 +47,16 @@
     "date": "",
     "order": 1,
     "images": ["/assets/quantum_simulations/planet.jpg","/assets/quantum_simulations/beach.jpg","/assets/quantum_simulations/tree.jpg"]
+  }
+,
+  {
+    "title": "Technically Unnatural",
+    "slug": "technically_unnatural",
+    "url": "/posts/technically_unnatural.html",
+    "tag": "Short Stories for the Sciency Mind",
+    "date": "",
+    "order": 1,
+    "images": ["/assets/technically_unnatural/1.jpg"]
   }
 ,
   {
