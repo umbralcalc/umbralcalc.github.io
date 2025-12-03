@@ -16,8 +16,8 @@ In a quantum domain
 brought about by engines of science
 there were worlds within worlds.
 Hierarchical.
-Nested.
-But truly infinite?
+Nested
+..but truly infinite?
 -->
 
 <comic-panel src="../assets/quantum_simulations/planet.jpg" width="300" top-left="In a quantum domain" bottom-right="brought about by engines of science"></comic-panel>
