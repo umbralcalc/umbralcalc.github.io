@@ -34,9 +34,11 @@ In situations where you do actually have data which satisfies these (or most of 
 
 In order to tackle the data environments we described above, it helps to bring as much useful information into the problem as possible. This information could come in the form of inductive biases in the model structure or prior knowledge provided by an expert.
 
-Black box AI at best encodes only generic statistical or architectural inductive biases, but they usually lack the rich, domain‑specific structure that an explicit world model can provide.
+Black box AI at best encodes only generic statistical or architectural inductive biases, but they usually lack the rich, domain‑specific structure that an explicit 'world model' can provide.
 
 <img src="../assets/black_box_ai_is_an_accelerator_paradigm/shape-statistics.svg"/>
+
+In contrast to black box AI, world models represent the state of the system _seperately from the data_. Simulations can be thought of as a kind of world model, for instance.
 
 A true world model should enable sources of information _distinct from the data_ to be included in its prediction, i.e., domain-specific structure with expert interpretation. This is the only clear way to circumvent data limitations.
 
@@ -44,7 +46,8 @@ Humans 'in the loop' can also interrogate their world models to find explanation
 
 ## Black box AI as an accelerator
 
-- Black box AI therefore can't have all the answers, but can be an enormous accelerator in this paradigm
-- We can see this already with Agentic tools for writing simulation code and bespoke simulation emulators
+Black box AI may not be the answer to all problems, but it is clearly an enormous accelerator for developing world models and making them more performant (in both runtime and predictivity).
 
-<!-- Needs a diagram here to help with explanation -->
+With the rise of agentic coding tools (e.g., [Cursor](https://cursor.com/agents) or [Antigravity](https://antigravity.google/)) the acceleration in developing world models is obvious: developers can focus more on higher-level conceptual design while the AI tool fills in the programmatic details within minutes.
+
+As for computational and predictive performance: these have already been well-established capabilities of black box AI models with enough compute capacity through bespoke simulation emulators (e.g., [AlphaFold](https://deepmind.google/science/alphafold/) or [WeatherNext](https://deepmind.google/science/weathernext/)).
