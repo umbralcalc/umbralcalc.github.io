@@ -10,7 +10,8 @@ images:
 <div style="height:0.75em;"></div>
 
 <!--
-What is Naturalness?
+There are things that are technically natural
+...and there are things which, they say, are not.
 -->
 
-<comic-panel src="../assets/technically_unnatural/1.jpg" width="500" top-left="What is Naturalness?"></comic-panel>
+<comic-panel src="../assets/technically_unnatural/1.jpg" width="500" top-left="There are things that are technically natural"></comic-panel>
