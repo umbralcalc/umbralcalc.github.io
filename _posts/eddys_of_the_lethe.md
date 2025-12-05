@@ -21,8 +21,8 @@ Marcos is without memory.
 His eons of Time forgotten.
 Recalling the shapes of Eddys
 ...is Ergadias domain.
-Her shape of memory; the structure of it
-...is what restores order.
+Her memory; the structure of it
+...is what makes the Universe safe, and predictable.
 -->
 
 <comic-panel src="../assets/eddys_of_the_lethe/1.jpg" width="450" top-left="The Lethe" bottom-right="...is a cosmic river, which flows in Time."></comic-panel>
@@ -39,6 +39,6 @@ Her shape of memory; the structure of it
 
 <comic-panel src="../assets/eddys_of_the_lethe/bear.jpg" width="350" top-left="...is Ergadias domain."></comic-panel>
 
-<comic-panel src="../assets/eddys_of_the_lethe/6.jpg" width="450" top-left="Her shape of memory; the structure of it"></comic-panel>
+<comic-panel src="../assets/eddys_of_the_lethe/6.jpg" width="450" top-left="Her memory; the structure of it"></comic-panel>
 
-<comic-panel src="../assets/eddys_of_the_lethe/7.jpg" width="250" top-left="...is what restores order."></comic-panel>
+<comic-panel src="../assets/eddys_of_the_lethe/7.jpg" width="250" top-left="...is what makes the Universe safe, and predictable."></comic-panel>

@@ -34,7 +34,7 @@ In situations where you do actually have data which satisfies these (or most of 
 
 In order to tackle the data environments we described above, it helps to bring as much useful information into the problem as possible. This information could come in the form of inductive biases in the model structure or prior knowledge provided by an expert.
 
-Black box AI at best encodes only generic statistical or architectural inductive biases, but they usually lack the rich, domain‑specific structure that an explicit 'world model' can provide.
+Black box AI at best encodes only generic statistical or architectural inductive biases, but usually lacks the rich, domain‑specific structure that an explicit 'world model' can provide.
 
 <img src="../assets/black_box_ai_is_an_accelerator_paradigm/shape-statistics.svg"/>
 
