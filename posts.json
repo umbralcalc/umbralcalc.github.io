@@ -10,23 +10,13 @@
   }
 ,
   {
-    "title": "Introducing the fundamentals",
-    "slug": "introducing_the_fundamentals",
-    "url": "/posts/introducing_the_fundamentals.html",
-    "tag": "Simulating Real-World Systems as a Programmer",
-    "date": "",
-    "order": 1,
-    "images": ["/assets/introducing_the_fundamentals/simulations-for-decisions.svg"]
-  }
-,
-  {
     "title": "Mathematical symbols vs diagrams",
     "slug": "mathematical_symbols_vs_diagrams",
     "url": "/posts/mathematical_symbols_vs_diagrams.html",
     "tag": "Loose Threads",
     "date": "",
     "order": 1,
-    "images": ["/assets/introducing_the_fundamentals/diagrams-vs-symbols.svg","/assets/introducing_the_fundamentals/maths-to-diagrams.svg"]
+    "images": ["/assets/mathematical_symbols_vs_diagrams/diagrams-vs-symbols.svg","/assets/mathematical_symbols_vs_diagrams/maths-to-diagrams.svg"]
   }
 ,
   {
@@ -57,6 +47,16 @@
     "date": "",
     "order": 1,
     "images": ["/assets/technically_unnatural/1.jpg","/assets/technically_unnatural/2.jpg"]
+  }
+,
+  {
+    "title": "Why simulate real-world systems?",
+    "slug": "why_simulate_real_world_systems",
+    "url": "/posts/why_simulate_real_world_systems.html",
+    "tag": "Simulating Real-World Systems as a Programmer",
+    "date": "",
+    "order": 1,
+    "images": ["/assets/why_simulate_real_world_systems/simulations-for-decisions.svg"]
   }
 ,
   {

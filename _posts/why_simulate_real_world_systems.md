@@ -1,12 +1,12 @@
 ---
-title: "Introducing the fundamentals"
+title: "Why simulate real-world systems?"
 tag: "Simulating Real-World Systems as a Programmer"
 order: 1
 images:
-- "/assets/introducing_the_fundamentals/simulations-for-decisions.svg"
+- "/assets/why_simulate_real_world_systems/simulations-for-decisions.svg"
 ---
 
-# Introducing the fundamentals
+# Why simulate real-world systems?
 <div style="height:0.75em;"></div>
 
 ## Who are these posts for?
@@ -23,4 +23,4 @@ One of the most compelling uses for simulations of real-world systems is in powe
 
 If you want to answer questions like 'if I take this action, then what will happen in my system?', then it is often essential to build a simulation of your system and use this to simulate what might happen in the future.
 
-<img src="../assets/introducing_the_fundamentals/simulations-for-decisions.svg" />
+<img src="../assets/why_simulate_real_world_systems/simulations-for-decisions.svg" />
