@@ -3,22 +3,10 @@ title: "Technically Unnatural"
 tag: "Short Stories for the Sciency Mind"
 order: 1
 images:
-- "/assets/technically_unnatural/1.jpg"
-- "/assets/technically_unnatural/2.jpg"
-- "/assets/technically_unnatural/3.jpg"
+- "/assets/technically_unnatural/page-1.svg"
 ---
 
 # Technically Unnatural
 <div style="height:0.75em;"></div>
 
-<!--
-There are things that are technically natural
-...and there are things which, they say, are not.
-The Universe does not care.
--->
-
-<comic-panel src="../assets/technically_unnatural/1.jpg" width="500" top-left="There are things that are technically natural"></comic-panel>
-
-<comic-panel src="../assets/technically_unnatural/2.jpg" width="500" bottom-left="...and there are things which, they say, are not."></comic-panel>
-
-<comic-panel src="../assets/technically_unnatural/3.jpg" width="500" top-left="The Universe does not care."></comic-panel>
+<img src="../assets/technically_unnatural/page-1.svg"/>
