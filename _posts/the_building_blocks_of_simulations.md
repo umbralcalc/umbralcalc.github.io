@@ -117,6 +117,8 @@ The Termination Condition logically determines when the Simulation Run should en
 
 ## Embedded simulation runs
 
+Enabling whole 'Inner' Simulation Runs to start and complete within each step of an 'Outer' Simulation Run is a very useful, and somewhat fundamental, building block for simulations in practice. We shall call these 'Embedded Simulation Runs'.
+
 <img src="../assets/the_building_blocks_of_simulations/embedded-simulation-run.svg"/>
 
 <img src="../assets/the_building_blocks_of_simulations/embedded-sim-iterate.svg" width=600/>
