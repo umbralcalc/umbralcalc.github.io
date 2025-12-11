@@ -121,6 +121,14 @@ Enabling whole 'Inner' Simulation Runs to start and complete within each Timeste
 
 <img src="../assets/the_building_blocks_of_simulations/embedded-simulation-run.svg"/>
 
+There are then several ways one can think of to pass information from the Outer simulation into the Inner simulation prior to running it on each Timestep.
+
+Treating the Inner simulation as a Partition of the Outer simulation, one example is to simply pass Parameters from the Outer simulation into the Inner simulation, and nothing else.
+
 <img src="../assets/the_building_blocks_of_simulations/embedded-sim-iterate.svg" width=600/>
+
+Another example is to pass both the Cumulative Timesteps History and State Partition Histories from the Outer simulation into the Inner simulation, in addition to the Parameters.
+
+Consider how this might be used to create useful statistical operations over the history of the Outer simulation, e.g., like rolling window averages.
 
 <img src="../assets/the_building_blocks_of_simulations/embedded-sim-from-history.svg" width=600/>
