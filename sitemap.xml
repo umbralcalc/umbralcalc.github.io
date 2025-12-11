@@ -43,6 +43,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://umbralcalc.github.io/posts/probabilistic_thinking_for_simulations.html</loc>
+    <lastmod>2025-12-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://umbralcalc.github.io/posts/programmatic_gaming_with_web_simulations.html</loc>
     <lastmod>2025-12-11</lastmod>
     <changefreq>monthly</changefreq>
@@ -74,12 +80,6 @@
   </url>
   <url>
     <loc>https://umbralcalc.github.io/posts/the_building_blocks_of_simulations.html</loc>
-    <lastmod>2025-12-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://umbralcalc.github.io/posts/understanding_probabilities_in_simulations.html</loc>
     <lastmod>2025-12-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

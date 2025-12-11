@@ -1,10 +1,10 @@
 ---
-title: "Understanding probabilities in simulations"
+title: "Probabilistic thinking for simulations"
 # tag: "Simulating Real-World Systems as a Programmer"
 order: 3
 ---
 
-# Understanding probabilities in simulations
+# Probabilistic thinking for simulations
 <div style="height:0.75em;"></div>
 
 ## Why do we care?
