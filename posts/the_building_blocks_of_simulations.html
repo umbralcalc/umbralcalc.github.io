@@ -435,6 +435,13 @@
       <p>Consider how this might be used to create useful statistical operations over the history of the Outer simulation, e.g., like rolling window averages.</p>
       <p><img src="../assets/the_building_blocks_of_simulations/embedded-sim-from-history.svg" width=600/></p>
       
+            <div class="next-post">
+        <div class="next-post-label">Next Post</div>
+        <a href="/posts/probabilistic_thinking_for_simulations.html" class="next-post-card">
+                    <div class="next-post-images" id="next-post-images"></div>
+                    <div class="next-post-title">Probabilistic thinking for simulations</div>
+        </a>
+      </div>
           </main>
   </div>
   
@@ -444,13 +451,13 @@
       const imagesContainer = document.getElementById('next-post-images');
       if (imagesContainer) {
         try {
-          const imagesJson = '[]';
+          const imagesJson = '["/assets/probabilistic_thinking_for_simulations/probabilites-vs-trajectories.svg","/assets/probabilistic_thinking_for_simulations/evaluate-probability-partition-region.svg"]';
           const images = JSON.parse(imagesJson);
           if (Array.isArray(images) && images.length > 0) {
             images.forEach(imagePath => {
               const img = document.createElement('img');
               img.src = imagePath;
-              img.alt = '';
+              img.alt = 'Probabilistic thinking for simulations';
               imagesContainer.appendChild(img);
             });
           }
