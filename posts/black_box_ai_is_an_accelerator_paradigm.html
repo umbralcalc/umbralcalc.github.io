@@ -395,6 +395,13 @@
       <p>With the rise of agentic coding tools (e.g., <a href="https://cursor.com/agents">Cursor</a> or <a href="https://antigravity.google/">Antigravity</a>) the acceleration in developing world models is obvious: developers can focus more on higher-level conceptual design while the AI tool fills in the programmatic details within minutes.</p>
       <p>As for computational and predictive performance: these have already been well-established capabilities of black box AI models with enough compute capacity through bespoke simulation emulators (e.g., <a href="https://deepmind.google/science/alphafold/">AlphaFold</a> or <a href="https://deepmind.google/science/weathernext/">WeatherNext</a>).</p>
       
+            <div class="next-post">
+        <div class="next-post-label">Next Post</div>
+        <a href="/posts/programmatic_gaming_with_web_simulations.html" class="next-post-card">
+                    <div class="next-post-images" id="next-post-images"></div>
+                    <div class="next-post-title">Programmatic gaming with web simulations</div>
+        </a>
+      </div>
           </main>
   </div>
   
@@ -404,13 +411,13 @@
       const imagesContainer = document.getElementById('next-post-images');
       if (imagesContainer) {
         try {
-          const imagesJson = '[]';
+          const imagesJson = '["/assets/programmatic_gaming_with_web_simulations/dexetera-main-loop.svg"]';
           const images = JSON.parse(imagesJson);
           if (Array.isArray(images) && images.length > 0) {
             images.forEach(imagePath => {
               const img = document.createElement('img');
               img.src = imagePath;
-              img.alt = '';
+              img.alt = 'Programmatic gaming with web simulations';
               imagesContainer.appendChild(img);
             });
           }

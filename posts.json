@@ -20,16 +20,6 @@
   }
 ,
   {
-    "title": "Programmatic gaming with web simulations",
-    "slug": "programmatic_gaming_with_web_simulations",
-    "url": "/posts/programmatic_gaming_with_web_simulations.html",
-    "tag": "Decision-Making Game Design",
-    "date": "",
-    "order": 1,
-    "images": ["/assets/programmatic_gaming_with_web_simulations/dexetera-main-loop.svg"]
-  }
-,
-  {
     "title": "Quantum Simulations",
     "slug": "quantum_simulations",
     "url": "/posts/quantum_simulations.html",
@@ -87,6 +77,26 @@
     "date": "",
     "order": 3,
     "images": ["/assets/probabilistic_thinking_for_simulations/probabilites-vs-trajectories.svg","/assets/probabilistic_thinking_for_simulations/evaluate-probability-partition-region.svg"]
+  }
+,
+  {
+    "title": "Programmatic gaming with web simulations",
+    "slug": "programmatic_gaming_with_web_simulations",
+    "url": "/posts/programmatic_gaming_with_web_simulations.html",
+    "tag": "Loose Threads",
+    "date": "",
+    "order": 3,
+    "images": ["/assets/programmatic_gaming_with_web_simulations/dexetera-main-loop.svg"]
+  }
+,
+  {
+    "title": "Catface: a film noir card game",
+    "slug": "catface_a_film_noir_card_game",
+    "url": "/posts/catface_a_film_noir_card_game.html",
+    "tag": "Loose Threads",
+    "date": "",
+    "order": 4,
+    "images": ["/assets/catface_a_film_noir_card_game/designs-1.svg","/assets/catface_a_film_noir_card_game/designs-2.svg"]
   }
 ,
   {
