@@ -375,13 +375,6 @@
       </div>
       <p><img src="../assets/technically_unnatural/page-1.svg"/></p>
       
-            <div class="next-post">
-        <div class="next-post-label">Next Post</div>
-        <a href="/posts/catface_a_film_noir_mystery.html" class="next-post-card">
-                    <div class="next-post-images" id="next-post-images"></div>
-                    <div class="next-post-title">Catface: A Film Noir Mystery</div>
-        </a>
-      </div>
           </main>
   </div>
   
@@ -391,13 +384,13 @@
       const imagesContainer = document.getElementById('next-post-images');
       if (imagesContainer) {
         try {
-          const imagesJson = '["/assets/catface_a_film_noir_mystery/page-1.svg","/assets/catface_a_film_noir_mystery/page-2.svg"]';
+          const imagesJson = '[]';
           const images = JSON.parse(imagesJson);
           if (Array.isArray(images) && images.length > 0) {
             images.forEach(imagePath => {
               const img = document.createElement('img');
               img.src = imagePath;
-              img.alt = 'Catface: A Film Noir Mystery';
+              img.alt = '';
               imagesContainer.appendChild(img);
             });
           }
