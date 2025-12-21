@@ -10,6 +10,16 @@
   }
 ,
   {
+    "title": "Learning good actions to take",
+    "slug": "learning_good_actions_to_take",
+    "url": "/posts/learning_good_actions_to_take.html",
+    "tag": "",
+    "date": "",
+    "order": 1,
+    "images": []
+  }
+,
+  {
     "title": "Mathematical symbols vs diagrams",
     "slug": "mathematical_symbols_vs_diagrams",
     "url": "/posts/mathematical_symbols_vs_diagrams.html",
@@ -60,6 +70,16 @@
   }
 ,
   {
+    "title": "Rugby managers under the microscope",
+    "slug": "rugby_managers_under_the_microscope",
+    "url": "/posts/rugby_managers_under_the_microscope.html",
+    "tag": "",
+    "date": "",
+    "order": 2,
+    "images": []
+  }
+,
+  {
     "title": "The building blocks of simulations",
     "slug": "the_building_blocks_of_simulations",
     "url": "/posts/the_building_blocks_of_simulations.html",
@@ -90,6 +110,16 @@
   }
 ,
   {
+    "title": "Stock market simulations can model price impacts",
+    "slug": "stock_market_simulations_can_model_price_impacts",
+    "url": "/posts/stock_market_simulations_can_model_price_impacts.html",
+    "tag": "",
+    "date": "",
+    "order": 3,
+    "images": []
+  }
+,
+  {
     "title": "Catface: A Film Noir Mystery",
     "slug": "catface_a_film_noir_mystery",
     "url": "/posts/catface_a_film_noir_mystery.html",
@@ -100,9 +130,9 @@
   }
 ,
   {
-    "title": "Simulating memoryless phenomena",
-    "slug": "simulating_memoryless_phenomena",
-    "url": "/posts/simulating_memoryless_phenomena.html",
+    "title": "How sustainable are freshwater fishing policies in the UK?",
+    "slug": "how_sustainable_are_freshwater_fishing_policies_in_the_uk",
+    "url": "/posts/how_sustainable_are_freshwater_fishing_policies_in_the_uk.html",
     "tag": "",
     "date": "",
     "order": 4,
@@ -110,42 +140,22 @@
   }
 ,
   {
-    "title": "Simulating non-memoryless phenomena",
-    "slug": "simulating_non_memoryless_phenomena",
-    "url": "/posts/simulating_non_memoryless_phenomena.html",
+    "title": "Learning simulations directly from data",
+    "slug": "learning_simulations_directly_from_data",
+    "url": "/posts/learning_simulations_directly_from_data.html",
+    "tag": "",
+    "date": "",
+    "order": 4,
+    "images": []
+  }
+,
+  {
+    "title": "Data-driven woodland health simulations",
+    "slug": "data_driven_woodland_health_simulations",
+    "url": "/posts/data_driven_woodland_health_simulations.html",
     "tag": "",
     "date": "",
     "order": 5,
-    "images": []
-  }
-,
-  {
-    "title": "Machine learning with probabilistic reweighting",
-    "slug": "machine_learning_with_probabilistic_reweighting",
-    "url": "/posts/machine_learning_with_probabilistic_reweighting.html",
-    "tag": "",
-    "date": "",
-    "order": 6,
-    "images": []
-  }
-,
-  {
-    "title": "Machine learning with generalised linear models (GLMs)",
-    "slug": "machine_learning_with_generalised_linear_models",
-    "url": "/posts/machine_learning_with_generalised_linear_models.html",
-    "tag": "",
-    "date": "",
-    "order": 7,
-    "images": []
-  }
-,
-  {
-    "title": "Learning simulations directly with online posterior estimation",
-    "slug": "learning_simulations_directly_with_online_posterior_estimation",
-    "url": "/posts/learning_simulations_directly_with_online_posterior_estimation.html",
-    "tag": "",
-    "date": "",
-    "order": 8,
     "images": []
   }
 ]

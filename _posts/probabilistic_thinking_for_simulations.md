@@ -36,8 +36,8 @@ In many situations, it would be impossible to count the all of the possible valu
 
 <img src="../assets/probabilistic_thinking_for_simulations/evaluate-probability-partition-region.svg" />
 
-## Estimating the mean state
+## Estimating the mean and variance in state
 
-## Evolving state probabilities in time
+## Estimating state probabilities in time
 
 ## Returning to why we care
