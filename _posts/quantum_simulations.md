@@ -9,4 +9,4 @@ images:
 # Quantum Simulations
 <div style="height:0.75em;"></div>
 
-<img src="../assets/quantum_simulations/page-1.svg"/>
+<center><img src="../assets/quantum_simulations/page-1.svg"/></center>

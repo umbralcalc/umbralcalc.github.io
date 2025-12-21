@@ -12,7 +12,7 @@
   <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
   <link rel="apple-touch-icon" href="../assets/umbralcalculations-logo.svg">
   
-  <title>Eddys of the Lethe</title>
+  <title>Experimenting with infographics</title>
   
   <!-- Fonts -->
   <style>
@@ -369,24 +369,14 @@
     </nav>
 
     <main>
-      <h1 id="eddys-of-the-lethe">Eddys of the Lethe</h1>
+      <h1 id="experimenting-with-infographics">Experimenting with infographics</h1>
       <div style="height:0.75em;">
 
       </div>
       <center>
-      <img src="../assets/eddys_of_the_lethe/page-1.svg"/>
-      </center>
-      <center>
-      <img src="../assets/eddys_of_the_lethe/page-2.svg"/>
+      <img src="../assets/experimenting_with_infographics/infographic-1.svg" width=400/>
       </center>
       
-            <div class="next-post">
-        <div class="next-post-label">Next Post</div>
-        <a href="/posts/quantum_simulations.html" class="next-post-card">
-                    <div class="next-post-images" id="next-post-images"></div>
-                    <div class="next-post-title">Quantum Simulations</div>
-        </a>
-      </div>
           </main>
   </div>
   
@@ -396,13 +386,13 @@
       const imagesContainer = document.getElementById('next-post-images');
       if (imagesContainer) {
         try {
-          const imagesJson = '["/assets/quantum_simulations/page-1.svg"]';
+          const imagesJson = '[]';
           const images = JSON.parse(imagesJson);
           if (Array.isArray(images) && images.length > 0) {
             images.forEach(imagePath => {
               const img = document.createElement('img');
               img.src = imagePath;
-              img.alt = 'Quantum Simulations';
+              img.alt = '';
               imagesContainer.appendChild(img);
             });
           }

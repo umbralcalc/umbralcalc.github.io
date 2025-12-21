@@ -9,4 +9,4 @@ images:
 # Technically Unnatural
 <div style="height:0.75em;"></div>
 
-<img src="../assets/technically_unnatural/page-1.svg"/>
+<center><img src="../assets/technically_unnatural/page-1.svg"/></center>

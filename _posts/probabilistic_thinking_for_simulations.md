@@ -14,7 +14,7 @@ images:
 
 Probabilities essentially represent sampling all of the possible Trajectories that a simulation could take in Time simultaneously.
 
-<img src="../assets/probabilistic_thinking_for_simulations/probabilites-vs-trajectories.svg" />
+<center><img src="../assets/probabilistic_thinking_for_simulations/probabilites-vs-trajectories.svg" /></center>
 
 Using this representation for a real-world simulation, there are two important use cases.
 
@@ -26,15 +26,15 @@ The second uses the Probabilities to represent a model in place of the simulatio
 
 Evaluating the Probability of a particular State Partition History, given Parameters and a Cumulative Timesteps History, looks a similar to the Iterate computation. However, in contrast, this computation does _not_ progress forward in Time.
 
-<img src="../assets/probabilistic_thinking_for_simulations/evaluate-probability-partition.svg" />
+<center><img src="../assets/probabilistic_thinking_for_simulations/evaluate-probability-partition.svg" /></center>
 
 We might also want to evaluate the Probability of Regions which join together possible values that the whole State Partition History can take.
 
-<img src="../assets/probabilistic_thinking_for_simulations/possible-region.svg" />
+<center><img src="../assets/probabilistic_thinking_for_simulations/possible-region.svg" /></center>
 
 In many situations, it would be impossible to count the all of the possible values in some Regions, but we can still imagine the computation in this way.
 
-<img src="../assets/probabilistic_thinking_for_simulations/evaluate-probability-partition-region.svg" />
+<center><img src="../assets/probabilistic_thinking_for_simulations/evaluate-probability-partition-region.svg" /></center>
 
 ## Estimating the mean and variance in state
 

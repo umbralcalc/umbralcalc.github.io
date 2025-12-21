@@ -10,5 +10,5 @@ images:
 # Eddys of the Lethe
 <div style="height:0.75em;"></div>
 
-<img src="../assets/eddys_of_the_lethe/page-1.svg"/>
-<img src="../assets/eddys_of_the_lethe/page-2.svg"/>
+<center><img src="../assets/eddys_of_the_lethe/page-1.svg"/></center>
+<center><img src="../assets/eddys_of_the_lethe/page-2.svg"/></center>

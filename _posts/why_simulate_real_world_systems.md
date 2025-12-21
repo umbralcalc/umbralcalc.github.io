@@ -24,7 +24,7 @@ One of the most compelling uses for simulations of real-world systems is in powe
 
 If you want to answer questions like 'if I take this action, then what will happen in my system?', then it is often essential to build a simulation of your system and use this to simulate what might happen in the future.
 
-<img src="../assets/why_simulate_real_world_systems/simulations-for-decisions.svg" />
+<center><img src="../assets/why_simulate_real_world_systems/simulations-for-decisions.svg" /></center>
 
 ## Advantages to using real-world simulations
 
@@ -32,4 +32,4 @@ With simulations of the real-world, in contrast to other predictive AI approache
 
 This can be a real advantage for decision-making technologies, since human users usually need to justify their decisions through structured reasoning.
 
-<img src="../assets/why_simulate_real_world_systems/simulations-decision-advantages.svg" />
+<center><img src="../assets/why_simulate_real_world_systems/simulations-decision-advantages.svg" /></center>

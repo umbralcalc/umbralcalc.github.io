@@ -120,6 +120,16 @@
   }
 ,
   {
+    "title": "Experimenting with infographics",
+    "slug": "experimenting_with_infographics",
+    "url": "/posts/experimenting_with_infographics.html",
+    "tag": "Loose Threads",
+    "date": "",
+    "order": 4,
+    "images": ["/assets/experimenting_with_infographics/infographic-1.svg"]
+  }
+,
+  {
     "title": "How sustainable are freshwater fishing policies in the UK?",
     "slug": "how_sustainable_are_freshwater_fishing_policies_in_the_uk",
     "url": "/posts/how_sustainable_are_freshwater_fishing_policies_in_the_uk.html",

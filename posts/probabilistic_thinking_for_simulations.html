@@ -375,17 +375,25 @@
       </div>
       <h2 id="why-do-we-care">Why do we care?</h2>
       <p>Probabilities essentially represent sampling all of the possible Trajectories that a simulation could take in Time simultaneously.</p>
-      <p><img src="../assets/probabilistic_thinking_for_simulations/probabilites-vs-trajectories.svg" /></p>
+      <center>
+      <img src="../assets/probabilistic_thinking_for_simulations/probabilites-vs-trajectories.svg" />
+      </center>
       <p>Using this representation for a real-world simulation, there are two important use cases.</p>
       <p>The first uses all of the possible Trajectories the simulation can take to represent how likely it is to take them. This makes it possible to create algorithms which learn the most likely Parameters for State Partitions to match real-world Data.</p>
       <p>The second uses the Probabilities to represent a model in place of the simulation itself. In the right circumstances, this results in algorithms which are much more efficient than sampling multiple Trajectories.</p>
       <h2 id="probabilities-and-regions">Probabilities and regions</h2>
       <p>Evaluating the Probability of a particular State Partition History, given Parameters and a Cumulative Timesteps History, looks a similar to the Iterate computation. However, in contrast, this computation does <em>not</em> progress forward in Time.</p>
-      <p><img src="../assets/probabilistic_thinking_for_simulations/evaluate-probability-partition.svg" /></p>
+      <center>
+      <img src="../assets/probabilistic_thinking_for_simulations/evaluate-probability-partition.svg" />
+      </center>
       <p>We might also want to evaluate the Probability of Regions which join together possible values that the whole State Partition History can take.</p>
-      <p><img src="../assets/probabilistic_thinking_for_simulations/possible-region.svg" /></p>
+      <center>
+      <img src="../assets/probabilistic_thinking_for_simulations/possible-region.svg" />
+      </center>
       <p>In many situations, it would be impossible to count the all of the possible values in some Regions, but we can still imagine the computation in this way.</p>
-      <p><img src="../assets/probabilistic_thinking_for_simulations/evaluate-probability-partition-region.svg" /></p>
+      <center>
+      <img src="../assets/probabilistic_thinking_for_simulations/evaluate-probability-partition-region.svg" />
+      </center>
       <h2 id="estimating-the-mean-and-variance-in-state">Estimating the mean and variance in state</h2>
       <h2 id="estimating-state-probabilities-in-time">Estimating state probabilities in time</h2>
       <h2 id="returning-to-why-we-care">Returning to why we care</h2>
