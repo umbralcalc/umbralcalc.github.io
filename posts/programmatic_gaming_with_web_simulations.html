@@ -390,13 +390,6 @@
       <p>Those interested in the code behind this post should check out the <a href="https://github.com/umbralcalc/dexetera">dexetera project</a>.</p>
       <p>And those interested in playing the games should take a look at <a href="https://umbralcalc.github.io/dexetera/">dextera</a>.</p>
       
-            <div class="next-post">
-        <div class="next-post-label">Next Post</div>
-        <a href="/posts/catface_a_film_noir_card_game.html" class="next-post-card">
-                    <div class="next-post-images" id="next-post-images"></div>
-                    <div class="next-post-title">Catface: a film noir card game</div>
-        </a>
-      </div>
           </main>
   </div>
   
@@ -406,13 +399,13 @@
       const imagesContainer = document.getElementById('next-post-images');
       if (imagesContainer) {
         try {
-          const imagesJson = '["/assets/catface_a_film_noir_card_game/designs-1.svg","/assets/catface_a_film_noir_card_game/designs-2.svg"]';
+          const imagesJson = '[]';
           const images = JSON.parse(imagesJson);
           if (Array.isArray(images) && images.length > 0) {
             images.forEach(imagePath => {
               const img = document.createElement('img');
               img.src = imagePath;
-              img.alt = 'Catface: a film noir card game';
+              img.alt = '';
               imagesContainer.appendChild(img);
             });
           }
