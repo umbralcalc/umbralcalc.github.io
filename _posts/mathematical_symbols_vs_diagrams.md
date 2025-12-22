@@ -28,4 +28,4 @@ The diagrammatic language we use owes its mathematical rigour to the fact that [
 
 Since all of the practically useful mathematical calculations that we typically talk about on this blog must ultimately be expressed in a computer, we can always find some diagrammatic description of the relevant mathematics that leverages the function abstractions.
 
-<center><img src="../assets/mathematical_symbols_vs_diagrams/maths-to-diagrams.svg" /></center>
+<center><img src="../assets/mathematical_symbols_vs_diagrams/maths-to-diagrams.svg" width=600/></center>
