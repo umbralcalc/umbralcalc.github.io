@@ -378,7 +378,7 @@
       <p>Time is a variable in the simulation which always increases in value. We often want to track how it increases after each discrete simulation ‘step’ in increments which we shall call ‘Timesteps’.</p>
       <p>The first data structure which we shall introduce here is a ‘Cumulative Timesteps History’, which indexes simulated Times that the simulation <em>had</em> according to <em>decreasing recency</em>.</p>
       <center>
-      <img src="../assets/the_building_blocks_of_simulations/cumulative-timesteps-history.svg" />
+      <img src="../assets/the_building_blocks_of_simulations/cumulative-timesteps-history.svg" width=600/>
       </center>
       <h2 id="state-partitions-and-their-history">State partitions and their history</h2>
       <p>Simulations also have a ‘State’ associated to them for each value of Time.</p>
@@ -386,12 +386,12 @@
       <p>In order to simplify how all of this State data is processed and retrieved, we’re going to <em>partition</em> this simulation State into several ‘State Partition’ data structures.</p>
       <p>For example, one of these partitions might hold all the data associated to a player in a sports team, and the whole simulation needs all of the players within its overall State.</p>
       <center>
-      <img src="../assets/the_building_blocks_of_simulations/state-partitions.svg" />
+      <img src="../assets/the_building_blocks_of_simulations/state-partitions.svg" width=600/>
       </center>
       <p>Each State Partition carries data that can be different for each moment in Time of the simulation. In order to track this evolution, we create a ‘State Partition History’ data structure for each State Partition.</p>
       <p>Each State Partition History has indices which always match those of the Cumulative Timesteps History, so they are always synchronised with each other.</p>
       <center>
-      <img src="../assets/the_building_blocks_of_simulations/state-partition-history.svg" />
+      <img src="../assets/the_building_blocks_of_simulations/state-partition-history.svg" width=600/>
       </center>
       <h2 id="computing-the-next-timesteps">Computing the next timesteps</h2>
       <p>So new States of the simulation may happen at different Times. But what determines when these Times are along the Simulation Timeline?</p>
@@ -407,7 +407,7 @@
       <h2 id="state-partition-iteration">State partition iteration</h2>
       <p>For an overall simulation data view, we can create a ‘State Partition Histories’ structure. This is a collection of each State Partition History that exists within the simulation.</p>
       <center>
-      <img src="../assets/the_building_blocks_of_simulations/state-partition-histories.svg" />
+      <img src="../assets/the_building_blocks_of_simulations/state-partition-histories.svg" width=600/>
       </center>
       <p>How do we determine the ‘Next Values’ of each State Partition in Time?</p>
       <p>This is where we should maintain full flexibility in choice of calculation so that our simulation is able to represent many different real-world systems.</p>

@@ -19,7 +19,7 @@ Time is a variable in the simulation which always increases in value. We often w
 
 The first data structure which we shall introduce here is a 'Cumulative Timesteps History', which indexes simulated Times that the simulation _had_ according to _decreasing recency_.
 
-<center><img src="../assets/the_building_blocks_of_simulations/cumulative-timesteps-history.svg" /></center>
+<center><img src="../assets/the_building_blocks_of_simulations/cumulative-timesteps-history.svg" width=600/></center>
 
 ## State partitions and their history
 
@@ -31,13 +31,13 @@ In order to simplify how all of this State data is processed and retrieved, we'r
 
 For example, one of these partitions might hold all the data associated to a player in a sports team, and the whole simulation needs all of the players within its overall State.
 
-<center><img src="../assets/the_building_blocks_of_simulations/state-partitions.svg" /></center>
+<center><img src="../assets/the_building_blocks_of_simulations/state-partitions.svg" width=600/></center>
 
 Each State Partition carries data that can be different for each moment in Time of the simulation. In order to track this evolution, we create a 'State Partition History' data structure for each State Partition.
 
 Each State Partition History has indices which always match those of the Cumulative Timesteps History, so they are always synchronised with each other.
 
-<center><img src="../assets/the_building_blocks_of_simulations/state-partition-history.svg" /></center>
+<center><img src="../assets/the_building_blocks_of_simulations/state-partition-history.svg" width=600/></center>
 
 ## Computing the next timesteps
 
@@ -57,7 +57,7 @@ In order to allow this flexibility in choice between situations, let's specify a
 
 For an overall simulation data view, we can create a 'State Partition Histories' structure. This is a collection of each State Partition History that exists within the simulation.
 
-<center><img src="../assets/the_building_blocks_of_simulations/state-partition-histories.svg" /></center>
+<center><img src="../assets/the_building_blocks_of_simulations/state-partition-histories.svg" width=600/></center>
 
 How do we determine the 'Next Values' of each State Partition in Time?
 
