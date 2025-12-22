@@ -49,13 +49,13 @@ This is a journal of system diagrams which tracks progress on the [stochadex pro
 
 <center><img src="../assets/diagramming_the_stochadex_project/stochadex-loop.svg" /></center>
 
-## Embedded simulations
-
-<center><img src="../assets/diagramming_the_stochadex_project/embedded-simulations.svg" /></center>
-
 ## Probabilistic reweighting
 
 <center><img src="../assets/diagramming_the_stochadex_project/prob-reweighting-code.svg" /></center>
+
+## Embedded simulations
+
+<center><img src="../assets/diagramming_the_stochadex_project/embedded-simulations.svg" /></center>
 
 ## Simulation inference
 
