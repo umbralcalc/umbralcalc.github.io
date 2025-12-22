@@ -19,6 +19,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://umbralcalc.github.io/posts/diagramming_the_stochadex_project.html</loc>
+    <lastmod>2025-12-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://umbralcalc.github.io/posts/eddys_of_the_lethe.html</loc>
     <lastmod>2025-12-22</lastmod>
     <changefreq>monthly</changefreq>
@@ -55,7 +61,7 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://umbralcalc.github.io/posts/programmatic_gaming_with_web_simulations.html</loc>
+    <loc>https://umbralcalc.github.io/posts/programmatic_gaming_with_dexetera.html</loc>
     <lastmod>2025-12-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

@@ -1,5 +1,15 @@
 [
   {
+    "title": "Diagramming the stochadex project",
+    "slug": "diagramming_the_stochadex_project",
+    "url": "/posts/diagramming_the_stochadex_project.html",
+    "tag": "Journaling with System Diagrams",
+    "date": "",
+    "order": 1,
+    "images": ["/assets/diagramming_the_stochadex_project/stochadex-data-types.svg","/assets/diagramming_the_stochadex_project/fundamental-loop-code.svg","/assets/diagramming_the_stochadex_project/wiener-process.svg"]
+  }
+,
+  {
     "title": "Eddys of the Lethe",
     "slug": "eddys_of_the_lethe",
     "url": "/posts/eddys_of_the_lethe.html",
@@ -70,6 +80,16 @@
   }
 ,
   {
+    "title": "Programmatic gaming with dexetera",
+    "slug": "programmatic_gaming_with_dexetera",
+    "url": "/posts/programmatic_gaming_with_dexetera.html",
+    "tag": "Journaling with System Diagrams",
+    "date": "",
+    "order": 2,
+    "images": ["/assets/programmatic_gaming_with_dexetera/programmatic-gaming.svg","/assets/programmatic_gaming_with_dexetera/dexetera-main-loop.svg"]
+  }
+,
+  {
     "title": "Rugby managers under the microscope",
     "slug": "rugby_managers_under_the_microscope",
     "url": "/posts/rugby_managers_under_the_microscope.html",
@@ -97,16 +117,6 @@
     "date": "",
     "order": 3,
     "images": ["/assets/probabilistic_thinking_for_simulations/probabilites-vs-trajectories.svg","/assets/probabilistic_thinking_for_simulations/evaluate-probability-partition-region.svg"]
-  }
-,
-  {
-    "title": "Programmatic gaming with web simulations",
-    "slug": "programmatic_gaming_with_web_simulations",
-    "url": "/posts/programmatic_gaming_with_web_simulations.html",
-    "tag": "Loose Threads",
-    "date": "",
-    "order": 3,
-    "images": ["/assets/programmatic_gaming_with_web_simulations/programmatic-gaming.svg","/assets/programmatic_gaming_with_web_simulations/dexetera-main-loop.svg"]
   }
 ,
   {
