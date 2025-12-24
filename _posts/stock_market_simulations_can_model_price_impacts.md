@@ -1,7 +1,7 @@
 ---
 title: "Stock market simulations can model price impacts"
-# tag: "Taking Better Actions with Real-World Simulations"
-order: 3
+# tag: "Engineering Smarter Actions"
+order: 2
 ---
 
 # Stock market simulations can model price impacts

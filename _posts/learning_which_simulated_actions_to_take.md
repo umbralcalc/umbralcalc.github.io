@@ -1,10 +1,10 @@
 ---
-title: "Learning good actions to take"
-# tag: "Taking Better Actions with Real-World Simulations"
-order: 1
+title: "Learning which simulated actions to take"
+# tag: "Simulating Real-World Systems as a Programmer"
+order: 5
 ---
 
-# Learning good actions to take
+# Learning which simulated actions to take
 <div style="height:0.75em;"></div>
 
 - Cover that 'optimality' isn't usually needed in practice

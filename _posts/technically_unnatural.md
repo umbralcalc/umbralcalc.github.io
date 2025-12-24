@@ -1,7 +1,7 @@
 ---
 title: "Technically Unnatural"
 tag: "Short Stories for the Sciency Mind"
-order: 1
+order: 3
 images:
 - "/assets/technically_unnatural/page-1.svg"
 ---
