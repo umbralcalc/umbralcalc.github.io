@@ -3,7 +3,7 @@
     "title": "Diagramming the stochadex project",
     "slug": "diagramming_the_stochadex_project",
     "url": "/posts/diagramming_the_stochadex_project.html",
-    "tag": "Journaling with System Diagrams",
+    "tag": "System Diagrams",
     "date": "",
     "order": 1,
     "images": ["/assets/diagramming_the_stochadex_project/stochadex-data-types.svg","/assets/diagramming_the_stochadex_project/fundamental-loop-code.svg","/assets/diagramming_the_stochadex_project/wiener-process.svg"]
@@ -83,7 +83,7 @@
     "title": "Programmatic gaming with dexetera",
     "slug": "programmatic_gaming_with_dexetera",
     "url": "/posts/programmatic_gaming_with_dexetera.html",
-    "tag": "Journaling with System Diagrams",
+    "tag": "System Diagrams",
     "date": "",
     "order": 2,
     "images": ["/assets/programmatic_gaming_with_dexetera/programmatic-gaming.svg","/assets/programmatic_gaming_with_dexetera/dexetera-main-loop.svg"]

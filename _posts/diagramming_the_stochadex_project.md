@@ -1,6 +1,6 @@
 ---
 title: "Diagramming the stochadex project"
-tag: "Journaling with System Diagrams"
+tag: "System Diagrams"
 order: 1
 images:
 - "/assets/diagramming_the_stochadex_project/stochadex-data-types.svg"
@@ -11,7 +11,7 @@ images:
 # Diagramming the stochadex project
 <div style="height:0.75em;"></div>
 
-This is a journal of system diagrams which tracks progress on the [stochadex project](https://umbralcalc.github.io/stochadex).
+These system diagrams track progress on the [stochadex project](https://umbralcalc.github.io/stochadex).
 
 ## The fundamental data types
 

@@ -1,6 +1,6 @@
 ---
 title: "Programmatic gaming with dexetera"
-tag: "Journaling with System Diagrams"
+tag: "System Diagrams"
 order: 2
 images:
 - "/assets/programmatic_gaming_with_dexetera/programmatic-gaming.svg"
@@ -10,7 +10,7 @@ images:
 # Programmatic gaming with dexetera
 <div style="height:0.75em;"></div>
 
-This is a journal of system diagrams which tracks progress on the [dexetera project](https://github.com/umbralcalc/dexetera).
+These system diagrams track progress on the [dexetera project](https://github.com/umbralcalc/dexetera).
 
 Those interested in playing the games should take a look at [dextera](https://umbralcalc.github.io/dexetera/).
 
