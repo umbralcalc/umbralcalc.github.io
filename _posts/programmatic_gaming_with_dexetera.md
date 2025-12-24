@@ -1,6 +1,6 @@
 ---
 title: "Programmatic gaming with dexetera"
-tag: "System Diagrams"
+tag: "System Diagrams Series"
 order: 2
 images:
 - "/assets/programmatic_gaming_with_dexetera/programmatic-gaming.svg"

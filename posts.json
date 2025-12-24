@@ -1,15 +1,5 @@
 [
   {
-    "title": "Diagramming the stochadex project",
-    "slug": "diagramming_the_stochadex_project",
-    "url": "/posts/diagramming_the_stochadex_project.html",
-    "tag": "System Diagrams",
-    "date": "",
-    "order": 1,
-    "images": ["/assets/diagramming_the_stochadex_project/stochadex-data-types.svg","/assets/diagramming_the_stochadex_project/fundamental-loop-code.svg","/assets/diagramming_the_stochadex_project/wiener-process.svg"]
-  }
-,
-  {
     "title": "Eddys of the Lethe",
     "slug": "eddys_of_the_lethe",
     "url": "/posts/eddys_of_the_lethe.html",
@@ -60,6 +50,16 @@
   }
 ,
   {
+    "title": "The stochadex project",
+    "slug": "the_stochadex_project",
+    "url": "/posts/the_stochadex_project.html",
+    "tag": "System Diagrams Series",
+    "date": "",
+    "order": 1,
+    "images": ["/assets/the_stochadex_project/stochadex-data-types.svg","/assets/the_stochadex_project/fundamental-loop-code.svg","/assets/the_stochadex_project/wiener-process.svg"]
+  }
+,
+  {
     "title": "Why simulate real-world systems?",
     "slug": "why_simulate_real_world_systems",
     "url": "/posts/why_simulate_real_world_systems.html",
@@ -83,7 +83,7 @@
     "title": "Programmatic gaming with dexetera",
     "slug": "programmatic_gaming_with_dexetera",
     "url": "/posts/programmatic_gaming_with_dexetera.html",
-    "tag": "System Diagrams",
+    "tag": "System Diagrams Series",
     "date": "",
     "order": 2,
     "images": ["/assets/programmatic_gaming_with_dexetera/programmatic-gaming.svg","/assets/programmatic_gaming_with_dexetera/dexetera-main-loop.svg"]
