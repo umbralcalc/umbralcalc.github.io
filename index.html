@@ -31,6 +31,7 @@
             padding: 2rem;
             background: #fff;
             min-height: 100vh;
+            overflow-x: hidden;
         }
         
         nav {
@@ -77,6 +78,17 @@
             font-weight: 700;
         }
         
+        #site-title.typing::after {
+            content: '|';
+            animation: blink 1s infinite;
+            margin-left: 2px;
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        
         .subtitle {
             font-size: 1.2rem;
             color: #666;
@@ -103,6 +115,54 @@
             padding-bottom: 0.5rem;
         }
         
+        /* Horizontal scrolling container */
+        .tags-scroll-container {
+            overflow-x: auto;
+            overflow-y: visible;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+            padding-bottom: 1rem;
+            margin: 0 -2rem;
+            padding-left: 2rem;
+            padding-right: 2rem;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+        
+        /* Hide scrollbar but keep functionality */
+        .tags-scroll-container::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+        
+        /* Columns container */
+        .tags-columns {
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+            min-width: min-content;
+        }
+        
+        /* Individual tag column */
+        .tag-column {
+            flex: 0 0 auto;
+            width: 450px;
+            min-height: 100px;
+        }
+        
+        .tag-title {
+            font-family: 'Merriweather', serif;
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            background: #fff;
+            padding: 0.5rem 0;
+            z-index: 10;
+            border-bottom: 2px solid #3498db;
+        }
+        
         .post-list {
             list-style: none;
         }
@@ -121,6 +181,7 @@
             border-radius: 0;
             transition: all 0.3s ease;
             margin-bottom: 1rem;
+            background: #fff;
         }
         
         .post-card:hover {
@@ -131,10 +192,11 @@
         
         .post-title {
             font-family: 'Merriweather', serif;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             color: #2c3e50;
             margin-bottom: 0.5rem;
             margin-top: 1rem;
+            line-height: 1.3;
         }
         
         .post-card:hover .post-title {
@@ -143,7 +205,7 @@
         
         .post-meta {
             color: #888;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             margin-bottom: 0.75rem;
         }
         
@@ -160,7 +222,7 @@
         }
         
         .post-images img {
-            height: 120px;
+            height: 100px;
             width: auto;
             border-radius: 0;
             display: block;
@@ -191,23 +253,6 @@
             text-decoration: underline;
         }
         
-        .tag-section {
-            margin-bottom: 3rem;
-        }
-        
-        .tag-title {
-            font-family: 'Merriweather', serif;
-            font-size: 1.5rem;
-            color: #2c3e50;
-            margin-bottom: 1rem;
-            margin-top: 2rem;
-            font-weight: 600;
-        }
-        
-        .tag-title:first-child {
-            margin-top: 0;
-        }
-        
         @media (max-width: 768px) {
             .container {
                 padding: 1.5rem;
@@ -226,8 +271,22 @@
                 font-size: 1rem;
             }
             
+            .tags-scroll-container {
+                margin: 0 -1.5rem;
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+            
+            .tag-column {
+                width: 350px;
+            }
+            
             .post-images img {
-                height: 96px;
+                height: 80px;
+            }
+            
+            .post-title {
+                font-size: 1.2rem;
             }
         }
     </style>
@@ -243,7 +302,7 @@
         <header>
             <div class="header-content">
                 <img src="/assets/umbralcalculations-logo.svg" width="80"/>
-                <h1>umbralcalculations</h1>
+                <h1 id="site-title"></h1>
             </div>
             <p class="subtitle">Visual explorations in computation, science and creative writing.</p>
         </header>
@@ -269,7 +328,34 @@
     </div>
     
     <script>
-        // Load and display posts grouped by tag
+        // Typing animation for site title
+        (function() {
+            const titleElement = document.getElementById('site-title');
+            const titleText = 'umbralcalculations';
+            let index = 0;
+            
+            titleElement.classList.add('typing');
+            
+            function typeCharacter() {
+                if (index < titleText.length) {
+                    titleElement.textContent = titleText.substring(0, index + 1);
+                    index++;
+                    setTimeout(typeCharacter, 100); // Adjust speed here (milliseconds per character)
+                } else {
+                    // Remove cursor after typing is complete
+                    setTimeout(() => {
+                        titleElement.classList.remove('typing');
+                    }, 500);
+                }
+            }
+            
+            // Start typing animation when page loads
+            typeCharacter();
+        })();
+    </script>
+    
+    <script>
+        // Load and display posts grouped by tag in horizontal scrolling columns
         fetch('/posts.json')
             .then(response => response.json())
             .then(posts => {
@@ -307,15 +393,23 @@
                     });
                 });
                 
-                // Render posts grouped by tag
+                // Create horizontal scrolling container
+                const scrollContainer = document.createElement('div');
+                scrollContainer.className = 'tags-scroll-container';
+                
+                // Create columns container
+                const columnsContainer = document.createElement('div');
+                columnsContainer.className = 'tags-columns';
+                
+                // Render posts grouped by tag in columns
                 Object.keys(postsByTag).sort().forEach(tag => {
-                    const tagSection = document.createElement('div');
-                    tagSection.className = 'tag-section';
+                    const tagColumn = document.createElement('div');
+                    tagColumn.className = 'tag-column';
                     
                     const tagTitle = document.createElement('h3');
                     tagTitle.className = 'tag-title';
                     tagTitle.textContent = tag;
-                    tagSection.appendChild(tagTitle);
+                    tagColumn.appendChild(tagTitle);
                     
                     const postList = document.createElement('ul');
                     postList.className = 'post-list';
@@ -358,9 +452,12 @@
                         postList.appendChild(postItem);
                     });
                     
-                    tagSection.appendChild(postList);
-                    container.appendChild(tagSection);
+                    tagColumn.appendChild(postList);
+                    columnsContainer.appendChild(tagColumn);
                 });
+                
+                scrollContainer.appendChild(columnsContainer);
+                container.appendChild(scrollContainer);
             })
             .catch(error => {
                 console.error('Error loading posts:', error);
