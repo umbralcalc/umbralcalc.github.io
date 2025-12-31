@@ -115,38 +115,30 @@
             padding-bottom: 0.5rem;
         }
         
-        /* Horizontal scrolling container */
-        .tags-scroll-container {
-            overflow-x: auto;
-            overflow-y: visible;
-            -webkit-overflow-scrolling: touch;
-            scroll-behavior: smooth;
-            padding-bottom: 1rem;
-            margin: 0 -2rem;
-            padding-left: 2rem;
-            padding-right: 2rem;
-            scrollbar-width: none; /* Firefox */
-            -ms-overflow-style: none; /* IE and Edge */
+        /* Columns container with navigation */
+        .tags-navigation-wrapper {
+            position: relative;
+            margin: 2rem 0;
         }
         
-        /* Hide scrollbar but keep functionality */
-        .tags-scroll-container::-webkit-scrollbar {
-            display: none; /* Chrome, Safari, Opera */
+        .tags-scroll-container {
+            overflow: hidden;
+            position: relative;
         }
         
         /* Columns container */
         .tags-columns {
             display: flex;
-            gap: 2rem;
-            align-items: flex-start;
-            min-width: min-content;
+            transition: transform 0.3s ease;
+            will-change: transform;
         }
         
         /* Individual tag column */
         .tag-column {
-            flex: 0 0 auto;
-            width: 450px;
+            flex: 0 0 100%;
+            width: 100%;
             min-height: 100px;
+            padding-right: 0;
         }
         
         .tag-title {
@@ -155,12 +147,86 @@
             color: #2c3e50;
             margin-bottom: 1.5rem;
             font-weight: 600;
-            position: sticky;
-            top: 0;
-            background: #fff;
-            padding: 0.5rem 0;
-            z-index: 10;
             border-bottom: 2px solid #3498db;
+            padding-bottom: 0.5rem;
+        }
+        
+        /* Navigation arrows */
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #fff;
+            border: 2px solid #3498db;
+            color: #3498db;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            z-index: 20;
+            user-select: none;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-arrow:hover {
+            background: #3498db;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+        }
+        
+        .nav-arrow:active {
+            transform: translateY(-50%) scale(0.95);
+        }
+        
+        .nav-arrow.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        
+        .nav-arrow-left {
+            left: -25px;
+        }
+        
+        .nav-arrow-right {
+            right: -25px;
+        }
+        
+        /* Navigation dots */
+        .nav-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+            padding: 1rem 0;
+        }
+        
+        .nav-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ddd;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            padding: 0;
+        }
+        
+        .nav-dot.active {
+            background: #3498db;
+            width: 30px;
+            border-radius: 5px;
+        }
+        
+        .nav-dot:hover {
+            background: #3498db;
+            opacity: 0.7;
         }
         
         .post-list {
@@ -272,13 +338,21 @@
             }
             
             .tags-scroll-container {
-                margin: 0 -1.5rem;
-                padding-left: 1.5rem;
-                padding-right: 1.5rem;
+                margin: 0;
             }
             
-            .tag-column {
-                width: 350px;
+            .nav-arrow {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+            
+            .nav-arrow-left {
+                left: 10px;
+            }
+            
+            .nav-arrow-right {
+                right: 10px;
             }
             
             .post-images img {
@@ -393,6 +467,18 @@
                     });
                 });
                 
+                // Get sorted tags
+                const sortedTags = Object.keys(postsByTag).sort();
+                
+                if (sortedTags.length === 0) {
+                    container.innerHTML = '<ul class="post-list"><li class="post-item empty-state"><p>No posts yet. Check back soon!</p></li></ul>';
+                    return;
+                }
+                
+                // Create navigation wrapper
+                const navWrapper = document.createElement('div');
+                navWrapper.className = 'tags-navigation-wrapper';
+                
                 // Create horizontal scrolling container
                 const scrollContainer = document.createElement('div');
                 scrollContainer.className = 'tags-scroll-container';
@@ -402,7 +488,7 @@
                 columnsContainer.className = 'tags-columns';
                 
                 // Render posts grouped by tag in columns
-                Object.keys(postsByTag).sort().forEach(tag => {
+                sortedTags.forEach(tag => {
                     const tagColumn = document.createElement('div');
                     tagColumn.className = 'tag-column';
                     
@@ -457,7 +543,90 @@
                 });
                 
                 scrollContainer.appendChild(columnsContainer);
-                container.appendChild(scrollContainer);
+                
+                // Create navigation arrows
+                const leftArrow = document.createElement('button');
+                leftArrow.className = 'nav-arrow nav-arrow-left';
+                leftArrow.innerHTML = '←';
+                leftArrow.setAttribute('aria-label', 'Previous column');
+                
+                const rightArrow = document.createElement('button');
+                rightArrow.className = 'nav-arrow nav-arrow-right';
+                rightArrow.innerHTML = '→';
+                rightArrow.setAttribute('aria-label', 'Next column');
+                
+                // Create navigation dots
+                const navDots = document.createElement('div');
+                navDots.className = 'nav-dots';
+                sortedTags.forEach((tag, index) => {
+                    const dot = document.createElement('button');
+                    dot.className = 'nav-dot' + (index === 0 ? ' active' : '');
+                    dot.setAttribute('aria-label', `Go to ${tag}`);
+                    dot.addEventListener('click', () => goToColumn(index));
+                    navDots.appendChild(dot);
+                });
+                
+                // Navigation state
+                let currentIndex = 0;
+                const totalColumns = sortedTags.length;
+                
+                // Navigation functions
+                function updateNavigation() {
+                    // Update transform
+                    columnsContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
+                    
+                    // Update arrow states
+                    leftArrow.classList.toggle('disabled', currentIndex === 0);
+                    rightArrow.classList.toggle('disabled', currentIndex === totalColumns - 1);
+                    
+                    // Update dots
+                    const dots = navDots.querySelectorAll('.nav-dot');
+                    dots.forEach((dot, index) => {
+                        dot.classList.toggle('active', index === currentIndex);
+                    });
+                }
+                
+                function goToColumn(index) {
+                    if (index >= 0 && index < totalColumns) {
+                        currentIndex = index;
+                        updateNavigation();
+                    }
+                }
+                
+                function nextColumn() {
+                    if (currentIndex < totalColumns - 1) {
+                        currentIndex++;
+                        updateNavigation();
+                    }
+                }
+                
+                function prevColumn() {
+                    if (currentIndex > 0) {
+                        currentIndex--;
+                        updateNavigation();
+                    }
+                }
+                
+                // Add event listeners
+                leftArrow.addEventListener('click', prevColumn);
+                rightArrow.addEventListener('click', nextColumn);
+                
+                // Keyboard navigation
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowLeft') prevColumn();
+                    if (e.key === 'ArrowRight') nextColumn();
+                });
+                
+                // Assemble the navigation wrapper
+                navWrapper.appendChild(leftArrow);
+                navWrapper.appendChild(rightArrow);
+                navWrapper.appendChild(scrollContainer);
+                navWrapper.appendChild(navDots);
+                
+                container.appendChild(navWrapper);
+                
+                // Initialize navigation state
+                updateNavigation();
             })
             .catch(error => {
                 console.error('Error loading posts:', error);
