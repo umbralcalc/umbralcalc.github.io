@@ -20,6 +20,16 @@
   }
 ,
   {
+    "title": "Generalised simulations with the stochadex",
+    "slug": "generalised_simulations_with_the_stochadex",
+    "url": "/posts/generalised_simulations_with_the_stochadex.html",
+    "tag": "System Diagrams Series",
+    "date": "",
+    "order": 1,
+    "images": ["/assets/generalised_simulations_with_the_stochadex/stochadex-data-types.svg","/assets/generalised_simulations_with_the_stochadex/fundamental-loop-code.svg","/assets/generalised_simulations_with_the_stochadex/wiener-process.svg"]
+  }
+,
+  {
     "title": "Mathematical symbols vs diagrams",
     "slug": "mathematical_symbols_vs_diagrams",
     "url": "/posts/mathematical_symbols_vs_diagrams.html",
@@ -37,16 +47,6 @@
     "date": "",
     "order": 1,
     "images": []
-  }
-,
-  {
-    "title": "The stochadex project",
-    "slug": "the_stochadex_project",
-    "url": "/posts/the_stochadex_project.html",
-    "tag": "System Diagrams Series",
-    "date": "",
-    "order": 1,
-    "images": ["/assets/the_stochadex_project/stochadex-data-types.svg","/assets/the_stochadex_project/fundamental-loop-code.svg","/assets/the_stochadex_project/wiener-process.svg"]
   }
 ,
   {
