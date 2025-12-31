@@ -106,13 +106,27 @@
             margin-top: 3rem;
         }
         
+        .posts-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 0.5rem;
+        }
+        
         .posts-section h2 {
             font-family: 'Merriweather', serif;
             font-size: 2rem;
             color: #2c3e50;
-            margin-bottom: 1.5rem;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 0.5rem;
+            margin: 0;
+            flex: 1;
+        }
+        
+        .posts-nav-arrows {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
         }
         
         /* Columns container with navigation */
@@ -153,35 +167,32 @@
         
         /* Navigation arrows */
         .nav-arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: #fff;
+            background: transparent;
             border: 2px solid #3498db;
             color: #3498db;
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             font-weight: bold;
             transition: all 0.3s ease;
-            z-index: 20;
             user-select: none;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 0;
+            line-height: 1;
         }
         
         .nav-arrow:hover {
             background: #3498db;
             color: #fff;
-            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+            transform: scale(1.1);
         }
         
         .nav-arrow:active {
-            transform: translateY(-50%) scale(0.95);
+            transform: scale(0.95);
         }
         
         .nav-arrow.disabled {
@@ -190,12 +201,10 @@
             pointer-events: none;
         }
         
-        .nav-arrow-left {
-            left: -25px;
-        }
-        
-        .nav-arrow-right {
-            right: -25px;
+        .nav-arrow.disabled:hover {
+            transform: none;
+            background: transparent;
+            color: #3498db;
         }
         
         /* Navigation dots */
@@ -341,18 +350,19 @@
                 margin: 0;
             }
             
+            .posts-header {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            
+            .posts-section h2 {
+                font-size: 1.5rem;
+            }
+            
             .nav-arrow {
-                width: 40px;
-                height: 40px;
-                font-size: 1.2rem;
-            }
-            
-            .nav-arrow-left {
-                left: 10px;
-            }
-            
-            .nav-arrow-right {
-                right: 10px;
+                width: 36px;
+                height: 36px;
+                font-size: 1rem;
             }
             
             .post-images img {
@@ -475,6 +485,23 @@
                     return;
                 }
                 
+                // Restructure the Posts header to include navigation arrows
+                const postsSection = container.closest('.posts-section');
+                const postsH2 = postsSection.querySelector('h2');
+                if (postsH2) {
+                    const postsHeader = document.createElement('div');
+                    postsHeader.className = 'posts-header';
+                    
+                    // Move h2 into the header
+                    postsH2.parentNode.insertBefore(postsHeader, postsH2);
+                    postsHeader.appendChild(postsH2);
+                    
+                    // Create navigation arrows container
+                    const navArrows = document.createElement('div');
+                    navArrows.className = 'posts-nav-arrows';
+                    postsHeader.appendChild(navArrows);
+                }
+                
                 // Create navigation wrapper
                 const navWrapper = document.createElement('div');
                 navWrapper.className = 'tags-navigation-wrapper';
@@ -546,14 +573,22 @@
                 
                 // Create navigation arrows
                 const leftArrow = document.createElement('button');
-                leftArrow.className = 'nav-arrow nav-arrow-left';
+                leftArrow.className = 'nav-arrow';
                 leftArrow.innerHTML = '←';
                 leftArrow.setAttribute('aria-label', 'Previous column');
                 
                 const rightArrow = document.createElement('button');
-                rightArrow.className = 'nav-arrow nav-arrow-right';
+                rightArrow.className = 'nav-arrow';
                 rightArrow.innerHTML = '→';
                 rightArrow.setAttribute('aria-label', 'Next column');
+                
+                // Add arrows to the header (find it after it was created)
+                const postsSectionForArrows = container.closest('.posts-section');
+                const navArrows = postsSectionForArrows ? postsSectionForArrows.querySelector('.posts-nav-arrows') : null;
+                if (navArrows) {
+                    navArrows.appendChild(leftArrow);
+                    navArrows.appendChild(rightArrow);
+                }
                 
                 // Create navigation dots
                 const navDots = document.createElement('div');
@@ -618,8 +653,6 @@
                 });
                 
                 // Assemble the navigation wrapper
-                navWrapper.appendChild(leftArrow);
-                navWrapper.appendChild(rightArrow);
                 navWrapper.appendChild(scrollContainer);
                 navWrapper.appendChild(navDots);
                 
