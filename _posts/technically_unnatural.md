@@ -13,7 +13,7 @@ This story is inspired directly by the ideas of '[fine-tuning](https://en.wikipe
 
 The story anthropomorphizes these technical concepts into everyday human judgements made by a lazy bureaucrat.
 
-All of the artwork is hand-drawn with graphite pencils and painted with watercolour. Some further layout and touch-ups have been done on computer.
+All of the artwork is hand-drawn with ink pens and colour pencils. Some further layout and touch-ups have been done on computer.
 
 <center><img src="../assets/technically_unnatural/page-1.svg"/></center>
 
