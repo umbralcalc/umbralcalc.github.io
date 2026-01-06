@@ -6,7 +6,7 @@
     "tag": "Short Stories for the Sciency Mind",
     "date": "",
     "order": 1,
-    "images": ["/assets/eddies_of_the_lethe/page-1.svg","/assets/eddies_of_the_lethe/page-2.svg"]
+    "images": ["/assets/eddies_of_the_lethe/page-1.svg","/assets/eddies_of_the_lethe/page-2.svg","/assets/eddies_of_the_lethe/page-3.svg"]
   }
 ,
   {
@@ -80,13 +80,13 @@
   }
 ,
   {
-    "title": "Quantum Simulations",
-    "slug": "quantum_simulations",
-    "url": "/posts/quantum_simulations.html",
-    "tag": "Short Stories for the Sciency Mind",
+    "title": "Quantised and Branching",
+    "slug": "quantised_and_branching",
+    "url": "/posts/quantised_and_branching.html",
+    "tag": "",
     "date": "",
     "order": 2,
-    "images": ["/assets/quantum_simulations/page-1.svg"]
+    "images": ["/assets/quantised_and_branching/page-1.svg"]
   }
 ,
   {
@@ -133,7 +133,7 @@
     "title": "Technically Unnatural",
     "slug": "technically_unnatural",
     "url": "/posts/technically_unnatural.html",
-    "tag": "Short Stories for the Sciency Mind",
+    "tag": "",
     "date": "",
     "order": 3,
     "images": ["/assets/technically_unnatural/page-1.svg"]

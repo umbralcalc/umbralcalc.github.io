@@ -375,22 +375,21 @@
       </div>
       <p>This is a story that is meant to capture some concepts from classical physics (particularly thermodynamics), cosmology and ancient Greek myth and bind them into their own kind of natural mythology.</p>
       <p>The story centres around the ‘Lethe’, a river which enables progression of time itself, and entities known as ‘Demons’ (after <a href="https://en.wikipedia.org/wiki/Maxwell%27s_demon">Maxwell’s demon</a>).</p>
-      <p>All of the artwork is hand-drawn with ink pens and colour pencils. Some further layout and touch-ups have been done on computer.</p>
+      <p>All of the artwork is hand-drawn with ink pens. Some further layout and touch-ups have been done on computer.</p>
       <center>
-      <img src="../assets/eddies_of_the_lethe/page-1.svg"/>
+      <img src="../assets/eddies_of_the_lethe/page-1.svg" width=500/>
       </center>
       <center>
-      <img src="../assets/eddies_of_the_lethe/page-2.svg"/>
+      <img src="../assets/eddies_of_the_lethe/page-2.svg" width=500/>
+      </center>
+      <center>
+      <img src="../assets/eddies_of_the_lethe/page-3.svg" width=500/>
+      </center>
+      <center>
+      <img src="../assets/eddies_of_the_lethe/page-4.svg" width=500/>
       </center>
       <p>To be continued…</p>
       
-            <div class="next-post">
-        <div class="next-post-label">Next Post</div>
-        <a href="/posts/quantum_simulations.html" class="next-post-card">
-                    <div class="next-post-images" id="next-post-images"></div>
-                    <div class="next-post-title">Quantum Simulations</div>
-        </a>
-      </div>
           </main>
   </div>
   
@@ -400,13 +399,13 @@
       const imagesContainer = document.getElementById('next-post-images');
       if (imagesContainer) {
         try {
-          const imagesJson = '["/assets/quantum_simulations/page-1.svg"]';
+          const imagesJson = '[]';
           const images = JSON.parse(imagesJson);
           if (Array.isArray(images) && images.length > 0) {
             images.forEach(imagePath => {
               const img = document.createElement('img');
               img.src = imagePath;
-              img.alt = 'Quantum Simulations';
+              img.alt = '';
               imagesContainer.appendChild(img);
             });
           }

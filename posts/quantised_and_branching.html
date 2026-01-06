@@ -12,7 +12,7 @@
   <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
   <link rel="apple-touch-icon" href="../assets/umbralcalculations-logo.svg">
   
-  <title>Quantum Simulations</title>
+  <title>Quantised and Branching</title>
   
   <!-- Fonts -->
   <style>
@@ -369,25 +369,18 @@
     </nav>
 
     <main>
-      <h1 id="quantum-simulations">Quantum Simulations</h1>
+      <h1 id="quantised-and-branching">Quantised and Branching</h1>
       <div style="height:0.75em;">
 
       </div>
       <p>This story is based on the idea of a hierarchical tower of quantum simulations within quantum simulations, where each ‘sub-simulation’ may affect outcomes within the larger ones in some small way.</p>
       <p>It is also meant to capture what it could <em>feel</em> like to exist within one of these simulations and what the rules of existence might be.</p>
-      <p>All of the artwork is hand-drawn with ink pens and colour pencils. Some further layout and touch-ups have been done on computer.</p>
+      <p>All of the artwork is hand-drawn with ink pens. Some further layout and touch-ups have been done on computer.</p>
       <center>
-      <img src="../assets/quantum_simulations/page-1.svg"/>
+      <img src="../assets/quantised_and_branching/page-1.svg"/>
       </center>
       <p>To be continued…</p>
       
-            <div class="next-post">
-        <div class="next-post-label">Next Post</div>
-        <a href="/posts/technically_unnatural.html" class="next-post-card">
-                    <div class="next-post-images" id="next-post-images"></div>
-                    <div class="next-post-title">Technically Unnatural</div>
-        </a>
-      </div>
           </main>
   </div>
   
@@ -397,13 +390,13 @@
       const imagesContainer = document.getElementById('next-post-images');
       if (imagesContainer) {
         try {
-          const imagesJson = '["/assets/technically_unnatural/page-1.svg"]';
+          const imagesJson = '[]';
           const images = JSON.parse(imagesJson);
           if (Array.isArray(images) && images.length > 0) {
             images.forEach(imagePath => {
               const img = document.createElement('img');
               img.src = imagePath;
-              img.alt = 'Technically Unnatural';
+              img.alt = '';
               imagesContainer.appendChild(img);
             });
           }
