@@ -36,8 +36,34 @@ In many situations, it would be impossible to count the all of the possible valu
 
 <center><img src="../assets/probabilistic_thinking_for_simulations/evaluate-probability-partition-region.svg" /></center>
 
-## Estimating the mean and variance in state
+## Conditional probabilities
+
+We can relate two successive probability evaluations in Time together by making the answer of the second depend on the outcome of the first.
+
+We call the second of these two evaluations a Conditional Probability because its Probability is _conditional_ on the Probability of the first.
+
+<center><img src="../assets/probabilistic_thinking_for_simulations/conditional-probability.svg" /></center>
+
+The computation can also be thought of as iterating the evaluation Probabilities for the whole State Partition History as it advances in Time adding State Partitions to the History.
+
+<Illustration of probability evaluations to state partition history memory blocks iteratively>
+
+This concept also applies to the Probability of Regions.
+
+Note how this relationship also describes how the Probabilities of State Partition Histories can evolve in Time. One applies the same calculation to the output from the previous one, and so on, recursively.
+
+So why can’t we just use this recursive relationship to model all the trajectories of the simulation at once?
+
+For some simpler systems this is indeed possible, but for most simulations in practice this is computationally infeasible. 
+
+Think about how one might store the set of all Possible State Partition Histories on a computer, and then how this can proliferate in Time as the simulation advances. The memory required tends to exponentially increase.
+
+<Possible State Histories set increasing in Time>
+
+To be continued...
+
+<!-- ## Estimating the mean and variance in state
 
 ## Estimating state probabilities in time
 
-## Returning to why we care
+## Returning to why we care -->

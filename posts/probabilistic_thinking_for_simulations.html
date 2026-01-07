@@ -394,9 +394,26 @@
       <center>
       <img src="../assets/probabilistic_thinking_for_simulations/evaluate-probability-partition-region.svg" />
       </center>
-      <h2 id="estimating-the-mean-and-variance-in-state">Estimating the mean and variance in state</h2>
-      <h2 id="estimating-state-probabilities-in-time">Estimating state probabilities in time</h2>
-      <h2 id="returning-to-why-we-care">Returning to why we care</h2>
+      <h2 id="conditional-probabilities">Conditional probabilities</h2>
+      <p>We can relate two successive probability evaluations in Time together by making the answer of the second depend on the outcome of the first.</p>
+      <p>We call the second of these two evaluations a Conditional Probability because its Probability is <em>conditional</em> on the Probability of the first.</p>
+      <center>
+      <img src="../assets/probabilistic_thinking_for_simulations/conditional-probability.svg" />
+      </center>
+      <p>The computation can also be thought of as iterating the evaluation Probabilities for the whole State Partition History as it advances in Time adding State Partitions to the History.</p>
+      <p><Illustration of probability evaluations to state partition history memory blocks iteratively></p>
+      <p>This concept also applies to the Probability of Regions.</p>
+      <p>Note how this relationship also describes how the Probabilities of State Partition Histories can evolve in Time. One applies the same calculation to the output from the previous one, and so on, recursively.</p>
+      <p>So why can’t we just use this recursive relationship to model all the trajectories of the simulation at once?</p>
+      <p>For some simpler systems this is indeed possible, but for most simulations in practice this is computationally infeasible.</p>
+      <p>Think about how one might store the set of all Possible State Partition Histories on a computer, and then how this can proliferate in Time as the simulation advances. The memory required tends to exponentially increase.</p>
+      <p><Possible State Histories set increasing in Time></p>
+      <p>To be continued…</p>
+      <!-- ## Estimating the mean and variance in state
+
+      ## Estimating state probabilities in time
+
+      ## Returning to why we care -->
       
           </main>
   </div>
