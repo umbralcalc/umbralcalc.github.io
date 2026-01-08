@@ -44,9 +44,9 @@ We call the second of these two evaluations a Conditional Probability because it
 
 <center><img src="../assets/probabilistic_thinking_for_simulations/conditional-probability.svg" /></center>
 
-The computation can also be thought of as iterating the evaluation Probabilities for the whole State Partition History as it advances in Time adding State Partitions to the History.
+The Probabilities for the whole State Partition History change as the simulation advances in Time by adding the Next State Partition Values into the History.
 
-<Illustration of probability evaluations to state partition history memory blocks iteratively>
+<center><img src="../assets/probabilistic_thinking_for_simulations/evolving-state-partition-history-probability.svg" /></center>
 
 This concept also applies to the Probability of Regions.
 
