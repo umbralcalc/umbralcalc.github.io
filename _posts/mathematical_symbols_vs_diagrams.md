@@ -3,8 +3,8 @@ title: "Mathematical symbols vs diagrams"
 tag: "Loose Threads"
 order: 1
 images:
-- "/assets/mathematical_symbols_vs_diagrams/diagrams-vs-symbols.svg"
-- "/assets/mathematical_symbols_vs_diagrams/maths-to-diagrams.svg"
+- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/mathematical_symbols_vs_diagrams/diagrams-vs-symbols.svg"
+- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/mathematical_symbols_vs_diagrams/maths-to-diagrams.svg"
 ---
 
 # Mathematical symbols vs diagrams
@@ -20,7 +20,7 @@ Instead of communicating conceptual understanding with mathematical symbols, the
 
 The intention is to transfer some level of analytical power from the world of symbols into the world of diagrams and engage a wider group of analytical thinkers in understanding the deeper aspects of mathematical modeling.
 
-<center><img src="../assets/mathematical_symbols_vs_diagrams/diagrams-vs-symbols.svg" width="700"/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/mathematical_symbols_vs_diagrams/diagrams-vs-symbols.svg" width="700"/></center>
 
 ## Mathematical rigour
 
@@ -28,4 +28,4 @@ The diagrammatic language we use owes its mathematical rigour to the fact that [
 
 Since all of the practically useful mathematical calculations that we typically talk about on this blog must ultimately be expressed in a computer, we can always find some diagrammatic description of the relevant mathematics that leverages the function abstractions.
 
-<center><img src="../assets/mathematical_symbols_vs_diagrams/maths-to-diagrams.svg" width=600/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/mathematical_symbols_vs_diagrams/maths-to-diagrams.svg" width=600/></center>

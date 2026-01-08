@@ -3,8 +3,8 @@ title: "Probabilistic thinking for simulations"
 tag: "Simulating Real-World Systems as a Programmer"
 order: 3
 images:
-- "/assets/probabilistic_thinking_for_simulations/probabilites-vs-trajectories.svg"
-- "/assets/probabilistic_thinking_for_simulations/evaluate-probability-partition-region.svg"
+- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/probabilites-vs-trajectories.svg"
+- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/evaluate-probability-partition-region.svg"
 ---
 
 # Probabilistic thinking for simulations
@@ -14,7 +14,7 @@ images:
 
 Probabilities essentially represent sampling all of the possible Trajectories that a simulation could take in Time simultaneously.
 
-<center><img src="../assets/probabilistic_thinking_for_simulations/probabilites-vs-trajectories.svg" /></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/probabilites-vs-trajectories.svg" /></center>
 
 Using this representation for a real-world simulation, there are two important use cases.
 
@@ -26,15 +26,15 @@ The second uses the Probabilities to represent a model in place of the simulatio
 
 Evaluating the Probability of a particular State Partition History, given Parameters and a Cumulative Timesteps History, looks a similar to the Iterate computation. However, in contrast, this computation does _not_ progress forward in Time.
 
-<center><img src="../assets/probabilistic_thinking_for_simulations/evaluate-probability-partition.svg" /></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/evaluate-probability-partition.svg" /></center>
 
 We might also want to evaluate the Probability of Regions which join together possible values that the whole State Partition History can take.
 
-<center><img src="../assets/probabilistic_thinking_for_simulations/possible-region.svg" /></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/possible-region.svg" /></center>
 
 In many situations, it would be impossible to count the all of the possible values in some Regions, but we can still imagine the computation in this way.
 
-<center><img src="../assets/probabilistic_thinking_for_simulations/evaluate-probability-partition-region.svg" /></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/evaluate-probability-partition-region.svg" /></center>
 
 ## Conditional probabilities
 
@@ -42,11 +42,11 @@ We can relate two successive probability evaluations in Time together by making 
 
 We call the second of these two evaluations a Conditional Probability because its Probability is _conditional_ on the Probability of the first.
 
-<center><img src="../assets/probabilistic_thinking_for_simulations/conditional-probability.svg" /></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/conditional-probability.svg" /></center>
 
 The Probabilities for the whole State Partition History change as the simulation advances in Time by adding the Next State Partition Values into the History.
 
-<center><img src="../assets/probabilistic_thinking_for_simulations/evolving-state-partition-history-probability.svg" /></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/evolving-state-partition-history-probability.svg" /></center>
 
 This concept also applies to the Probability of Regions.
 

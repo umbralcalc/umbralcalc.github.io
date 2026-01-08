@@ -3,8 +3,8 @@ title: "Black box AI is an accelerator paradigm"
 tag: "Loose Threads"
 order: 2
 images:
-- "/assets/black_box_ai_is_an_accelerator_paradigm/model-predict.svg"
-- "/assets/black_box_ai_is_an_accelerator_paradigm/data-grid-ai.svg"
+- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/model-predict.svg"
+- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/data-grid-ai.svg"
 ---
 
 # Black box AI is an accelerator paradigm
@@ -18,7 +18,7 @@ A black box AI method for prediction here means a tool we can use to predict out
 
 Inductive bias is another concept which is worthy of discussion here. This can be thought of as information which is brought in which does not come from the data itself.
 
-<center><img src="../assets/black_box_ai_is_an_accelerator_paradigm/model-predict.svg"/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/model-predict.svg"/></center>
 
 ## Data is often irrelevant, incomplete, scarce or wrong
 
@@ -28,7 +28,7 @@ In other words, you often do _not_ have data: which is directly relevant the the
 
 In situations where you do actually have data which satisfies these (or most of these) conditions, then training black box AI models becomes viable.
 
-<center><img src="../assets/black_box_ai_is_an_accelerator_paradigm/data-grid-ai.svg"/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/data-grid-ai.svg"/></center>
 
 ## Keeping humans in the loop with world models
 
@@ -36,7 +36,7 @@ In order to tackle the data environments we described above, it helps to bring a
 
 Black box AI at best encodes only generic statistical or architectural inductive biases, but usually lacks the rich, domain‑specific structure that an explicit 'world model' can provide.
 
-<center><img src="../assets/black_box_ai_is_an_accelerator_paradigm/shape-statistics.svg"/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/shape-statistics.svg"/></center>
 
 In contrast to black box AI, world models represent the state of the system _seperately from the data_. Simulations can be thought of as a kind of world model, for instance.
 

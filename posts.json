@@ -6,7 +6,7 @@
     "tag": "Short Stories for the Sciency Mind",
     "date": "",
     "order": 1,
-    "images": ["/assets/eddies_of_the_lethe/page-1.svg","/assets/eddies_of_the_lethe/page-2.svg","/assets/eddies_of_the_lethe/page-3.svg"]
+    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/eddies_of_the_lethe/page-1.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/eddies_of_the_lethe/page-2.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/eddies_of_the_lethe/page-3.svg"]
   }
 ,
   {
@@ -26,7 +26,7 @@
     "tag": "System Diagrams Series",
     "date": "",
     "order": 1,
-    "images": ["/assets/generalised_simulations_with_the_stochadex/stochadex-data-types.svg","/assets/generalised_simulations_with_the_stochadex/fundamental-loop-code.svg","/assets/generalised_simulations_with_the_stochadex/wiener-process.svg"]
+    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/generalised_simulations_with_the_stochadex/stochadex-data-types.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/generalised_simulations_with_the_stochadex/fundamental-loop-code.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/generalised_simulations_with_the_stochadex/wiener-process.svg"]
   }
 ,
   {
@@ -36,7 +36,7 @@
     "tag": "Loose Threads",
     "date": "",
     "order": 1,
-    "images": ["/assets/mathematical_symbols_vs_diagrams/diagrams-vs-symbols.svg","/assets/mathematical_symbols_vs_diagrams/maths-to-diagrams.svg"]
+    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/mathematical_symbols_vs_diagrams/diagrams-vs-symbols.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/mathematical_symbols_vs_diagrams/maths-to-diagrams.svg"]
   }
 ,
   {
@@ -56,7 +56,7 @@
     "tag": "Simulating Real-World Systems as a Programmer",
     "date": "",
     "order": 1,
-    "images": ["/assets/why_simulate_real_world_systems/simulations-for-decisions.svg","/assets/why_simulate_real_world_systems/simulations-decision-advantages.svg"]
+    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/why_simulate_real_world_systems/simulations-for-decisions.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/why_simulate_real_world_systems/simulations-decision-advantages.svg"]
   }
 ,
   {
@@ -66,7 +66,7 @@
     "tag": "Loose Threads",
     "date": "",
     "order": 2,
-    "images": ["/assets/black_box_ai_is_an_accelerator_paradigm/model-predict.svg","/assets/black_box_ai_is_an_accelerator_paradigm/data-grid-ai.svg"]
+    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/model-predict.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/data-grid-ai.svg"]
   }
 ,
   {
@@ -76,7 +76,7 @@
     "tag": "System Diagrams Series",
     "date": "",
     "order": 2,
-    "images": ["/assets/programmatic_gaming_with_dexetera/programmatic-gaming.svg","/assets/programmatic_gaming_with_dexetera/dexetera-main-loop.svg"]
+    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/programmatic_gaming_with_dexetera/programmatic-gaming.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/programmatic_gaming_with_dexetera/dexetera-main-loop.svg"]
   }
 ,
   {
@@ -86,7 +86,7 @@
     "tag": "",
     "date": "",
     "order": 2,
-    "images": ["/assets/quantised_and_branching/page-1.svg"]
+    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/quantised_and_branching/page-1.svg"]
   }
 ,
   {
@@ -106,7 +106,7 @@
     "tag": "Simulating Real-World Systems as a Programmer",
     "date": "",
     "order": 2,
-    "images": ["/assets/the_building_blocks_of_simulations/cumulative-timesteps-history.svg","/assets/the_building_blocks_of_simulations/state-partitions.svg","/assets/the_building_blocks_of_simulations/state-partition-history.svg"]
+    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/cumulative-timesteps-history.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/state-partitions.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/state-partition-history.svg"]
   }
 ,
   {
@@ -126,7 +126,7 @@
     "tag": "Simulating Real-World Systems as a Programmer",
     "date": "",
     "order": 3,
-    "images": ["/assets/probabilistic_thinking_for_simulations/probabilites-vs-trajectories.svg","/assets/probabilistic_thinking_for_simulations/evaluate-probability-partition-region.svg"]
+    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/probabilites-vs-trajectories.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/evaluate-probability-partition-region.svg"]
   }
 ,
   {
@@ -136,7 +136,7 @@
     "tag": "",
     "date": "",
     "order": 3,
-    "images": ["/assets/technically_unnatural/page-1.svg"]
+    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/technically_unnatural/page-1.svg"]
   }
 ,
   {

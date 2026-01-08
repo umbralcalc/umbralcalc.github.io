@@ -80,18 +80,6 @@ clean_build() {
     log_success "Build directory cleaned"
 }
 
-# Copy static assets
-copy_assets() {
-    log_info "Copying static assets..."
-    
-    # Assets are already in the right place, just ensure they exist
-    if [ -d "$DOCS_DIR/assets" ]; then
-        log_success "Assets directory found"
-    else
-        log_warning "Assets directory not found"
-    fi
-}
-
 # Generate HTML pages
 generate_html_pages() {
     log_info "Generating HTML posts..."
@@ -412,11 +400,6 @@ validate_build() {
         ((errors++))
     fi
     
-    if [ ! -d "$DOCS_DIR/assets" ]; then
-        log_error "assets directory not found"
-        ((errors++))
-    fi
-    
     # Check for broken links (basic check)
     for html_file in "$DOCS_DIR"/posts/*.html; do
         if [ -f "$html_file" ]; then
@@ -441,7 +424,6 @@ main() {
     
     check_dependencies
     clean_build
-    copy_assets
     generate_html_pages
     generate_posts_metadata
     generate_sitemap
