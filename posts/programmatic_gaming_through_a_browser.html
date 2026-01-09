@@ -12,7 +12,7 @@
   <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
   <link rel="apple-touch-icon" href="../assets/umbralcalculations-logo.svg">
   
-  <title>Programmatic gaming with dexetera</title>
+  <title>Programmatic gaming through a browser</title>
   
   <!-- Fonts -->
   <style>
@@ -369,21 +369,22 @@
     </nav>
 
     <main>
-      <h1 id="programmatic-gaming-with-dexetera">Programmatic gaming with dexetera</h1>
+      <h1 id="programmatic-gaming-through-a-browser">Programmatic gaming through a browser</h1>
       <div style="height:0.75em;">
 
       </div>
-      <p>These system diagrams track progress on the <a href="https://github.com/umbralcalc/dexetera">dexetera project</a>.</p>
-      <p>Dexetera powers decision-making games for the Python programmer built using the <a href="https://umbralcalc.github.io/stochadex">stochadex</a> simulation framework. These games are Go simulations compiled to WebAssembly and run in the browser with real-time visualizations.</p>
-      <p>Those interested in playing the games should take a look at <a href="https://umbralcalc.github.io/dexetera/">dexetera</a>.</p>
+      <p>The <a href="https://github.com/umbralcalc/dexetera">dexetera project</a> powers decision-making games for the Python programmer using the <a href="https://umbralcalc.github.io/stochadex">stochadex</a> simulation framework as a core dependency.</p>
+      <p>These games are Go simulations compiled to WebAssembly and run in the browser with real-time visualizations.</p>
       <p>Programmatic gaming means that the user controls their actions in the game indirectly with computer code that they write.</p>
       <center>
-      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/programmatic_gaming_with_dexetera/programmatic-gaming.svg" width="400"/>
+      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/programmatic_gaming_through_a_browser/programmatic-gaming.svg" width="400"/>
       </center>
-      <p>We can expose a way for user-written code to run as the controller of actions taken in the game with a user server-web simulation client architecture.</p>
+      <p>The project gets programmatic gaming to work entirely over a websocket connection to the user’s browser using an architecture which makes the frontend simulation a client and the user’s local (Python) code run the websocket server.</p>
       <center>
-      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/programmatic_gaming_with_dexetera/dexetera-main-loop.svg" width="500"/>
+      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/programmatic_gaming_through_a_browser/dexetera-main-loop.svg" width="500"/>
       </center>
+      <p>A static website can host the game web worker launchers (at no cost with GitHub pages!) while the user’s machine provides the compute.</p>
+      <p>Those interested in playing the games should take a look at <a href="https://umbralcalc.github.io/dexetera/">dexetera</a>.</p>
       
           </main>
   </div>

@@ -20,16 +20,6 @@
   }
 ,
   {
-    "title": "Generalised simulations with the stochadex",
-    "slug": "generalised_simulations_with_the_stochadex",
-    "url": "/posts/generalised_simulations_with_the_stochadex.html",
-    "tag": "System Diagrams Series",
-    "date": "",
-    "order": 1,
-    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/generalised_simulations_with_the_stochadex/stochadex-data-types.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/generalised_simulations_with_the_stochadex/fundamental-loop-code.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/generalised_simulations_with_the_stochadex/wiener-process.svg"]
-  }
-,
-  {
     "title": "Mathematical symbols vs diagrams",
     "slug": "mathematical_symbols_vs_diagrams",
     "url": "/posts/mathematical_symbols_vs_diagrams.html",
@@ -70,16 +60,6 @@
   }
 ,
   {
-    "title": "Programmatic gaming with dexetera",
-    "slug": "programmatic_gaming_with_dexetera",
-    "url": "/posts/programmatic_gaming_with_dexetera.html",
-    "tag": "System Diagrams Series",
-    "date": "",
-    "order": 2,
-    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/programmatic_gaming_with_dexetera/programmatic-gaming.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/programmatic_gaming_with_dexetera/dexetera-main-loop.svg"]
-  }
-,
-  {
     "title": "Quantised and Branching",
     "slug": "quantised_and_branching",
     "url": "/posts/quantised_and_branching.html",
@@ -110,6 +90,16 @@
   }
 ,
   {
+    "title": "Building the stochadex simulation engine",
+    "slug": "building_the_stochadex_simulation_engine",
+    "url": "/posts/building_the_stochadex_simulation_engine.html",
+    "tag": "Simulating Real-World Systems as a Programmer",
+    "date": "",
+    "order": 3,
+    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/building_the_stochadex_simulation_engine/stochadex-data-types.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/building_the_stochadex_simulation_engine/fundamental-loop-code.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/building_the_stochadex_simulation_engine/wiener-process.svg"]
+  }
+,
+  {
     "title": "How sustainable are freshwater fishing policies in the UK?",
     "slug": "how_sustainable_are_freshwater_fishing_policies_in_the_uk",
     "url": "/posts/how_sustainable_are_freshwater_fishing_policies_in_the_uk.html",
@@ -120,13 +110,13 @@
   }
 ,
   {
-    "title": "Probabilistic thinking for simulations",
-    "slug": "probabilistic_thinking_for_simulations",
-    "url": "/posts/probabilistic_thinking_for_simulations.html",
-    "tag": "Simulating Real-World Systems as a Programmer",
+    "title": "Programmatic gaming through a browser",
+    "slug": "programmatic_gaming_through_a_browser",
+    "url": "/posts/programmatic_gaming_through_a_browser.html",
+    "tag": "Loose Threads",
     "date": "",
     "order": 3,
-    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/probabilites-vs-trajectories.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/evaluate-probability-partition-region.svg"]
+    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/programmatic_gaming_through_a_browser/programmatic-gaming.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/programmatic_gaming_through_a_browser/dexetera-main-loop.svg"]
   }
 ,
   {
@@ -150,12 +140,22 @@
   }
 ,
   {
+    "title": "Probabilistic thinking for simulations",
+    "slug": "probabilistic_thinking_for_simulations",
+    "url": "/posts/probabilistic_thinking_for_simulations.html",
+    "tag": "Simulating Real-World Systems as a Programmer",
+    "date": "",
+    "order": 4,
+    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/probabilites-vs-trajectories.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/evaluate-probability-partition-region.svg"]
+  }
+,
+  {
     "title": "Learning simulations directly from data",
     "slug": "learning_simulations_directly_from_data",
     "url": "/posts/learning_simulations_directly_from_data.html",
     "tag": "",
     "date": "",
-    "order": 4,
+    "order": 5,
     "images": []
   }
 ,
@@ -165,7 +165,7 @@
     "url": "/posts/learning_which_simulated_actions_to_take.html",
     "tag": "",
     "date": "",
-    "order": 5,
+    "order": 6,
     "images": []
   }
 ]

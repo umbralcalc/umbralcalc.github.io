@@ -12,7 +12,7 @@
   <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
   <link rel="apple-touch-icon" href="../assets/umbralcalculations-logo.svg">
   
-  <title>Generalised simulations with the stochadex</title>
+  <title>Building the stochadex simulation engine</title>
   
   <!-- Fonts -->
   <style>
@@ -369,67 +369,64 @@
     </nav>
 
     <main>
-      <h1 id="generalised-simulations-with-the-stochadex">Generalised simulations with the stochadex</h1>
+      <h1 id="building-the-stochadex-simulation-engine">Building the stochadex simulation engine</h1>
       <div style="height:0.75em;">
 
       </div>
-      <p>These system diagrams track progress on the <a href="https://umbralcalc.github.io/stochadex">stochadex project</a>.</p>
-      <p>The stochadex is a simulation engine written in Go which can be used to sample from, and learn computational models for, a whole ‘Pokédex’ of possible real-world systems.</p>
+      <h2 id="introducing-the-stochadex">Introducing the stochadex</h2>
+      <p>The <a href="https://umbralcalc.github.io/stochadex">stochadex</a> is a simulation engine written in Go which can be used to sample from, and learn computational models for, a whole ‘Pokédex’ of possible real-world systems. Hence the name!</p>
+      <p>It was designed and created with the basic conceptual building blocks of simulations we have already discussed in mind.</p>
+      <p>Armed with these fundamentals, we can now describe the engine in more specific technical detail, supported by the appropriate system diagrams.</p>
+      <h2 id="interfaces-and-data-types">Interfaces and data types</h2>
       <p>The fundamental data types in the stochadex simulation engine are Go types which can be configured as Settings (pure data) or Implementations (code which implements the provided interfaces).</p>
       <center>
-      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/generalised_simulations_with_the_stochadex/stochadex-data-types.svg" />
+      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/building_the_stochadex_simulation_engine/stochadex-data-types.svg" />
       </center>
       <p>For example, the Iteration interface can be implemented.</p>
       <center>
-      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/generalised_simulations_with_the_stochadex/fundamental-loop-code.svg" />
+      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/building_the_stochadex_simulation_engine/fundamental-loop-code.svg" />
       </center>
       <p>The Iteration interface is very general. For example, it can support the <a href="https://en.wikipedia.org/wiki/Wiener_process">Wiener process</a>.</p>
       <center>
-      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/generalised_simulations_with_the_stochadex/wiener-process.svg" />
+      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/building_the_stochadex_simulation_engine/wiener-process.svg" />
       </center>
       <p>Or <a href="https://en.wikipedia.org/wiki/It%C3%B4%27s_lemma">Itô’s lemma</a>, which has more function calls inside to, e.g., calculate the derivatives.</p>
       <center>
-      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/generalised_simulations_with_the_stochadex/ito-lemma.svg" />
+      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/building_the_stochadex_simulation_engine/ito-lemma.svg" />
       </center>
       <p>Or the time-inhomogeneous <a href="https://en.wikipedia.org/wiki/Poisson_point_process">Poisson process</a>, as an example of a event-based process with discrete sample paths, which varies its event rate in time.</p>
       <center>
-      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/generalised_simulations_with_the_stochadex/inhomogeneous-poisson.svg" />
+      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/building_the_stochadex_simulation_engine/inhomogeneous-poisson.svg" />
       </center>
       <p>Or the <a href="https://en.wikipedia.org/wiki/Hawkes_process">Hawkes process</a>, which couples the history of events to the current event rate (making it non-Markovian).</p>
       <center>
-      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/generalised_simulations_with_the_stochadex/hawkes-process.svg" />
+      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/building_the_stochadex_simulation_engine/hawkes-process.svg" />
       </center>
+      <h2 id="serial-dependency-graphs-and-modularity">Serial dependency graphs and modularity</h2>
       <p>Multiple Iterations can run within the stochadex for each step in time. In order to construct serial dependency graphs between them, we can utilise upstream-downstream Iteration relationships.</p>
       <center>
-      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/generalised_simulations_with_the_stochadex/stochadex-parallel-serial.svg" />
+      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/building_the_stochadex_simulation_engine/stochadex-parallel-serial.svg" />
       </center>
       <p>Structuring groups of Iterations in this way can increase modularity. For example, the time-inhomogeneous Poisson process can be implemented serially.</p>
       <center>
-      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/generalised_simulations_with_the_stochadex/inhomo-poisson-parallel-serial.svg" />
+      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/building_the_stochadex_simulation_engine/inhomo-poisson-parallel-serial.svg" />
       </center>
-      <p>The full simulation loop coordinates these serial relationships between Iterations while maximising concurrency in execution of each Iteration per step in time.</p>
+      <h2 id="simulation-loop-and-embedded-simulation-runs">Simulation loop and embedded simulation runs</h2>
+      <p>The full simulation loop coordinates the serial relationships between Iterations while maximising concurrency in execution of each Iteration per step in time.</p>
       <center>
-      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/generalised_simulations_with_the_stochadex/stochadex-loop.svg" />
+      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/building_the_stochadex_simulation_engine/stochadex-loop.svg" />
       </center>
       <p>Given that this loop always runs for any stochadex simulation, it is sufficient to describe any simulation uniquely through the dependency diagram between its Iterations.</p>
-      <p>For example, we can define a probabilistic reweighting algorithm through just its dependency diagram.</p>
-      <center>
-      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/generalised_simulations_with_the_stochadex/prob-reweighting-code.svg" />
-      </center>
       <p>Embedded simulation runs are Iterations which perform entire simulations from start to end for every step in time. Their presence can make dependency diagrams a little more complex, but much more flexible.</p>
       <center>
-      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/generalised_simulations_with_the_stochadex/embedded-simulations.svg" />
-      </center>
-      <p>For example, we can define an algorithm for simulation inference which uses embedded simulation runs as part of its structure.</p>
-      <center>
-      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/generalised_simulations_with_the_stochadex/simulation-inference-code.svg" />
+      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/building_the_stochadex_simulation_engine/embedded-simulations.svg" />
       </center>
       
             <div class="next-post">
         <div class="next-post-label">Next Post</div>
-        <a href="/posts/programmatic_gaming_with_dexetera.html" class="next-post-card">
+        <a href="/posts/probabilistic_thinking_for_simulations.html" class="next-post-card">
                     <div class="next-post-images" id="next-post-images"></div>
-                    <div class="next-post-title">Programmatic gaming with dexetera</div>
+                    <div class="next-post-title">Probabilistic thinking for simulations</div>
         </a>
       </div>
           </main>
@@ -441,13 +438,13 @@
       const imagesContainer = document.getElementById('next-post-images');
       if (imagesContainer) {
         try {
-          const imagesJson = '["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/programmatic_gaming_with_dexetera/programmatic-gaming.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/programmatic_gaming_with_dexetera/dexetera-main-loop.svg"]';
+          const imagesJson = '["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/probabilites-vs-trajectories.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/evaluate-probability-partition-region.svg"]';
           const images = JSON.parse(imagesJson);
           if (Array.isArray(images) && images.length > 0) {
             images.forEach(imagePath => {
               const img = document.createElement('img');
               img.src = imagePath;
-              img.alt = 'Programmatic gaming with dexetera';
+              img.alt = 'Probabilistic thinking for simulations';
               imagesContainer.appendChild(img);
             });
           }

@@ -14,7 +14,7 @@ images:
 
 These posts are aimed at programmers and non-technical readers wanting to learn the fundamentals of simulating real-world systems.
 
-Together, we will explore the power of stochastic phenomena and probabilistic thinking without the need for mathematical symbols.
+Together, we will explore the power of simulations and probabilistic thinking without the need for mathematical symbols.
 
 Those eager to follow along with code should also check out the [stochadex project](https://umbralcalc.github.io/stochadex), which was designed with these fundamentals in mind.
 

@@ -1,7 +1,7 @@
 ---
 title: "Probabilistic thinking for simulations"
 tag: "Simulating Real-World Systems as a Programmer"
-order: 3
+order: 4
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/probabilites-vs-trajectories.svg"
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/evaluate-probability-partition-region.svg"
@@ -65,5 +65,9 @@ To be continued...
 <!-- ## Estimating the mean and variance in state
 
 ## Estimating state probabilities in time
+
+For example, we can define a probabilistic reweighting algorithm through just its dependency diagram.
+
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/prob-reweighting-code.svg" /></center>
 
 ## Returning to why we care -->
