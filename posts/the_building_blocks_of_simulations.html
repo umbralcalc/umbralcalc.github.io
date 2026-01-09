@@ -471,9 +471,9 @@
       
             <div class="next-post">
         <div class="next-post-label">Next Post</div>
-        <a href="/posts/building_the_stochadex_simulation_engine.html" class="next-post-card">
+        <a href="/posts/building_a_simulation_engine.html" class="next-post-card">
                     <div class="next-post-images" id="next-post-images"></div>
-                    <div class="next-post-title">Building the stochadex simulation engine</div>
+                    <div class="next-post-title">Building a simulation engine</div>
         </a>
       </div>
           </main>
@@ -485,13 +485,13 @@
       const imagesContainer = document.getElementById('next-post-images');
       if (imagesContainer) {
         try {
-          const imagesJson = '["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/building_the_stochadex_simulation_engine/stochadex-data-types.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/building_the_stochadex_simulation_engine/fundamental-loop-code.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/building_the_stochadex_simulation_engine/wiener-process.svg"]';
+          const imagesJson = '["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/building_a_simulation_engine/stochadex-data-types.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/building_a_simulation_engine/fundamental-loop-code.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/building_a_simulation_engine/wiener-process.svg"]';
           const images = JSON.parse(imagesJson);
           if (Array.isArray(images) && images.length > 0) {
             images.forEach(imagePath => {
               const img = document.createElement('img');
               img.src = imagePath;
-              img.alt = 'Building the stochadex simulation engine';
+              img.alt = 'Building a simulation engine';
               imagesContainer.appendChild(img);
             });
           }

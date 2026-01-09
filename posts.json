@@ -90,13 +90,13 @@
   }
 ,
   {
-    "title": "Building the stochadex simulation engine",
-    "slug": "building_the_stochadex_simulation_engine",
-    "url": "/posts/building_the_stochadex_simulation_engine.html",
+    "title": "Building a simulation engine",
+    "slug": "building_a_simulation_engine",
+    "url": "/posts/building_a_simulation_engine.html",
     "tag": "Simulating Real-World Systems as a Programmer",
     "date": "",
     "order": 3,
-    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/building_the_stochadex_simulation_engine/stochadex-data-types.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/building_the_stochadex_simulation_engine/fundamental-loop-code.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/building_the_stochadex_simulation_engine/wiener-process.svg"]
+    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/building_a_simulation_engine/stochadex-data-types.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/building_a_simulation_engine/fundamental-loop-code.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/building_a_simulation_engine/wiener-process.svg"]
   }
 ,
   {
