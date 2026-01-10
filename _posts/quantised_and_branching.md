@@ -9,9 +9,7 @@ images:
 # Quantised and Branching
 <div style="height:0.75em;"></div>
 
-This story is based on the idea of a hierarchical tower of quantum simulations within quantum simulations, where each 'sub-simulation' may affect outcomes within the larger ones in some small way. 
-
-It is also meant to capture what it could _feel_ like to exist within one of these simulations and what the rules of existence might be.
+This story is based on the idea of a hierarchical tower of quantum simulations within quantum simulations. 
 
 All of the artwork is hand-drawn with ink pens. Some further layout and touch-ups have been done on computer.
 

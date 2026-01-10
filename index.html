@@ -107,9 +107,6 @@
         }
         
         .posts-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
             margin-bottom: 1.5rem;
             border-bottom: 2px solid #3498db;
             padding-bottom: 0.5rem;
@@ -119,123 +116,65 @@
             font-family: 'Merriweather', serif;
             font-size: 2rem;
             color: #2c3e50;
-            margin: 0;
-            flex: 1;
+            margin: 0 0 1.5rem 0;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 0.5rem;
         }
         
-        .posts-nav-arrows {
-            display: flex;
-            gap: 0.5rem;
-            align-items: center;
+        /* Series covers grid */
+        .series-covers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
         }
         
-        /* Columns container with navigation */
-        .tags-navigation-wrapper {
-            position: relative;
-            margin: 2rem 0;
-        }
-        
-        .tags-scroll-container {
+        .series-cover-card {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: #fff;
+            border: 1px solid #e0e0e0;
             overflow: hidden;
-            position: relative;
         }
         
-        /* Columns container */
-        .tags-columns {
-            display: flex;
-            transition: transform 0.3s ease;
-            will-change: transform;
+        .series-cover-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+            border-color: #3498db;
         }
         
-        /* Individual tag column */
-        .tag-column {
-            flex: 0 0 100%;
+        .series-cover-image {
             width: 100%;
-            min-height: 100px;
-            padding-right: 0;
+            height: auto;
+            display: block;
+            background: #fafafa;
+        }
+        
+        .series-cover-title {
+            font-family: 'Merriweather', serif;
+            font-size: 1.2rem;
+            color: #2c3e50;
+            padding: 1rem;
+            margin: 0;
+            text-align: center;
+            font-weight: 600;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .series-cover-card:hover .series-cover-title {
+            color: #3498db;
         }
         
         .tag-title {
             font-family: 'Merriweather', serif;
             font-size: 1.5rem;
             color: #2c3e50;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             font-weight: 600;
             border-bottom: 2px solid #3498db;
             padding-bottom: 0.5rem;
-        }
-        
-        /* Navigation arrows */
-        .nav-arrow {
-            background: transparent;
-            border: 2px solid #3498db;
-            color: #3498db;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            user-select: none;
-            padding: 0;
-            line-height: 1;
-        }
-        
-        .nav-arrow:hover {
-            background: #3498db;
-            color: #fff;
-            transform: scale(1.1);
-        }
-        
-        .nav-arrow:active {
-            transform: scale(0.95);
-        }
-        
-        .nav-arrow.disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-            pointer-events: none;
-        }
-        
-        .nav-arrow.disabled:hover {
-            transform: none;
-            background: transparent;
-            color: #3498db;
-        }
-        
-        /* Navigation dots */
-        .nav-dots {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-top: 2rem;
-            padding: 1rem 0;
-        }
-        
-        .nav-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #ddd;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: none;
-            padding: 0;
-        }
-        
-        .nav-dot.active {
-            background: #3498db;
-            width: 30px;
-            border-radius: 5px;
-        }
-        
-        .nav-dot:hover {
-            background: #3498db;
-            opacity: 0.7;
         }
         
         .post-list {
@@ -350,19 +289,42 @@
                 margin: 0;
             }
             
-            .posts-header {
-                flex-wrap: wrap;
-                gap: 1rem;
-            }
-            
             .posts-section h2 {
                 font-size: 1.5rem;
             }
             
-            .nav-arrow {
-                width: 36px;
-                height: 36px;
-                font-size: 1rem;
+            .series-covers-grid {
+                display: flex;
+                flex-direction: row;
+                gap: 1.5rem;
+                overflow-x: auto;
+                overflow-y: hidden;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+                padding-bottom: 0.5rem;
+            }
+            
+            .series-covers-grid::-webkit-scrollbar {
+                height: 8px;
+            }
+            
+            .series-covers-grid::-webkit-scrollbar-track {
+                background: #f1f1f1;
+            }
+            
+            .series-covers-grid::-webkit-scrollbar-thumb {
+                background: #3498db;
+                border-radius: 4px;
+            }
+            
+            .series-covers-grid::-webkit-scrollbar-thumb:hover {
+                background: #2980b9;
+            }
+            
+            .series-cover-card {
+                flex: 0 0 280px;
+                min-width: 280px;
+                scroll-snap-align: start;
             }
             
             .post-images img {
@@ -392,11 +354,11 @@
         </header>
         
         <section class="posts-section">
-            <h2>Posts</h2>
+            <h2>Collections</h2>
             <div id="posts-container">
                 <ul class="post-list">
                     <li class="post-item empty-state">
-                        <p>Loading posts...</p>
+                        <p>Loading collections...</p>
                     </li>
                 </ul>
             </div>
@@ -439,7 +401,14 @@
     </script>
     
     <script>
-        // Load and display posts grouped by tag in horizontal scrolling columns
+        // Generate cover image URL from tag name
+        function getCoverImageUrl(tag) {
+            // Convert tag to lowercase, replace spaces with hyphens, add -cover.svg
+            const slug = tag.toLowerCase().replace(/\s+/g, '-');
+            return `https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/${slug}-cover.svg`;
+        }
+        
+        // Load and display series covers
         fetch('/posts.json')
             .then(response => response.json())
             .then(posts => {
@@ -485,49 +454,56 @@
                     return;
                 }
                 
-                // Restructure the Posts header to include navigation arrows
-                const postsSection = container.closest('.posts-section');
-                const postsH2 = postsSection.querySelector('h2');
-                if (postsH2) {
-                    const postsHeader = document.createElement('div');
-                    postsHeader.className = 'posts-header';
+                // Separate tags into cover series and loose threads
+                const looseThreadsTag = 'Loose Threads';
+                const coverSeriesTags = sortedTags.filter(tag => tag !== looseThreadsTag);
+                const hasLooseThreads = sortedTags.includes(looseThreadsTag);
+                
+                // Create series covers grid (exclude Loose Threads)
+                if (coverSeriesTags.length > 0) {
+                    const coversGrid = document.createElement('div');
+                    coversGrid.className = 'series-covers-grid';
                     
-                    // Move h2 into the header
-                    postsH2.parentNode.insertBefore(postsHeader, postsH2);
-                    postsHeader.appendChild(postsH2);
+                    // Create cover card for each series
+                    coverSeriesTags.forEach(tag => {
+                        const firstPost = postsByTag[tag][0]; // Get first post in series
+                        const coverCard = document.createElement('a');
+                        coverCard.href = firstPost.url;
+                        coverCard.className = 'series-cover-card';
+                        
+                        const coverImage = document.createElement('img');
+                        coverImage.src = getCoverImageUrl(tag);
+                        coverImage.alt = `${tag} cover`;
+                        coverImage.className = 'series-cover-image';
+                        
+                        // Add error handling for missing covers
+                        coverImage.onerror = function() {
+                            // If cover image fails to load, hide the card or show a placeholder
+                            this.style.display = 'none';
+                        };
+                        
+                        coverCard.appendChild(coverImage);
+                        coversGrid.appendChild(coverCard);
+                    });
                     
-                    // Create navigation arrows container
-                    const navArrows = document.createElement('div');
-                    navArrows.className = 'posts-nav-arrows';
-                    postsHeader.appendChild(navArrows);
+                    container.appendChild(coversGrid);
                 }
                 
-                // Create navigation wrapper
-                const navWrapper = document.createElement('div');
-                navWrapper.className = 'tags-navigation-wrapper';
-                
-                // Create horizontal scrolling container
-                const scrollContainer = document.createElement('div');
-                scrollContainer.className = 'tags-scroll-container';
-                
-                // Create columns container
-                const columnsContainer = document.createElement('div');
-                columnsContainer.className = 'tags-columns';
-                
-                // Render posts grouped by tag in columns
-                sortedTags.forEach(tag => {
-                    const tagColumn = document.createElement('div');
-                    tagColumn.className = 'tag-column';
+                // Display Loose Threads posts separately as individual cards
+                if (hasLooseThreads) {
+                    const looseThreadsSection = document.createElement('div');
+                    looseThreadsSection.className = 'posts-section';
+                    looseThreadsSection.style.marginTop = '3rem';
                     
-                    const tagTitle = document.createElement('h3');
-                    tagTitle.className = 'tag-title';
-                    tagTitle.textContent = tag;
-                    tagColumn.appendChild(tagTitle);
+                    const looseThreadsTitle = document.createElement('h2');
+                    looseThreadsTitle.textContent = looseThreadsTag;
+                    looseThreadsTitle.className = 'tag-title';
+                    looseThreadsSection.appendChild(looseThreadsTitle);
                     
                     const postList = document.createElement('ul');
                     postList.className = 'post-list';
                     
-                    postsByTag[tag].forEach(post => {
+                    postsByTag[looseThreadsTag].forEach(post => {
                         const postItem = document.createElement('li');
                         postItem.className = 'post-item';
                         
@@ -565,101 +541,9 @@
                         postList.appendChild(postItem);
                     });
                     
-                    tagColumn.appendChild(postList);
-                    columnsContainer.appendChild(tagColumn);
-                });
-                
-                scrollContainer.appendChild(columnsContainer);
-                
-                // Create navigation arrows
-                const leftArrow = document.createElement('button');
-                leftArrow.className = 'nav-arrow';
-                leftArrow.innerHTML = '←';
-                leftArrow.setAttribute('aria-label', 'Previous column');
-                
-                const rightArrow = document.createElement('button');
-                rightArrow.className = 'nav-arrow';
-                rightArrow.innerHTML = '→';
-                rightArrow.setAttribute('aria-label', 'Next column');
-                
-                // Add arrows to the header (find it after it was created)
-                const postsSectionForArrows = container.closest('.posts-section');
-                const navArrows = postsSectionForArrows ? postsSectionForArrows.querySelector('.posts-nav-arrows') : null;
-                if (navArrows) {
-                    navArrows.appendChild(leftArrow);
-                    navArrows.appendChild(rightArrow);
+                    looseThreadsSection.appendChild(postList);
+                    container.appendChild(looseThreadsSection);
                 }
-                
-                // Create navigation dots
-                const navDots = document.createElement('div');
-                navDots.className = 'nav-dots';
-                sortedTags.forEach((tag, index) => {
-                    const dot = document.createElement('button');
-                    dot.className = 'nav-dot' + (index === 0 ? ' active' : '');
-                    dot.setAttribute('aria-label', `Go to ${tag}`);
-                    dot.addEventListener('click', () => goToColumn(index));
-                    navDots.appendChild(dot);
-                });
-                
-                // Navigation state
-                let currentIndex = 0;
-                const totalColumns = sortedTags.length;
-                
-                // Navigation functions
-                function updateNavigation() {
-                    // Update transform
-                    columnsContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
-                    
-                    // Update arrow states
-                    leftArrow.classList.toggle('disabled', currentIndex === 0);
-                    rightArrow.classList.toggle('disabled', currentIndex === totalColumns - 1);
-                    
-                    // Update dots
-                    const dots = navDots.querySelectorAll('.nav-dot');
-                    dots.forEach((dot, index) => {
-                        dot.classList.toggle('active', index === currentIndex);
-                    });
-                }
-                
-                function goToColumn(index) {
-                    if (index >= 0 && index < totalColumns) {
-                        currentIndex = index;
-                        updateNavigation();
-                    }
-                }
-                
-                function nextColumn() {
-                    if (currentIndex < totalColumns - 1) {
-                        currentIndex++;
-                        updateNavigation();
-                    }
-                }
-                
-                function prevColumn() {
-                    if (currentIndex > 0) {
-                        currentIndex--;
-                        updateNavigation();
-                    }
-                }
-                
-                // Add event listeners
-                leftArrow.addEventListener('click', prevColumn);
-                rightArrow.addEventListener('click', nextColumn);
-                
-                // Keyboard navigation
-                document.addEventListener('keydown', (e) => {
-                    if (e.key === 'ArrowLeft') prevColumn();
-                    if (e.key === 'ArrowRight') nextColumn();
-                });
-                
-                // Assemble the navigation wrapper
-                navWrapper.appendChild(scrollContainer);
-                navWrapper.appendChild(navDots);
-                
-                container.appendChild(navWrapper);
-                
-                // Initialize navigation state
-                updateNavigation();
             })
             .catch(error => {
                 console.error('Error loading posts:', error);
