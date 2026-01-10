@@ -12,7 +12,9 @@ images:
 
 ## Why do we care?
 
-Probabilities essentially represent sampling all of the possible Trajectories that a simulation could take in Time simultaneously.
+The 'Trajectory' of a simulation is the sequence of possible State Values that its Partitions actually take during a specific Simulation Run.
+
+Probabilities can represent sampling all of the possible Trajectories that a simulation could take in Time, simultaneously.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/probabilites-vs-trajectories.svg" /></center>
 
@@ -20,7 +22,7 @@ Using this representation for a real-world simulation, there are two important u
 
 The first uses all of the possible Trajectories the simulation can take to represent how likely it is to take them. This makes it possible to create algorithms which learn the most likely Parameters for State Partitions to match real-world Data.
 
-The second uses the Probabilities to represent a model in place of the simulation itself. In the right circumstances, this results in algorithms which are much more efficient than sampling multiple Trajectories.
+The second uses the Probabilities to represent a model in place of the simulation itself. In the right circumstances, this results in algorithms which are much more efficient than sampling multiple Trajectories explicitly.
 
 ## Probabilities and regions
 
