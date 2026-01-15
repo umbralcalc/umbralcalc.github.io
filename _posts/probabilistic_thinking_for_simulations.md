@@ -54,13 +54,15 @@ This concept also applies to the Probability of Regions.
 
 Note how this relationship also describes how the Probabilities of State Partition Histories can evolve in Time. One applies the same calculation to the output from the previous one, and so on, recursively.
 
-So why can’t we just use this recursive relationship to model all the trajectories of the simulation at once?
+So why can’t we just use this recursive relationship to model all the trajectories of the simulation at once? For some simpler systems this is indeed possible, but for most simulations in practice this is computationally infeasible.
 
-For some simpler systems this is indeed possible, but for most simulations in practice this is computationally infeasible. 
+Think about how one might store the set of all Possible State Partition Histories for a sequence of coin flips, and then how this can proliferate in Time as the simulation advances.
 
-Think about how one might store the set of all Possible State Partition Histories on a computer, and then how this can proliferate in Time as the simulation advances. The memory required tends to exponentially increase.
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/coin-flips-tree.svg" /></center>
 
-<Possible State Histories set increasing in Time>
+The Possible State Partition Histories grow even though the Possible State Values of a coin flip always remain the same (Heads or Tails).
+
+In practice, for most real-world systems, the set of Possible State Values _also_ grows. To see how this can be the case, consider the Trajectories of a randomly moving point on a simple 2-dimensional grid.
 
 To be continued...
 
