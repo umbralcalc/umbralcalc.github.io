@@ -169,6 +169,14 @@ generate_html_pages() {
             
             # Escape metadata for pandoc
             next_post_title=$(echo "$next_post_title" | sed 's/"/\\"/g')
+
+            local series_args=()
+            if [ -n "$tag" ] && [ "$tag" != "" ]; then
+                local tag_lower=$(echo "$tag" | tr '[:upper:]' '[:lower:]' | xargs)
+                if [ "$tag_lower" != "loose threads" ]; then
+                    series_args+=(--metadata="series-tag:$tag" --metadata="series-order:$order")
+                fi
+            fi
             
             pandoc --template "$DOCS_DIR/template.html" \
                 --wrap=preserve \
@@ -181,6 +189,7 @@ generate_html_pages() {
                 --metadata="next-post-url:$next_post_url" \
                 --metadata="next-post-title:$next_post_title" \
                 --metadata="next-post-images:$next_post_images" \
+                "${series_args[@]}" \
                 -f markdown \
                 -t html \
                 -o "$DOCS_DIR/posts/${basename}.html" \

@@ -10,13 +10,17 @@ images:
 # Programmatic gaming through a browser
 <div style="height:0.75em;"></div>
 
-The [dexetera project](https://github.com/umbralcalc/dexetera) powers decision-making games for the Python programmer using the [stochadex](https://umbralcalc.github.io/stochadex) simulation framework as a core dependency. 
-
-These games are Go simulations compiled to WebAssembly and run in the browser with real-time visualizations.
+## Programmatic gaming
 
 Programmatic gaming means that the user controls their actions in the game indirectly with computer code that they write.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/programmatic_gaming_through_a_browser/programmatic-gaming.svg" width="400"/></center>
+
+## The dexetera project
+
+The [dexetera project](https://github.com/umbralcalc/dexetera) powers decision-making games for the Python programmer using the [stochadex](https://umbralcalc.github.io/stochadex) simulation framework as a core dependency. 
+
+These games are Go simulations compiled to WebAssembly and run in the browser with real-time visualizations.
 
 The project gets programmatic gaming to work entirely over a websocket connection to the user's browser using an architecture which makes the frontend simulation a client and the user's local (Python) code run the websocket server.
 

@@ -257,6 +257,53 @@
       }
     }
 
+    /* Series navigation */
+    .series-nav {
+      margin: 1.5rem 0 2.5rem;
+      padding: 1.5rem;
+      border: 1px solid #e0e0e0;
+      background: #f9fbff;
+    }
+
+    .series-eyebrow {
+      font-size: 0.75rem;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.4rem;
+    }
+
+    .series-title {
+      font-family: 'Merriweather', serif;
+      font-size: 1.5rem;
+      color: #2c3e50;
+      margin: 0;
+    }
+
+    .series-toc-title {
+      margin-top: 0.9rem;
+      font-size: 1rem;
+      color: #2c3e50;
+      font-weight: 600;
+    }
+
+    .series-toc {
+      margin: 0.4rem 0 0 1.2rem;
+    }
+
+    .series-toc li {
+      margin-bottom: 0.4rem;
+    }
+
+    .series-toc a {
+      color: #2c3e50;
+    }
+
+    .series-toc .is-current a {
+      color: #3498db;
+      font-weight: 600;
+    }
+
     /* Next post card */
     .next-post {
       margin-top: 3rem;
@@ -351,6 +398,10 @@
       .next-post {
         display: none;
       }
+
+      .series-nav {
+        display: none;
+      }
     }
     
   </style>
@@ -368,6 +419,7 @@
       <a href="../cv.html">CV</a>
     </nav>
 
+    
     <main>
       <h1 id="technically-unnatural">Technically Unnatural</h1>
       <div style="height:0.75em;">
@@ -405,5 +457,72 @@
       }
     })();
   </script>
-  </body>
+  
+  <script>
+    // Build series navigation for collections
+    (function() {
+      const seriesNav = document.getElementById('series-nav');
+      if (!seriesNav) {
+        return;
+      }
+
+      const seriesTag = seriesNav.dataset.seriesTag;
+      if (!seriesTag || seriesTag === 'Loose Threads') {
+        return;
+      }
+
+      const currentSlug = (window.location.pathname.split('/').pop() || '')
+        .replace('.html', '')
+        .trim();
+
+      fetch('/posts.json')
+        .then(response => response.json())
+        .then(posts => {
+          const seriesPosts = posts
+            .filter(post => post.tag === seriesTag)
+            .sort((a, b) => {
+              const orderA = a.order !== undefined ? a.order : 999;
+              const orderB = b.order !== undefined ? b.order : 999;
+              if (orderA !== orderB) {
+                return orderA - orderB;
+              }
+              return (a.title || '').localeCompare(b.title || '');
+            });
+
+          if (seriesPosts.length === 0) {
+            seriesNav.style.display = 'none';
+            return;
+          }
+
+          const currentIndex = seriesPosts.findIndex(post => {
+            if (post.slug && post.slug === currentSlug) {
+              return true;
+            }
+            if (post.url && currentSlug) {
+              return post.url.endsWith(`/posts/.html`);
+            }
+            return false;
+          });
+
+          const toc = document.getElementById('series-toc');
+          if (toc) {
+            seriesPosts.forEach((post, index) => {
+              const item = document.createElement('li');
+              if (index === currentIndex) {
+                item.classList.add('is-current');
+              }
+              const link = document.createElement('a');
+              link.href = post.url;
+              link.textContent = post.title || post.slug || 'Untitled';
+              item.appendChild(link);
+              toc.appendChild(item);
+            });
+          }
+        })
+        .catch(error => {
+          console.error('Error loading posts for series navigation:', error);
+        });
+    })();
+  </script>
+</body>
 </html>

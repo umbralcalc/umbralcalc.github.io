@@ -455,9 +455,11 @@
                 }
                 
                 // Separate tags into cover series and loose threads
-                const looseThreadsTag = 'Loose Threads';
-                const coverSeriesTags = sortedTags.filter(tag => tag !== looseThreadsTag);
-                const hasLooseThreads = sortedTags.includes(looseThreadsTag);
+                const looseThreadsTagKey = sortedTags.find(tag => tag.trim().toLowerCase() === 'loose threads');
+                const coverSeriesTags = looseThreadsTagKey
+                    ? sortedTags.filter(tag => tag !== looseThreadsTagKey)
+                    : sortedTags;
+                const hasLooseThreads = Boolean(looseThreadsTagKey);
                 
                 // Create series covers grid (exclude Loose Threads)
                 if (coverSeriesTags.length > 0) {
@@ -496,14 +498,14 @@
                     looseThreadsSection.style.marginTop = '3rem';
                     
                     const looseThreadsTitle = document.createElement('h2');
-                    looseThreadsTitle.textContent = looseThreadsTag;
+                    looseThreadsTitle.textContent = looseThreadsTagKey;
                     looseThreadsTitle.className = 'tag-title';
                     looseThreadsSection.appendChild(looseThreadsTitle);
                     
                     const postList = document.createElement('ul');
                     postList.className = 'post-list';
                     
-                    postsByTag[looseThreadsTag].forEach(post => {
+                    postsByTag[looseThreadsTagKey].forEach(post => {
                         const postItem = document.createElement('li');
                         postItem.className = 'post-item';
                         
