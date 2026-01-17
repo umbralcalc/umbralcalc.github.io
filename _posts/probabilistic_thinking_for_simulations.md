@@ -64,6 +64,8 @@ The Possible State Partition Histories grow even though the Possible State Value
 
 In practice, for most real-world systems, the set of Possible State Values _also_ grows. To see how this can be the case, consider the Trajectories of a randomly moving point on a simple 2-dimensional grid.
 
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/random-walker-grid.svg" /></center>
+
 To be continued...
 
 <!-- ## Estimating the mean and variance in state
