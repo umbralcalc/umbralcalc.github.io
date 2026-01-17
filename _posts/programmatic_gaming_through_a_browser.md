@@ -14,6 +14,8 @@ images:
 
 Programmatic gaming means that the user controls their actions in the game indirectly with computer code that they write.
 
+This forms a feedback loop where the user must modify their code in order to affect the game, iteratively designing a decision-making algorithm.
+
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/programmatic_gaming_through_a_browser/programmatic-gaming.svg" width="400"/></center>
 
 ## The dexetera project
