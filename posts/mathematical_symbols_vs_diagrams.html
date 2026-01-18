@@ -253,6 +253,16 @@
         font-size: 1rem;
       }
       
+      .series-hero {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .series-cover {
+        width: 100%;
+        align-self: flex-start;
+      }
+
       .post-images img {
         height: 96px;
       }
@@ -281,13 +291,37 @@
       margin: 0;
     }
 
+    .series-hero {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin: 0.75rem 0 1.2rem;
+    }
+
     .series-cover {
       display: block;
       width: 20%;
       max-width: 520px;
-      margin: 0.75rem 0 1.2rem;
+      margin: 0;
       border: 1px solid #e0e0e0;
       background: #fff;
+    }
+    
+    .series-blurb {
+      flex: 1;
+      margin: 0 0 0 20px;
+      color: #888;
+      font-size: 0.9rem;
+      font-style: italic;
+      line-height: 1.6;
+      max-width: 400px;
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .series-blurb {
+        margin: 0 0 0 0;
+      }
     }
 
     .series-toc-title {

@@ -253,6 +253,16 @@
         font-size: 1rem;
       }
       
+      .series-hero {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .series-cover {
+        width: 100%;
+        align-self: flex-start;
+      }
+
       .post-images img {
         height: 96px;
       }
@@ -281,13 +291,37 @@
       margin: 0;
     }
 
+    .series-hero {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin: 0.75rem 0 1.2rem;
+    }
+
     .series-cover {
       display: block;
       width: 20%;
       max-width: 520px;
-      margin: 0.75rem 0 1.2rem;
+      margin: 0;
       border: 1px solid #e0e0e0;
       background: #fff;
+    }
+    
+    .series-blurb {
+      flex: 1;
+      margin: 0 0 0 20px;
+      color: #888;
+      font-size: 0.9rem;
+      font-style: italic;
+      line-height: 1.6;
+      max-width: 400px;
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .series-blurb {
+        margin: 0 0 0 0;
+      }
     }
 
     .series-toc-title {
@@ -430,8 +464,11 @@
     </nav>
 
         <section class="series-nav" id="series-nav" data-series-tag="Short Stories for the Sciency Mind" data-series-order="1">
-            <img class="series-cover" id="series-cover" src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/short-stories-for-the-sciency-mind-cover.svg" alt="Short Stories for the Sciency Mind cover" onerror="this.style.display='none'" />
-            <div class="series-eyebrow">Collection</div>
+      <div class="series-hero">
+                <img class="series-cover" id="series-cover" src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/short-stories-for-the-sciency-mind-cover.svg" alt="Short Stories for the Sciency Mind cover" onerror="this.style.display='none'" />
+                        <p class="series-blurb">An anthology series of illustrated short stories for the scientifically-minded fantasy/sci-fi fan. All written content has been human-generated and all of the artwork is hand-drawn with ink pens. Some further layout and touch-ups have been done on computer.</p>
+              </div>
+      <div class="series-eyebrow">Collection</div>
       <h2 class="series-title">Short Stories for the Sciency Mind</h2>
       <ol class="series-toc" id="series-toc"></ol>
     </section>
@@ -442,7 +479,6 @@
 
       </div>
       <p>This is a story based on concepts from classical physics (particularly thermodynamics), cosmology and ancient Greek myth.</p>
-      <p>All of the artwork is hand-drawn with ink pens. Some further layout and touch-ups have been done on computer.</p>
       <center>
       <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/eddies_of_the_lethe/page-1.svg" width=500/>
       </center>

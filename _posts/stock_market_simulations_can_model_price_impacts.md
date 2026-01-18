@@ -1,6 +1,6 @@
 ---
 title: "Stock market simulations can model price impacts"
-# tag: "Engineering Smarter Actions"
+# tag: "Engineering Smart Actions in Practice"
 order: 2
 ---
 

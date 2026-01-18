@@ -1,6 +1,6 @@
 ---
 title: "Rugby managers under the microscope"
-# tag: "Engineering Smarter Actions"
+# tag: "Engineering Smart Actions in Practice"
 order: 1
 ---
 

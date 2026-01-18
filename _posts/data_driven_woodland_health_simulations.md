@@ -1,6 +1,6 @@
 ---
 title: "Data-driven woodland health simulations"
-# tag: "Engineering Smarter Actions"
+# tag: "Engineering Smart Actions in Practice"
 order: 4
 ---
 

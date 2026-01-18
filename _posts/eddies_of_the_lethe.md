@@ -2,6 +2,7 @@
 title: "Eddies of the Lethe"
 tag: "Short Stories for the Sciency Mind"
 order: 1
+series-blurb: "An anthology series of illustrated short stories for the scientifically-minded fantasy/sci-fi fan. All written content has been human-generated and all of the artwork is hand-drawn with ink pens. Some further layout and touch-ups have been done on computer."
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/eddies_of_the_lethe/page-1.svg"
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/eddies_of_the_lethe/page-2.svg"
@@ -11,8 +12,6 @@ images:
 <div style="height:0.75em;"></div>
 
 This is a story based on concepts from classical physics (particularly thermodynamics), cosmology and ancient Greek myth.
-
-All of the artwork is hand-drawn with ink pens. Some further layout and touch-ups have been done on computer.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/eddies_of_the_lethe/page-1.svg" width=500/></center>
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/eddies_of_the_lethe/page-2.svg" width=500/></center>
