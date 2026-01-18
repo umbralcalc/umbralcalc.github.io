@@ -258,18 +258,6 @@ Each State Partition History has indices which always match those of the Cumulat
       })).textContent = `occ ${entry.occupancy} | temp ${entry.temperature.toFixed(1)}°C`;
     });
 
-    partitionsSvg.appendChild(createSvgEl("text", {
-      x: startX,
-      y: pad - 6,
-      fill: "#2c3e50",
-      "font-size": "10",
-    })).textContent = "occupancy";
-    partitionsSvg.appendChild(createSvgEl("text", {
-      x: startX,
-      y: pad - 18,
-      fill: "#3c78d8",
-      "font-size": "10",
-    })).textContent = "temperature";
   };
 
   const render = () => {
