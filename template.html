@@ -362,12 +362,6 @@
       transform: translateY(-50%) translateX(5px);
     }
     
-    @media (max-width: 768px) {
-      .next-post-images img {
-        height: 96px;
-      }
-    }
-    
     .next-post-images {
       display: flex;
       flex-wrap: wrap;
@@ -380,6 +374,12 @@
       width: auto;
       border-radius: 0;
       display: block;
+    }
+
+    @media (max-width: 768px) {
+      .next-post-images img {
+        height: 80px;
+      }
     }
     
     .next-post-title {
