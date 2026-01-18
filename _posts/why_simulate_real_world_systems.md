@@ -35,7 +35,7 @@ This can be a real advantage for decision-making technologies, since human users
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/why_simulate_real_world_systems/simulations-decision-advantages.svg" /></center>
 
-## Example
+## Example: Predictions only vs simulations
 
 ```{=html}
 <div id="prediction-vs-model" style="margin:1.5em 0;padding:1em;background:#ffffff;">
