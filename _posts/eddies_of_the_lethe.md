@@ -5,7 +5,6 @@ order: 1
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/eddies_of_the_lethe/page-1.svg"
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/eddies_of_the_lethe/page-2.svg"
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/eddies_of_the_lethe/page-3.svg"
 ---
 
 # Eddies of the Lethe
