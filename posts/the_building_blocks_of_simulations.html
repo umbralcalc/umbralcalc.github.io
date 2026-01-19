@@ -501,28 +501,28 @@
       <h2 id="example-energy-usage-in-a-smart-building">Example: Energy usage in a smart building</h2>
       <div id="sim-history-demo" style="margin:1.5em 0;padding:1em;background:#ffffff;">
         <div style="border:1px solid #2c3e50;border-radius:6px;padding:0.6em;background:#ffffff;margin-bottom:0.9em;">
-          <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;">Overall time series (temperature)</div>
+          <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;padding:0 0.75em;">Overall time series (Temperature)</div>
           <svg id="sim-history-overall" width="100%" height="160" viewBox="0 0 320 160" role="img" aria-label="Overall time series"></svg>
-          <div style="font-size:1rem;color:#2c3e50;margin-top:0.35em;">Highlighted window corresponds to the history panels below.</div>
+          <div style="font-size:1rem;color:#2c3e50;padding:0 0.75em;margin-bottom:0.35em;">Highlighted window corresponds to the History panels below.</div>
         </div>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:0.9em;">
           <div style="border:1px solid #2c3e50;border-radius:6px;padding:0.6em;background:#ffffff;">
-            <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;">Cumulative timesteps history</div>
+            <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;padding:0 0.75em;">Cumulative Timesteps History</div>
             <svg id="sim-history-timeline" width="100%" height="140" viewBox="0 0 320 140" role="img" aria-label="Cumulative timesteps history"></svg>
-            <div style="font-size:1rem;color:#2c3e50;margin-top:0.35em;">The most recent timestep is at the top.</div>
+            <div style="font-size:1rem;color:#2c3e50;margin-top:0.35em;padding:0 0.75em;">The most recent Time is at the top.</div>
           </div>
           <div style="border:1px solid #2c3e50;border-radius:6px;padding:0.6em;background:#ffffff;">
-            <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;">State partition histories</div>
+            <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;padding:0 0.75em;">State Partition Histories</div>
             <svg id="sim-history-partitions" width="100%" height="140" viewBox="0 0 320 140" role="img" aria-label="State partition histories"></svg>
-            <div id="sim-history-state" style="font-size:1rem;color:#2c3e50;margin-top:0.35em;line-height:1.4;"></div>
+            <div id="sim-history-state" style="font-size:1rem;color:#2c3e50;margin-top:0.35em;line-height:1.4;padding:0 0.75em;margin-bottom:0.35em;"></div>
           </div>
         </div>
         <div style="display:flex;flex-wrap:wrap;gap:0.75em;align-items:center;justify-content:flex-start;margin-top:0.8em;">
           <button id="sim-history-step" type="button" style="cursor:pointer;border:1px solid #3c78d8;background:#3c78d8;color:#ffffff;padding:0.4em 0.8em;border-radius:6px;font-size:1rem;">
-            Advance one timestep
+            Advance 1 Timestep
           </button>
           <button id="sim-history-reset" type="button" style="cursor:pointer;border:1px solid #2c3e50;background:#ffffff;color:#2c3e50;padding:0.4em 0.8em;border-radius:6px;font-size:1rem;">
-            New simulation run
+            New Simulation Run
           </button>
         </div>
       </div>
@@ -729,8 +729,8 @@
           if (stateBox && sim.history[0]) {
             const latest = sim.history[0];
             stateBox.innerHTML = `
-              <div><strong>Latest state:</strong> occupancy ${latest.occupancy}, temperature ${latest.temperature.toFixed(1)}°C.</div>
-              <div>Both histories are indexed by the same timesteps.</div>
+              <div><strong>Latest Simulation State:</strong> Occupancy ${latest.occupancy}, Temperature ${latest.temperature.toFixed(1)}°C.</div>
+              <div>Both Histories are indexed by the same Times.</div>
             `;
           }
         };
@@ -827,14 +827,14 @@
       <div id="embedded-run-demo" style="margin:1.5em 0;padding:1em;background:#ffffff;">
         <div style="border:1px solid #2c3e50;border-radius:6px;padding:0.6em;background:#ffffff;">
           <svg id="embedded-run-chart" width="100%" height="180" viewBox="0 0 320 180" role="img" aria-label="Rolling temperature forecast"></svg>
-          <div id="embedded-run-state" style="font-size:1rem;color:#2c3e50;margin-top:0.35em;line-height:1.4;"></div>
+          <div id="embedded-run-state" style="font-size:1rem;color:#2c3e50;margin-top:0.35em;line-height:1.4;padding:0 0.75em;margin-bottom:0.35em;"></div>
         </div>
         <div style="display:flex;flex-wrap:wrap;gap:0.75em;align-items:center;justify-content:flex-start;margin-top:0.8em;">
           <button id="embedded-run-step" type="button" style="cursor:pointer;border:1px solid #3c78d8;background:#3c78d8;color:#ffffff;padding:0.4em 0.8em;border-radius:6px;font-size:1rem;">
-            Advance outer timestep
+            Advance Outer Simulation
           </button>
           <button id="embedded-run-reset" type="button" style="cursor:pointer;border:1px solid #2c3e50;background:#ffffff;color:#2c3e50;padding:0.4em 0.8em;border-radius:6px;font-size:1rem;">
-            New simulation run
+            New Outer Simulation Run
           </button>
         </div>
       </div>
@@ -1001,8 +1001,8 @@
 
           if (stateBox) {
             stateBox.innerHTML = `
-              <div><strong>Outer state:</strong> t=${sim.time}, occupancy ${sim.occupancy}, temperature ${sim.temperature.toFixed(1)}°C.</div>
-              <div><strong>Embedded run:</strong> forecast ${horizon} steps ahead from the current state.</div>
+              <div><strong>Outer Simulation State:</strong> t=${sim.time}, Occupancy ${sim.occupancy}, Temperature ${sim.temperature.toFixed(1)}°C.</div>
+              <div><strong>Embedded Simulation Run:</strong> forecast ${horizon} Timesteps ahead from the current State.</div>
             `;
           }
         };

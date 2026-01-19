@@ -498,14 +498,14 @@
       <div id="prediction-vs-model" style="margin:1.5em 0;padding:1em;background:#ffffff;">
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0.9em;">
           <div style="border:1px solid #2c3e50;border-radius:6px;padding:0.6em;background:#ffffff;">
-            <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;">Prediction only</div>
+            <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;padding:0 0.75em;">Prediction only</div>
             <svg id="ts-prediction-svg" width="100%" height="180" viewBox="0 0 320 180" role="img" aria-label="Prediction only chart"></svg>
-            <div style="font-size:1rem;color:#2c3e50;margin-top:0.35em;">There is a forecast line, but the internal logic is hidden.</div>
+            <div style="font-size:1rem;color:#2c3e50;margin-top:0;padding:0 0.75em;">There is a forecast line, but the internal logic is hidden. If the prediction is wrong, it's difficult to interrogate why.</div>
           </div>
           <div style="border:1px solid #2c3e50;border-radius:6px;padding:0.6em;background:#ffffff;">
-            <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;">Simulation/mechanistic model</div>
+            <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;padding:0 0.75em;">Simulation/mechanistic model</div>
             <svg id="ts-model-svg" width="100%" height="180" viewBox="0 0 320 180" role="img" aria-label="Mechanistic model chart"></svg>
-            <div id="ts-model-state" style="font-size:1rem;color:#2c3e50;margin-top:0.35em;line-height:1.4;"></div>
+            <div id="ts-model-state" style="font-size:1rem;color:#2c3e50;margin-top:0;line-height:1.4;padding:0 0.75em;margin-bottom:0.35em;"></div>
           </div>
         </div>
         <div style="display:flex;flex-wrap:wrap;gap:0.75em;align-items:center;justify-content:space-between;margin-bottom:0.75em;"></div>
@@ -636,12 +636,9 @@
           drawAxes(svgModel);
 
           const futureStart = pastPoints - 1;
-          const lastSlope =
-            (observed[pastPoints - 1] - observed[pastPoints - 10]) / 9;
-          const prediction = [];
-          for (let i = 0; i < forecastPoints + 1; i += 1) {
-            prediction.push(observed[pastPoints - 1] + lastSlope * i);
-          }
+          const prediction = base
+            .slice(pastPoints - 1)
+            .map((value) => value + randn() * noiseLevel * 0.4);
           const predictionValues = observed.slice(0, pastPoints).concat(prediction);
           const predictionMin = Math.min(...predictionValues);
           const predictionMax = Math.max(...predictionValues);
@@ -707,8 +704,8 @@
 
           if (stateBox) {
             stateBox.innerHTML = `
-              <div><strong>State snapshot:</strong> trend slope ${formatNumber(trendSlope)}, seasonal phase ${formatNumber(phase)}, noise ${formatNumber(noiseLevel)}</div>
-              <div><strong>Assumptions:</strong> linear trend + periodic cycle + random shocks.</div>
+              <div"><strong>Simulation State:</strong> Trend slope ${formatNumber(trendSlope)}, Seasonal phase ${formatNumber(phase)}, Noise ${formatNumber(noiseLevel)}</div>
+              <div"><strong>Assumptions:</strong> Linear trend + Periodic cycle + Random shocks.</div>
             `;
           }
         };
