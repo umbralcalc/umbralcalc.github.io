@@ -67,14 +67,40 @@ In practice, for most real-world systems, the set of Possible State Values _also
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/random-walker-grid.svg" /></center>
 
-To be continued...
+## Estimating the probabilities of state values
 
-<!-- ## Estimating the mean and variance in state
+There is a way we can compute these Probabilities without having to trace the path of every possible Trajectory, and often without having to keep a record of every Possible State Value.
 
-## Estimating state probabilities in time
+We start by estimating the Statistics of these Probabilities. 
 
-For example, we can define a probabilistic reweighting algorithm through just its dependency diagram.
+The simplest example of these Statistics is the Estimated Mean State Value. 
+
+The obvious way to calculate this is to take the average State Value for a given Timestep across multiple simulation Trajectories.
+
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/average-across-trajectories.svg" /></center>
+
+But could we get an estimate of Statistics from only one Trajectory? This would save lots of additional Trajectory computation as a result.
+
+Yes! If we have an accurate 'weighting model' for the past values, we can get an Estimated Mean State Value from a weighted average over the full State Partition History.
+
+<Illustrate weighted average from state partition history>
+
+We might also train a Machine Learning model to predict the Statistics of State Values from the full State Partition History as an alternative.
+
+Note that there are situations where using the State Partition Histories from one Trajectory is not equivalent to using multiple Trajectories (see [Ergodicity](https://en.wikipedia.org/wiki/Ergodicity)). But this kind of technical problem can often be mitigated by using some mix of the two methods.
+
+So we have the Statistics, but where have the Probabilities gone?
+
+There are many different types of mathematical formulae or Machine Learning model which can provide a map back from these estimated Statistics into Probabilities of State Values in Time for either one or multiple Trajectories, depending on the right circumstances.
+
+<Normal, Gamma, Binomial, Poisson, Negative Binomial distribution illustrations with statistics>
+
+Using calculations of the estimated Statistics for a single Trajectory from the State Partition History, we can design a 'Probabilistic Sample Weighting' algorithm using the [stochadex simulation engine](https://umbralcalc.github.io/stochadex).
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/prob-reweighting-code.svg" /></center>
 
-## Returning to why we care -->
+This algorithm essentially compresses the information held within the State Partition History into a small amount of data in the form of Statistics. It then uses these Statistics to calculate estimated Probabilities for any Possible State Value in Time.
+
+## Returning to why we care
+
+To be continued...
