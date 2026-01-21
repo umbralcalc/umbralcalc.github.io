@@ -123,10 +123,32 @@
         
         /* Series covers grid */
         .series-covers-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 2rem;
+            display: flex;
+            flex-direction: row;
+            gap: 1.5rem;
             margin-top: 2rem;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 0.5rem;
+        }
+
+        .series-covers-grid::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .series-covers-grid::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .series-covers-grid::-webkit-scrollbar-thumb {
+            background: #3c78d8ff;
+            border-radius: 4px;
+        }
+
+        .series-covers-grid::-webkit-scrollbar-thumb:hover {
+            background: #3c78d8ff;
         }
         
         .series-cover-card {
@@ -137,6 +159,9 @@
             background: #fff;
             border: 1px solid #e0e0e0;
             overflow: hidden;
+            flex: 0 0 280px;
+            min-width: 280px;
+            scroll-snap-align: start;
         }
         
         .series-cover-card:hover {
@@ -293,40 +318,6 @@
                 font-size: 1.5rem;
             }
             
-            .series-covers-grid {
-                display: flex;
-                flex-direction: row;
-                gap: 1.5rem;
-                overflow-x: auto;
-                overflow-y: hidden;
-                scroll-snap-type: x mandatory;
-                -webkit-overflow-scrolling: touch;
-                padding-bottom: 0.5rem;
-            }
-            
-            .series-covers-grid::-webkit-scrollbar {
-                height: 8px;
-            }
-            
-            .series-covers-grid::-webkit-scrollbar-track {
-                background: #f1f1f1;
-            }
-            
-            .series-covers-grid::-webkit-scrollbar-thumb {
-                background: #3c78d8ff;
-                border-radius: 4px;
-            }
-            
-            .series-covers-grid::-webkit-scrollbar-thumb:hover {
-                background: #3c78d8ff;
-            }
-            
-            .series-cover-card {
-                flex: 0 0 280px;
-                min-width: 280px;
-                scroll-snap-align: start;
-            }
-            
             .post-images img {
                 height: 80px;
             }
@@ -409,6 +400,11 @@
         }
         
         // Load and display series covers
+        const seriesOrder = [
+            'Simulating Real-World Systems as a Programmer',
+            'Engineering Smart Actions in Practice',
+            'Short Stories for the Sciency Mind'
+        ];
         fetch('/posts.json')
             .then(response => response.json())
             .then(posts => {
@@ -447,7 +443,16 @@
                 });
                 
                 // Get sorted tags
-                const sortedTags = Object.keys(postsByTag).sort();
+                const sortedTags = Object.keys(postsByTag).sort((a, b) => {
+                    const aIndex = seriesOrder.indexOf(a);
+                    const bIndex = seriesOrder.indexOf(b);
+                    const aRank = aIndex === -1 ? Number.MAX_SAFE_INTEGER : aIndex;
+                    const bRank = bIndex === -1 ? Number.MAX_SAFE_INTEGER : bIndex;
+                    if (aRank !== bRank) {
+                        return aRank - bRank;
+                    }
+                    return a.localeCompare(b);
+                });
                 
                 if (sortedTags.length === 0) {
                     container.innerHTML = '<ul class="post-list"><li class="post-item empty-state"><p>No posts yet. Check back soon!</p></li></ul>';
