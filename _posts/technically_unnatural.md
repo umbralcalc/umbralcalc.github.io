@@ -26,6 +26,6 @@ Since turning on this 'scientific discovery intelligence' machine, my initial ex
 
 That same mind of mine recalls laminar flows, directed percolations and all the rest of humanity’s best efforts to understand how to make a better cup of coffee. Now we just let the AI do it and… yeah, it tastes pretty damn good.
 
-<Turbulence, percolation and coffee>
+<Turbulence percolation and coffee>
 
 To be continued...
