@@ -60,16 +60,6 @@
   }
 ,
   {
-    "title": "Quantised and Branching",
-    "slug": "quantised_and_branching",
-    "url": "/posts/quantised_and_branching.html",
-    "tag": "",
-    "date": "",
-    "order": 2,
-    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/quantised_and_branching/page-1.svg"]
-  }
-,
-  {
     "title": "Stock market simulations can model price impacts",
     "slug": "stock_market_simulations_can_model_price_impacts",
     "url": "/posts/stock_market_simulations_can_model_price_impacts.html",
@@ -77,6 +67,16 @@
     "date": "",
     "order": 2,
     "images": []
+  }
+,
+  {
+    "title": "Technically Unnatural",
+    "slug": "technically_unnatural",
+    "url": "/posts/technically_unnatural.html",
+    "tag": "Short Stories for the Sciency Mind",
+    "date": "",
+    "order": 2,
+    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/technically_unnatural/grumpy-cat.svg"]
   }
 ,
   {
@@ -120,13 +120,13 @@
   }
 ,
   {
-    "title": "Technically Unnatural",
-    "slug": "technically_unnatural",
-    "url": "/posts/technically_unnatural.html",
-    "tag": "",
+    "title": "Quantised and Branching",
+    "slug": "quantised_and_branching",
+    "url": "/posts/quantised_and_branching.html",
+    "tag": "Short Stories for the Sciency Mind",
     "date": "",
     "order": 3,
-    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/technically_unnatural/page-1.svg"]
+    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/quantised_and_branching/steps-tree-snow.svg"]
   }
 ,
   {
