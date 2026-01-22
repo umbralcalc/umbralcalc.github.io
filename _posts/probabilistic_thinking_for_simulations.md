@@ -79,11 +79,11 @@ The obvious way to calculate this is to take the average State Value for a given
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/average-across-trajectories.svg" /></center>
 
-But could we get an estimate of Statistics from only one Trajectory? This would save lots of additional Trajectory computation as a result.
+But could we get an estimate of Statistics from only one Trajectory to avoid all the additional computations?
 
 Yes! If we have an accurate 'weighting model' for the past values, we can get an Estimated Mean State Value from a weighted average over the full State Partition History.
 
-<Illustrate weighted average from state partition history>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/weighted-average.svg" /></center>
 
 We might also train a Machine Learning model to predict the Statistics of State Values from the full State Partition History as an alternative.
 
@@ -93,7 +93,7 @@ So we have the Statistics, but where have the Probabilities gone?
 
 There are many different types of mathematical formulae or Machine Learning model which can provide a map back from these estimated Statistics into Probabilities of State Values in Time for either one or multiple Trajectories, depending on the right circumstances.
 
-<Normal, Gamma, Binomial, Poisson, Negative Binomial distribution illustrations with statistics>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/distributions.svg" /></center>
 
 Using calculations of the estimated Statistics for a single Trajectory from the State Partition History, we can design a 'Probabilistic Sample Weighting' algorithm using the [stochadex simulation engine](https://umbralcalc.github.io/stochadex).
 
