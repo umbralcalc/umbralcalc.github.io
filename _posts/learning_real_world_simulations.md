@@ -1,13 +1,32 @@
 ---
-title: "Learning which simulated actions to take"
-# tag: "Simulating Real-World Systems as a Programmer"
+title: "Learning real-world simulations"
+tag: "Simulating Real-World Systems as a Programmer"
 series-blurb: "A collection of posts on the foundations and patterns for building simulations of the real world. Written especially for programmers and non-technical readers wanting to learn the fundamentals. All written material and non-interactive diagrams were human-generated, where some interactive elements were programmed using generative AI tools."
-order: 6
+order: 5
+images:
+- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_real_world_simulations/simulation-inference-code.svg"
 ---
 
-# Learning which simulated actions to take
+# Learning real-world simulations
 <div style="height:0.75em;"></div>
 
+Work In Progress...
+
+## Learning simulations from data
+
+## What do we need to do?
+
+- Outline how we need to characterise some objective of fit which represents the simulation probabilities.
+
+## How do we do it?
+
+- Give the online posterior estimation algorithm as one example
+
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_real_world_simulations/simulation-inference-code.svg"/></center>
+
+## Learning simulated actions
+
+- Talk about extensions, including Bayesian optimisation and MCA-ES
 - Cover that 'optimality' isn't usually needed in practice
 - Cover that simulating actions isn't usually like simulating other parts of systems because the data isn't usually good at all!
 - Cover Bayesian optimisation and MCA-ES

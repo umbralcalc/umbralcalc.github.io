@@ -150,22 +150,12 @@
   }
 ,
   {
-    "title": "Learning simulations directly from data",
-    "slug": "learning_simulations_directly_from_data",
-    "url": "/posts/learning_simulations_directly_from_data.html",
+    "title": "Learning real-world simulations",
+    "slug": "learning_real_world_simulations",
+    "url": "/posts/learning_real_world_simulations.html",
     "tag": "Simulating Real-World Systems as a Programmer",
     "date": "",
     "order": 5,
-    "images": []
-  }
-,
-  {
-    "title": "Learning which simulated actions to take",
-    "slug": "learning_which_simulated_actions_to_take",
-    "url": "/posts/learning_which_simulated_actions_to_take.html",
-    "tag": "",
-    "date": "",
-    "order": 6,
-    "images": []
+    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_real_world_simulations/simulation-inference-code.svg"]
   }
 ]

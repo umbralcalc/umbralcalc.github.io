@@ -765,9 +765,9 @@
       
             <div class="next-post">
         <div class="next-post-label">Next Post</div>
-        <a href="/posts/learning_simulations_directly_from_data.html" class="next-post-card">
+        <a href="/posts/learning_real_world_simulations.html" class="next-post-card">
                     <div class="next-post-images" id="next-post-images"></div>
-                    <div class="next-post-title">Learning simulations directly from data</div>
+                    <div class="next-post-title">Learning real-world simulations</div>
         </a>
       </div>
           </main>
@@ -779,13 +779,13 @@
       const imagesContainer = document.getElementById('next-post-images');
       if (imagesContainer) {
         try {
-          const imagesJson = '[]';
+          const imagesJson = '["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_real_world_simulations/simulation-inference-code.svg"]';
           const images = JSON.parse(imagesJson);
           if (Array.isArray(images) && images.length > 0) {
             images.forEach(imagePath => {
               const img = document.createElement('img');
               img.src = imagePath;
-              img.alt = 'Learning simulations directly from data';
+              img.alt = 'Learning real-world simulations';
               imagesContainer.appendChild(img);
             });
           }
