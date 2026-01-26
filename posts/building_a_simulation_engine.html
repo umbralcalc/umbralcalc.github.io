@@ -861,9 +861,9 @@
       
             <div class="next-post">
         <div class="next-post-label">Next Post</div>
-        <a href="/posts/probabilistic_thinking_for_simulations.html" class="next-post-card">
+        <a href="/posts/architectures_for_current_and_future_hardware.html" class="next-post-card">
                     <div class="next-post-images" id="next-post-images"></div>
-                    <div class="next-post-title">Probabilistic thinking for simulations</div>
+                    <div class="next-post-title">Architectures for current and future hardware</div>
         </a>
       </div>
           </main>
@@ -875,13 +875,13 @@
       const imagesContainer = document.getElementById('next-post-images');
       if (imagesContainer) {
         try {
-          const imagesJson = '["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/probabilites-vs-trajectories.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/evaluate-probability-partition-region.svg"]';
+          const imagesJson = '[]';
           const images = JSON.parse(imagesJson);
           if (Array.isArray(images) && images.length > 0) {
             images.forEach(imagePath => {
               const img = document.createElement('img');
               img.src = imagePath;
-              img.alt = 'Probabilistic thinking for simulations';
+              img.alt = 'Architectures for current and future hardware';
               imagesContainer.appendChild(img);
             });
           }

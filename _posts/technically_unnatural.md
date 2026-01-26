@@ -1,8 +1,8 @@
 ---
 title: "Technically Unnatural"
 tag: "Short Stories for the Sciency Mind"
-order: 2
 series-blurb: "An anthology series of illustrated short stories for the scientifically-minded fantasy/sci-fi fan. All written content has been human-generated and all of the artwork is hand-drawn with ink pens. Some further layout and touch-ups have been done on computer."
+order: 2
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/technically_unnatural/grumpy-cat.svg"
 ---

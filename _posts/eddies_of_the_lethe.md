@@ -1,8 +1,8 @@
 ---
 title: "Eddies of the Lethe"
 tag: "Short Stories for the Sciency Mind"
-order: 1
 series-blurb: "An anthology series of illustrated short stories for the scientifically-minded fantasy/sci-fi fan. All written content has been human-generated and all of the artwork is hand-drawn with ink pens. Some further layout and touch-ups have been done on computer."
+order: 1
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/eddies_of_the_lethe/page-1.svg"
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/eddies_of_the_lethe/page-2.svg"
@@ -11,7 +11,7 @@ images:
 # Eddies of the Lethe
 <div style="height:0.75em;"></div>
 
-The Lethe is a cosmic river which flows in Time. And, sometimes, Space. Its Eddies are of memory itself and its currents watched by Demons.
+The Lethe is a cosmic river which flows in Time and, sometimes, Space. Its Eddies are of memory itself and its currents watched by Demons.
 
 Two among these Demons stand apart from the rest; sentinels of a demi-god.
 

@@ -1,8 +1,8 @@
 ---
 title: "Quantised and Branching"
 tag: "Short Stories for the Sciency Mind"
-order: 3
 series-blurb: "An anthology series of illustrated short stories for the scientifically-minded fantasy/sci-fi fan. All written content has been human-generated and all of the artwork is hand-drawn with ink pens. Some further layout and touch-ups have been done on computer."
+order: 3
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/quantised_and_branching/steps-tree-snow.svg"
 ---
