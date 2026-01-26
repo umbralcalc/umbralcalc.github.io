@@ -14,7 +14,7 @@ They say there are things that are technically natural and there are things whic
 
 This is what I do. More specifically? I stare at a screen, wait for the next anomaly, identify said anomaly for The Lab and then… well… back to staring.
 
-<Physicist looking gormless with wider focus on tech lab>
+<Physicist in tech lab>
 
 I need caffeine.
 
@@ -24,7 +24,7 @@ Even the cat’s bored. I should probably feed the little guy. It’s not as if 
 
 Since turning on this 'scientific discovery intelligence' machine, my initial excitement fell to disillusionment pretty quickly. Fighting back; my mind seems to have settled on a few granules of hope a month. _Granules_? Oh, coffee. Right!
 
-That same mind of mine recalls laminar flows, directed percolations and all the rest of humanity’s best efforts to understand how to make a better cup of coffee. Now we just let the AI do it and… yeah, it tastes pretty damn good.
+That same mind of mine recalls laminar flows, directed percolations and all the rest of humanity’s best efforts to understand how to make a better cup of coffee. Now we just let the machines do it and... yeah, it tastes pretty damn good.
 
 <Turbulence percolation and coffee>
 
