@@ -315,7 +315,7 @@ There are many different types of mathematical formulae or Machine Learning mode
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/distributions.svg" /></center>
 
-Using calculations of the estimated Statistics for a single Trajectory from the State Partition History, we can design a 'Probabilistic Sample Weighting' algorithm using the [stochadex simulation engine](https://umbralcalc.github.io/stochadex) we introduced in the last post.
+Using calculations of the estimated Statistics for a single Trajectory from the State Partition History, we can design a 'Probabilistic Sample Weighting' algorithm using the [stochadex simulation engine](https://umbralcalc.github.io/stochadex) we introduced in a previous post.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/prob-reweighting-code.svg" /></center>
 
