@@ -480,7 +480,17 @@
       </div>
       <p>Work In Progress…</p>
       <h2 id="classical-hardware">Classical hardware</h2>
-      <p>CPUs…</p>
+      <p>When we talk about ‘classical’ hardware here, we just mean standard CPUs. This naming will make sense as we progress through the post.</p>
+      <p>On CPUs, simulation architectures may be constructed out of several ingredients. Loosely speaking, these are: Memory, Threads, Channels between Threads, Processes and Inter-Process Communication (IPC).</p>
+      <center>
+      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/architectures_for_current_and_future_hardware/cpu-graph-edges.svg"/>
+      </center>
+      <p>All of these ingredients have their own tradeoffs in performance. But they are all useful in constructing the right simulation architectures to satisfy the right use cases.</p>
+      <p>In all of the previous posts so far, the main simulation architectures we have been considering are defined as Stepwise; simulation architectures which describe how components of the system/algorithm fit together for a single point in Time.</p>
+      <p>Stepwise simulation architectures on CPUs are typically more performant when using Memory, Threads and Channels between Threads in the right combinations.</p>
+      <p><diagrams of different stepwise architectures mapped from those in drive already></p>
+      <p>Processes, and IPC in particular, are typically more useful when we consider Batch simulation architectures. This is because IPC comes with more performance limitations.</p>
+      <p>Batch simulation architectures involve…</p>
       <h2 id="specialised-classical-hardware">Specialised classical hardware</h2>
       <p>GPUs and TPUs…</p>
       <h2 id="quantum-hardware">Quantum hardware</h2>
