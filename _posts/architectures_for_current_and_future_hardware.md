@@ -3,7 +3,9 @@ title: "Architectures for current and future hardware"
 tag: "Simulating Real-World Systems as a Programmer"
 series-blurb: "A collection of posts on the foundations and patterns for building simulations of the real world. Written especially for programmers and non-technical readers wanting to learn the fundamentals. All written material and non-interactive diagrams were human-generated, where some interactive elements were programmed using generative AI tools."
 order: 4
-images: []
+images:
+- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/architectures_for_current_and_future_hardware/cpu-graph-edges.svg"
+- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/architectures_for_current_and_future_hardware/cpu-stepwise-architectures.svg"
 ---
 
 # Architectures for current and future hardware
@@ -25,7 +27,7 @@ In all of the previous posts so far, the main simulation architectures we have b
 
 Stepwise simulation architectures on CPUs are typically more performant when using Memory, Threads and Channels between Threads in the right combinations.
 
-<diagrams of different stepwise architectures mapped from those in drive already>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/architectures_for_current_and_future_hardware/cpu-stepwise-architectures.svg" width=600/></center>
 
 Processes, and IPC in particular, are typically more useful when we consider Batch simulation architectures. This is because IPC comes with more performance limitations.
 
