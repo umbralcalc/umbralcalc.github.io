@@ -29,19 +29,25 @@ Stepwise simulation architectures on CPUs are typically more performant when usi
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/architectures_for_current_and_future_hardware/cpu-stepwise-architectures.svg" width=600/></center>
 
-In contrast, Processes, and IPC in particular, are typically more useful when we consider Batch simulation architectures. This is because IPC comes with more performance limitations.
+In contrast, Processes, and IPC in particular, are typically more useful when we consider scaling computations in parallel across multiple non-interacting simulation Trajectories (which don't need much IPC). This is because IPC comes with more performance limitations.
 
 Batch simulation architectures evaluate multiple sucessive sequences of Next State Values for the system over a wider interval in Time all as one computational block.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/architectures_for_current_and_future_hardware/stepwise-vs-batch.svg" width=600/></center>
 
-Batch simulation architectures can be used to reduce the runtime of some algorithms, increasing performance. However, this typically comes at the cost of being more limited in the kinds of logic these algorithms can use.
+Batch simulation architectures enable segments of the Simulation Timeline to be evaluated using other specialised hardware.
 
-...
+This architecture can be used to reduce the overall simulation runtime relative to a Stepwise equivalent, but there are tradeoffs which mean this isn't always efficient.
 
 ## Specialised classical hardware
 
-GPUs and TPUs...
+When we talk about 'specialised classical' hardware here, we mean [GPUs](https://en.wikipedia.org/wiki/Graphics_processing_unit), [TPUs](https://en.wikipedia.org/wiki/Tensor_Processing_Unit), [IPUs](https://www.graphcore.ai/products/ipu) and other specialised processors based on classical computing principles (as opposed to quantum processors).
+
+... while limiting the number of Timesteps to ...
+
+This hardware category can ... while incurring the I/O cost of writing to and from CPU memory along the way...
+
+<diagram which explains memory requirements per timestep and specialised hardware memory limits and CPU memory IO costs>
 
 ## Quantum hardware
 
