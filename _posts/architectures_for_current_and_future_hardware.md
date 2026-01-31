@@ -15,7 +15,7 @@ Work In Progress...
 
 ## Classical hardware
 
-When we talk about 'classical' hardware here, we just mean standard CPUs. This naming will make sense as we progress through the post.
+When we talk about 'classical' hardware here, we just mean standard CPUs.
 
 On CPUs, simulation architectures may be constructed out of several ingredients. Loosely speaking, these are: Memory, Threads, Channels between Threads, Processes and Inter-Process Communication (IPC).
 
@@ -23,15 +23,21 @@ On CPUs, simulation architectures may be constructed out of several ingredients.
 
 All of these ingredients have their own tradeoffs in performance. But they are all useful in constructing the right simulation architectures to satisfy the right use cases.
 
-In all of the previous posts so far, the main simulation architectures we have been considering are defined as Stepwise; simulation architectures which describe how components of the system/algorithm fit together for a single point in Time.
+In all of the previous posts so far, the main simulation architectures we have been considering are defined as Stepwise; simulation architectures which evaluate the Next State Values for the system at each point in Time, in turn.
 
 Stepwise simulation architectures on CPUs are typically more performant when using Memory, Threads and Channels between Threads in the right combinations.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/architectures_for_current_and_future_hardware/cpu-stepwise-architectures.svg" width=600/></center>
 
-Processes, and IPC in particular, are typically more useful when we consider Batch simulation architectures. This is because IPC comes with more performance limitations.
+In contrast, Processes, and IPC in particular, are typically more useful when we consider Batch simulation architectures. This is because IPC comes with more performance limitations.
 
-Batch simulation architectures involve...
+Batch simulation architectures evaluate multiple sucessive sequences of Next State Values for the system over a wider interval in Time all as one computational block.
+
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/architectures_for_current_and_future_hardware/stepwise-vs-batch.svg" width=600/></center>
+
+Batch simulation architectures can be used to reduce the runtime of some algorithms, increasing performance. However, this typically comes at the cost of being more limited in the kinds of logic these algorithms can use.
+
+...
 
 ## Specialised classical hardware
 
