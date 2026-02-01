@@ -495,6 +495,101 @@
       <center>
       <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/architectures_for_current_and_future_hardware/stepwise-vs-batch.svg" width=600/>
       </center>
+      <div id="stepwise-batch-demo" style="margin:0.5em 0;padding:1em;background:#ffffff;border:1px solid #2c3e50;border-radius:6px;">
+        <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;padding:0 0.75em;">Stepwise vs Batch Simulation Timeline</div>
+        <svg id="stepwise-batch-svg" width="100%" height="170" viewBox="0 0 320 170" role="img" aria-label="Stepwise vs batch timeline"></svg>
+        <div id="stepwise-batch-text" style="font-size:1rem;color:#2c3e50;margin-top:0.35em;line-height:1.4;padding:0 0.75em;"></div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:0.75em;align-items:center;justify-content:flex-start;margin-bottom:1em;">
+        <label for="stepwise-batch-size" style="font-size:1rem;color:#2c3e50;">Batch size</label>
+        <input id="stepwise-batch-size" type="range" min="1" max="6" value="3" step="1" style="accent-color:#3c78d8;width:160px;">
+        <div id="stepwise-batch-value" style="font-size:1rem;color:#2c3e50;"></div>
+      </div>
+      <script>
+      (() => {
+        const svg = document.getElementById("stepwise-batch-svg");
+        const slider = document.getElementById("stepwise-batch-size");
+        const value = document.getElementById("stepwise-batch-value");
+        const text = document.getElementById("stepwise-batch-text");
+        if (!svg || !slider || !value || !text) return;
+
+        const width = 320;
+        const height = 170;
+        const pad = 18;
+        const steps = 12;
+
+        const createSvgEl = (name, attrs = {}) => {
+          const el = document.createElementNS("http://www.w3.org/2000/svg", name);
+          Object.entries(attrs).forEach(([key, value]) => el.setAttribute(key, value));
+          return el;
+        };
+
+        const render = () => {
+          const batchSize = parseInt(slider.value, 10);
+          value.textContent = `${batchSize} Timesteps`;
+          svg.innerHTML = "";
+
+          const laneY = {
+            stepwise: pad + 28,
+            batch: pad + 96,
+          };
+          const barW = (width - 2 * pad) / steps;
+
+          svg.appendChild(createSvgEl("text", {
+            x: pad,
+            y: pad + 12,
+            fill: "#2c3e50",
+            "font-size": "10",
+          })).textContent = "stepwise";
+
+          svg.appendChild(createSvgEl("text", {
+            x: pad,
+            y: laneY.batch - 14,
+            fill: "#2c3e50",
+            "font-size": "10",
+          })).textContent = "batch";
+
+          for (let i = 0; i < steps; i += 1) {
+            const x = pad + i * barW;
+            svg.appendChild(createSvgEl("rect", {
+              x,
+              y: laneY.stepwise,
+              width: barW - 2,
+              height: 18,
+              fill: "#3c78d8",
+            }));
+          }
+
+          for (let i = 0; i < steps; i += batchSize) {
+            const x = pad + i * barW;
+            const span = Math.min(batchSize, steps - i);
+            svg.appendChild(createSvgEl("rect", {
+              x,
+              y: laneY.batch,
+              width: span * barW - 2,
+              height: 18,
+              fill: "#b0447a",
+            }));
+          }
+
+          svg.appendChild(createSvgEl("line", {
+            x1: pad,
+            y1: height - pad,
+            x2: width - pad,
+            y2: height - pad,
+            stroke: "#2c3e50",
+            "stroke-width": "1",
+          }));
+
+          text.innerHTML = `
+            <div>Batch evaluation groups multiple Timesteps, but the causal order still flows left-to-right.</div>
+          `;
+        };
+
+        slider.addEventListener("input", render);
+        render();
+      })();
+      </script>
       <p>Despite their appearance, Batch simulation architectures cannot fundamentally evaluate the Next State Values at different Timesteps in a truly parallel fashion. Simulations must still preserve the causal relationships between these Next State Values as they progress in Time.</p>
       <p>To ensure this causality, some form of Iteration can be performed; like the Stepwise architecture implies by evaluating it recursively.</p>
       <p>However, it is sometimes sufficient to simply encode the causal/temporal dependencies between State Values along the Simulation Timeline as part of a Batch prediction; which is how some Machine Learning models are used to predict time series data.</p>
