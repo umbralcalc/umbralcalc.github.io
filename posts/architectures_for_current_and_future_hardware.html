@@ -520,9 +520,21 @@
       <li>and the implications <em>this</em> has on reducing the overall processing time, given the specialised hardware.</li>
       </ul>
       <h2 id="quantum-hardware">Quantum hardware</h2>
-      <p>So if I wanted to measure a time series metric of the system I would have to create some partition of the quantum state which recorded this time series as a whole in Memory before collapsing the quantum state at the end to retrieve the time series.</p>
-      <p>Therefore, you only get a quantum advantage at all if you can store more than one timestep worth of simulation metric states in qubit Memory. Otherwise, if you only effectively have one instantaneous timestep of qubit Memory to use the runtime will be denominated by I/O writing to and from the qubit states during the simulation runtime. This is the quantum I/O bottleneck.</p>
-      <p>Work In Progress…</p>
+      <p>Note that the concepts in this section are the most likely to change with future advancements in Quantum Computing.</p>
+      <p>Quantum hardware seems to naturally fit the Batch simulation architecture in the same way that specialised classical hardware does.</p>
+      <p>In order to utilise this hardware within a given Batch evaluation, one would need to:</p>
+      <ul>
+      <li>prepare the initial state of <a href="https://en.wikipedia.org/wiki/Qubit">Qubits</a></li>
+      <li>encode the State Partition Histories from CPU Memory into these Qubits</li>
+      <li>run quantum gates which encode the logic for multiple Timesteps of the simulation</li>
+      <li>entangle the Next State Values at each Timestep with <a href="https://en.wikipedia.org/wiki/Ancilla_bit">Ancilla Qubits</a> or use the State Partition Histories themselves</li>
+      <li>and measure these Next State Values in order to write the data to CPU Memory.</li>
+      </ul>
+      <center>
+      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/architectures_for_current_and_future_hardware/quantum-batch.svg"/>
+      </center>
+      <p>Therefore, you only get a <a href="https://en.wikipedia.org/wiki/Quantum_supremacy">Quantum Advantage</a> at all if you can store more than one Timestep worth of simulation Next State Values in Qubit Memory.</p>
+      <p>Otherwise, if you only effectively have one instantaneous Timestep of Qubit Memory to use, the processing time will likely be dominated by I/O writing to and from the Qubits during the simulation. This is also known as the <a href="https://ianreppel.org/io-bottleneck-in-quantum-computing/">Quantum I/O Bottleneck</a>.</p>
       
             <div class="next-post">
         <div class="next-post-label">Next Post</div>

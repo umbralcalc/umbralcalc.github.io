@@ -67,8 +67,20 @@ So, when deciding on the number of Timesteps a Batch simulation architecture sho
 
 ## Quantum hardware
 
-So if I wanted to measure a time series metric of the system I would have to create some partition of the quantum state which recorded this time series as a whole in Memory before collapsing the quantum state at the end to retrieve the time series.
+Note that the concepts in this section are the most likely to change with future advancements in Quantum Computing.
 
-Therefore, you only get a quantum advantage at all if you can store more than one timestep worth of simulation metric states in qubit Memory. Otherwise, if you only effectively have one instantaneous timestep of qubit Memory to use the runtime will be denominated by I/O writing to and from the qubit states during the simulation runtime. This is the quantum I/O bottleneck.
+Quantum hardware seems to naturally fit the Batch simulation architecture in the same way that specialised classical hardware does.
 
-Work In Progress...
+In order to utilise this hardware within a given Batch evaluation, one would need to:
+
+- prepare the initial state of [Qubits](https://en.wikipedia.org/wiki/Qubit)
+- encode the State Partition Histories from CPU Memory into these Qubits
+- run quantum gates which encode the logic for multiple Timesteps of the simulation
+- entangle the Next State Values at each Timestep with [Ancilla Qubits](https://en.wikipedia.org/wiki/Ancilla_bit) or use the State Partition Histories themselves
+- and measure these Next State Values in order to write the data to CPU Memory.
+
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/architectures_for_current_and_future_hardware/quantum-batch.svg"/></center>
+
+Therefore, you only get a [Quantum Advantage](https://en.wikipedia.org/wiki/Quantum_supremacy) at all if you can store more than one Timestep worth of simulation Next State Values in Qubit Memory. 
+
+Otherwise, if you only effectively have one instantaneous Timestep of Qubit Memory to use, the processing time will likely be dominated by I/O writing to and from the Qubits during the simulation. This is also known as the [Quantum I/O Bottleneck](https://ianreppel.org/io-bottleneck-in-quantum-computing/).
