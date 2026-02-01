@@ -615,6 +615,134 @@
       <li>the implications this has on the number of I/O operations needed to interact with CPU Memory</li>
       <li>and the implications <em>this</em> has on reducing the overall processing time, given the specialised hardware.</li>
       </ul>
+      <h2 id="example-batch-size-tradeoffs">Example: Batch size tradeoffs</h2>
+      <div id="transfer-bottleneck-demo" style="margin:0.5em 0;padding:1em;background:#ffffff;border:1px solid #2c3e50;border-radius:6px;">
+        <svg id="transfer-bottleneck-svg" width="100%" height="180" viewBox="0 0 320 180" role="img" aria-label="Transfer vs compute trade-off"></svg>
+        <div id="transfer-bottleneck-text" style="font-size:1rem;color:#2c3e50;margin-top:0.35em;line-height:1.4;padding:0 0.75em;"></div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:0.75em;align-items:center;justify-content:flex-start;margin-top:0.3em">
+        <label for="transfer-bottleneck-size" style="font-size:1rem;color:#2c3e50;">Batch size</label>
+        <input id="transfer-bottleneck-size" type="range" min="1" max="12" value="4" step="1" style="accent-color:#3c78d8;width:160px;">
+        <div id="transfer-bottleneck-value" style="font-size:1rem;color:#2c3e50;"></div>
+      </div>
+      <script>
+      (() => {
+        const svg = document.getElementById("transfer-bottleneck-svg");
+        const slider = document.getElementById("transfer-bottleneck-size");
+        const value = document.getElementById("transfer-bottleneck-value");
+        const text = document.getElementById("transfer-bottleneck-text");
+        if (!svg || !slider || !value || !text) return;
+
+        const width = 320;
+        const height = 180;
+        const pad = 18;
+        const maxBatch = 12;
+        const memoryLimit = 8;
+
+        const createSvgEl = (name, attrs = {}) => {
+          const el = document.createElementNS("http://www.w3.org/2000/svg", name);
+          Object.entries(attrs).forEach(([key, value]) => el.setAttribute(key, value));
+          return el;
+        };
+
+        const computeCost = (batchSize) => 4 + 0.7 * batchSize;
+        const transferCost = (batchSize) => 14 + 18 / batchSize;
+
+        const maxTotal = () => {
+          let max = 0;
+          for (let b = 1; b <= maxBatch; b += 1) {
+            const total = computeCost(b) + transferCost(b);
+            if (total > max) max = total;
+          }
+          return max;
+        };
+
+        const render = () => {
+          const batchSize = parseInt(slider.value, 10);
+          value.textContent = `${batchSize} Timesteps (available Memory: ${memoryLimit})`;
+          svg.innerHTML = "";
+
+          const total = computeCost(batchSize) + transferCost(batchSize);
+          const maxVal = maxTotal();
+          const innerHeight = height - 2 * pad;
+          const scale = innerHeight / maxVal;
+
+          svg.appendChild(createSvgEl("line", {
+            x1: pad,
+            y1: height - pad,
+            x2: width - pad,
+            y2: height - pad,
+            stroke: "#2c3e50",
+            "stroke-width": "1",
+          }));
+
+          const barX = width / 2 - 24;
+          const barW = 48;
+          const transferH = transferCost(batchSize) * scale;
+          const computeH = computeCost(batchSize) * scale;
+          const baseY = height - pad;
+
+          const barColor = batchSize > memoryLimit ? "#111111" : "#3c78d8";
+          const transferColor = batchSize > memoryLimit ? "rgba(176,68,122,0.35)" : "#b0447a";
+
+          svg.appendChild(createSvgEl("rect", {
+            x: barX,
+            y: baseY - transferH,
+            width: barW,
+            height: transferH,
+            fill: transferColor,
+          }));
+          svg.appendChild(createSvgEl("rect", {
+            x: barX,
+            y: baseY - transferH - computeH,
+            width: barW,
+            height: computeH,
+            fill: barColor,
+          }));
+
+          if (memoryLimit > 0) {
+            const capY = baseY - (computeCost(memoryLimit) + transferCost(memoryLimit)) * scale;
+            svg.appendChild(createSvgEl("line", {
+              x1: barX - 12,
+              y1: capY,
+              x2: barX + barW + 12,
+              y2: capY,
+              stroke: "#2c3e50",
+              "stroke-width": "1",
+              "stroke-dasharray": "4 3",
+            }));
+            svg.appendChild(createSvgEl("text", {
+              x: barX + barW + 14,
+              y: capY + 4,
+              fill: "#2c3e50",
+              "font-size": "10",
+            })).textContent = "available Memory";
+          }
+
+          svg.appendChild(createSvgEl("text", {
+            x: barX + barW + 8,
+            y: baseY - transferH + 12,
+            fill: "#2c3e50",
+            "font-size": "10",
+          })).textContent = "I/O processing time";
+          svg.appendChild(createSvgEl("text", {
+            x: barX + barW + 8,
+            y: baseY - transferH - computeH + 12,
+            fill: "#2c3e50",
+            "font-size": "10",
+          })).textContent = "Batch compute time";
+
+          text.innerHTML = `
+            <div>I/O cost per Timestep falls with larger Batches, while compute cost grows.</div>
+            <div>Available Memory limits how large the Batch can be.</div>
+            ${batchSize > memoryLimit ? "<div><strong>Warning:</strong> Batch size exceeds available Memory.</div>" : ""}
+          `;
+        };
+
+        slider.addEventListener("input", render);
+        render();
+      })();
+      </script>
       <h2 id="quantum-hardware">Quantum hardware</h2>
       <p>Note that the concepts in this section are the most likely to change with future advancements in Quantum Computing.</p>
       <p>Quantum hardware seems to naturally fit the Batch simulation architecture in the same way that specialised classical hardware does.</p>
