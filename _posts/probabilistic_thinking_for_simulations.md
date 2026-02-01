@@ -11,7 +11,7 @@ images:
 # Probabilistic thinking for simulations
 <div style="height:0.75em;"></div>
 
-## Why do we care?
+## Why do we care about probabilities?
 
 The 'Trajectory' of a simulation is the sequence of possible State Values that its Partitions actually take during a specific Simulation Run.
 
