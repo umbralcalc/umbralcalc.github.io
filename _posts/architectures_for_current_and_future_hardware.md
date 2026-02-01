@@ -53,7 +53,7 @@ GPUs, TPUs, IPUs, etc. all have their limitations. For example, GPUs and TPUs ar
 
 So there are basically certain types of simulation algorithm that can be written that GPUs, TPUs, IPUs, etc. are not well-suited to reducing the overall processing time for.
 
-In addition, this specialised hardware typically requires data transfer to/from CPU Memory (at the very least for initialization and final results), which also takes processing time.
+In addition, this specialised hardware typically requires data transfer to/from CPU Memory (at the very least for initialisation and final results), which also takes processing time.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/architectures_for_current_and_future_hardware/processing-time-per-timestep.svg"/></center>
 
