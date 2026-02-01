@@ -31,6 +31,8 @@ For example, we have the `Iteration` interface, which is based directly on the S
 
 The `Iteration` interface can be used to implement any simulation in practice. To illustrate this point, we can show how the internal logic may be implemented to recreate some well-known stochastic processes.
 
+## Example: Wiener process
+
 For example, the [Wiener process](https://en.wikipedia.org/wiki/Wiener_process) has some very simple logic.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/building_a_simulation_engine/wiener-process.svg" /></center>
@@ -108,6 +110,8 @@ For example, the [Wiener process](https://en.wikipedia.org/wiki/Wiener_process) 
 })();
 </script>
 ```
+
+## Example: Itô's lemma
 
 It is well-known (especially by those in finance) that [Itô's lemma](https://en.wikipedia.org/wiki/It%C3%B4%27s_lemma) can be used to adapt the model formulae for a Wiener process after a mathematical function (a.k.a. transformation) has been applied to it. 
 
@@ -197,6 +201,8 @@ We can demonstrate that the `Iteration` interface can support this kind of trans
 })();
 </script>
 ```
+
+## Example: Time-Inhomogeneous Poisson process
 
 What about event-based processes?
 
@@ -293,6 +299,8 @@ The `Iteration` interface can support this too.
 })();
 </script>
 ```
+
+## Example: Hawkes process
 
 Let's give one more example.
 

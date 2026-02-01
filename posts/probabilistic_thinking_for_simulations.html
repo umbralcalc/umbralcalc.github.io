@@ -518,6 +518,7 @@
       <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/coin-flips-tree.svg" />
       </center>
       <p>The Possible State Partition Histories grow even though the Possible State Values of a coin flip always remain the same (Heads or Tails).</p>
+      <h2 id="example-randomly-moving-point-in-2-dimensions">Example: Randomly moving point in 2 dimensions</h2>
       <p>In practice, for most real-world systems, the set of Possible State Values <em>also</em> grows. To see how this can be the case, consider the Trajectories of a randomly moving point on a simple 2-dimensional grid.</p>
       <center>
       <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/random-walker-grid.svg" />
@@ -631,7 +632,7 @@
         render();
       })();
       </script>
-      <h2 id="estimating-the-probabilities-of-state-values">Estimating the probabilities of state values</h2>
+      <h2 id="estimating-the-statistics-of-state-values">Estimating the statistics of state values</h2>
       <p>There is a way we can compute these Probabilities without having to trace the path of every possible Trajectory, and often without having to keep a record of every Possible State Value.</p>
       <p>We start by estimating the Statistics of these Probabilities.</p>
       <p>The simplest example of these Statistics is the Estimated Mean State Value.</p>
@@ -640,6 +641,7 @@
       <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/average-across-trajectories.svg" />
       </center>
       <p>But could we get an estimate of Statistics from only one Trajectory to avoid all the additional computations?</p>
+      <h2 id="example-estimating-with-a-weighted-average">Example: Estimating with a weighted average</h2>
       <p>Yes! If we have an accurate ‘weighting model’ for the past values, we can get an Estimated Mean State Value from a weighted average over the full State Partition History.</p>
       <center>
       <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/weighted-average.svg" />
@@ -752,6 +754,7 @@
       </script>
       <p>We might also train a Machine Learning model to predict the Statistics of State Values from the full State Partition History as an alternative.</p>
       <p>Note that there are situations where using the State Partition Histories from one Trajectory is not equivalent to using multiple Trajectories (see <a href="https://en.wikipedia.org/wiki/Ergodicity">Ergodicity</a>). But this kind of technical problem can often be mitigated by using some mix of the two methods.</p>
+      <h2 id="estimating-the-probabilities-of-state-values">Estimating the probabilities of state values</h2>
       <p>So we have the Statistics, but where have the Probabilities gone?</p>
       <p>There are many different types of mathematical formulae or Machine Learning model which can provide a map back from these estimated Statistics into Probabilities of State Values in Time for either one or multiple Trajectories, depending on the right circumstances.</p>
       <center>

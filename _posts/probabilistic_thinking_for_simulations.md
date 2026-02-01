@@ -63,6 +63,8 @@ Think about how one might store the set of all Possible State Partition Historie
 
 The Possible State Partition Histories grow even though the Possible State Values of a coin flip always remain the same (Heads or Tails).
 
+## Example: Randomly moving point in 2 dimensions
+
 In practice, for most real-world systems, the set of Possible State Values _also_ grows. To see how this can be the case, consider the Trajectories of a randomly moving point on a simple 2-dimensional grid.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/random-walker-grid.svg" /></center>
@@ -179,7 +181,7 @@ In practice, for most real-world systems, the set of Possible State Values _also
 </script>
 ```
 
-## Estimating the probabilities of state values
+## Estimating the statistics of state values
 
 There is a way we can compute these Probabilities without having to trace the path of every possible Trajectory, and often without having to keep a record of every Possible State Value.
 
@@ -192,6 +194,8 @@ The obvious way to calculate this is to take the average State Value for a given
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/average-across-trajectories.svg" /></center>
 
 But could we get an estimate of Statistics from only one Trajectory to avoid all the additional computations?
+
+## Example: Estimating with a weighted average
 
 Yes! If we have an accurate 'weighting model' for the past values, we can get an Estimated Mean State Value from a weighted average over the full State Partition History.
 
@@ -305,9 +309,12 @@ Yes! If we have an accurate 'weighting model' for the past values, we can get an
 })();
 </script>
 ```
+
 We might also train a Machine Learning model to predict the Statistics of State Values from the full State Partition History as an alternative.
 
 Note that there are situations where using the State Partition Histories from one Trajectory is not equivalent to using multiple Trajectories (see [Ergodicity](https://en.wikipedia.org/wiki/Ergodicity)). But this kind of technical problem can often be mitigated by using some mix of the two methods.
+
+## Estimating the probabilities of state values
 
 So we have the Statistics, but where have the Probabilities gone?
 

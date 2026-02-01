@@ -33,6 +33,14 @@ Batch simulation architectures evaluate multiple successive sequences of Next St
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/architectures_for_current_and_future_hardware/stepwise-vs-batch.svg" width=600/></center>
 
+Despite their appearance, Batch simulation architectures cannot fundamentally evaluate the Next State Values at different Timesteps in a truly parallel fashion. Simulations must still preserve the causal relationships between these Next State Values as they progress in Time.
+
+To ensure this causality, some form of Iteration can be performed; like the Stepwise architecture implies by evaluating it recursively. 
+
+However, it is sometimes sufficient to simply encode the causal/temporal dependencies between State Values along the Simulation Timeline as part of a Batch prediction; which is how some Machine Learning models are used to predict time series data.
+
+## Example: Stepwise vs batch
+
 ```{=html}
 <div id="stepwise-batch-demo" style="margin:0.5em 0;padding:1em;background:#ffffff;border:1px solid #2c3e50;border-radius:6px;">
   <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;padding:0 0.75em;">Stepwise vs Batch Simulation Timeline</div>
@@ -130,12 +138,6 @@ Batch simulation architectures evaluate multiple successive sequences of Next St
 })();
 </script>
 ```
-
-Despite their appearance, Batch simulation architectures cannot fundamentally evaluate the Next State Values at different Timesteps in a truly parallel fashion. Simulations must still preserve the causal relationships between these Next State Values as they progress in Time.
-
-To ensure this causality, some form of Iteration can be performed; like the Stepwise architecture implies by evaluating it recursively. 
-
-However, it is sometimes sufficient to simply encode the causal/temporal dependencies between State Values along the Simulation Timeline as part of a Batch prediction; which is how some Machine Learning models are used to predict time series data.
 
 ## Specialised classical hardware
 

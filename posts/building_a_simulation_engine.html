@@ -492,6 +492,7 @@
       <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/building_a_simulation_engine/fundamental-loop-code.svg" />
       </center>
       <p>The <code>Iteration</code> interface can be used to implement any simulation in practice. To illustrate this point, we can show how the internal logic may be implemented to recreate some well-known stochastic processes.</p>
+      <h2 id="example-wiener-process">Example: Wiener process</h2>
       <p>For example, the <a href="https://en.wikipedia.org/wiki/Wiener_process">Wiener process</a> has some very simple logic.</p>
       <center>
       <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/building_a_simulation_engine/wiener-process.svg" />
@@ -567,6 +568,7 @@
         render();
       })();
       </script>
+      <h2 id="example-itôs-lemma">Example: Itô’s lemma</h2>
       <p>It is well-known (especially by those in finance) that <a href="https://en.wikipedia.org/wiki/It%C3%B4%27s_lemma">Itô’s lemma</a> can be used to adapt the model formulae for a Wiener process after a mathematical function (a.k.a. transformation) has been applied to it.</p>
       <p>We can demonstrate that the <code>Iteration</code> interface can support this kind of transformation as well, through some more complicated logic.</p>
       <center>
@@ -652,6 +654,7 @@
         render();
       })();
       </script>
+      <h2 id="example-time-inhomogeneous-poisson-process">Example: Time-Inhomogeneous Poisson process</h2>
       <p>What about event-based processes?</p>
       <p>The Time-Inhomogeneous <a href="https://en.wikipedia.org/wiki/Poisson_point_process">Poisson process</a>, is an example of an event-based process which counts the cumulative number of events in Time, while its event rate varies.</p>
       <p>The <code>Iteration</code> interface can support this too.</p>
@@ -743,6 +746,7 @@
         render();
       })();
       </script>
+      <h2 id="example-hawkes-process">Example: Hawkes process</h2>
       <p>Let’s give one more example.</p>
       <p>The <a href="https://en.wikipedia.org/wiki/Hawkes_process">Hawkes process</a> couples the history of events to the current event rate. One may therefore categorise this process as ‘non-Markovian’.</p>
       <p>This means that the Hawkes process needs a memory of the State Partition History in order to calculate its Next State Values. Based on everything we have already built and discussed, the <code>Iteration</code> interface obviously supports this quite easily.</p>
