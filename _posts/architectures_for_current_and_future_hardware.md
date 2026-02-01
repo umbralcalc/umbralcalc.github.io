@@ -11,8 +11,6 @@ images:
 # Architectures for current and future hardware
 <div style="height:0.75em;"></div>
 
-Work In Progress...
-
 ## Classical hardware
 
 When we talk about 'classical' hardware here, we just mean standard CPUs.
@@ -31,26 +29,46 @@ Stepwise simulation architectures on CPUs are typically more performant when usi
 
 In contrast, Processes, and IPC in particular, are typically more useful when we consider scaling computations in parallel across multiple non-interacting simulation Trajectories (which don't need much IPC). This is because IPC comes with more performance limitations.
 
-Batch simulation architectures evaluate multiple sucessive sequences of Next State Values for the system over a wider interval in Time all as one computational block.
+Batch simulation architectures evaluate multiple successive sequences of Next State Values for the system over a wider interval in Time all as one computational block.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/architectures_for_current_and_future_hardware/stepwise-vs-batch.svg" width=600/></center>
 
-Batch simulation architectures enable segments of the Simulation Timeline to be evaluated using other specialised hardware.
+Despite their appearance, Batch simulation architectures cannot fundamentally evaluate the Next State Values at different Timesteps in a truly parallel fashion. Simulations must still preserve the causal relationships between these Next State Values as they progress in Time.
 
-This architecture can be used to reduce the overall simulation runtime relative to a Stepwise equivalent, but there are tradeoffs which mean this isn't always efficient.
+To ensure this causality, some form of Iteration can be performed; like the Stepwise architecture implies by evaluating it recursively. 
+
+However, it is sometimes sufficient to simply encode the causal/temporal dependencies between State Values along the Simulation Timeline as part of a Batch prediction; which is how some Machine Learning models are used to predict time series data.
 
 ## Specialised classical hardware
 
+From the perspective of standard CPUs, Batch simulation architectures are often designed to evaluate segments of the Simulation Timeline using specialised classical hardware.
+
 When we talk about 'specialised classical' hardware here, we mean [GPUs](https://en.wikipedia.org/wiki/Graphics_processing_unit), [TPUs](https://en.wikipedia.org/wiki/Tensor_Processing_Unit), [IPUs](https://www.graphcore.ai/products/ipu) and other specialised processors based on classical computing principles (as opposed to quantum processors).
 
-... while limiting the number of Timesteps to ...
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/architectures_for_current_and_future_hardware/specialised-classical-batch.svg"/></center>
 
-This hardware category can ... while incurring the I/O cost of writing to and from CPU memory along the way...
+This architecture can be used to reduce the overall processing time taken to complete a Simulation Run relative to a Stepwise equivalent, but there are tradeoffs which mean this isn't always efficient.
 
-<diagram which explains memory requirements per timestep and specialised hardware memory limits and CPU memory IO costs>
+GPUs, TPUs, IPUs, etc. all have their limitations. For example, GPUs and TPUs are highly optimised for dense arithmetic operations but struggle with branching control flow. IPUs offer more flexibility for irregular compute patterns and sparse operations, though they still prioritise throughput over the complex sequential logic that CPUs handle well.
+
+So there are basically certain types of simulation algorithm that can be written that GPUs, TPUs, IPUs, etc. are not well-suited to reducing the overall processing time for.
+
+In addition, this specialised hardware typically requires data transfer to/from CPU Memory (at the very least for initialization and final results), which also takes processing time.
+
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/architectures_for_current_and_future_hardware/processing-time-per-timestep.svg"/></center>
+
+So, when deciding on the number of Timesteps a Batch simulation architecture should use for the best performance, software engineers must take into account:
+
+- the available Memory of their specialised hardware
+- the Memory requirements for their simulation State Partition Histories
+- the overall number of Timesteps they need to perform
+- the implications this has on the number of I/O operations needed to interact with CPU Memory
+- and the implications _this_ has on reducing the overall processing time, given the specialised hardware.
 
 ## Quantum hardware
 
-So if I wanted to measure a time series metric of the system I would have to create some partition of the quantum state which recorded this time series as a whole in memory before collapsing the quantum state at the end to retrieve the time series.
+So if I wanted to measure a time series metric of the system I would have to create some partition of the quantum state which recorded this time series as a whole in Memory before collapsing the quantum state at the end to retrieve the time series.
 
-Therefore, you only get a quantum advantage at all if you can store more than one timestep worth of simulation metric states in qubit memory. Otherwise, if you only effectively have one instantaneous timestep of qubit memory to use the runtime will be denominated by I/O writing to and from the qubit states during the simulation runtime. This is the quantum I/O bottleneck.
+Therefore, you only get a quantum advantage at all if you can store more than one timestep worth of simulation metric states in qubit Memory. Otherwise, if you only effectively have one instantaneous timestep of qubit Memory to use the runtime will be denominated by I/O writing to and from the qubit states during the simulation runtime. This is the quantum I/O bottleneck.
+
+Work In Progress...
