@@ -623,13 +623,14 @@
       <li>prepare the initial state of <a href="https://en.wikipedia.org/wiki/Qubit">Qubits</a></li>
       <li>encode the State Partition Histories from CPU Memory into these Qubits</li>
       <li>run quantum gates which encode the logic for multiple Timesteps of the simulation</li>
-      <li>entangle the Next State Values at each Timestep with <a href="https://en.wikipedia.org/wiki/Ancilla_bit">Ancilla Qubits</a> or use the State Partition Histories themselves</li>
+      <li>entangle the Next State Values at each Timestep with <a href="https://en.wikipedia.org/wiki/Ancilla_bit">Ancilla Qubits</a> or rely on the Qubits for State Partition Histories themselves</li>
       <li>and measure these Next State Values in order to write the data to CPU Memory.</li>
       </ul>
+      <p>Note that the <a href="https://en.wikipedia.org/wiki/No-cloning_theorem">No-Cloning Theorem</a> means that we cannot simply copy the Qubits which have run the quantum gates; the circuit must run separately for each simulation Trajectory.</p>
       <center>
       <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/architectures_for_current_and_future_hardware/quantum-batch.svg"/>
       </center>
-      <p>Therefore, you only get a <a href="https://en.wikipedia.org/wiki/Quantum_supremacy">Quantum Advantage</a> at all if you can store more than one Timestep worth of simulation Next State Values in Qubit Memory.</p>
+      <p>Therefore, you only get a <a href="https://en.wikipedia.org/wiki/Quantum_supremacy">Quantum Advantage</a> if you can store more than one Timestep worth of simulation Next State Values in Qubit Memory.</p>
       <p>Otherwise, if you only effectively have one instantaneous Timestep of Qubit Memory to use, the processing time will likely be dominated by I/O writing to and from the Qubits during the simulation. This is also known as the <a href="https://ianreppel.org/io-bottleneck-in-quantum-computing/">Quantum I/O Bottleneck</a>.</p>
       
             <div class="next-post">
