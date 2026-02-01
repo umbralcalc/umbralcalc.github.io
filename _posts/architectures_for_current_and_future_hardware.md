@@ -179,7 +179,7 @@ In order to utilise this hardware within a given Batch evaluation, one would nee
 - entangle the Next State Values at each Timestep with [Ancilla Qubits](https://en.wikipedia.org/wiki/Ancilla_bit) or rely on the Qubits for State Partition Histories themselves
 - and measure these Next State Values in order to write the data to CPU Memory.
 
-Note that the [No-Cloning Theorem](https://en.wikipedia.org/wiki/No-cloning_theorem) means that we cannot simply copy the Qubits which have run the quantum gates; the circuit must run separately for each simulation Trajectory.
+Note also that the [No-Cloning Theorem](https://en.wikipedia.org/wiki/No-cloning_theorem) means we cannot simply copy the Qubits which have run the quantum gates; the circuit must run separately for each simulation Trajectory.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/architectures_for_current_and_future_hardware/quantum-batch.svg"/></center>
 
