@@ -479,19 +479,21 @@
 
       </div>
       <p>Work In Progress…</p>
+      <h2 id="how-do-we-learn-a-simulation">How do we learn a simulation?</h2>
+      <p>Unlike Machine Learning models, which typically come with standard training algorithms (like <a href="https://en.wikipedia.org/wiki/Backpropagation">Backpropagation</a> for Neural Networks), simulations often need us to explicitly choose and design procedures for learning their Parameters from real-world data or optimising their outputs.</p>
+      <p>In order to do this, we must first have some Objective of fit which either characterises how close simulation Trajectories are to replicating the data we have or define the quantity we want to optimise.</p>
+      <p><Objective of fit explanation diagram></p>
+      <p>There are a number of techniques we can use to specify what the Objective should be, depending on the purpose.</p>
       <h2 id="learning-simulations-from-data">Learning simulations from data</h2>
-      <h2 id="what-do-we-need-to-do">What do we need to do?</h2>
+      <p>If the purpose is to determine the Parameters which correspond to a simulation more closely fitting real-world data trends, it is natural to use an Objective based on the Probabilities of State Partition Histories that we computed in the previous post.</p>
       <ul>
       <li>Outline how we need to characterise some objective of fit which represents the simulation probabilities.</li>
-      </ul>
-      <h2 id="how-do-we-do-it">How do we do it?</h2>
-      <ul>
       <li>Give the online posterior estimation algorithm as one example</li>
       </ul>
       <center>
       <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_real_world_simulations/simulation-inference-code.svg"/>
       </center>
-      <h2 id="learning-simulated-actions">Learning simulated actions</h2>
+      <h2 id="learning-smarter-simulated-actions">Learning smarter simulated actions</h2>
       <ul>
       <li>Talk about extensions, including Bayesian optimisation and MCA-ES</li>
       <li>Cover that ‘optimality’ isn’t usually needed in practice</li>
