@@ -730,10 +730,10 @@
             y: baseY - transferH - computeH + 12,
             fill: "#2c3e50",
             "font-size": "10",
-          })).textContent = "Batch compute time";
+          })).textContent = "Batch processing time";
 
           text.innerHTML = `
-            <div>I/O cost per Timestep falls with larger Batches, while compute cost grows.</div>
+            <div>I/O cost per Timestep falls with larger Batches, while Batch processing time grows.</div>
             <div>Available Memory limits how large the Batch can be.</div>
             ${batchSize > memoryLimit ? "<div><strong>Warning:</strong> Batch size exceeds available Memory.</div>" : ""}
           `;
