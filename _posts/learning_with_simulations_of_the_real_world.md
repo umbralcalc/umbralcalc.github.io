@@ -1,13 +1,14 @@
 ---
-title: "Learning real-world simulations"
+title: "Learning with simulations of the real world"
 tag: "Simulating Real-World Systems as a Programmer"
 series-blurb: "A collection of posts on the foundations and patterns for building simulations of the real world. Written especially for programmers and non-technical readers wanting to learn the fundamentals. All written material and non-interactive diagrams were human-generated, where some interactive elements were programmed using generative AI tools."
 order: 6
 images:
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_real_world_simulations/simulation-inference-code.svg"
+- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_with_simulations_of_the_real_world/objectives.svg"
+- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_with_simulations_of_the_real_world/simulation-inference-code.svg"
 ---
 
-# Learning real-world simulations
+# Learning with simulations of the real world
 <div style="height:0.75em;"></div>
 
 Work In Progress...
@@ -16,9 +17,9 @@ Work In Progress...
 
 Unlike Machine Learning models, which typically come with standard training algorithms (like [Backpropagation](https://en.wikipedia.org/wiki/Backpropagation) for Neural Networks), simulations often need us to explicitly choose and design procedures for learning their Parameters from real-world data or optimising their outputs.
 
-In order to do this, we must first have some Objective of fit which either characterises how close simulation Trajectories are to replicating the data we have or define the quantity we want to optimise.
+In order to do this, we must first have some Objective which either characterises how close simulation Trajectories are to replicating the data we have or define the quantity we want to optimise.
 
-<Objective of fit explanation diagram>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_with_simulations_of_the_real_world/objectives.svg"/></center>
 
 There are a number of techniques we can use to specify what the Objective should be, depending on the purpose.
 
@@ -29,7 +30,7 @@ If the purpose is to determine the Parameters which correspond to a simulation m
 - Outline how we need to characterise some objective of fit which represents the simulation probabilities.
 - Give the online posterior estimation algorithm as one example
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_real_world_simulations/simulation-inference-code.svg"/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_with_simulations_of_the_real_world/simulation-inference-code.svg"/></center>
 
 ## Learning smarter simulated actions
 

@@ -150,12 +150,12 @@
   }
 ,
   {
-    "title": "Learning real-world simulations",
-    "slug": "learning_real_world_simulations",
-    "url": "/posts/learning_real_world_simulations.html",
+    "title": "Learning with simulations of the real world",
+    "slug": "learning_with_simulations_of_the_real_world",
+    "url": "/posts/learning_with_simulations_of_the_real_world.html",
     "tag": "Simulating Real-World Systems as a Programmer",
     "date": "",
     "order": 6,
-    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_real_world_simulations/simulation-inference-code.svg"]
+    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_with_simulations_of_the_real_world/objectives.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_with_simulations_of_the_real_world/simulation-inference-code.svg"]
   }
 ]
