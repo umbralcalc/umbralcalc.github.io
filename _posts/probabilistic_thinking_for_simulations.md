@@ -19,7 +19,7 @@ Probabilities can represent sampling all of the possible Trajectories that a sim
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/probabilites-vs-trajectories.svg" /></center>
 
-Using this representation for a real-world simulation, there are two important use cases.
+Using this representation of a simulation, there are two important use cases.
 
 The first uses all of the possible Trajectories the simulation can take to represent how likely it is to take them. This makes it possible to create algorithms which learn the most likely Parameters for State Partitions to match real-world Data.
 
