@@ -13,7 +13,7 @@ images:
 
 Work In Progress...
 
-## How do we learn a simulation?
+## How do we learn with a simulation?
 
 Unlike Machine Learning models, which typically come with standard training algorithms (like [Backpropagation](https://en.wikipedia.org/wiki/Backpropagation) for Neural Networks), simulations often need us to explicitly choose and design procedures for learning their Parameters from real-world data or optimising their outputs.
 
