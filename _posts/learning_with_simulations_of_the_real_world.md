@@ -25,9 +25,14 @@ There are a number of techniques we can use to specify what the Objective should
 
 ## Learning simulations from data
 
-If the purpose is to determine the Parameters which correspond to a simulation more closely fitting real-world data trends, it is natural to use an Objective based on the Probabilities of State Partition Histories that we computed in the previous post.
+If we want to learn the Parameters which correspond to a simulation fitting real-world data trends more closely, it is natural to use an Objective based on the Probabilities of State Partition Histories that we computed in the previous post.
 
-- Outline how we need to characterise some objective of fit which represents the simulation probabilities.
+We start by piping time-series data into our simulation by specifying it as a State Partition.
+
+<Data as a state partition in simulation>
+
+We can then use a method to estimate the Probabilities of State Values within the data, e.g., the Probabilistic Sample Weighting we discussed in the previous post.
+
 - Give the online posterior estimation algorithm as one example
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_with_simulations_of_the_real_world/simulation-inference-code.svg"/></center>
