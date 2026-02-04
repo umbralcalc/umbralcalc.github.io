@@ -27,13 +27,29 @@ There are a number of techniques we can use to specify what the Objective should
 
 If we want to learn the Parameters which correspond to a simulation fitting real-world data trends more closely, it is natural to use an Objective based on the Probabilities of State Partition Histories that we computed in the previous post.
 
-We start by piping time-series data into our simulation by specifying it as a State Partition.
+We start by streaming time-series data into our simulation by specifying it as a State Partition.
 
 <Data as a state partition in simulation>
 
 We can then use a method to estimate the Probabilities of State Values within the data, e.g., the Probabilistic Sample Weighting we discussed in the previous post.
 
-- Give the online posterior estimation algorithm as one example
+So we have a way to calculate these 'Data Probabilities' for any Possible State Values the data can take in Time.
+
+By then evaluating these Data Probabilities at the points which coincide with simulation Trajectories, we have an Objective which quantifies how close the simulation is to the data.
+
+## Example: Online simulation parameter estimation
+
+The Data Probabilities of simulation Trajectories can also be interpreted as Probabilities of simulation Parameters; often accompanied with some simulation noise to account for differences between Trajectories even with the same Parameters.
+
+We can create an algorithm which uses this sequence of Probabilities to estimate the Probabilities of simulation Parameters in a very similar way to Probabilistic Sample Weighting (see the last post for details on the latter).
+
+<Online Simulation Parameter Estimation diagram>
+
+We might call this algorithm 'Online Simulation Parameter Estimation'; where 'Online' here means that the simulation is being adaptively learned to the data iteratively in time, as opposed to a whole Batch all at once.
+
+<Interactive widget which shows how sample Online Simulation Parameter Estimation works>
+
+There is also an implementation of this Online Simulation Parameter Estimation algorithm within the [stochadex simulation engine](https://umbralcalc.github.io/stochadex).
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_with_simulations_of_the_real_world/simulation-inference-code.svg"/></center>
 
