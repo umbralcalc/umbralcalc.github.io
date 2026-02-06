@@ -65,8 +65,22 @@ For instance, we may define some logic in a State Partition Iteration of the sim
 
 Given this setup, a very common goal of interest is then in finding the best Actions to take; which is analogous to optimising the Parameters of the Action-taking State Partition Iteration.
 
-## Example: Optimising future reward
+But what should be use as an Objective?
 
-The [Evolutionary Strategies](https://en.wikipedia.org/wiki/Evolution_strategy) algorithm can be applied to search future simulation Trajectories to find the best set of Parameters needed to achieve some 'Future Discounted Reward'.
+The 'Discounted Future Reward' is a quantity we can specify that a simulation Trajectory will have accumulated into the future, accounting for increasing distance into the future by 'Discounting' it gradually with a weighting.
+
+<discounted future reward explained in a diagram>
+
+We are using this concept of Discounted Future Reward in the same way that it is used in [Reinforcement Learning](https://en.wikipedia.org/wiki/Reinforcement_learning).
+
+The idea is that, as you go further into the future, the importance of the Reward you have accumulated by then is increasingly irrelevant to Actions you might take at the present moment.
+
+## Example: Optimising with evolutionary strategies
+
+The [Evolutionary Strategies](https://en.wikipedia.org/wiki/Evolution_strategy) algorithm can be applied to search future simulation Trajectories to find the best set of Parameters needed to achieve some Discounted Future Reward.
+
+...
+
+There is also an implementation of Evolutionary Strategies being used as part of a Discounted Future Reward Optimiser algorithm within the [stochadex simulation engine](https://umbralcalc.github.io/stochadex).
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/discounted-return-optimiser-code.svg"/></center>
