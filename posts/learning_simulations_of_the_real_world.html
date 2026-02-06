@@ -12,7 +12,7 @@
   <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
   <link rel="apple-touch-icon" href="../assets/umbralcalculations-logo.svg">
   
-  <title>Learning with simulations of the real world</title>
+  <title>Learning simulations of the real world</title>
   
   <!-- Fonts -->
   <style>
@@ -474,20 +474,20 @@
     </section>
     
     <main>
-      <h1 id="learning-with-simulations-of-the-real-world">Learning with simulations of the real world</h1>
+      <h1 id="learning-simulations-of-the-real-world">Learning simulations of the real world</h1>
       <div style="height:0.75em;">
 
       </div>
       <p>Work In Progress…</p>
-      <h2 id="how-do-we-learn-with-a-simulation">How do we learn with a simulation?</h2>
+      <h2 id="how-do-we-learn-a-simulation">How do we learn a simulation?</h2>
       <p>Unlike Machine Learning models, which typically come with standard training algorithms (like <a href="https://en.wikipedia.org/wiki/Backpropagation">Backpropagation</a> for Neural Networks), simulations often need us to explicitly choose and design procedures for learning their Parameters from real-world data or optimising their outputs.</p>
       <p>In order to do this, we must first have some Objective which either characterises how close simulation Trajectories are to replicating the data we have or define the quantity we want to optimise.</p>
       <center>
-      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_with_simulations_of_the_real_world/objectives.svg"/>
+      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/objectives.svg"/>
       </center>
       <p>There are a number of techniques we can use to specify what the Objective should be, depending on the purpose.</p>
       <h2 id="learning-simulations-from-data">Learning simulations from data</h2>
-      <p>If we want to learn the Parameters which correspond to a simulation fitting real-world data trends more closely, it is natural to use an Objective based on the Probabilities of State Partition Histories that we computed in the previous post.</p>
+      <p>If we want to learn the Parameters which correspond to simulation Trajectories fitting real-world data trends more closely, it is natural to use an Objective based on the Probabilities of State Partition Histories that we computed in the previous post.</p>
       <p>We start by streaming time-series data into our simulation by specifying it as a State Partition.</p>
       <p><Data as a state partition in simulation></p>
       <p>We can then use a method to estimate the Probabilities of State Values within the data, e.g., the Probabilistic Sample Weighting we discussed in the previous post.</p>
@@ -501,19 +501,19 @@
       <p><Interactive widget which shows how sample Online Simulation Parameter Estimation works></p>
       <p>There is also an implementation of this Online Simulation Parameter Estimation algorithm within the <a href="https://umbralcalc.github.io/stochadex">stochadex simulation engine</a>.</p>
       <center>
-      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_with_simulations_of_the_real_world/simulation-inference-code.svg"/>
+      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/simulation-inference-code.svg"/>
       </center>
-      <h2 id="learning-smarter-simulated-actions">Learning smarter simulated actions</h2>
-      <ul>
-      <li>Talk about extensions, including Bayesian optimisation and MCA-ES</li>
-      <li>Cover that ‘optimality’ isn’t usually needed in practice</li>
-      <li>Cover that simulating actions isn’t usually like simulating other parts of systems because the data isn’t usually good at all!</li>
-      <li>Cover Bayesian optimisation and MCA-ES</li>
-      <li>Cover how to chunk up action domains into seperate sub-domains</li>
-      <li>vanilla ES + discreteEA optimisers that can handle constraints and hierarchies in params</li>
-      <li>Should be easy to combine the two in the same architecture by using the same collection sorting iteration to retain the samples with the best fitness over time and then the recombination into offspring is just different depending on the discrete/continuous space</li>
-      <li>Consider also adding in a ‘forgetting’ collection which uses the state history to only retain best sample in the last N iterations - this can be combined with the long-term memory collection to make it a more generally flexible optimiser! Talk about how this is similar to LSTMs!</li>
-      </ul>
+      <h2 id="learning-optimal-simulations">Learning optimal simulations</h2>
+      <p>If we want to learn Parameters which correspond to optimal simulation Trajectories, we first need to specify what ‘optimal’ means.</p>
+      <p>We do this by defining an Objective whose maximum/minimum possible value will be achieved when our goal is met.</p>
+      <p>For instance, we may define some logic in a State Partition Iteration of the simulation which replicates taking ‘Actions’ in the real world. This logic can depend on the simulation Parameters so that the latter encodes the behaviour quantitatively.</p>
+      <p><Simulation with action taking partition depending on parameters></p>
+      <p>Given this setup, a very common goal of interest is then in finding the best Actions to take; which is analogous to optimising the Parameters of the Action-taking State Partition Iteration.</p>
+      <h2 id="example-optimising-future-reward">Example: Optimising future reward</h2>
+      <p>The <a href="https://en.wikipedia.org/wiki/Evolution_strategy">Evolutionary Strategies</a> algorithm can be applied to search future simulation Trajectories to find the best set of Parameters needed to achieve some ‘Future Discounted Reward’.</p>
+      <center>
+      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/discounted-return-optimiser-code.svg"/>
+      </center>
       
           </main>
   </div>
