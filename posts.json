@@ -23,7 +23,7 @@
     "title": "Rugby managers under the microscope",
     "slug": "rugby_managers_under_the_microscope",
     "url": "/posts/rugby_managers_under_the_microscope.html",
-    "tag": "",
+    "tag": "Engineering Smart Actions in Practice",
     "date": "",
     "order": 1,
     "images": []
@@ -50,10 +50,10 @@
   }
 ,
   {
-    "title": "Stock market simulations can model price impacts",
-    "slug": "stock_market_simulations_can_model_price_impacts",
-    "url": "/posts/stock_market_simulations_can_model_price_impacts.html",
-    "tag": "",
+    "title": "How sustainable are freshwater fishing policies in the UK?",
+    "slug": "how_sustainable_are_freshwater_fishing_policies_in_the_uk",
+    "url": "/posts/how_sustainable_are_freshwater_fishing_policies_in_the_uk.html",
+    "tag": "Engineering Smart Actions in Practice",
     "date": "",
     "order": 2,
     "images": []
@@ -90,16 +90,6 @@
   }
 ,
   {
-    "title": "How sustainable are freshwater fishing policies in the UK?",
-    "slug": "how_sustainable_are_freshwater_fishing_policies_in_the_uk",
-    "url": "/posts/how_sustainable_are_freshwater_fishing_policies_in_the_uk.html",
-    "tag": "",
-    "date": "",
-    "order": 3,
-    "images": []
-  }
-,
-  {
     "title": "Programmatic gaming through a browser",
     "slug": "programmatic_gaming_through_a_browser",
     "url": "/posts/programmatic_gaming_through_a_browser.html",
@@ -127,16 +117,6 @@
     "date": "",
     "order": 4,
     "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/architectures_for_current_and_future_hardware/cpu-graph-edges.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/architectures_for_current_and_future_hardware/cpu-stepwise-architectures.svg"]
-  }
-,
-  {
-    "title": "Data-driven woodland health simulations",
-    "slug": "data_driven_woodland_health_simulations",
-    "url": "/posts/data_driven_woodland_health_simulations.html",
-    "tag": "",
-    "date": "",
-    "order": 4,
-    "images": []
   }
 ,
   {

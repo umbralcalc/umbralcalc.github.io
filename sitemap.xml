@@ -25,12 +25,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://umbralcalc.github.io/posts/data_driven_woodland_health_simulations.html</loc>
-    <lastmod>2026-02-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://umbralcalc.github.io/posts/eddies_of_the_lethe.html</loc>
     <lastmod>2026-02-06</lastmod>
     <changefreq>monthly</changefreq>
@@ -74,12 +68,6 @@
   </url>
   <url>
     <loc>https://umbralcalc.github.io/posts/rugby_managers_under_the_microscope.html</loc>
-    <lastmod>2026-02-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://umbralcalc.github.io/posts/stock_market_simulations_can_model_price_impacts.html</loc>
     <lastmod>2026-02-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
