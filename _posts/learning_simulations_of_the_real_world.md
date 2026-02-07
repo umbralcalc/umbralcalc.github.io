@@ -63,7 +63,7 @@ For instance, we may define some logic in a State Partition Iteration of the sim
 
 <Simulation with action taking partition depending on parameters>
 
-Given this setup, a very common goal of interest is then in finding the best Actions to take; which is analogous to optimising the Parameters of the Action-taking State Partition Iteration.
+Given this setup, a very common goal of interest is then in finding the best Actions to take; which is analogous to optimising the Parameters of the Action-taking State Partition Iteration. We will refer to these Parameters as 'Policy Parameters'.
 
 But what should be use as an Objective?
 
@@ -77,9 +77,11 @@ The idea is that, as you go further into the future, the importance of the Rewar
 
 ## Example: Optimising with evolutionary strategies
 
-The [Evolutionary Strategies](https://en.wikipedia.org/wiki/Evolution_strategy) algorithm can be applied to search future simulation Trajectories to find the best set of Parameters needed to achieve some Discounted Future Reward.
+The [Evolutionary Strategies](https://en.wikipedia.org/wiki/Evolution_strategy) algorithm can be applied to search future simulation Trajectories to find the best set of Policy Parameters needed to achieve some Discounted Future Reward.
 
-...
+This algorithm relies on sorting the sampled simulation Trajectories according to their Discounted Future Rewards and then using the top fraction of these to update the best known Policy Parameters (and the Variance around them) after each Timestep.
+
+<Optimising with evolutionary strategies diagram>
 
 There is also an implementation of Evolutionary Strategies being used as part of a Discounted Future Reward Optimiser algorithm within the [stochadex simulation engine](https://umbralcalc.github.io/stochadex).
 
