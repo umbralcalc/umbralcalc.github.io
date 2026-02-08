@@ -11,8 +11,6 @@ images:
 # Learning simulations of the real world
 <div style="height:0.75em;"></div>
 
-Work In Progress...
-
 ## How do we learn a simulation?
 
 Unlike Machine Learning models, which typically come with standard training algorithms (like [Backpropagation](https://en.wikipedia.org/wiki/Backpropagation) for Neural Networks), simulations often need us to explicitly choose and design procedures for learning their Parameters from real-world data or optimising their outputs.
