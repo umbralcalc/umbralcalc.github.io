@@ -488,16 +488,20 @@
       <h2 id="learning-simulations-from-data">Learning simulations from data</h2>
       <p>If we want to learn the Parameters which correspond to simulation Trajectories fitting real-world data trends more closely, it is natural to use an Objective based on the Probabilities of State Partition Histories that we computed in the previous post.</p>
       <p>We start by streaming time-series data into our simulation by specifying it as a State Partition.</p>
-      <p><Data as a state partition in simulation></p>
+      <center>
+      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/data-streaming.svg"/>
+      </center>
       <p>We can then use a method to estimate the Probabilities of State Values within the data, e.g., the Probabilistic Sample Weighting we discussed in the previous post.</p>
       <p>So we have a way to calculate these ‘Data Probabilities’ for any Possible State Values the data can take in Time.</p>
       <p>By then evaluating these Data Probabilities at the points which coincide with simulation Trajectories, we have an Objective which quantifies how close the simulation is to the data.</p>
       <h2 id="example-online-simulation-parameter-estimation">Example: Online simulation parameter estimation</h2>
       <p>The Data Probabilities of simulation Trajectories can also be interpreted as Probabilities of simulation Parameters; often accompanied with some simulation noise to account for differences between Trajectories even with the same Parameters.</p>
       <p>We can create an algorithm which uses this sequence of Probabilities to estimate the Probabilities of simulation Parameters in a very similar way to Probabilistic Sample Weighting (see the last post for details on the latter).</p>
-      <p><Online Simulation Parameter Estimation diagram></p>
+      <center>
+      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/online-posterior-estimation.svg"/>
+      </center>
       <p>We might call this algorithm ‘Online Simulation Parameter Estimation’; where ‘Online’ here means that the simulation is being adaptively learned to the data iteratively in time, as opposed to a whole Batch all at once.</p>
-      <p><Interactive widget which shows how sample Online Simulation Parameter Estimation works></p>
+      <p><Interactive widget which shows an example of Online Simulation Parameter Estimation></p>
       <p>There is also an implementation of this Online Simulation Parameter Estimation algorithm within the <a href="https://umbralcalc.github.io/stochadex">stochadex simulation engine</a>.</p>
       <center>
       <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/simulation-inference-code.svg"/>
@@ -516,7 +520,10 @@
       <h2 id="example-optimising-with-evolutionary-strategies">Example: Optimising with evolutionary strategies</h2>
       <p>The <a href="https://en.wikipedia.org/wiki/Evolution_strategy">Evolutionary Strategies</a> algorithm can be applied to search future simulation Trajectories to find the best set of Policy Parameters needed to achieve some Discounted Future Reward.</p>
       <p>This algorithm relies on sorting the sampled simulation Trajectories according to their Discounted Future Rewards and then using the top fraction of these to update the best known Policy Parameters (and the Variance around them) after each Timestep.</p>
-      <p><Optimising with evolutionary strategies diagram></p>
+      <center>
+      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/optimising-evolutionary-strategies.svg"/>
+      </center>
+      <p><Interactive widget which shows an example of optimising with evolutionary strategies></p>
       <p>There is also an implementation of Evolutionary Strategies being used as part of a Discounted Future Reward Optimiser algorithm within the <a href="https://umbralcalc.github.io/stochadex">stochadex simulation engine</a>.</p>
       <center>
       <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/discounted-return-optimiser-code.svg"/>

@@ -5,7 +5,7 @@ series-blurb: "A collection of posts on the foundations and patterns for buildin
 order: 6
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/objectives.svg"
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/simulation-inference-code.svg"
+- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/data-streaming.svg"
 ---
 
 # Learning simulations of the real world
@@ -27,7 +27,7 @@ If we want to learn the Parameters which correspond to simulation Trajectories f
 
 We start by streaming time-series data into our simulation by specifying it as a State Partition.
 
-<Data as a state partition in simulation>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/data-streaming.svg"/></center>
 
 We can then use a method to estimate the Probabilities of State Values within the data, e.g., the Probabilistic Sample Weighting we discussed in the previous post.
 
@@ -41,11 +41,11 @@ The Data Probabilities of simulation Trajectories can also be interpreted as Pro
 
 We can create an algorithm which uses this sequence of Probabilities to estimate the Probabilities of simulation Parameters in a very similar way to Probabilistic Sample Weighting (see the last post for details on the latter).
 
-<Online Simulation Parameter Estimation diagram>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/online-posterior-estimation.svg"/></center>
 
 We might call this algorithm 'Online Simulation Parameter Estimation'; where 'Online' here means that the simulation is being adaptively learned to the data iteratively in time, as opposed to a whole Batch all at once.
 
-<Interactive widget which shows how sample Online Simulation Parameter Estimation works>
+<Interactive widget which shows an example of Online Simulation Parameter Estimation>
 
 There is also an implementation of this Online Simulation Parameter Estimation algorithm within the [stochadex simulation engine](https://umbralcalc.github.io/stochadex).
 
@@ -79,7 +79,9 @@ The [Evolutionary Strategies](https://en.wikipedia.org/wiki/Evolution_strategy) 
 
 This algorithm relies on sorting the sampled simulation Trajectories according to their Discounted Future Rewards and then using the top fraction of these to update the best known Policy Parameters (and the Variance around them) after each Timestep.
 
-<Optimising with evolutionary strategies diagram>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/optimising-evolutionary-strategies.svg"/></center>
+
+<Interactive widget which shows an example of optimising with evolutionary strategies>
 
 There is also an implementation of Evolutionary Strategies being used as part of a Discounted Future Reward Optimiser algorithm within the [stochadex simulation engine](https://umbralcalc.github.io/stochadex).
 
