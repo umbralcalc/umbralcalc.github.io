@@ -1,6 +1,7 @@
 ---
 title: "How sustainable are freshwater fishing policies in the UK?"
 tag: "Engineering Smart Actions in Practice"
+series-blurb: "A collection of posts which apply tools for simulating real-world systems to solve various practical problems along the same theme of 'selecting the best actions to take'. All data sources have been referenced in the relevant project code repositories. All written material and non-interactive diagrams were human-generated, where some interactive elements were programmed using generative AI tools."
 order: 2
 ---
 
