@@ -510,11 +510,15 @@
       <p>If we want to learn Parameters which correspond to optimal simulation Trajectories, we first need to specify what ‘optimal’ means.</p>
       <p>We do this by defining an Objective whose maximum/minimum possible value will be achieved when our goal is met.</p>
       <p>For instance, we may define some logic in a State Partition Iteration of the simulation which replicates taking ‘Actions’ in the real world. This logic can depend on the simulation Parameters so that the latter encodes the behaviour quantitatively.</p>
-      <p><Simulation with action taking partition depending on parameters></p>
+      <center>
+      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/action-taking.svg"/>
+      </center>
       <p>Given this setup, a very common goal of interest is then in finding the best Actions to take; which is analogous to optimising the Parameters of the Action-taking State Partition Iteration. We will refer to these Parameters as ‘Policy Parameters’.</p>
       <p>But what should be use as an Objective?</p>
       <p>The ‘Discounted Future Reward’ is a quantity we can specify that a simulation Trajectory will have accumulated into the future, accounting for increasing distance into the future by ‘Discounting’ it gradually with a weighting.</p>
-      <p><discounted future reward explained in a diagram></p>
+      <center>
+      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/discounted-future-reward.svg"/>
+      </center>
       <p>We are using this concept of Discounted Future Reward in the same way that it is used in <a href="https://en.wikipedia.org/wiki/Reinforcement_learning">Reinforcement Learning</a>.</p>
       <p>The idea is that, as you go further into the future, the importance of the Reward you have accumulated by then is increasingly irrelevant to Actions you might take at the present moment.</p>
       <h2 id="example-optimising-with-evolutionary-strategies">Example: Optimising with evolutionary strategies</h2>

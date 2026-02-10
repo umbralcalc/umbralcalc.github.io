@@ -59,7 +59,7 @@ We do this by defining an Objective whose maximum/minimum possible value will be
 
 For instance, we may define some logic in a State Partition Iteration of the simulation which replicates taking 'Actions' in the real world. This logic can depend on the simulation Parameters so that the latter encodes the behaviour quantitatively.
 
-<Simulation with action taking partition depending on parameters>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/action-taking.svg"/></center>
 
 Given this setup, a very common goal of interest is then in finding the best Actions to take; which is analogous to optimising the Parameters of the Action-taking State Partition Iteration. We will refer to these Parameters as 'Policy Parameters'.
 
@@ -67,7 +67,7 @@ But what should be use as an Objective?
 
 The 'Discounted Future Reward' is a quantity we can specify that a simulation Trajectory will have accumulated into the future, accounting for increasing distance into the future by 'Discounting' it gradually with a weighting.
 
-<discounted future reward explained in a diagram>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/discounted-future-reward.svg"/></center>
 
 We are using this concept of Discounted Future Reward in the same way that it is used in [Reinforcement Learning](https://en.wikipedia.org/wiki/Reinforcement_learning).
 
