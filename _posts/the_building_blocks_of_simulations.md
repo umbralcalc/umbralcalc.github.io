@@ -335,7 +335,7 @@ This is an important procedure to perform all at once to ensure that the all of 
 
 ## Composing and coordinating partitions
 
-So far we have considered Partition Iterations as occurring seperately within the simulation. But it is important for these separate Partitions to be able to pass information to each other. 
+So far we have considered Partition Iterations as occurring separately within the simulation. But it is important for these separate Partitions to be able to pass information to each other. 
 
 To understand why this is important, think of our sports team example earlier and how each player might change their behaviour depending on the positions of other players on the field. They need to know about each other.
 

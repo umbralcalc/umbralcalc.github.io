@@ -38,7 +38,7 @@ Black box AI at best encodes only generic statistical or architectural inductive
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/shape-statistics.svg"/></center>
 
-In contrast to black box AI, world models represent the state of the system _seperately from the data_. Simulations can be thought of as a kind of world model, for instance.
+In contrast to black box AI, world models represent the state of the system _separately from the data_. Simulations can be thought of as a kind of world model, for instance.
 
 A true world model should enable sources of information _distinct from the data_ to be included in its prediction, i.e., domain-specific structure with expert interpretation. This is the only clear way to circumvent data limitations.
 
