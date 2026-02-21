@@ -28,8 +28,12 @@ Project here: [https://github.com/umbralcalc/trywizard](https://github.com/umbra
     function resizeABEzhidnSACY() {
         var w = document.getElementById('ABEzhidnSACY').offsetWidth;
         var titlePx = "Smoothed baseline event rates per minute (home vs away)".length * 18 * 0.55;
-        var extra = Math.max(0, Math.ceil(titlePx / (w - 20)) - 1) * 24;
-        goecharts_ABEzhidnSACY.setOption({title: {textStyle: {width: w - 20, overflow: 'break'}}, legend: {top: (30 + extra) + 'px'}, grid: {top: (90 + extra) + 'px'}});
+        var titleExtra = Math.max(0, Math.ceil(titlePx / (w - 20)) - 1) * 24;
+        var legendCols = Math.max(1, Math.floor(w / 175));
+        var legendRows = Math.ceil(6 / legendCols);
+        var legendTop = 30 + titleExtra;
+        var gridTop = legendTop + legendRows * 22 + 20;
+        goecharts_ABEzhidnSACY.setOption({title: {textStyle: {width: w - 20, overflow: 'break'}}, legend: {top: legendTop + 'px'}, grid: {top: gridTop + 'px'}});
         goecharts_ABEzhidnSACY.resize();
     }
     resizeABEzhidnSACY();
@@ -55,7 +59,10 @@ Project here: [https://github.com/umbralcalc/trywizard](https://github.com/umbra
         var w = document.getElementById('oDVMvmuieuQk').offsetWidth;
         var titlePx = "Substitution Covariate Coefficients by Rate Type".length * 18 * 0.55;
         var extra = Math.max(0, Math.ceil(titlePx / (w - 20)) - 1) * 24;
-        goecharts_oDVMvmuieuQk.setOption({title: {textStyle: {width: w - 20, overflow: 'break'}}, grid: {top: (40 + extra) + 'px'}});
+        var legendCols = Math.max(1, Math.floor(w / 130));
+        var legendRows = Math.ceil(8 / legendCols);
+        var gridBottom = legendRows * 22 + 41;
+        goecharts_oDVMvmuieuQk.setOption({title: {textStyle: {width: w - 20, overflow: 'break'}}, grid: {top: (40 + extra) + 'px', bottom: gridBottom + 'px'}});
         goecharts_oDVMvmuieuQk.resize();
     }
     resizeoDVMvmuieuQk();
@@ -76,8 +83,12 @@ Project here: [https://github.com/umbralcalc/trywizard](https://github.com/umbra
     function resizexgfEUfsRAVSZ() {
         var w = document.getElementById('xgfEUfsRAVSZ').offsetWidth;
         var titlePx = "Home Win Probability vs Substitution Minute".length * 18 * 0.55;
-        var extra = Math.max(0, Math.ceil(titlePx / (w - 20)) - 1) * 24;
-        goecharts_xgfEUfsRAVSZ.setOption({title: {textStyle: {width: w - 20, overflow: 'break'}}, legend: {top: (30 + extra) + 'px'}, grid: {top: (90 + extra) + 'px'}});
+        var titleExtra = Math.max(0, Math.ceil(titlePx / (w - 20)) - 1) * 24;
+        var legendCols = Math.max(1, Math.floor(w / 135));
+        var legendRows = Math.ceil(4 / legendCols);
+        var legendTop = 30 + titleExtra;
+        var gridTop = legendTop + legendRows * 22 + 35;
+        goecharts_xgfEUfsRAVSZ.setOption({title: {textStyle: {width: w - 20, overflow: 'break'}}, legend: {top: legendTop + 'px'}, grid: {top: gridTop + 'px'}});
         goecharts_xgfEUfsRAVSZ.resize();
     }
     resizexgfEUfsRAVSZ();
