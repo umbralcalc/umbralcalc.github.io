@@ -5,20 +5,28 @@ series-blurb: "A collection of posts which apply tools for simulating real-world
 order: 1
 ---
 
-Work In Progress...
-
 # Substitution timing of rugby managers
 <div style="height:0.75em;"></div>
 
-Project here: [https://github.com/umbralcalc/trywizard](https://github.com/umbralcalc/trywizard).
+In [this project](https://github.com/umbralcalc/trywizard) we build a simulation of a rugby match and enable player substitution actions to change its outcomes. The data used to train this model is described in the project repository.
+
+Using the [stochadex simulation engine](https://umbralcalc.github.io/stochadex) we can define this simulation structure through a relatively simple diagram.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/substitution_timing_of_rugby_managers/rugby-match-simulation.svg"/></center>
 
+The next step is to smooth and aggregate the data to produce baseline event rates for all of the relevant events which our simulation needs to learn.
+
+These event rates can be thought of as: 'what the averaged rugby match does'.
+
 ````{=html}
-<script src="https://go-echarts.github.io/go-echarts-assets/assets/echarts.min.js"></script>
 <div class="echarts-container">
     <div class="echarts-item" id="ABEzhidnSACY" style="width:100%;max-width:600px;height:350px;"></div>
 </div>
+<script src="https://go-echarts.github.io/go-echarts-assets/assets/echarts.min.js"></script>
+<style>
+    .echarts-container {margin-top:30px; margin-bottom:30px; display: flex;justify-content: center;align-items: center;}
+    .echarts-item {margin: auto;}
+</style>
 <script type="text/javascript">
     "use strict";
     let goecharts_ABEzhidnSACY = echarts.init(document.getElementById('ABEzhidnSACY'), "white", { renderer: "canvas" });
@@ -39,11 +47,11 @@ Project here: [https://github.com/umbralcalc/trywizard](https://github.com/umbra
     resizeABEzhidnSACY();
     window.addEventListener('resize', resizeABEzhidnSACY);
 </script>
-<style>
-    .echarts-container {margin-top:30px; display: flex;justify-content: center;align-items: center;}
-    .echarts-item {margin: auto;}
-</style>
 ````
+
+Using these smoothed event rates as a baseline to evaluate deviations from, we can then train a model of the actual event rates experienced by a specific rugby match in response to different player substition types.
+
+Positive Coefficients improve the rate of the corresponding event type, and negative Coefficients reduce their rates.
 
 ````{=html}
 <div class="echarts-container">
@@ -69,6 +77,8 @@ Project here: [https://github.com/umbralcalc/trywizard](https://github.com/umbra
     window.addEventListener('resize', resizeoDVMvmuieuQk);
 </script>
 ````
+
+Putting all of this together, we can simulate multiple Trajectories (representing multiple possible match situations) having made different types of home team substitution at different moments in a match and evaluate the number of times that match that team eventually won.
 
 ````{=html}
 <div class="echarts-container">
@@ -96,3 +106,6 @@ Project here: [https://github.com/umbralcalc/trywizard](https://github.com/umbra
 </script>
 ````
 
+This is only a basic analysis, with lots of potential extensions, and yet it's already apparant that front row forwards are best sustituted in at around the 60 minute mark to have the maximum impact on the match outcome.
+
+There are plenty of caveats to these findings, but it illustrates how rugby manager actions can be improved with real-world simulations powering their analysis.
