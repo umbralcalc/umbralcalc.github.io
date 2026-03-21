@@ -20,16 +20,6 @@
   }
 ,
   {
-    "title": "Substitution timing of rugby managers",
-    "slug": "substitution_timing_of_rugby_managers",
-    "url": "/posts/substitution_timing_of_rugby_managers.html",
-    "tag": "Engineering Smart Actions in Practice",
-    "date": "",
-    "order": 1,
-    "images": []
-  }
-,
-  {
     "title": "Why simulate real-world systems?",
     "slug": "why_simulate_real_world_systems",
     "url": "/posts/why_simulate_real_world_systems.html",
@@ -47,16 +37,6 @@
     "date": "",
     "order": 2,
     "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/model-predict.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/data-grid-ai.svg"]
-  }
-,
-  {
-    "title": "How sustainable are freshwater fish populations in the UK?",
-    "slug": "how_sustainable_are_freshwater_fish_populations_in_the_uk",
-    "url": "/posts/how_sustainable_are_freshwater_fish_populations_in_the_uk.html",
-    "tag": "Engineering Smart Actions in Practice",
-    "date": "",
-    "order": 2,
-    "images": []
   }
 ,
   {
