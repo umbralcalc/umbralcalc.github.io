@@ -1,3 +1,3 @@
 # umbralcalculations
 
-Visual explorations in computation.
+Visual explorations in science and computation.
