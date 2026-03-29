@@ -199,7 +199,7 @@ We might call this algorithm 'Online Simulation Parameter Estimation'; where 'On
 </script>
 ````
 
-There is also an implementation of this Online Simulation Parameter Estimation algorithm within the [stochadex simulation engine](https://umbralcalc.github.io/stochadex).
+There is also an implementation of this Online Simulation Parameter Estimation algorithm within the [stochadex simulation engine](https://stochadex.github.io/).
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/simulation-inference-code.svg"/></center>
 
@@ -386,6 +386,6 @@ This algorithm relies on sorting the sampled simulation Trajectories according t
 </script>
 ````
 
-There is also an implementation of Evolutionary Strategies being used as part of a Discounted Future Reward Optimiser algorithm within the [stochadex simulation engine](https://umbralcalc.github.io/stochadex).
+There is also an implementation of Evolutionary Strategies being used as part of a Discounted Future Reward Optimiser algorithm within the [stochadex simulation engine](https://stochadex.github.io/).
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/discounted-return-optimiser-code.svg"/></center>

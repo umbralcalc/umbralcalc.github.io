@@ -15,7 +15,7 @@ images:
 
 The building blocks of simulations that we have discussed can now be pieced together to form a complete simulation engine.
 
-The [stochadex project](https://umbralcalc.github.io/stochadex) is an actual simulation engine written in Go which is based on these basic conceptual building blocks.
+The [stochadex project](https://stochadex.github.io/) is an actual simulation engine written in Go which is based on these basic conceptual building blocks.
 
 Armed with the fundamentals, we can now describe how this simulation engine was built in specific detail, supported by the appropriate system diagrams.
 

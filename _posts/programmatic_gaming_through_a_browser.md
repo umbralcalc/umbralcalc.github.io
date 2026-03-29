@@ -20,7 +20,7 @@ This forms a feedback loop where the user must modify their code in order to aff
 
 ## The dexetera project
 
-The [dexetera project](https://github.com/umbralcalc/dexetera) powers decision-making games for the Python programmer using the [stochadex](https://umbralcalc.github.io/stochadex) simulation framework as a core dependency. 
+The [dexetera project](https://github.com/umbralcalc/dexetera) powers decision-making games for the Python programmer using the [stochadex](https://stochadex.github.io/) simulation framework as a core dependency. 
 
 These games are Go simulations compiled to WebAssembly and run in the browser with real-time visualizations.
 
