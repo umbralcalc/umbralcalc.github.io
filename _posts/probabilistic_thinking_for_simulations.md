@@ -2,7 +2,7 @@
 title: "Probabilistic thinking for simulations"
 tag: "Simulating Real-World Systems as a Programmer"
 series-blurb: "A collection of posts on the foundations and patterns for building simulations of the real world. Written especially for programmers and non-technical readers wanting to learn the fundamentals. All written material and non-interactive diagrams were human-generated, where some interactive elements were programmed using generative AI tools."
-order: 5
+order: 3
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/probabilites-vs-trajectories.svg"
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/evaluate-probability-partition-region.svg"
@@ -13,71 +13,71 @@ images:
 
 ## Why do we care about probabilities?
 
-The 'Trajectory' of a simulation is the sequence of possible State Values that its Partitions actually take during a specific Simulation Run.
+The 'trajectory' of a simulation is the sequence of possible state values that its partitions actually take during a specific simulation run.
 
-Probabilities can represent sampling all of the possible Trajectories that a simulation could take in Time, simultaneously.
+Probabilities can represent sampling all of the possible trajectories that a simulation could take in time, simultaneously.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/probabilites-vs-trajectories.svg" /></center>
 
 Using this representation of a simulation, there are two important use cases.
 
-The first uses all of the possible Trajectories the simulation can take to represent how likely it is to take them. This makes it possible to create algorithms which learn the most likely Parameters for State Partitions to match real-world Data.
+The first uses all of the possible trajectories the simulation can take to represent how likely it is to take them. This makes it possible to create algorithms which learn the most likely parameters for state partitions to match real-world data.
 
-The second uses the Probabilities to represent a model in place of the simulation itself. In the right circumstances, this results in algorithms which are much more efficient than sampling multiple Trajectories explicitly.
+The second uses the probabilities to represent a model in place of the simulation itself. In the right circumstances, this results in algorithms which are much more efficient than sampling multiple trajectories explicitly.
 
 ## Probabilities and regions
 
-Evaluating the Probability of a particular State Partition History, given Parameters and a Cumulative Timesteps History, looks a similar to the Iterate computation. However, in contrast, this computation does _not_ progress forward in Time.
+Evaluating the probability of a particular state partition history, given parameters and a cumulative timesteps history, looks a similar to the iterate computation. However, in contrast, this computation does _not_ progress forward in time.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/evaluate-probability-partition.svg" /></center>
 
-We might also want to evaluate the Probability of Regions which join together possible values that the whole State Partition History can take.
+We might also want to evaluate the probability of regions which join together possible values that the whole state partition history can take.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/possible-region.svg" /></center>
 
-In many situations, it would be impossible to count the all of the possible values in some Regions, but we can still imagine the computation in this way.
+In many situations, it would be impossible to count the all of the possible values in some regions, but we can still imagine the computation in this way.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/evaluate-probability-partition-region.svg" /></center>
 
 ## Conditional probabilities
 
-We can relate two successive probability evaluations in Time together by making the answer of the second depend on the outcome of the first.
+We can relate two successive probability evaluations in time together by making the answer of the second depend on the outcome of the first.
 
-We call the second of these two evaluations a Conditional Probability because its Probability is _conditional_ on the Probability of the first.
+We call the second of these two evaluations a conditional probability because its probability is _conditional_ on the probability of the first.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/conditional-probability.svg" /></center>
 
-The Probabilities for the whole State Partition History change as the simulation advances in Time by adding the Next State Partition Values into the History.
+The probabilities for the whole state partition history change as the simulation advances in time by adding the next state partition values into the history.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/evolving-state-partition-history-probability.svg" /></center>
 
-This concept also applies to the Probability of Regions.
+This concept also applies to the probability of regions.
 
-Note how this relationship also describes how the Probabilities of State Partition Histories can evolve in Time. One applies the same calculation to the output from the previous one, and so on, recursively.
+Note how this relationship also describes how the probabilities of state partition histories can evolve in time. One applies the same calculation to the output from the previous one, and so on, recursively.
 
 So why can’t we just use this recursive relationship to model all the trajectories of the simulation at once? For some simpler systems this is indeed possible, but for most simulations in practice this is computationally infeasible.
 
-Think about how one might store the set of all Possible State Partition Histories for a sequence of coin flips, and then how this can proliferate in Time as the simulation advances.
+Think about how one might store the set of all possible state partition histories for a sequence of coin flips, and then how this can proliferate in time as the simulation advances.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/coin-flips-tree.svg" /></center>
 
-The Possible State Partition Histories grow even though the Possible State Values of a coin flip always remain the same (Heads or Tails).
+The possible state partition histories grow even though the possible state values of a coin flip always remain the same (heads or tails).
 
 ## Example: Randomly moving point in 2 dimensions
 
-In practice, for most real-world systems, the set of Possible State Values _also_ grows. To see how this can be the case, consider the Trajectories of a randomly moving point on a simple 2-dimensional grid.
+In practice, for most real-world systems, the set of possible state values _also_ grows. To see how this can be the case, consider the trajectories of a randomly moving point on a simple 2-dimensional grid.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/random-walker-grid.svg" /></center>
 
 ```{=html}
 <div id="random-walker-demo" style="margin:1.3em 0 0.5em;padding:1em;background:#ffffff;border:1px solid #2c3e50;border-radius:6px;">
-  <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;padding:0 0.75em;">Random moving point (visited State Values)</div>
+  <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;padding:0 0.75em;">Random moving point (visited state values)</div>
   <svg id="random-walker-svg" width="100%" height="200" viewBox="0 0 320 200" role="img" aria-label="Random walker lattice"></svg>
   <div id="random-walker-text" style="font-size:1rem;color:#2c3e50;margin-top:0.35em;line-height:1.4;padding:0 0.75em;"></div>
 </div>
 <div style="display:flex;flex-wrap:wrap;gap:0.75em;align-items:center;justify-content:flex-start;">
   <button id="random-walker-step" type="button" style="cursor:pointer;border:1px solid #3c78d8;background:#3c78d8;color:#ffffff;padding:0.4em 0.8em;border-radius:6px;font-size:1rem;">
-    Advance 10 Timesteps
+    Advance 10 timesteps
   </button>
   <button id="random-walker-reset" type="button" style="cursor:pointer;border:1px solid #2c3e50;background:#ffffff;color:#2c3e50;padding:0.4em 0.8em;border-radius:6px;font-size:1rem;">
     Reset simulation
@@ -157,7 +157,7 @@ In practice, for most real-world systems, the set of Possible State Values _also
 
     text.innerHTML = `
       <div><strong>Steps:</strong> ${steps}. Darker squares mean higher visit count.</div>
-      <div>The set of possible State Values grows as the point moves over the grid.</div>
+      <div>The set of possible state values grows as the point moves over the grid.</div>
     `;
   };
 
@@ -183,40 +183,40 @@ In practice, for most real-world systems, the set of Possible State Values _also
 
 ## Estimating the statistics of state values
 
-There is a way we can compute these Probabilities without having to trace the path of every possible Trajectory, and often without having to keep a record of every Possible State Value.
+There is a way we can compute these probabilities without having to trace the path of every possible trajectory, and often without having to keep a record of every possible state value.
 
-We start by estimating the Statistics of these Probabilities. 
+We start by estimating the statistics of these probabilities. 
 
-The simplest example of these Statistics is the Estimated Mean State Value. 
+The simplest example of these statistics is the estimated mean state value. 
 
-The obvious way to calculate this is to take the average State Value for a given Timestep across multiple simulation Trajectories.
+The obvious way to calculate this is to take the average state value for a given timestep across multiple simulation trajectories.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/average-across-trajectories.svg" /></center>
 
-But could we get an estimate of Statistics from only one Trajectory to avoid all the additional computations?
+But could we get an estimate of statistics from only one trajectory to avoid all the additional computations?
 
 ## Example: Estimating with a weighted average
 
-Yes! If we have an accurate 'weighting model' for the past values, we can get an Estimated Mean State Value from a weighted average over the full State Partition History.
+Yes! If we have an accurate 'weighting model' for the past values, we can get an estimated mean state value from a weighted average over the full state partition history.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/weighted-average.svg" /></center>
 
 ```{=html}
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0.9em;">
   <div style="border:1px solid #2c3e50;border-radius:6px;padding:0.6em;background:#ffffff;">
-    <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;padding:0 0.75em;">Many Trajectories</div>
+    <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;padding:0 0.75em;">Many trajectories</div>
     <svg id="many-traj-svg" width="100%" height="160" viewBox="0 0 320 160" role="img" aria-label="Many trajectories"></svg>
-    <div style="font-size:1rem;color:#2c3e50;margin-top:0.35em;padding:0 0.75em;">Average across multiple Simulation Runs.</div>
+    <div style="font-size:1rem;color:#2c3e50;margin-top:0.35em;padding:0 0.75em;">Average across multiple simulation runs.</div>
   </div>
   <div style="border:1px solid #2c3e50;border-radius:6px;padding:0.6em;background:#ffffff;">
-    <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;padding:0 0.75em;">Weighted State Partition History</div>
+    <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;padding:0 0.75em;">Weighted state partition history</div>
     <svg id="weighted-traj-svg" width="100%" height="160" viewBox="0 0 320 160" role="img" aria-label="Weighted trajectory"></svg>
-    <div style="font-size:1rem;color:#2c3e50;margin-top:0.35em;padding:0 0.75em;">One Trajectory with recency weights.</div>
+    <div style="font-size:1rem;color:#2c3e50;margin-top:0.35em;padding:0 0.75em;">One trajectory with recency weights.</div>
   </div>
 </div>
 <div style="display:flex;flex-wrap:wrap;gap:0.75em;align-items:center;justify-content:flex-start;margin-top:0.5em;margin-bottom:1em;">
   <button id="weighted-traj-btn" type="button" style="cursor:pointer;border:1px solid #3c78d8;background:#3c78d8;color:#ffffff;padding:0.4em 0.8em;border-radius:6px;font-size:1rem;">
-    Resample Trajectories
+    Resample trajectories
   </button>
 </div>
 <script>
@@ -310,20 +310,20 @@ Yes! If we have an accurate 'weighting model' for the past values, we can get an
 </script>
 ```
 
-We might also train a Machine Learning model to predict the Statistics of State Values from the full State Partition History as an alternative.
+We might also train a machine learning model to predict the statistics of state values from the full state partition history as an alternative.
 
-Note that there are situations where using the State Partition Histories from one Trajectory is not equivalent to using multiple Trajectories (see [Ergodicity](https://en.wikipedia.org/wiki/Ergodicity)). But this kind of technical problem can often be mitigated by using some mix of the two methods.
+Note that there are situations where using the state partition histories from one trajectory is not equivalent to using multiple trajectories (see [ergodicity](https://en.wikipedia.org/wiki/Ergodicity)). But this kind of technical problem can often be mitigated by using some mix of the two methods.
 
 ## Estimating the probabilities of state values
 
-So we have the Statistics, but where have the Probabilities gone?
+So we have the statistics, but where have the probabilities gone?
 
-There are many different types of mathematical formulae or Machine Learning model which can provide a map back from these estimated Statistics into Probabilities of State Values in Time for either one or multiple Trajectories, depending on the right circumstances.
+There are many different types of mathematical formulae or machine learning model which can provide a map back from these estimated statistics into probabilities of state values in time for either one or multiple trajectories, depending on the right circumstances.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/distributions.svg" /></center>
 
-Using calculations of the estimated Statistics for a single Trajectory from the State Partition History, we can design a 'Probabilistic Sample Weighting' algorithm using the [stochadex simulation engine](https://stochadex.github.io/) we introduced in a previous post.
+Using calculations of the estimated statistics for a single trajectory from the state partition history, we can design a 'probabilistic sample weighting' algorithm which compresses the information held within the state partition history into a small amount of data (the statistics).
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/prob-reweighting-code.svg" /></center>
+<!-- Diagram needed -->
 
-This algorithm essentially compresses the information held within the State Partition History into a small amount of data in the form of Statistics. It then uses these Statistics to calculate estimated Probabilities for any Possible State Value in Time.
+We can then use these statistics to calculate estimated probabilities for any possible state value in time.

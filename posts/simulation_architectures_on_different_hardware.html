@@ -12,7 +12,7 @@
   <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
   <link rel="apple-touch-icon" href="../assets/umbralcalculations-logo.svg">
   
-  <title>Programmatic gaming through a browser</title>
+  <title>Simulation architectures on different hardware</title>
   
   <!-- Fonts -->
   <style>
@@ -465,25 +465,68 @@
 
     
     <main>
-      <h1 id="programmatic-gaming-through-a-browser">Programmatic gaming through a browser</h1>
+      <h1 id="simulation-architectures-on-different-hardware">Simulation architectures on different hardware</h1>
       <div style="height:0.75em;">
 
       </div>
-      <h2 id="programmatic-gaming">Programmatic gaming</h2>
-      <p>Programmatic gaming means that the user controls their actions in the game indirectly with computer code that they write.</p>
-      <p>This forms a feedback loop where the user must modify their code in order to affect the game, iteratively designing a decision-making algorithm.</p>
+      <h2 id="classical-hardware">Classical hardware</h2>
+      <p>When we talk about ‘classical’ hardware here, we just mean standard CPUs.</p>
+      <p>On CPUs, simulation architectures may be constructed out of several ingredients. Loosely speaking, these are: memory, threads, channels between threads, processes and Inter-Process Communication (IPC).</p>
       <center>
-      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/programmatic_gaming_through_a_browser/programmatic-gaming.svg" width="400"/>
+      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/cpu-graph-edges.svg"/>
       </center>
-      <h2 id="the-dexetera-project">The dexetera project</h2>
-      <p>The <a href="https://github.com/umbralcalc/dexetera">dexetera project</a> powers decision-making games for the Python programmer using the <a href="https://stochadex.github.io/">stochadex</a> simulation framework as a core dependency.</p>
-      <p>These games are Go simulations compiled to WebAssembly and run in the browser with real-time visualizations.</p>
-      <p>The project gets programmatic gaming to work entirely over a websocket connection to the user’s browser using an architecture which makes the frontend simulation a client and the user’s local (Python) code run the websocket server.</p>
+      <p>All of these ingredients have their own tradeoffs in performance. But they are all useful in constructing the right simulation architectures to satisfy the right use cases.</p>
+      <p>In all of the previous posts so far, the main simulation architectures people often consider are defined as stepwise; simulation architectures which evaluate the next state values for the system at each point in time, in turn.</p>
+      <p>Stepwise simulation architectures on CPUs are typically more performant when using memory, threads and channels between threads in the right combinations.</p>
       <center>
-      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/programmatic_gaming_through_a_browser/dexetera-main-loop.svg" width="500"/>
+      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/cpu-stepwise-architectures.svg" width=600/>
       </center>
-      <p>A static website can host the game web worker launchers (at no cost with GitHub pages!) while the user’s machine provides the compute.</p>
-      <p>Those interested in playing the games should take a look at <a href="https://umbralcalc.github.io/dexetera/">dexetera</a>.</p>
+      <p>In contrast, processes, and IPC in particular, are typically more useful when we consider scaling computations in parallel across multiple non-interacting simulation trajectories (which don’t need much IPC). This is because IPC comes with more performance limitations.</p>
+      <p>Batch simulation architectures evaluate multiple successive sequences of next state values for the system over a wider interval in time all as one computational block.</p>
+      <center>
+      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/stepwise-vs-batch.svg" width=600/>
+      </center>
+      <p>Despite their appearance, batch simulation architectures cannot fundamentally evaluate the next state values at different timesteps in a truly parallel fashion. Simulations must still preserve the causal relationships between these next state values as they progress in time.</p>
+      <p>To ensure this causality, some form of iteration can be performed; like the stepwise architecture implies by evaluating it recursively.</p>
+      <p>However, it is sometimes sufficient to simply encode the causal/temporal dependencies between state values along the simulation timeline as part of a batch prediction; which is how some machine learning models are used to predict time series data.</p>
+      <h2 id="specialised-classical-hardware">Specialised classical hardware</h2>
+      <p>From the perspective of standard CPUs, batch simulation architectures are often designed to evaluate segments of the simulation timeline using specialised classical hardware.</p>
+      <p>When we talk about ‘specialised classical’ hardware here, we mean <a href="https://en.wikipedia.org/wiki/Graphics_processing_unit">GPUs</a>, <a href="https://en.wikipedia.org/wiki/Tensor_Processing_Unit">TPUs</a>, <a href="https://www.graphcore.ai/products/ipu">IPUs</a> and other specialised processors based on classical computing principles (as opposed to quantum processors).</p>
+      <center>
+      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/specialised-classical-batch.svg"/>
+      </center>
+      <p>This architecture can be used to reduce the overall processing time taken to complete a simulation run relative to a stepwise equivalent, but there are tradeoffs which mean this isn’t always efficient.</p>
+      <p>GPUs, TPUs, IPUs, etc. all have their limitations. For example, GPUs and TPUs are highly optimised for dense arithmetic operations but struggle with branching control flow. IPUs offer more flexibility for irregular compute patterns and sparse operations, though they still prioritise throughput over the complex sequential logic that CPUs handle well.</p>
+      <p>So there are basically certain types of simulation algorithm that can be written that GPUs, TPUs, IPUs, etc. are not well-suited to reducing the overall processing time for.</p>
+      <p>In addition, this specialised hardware typically requires data transfer to/from CPU memory (at the very least for initialisation and final results), which also takes processing time.</p>
+      <center>
+      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/processing-time-per-timestep.svg"/>
+      </center>
+      <p>So, when deciding on the number of timesteps a batch simulation architecture should use for the best performance, software engineers must take into account:</p>
+      <ul>
+      <li>the available memory of their specialised hardware</li>
+      <li>the memory requirements for their simulation state partition histories</li>
+      <li>the overall number of timesteps they need to perform</li>
+      <li>the implications this has on the number of I/O operations needed to interact with CPU memory</li>
+      <li>and the implications <em>this</em> has on reducing the overall processing time, given the specialised hardware.</li>
+      </ul>
+      <h2 id="quantum-hardware">Quantum hardware</h2>
+      <p>Note that the concepts in this section are the most likely to change with future advancements in quantum computing.</p>
+      <p>Quantum hardware seems to naturally fit the batch simulation architecture in the same way that specialised classical hardware does.</p>
+      <p>In order to utilise this hardware within a given batch evaluation, one would need to:</p>
+      <ul>
+      <li>prepare the initial state of <a href="https://en.wikipedia.org/wiki/Qubit">qubits</a></li>
+      <li>encode the state partition histories from CPU memory into these qubits</li>
+      <li>run quantum gates which encode the logic for multiple timesteps of the simulation</li>
+      <li>entangle the next state values at each timestep with <a href="https://en.wikipedia.org/wiki/Ancilla_bit">ancilla qubits</a> or rely on the qubits for state partition histories themselves</li>
+      <li>and measure these next state values in order to write the data to CPU memory.</li>
+      </ul>
+      <p>Note also that the <a href="https://en.wikipedia.org/wiki/No-cloning_theorem">no-cloning theorem</a> means we cannot simply copy the qubits which have run the quantum gates; the circuit must run separately for each simulation trajectory.</p>
+      <center>
+      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/quantum-batch.svg"/>
+      </center>
+      <p>Therefore, you only get a <a href="https://en.wikipedia.org/wiki/Quantum_supremacy">quantum advantage</a> if you can store more than one timestep worth of simulation next state values in qubit memory.</p>
+      <p>Otherwise, if you only effectively have one instantaneous timestep of qubit memory to use, the processing time will likely be dominated by I/O writing to and from the qubits during the simulation. This is also known as the <a href="https://ianreppel.org/io-bottleneck-in-quantum-computing/">quantum I/O bottleneck</a>.</p>
       
           </main>
   </div>

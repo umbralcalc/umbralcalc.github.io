@@ -2,7 +2,7 @@
 title: "Learning simulations of the real world"
 tag: "Simulating Real-World Systems as a Programmer"
 series-blurb: "A collection of posts on the foundations and patterns for building simulations of the real world. Written especially for programmers and non-technical readers wanting to learn the fundamentals. All written material and non-interactive diagrams were human-generated, where some interactive elements were programmed using generative AI tools."
-order: 6
+order: 4
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/objectives.svg"
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/data-streaming.svg"
@@ -13,54 +13,54 @@ images:
 
 ## How do we learn a simulation?
 
-Unlike Machine Learning models, which typically come with standard training algorithms (like [Backpropagation](https://en.wikipedia.org/wiki/Backpropagation) for Neural Networks), simulations often need us to explicitly choose and design procedures for learning their Parameters from real-world data or optimising their outputs.
+Unlike machine learning models, which typically come with standard training algorithms (like [backpropagation](https://en.wikipedia.org/wiki/Backpropagation) for neural networks), simulations often need us to explicitly choose and design procedures for learning their parameters from real-world data or optimising their outputs.
 
-In order to do this, we must first have some Objective which either characterises how close simulation Trajectories are to replicating the data we have or define the quantity we want to optimise.
+In order to do this, we must first have some objective which either characterises how close simulation trajectories are to replicating the data we have or define the quantity we want to optimise.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/objectives.svg"/></center>
 
-There are a number of techniques we can use to specify what the Objective should be, depending on the purpose.
+There are a number of techniques we can use to specify what the objective should be, depending on the purpose.
 
 ## Learning simulations from data
 
-If we want to learn the Parameters which correspond to simulation Trajectories fitting real-world data trends more closely, it is natural to use an Objective based on the Probabilities of State Partition Histories that we computed in the previous post.
+If we want to learn the parameters which correspond to simulation trajectories fitting real-world data trends more closely, it is natural to use an objective based on the probabilities of state partition histories that we computed in the previous post.
 
-We start by streaming time-series data into our simulation by specifying it as a State Partition.
+We start by streaming time-series data into our simulation by specifying it as a state partition.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/data-streaming.svg"/></center>
 
-We can then use a method to estimate the Probabilities of State Values within the data, e.g., the Probabilistic Sample Weighting we discussed in the previous post.
+We can then use a method to estimate the probabilities of state values within the data, e.g., the probabilistic sample weighting we discussed in the previous post.
 
-So we have a way to calculate these 'Data Probabilities' for any Possible State Values the data can take in Time.
+So we have a way to calculate these 'data probabilities' for any possible state values the data can take in time.
 
-By then evaluating these Data Probabilities at the points which coincide with simulation Trajectories, we have an Objective which quantifies how close the simulation is to the data.
+By then evaluating these data probabilities at the points which coincide with simulation trajectories, we have an objective which quantifies how close the simulation is to the data.
 
 ## Example: Online simulation parameter estimation
 
-The Data Probabilities of simulation Trajectories can also be interpreted as Probabilities of simulation Parameters; often accompanied with some simulation noise to account for differences between Trajectories even with the same Parameters.
+The data probabilities of simulation trajectories can also be interpreted as probabilities of simulation parameters; often accompanied with some simulation noise to account for differences between trajectories even with the same parameters.
 
-We can create an algorithm which uses this sequence of Probabilities to estimate the Probabilities of simulation Parameters in a very similar way to Probabilistic Sample Weighting (see the last post for details on the latter).
+We can create an algorithm which uses this sequence of probabilities to estimate the probabilities of simulation parameters in a very similar way to probabilistic sample weighting (see the last post for details on the latter).
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/online-posterior-estimation.svg"/></center>
 
-We might call this algorithm 'Online Simulation Parameter Estimation'; where 'Online' here means that the simulation is being adaptively learned to the data iteratively in time, as opposed to a whole Batch all at once.
+We might call this algorithm 'online simulation parameter estimation'; where 'online' here means that the simulation is being adaptively learned to the data iteratively in time, as opposed to a whole batch all at once.
 
 ````{=html}
 <div id="online-estimation-demo" style="margin:1.3em 0 0.5em;padding:1em;background:#ffffff;">
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0.9em;">
     <div style="border:1px solid #2c3e50;border-radius:6px;padding:0.6em;background:#ffffff;">
-      <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;padding:0 0.75em;">Observed Data vs Estimated Trajectory</div>
+      <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;padding:0 0.75em;">Observed data vs estimated trajectory</div>
       <svg id="online-est-traj-svg" width="100%" height="160" viewBox="0 0 320 160" role="img" aria-label="Observed data and estimated trajectory"></svg>
     </div>
     <div style="border:1px solid #2c3e50;border-radius:6px;padding:0.6em;background:#ffffff;">
-      <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;padding:0 0.75em;">Parameter Posterior Estimate</div>
+      <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;padding:0 0.75em;">Parameter posterior estimate</div>
       <svg id="online-est-param-svg" width="100%" height="160" viewBox="0 0 320 160" role="img" aria-label="Parameter posterior estimate"></svg>
     </div>
   </div>
   <div id="online-est-text" style="font-size:1rem;color:#2c3e50;margin-top:0.35em;line-height:1.4;padding:0 0.75em;"></div>
   <div style="display:flex;flex-wrap:wrap;gap:0.75em;align-items:center;justify-content:flex-start;margin-top:0.5em;margin-bottom:1em;">
     <button id="online-est-step" type="button" style="cursor:pointer;border:1px solid #3c78d8;background:#3c78d8;color:#ffffff;padding:0.4em 0.8em;border-radius:6px;font-size:1rem;">
-      Advance 5 Timesteps
+      Advance 5 timesteps
     </button>
     <button id="online-est-reset" type="button" style="cursor:pointer;border:1px solid #2c3e50;background:#ffffff;color:#2c3e50;padding:0.4em 0.8em;border-radius:6px;font-size:1rem;">
       Reset simulation
@@ -199,37 +199,33 @@ We might call this algorithm 'Online Simulation Parameter Estimation'; where 'On
 </script>
 ````
 
-There is also an implementation of this Online Simulation Parameter Estimation algorithm within the [stochadex simulation engine](https://stochadex.github.io/).
-
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/simulation-inference-code.svg"/></center>
-
 ## Learning optimal simulations
 
-If we want to learn Parameters which correspond to optimal simulation Trajectories, we first need to specify what 'optimal' means.
+If we want to learn parameters which correspond to optimal simulation trajectories, we first need to specify what 'optimal' means.
 
-We do this by defining an Objective whose maximum/minimum possible value will be achieved when our goal is met.
+We do this by defining an objective whose maximum/minimum possible value will be achieved when our goal is met.
 
-For instance, we may define some logic in a State Partition Iteration of the simulation which replicates taking 'Actions' in the real world. This logic can depend on the simulation Parameters so that the latter encodes the behaviour quantitatively.
+For instance, we may define some logic in a state partition iteration of the simulation which replicates taking 'actions' in the real world. This logic can depend on the simulation parameters so that the latter encodes the behaviour quantitatively.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/action-taking.svg"/></center>
 
-Given this setup, a very common goal of interest is then in finding the best Actions to take; which is analogous to optimising the Parameters of the Action-taking State Partition Iteration. We will refer to these Parameters as 'Policy Parameters'.
+Given this setup, a very common goal of interest is then in finding the best actions to take; which is analogous to optimising the parameters of the action-taking state partition iteration. We will refer to these parameters as 'policy parameters'.
 
-But what should be use as an Objective?
+But what should be use as an objective?
 
-The 'Discounted Future Reward' is a quantity we can specify that a simulation Trajectory will have accumulated into the future, accounting for increasing distance into the future by 'Discounting' it gradually with a weighting.
+The 'discounted future reward' is a quantity we can specify that a simulation trajectory will have accumulated into the future, accounting for increasing distance into the future by 'discounting' it gradually with a weighting.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/discounted-future-reward.svg"/></center>
 
-We are using this concept of Discounted Future Reward in the same way that it is used in [Reinforcement Learning](https://en.wikipedia.org/wiki/Reinforcement_learning).
+We are using this concept of discounted future reward in the same way that it is used in [reinforcement learning](https://en.wikipedia.org/wiki/Reinforcement_learning).
 
-The idea is that, as you go further into the future, the importance of the Reward you have accumulated by then is increasingly irrelevant to Actions you might take at the present moment.
+The idea is that, as you go further into the future, the importance of the reward you have accumulated by then is increasingly irrelevant to actions you might take at the present moment.
 
 ## Example: Optimising with evolutionary strategies
 
-The [Evolutionary Strategies](https://en.wikipedia.org/wiki/Evolution_strategy) algorithm can be applied to search future simulation Trajectories to find the best set of Policy Parameters needed to achieve some Discounted Future Reward.
+The [evolutionary strategies](https://en.wikipedia.org/wiki/Evolution_strategy) algorithm can be applied to search future simulation trajectories to find the best set of policy parameters needed to achieve some discounted future reward.
 
-This algorithm relies on sorting the sampled simulation Trajectories according to their Discounted Future Rewards and then using the top fraction of these to update the best known Policy Parameters (and the Variance around them) after each Timestep.
+This algorithm relies on sorting the sampled simulation trajectories according to their discounted future rewards and then using the top fraction of these to update the best known policy parameters (and the variance around them) after each timestep.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/optimising-evolutionary-strategies.svg"/></center>
 
@@ -237,19 +233,19 @@ This algorithm relies on sorting the sampled simulation Trajectories according t
 <div id="evolutionary-strategies-demo" style="margin:1.3em 0 0.5em;padding:1em;background:#ffffff;">
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0.9em;">
     <div style="border:1px solid #2c3e50;border-radius:6px;padding:0.6em;background:#ffffff;">
-      <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;padding:0 0.75em;">Sampled Simulation Trajectories</div>
+      <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;padding:0 0.75em;">Sampled simulation trajectories</div>
       <svg id="es-traj-svg" width="100%" height="160" viewBox="0 0 320 160" role="img" aria-label="Sampled simulation trajectories"></svg>
       <div style="font-size:1rem;color:#2c3e50;margin-top:0.35em;padding:0 0.75em;">Blue lines are the elite fraction; grey are the rest.</div>
     </div>
     <div style="border:1px solid #2c3e50;border-radius:6px;padding:0.6em;background:#ffffff;">
-      <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;padding:0 0.75em;">Best Discounted Future Reward</div>
+      <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;padding:0 0.75em;">Best discounted future reward</div>
       <svg id="es-reward-svg" width="100%" height="160" viewBox="0 0 320 160" role="img" aria-label="Best discounted future reward over generations"></svg>
     </div>
   </div>
   <div id="es-text" style="font-size:1rem;color:#2c3e50;margin-top:0.35em;line-height:1.4;padding:0 0.75em;"></div>
   <div style="display:flex;flex-wrap:wrap;gap:0.75em;align-items:center;justify-content:flex-start;margin-top:0.5em;margin-bottom:1em;">
     <button id="es-gen-btn" type="button" style="cursor:pointer;border:1px solid #3c78d8;background:#3c78d8;color:#ffffff;padding:0.4em 0.8em;border-radius:6px;font-size:1rem;">
-      Run 1 Generation
+      Run 1 generation
     </button>
     <button id="es-reset-btn" type="button" style="cursor:pointer;border:1px solid #2c3e50;background:#ffffff;color:#2c3e50;padding:0.4em 0.8em;border-radius:6px;font-size:1rem;">
       Reset optimisation
@@ -348,7 +344,7 @@ This algorithm relies on sorting the sampled simulation Trajectories according t
       });
     } else {
       const t = createSvgEl("text", { x: w / 2, y: h / 2, fill: "#2c3e50", "font-size": "11", "text-anchor": "middle", "font-family": "system-ui,sans-serif" });
-      t.textContent = "Press \u2018Run 1 Generation\u2019 to start"; trajSvg.appendChild(t);
+      t.textContent = "Press \u2018Run 1 generation\u2019 to start"; trajSvg.appendChild(t);
     }
 
     if (state.bestRewards.length > 0) {
@@ -376,7 +372,7 @@ This algorithm relies on sorting the sampled simulation Trajectories according t
 
     document.getElementById("es-text").textContent = state.generation > 0
       ? "Generation " + state.generation + " \u00b7 Policy \u03b8 mean = " + state.thetaMean.toFixed(2) + " \u00b7 Policy \u03b8 var = " + state.thetaVar.toFixed(3)
-      : "Evolutionary Strategies will optimise Policy Parameters to reach the target.";
+      : "Evolutionary strategies will optimise policy parameters to reach the target.";
   };
 
   init(); render();
@@ -385,7 +381,3 @@ This algorithm relies on sorting the sampled simulation Trajectories according t
 })();
 </script>
 ````
-
-There is also an implementation of Evolutionary Strategies being used as part of a Discounted Future Reward Optimiser algorithm within the [stochadex simulation engine](https://stochadex.github.io/).
-
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/discounted-return-optimiser-code.svg"/></center>

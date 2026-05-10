@@ -247,8 +247,8 @@ This can be a real advantage for decision-making technologies, since human users
 
     if (stateBox) {
       stateBox.innerHTML = `
-        <div"><strong>Simulation State:</strong> Trend slope ${formatNumber(trendSlope)}, Seasonal phase ${formatNumber(phase)}, Noise ${formatNumber(noiseLevel)}</div>
-        <div"><strong>Assumptions:</strong> Linear trend + Periodic cycle + Random shocks.</div>
+        <div"><strong>Simulation state:</strong> trend slope ${formatNumber(trendSlope)}, seasonal phase ${formatNumber(phase)}, noise ${formatNumber(noiseLevel)}</div>
+        <div"><strong>Assumptions:</strong> linear trend + periodic cycle + random shocks.</div>
       `;
     }
   };

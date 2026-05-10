@@ -499,9 +499,9 @@
       
             <div class="next-post">
         <div class="next-post-label">Next Post</div>
-        <a href="/posts/programmatic_gaming_through_a_browser.html" class="next-post-card">
+        <a href="/posts/simulation_architectures_on_different_hardware.html" class="next-post-card">
                     <div class="next-post-images" id="next-post-images"></div>
-                    <div class="next-post-title">Programmatic gaming through a browser</div>
+                    <div class="next-post-title">Simulation architectures on different hardware</div>
         </a>
       </div>
           </main>
@@ -513,13 +513,13 @@
       const imagesContainer = document.getElementById('next-post-images');
       if (imagesContainer) {
         try {
-          const imagesJson = '["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/programmatic_gaming_through_a_browser/programmatic-gaming.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/programmatic_gaming_through_a_browser/dexetera-main-loop.svg"]';
+          const imagesJson = '["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/cpu-graph-edges.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/cpu-stepwise-architectures.svg"]';
           const images = JSON.parse(imagesJson);
           if (Array.isArray(images) && images.length > 0) {
             images.forEach(imagePath => {
               const img = document.createElement('img');
               img.src = imagePath;
-              img.alt = 'Programmatic gaming through a browser';
+              img.alt = 'Simulation architectures on different hardware';
               imagesContainer.appendChild(img);
             });
           }
