@@ -825,6 +825,13 @@
       })();
       </script>
       
+            <div class="next-post">
+        <div class="next-post-label">Next Post</div>
+        <a href="/posts/simulating_real_world_systems.html" class="next-post-card">
+                    <div class="next-post-images" id="next-post-images"></div>
+                    <div class="next-post-title">Simulating real-world systems</div>
+        </a>
+      </div>
           </main>
   </div>
   
@@ -834,13 +841,13 @@
       const imagesContainer = document.getElementById('next-post-images');
       if (imagesContainer) {
         try {
-          const imagesJson = '[]';
+          const imagesJson = '["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/closing-stack.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/applied-projects.svg"]';
           const images = JSON.parse(imagesJson);
           if (Array.isArray(images) && images.length > 0) {
             images.forEach(imagePath => {
               const img = document.createElement('img');
               img.src = imagePath;
-              img.alt = '';
+              img.alt = 'Simulating real-world systems';
               imagesContainer.appendChild(img);
             });
           }

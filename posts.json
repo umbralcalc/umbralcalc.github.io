@@ -68,4 +68,14 @@
     "order": 4,
     "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/objectives.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/data-streaming.svg"]
   }
+,
+  {
+    "title": "Simulating real-world systems",
+    "slug": "simulating_real_world_systems",
+    "url": "/posts/simulating_real_world_systems.html",
+    "tag": "Simulating Real-World Systems as a Programmer",
+    "date": "",
+    "order": 5,
+    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/closing-stack.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/applied-projects.svg"]
+  }
 ]
