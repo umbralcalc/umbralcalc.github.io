@@ -51,13 +51,14 @@ We might call this algorithm 'online simulation parameter estimation'; where 'on
     <div style="border:1px solid #2c3e50;border-radius:6px;padding:0.6em;background:#ffffff;">
       <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;padding:0 0.75em;">Observed data vs estimated trajectory</div>
       <svg id="online-est-traj-svg" width="100%" height="160" viewBox="0 0 320 160" role="img" aria-label="Observed data and estimated trajectory"></svg>
+      <div id="online-est-text" style="font-size:1rem;color:#2c3e50;margin-top:0.35em;line-height:1.4;padding:0 0.75em;"></div>
     </div>
     <div style="border:1px solid #2c3e50;border-radius:6px;padding:0.6em;background:#ffffff;">
       <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;padding:0 0.75em;">Parameter posterior estimate</div>
       <svg id="online-est-param-svg" width="100%" height="160" viewBox="0 0 320 160" role="img" aria-label="Parameter posterior estimate"></svg>
+      <div style="font-size:1rem;color:#2c3e50;margin-top:0.35em;padding:0 0.75em;">Each bar estimates how plausible a particular θ value is given the data.</div>
     </div>
   </div>
-  <div id="online-est-text" style="font-size:1rem;color:#2c3e50;margin-top:0.35em;line-height:1.4;padding:0 0.75em;"></div>
   <div style="display:flex;flex-wrap:wrap;gap:0.75em;align-items:center;justify-content:flex-start;margin-top:0.5em;margin-bottom:1em;">
     <button id="online-est-step" type="button" style="cursor:pointer;border:1px solid #3c78d8;background:#3c78d8;color:#ffffff;padding:0.4em 0.8em;border-radius:6px;font-size:1rem;">
       Advance 5 timesteps
@@ -235,14 +236,14 @@ This algorithm relies on sorting the sampled simulation trajectories according t
     <div style="border:1px solid #2c3e50;border-radius:6px;padding:0.6em;background:#ffffff;">
       <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;padding:0 0.75em;">Sampled simulation trajectories</div>
       <svg id="es-traj-svg" width="100%" height="160" viewBox="0 0 320 160" role="img" aria-label="Sampled simulation trajectories"></svg>
-      <div style="font-size:1rem;color:#2c3e50;margin-top:0.35em;padding:0 0.75em;">Blue lines are the elite fraction; grey are the rest.</div>
+      <div style="font-size:1rem;color:#2c3e50;margin-top:0.35em;padding:0 0.75em;">Optimises best fraction of policy parameters (blue lines) towards the target. Grey lines are the others.</div>
     </div>
     <div style="border:1px solid #2c3e50;border-radius:6px;padding:0.6em;background:#ffffff;">
       <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;padding:0 0.75em;">Best discounted future reward</div>
       <svg id="es-reward-svg" width="100%" height="160" viewBox="0 0 320 160" role="img" aria-label="Best discounted future reward over generations"></svg>
+      <div id="es-text" style="font-size:1rem;color:#2c3e50;margin-top:0.35em;line-height:1.4;padding:0 0.75em;"></div>
     </div>
   </div>
-  <div id="es-text" style="font-size:1rem;color:#2c3e50;margin-top:0.35em;line-height:1.4;padding:0 0.75em;"></div>
   <div style="display:flex;flex-wrap:wrap;gap:0.75em;align-items:center;justify-content:flex-start;margin-top:0.5em;margin-bottom:1em;">
     <button id="es-gen-btn" type="button" style="cursor:pointer;border:1px solid #3c78d8;background:#3c78d8;color:#ffffff;padding:0.4em 0.8em;border-radius:6px;font-size:1rem;">
       Run 1 generation
@@ -372,7 +373,7 @@ This algorithm relies on sorting the sampled simulation trajectories according t
 
     document.getElementById("es-text").textContent = state.generation > 0
       ? "Generation " + state.generation + " \u00b7 Policy \u03b8 mean = " + state.thetaMean.toFixed(2) + " \u00b7 Policy \u03b8 var = " + state.thetaVar.toFixed(3)
-      : "Evolutionary strategies will optimise policy parameters to reach the target.";
+      : "";
   };
 
   init(); render();

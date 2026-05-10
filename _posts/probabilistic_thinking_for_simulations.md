@@ -77,7 +77,7 @@ In practice, for most real-world systems, the set of possible state values _also
 </div>
 <div style="display:flex;flex-wrap:wrap;gap:0.75em;align-items:center;justify-content:flex-start;">
   <button id="random-walker-step" type="button" style="cursor:pointer;border:1px solid #3c78d8;background:#3c78d8;color:#ffffff;padding:0.4em 0.8em;border-radius:6px;font-size:1rem;">
-    Advance 10 timesteps
+    Advance 3 timesteps
   </button>
   <button id="random-walker-reset" type="button" style="cursor:pointer;border:1px solid #2c3e50;background:#ffffff;color:#2c3e50;padding:0.4em 0.8em;border-radius:6px;font-size:1rem;">
     Reset simulation
@@ -157,12 +157,12 @@ In practice, for most real-world systems, the set of possible state values _also
 
     text.innerHTML = `
       <div><strong>Steps:</strong> ${steps}. Darker squares mean higher visit count.</div>
-      <div>The set of possible state values grows as the point moves over the grid.</div>
+      <div>The set of state values the simulation could have visited grows quickly with every step.</div>
     `;
   };
 
   stepBtn.addEventListener("click", () => {
-    for (let i = 0; i < 10; i += 1) {
+    for (let i = 0; i < 3; i += 1) {
       step();
     }
     render();
