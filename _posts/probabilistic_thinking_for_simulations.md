@@ -324,6 +324,6 @@ There are many different types of mathematical formulae or machine learning mode
 
 Using calculations of the estimated statistics for a single trajectory from the state partition history, we can design a 'probabilistic sample weighting' algorithm which compresses the information held within the state partition history into a small amount of data (the statistics).
 
-<!-- Diagram needed -->
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/prob-reweighting.svg" /></center>
 
 We can then use these statistics to calculate estimated probabilities for any possible state value in time.

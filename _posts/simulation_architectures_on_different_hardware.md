@@ -20,7 +20,7 @@ On CPUs, simulation architectures may be constructed out of several ingredients.
 
 All of these ingredients have their own tradeoffs in performance. But they are all useful in constructing the right simulation architectures to satisfy the right use cases.
 
-In all of the previous posts so far, the main simulation architectures people often consider are defined as stepwise; simulation architectures which evaluate the next state values for the system at each point in time, in turn.
+One of the main simulation architectures people consider is 'stepwise'. These are simulation architectures which evaluate the next state values for the system at each point in time, in turn.
 
 Stepwise simulation architectures on CPUs are typically more performant when using memory, threads and channels between threads in the right combinations.
 
