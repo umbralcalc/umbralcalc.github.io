@@ -277,7 +277,7 @@ After that, it's time to explore some real applications!
 
 The [stochadex project](https://stochadex.github.io/) is designed based on the simulation software fundamentals described in this collection of posts. Using this, we can create software to help take better actions in a huge variety of different problem domains.
 
-## Example: Event-based rugby match simulations to evaluate manager decision-making
+## Example: Evaluating rugby manager decision-making
 
 <!-- TODO: Diagram of simulation, project description and links... -->
 
@@ -285,7 +285,7 @@ The link to this project can be [found here](https://github.com/umbralcalc/trywi
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/applied-projects.svg" width=600/></center>
 
-## Example: Fish ecosystem simulations using environment data to evaluate sustanability policies
+## Example: Evaluating sustanability policies for fish ecosystems
 
 <!-- TODO: Diagram of simulation, project description and links... -->
 
@@ -293,7 +293,7 @@ The link to this project can be [found here](https://github.com/umbralcalc/angle
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/applied-projects.svg" width=600/></center>
 
-## Example: Antimicrobial resistance (AMR) stewardship simulations to evaluate hospital guidelines
+## Example: Managing antimicrobial resistance (AMR) with hospital guidelines
 
 <!-- TODO: Diagram of simulation, project description and links... -->
 
@@ -301,7 +301,7 @@ The link to this project can be [found here](https://github.com/umbralcalc/antim
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/applied-projects.svg" width=600/></center>
 
-## Example: Stochastic simulations of catchment-scale flood dynamics under climate change
+## Example: Managing flood damage risk under climate change
 
 <!-- TODO: Diagram of simulation, project description and links... -->
 
@@ -309,7 +309,7 @@ The link to this project can be [found here](https://github.com/umbralcalc/flood
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/applied-projects.svg" width=600/></center>
 
-## Example: Energy storage dispatch simulation with demand response optimisation
+## Example: Energy demand response optimisation for the national grid
 
 <!-- TODO: Diagram of simulation, project description and links... -->
 
@@ -317,7 +317,7 @@ The link to this project can be [found here](https://github.com/umbralcalc/energ
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/applied-projects.svg" width=600/></center>
 
-## Example: Planning approval policies for affordability with housing market simulations
+## Example: Planning approval policies for housing affordability
 
 <!-- TODO: Diagram of simulation, project description and links... -->
 
@@ -325,7 +325,7 @@ The link to this project can be [found here](https://github.com/umbralcalc/homar
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/applied-projects.svg" width=600/></center>
 
-## Example: Small business survival and support policy simulation
+## Example: Support policies for small business survival
 
 <!-- TODO: Diagram of simulation, project description and links... -->
 

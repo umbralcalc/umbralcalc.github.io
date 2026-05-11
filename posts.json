@@ -1,5 +1,15 @@
 [
   {
+    "title": "Evaluating rugby manager decision-making",
+    "slug": "evaluating_rugby_manager_decision_making",
+    "url": "/posts/evaluating_rugby_manager_decision_making.html",
+    "tag": "Acting on Simulated Systems",
+    "date": "",
+    "order": 1,
+    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/closing-stack.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/applied-projects.svg"]
+  }
+,
+  {
     "title": "Mathematical symbols vs diagrams",
     "slug": "mathematical_symbols_vs_diagrams",
     "url": "/posts/mathematical_symbols_vs_diagrams.html",
