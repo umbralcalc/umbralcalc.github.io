@@ -15,7 +15,7 @@ images:
 
 We started this collection of posts with a question: why simulate real-world systems at all?
 
-The answer: simulations can discover better actions to take in our decision-making and interrogate the reasoning behind a decision in a way that other predictive AI approaches cannot.
+The answer: simulations can help us discover better actions to take in our decision-making and interrogate the reasoning behind a decision in ways other predictive AI approaches cannot match.
 
 From this point onward, we built up our understanding in layers.
 
