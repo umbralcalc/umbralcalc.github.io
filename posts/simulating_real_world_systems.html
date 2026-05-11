@@ -501,8 +501,20 @@
       <center>
       <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/closing-stack.svg" width=600/>
       </center>
+      <style>
+        #synth-loop-demo .synth-loop-grid {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 0.9em;
+        }
+        @media (max-width: 600px) {
+          #synth-loop-demo .synth-loop-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+      </style>
       <div id="synth-loop-demo" style="margin:1.5em 0;padding:1em;background:#ffffff;">
-        <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0.9em;">
+        <div class="synth-loop-grid">
           <div style="border:1px solid #2c3e50;border-radius:6px;padding:0.6em;background:#ffffff;">
             <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;padding:0 0.75em;">Decisions (post 1)</div>
             <svg id="synth-loop-decision-svg" width="100%" height="120" viewBox="0 0 220 120" role="img" aria-label="Current state vs target"></svg>
