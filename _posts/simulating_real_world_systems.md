@@ -1,7 +1,7 @@
 ---
 title: "Simulating real-world systems"
 tag: "Simulating Real-World Systems as a Programmer"
-series-blurb: "A collection of posts on the foundations and patterns for building simulations of the real world. Written especially for programmers and non-technical readers wanting to learn the fundamentals. All written material and non-interactive diagrams were human-generated, where some interactive elements were programmed using generative AI tools."
+series-blurb: "A collection of posts on the foundations and patterns for building simulations of the real world. Written especially for programmers and non-technical readers wanting to learn the fundamentals of simulation technology and how it can be useful to the world. No maths, just diagrams and straightforward descriptions all the way through."
 order: 5
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/closing-stack.svg"
@@ -281,7 +281,7 @@ The [stochadex project](https://stochadex.github.io/) is designed based on the s
 
 <!-- TODO: Diagram of simulation, project description and links... -->
 
-The link to this project can be [found here](https://github.com/umbralcalc/trywizard).
+The link to the interactive dashboard for this example can be [found here](https://umbralcalc.github.io/posts/evaluating_rugby_manager_decision_making.html).
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/applied-projects.svg" width=600/></center>
 
@@ -289,7 +289,7 @@ The link to this project can be [found here](https://github.com/umbralcalc/trywi
 
 <!-- TODO: Diagram of simulation, project description and links... -->
 
-The link to this project can be [found here](https://github.com/umbralcalc/anglersim).
+The link to the interactive dashboard for this example can be [found here](https://umbralcalc.github.io/posts/evaluating_sustainability_policies_for_fish_ecosystems.html).
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/applied-projects.svg" width=600/></center>
 
@@ -297,7 +297,7 @@ The link to this project can be [found here](https://github.com/umbralcalc/angle
 
 <!-- TODO: Diagram of simulation, project description and links... -->
 
-The link to this project can be [found here](https://github.com/umbralcalc/antimicrobial-resistance).
+The link to the interactive dashboard for this example can be [found here](https://umbralcalc.github.io/posts/managing_antimicrobial_resistance_with_hospital_guidelines.html).
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/applied-projects.svg" width=600/></center>
 
@@ -305,7 +305,7 @@ The link to this project can be [found here](https://github.com/umbralcalc/antim
 
 <!-- TODO: Diagram of simulation, project description and links... -->
 
-The link to this project can be [found here](https://github.com/umbralcalc/floodrisk).
+The link to the interactive dashboard for this example can be [found here](https://umbralcalc.github.io/posts/managing_flood_damage_risk_under_climate_change.html).
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/applied-projects.svg" width=600/></center>
 
@@ -313,7 +313,7 @@ The link to this project can be [found here](https://github.com/umbralcalc/flood
 
 <!-- TODO: Diagram of simulation, project description and links... -->
 
-The link to this project can be [found here](https://github.com/umbralcalc/energy-balancer).
+The link to the interactive dashboard for this example can be [found here](https://umbralcalc.github.io/posts/energy_demand_response_optimisation_for_the_national_grid.html).
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/applied-projects.svg" width=600/></center>
 
@@ -321,7 +321,7 @@ The link to this project can be [found here](https://github.com/umbralcalc/energ
 
 <!-- TODO: Diagram of simulation, project description and links... -->
 
-The link to this project can be [found here](https://github.com/umbralcalc/homark).
+The link to the interactive dashboard for this example can be [found here](https://umbralcalc.github.io/posts/planning_approval_policies_for_housing_affordability.html).
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/applied-projects.svg" width=600/></center>
 
@@ -329,6 +329,6 @@ The link to this project can be [found here](https://github.com/umbralcalc/homar
 
 <!-- TODO: Diagram of simulation, project description and links... -->
 
-The link to this project can be [found here](https://github.com/umbralcalc/business-survival).
+The link to the interactive dashboard for this example can be [found here](https://umbralcalc.github.io/posts/support_policies_for_small_business_survival.html).
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/applied-projects.svg" width=600/></center>
