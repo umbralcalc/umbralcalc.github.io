@@ -11,4 +11,6 @@ images:
 # Managing flood damage risk under climate change
 <div style="height:0.75em;"></div>
 
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/dashboard-disclaimer.svg" width="700"/></center>
+
 The link to this project can be [found here](https://github.com/umbralcalc/floodrisk).
