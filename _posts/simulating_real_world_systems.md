@@ -281,9 +281,9 @@ The [stochadex project](https://stochadex.github.io/) is designed based on the s
 
 <!-- TODO: Diagram of simulation, project description and links... -->
 
-The link to the interactive dashboard for this example can be [found here](https://umbralcalc.github.io/posts/evaluating_rugby_manager_decision_making.html).
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/trywizard-simulation-code.svg" width="700"/></center>
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/applied-projects.svg" width=600/></center>
+The link to the interactive dashboard for this example can be [found here](https://umbralcalc.github.io/posts/evaluating_rugby_manager_decision_making.html).
 
 ## Example: Evaluating sustanability policies for fish ecosystems
 
