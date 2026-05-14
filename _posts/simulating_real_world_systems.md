@@ -269,14 +269,6 @@ The simulation models how those choices affect win probability, and can be fitte
 
 The link to the interactive dashboard for this example can be [found here](https://umbralcalc.github.io/posts/evaluating_rugby_manager_decision_making.html).
 
-## Example: Evaluating sustanability policies for fish ecosystems
-
-<!-- TODO: Diagram of simulation, project description and links... -->
-
-The link to the interactive dashboard for this example can be [found here](https://umbralcalc.github.io/posts/evaluating_sustainability_policies_for_fish_ecosystems.html).
-
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/applied-projects.svg" width=600/></center>
-
 ## Example: Managing antimicrobial resistance (AMR) with hospital guidelines
 
 <!-- TODO: Diagram of simulation, project description and links... -->

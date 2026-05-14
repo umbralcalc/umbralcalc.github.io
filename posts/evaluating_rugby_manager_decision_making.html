@@ -564,7 +564,7 @@
           var widget = document.getElementById('dexetera-rugby');
           var RUNTIME_BASE = 'https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/dexetera/runtime/';
           var WASM_URL = 'https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/dexetera/widgets/rugby/main.wasm';
-          var gameConfig = {"visualization":{"backgroundColor":"#fafafa","canvasHeight":400,"canvasWidth":640,"renderers":[{"partitionName":"","properties":{"color":"#cccccc","dashPattern":[3,3],"width":1,"x1":60,"x2":580,"y1":70,"y2":70},"type":"line"},{"partitionName":"match_state","properties":{"color":"#3c78d8","height":80,"lineWidth":2,"width":520,"x":60,"y":30},"type":"lineChart"},{"partitionName":"","properties":{"color":"#e3e6ec","width":1,"x1":60,"x2":580,"y1":128,"y2":128},"type":"line"},{"partitionName":"","properties":{"color":"#cfd4dc","dashPattern":[2,4],"width":1,"x1":320,"x2":320,"y1":170,"y2":374},"type":"line"},{"partitionName":"histogram_bars","properties":{"defaultHeight":0,"defaultWidth":0,"fillColor":"#7d8aa1"},"type":"rectangleSet"},{"partitionName":"","properties":{"color":"#2c3e50","width":1,"x1":60,"x2":580,"y1":374,"y2":374},"type":"line"},{"partitionName":"","properties":{"color":"#2c3e50","width":1,"x1":60,"x2":60,"y1":374,"y2":380},"type":"line"},{"partitionName":"","properties":{"color":"#2c3e50","width":1,"x1":190,"x2":190,"y1":374,"y2":380},"type":"line"},{"partitionName":"","properties":{"color":"#2c3e50","width":1,"x1":320,"x2":320,"y1":374,"y2":380},"type":"line"},{"partitionName":"","properties":{"color":"#2c3e50","width":1,"x1":450,"x2":450,"y1":374,"y2":380},"type":"line"},{"partitionName":"","properties":{"color":"#2c3e50","width":1,"x1":580,"x2":580,"y1":374,"y2":380},"type":"line"}],"updateIntervalMs":0},"sliders":[{"name":"front_row","partition":"home_sub_snapshot","valueIndex":0,"default":55,"decimals":3},{"name":"back_row","partition":"home_sub_snapshot","valueIndex":1,"default":50,"decimals":3},{"name":"halves","partition":"home_sub_snapshot","valueIndex":2,"default":60,"decimals":3},{"name":"outside_backs","partition":"home_sub_snapshot","valueIndex":3,"default":55,"decimals":3}],"readouts":[{"partition":"match_state","template":"match {v7} · min {v6} · home {v1} · away {v2}","decimals":2},{"partition":"outcomes","template":"home win: {v0}% · matches: {v1}","decimals":1}],"showReset":true,"driver":{"kind":"inline","options":{"intervalMs":30}}};
+          var gameConfig = {"visualization":{"backgroundColor":"#fafafa","canvasHeight":400,"canvasWidth":640,"renderers":[{"partitionName":"","properties":{"color":"#cccccc","dashPattern":[3,3],"width":1,"x1":60,"x2":580,"y1":70,"y2":70},"type":"line"},{"partitionName":"match_state","properties":{"color":"#3c78d8","height":80,"lineWidth":2,"width":520,"x":60,"y":30},"type":"lineChart"},{"partitionName":"","properties":{"color":"#e3e6ec","width":1,"x1":60,"x2":580,"y1":128,"y2":128},"type":"line"},{"partitionName":"","properties":{"color":"#cfd4dc","dashPattern":[2,4],"width":1,"x1":320,"x2":320,"y1":170,"y2":374},"type":"line"},{"partitionName":"histogram_bars","properties":{"anchor":"topLeft","defaultHeight":0,"defaultWidth":0,"fillColor":"#7d8aa1"},"type":"rectangleSet"},{"partitionName":"","properties":{"color":"#2c3e50","width":1,"x1":60,"x2":580,"y1":374,"y2":374},"type":"line"},{"partitionName":"","properties":{"color":"#2c3e50","width":1,"x1":60,"x2":60,"y1":374,"y2":380},"type":"line"},{"partitionName":"","properties":{"color":"#2c3e50","width":1,"x1":190,"x2":190,"y1":374,"y2":380},"type":"line"},{"partitionName":"","properties":{"color":"#2c3e50","width":1,"x1":320,"x2":320,"y1":374,"y2":380},"type":"line"},{"partitionName":"","properties":{"color":"#2c3e50","width":1,"x1":450,"x2":450,"y1":374,"y2":380},"type":"line"},{"partitionName":"","properties":{"color":"#2c3e50","width":1,"x1":580,"x2":580,"y1":374,"y2":380},"type":"line"}],"updateIntervalMs":0},"sliders":[{"name":"front_row","partition":"home_sub_snapshot","valueIndex":0,"default":55,"decimals":3},{"name":"back_row","partition":"home_sub_snapshot","valueIndex":1,"default":50,"decimals":3},{"name":"halves","partition":"home_sub_snapshot","valueIndex":2,"default":60,"decimals":3},{"name":"outside_backs","partition":"home_sub_snapshot","valueIndex":3,"default":55,"decimals":3}],"readouts":[{"partition":"match_state","template":"match {v7} · min {v6} · home {v1} · away {v2}","decimals":2},{"partition":"outcomes","template":"home win: {v0}% · matches: {v1}","decimals":1}],"showReset":true,"driver":{"kind":"inline","options":{"intervalMs":30}}};
 
           // Load the renderer script lazily, sharing one promise across every
           // dexetera widget on the same page.
@@ -721,9 +721,9 @@
       
             <div class="next-post">
         <div class="next-post-label">Next Post</div>
-        <a href="/posts/evaluating_sustainability_policies_for_fish_ecosystems.html" class="next-post-card">
+        <a href="/posts/managing_antimicrobial_resistance_with_hospital_guidelines.html" class="next-post-card">
                     <div class="next-post-images" id="next-post-images"></div>
-                    <div class="next-post-title">Evaluating sustanability policies for fish ecosystems</div>
+                    <div class="next-post-title">Managing antimicrobial resistance (AMR) with hospital guidelines</div>
         </a>
       </div>
           </main>
@@ -741,7 +741,7 @@
             images.forEach(imagePath => {
               const img = document.createElement('img');
               img.src = imagePath;
-              img.alt = 'Evaluating sustanability policies for fish ecosystems';
+              img.alt = 'Managing antimicrobial resistance (AMR) with hospital guidelines';
               imagesContainer.appendChild(img);
             });
           }

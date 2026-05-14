@@ -40,16 +40,6 @@
   }
 ,
   {
-    "title": "Evaluating sustanability policies for fish ecosystems",
-    "slug": "evaluating_sustainability_policies_for_fish_ecosystems",
-    "url": "/posts/evaluating_sustainability_policies_for_fish_ecosystems.html",
-    "tag": "Acting on Simulated Systems",
-    "date": "",
-    "order": 2,
-    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/closing-stack.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/applied-projects.svg"]
-  }
-,
-  {
     "title": "The building blocks of simulations",
     "slug": "the_building_blocks_of_simulations",
     "url": "/posts/the_building_blocks_of_simulations.html",
