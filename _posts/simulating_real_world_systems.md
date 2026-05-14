@@ -4,8 +4,7 @@ tag: "Simulating Real-World Systems as a Programmer"
 series-blurb: "A collection of posts on the foundations and patterns for building simulations of the real world. Written especially for programmers and non-technical readers wanting to learn the fundamentals of simulation technology and how it can be useful to the world. No maths, just diagrams and straightforward descriptions all the way through."
 order: 5
 images:
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/closing-stack.svg"
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/applied-projects.svg"
+- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/trywizard-simulation-code.svg"
 ---
 
 # Simulating real-world systems
@@ -24,21 +23,6 @@ State partitions and timesteps gave us a way to describe how a system evolves in
 Probabilistic thinking gave us a way to reason about its possible trajectories without enumerating them.
 
 Objectives and learning algorithms gave us a way to fit parameters to data, or to search for the best action-taking policy.
-
-<!--
-TODO: closing-stack.svg. Vertical stack of four labelled layers. Top to bottom:
-
-  (1) DECISIONS         small icon: a hand pointing at a forecast      [post 1]
-  (2) LEARNING          small icon: a parameter being adjusted         [post 4]
-  (3) PROBABILITY       small icon: a probability distribution shape   [post 3]
-  (4) BUILDING BLOCKS   small icons: a timeline + a state partition    [post 2]
-
-Each layer should sit on top of the next, with a small "rests on" label or
-downward arrow on the side. The aim is to make explicit that probabilities
-rest on building blocks, learning rests on probabilities, and decision-
-making rests on learning.
--->
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/closing-stack.svg" width=600/></center>
 
 ```{=html}
 <style>
@@ -269,17 +253,17 @@ making rests on learning.
 
 ## What's next?
 
-Consider the hardware; up until now, we have assumed a single simulation engine running on a classical CPU.
+The four layers we've built up (building blocks, probabilities, learning, decisions) all fit together into a real piece of software. 
 
-If you want to know how engines run on different hardware see this separate post about [simulation architectures on different hardware](/posts/simulation_architectures_on_different_hardware.html).
+The [stochadex project](https://stochadex.github.io/) is built on exactly these foundations, and the examples below describe interactive dashboards built with it. Each one is devoted to a specific real-world decision problem in mind.
 
-After that, it's time to explore some real applications!
-
-The [stochadex project](https://stochadex.github.io/) is designed based on the simulation software fundamentals described in this collection of posts. Using this, we can create software to help take better actions in a huge variety of different problem domains.
+Note: if you're curious how all this runs on different kinds of hardware, there's a separate post on [simulation architectures](/posts/simulation_architectures_on_different_hardware.html).
 
 ## Example: Evaluating rugby manager decision-making
 
-<!-- TODO: Diagram of simulation, project description and links... -->
+A rugby manager picks when to substitute each position group; early relief versus late impact. 
+
+The simulation models how those choices affect win probability, and can be fitted to real match events.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/trywizard-simulation-code.svg" width="700"/></center>
 
