@@ -263,7 +263,7 @@ Note: if you're curious how all this runs on different kinds of hardware, there'
 
 A rugby manager picks when to substitute each position group; early relief versus late impact. 
 
-The simulation models how those choices affect win probability, and can be fitted to real match events.
+The simulation models how those choices affect the match state and can therefore be used to derive the win probability over multiple trajectories. It can also be fitted to real match events.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/trywizard-simulation-code.svg" width="700"/></center>
 
@@ -271,11 +271,13 @@ The link to the interactive dashboard for this example can be [found here](https
 
 ## Example: Managing antimicrobial resistance (AMR) with hospital guidelines
 
-<!-- TODO: Diagram of simulation, project description and links... -->
+A medicines management committee picks a cephalosporin prescribing policy; keep pressure high and resistance builds inside the wards, ease off and prevent some of that buildup.
+
+The simulation models how those choices shape the resistant E. coli fraction in a hospital and the bloodstream infections that follow. It can also be fitted to real surveillance data.
+
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/antimicrobial-resistance-code.svg" width=400/></center>
 
 The link to the interactive dashboard for this example can be [found here](https://umbralcalc.github.io/posts/managing_antimicrobial_resistance_with_hospital_guidelines.html).
-
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/applied-projects.svg" width=600/></center>
 
 ## Example: Managing flood damage risk under climate change
 
@@ -283,15 +285,11 @@ The link to the interactive dashboard for this example can be [found here](https
 
 The link to the interactive dashboard for this example can be [found here](https://umbralcalc.github.io/posts/managing_flood_damage_risk_under_climate_change.html).
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/applied-projects.svg" width=600/></center>
-
 ## Example: Energy demand response optimisation for the national grid
 
 <!-- TODO: Diagram of simulation, project description and links... -->
 
 The link to the interactive dashboard for this example can be [found here](https://umbralcalc.github.io/posts/energy_demand_response_optimisation_for_the_national_grid.html).
-
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/applied-projects.svg" width=600/></center>
 
 ## Example: Planning approval policies for housing affordability
 
@@ -299,12 +297,8 @@ The link to the interactive dashboard for this example can be [found here](https
 
 The link to the interactive dashboard for this example can be [found here](https://umbralcalc.github.io/posts/planning_approval_policies_for_housing_affordability.html).
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/applied-projects.svg" width=600/></center>
-
 ## Example: Support policies for small business survival
 
 <!-- TODO: Diagram of simulation, project description and links... -->
 
 The link to the interactive dashboard for this example can be [found here](https://umbralcalc.github.io/posts/support_policies_for_small_business_survival.html).
-
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/applied-projects.svg" width=600/></center>
