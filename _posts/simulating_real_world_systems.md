@@ -299,14 +299,12 @@ The simulation models how those choices shape the battery's revenue, degradation
 
 The link to the interactive dashboard for this example can be [found here](https://umbralcalc.github.io/posts/energy_demand_response_optimisation_for_the_national_grid.html).
 
-## Example: Planning approval policies for housing affordability
-
-<!-- TODO: Diagram of simulation, project description and links... -->
-
-The link to the interactive dashboard for this example can be [found here](https://umbralcalc.github.io/posts/planning_approval_policies_for_housing_affordability.html).
-
 ## Example: Support policies for small business survival
 
-<!-- TODO: Diagram of simulation, project description and links... -->
+A local policymaker picks a small business support portfolio; tilt towards rates relief to keep more young firms alive, or tilt towards startup grants to grow the register count.
+
+The simulation models how those choices shape five-year cohort survival and register stock under different macro scenarios. It can also be fitted to real ONS business demography and Companies House register data.
+
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/business-survival-code.svg" width="200"/></center>
 
 The link to the interactive dashboard for this example can be [found here](https://umbralcalc.github.io/posts/support_policies_for_small_business_survival.html).

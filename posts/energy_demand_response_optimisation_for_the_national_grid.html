@@ -777,9 +777,9 @@
       
             <div class="next-post">
         <div class="next-post-label">Next Post</div>
-        <a href="/posts/planning_approval_policies_for_housing_affordability.html" class="next-post-card">
+        <a href="/posts/support_policies_for_small_business_survival.html" class="next-post-card">
                     <div class="next-post-images" id="next-post-images"></div>
-                    <div class="next-post-title">Planning approval policies for housing affordability</div>
+                    <div class="next-post-title">Support policies for small business survival</div>
         </a>
       </div>
           </main>
@@ -791,13 +791,13 @@
       const imagesContainer = document.getElementById('next-post-images');
       if (imagesContainer) {
         try {
-          const imagesJson = '["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/closing-stack.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/applied-projects.svg"]';
+          const imagesJson = '["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/support_policies_for_small_business_survival/business-survival-code.svg"]';
           const images = JSON.parse(imagesJson);
           if (Array.isArray(images) && images.length > 0) {
             images.forEach(imagePath => {
               const img = document.createElement('img');
               img.src = imagePath;
-              img.alt = 'Planning approval policies for housing affordability';
+              img.alt = 'Support policies for small business survival';
               imagesContainer.appendChild(img);
             });
           }

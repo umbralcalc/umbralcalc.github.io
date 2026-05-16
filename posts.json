@@ -110,16 +110,6 @@
   }
 ,
   {
-    "title": "Planning approval policies for housing affordability",
-    "slug": "planning_approval_policies_for_housing_affordability",
-    "url": "/posts/planning_approval_policies_for_housing_affordability.html",
-    "tag": "Acting on Simulated Systems",
-    "date": "",
-    "order": 5,
-    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/closing-stack.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/applied-projects.svg"]
-  }
-,
-  {
     "title": "Simulating real-world systems",
     "slug": "simulating_real_world_systems",
     "url": "/posts/simulating_real_world_systems.html",
@@ -135,7 +125,7 @@
     "url": "/posts/support_policies_for_small_business_survival.html",
     "tag": "Acting on Simulated Systems",
     "date": "",
-    "order": 6,
-    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/closing-stack.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/applied-projects.svg"]
+    "order": 5,
+    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/support_policies_for_small_business_survival/business-survival-code.svg"]
   }
 ]
