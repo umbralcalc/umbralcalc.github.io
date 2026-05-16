@@ -281,7 +281,11 @@ The link to the interactive dashboard for this example can be [found here](https
 
 ## Example: Managing flood damage risk under climate change
 
-<!-- TODO: Diagram of simulation, project description and links... -->
+A catchment authority picks a portfolio of natural flood management interventions; pay more upstream and trim peak flows downstream, or save the money and accept the climate-driven rise.
+
+The simulation models how those choices shape downstream peak flow distributions under different climate scenarios. It can also be fitted to real Environment Agency flow records.
+
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/floodrisk-simulation-code.svg" width="400"/></center>
 
 The link to the interactive dashboard for this example can be [found here](https://umbralcalc.github.io/posts/managing_flood_damage_risk_under_climate_change.html).
 
