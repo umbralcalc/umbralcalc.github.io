@@ -291,7 +291,11 @@ The link to the interactive dashboard for this example can be [found here](https
 
 ## Example: Energy demand response optimisation for the national grid
 
-<!-- TODO: Diagram of simulation, project description and links... -->
+A battery operator picks a dispatch policy; chase the price spreads of today's grid, or chase the carbon swings of a renewables-heavy one.
+
+The simulation models how those choices shape the battery's revenue, degradation, and carbon savings under different grid mixes. It can also be fitted to real NESO half-hourly demand data.
+
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/energy-balancer-code.svg" width="550"/></center>
 
 The link to the interactive dashboard for this example can be [found here](https://umbralcalc.github.io/posts/energy_demand_response_optimisation_for_the_national_grid.html).
 
