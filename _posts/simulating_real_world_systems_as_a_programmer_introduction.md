@@ -5,7 +5,7 @@ series-blurb: "A collection of posts on the foundations and patterns for buildin
 order: 0
 ---
 
-# Simulating Real-World Systems as a Programmer
+# Introduction
 <div style="height:0.75em;"></div>
 
 This is a collection of posts aimed at programmers and non-technical readers wanting to learn the fundamentals of simulation technology and how it can be useful to the world.

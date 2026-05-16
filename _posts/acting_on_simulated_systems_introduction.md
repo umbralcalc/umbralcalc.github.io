@@ -5,7 +5,7 @@ series-blurb: "A collection of simulated examples of real-world actions explored
 order: 0
 ---
 
-# Acting on Simulated Systems
+# Introduction
 <div style="height:0.75em;"></div>
 
 This is a collection of simulated examples of real-world actions explored through interactive dashboards.
