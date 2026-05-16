@@ -1,7 +1,7 @@
 ---
 title: "Why simulate real-world systems?"
 tag: "Simulating Real-World Systems as a Programmer"
-series-blurb: "A collection of posts on the foundations and patterns for building simulations of the real world. Written especially for programmers and non-technical readers wanting to learn the fundamentals of simulation technology and how it can be useful to the world. No maths, just diagrams and straightforward descriptions all the way through."
+series-blurb: "A collection of posts on the foundations and patterns for building simulations of the real world. Written especially for programmers and non-technical readers wanting to learn the fundamentals of simulation technology and how it can be useful to the world. No maths; just diagrams and straightforward descriptions all the way through."
 order: 1
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/why_simulate_real_world_systems/simulations-for-decisions.svg"
@@ -11,15 +11,7 @@ images:
 # Why simulate real-world systems?
 <div style="height:0.75em;"></div>
 
-## Who are these posts for?
-
-These posts are aimed at programmers and non-technical readers wanting to learn the fundamentals of simulating real-world systems.
-
-Together, we will explore the power of simulations and probabilistic thinking without the need for mathematical symbols.
-
-Those eager to follow along with code should also check out the [stochadex project](https://stochadex.github.io/), which was designed with these fundamentals in mind. It is the main example of simulation software we will have in mind throughout these posts.
-
-## What can you do with these simulations?
+## What can you do with simulations?
 
 One of the most compelling uses for simulations of real-world systems is in powering decision-making technologies.
 

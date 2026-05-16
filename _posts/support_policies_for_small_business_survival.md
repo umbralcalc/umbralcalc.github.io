@@ -1,7 +1,7 @@
 ---
 title: "Support policies for small business survival"
 tag: "Acting on Simulated Systems"
-series-blurb: "A collection of simulated examples of real-world actions explored through interactive dashboards. Each post is devoted to a specific real-world decision problem in turn, and walks through how to play with the dashboard to discover the best action. No maths, just diagrams and straightforward descriptions all the way through."
+series-blurb: "A collection of simulated examples of real-world actions explored through interactive dashboards. Each post covers a specific real-world decision problem in turn, demonstrating how simulations can inform real-world action-taking with illustrative (not production-ready) research models. No maths; just diagrams and straightforward descriptions all the way through."
 order: 5
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/support_policies_for_small_business_survival/business-survival-code.svg"

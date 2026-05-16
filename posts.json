@@ -1,5 +1,25 @@
 [
   {
+    "title": "Introduction",
+    "slug": "acting_on_simulated_systems_introduction",
+    "url": "/posts/acting_on_simulated_systems_introduction.html",
+    "tag": "Acting on Simulated Systems",
+    "date": "",
+    "order": 0,
+    "images": []
+  }
+,
+  {
+    "title": "Introduction",
+    "slug": "simulating_real_world_systems_as_a_programmer_introduction",
+    "url": "/posts/simulating_real_world_systems_as_a_programmer_introduction.html",
+    "tag": "Simulating Real-World Systems as a Programmer",
+    "date": "",
+    "order": 0,
+    "images": []
+  }
+,
+  {
     "title": "Evaluating rugby manager decision-making",
     "slug": "evaluating_rugby_manager_decision_making",
     "url": "/posts/evaluating_rugby_manager_decision_making.html",
