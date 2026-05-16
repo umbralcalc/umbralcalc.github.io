@@ -303,7 +303,7 @@ The link to the interactive dashboard for this example can be [found here](https
 
 A local policymaker picks a small business support portfolio; tilt towards rates relief to keep more young firms alive, or tilt towards startup grants to grow the register count.
 
-The simulation models how those choices shape five-year cohort survival and register stock under different macro scenarios. It can also be fitted to real ONS business demography and Companies House register data.
+The simulation (here just one simple state partition) models how those choices shape five-year cohort survival and register stock under different macro scenarios. It can also be fitted to real ONS business demography and Companies House register data.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/business-survival-code.svg" width="200"/></center>
 
