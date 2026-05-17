@@ -10,8 +10,6 @@ images:
 # Support policies for small business survival
 <div style="height:0.75em;"></div>
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/dashboard-disclaimer.svg" width="700"/></center>
-
 UK small business support comes in different flavours (rates relief, startup grants, incubators, mentoring, etc.): how should a cash-constrained policymaker has to choose between them? To maximise what?
 
 The simulation below (in this case it's just one simple state partition!) is calibrated to ONS business demography and Companies House register data for Kingston upon Hull, evaluating how six support portfolios shift five-year survival and register stock under three macro scenarios.

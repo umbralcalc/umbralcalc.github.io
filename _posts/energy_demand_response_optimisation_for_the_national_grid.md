@@ -10,8 +10,6 @@ images:
 # Energy demand response optimisation for the national grid
 <div style="height:0.75em;"></div>
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/dashboard-disclaimer.svg" width="700"/></center>
-
 Grid-scale batteries promise to balance the intermittent renewables of a net-zero electricity system: but how should they be dispatched, and does the answer change as the grid gets greener?
 
 The simulation below is fitted to five years of NESO half-hourly demand data and tracks how a 100 MW / 200 MWh battery's state of charge, revenue, and carbon savings evolve under different dispatch strategies and grid mixes.

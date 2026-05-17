@@ -105,6 +105,24 @@
             text-decoration: underline;
         }
 
+        .footer-disclaimer {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+            color: #999;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            text-align: left;
+        }
+
+        .footer-disclaimer p {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-disclaimer p:last-child {
+            margin-bottom: 0;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 1.5rem;
@@ -126,7 +144,7 @@
         <nav>
             <a href="/">Home</a>
             <a href="/about.html">About</a>
-            <a href="/follow.html">Follow</a>
+            <!-- <a href="/follow.html">Follow</a> -->
         </nav>
 
         <header>
@@ -146,6 +164,11 @@
                 <a href="mailto:umbralcalc@gmail.com">Email</a> |
                 <a href="/cv.html">CV</a>
             </p>
+            <div class="footer-disclaimer">
+                <p><strong>Heads-up:</strong> Everything on this site is written in a personal capacity and reflects my own views. Nothing here represents the views of my employer or any organisation I'm affiliated with.</p>
+                <p><strong>Terms of use:</strong> All content and code on this site is released under the MIT License. Feel free to reuse, remix, and redistribute; attribution is still appreciated though!</p>
+                <p><strong>Disclaimer:</strong> The interactive dashboards are all for learning, not deciding! These dashboards are simulation toys, based on simplified models fitted on incomplete data. Use them to build intuition about real-world simulations; don&rsquo;t use them to make real-world decisions.</p>
+            </div>
         </footer>
     </div>
 </body>

@@ -10,8 +10,6 @@ images:
 # Managing antimicrobial resistance (AMR) with hospital guidelines
 <div style="height:0.75em;"></div>
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/dashboard-disclaimer.svg" width="700"/></center>
-
 Antibiotic-resistant infections are rising in English hospitals: can stewardship policies bring them back down, and how much room is there to do so?
 
 The simulation below is fitted to ten years of UKHSA surveillance data and models how cephalosporin prescribing pressure shapes the balance of susceptible and resistant E. coli inside a hospital, generating bloodstream infections as a stochastic consequence.

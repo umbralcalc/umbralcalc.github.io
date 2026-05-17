@@ -10,8 +10,6 @@ images:
 # Managing flood damage risk under climate change
 <div style="height:0.75em;"></div>
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/dashboard-disclaimer.svg" width="700"/></center>
-
 Climate change is making UK flooding worse: how much can natural flood management interventions offset that risk, and is more spending always better?
 
 The simulation below is calibrated to 16 years of Environment Agency data from the Upper Calder Valley, modelling how rainfall and catchment dynamics translate into peak river flows under different policies and climate scenarios.

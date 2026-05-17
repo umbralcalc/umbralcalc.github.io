@@ -428,17 +428,36 @@
       color: #3c78d8ff;
     }
     
+    /* Footer disclaimer */
+    .footer-disclaimer {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid #eee;
+      font-size: 0.8rem;
+      line-height: 1.5;
+      text-align: left;
+    }
+
+    .footer-disclaimer p {
+      color: #999;
+      margin-bottom: 0.75rem;
+    }
+
+    .footer-disclaimer p:last-child {
+      margin-bottom: 0;
+    }
+
     /* Print styles */
     @media print {
       body {
         background: #fff;
       }
-      
+
       .container {
         max-width: 100%;
         padding: 0;
       }
-      
+
       .next-post {
         display: none;
       }
@@ -446,8 +465,12 @@
       .series-nav {
         display: none;
       }
+
+      .footer-disclaimer {
+        display: none;
+      }
     }
-    
+
   </style>
 
     
@@ -460,7 +483,7 @@
     <nav>
       <a href="../index.html">Home</a>
       <a href="../about.html">About</a>
-      <a href="../follow.html">Follow</a>
+      <!-- <a href="../follow.html">Follow</a> -->
     </nav>
 
         <section class="series-nav" id="series-nav" data-series-tag="Simulating Real-World Systems as a Programmer" data-series-order="1">
@@ -719,6 +742,12 @@
         </a>
       </div>
           </main>
+
+    <footer class="footer-disclaimer">
+      <p><strong>Heads-up:</strong> Everything on this site is written in a personal capacity and reflects my own views. Nothing here represents the views of my employer or any organisation I'm affiliated with.</p>
+      <p><strong>Terms of use:</strong> All content and code on this site is released under the MIT License. Feel free to reuse, remix, and redistribute; attribution is still appreciated though!</p>
+      <p><strong>Disclaimer:</strong> The interactive dashboards are all for learning, not deciding! These dashboards are simulation toys, based on simplified models fitted on incomplete data. Use them to build intuition about real-world simulations; don&rsquo;t use them to make real-world decisions.</p>
+    </footer>
   </div>
   
     <script>
