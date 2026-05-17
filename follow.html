@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations-logo.svg">
+    <link rel="icon" type="image/x-icon" href="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/favicon.ico">
+    <link rel="apple-touch-icon" href="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations-logo.svg">
+    <title>Subscribe - umbralcalculations</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Open+Sans:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #fafafa;
+            padding: 0;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: #fff;
+            min-height: 100vh;
+        }
+
+        nav {
+            margin-bottom: 3rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid #e0e0e0;
+            white-space: nowrap;
+        }
+
+        nav a {
+            color: #2c3e50;
+            text-decoration: none;
+            font-weight: 600;
+            margin-right: 2rem;
+            transition: color 0.3s;
+            font-size: 1.1rem;
+            display: inline-block;
+        }
+
+        nav a:hover {
+            color: #b0447aff;
+        }
+
+        header {
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 2rem;
+            color: #1a1a1a;
+            margin: 0 0 0.5rem 0;
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 0.3rem;
+            font-weight: 700;
+        }
+
+        .content {
+            font-size: 1.05rem;
+            color: #444;
+            line-height: 1.8;
+        }
+
+        .content p {
+            margin-bottom: 1.25rem;
+        }
+
+        .content a {
+            color: #3c78d8ff;
+            text-decoration: none;
+        }
+
+        .content a:hover {
+            text-decoration: underline;
+        }
+
+        .embeddable-buttondown-form {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            padding: 1.75rem;
+            border: 1px solid #e0e0e0;
+            background: #fff;
+            margin: 1rem 0 1.5rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .embeddable-buttondown-form:focus-within {
+            border-color: #3c78d8ff;
+            box-shadow: 0 2px 8px rgba(52, 152, 219, 0.1);
+        }
+
+        .embeddable-buttondown-form label {
+            font-family: 'Merriweather', serif;
+            font-size: 1.1rem;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .embeddable-buttondown-form input[type="email"] {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1rem;
+            padding: 0.75rem 1rem;
+            border: 1px solid #e0e0e0;
+            background: #fafafa;
+            color: #333;
+            outline: none;
+            transition: border-color 0.3s ease, background 0.3s ease;
+            width: 100%;
+        }
+
+        .embeddable-buttondown-form input[type="email"]:focus {
+            border-color: #3c78d8ff;
+            background: #fff;
+        }
+
+        .embeddable-buttondown-form input[type="submit"] {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border: 1px solid #3c78d8ff;
+            background: #3c78d8ff;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            align-self: flex-start;
+        }
+
+        .embeddable-buttondown-form input[type="submit"]:hover {
+            background: #2c5fb8;
+            border-color: #2c5fb8;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(52, 152, 219, 0.2);
+        }
+
+        .embeddable-buttondown-form p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        .embeddable-buttondown-form p a {
+            color: #888;
+        }
+
+        .embeddable-buttondown-form p a:hover {
+            color: #3c78d8ff;
+            text-decoration: underline;
+        }
+
+        footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 2px solid #e0e0e0;
+            text-align: center;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: #3c78d8ff;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            nav a {
+                margin-right: 1.5rem;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <a href="/">Home</a>
+            <a href="/about.html">About</a>
+            <a href="/follow.html">Follow</a>
+        </nav>
+
+        <header>
+            <h1>Subscribe to the newsletter</h1>
+        </header>
+
+        <p>Want to hear when I post more? Subscribe and you'll hear from me!</p>
+        <p>...probably at most 1 email per month. This is all in my free time 😄</p>
+
+        <section class="content">
+            <form
+            action="https://buttondown.com/api/emails/embed-subscribe/umbralcalc"
+            method="post"
+            class="embeddable-buttondown-form"
+            >
+            <label for="bd-email">Enter your email</label>
+            <input type="email" name="email" id="bd-email" />
+            <input type="submit" value="Subscribe" />
+            <p>
+                <a href="https://buttondown.com/refer/umbralcalc" target="_blank">
+                Powered by Buttondown.
+                </a>
+            </p>
+            </form>
+        </section>
+
+        <footer>
+            <p>
+                <a href="https://github.com/umbralcalc">GitHub</a> |
+                <a href="https://orcid.org/0000-0001-8778-006X">ORCID</a> |
+                <a href="mailto:umbralcalc@gmail.com">Email</a> |
+                <a href="/cv.html">CV</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
