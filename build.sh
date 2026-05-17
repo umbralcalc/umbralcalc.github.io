@@ -70,7 +70,11 @@ clean_build() {
     if [ -f "$DOCS_DIR/posts.json" ]; then
         rm -f "$DOCS_DIR/posts.json"
     fi
-    
+
+    if [ -f "$DOCS_DIR/feed.xml" ]; then
+        rm -f "$DOCS_DIR/feed.xml"
+    fi
+
     if [ -d "$TEMP_DIR" ]; then
         rm -rf "$TEMP_DIR"
     fi
@@ -335,6 +339,146 @@ EOF
     log_success "Posts metadata generated"
 }
 
+# Generate RSS feed
+generate_feed() {
+    log_info "Generating RSS feed..."
+
+    local base_url="https://umbralcalc.github.io"
+    local posts_json="$DOCS_DIR/posts.json"
+    local feed_xml="$DOCS_DIR/feed.xml"
+
+    if [ ! -f "$posts_json" ]; then
+        log_error "posts.json not found — cannot generate feed.xml"
+        exit 1
+    fi
+
+    # For each post, find its first-commit date (when it was published)
+    # and feed that to Python as a JSON map: { slug: ISO-date }
+    local dates_json="$TEMP_DIR/post_dates.json"
+    {
+        echo "{"
+        local first=true
+        for filename in "$DOCS_DIR"/_posts/*.md; do
+            if [ -f "$filename" ]; then
+                local basename
+                basename=$(basename "$filename" .md)
+                local commit_date
+                commit_date=$(git -C "$DOCS_DIR" log --diff-filter=A --follow --format=%aI -- "_posts/${basename}.md" 2>/dev/null | tail -1)
+                if [ -z "$commit_date" ]; then
+                    commit_date=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+                fi
+                if [ "$first" = true ]; then
+                    first=false
+                else
+                    echo ","
+                fi
+                printf '  "%s": "%s"' "$basename" "$commit_date"
+            fi
+        done
+        echo ""
+        echo "}"
+    } > "$dates_json"
+
+    BASE_URL="$base_url" POSTS_JSON="$posts_json" DATES_JSON="$dates_json" FEED_XML="$feed_xml" python3 <<'PYEOF'
+import json
+import os
+import re
+from email.utils import format_datetime
+from datetime import datetime, timezone
+from xml.sax.saxutils import escape
+
+base_url = os.environ["BASE_URL"]
+posts = json.load(open(os.environ["POSTS_JSON"]))
+dates = json.load(open(os.environ["DATES_JSON"]))
+
+def parse_iso(s):
+    # Python's fromisoformat handles "+01:00" and "Z" (3.11+); normalise Z just in case
+    return datetime.fromisoformat(s.replace("Z", "+00:00"))
+
+def rfc822(dt):
+    return format_datetime(dt)
+
+def extract_description(slug):
+    path = os.path.join(os.path.dirname(os.environ["POSTS_JSON"]), "_posts", slug + ".md")
+    if not os.path.exists(path):
+        return ""
+    text = open(path).read()
+    # Strip YAML frontmatter
+    if text.startswith("---"):
+        end = text.find("\n---", 3)
+        if end != -1:
+            text = text[end + 4:]
+    # Find first non-empty, non-heading, non-html paragraph
+    for block in re.split(r"\n\s*\n", text):
+        block = block.strip()
+        if not block:
+            continue
+        if block.startswith("#"):
+            continue
+        if block.startswith("<"):
+            continue
+        # Strip inline markdown emphasis/links for a clean teaser
+        block = re.sub(r"!\[[^\]]*\]\([^)]*\)", "", block)
+        block = re.sub(r"\[([^\]]+)\]\([^)]*\)", r"\1", block)
+        block = re.sub(r"[_*`]", "", block)
+        block = re.sub(r"\s+", " ", block).strip()
+        if len(block) > 280:
+            block = block[:277].rstrip() + "..."
+        return block
+    return ""
+
+# Sort posts newest-first by commit date
+items = []
+for post in posts:
+    slug = post["slug"]
+    date_str = dates.get(slug)
+    if not date_str:
+        continue
+    items.append((parse_iso(date_str), post))
+items.sort(key=lambda x: x[0], reverse=True)
+
+now = datetime.now(timezone.utc)
+last_build = rfc822(now)
+latest = rfc822(items[0][0]) if items else last_build
+
+out = []
+out.append('<?xml version="1.0" encoding="UTF-8"?>')
+out.append('<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">')
+out.append('  <channel>')
+out.append(f'    <title>umbralcalculations</title>')
+out.append(f'    <link>{base_url}/</link>')
+out.append(f'    <description>Visual explorations in science and computation.</description>')
+out.append(f'    <language>en</language>')
+out.append(f'    <atom:link href="{base_url}/feed.xml" rel="self" type="application/rss+xml" />')
+out.append(f'    <lastBuildDate>{last_build}</lastBuildDate>')
+out.append(f'    <pubDate>{latest}</pubDate>')
+
+for dt, post in items:
+    url = base_url + post["url"]
+    title = escape(post["title"])
+    desc = escape(extract_description(post["slug"]))
+    tag = post.get("tag", "")
+    out.append('    <item>')
+    out.append(f'      <title>{title}</title>')
+    out.append(f'      <link>{url}</link>')
+    out.append(f'      <guid isPermaLink="true">{url}</guid>')
+    out.append(f'      <pubDate>{rfc822(dt)}</pubDate>')
+    if tag:
+        out.append(f'      <category>{escape(tag)}</category>')
+    if desc:
+        out.append(f'      <description>{desc}</description>')
+    out.append('    </item>')
+
+out.append('  </channel>')
+out.append('</rss>')
+
+with open(os.environ["FEED_XML"], "w") as f:
+    f.write("\n".join(out) + "\n")
+PYEOF
+
+    log_success "RSS feed generated"
+}
+
 # Generate sitemap
 generate_sitemap() {
     log_info "Generating sitemap..."
@@ -438,6 +582,7 @@ main() {
     clean_build
     generate_html_pages
     generate_posts_metadata
+    generate_feed
     generate_sitemap
     generate_robots
     validate_build
