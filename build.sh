@@ -187,9 +187,6 @@ generate_html_pages() {
             
             pandoc --template "$DOCS_DIR/template.html" \
                 --wrap=preserve \
-                --citeproc \
-                --csl="$DOCS_DIR/ieee.csl" \
-                --bibliography="$DOCS_DIR/biblio.bib" \
                 --mathjax \
                 --syntax-highlighting=pygments \
                 --metadata="title:$title" \
