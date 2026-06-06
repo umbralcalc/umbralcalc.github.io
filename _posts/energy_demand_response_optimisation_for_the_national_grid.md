@@ -308,3 +308,5 @@ Pick a dispatch policy, a grid scenario, and tune the price thresholds; watch ho
 ```
 
 The link to this project can be [found here](https://github.com/umbralcalc/energy-balancer).
+
+**Data and licence:** This simulation is fitted to half-hourly demand and embedded-generation data from the [NESO Data Portal](https://www.neso.energy/data-portal) (NESO open data), with carbon-intensity and generation-mix figures from the [Carbon Intensity API](https://carbonintensity.org.uk/) (CC BY 4.0) and solar estimates from [Sheffield Solar PV_Live](https://www.solar.sheffield.ac.uk/api/). The data is used here for illustration only and is not redistributed.

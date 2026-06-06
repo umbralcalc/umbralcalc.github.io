@@ -273,3 +273,5 @@ Pick an NFM portfolio and a climate scenario, and watch how peak flows and inter
 ```
 
 The link to this project can be [found here](https://github.com/umbralcalc/floodrisk).
+
+**Data and licence:** This simulation is calibrated to river-flow and rainfall records from the [Environment Agency Hydrology](https://environment.data.gov.uk/hydrology/explore) and [Flood Monitoring](https://environment.data.gov.uk/flood-monitoring/doc/reference) APIs, with peak-flow data from the NRFA and climate projections from UKCP18. Environment Agency data contains public sector information licensed under the [Open Government Licence v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).
