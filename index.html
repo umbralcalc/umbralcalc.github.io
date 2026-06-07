@@ -57,7 +57,7 @@
         }
         
         header {
-            margin-bottom: 3rem;
+            margin-bottom: 1.5rem;
         }
         
         header img {
@@ -121,76 +121,105 @@
             border-bottom: 2px solid #3c78d8ff;
             padding-bottom: 0.5rem;
         }
-        
-        /* Series covers grid */
-        .series-covers-grid {
+
+        /* ---- Collections: one row per series ---- */
+        .collection-row {
             display: flex;
-            flex-direction: row;
             gap: 1.5rem;
+            align-items: stretch;
+            min-height: 220px;
             margin-top: 1.5rem;
-            overflow-x: auto;
-            overflow-y: hidden;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-            padding-top: 0.5rem;
-            padding-bottom: 0.5rem;
+            margin-bottom: 2rem;
         }
 
-        .series-covers-grid::-webkit-scrollbar {
-            height: 8px;
+        .collection-row:last-child {
+            margin-bottom: 0;
         }
 
-        .series-covers-grid::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-
-        .series-covers-grid::-webkit-scrollbar-thumb {
-            background: #3c78d8ff;
-            border-radius: 4px;
-        }
-
-        .series-covers-grid::-webkit-scrollbar-thumb:hover {
-            background: #3c78d8ff;
-        }
-        
-        .series-cover-card {
+        .collection-cover {
+            flex: 0 0 280px;
+            align-self: flex-start;
             display: block;
             text-decoration: none;
             color: inherit;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
             background: #fff;
             border: 1px solid #e0e0e0;
             overflow: hidden;
-            flex: 0 0 280px;
-            min-width: 280px;
-            scroll-snap-align: start;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
         }
-        
-        .series-cover-card:hover {
+
+        .collection-cover:hover {
             transform: translateY(-4px);
             box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
             border-color: #3c78d8ff;
         }
-        
-        .series-cover-image {
+
+        .collection-cover-image {
             width: 100%;
             height: auto;
             display: block;
             background: #fafafa;
         }
-        
-        .series-cover-title {
-            font-family: 'Merriweather', serif;
-            font-size: 1.2rem;
-            color: #2c3e50;
-            padding: 1rem;
-            margin: 0;
-            text-align: center;
-            font-weight: 600;
-            border-top: 1px solid #e0e0e0;
+
+        /* Right column: scrolls within the cover's height */
+        .collection-posts {
+            position: relative;
+            flex: 1 1 auto;
+            min-width: 0;
         }
-        
-        .series-cover-card:hover .series-cover-title {
+
+        .collection-posts-scroll {
+            position: absolute;
+            inset: 0;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            scrollbar-width: none;       /* Firefox */
+            -ms-overflow-style: none;    /* IE/Edge */
+        }
+
+        .collection-posts-scroll::-webkit-scrollbar {
+            display: none;               /* Chrome/Safari */
+        }
+
+        .collection-post-card {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            padding: 0.85rem 1rem;
+            border: 1px solid #e0e0e0;
+            background: #fff;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        .collection-post-card:hover {
+            border-color: #3c78d8ff;
+            box-shadow: 0 2px 8px rgba(52, 152, 219, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .collection-post-images {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .collection-post-images img {
+            height: 70px;
+            width: auto;
+            display: block;
+        }
+
+        .collection-post-title {
+            font-family: 'Merriweather', serif;
+            font-size: 1.05rem;
+            color: #2c3e50;
+            line-height: 1.3;
+        }
+
+        .collection-post-card:hover .collection-post-title {
             color: #3c78d8ff;
         }
         
@@ -276,6 +305,158 @@
             font-style: italic;
         }
         
+        /* ---- Forecasts band ---- */
+        .forecasts-section {
+            margin-top: 3rem;
+        }
+
+        .forecasts-section h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 2rem;
+            color: #2c3e50;
+            margin: 0 0 1.5rem 0;
+            border-bottom: 2px solid #b0447a;   /* magenta, not blue */
+            padding-bottom: 0.5rem;
+        }
+
+        .forecast-card {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            text-decoration: none;
+            color: inherit;
+            padding: 1.5rem;
+            border: 1px solid #e0e0e0;
+            border-left: 4px solid #b0447a;     /* magenta spine = "live" marker */
+            background: #fff;
+            transition: all 0.3s ease;
+        }
+
+        .forecast-card:hover {
+            border-color: #b0447a;
+            box-shadow: 0 2px 8px rgba(176, 68, 122, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .forecast-thumb {
+            flex: 0 0 140px;
+            width: 140px;
+            height: auto;
+            display: block;
+            background: #fafafa;
+        }
+
+        .forecast-body { flex: 1; min-width: 0; }
+
+        .forecast-date {
+            color: #b0447a;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 0.4rem;
+        }
+
+        .forecast-title {
+            font-family: 'Merriweather', serif;
+            font-size: 1.3rem;
+            color: #2c3e50;
+            line-height: 1.3;
+            margin-bottom: 0.5rem;
+        }
+
+        .forecast-card:hover .forecast-title { color: #b0447a; }
+        .forecast-headline { color: #555; line-height: 1.6; }
+
+        /* ---- Subscribe block (Buttondown form reused from follow.html) ---- */
+        .subscribe-block { margin-top: 3rem; }
+
+        .subscribe-block h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.5rem;
+            color: #2c3e50;
+            border-bottom: 2px solid #b0447a;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .subscribe-block p { color: #555; margin-bottom: 1rem; }
+
+        .embeddable-buttondown-form {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            padding: 1.75rem;
+            border: 1px solid #e0e0e0;
+            background: #fff;
+            margin: 1rem 0 1.5rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .embeddable-buttondown-form:focus-within {
+            border-color: #3c78d8ff;
+            box-shadow: 0 2px 8px rgba(52, 152, 219, 0.1);
+        }
+
+        .embeddable-buttondown-form label {
+            font-family: 'Merriweather', serif;
+            font-size: 1.1rem;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .embeddable-buttondown-form input[type="email"] {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1rem;
+            padding: 0.75rem 1rem;
+            border: 1px solid #e0e0e0;
+            background: #fafafa;
+            color: #333;
+            outline: none;
+            transition: border-color 0.3s ease, background 0.3s ease;
+            width: 100%;
+        }
+
+        .embeddable-buttondown-form input[type="email"]:focus {
+            border-color: #3c78d8ff;
+            background: #fff;
+        }
+
+        .embeddable-buttondown-form input[type="submit"] {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border: 1px solid #3c78d8ff;
+            background: #3c78d8ff;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            align-self: flex-start;
+        }
+
+        .embeddable-buttondown-form input[type="submit"]:hover {
+            background: #2c5fb8;
+            border-color: #2c5fb8;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(52, 152, 219, 0.2);
+        }
+
+        .embeddable-buttondown-form p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        .embeddable-buttondown-form p a {
+            color: #888;
+        }
+
+        .embeddable-buttondown-form p a:hover {
+            color: #3c78d8ff;
+            text-decoration: underline;
+        }
+
         footer {
             margin-top: 4rem;
             padding-top: 2rem;
@@ -342,13 +523,47 @@
             .posts-section h2 {
                 font-size: 1.5rem;
             }
-            
+
+            .forecasts-section h2 {
+                font-size: 1.5rem;
+            }
+
+            .forecast-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .forecast-thumb {
+                flex-basis: auto;
+                width: 100%;
+            }
+
             .post-images img {
                 height: 80px;
             }
-            
+
             .post-title {
                 font-size: 1.2rem;
+            }
+
+            .collection-row {
+                flex-direction: column;
+                min-height: 0;
+            }
+
+            .collection-cover {
+                flex-basis: auto;
+                width: 100%;
+                align-self: stretch;
+            }
+
+            .collection-posts {
+                position: static;
+            }
+
+            .collection-posts-scroll {
+                position: static;
+                max-height: 320px;
             }
         }
     </style>
@@ -369,6 +584,11 @@
             <p class="subtitle">Visual explorations in science and computation.</p>
         </header>
         
+        <section class="forecasts-section">
+            <h2>Forecasts</h2>
+            <div id="forecast-container"></div>
+        </section>
+
         <section class="posts-section">
             <h2>Collections</h2>
             <div id="posts-container">
@@ -422,6 +642,38 @@
         })();
     </script>
     
+    <script>
+        // Load and display forecast
+        fetch('/forecasts.json')
+            .then(r => r.json())
+            .then(forecasts => {
+                const container = document.getElementById('forecast-container');
+                if (!forecasts || forecasts.length === 0) {
+                    document.querySelector('.forecasts-section').style.display = 'none';
+                    return;
+                }
+                const f = forecasts[0]; // most recent
+                const niceDate = new Date(f.date + 'T00:00:00').toLocaleDateString('en-GB', {
+                    day: 'numeric', month: 'long', year: 'numeric'
+                });
+                const card = document.createElement('a');
+                card.href = f.url;
+                card.className = 'forecast-card';
+                card.innerHTML = `
+                    ${f.thumbnail ? `<img src="${f.thumbnail}" alt="" class="forecast-thumb"
+                         onerror="this.style.display='none'">` : ''}
+                    <div class="forecast-body">
+                        <div class="forecast-date">Updated ${niceDate}</div>
+                        <div class="forecast-title">${f.title}</div>
+                        <div class="forecast-headline">${f.headline}</div>
+                    </div>`;
+                container.appendChild(card);
+            })
+            .catch(() => {
+                document.querySelector('.forecasts-section').style.display = 'none';
+            });
+    </script>
+
     <script>
         // Generate cover image URL from tag name
         function getCoverImageUrl(tag) {
@@ -497,35 +749,75 @@
                     : sortedTags;
                 const hasLooseThreads = Boolean(looseThreadsTagKey);
                 
-                // Create series covers grid (exclude Loose Threads)
-                if (coverSeriesTags.length > 0) {
-                    const coversGrid = document.createElement('div');
-                    coversGrid.className = 'series-covers-grid';
-                    
-                    // Create cover card for each series
-                    coverSeriesTags.forEach(tag => {
-                        const firstPost = postsByTag[tag][0]; // Get first post in series
-                        const coverCard = document.createElement('a');
-                        coverCard.href = firstPost.url;
-                        coverCard.className = 'series-cover-card';
-                        
-                        const coverImage = document.createElement('img');
-                        coverImage.src = getCoverImageUrl(tag);
-                        coverImage.alt = `${tag} cover`;
-                        coverImage.className = 'series-cover-image';
-                        
-                        // Add error handling for missing covers
-                        coverImage.onerror = function() {
-                            // If cover image fails to load, hide the card or show a placeholder
-                            this.style.display = 'none';
-                        };
-                        
-                        coverCard.appendChild(coverImage);
-                        coversGrid.appendChild(coverCard);
+                // Create one row per collection: cover on the left,
+                // scrollable list of the collection's posts on the right
+                coverSeriesTags.forEach(tag => {
+                    const seriesPosts = postsByTag[tag]; // already sorted by order
+                    const firstPost = seriesPosts[0];
+
+                    const row = document.createElement('div');
+                    row.className = 'collection-row';
+
+                    // Left: cover image linking to the first post in the series
+                    const coverCard = document.createElement('a');
+                    coverCard.href = firstPost.url;
+                    coverCard.className = 'collection-cover';
+                    coverCard.setAttribute('aria-label', tag);
+
+                    const coverImage = document.createElement('img');
+                    coverImage.src = getCoverImageUrl(tag);
+                    coverImage.alt = `${tag} cover`;
+                    coverImage.className = 'collection-cover-image';
+
+                    // Add error handling for missing covers
+                    coverImage.onerror = function() {
+                        this.style.display = 'none';
+                    };
+
+                    coverCard.appendChild(coverImage);
+                    row.appendChild(coverCard);
+
+                    // Right: scrollable column of the collection's posts, in order
+                    const postsCol = document.createElement('div');
+                    postsCol.className = 'collection-posts';
+
+                    const scroll = document.createElement('div');
+                    scroll.className = 'collection-posts-scroll';
+
+                    seriesPosts.forEach(post => {
+                        const postCard = document.createElement('a');
+                        postCard.href = post.url;
+                        postCard.className = 'collection-post-card';
+
+                        // Add images above the title if they exist
+                        if (post.images && Array.isArray(post.images) && post.images.length > 0) {
+                            const postImages = document.createElement('div');
+                            postImages.className = 'collection-post-images';
+                            post.images.forEach(imagePath => {
+                                const img = document.createElement('img');
+                                img.src = imagePath;
+                                img.alt = post.title;
+                                img.onerror = function() {
+                                    this.style.display = 'none';
+                                };
+                                postImages.appendChild(img);
+                            });
+                            postCard.appendChild(postImages);
+                        }
+
+                        const postTitle = document.createElement('div');
+                        postTitle.className = 'collection-post-title';
+                        postTitle.textContent = post.title;
+                        postCard.appendChild(postTitle);
+
+                        scroll.appendChild(postCard);
                     });
-                    
-                    container.appendChild(coversGrid);
-                }
+
+                    postsCol.appendChild(scroll);
+                    row.appendChild(postsCol);
+
+                    container.appendChild(row);
+                });
                 
                 // Display Loose Threads posts separately as individual cards
                 if (hasLooseThreads) {
@@ -537,7 +829,7 @@
                     looseThreadsTitle.textContent = looseThreadsTagKey;
                     looseThreadsTitle.className = 'tag-title';
                     looseThreadsSection.appendChild(looseThreadsTitle);
-                    
+
                     const postList = document.createElement('ul');
                     postList.className = 'post-list';
                     
