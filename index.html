@@ -534,9 +534,11 @@
                 align-items: flex-start;
             }
 
+            /* Match the Loose Threads tablets: small image above the title */
             .forecast-thumb {
                 flex-basis: auto;
-                width: 100%;
+                width: auto;
+                height: 80px;
             }
 
             .post-images img {
@@ -547,24 +549,15 @@
                 font-size: 1.2rem;
             }
 
+            /* Keep the cover and posts side-by-side as on desktop; just
+               shrink the cover so both fit on a phone screen. */
             .collection-row {
-                flex-direction: column;
                 min-height: 0;
+                gap: 1rem;
             }
 
             .collection-cover {
-                flex-basis: auto;
-                width: 100%;
-                align-self: stretch;
-            }
-
-            .collection-posts {
-                position: static;
-            }
-
-            .collection-posts-scroll {
-                position: static;
-                max-height: 320px;
+                flex: 0 0 120px;
             }
         }
     </style>
