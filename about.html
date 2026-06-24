@@ -1,153 +1,200 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <meta name="description" content="About umbralcalculations - Visual explorations in science and computation" />
     <link rel="icon" type="image/svg+xml" href="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations-logo.svg">
     <link rel="icon" type="image/x-icon" href="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/favicon.ico">
     <link rel="apple-touch-icon" href="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations-logo.svg">
     <title>About - umbralcalculations</title>
+
+    <!-- Fonts -->
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Open+Sans:wght@300;400;600&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Open+Sans:wght@300;400;600&display=swap');
+    </style>
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    <!-- Custom CSS (aligned with template.html) -->
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        body {
-            font-family: 'Open Sans', sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: #fafafa;
-            padding: 0;
-            margin: 0;
-        }
+      body {
+        font-family: 'Open Sans', sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: #fafafa;
+        padding: 0;
+        margin: 0;
+      }
 
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+        background: #fff;
+        min-height: 100vh;
+      }
+
+      nav {
+        margin-bottom: 3rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 2px solid #e0e0e0;
+        white-space: nowrap;
+      }
+
+      nav a {
+        color: #2c3e50;
+        text-decoration: none;
+        font-weight: 600;
+        margin-right: 2rem;
+        transition: color 0.3s;
+        font-size: 1.1rem;
+        display: inline-block;
+      }
+
+      nav a:hover {
+        color: #b0447aff;
+        text-decoration: none;
+      }
+
+      /* Typography */
+      h1, h2, h3, h4, h5, h6 {
+        font-family: 'Merriweather', serif;
+        color: #1a1a1a;
+        margin-top: 1.5rem;
+        margin-bottom: 0.75rem;
+        line-height: 1.3;
+      }
+
+      h1 {
+        font-size: 2rem;
+        color: #1a1a1a;
+        margin-bottom: 0.5rem;
+        border-bottom: 3px solid #2c3e50;
+        padding-bottom: 0.3rem;
+        margin-top: 0;
+      }
+
+      h2 {
+        font-size: 1.8rem;
+        color: #2c3e50;
+        margin-top: 2rem;
+        margin-bottom: 0.75rem;
+        border-bottom: 2px solid #3c78d8ff;
+        padding-bottom: 0.3rem;
+      }
+
+      p {
+        margin-bottom: 1rem;
+        color: #333;
+        line-height: 1.7;
+      }
+
+      a {
+        color: #3c78d8ff;
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+
+      a:hover {
+        color: #3c78d8ff;
+        text-decoration: underline;
+      }
+
+      hr {
+        border: none;
+        border-top: 1px solid #ddd;
+        margin: 2rem 0;
+      }
+
+      /* Images */
+      img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 0;
+        margin: 1.5rem 0;
+      }
+
+      /* Footer social links */
+      .footer-links {
+        text-align: center;
+        margin-top: 4rem;
+        font-size: 0.9rem;
+        color: #888;
+      }
+
+      .footer-links a {
+        color: #3c78d8ff;
+        text-decoration: none;
+      }
+
+      .footer-links a:hover {
+        text-decoration: underline;
+      }
+
+      /* Footer disclaimer */
+      .footer-disclaimer {
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid #eee;
+        font-size: 0.8rem;
+        line-height: 1.5;
+        text-align: left;
+      }
+
+      .footer-disclaimer p {
+        color: #999;
+        margin-bottom: 0.75rem;
+      }
+
+      .footer-disclaimer p:last-child {
+        margin-bottom: 0;
+      }
+
+      .footer-disclaimer a {
+        color: inherit;
+        text-decoration: underline;
+      }
+
+      /* Responsive design */
+      @media (max-width: 768px) {
         .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem;
-            background: #fff;
-            min-height: 100vh;
-        }
-
-        nav {
-            margin-bottom: 3rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 2px solid #e0e0e0;
-            white-space: nowrap;
-        }
-
-        nav a {
-            color: #2c3e50;
-            text-decoration: none;
-            font-weight: 600;
-            margin-right: 2rem;
-            transition: color 0.3s;
-            font-size: 1.1rem;
-            display: inline-block;
-        }
-
-        nav a:hover {
-            color: #b0447aff;
-        }
-
-        header {
-            margin-bottom: 2rem;
+          padding: 1.5rem;
         }
 
         h1 {
-            font-family: 'Merriweather', serif;
-            font-size: 2rem;
-            color: #1a1a1a;
-            margin: 0 0 0.5rem 0;
-            border-bottom: 3px solid #2c3e50;
-            padding-bottom: 0.3rem;
-            font-weight: 700;
+          font-size: 1.8rem;
         }
 
-        .content {
-            font-size: 1.05rem;
-            color: #444;
-            line-height: 1.8;
+        h2 {
+          font-size: 1.5rem;
         }
 
-        .content p {
-            margin-bottom: 1rem;
+        nav a {
+          margin-right: 1.5rem;
+          font-size: 1rem;
+        }
+      }
+
+      /* Print styles */
+      @media print {
+        body {
+          background: #fff;
         }
 
-        .content a {
-            color: #3c78d8ff;
-            text-decoration: none;
-        }
-
-        .content a:hover {
-            text-decoration: underline;
-        }
-
-        .content img {
-            max-width: 100%;
-            height: auto;
-            margin: 1.5rem 0;
-        }
-
-        footer {
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 2px solid #e0e0e0;
-            text-align: center;
-            color: #888;
-            font-size: 0.9rem;
-        }
-
-        footer a {
-            color: #3c78d8ff;
-            text-decoration: none;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
+        .container {
+          max-width: 100%;
+          padding: 0;
         }
 
         .footer-disclaimer {
-            margin-top: 1.5rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid #eee;
-            color: #999;
-            font-size: 0.8rem;
-            line-height: 1.5;
-            text-align: left;
+          display: none;
         }
-
-        .footer-disclaimer p {
-            margin-bottom: 0.75rem;
-        }
-
-        .footer-disclaimer p:last-child {
-            margin-bottom: 0;
-        }
-
-        .footer-disclaimer a {
-            color: inherit;
-            text-decoration: underline;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 1.5rem;
-            }
-
-            h1 {
-                font-size: 1.8rem;
-            }
-
-            nav a {
-                margin-right: 1.5rem;
-                font-size: 1rem;
-            }
-        }
+      }
     </style>
 </head>
 <body>
@@ -158,31 +205,28 @@
             <a href="/follow.html">Follow</a>
         </nav>
 
-        <header>
+        <main>
             <h1>About</h1>
-        </header>
-
-        <section class="content">
+            <div style="height:0.75em;"></div>
             <p>Hello there! 👋 Thanks for reading this blog!</p>
             <p>A little about me: I am an expert in engineering intelligent decision-making technologies and a visual art enthusiast. This blog is something I develop in my free time, outside of work.</p>
             <p><b>umbralcalculations</b> is a space for visual explorations in science and computation, where <a href="/posts/mathematical_symbols_vs_diagrams.html">no mathematical symbols are needed</a> to understand the concepts.</p>
             <center>
             <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/visual-explainers.svg" width="600"/>
             </center>
-        </section>
+        </main>
 
-        <footer>
-            <p>
-                <a href="https://github.com/umbralcalc">GitHub</a> |
-                <a href="https://orcid.org/0000-0001-8778-006X">ORCID</a> |
-                <a href="mailto:umbralcalc@gmail.com">Email</a> |
-                <a href="/cv.html">CV</a>
-            </p>
-            <div class="footer-disclaimer">
-                <p><strong>Heads-up:</strong> Everything on this site is written in a personal capacity and reflects my own views. Nothing here represents the views of my employer or any organisation I'm affiliated with.</p>
-                <p><strong>Terms of use:</strong> The writing and original code on this site are released under the <a href="https://github.com/umbralcalc/umbralcalc.github.io/blob/main/LICENSE">MIT License</a>. Feel free to reuse, remix, and redistribute (attribution appreciated!). This does not extend to third-party data or the models fitted from it, which remain under their original sources' licences and terms, as noted on each dashboard.</p>
-                <p><strong>Disclaimer:</strong> The interactive dashboards are all for learning, not deciding! These dashboards are simulation toys, based on simplified models fitted on incomplete data. Use them to build intuition about real-world simulations; don't use them to make real-world decisions.</p>
-            </div>
+        <p class="footer-links">
+            <a href="https://github.com/umbralcalc">GitHub</a> |
+            <a href="https://orcid.org/0000-0001-8778-006X">ORCID</a> |
+            <a href="mailto:umbralcalc@gmail.com">Email</a> |
+            <a href="/cv.html">CV</a>
+        </p>
+
+        <footer class="footer-disclaimer">
+            <p><strong>Heads-up:</strong> Everything on this site is written in a personal capacity and reflects my own views. Nothing here represents the views of my employer or any organisation I'm affiliated with.</p>
+            <p><strong>Terms of use:</strong> The writing and original code on this site are released under the <a href="https://github.com/umbralcalc/umbralcalc.github.io/blob/main/LICENSE">MIT License</a>. Feel free to reuse, remix, and redistribute (attribution appreciated!). This does not extend to third-party data or the models fitted from it, which remain under their original sources' licences and terms, as noted on each dashboard.</p>
+            <p><strong>Disclaimer:</strong> The interactive dashboards are all for learning, not deciding! These dashboards are simulation toys, based on simplified models fitted on incomplete data. Use them to build intuition about real-world simulations; don't use them to make real-world decisions.</p>
         </footer>
     </div>
 </body>
