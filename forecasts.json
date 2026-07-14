@@ -1,9 +1,9 @@
 [
   {
     "date": "2026-06-23",
-    "title": "Bathing water pollution exceedance forecast",
+    "title": "Bathing water pollution exceedance forecaster",
     "headline": "Probabilities for every designated bathing water in England, driven by recent rainfall and the season.",
-    "thumbnail": "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/bathing-water-forecaster/swimmer-pollution.png",
+    "thumbnail": "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/bathing-water-forecaster/swimmer-pollution.svg",
     "url": "https://umbralcalc.github.io/bathing-water-forecaster/"
   }
 ]
