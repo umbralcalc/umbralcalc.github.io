@@ -8,10 +8,10 @@ images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/trywizard-simulation-code.svg"
 ---
 
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/lightning-box-simulation-with-data.svg" width="400" /></center>
+
 # Simulating real-world systems
 <div style="height:0.75em;"></div>
-
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/lightning-box-simulation-with-data.svg" width="400" /></center>
 
 ## What you now know
 

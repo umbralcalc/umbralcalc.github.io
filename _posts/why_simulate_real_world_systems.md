@@ -8,10 +8,10 @@ images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/why_simulate_real_world_systems/simulations-for-decisions.svg"
 ---
 
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/why_simulate_real_world_systems/blackbox-vs-whitebox.svg" width="400" /></center>
+
 # Why simulate real-world systems?
 <div style="height:0.75em;"></div>
-
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/why_simulate_real_world_systems/blackbox-vs-whitebox.svg" width="400" /></center>
 
 ## What can you do with simulations?
 

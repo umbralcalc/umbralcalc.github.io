@@ -8,10 +8,10 @@ images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/cumulative-timesteps-history.svg"
 ---
 
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/spindle-of-partitions.svg" width="370" /></center>
+
 # The building blocks of simulations
 <div style="height:0.75em;"></div>
-
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/spindle-of-partitions.svg" width="370" /></center>
 
 ## Time and its 'history'
 

@@ -8,10 +8,10 @@ images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/evaluating_rugby_manager_decision_making/trywizard-simulation-code.svg"
 ---
 
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/evaluating_rugby_manager_decision_making/manager-with-stopwatch.svg" width="400" /></center>
+
 # Evaluating rugby manager decision-making
 <div style="height:0.75em;"></div>
-
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/evaluating_rugby_manager_decision_making/manager-with-stopwatch.svg" width="400" /></center>
 
 A rugby manager picks when to substitute each position group: bring on the front-row replacements early, or save them for the closing minutes?
 
