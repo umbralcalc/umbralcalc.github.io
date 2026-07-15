@@ -4,11 +4,14 @@ tag: "Simulating Real-World Systems as a Programmer"
 series-blurb: "A collection of posts on the foundations and patterns for building simulations of the real world. Written especially for programmers and non-technical readers wanting to learn the fundamentals of simulation technology and how it can be useful to the world. No maths; just diagrams and straightforward descriptions all the way through."
 order: 5
 images:
+- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/lightning-box-simulation-with-data.svg"
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/trywizard-simulation-code.svg"
 ---
 
 # Simulating real-world systems
 <div style="height:0.75em;"></div>
+
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/lightning-box-simulation-with-data.svg" width="400" /></center>
 
 ## What you now know
 
