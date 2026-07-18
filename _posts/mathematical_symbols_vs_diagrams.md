@@ -3,9 +3,11 @@ title: "Mathematical symbols vs diagrams"
 tag: "Loose Threads"
 order: 1
 images:
+- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/mathematical_symbols_vs_diagrams/equations-transform-into-diagrams.svg"
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/mathematical_symbols_vs_diagrams/diagrams-vs-symbols.svg"
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/mathematical_symbols_vs_diagrams/maths-to-diagrams.svg"
 ---
+
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/mathematical_symbols_vs_diagrams/equations-transform-into-diagrams.svg" width="370" /></center>
 
 # Mathematical symbols vs diagrams
 <div style="height:0.75em;"></div>
