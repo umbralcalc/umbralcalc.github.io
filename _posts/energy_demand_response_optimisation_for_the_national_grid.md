@@ -4,8 +4,11 @@ tag: "Acting on Simulated Systems"
 series-blurb: "A collection of simulated examples of real-world actions explored through interactive dashboards. Each post covers a specific real-world decision problem in turn, demonstrating how simulations can inform real-world action-taking with illustrative (not production-ready) research models. No maths; just diagrams and straightforward descriptions all the way through."
 order: 4
 images:
+- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/energy_demand_response_optimisation_for_the_national_grid/piggy-bank-energy.svg"
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/energy_demand_response_optimisation_for_the_national_grid/energy-balancer-code.svg"
 ---
+
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/energy_demand_response_optimisation_for_the_national_grid/piggy-bank-energy.svg" width="370" /></center>
 
 # Energy demand response optimisation for the national grid
 <div style="height:0.75em;"></div>
