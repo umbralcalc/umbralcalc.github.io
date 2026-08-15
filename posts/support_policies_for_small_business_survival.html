@@ -350,24 +350,27 @@
 
     /* Next post card */
     .next-post {
-      margin-top: 3rem;
-      padding-top: 2rem;
+      margin-top: 2rem;
+      padding-top: 1.25rem;
       border-top: 1px solid #e0e0e0;
     }
-    
+
     .next-post-label {
       font-size: 0.9rem;
       color: #888;
-      margin-bottom: 1rem;
+      margin-bottom: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
-    
+
     .next-post-card {
-      display: block;
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
       text-decoration: none;
       color: inherit;
-      padding: 1.5rem;
+      padding: 1.25rem;
+      padding-right: 3rem;
       border: 1px solid #e0e0e0;
       border-radius: 0;
       transition: all 0.3s ease;
@@ -383,7 +386,7 @@
     .next-post-card::after {
       content: "→";
       position: absolute;
-      right: 1.5rem;
+      right: 1.25rem;
       top: 50%;
       transform: translateY(-50%);
       font-size: 1.5rem;
@@ -397,31 +400,40 @@
     }
     
     .next-post-images {
+      flex: 0 0 auto;
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
-      margin-bottom: 1rem;
     }
-    
+
     .next-post-images img {
-      height: 120px;
+      height: 100px;
       width: auto;
       border-radius: 0;
       display: block;
+      margin: 0;                        /* override the article img margin */
     }
 
     @media (max-width: 768px) {
+      /* Not enough width for images beside the title on a phone */
+      .next-post-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+      }
+
       .next-post-images img {
         height: 80px;
       }
     }
-    
+
     .next-post-title {
       font-family: 'Merriweather', serif;
       font-size: 1.5rem;
       color: #2c3e50;
+      flex: 1;
+      min-width: 0;
       margin: 0;
-      padding-right: 2rem;
     }
     
     .next-post-card:hover .next-post-title {
@@ -430,8 +442,8 @@
     
     /* Footer disclaimer */
     .footer-disclaimer {
-      margin-top: 4rem;
-      padding-top: 2rem;
+      margin-top: 2.5rem;
+      padding-top: 1.5rem;
       border-top: 1px solid #eee;
       font-size: 0.8rem;
       line-height: 1.5;
