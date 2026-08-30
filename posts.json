@@ -20,6 +20,16 @@
   }
 ,
   {
+    "title": "Introduction",
+    "slug": "trusting_actions_on_simulated_systems_introduction",
+    "url": "/posts/trusting_actions_on_simulated_systems_introduction.html",
+    "tag": "Trusting Actions on Simulated Systems",
+    "date": "",
+    "order": 0,
+    "images": []
+  }
+,
+  {
     "title": "Evaluating rugby manager decision-making",
     "slug": "evaluating_rugby_manager_decision_making",
     "url": "/posts/evaluating_rugby_manager_decision_making.html",
@@ -40,6 +50,16 @@
   }
 ,
   {
+    "title": "What makes an action good?",
+    "slug": "what_makes_an_action_good",
+    "url": "/posts/what_makes_an_action_good.html",
+    "tag": "Trusting Actions on Simulated Systems",
+    "date": "",
+    "order": 1,
+    "images": []
+  }
+,
+  {
     "title": "Why simulate real-world systems?",
     "slug": "why_simulate_real_world_systems",
     "url": "/posts/why_simulate_real_world_systems.html",
@@ -57,6 +77,16 @@
     "date": "",
     "order": 2,
     "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/model-predict.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/data-grid-ai.svg"]
+  }
+,
+  {
+    "title": "How can a simulation be wrong?",
+    "slug": "how_can_a_simulation_be_wrong",
+    "url": "/posts/how_can_a_simulation_be_wrong.html",
+    "tag": "Trusting Actions on Simulated Systems",
+    "date": "",
+    "order": 2,
+    "images": []
   }
 ,
   {
@@ -90,6 +120,16 @@
   }
 ,
   {
+    "title": "Preparing a simulation for action-taking",
+    "slug": "preparing_a_simulation_for_action_taking",
+    "url": "/posts/preparing_a_simulation_for_action_taking.html",
+    "tag": "Trusting Actions on Simulated Systems",
+    "date": "",
+    "order": 3,
+    "images": []
+  }
+,
+  {
     "title": "Probabilistic thinking for simulations",
     "slug": "probabilistic_thinking_for_simulations",
     "url": "/posts/probabilistic_thinking_for_simulations.html",
@@ -107,6 +147,16 @@
     "date": "",
     "order": 3,
     "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/cpu-graph-edges.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/cpu-stepwise-architectures.svg"]
+  }
+,
+  {
+    "title": "Backtesting and other challenges",
+    "slug": "backtesting_and_other_challenges",
+    "url": "/posts/backtesting_and_other_challenges.html",
+    "tag": "Trusting Actions on Simulated Systems",
+    "date": "",
+    "order": 4,
+    "images": []
   }
 ,
   {
