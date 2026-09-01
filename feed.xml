@@ -6,13 +6,13 @@
     <description>Visual explorations in science and computation.</description>
     <language>en</language>
     <atom:link href="https://umbralcalc.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <lastBuildDate>Sun, 30 Aug 2026 09:33:57 +0000</lastBuildDate>
-    <pubDate>Sun, 30 Aug 2026 09:33:57 +0000</pubDate>
+    <lastBuildDate>Tue, 01 Sep 2026 07:40:51 +0000</lastBuildDate>
+    <pubDate>Sun, 30 Aug 2026 10:35:53 +0100</pubDate>
     <item>
       <title>Introduction</title>
       <link>https://umbralcalc.github.io/posts/trusting_actions_on_simulated_systems_introduction.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/trusting_actions_on_simulated_systems_introduction.html</guid>
-      <pubDate>Sun, 30 Aug 2026 09:33:57 +0000</pubDate>
+      <pubDate>Sun, 30 Aug 2026 10:35:53 +0100</pubDate>
       <category>Trusting Actions on Simulated Systems</category>
       <description>The Acting on Simulated Systems collection showed simulations informing real-world decisions through interactive dashboards.</description>
     </item>
@@ -20,7 +20,7 @@
       <title>What makes an action good?</title>
       <link>https://umbralcalc.github.io/posts/what_makes_an_action_good.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/what_makes_an_action_good.html</guid>
-      <pubDate>Sun, 30 Aug 2026 09:33:57 +0000</pubDate>
+      <pubDate>Sun, 30 Aug 2026 10:35:53 +0100</pubDate>
       <category>Trusting Actions on Simulated Systems</category>
       <description>What does it even mean to take a 'good' action?</description>
     </item>
@@ -28,7 +28,7 @@
       <title>How can a simulation be wrong?</title>
       <link>https://umbralcalc.github.io/posts/how_can_a_simulation_be_wrong.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/how_can_a_simulation_be_wrong.html</guid>
-      <pubDate>Sun, 30 Aug 2026 09:33:57 +0000</pubDate>
+      <pubDate>Sun, 30 Aug 2026 10:35:53 +0100</pubDate>
       <category>Trusting Actions on Simulated Systems</category>
       <description>Consider the logic which our action iteration might use when applied to the example of stopping mass treatment in a population when the prevalence of the disease has gone to 0.</description>
     </item>
@@ -36,7 +36,7 @@
       <title>Preparing a simulation for action-taking</title>
       <link>https://umbralcalc.github.io/posts/preparing_a_simulation_for_action_taking.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/preparing_a_simulation_for_action_taking.html</guid>
-      <pubDate>Sun, 30 Aug 2026 09:33:57 +0000</pubDate>
+      <pubDate>Sun, 30 Aug 2026 10:35:53 +0100</pubDate>
       <category>Trusting Actions on Simulated Systems</category>
       <description>Data Scientists will often ask the following question about their models: if I change this input, how will my model prediction change?</description>
     </item>
@@ -44,7 +44,7 @@
       <title>Backtesting and other challenges</title>
       <link>https://umbralcalc.github.io/posts/backtesting_and_other_challenges.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/backtesting_and_other_challenges.html</guid>
-      <pubDate>Sun, 30 Aug 2026 09:33:57 +0000</pubDate>
+      <pubDate>Sun, 30 Aug 2026 10:35:53 +0100</pubDate>
       <category>Trusting Actions on Simulated Systems</category>
       <description>Cover these topics: - Lack of data on this generally because its hard to control for cause-to-effect - Quasi-experiments all kinds and the action2outcome project</description>
     </item>
@@ -126,7 +126,7 @@
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/learning_simulations_of_the_real_world.html</guid>
       <pubDate>Sun, 21 Dec 2025 12:40:52 +0000</pubDate>
       <category>Simulating Real-World Systems as a Programmer</category>
-      <description>[WIP - This post is getting a rework]</description>
+      <description>Unlike machine learning models, which typically come with standard training algorithms (like backpropagation for neural networks), simulations often need us to explicitly choose and design procedures for learning their parameters from real-world data or optimising their outputs.</description>
     </item>
     <item>
       <title>Black box AI is an accelerator paradigm</title>
