@@ -203,10 +203,15 @@ This algorithm relies on sorting the sampled simulation trajectories according t
 </script>
 ````
 
-We should also look to answer:
-- Which action-taking policy logic finds the best actions?
-- How sensitive is this choice to changes in the data?
-- How sensitive is this choice to changes in the outcome model?
+Which action-taking policy logic finds the best actions?
+
+How sensitive is this choice to changes in the data? How sensitive is this choice to changes in the outcome model?
+
+Answers to both of these questions tell us how the action-taking policy generalises within the problem domain to alternative scenarios and underlying system mechanisms.
+
+How sensitive is this choice to changes in the action parameters?
+
+In much the same way as it does in [learning simulations of the real world](https://umbralcalc.github.io/posts/learning_simulations_of_the_real_world.html) answering this question tells us how _sloppy_ the action-taking policy is, and as a result how generalisable it could be to other problem domains.
 
 ## Explaining why the simulation predicts what it does
 
