@@ -518,7 +518,7 @@
       <div style="height:0.75em;">
 
       </div>
-      <h2 id="how-do-we-learn-a-simulation">How do we learn a simulation?</h2>
+      <h2 id="what-is-our-objective">What is our objective?</h2>
       <p>Unlike machine learning models, which typically come with standard training algorithms (like <a href="https://en.wikipedia.org/wiki/Backpropagation">backpropagation</a> for neural networks), simulations often need us to explicitly choose and design procedures for learning their parameters from real-world data or optimising their outputs.</p>
       <p>In order to do this, we must first have some objective which either characterises how close simulation trajectories are to replicating the data we have or define the quantity we want to optimise.</p>
       <center>
@@ -693,17 +693,22 @@
         document.getElementById("online-est-reset").addEventListener("click", () => { init(); render(); });
       })();
       </script>
-      <h2 id="learning-logicstructure-from-data">Learning logic/structure from data</h2>
-      <p>Which simulation logic/structure fits the data the best?</p>
-      <p>How sensitive is this choice to changes in the data?</p>
+      <h2 id="sensitivity-and-sloppiness">Sensitivity and sloppiness</h2>
+      <p>So we have a simulation which is able to learn its parameters from real world data.</p>
+      <p>How sensitive is these parameters to changes in the data?</p>
       <p>This question is about how <em>generalised</em> our simulation is in representing the real world system of interest. With poor generalisation, the simulation logic/structure itself only applies when fit to a more specific form of data representing the world and we expect it to no longer predict as well when fit to different data of the same or similar system.</p>
-      <p>How sensitive is this choice to changes in the parameters?</p>
+      <p>How sensitive is the simulation-data fit to changes in the parameters?</p>
       <p>This question is about how <em>sloppy</em> the simulation might be in fitting a particular dataset. If a simulation is <a href="https://sethna.lassp.cornell.edu/Teaching/BasicTraining/SloppyBT24.html">sloppy</a> it means that it has many additional parameters which can be varied that do not strongly affect the quality of fit to the dataset of interest.</p>
+      <center>
+      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/sloppiness-vs-parsimony.svg" width="650"/>
+      </center>
       <p>Simulation sloppiness sounds bad; but <a href="https://arxiv.org/abs/2505.08915">it has been shown</a> that machine learning models with more sloppiness have a tendency to generalise better to new datasets.</p>
       <p>Simulations with lots of parameters can have their downsides.</p>
       <p>Let’s say we have two different simulation structures which we are comparing by fitting them to the same dataset. Let’s also say that one of these simulations has lots of parameters and the other has much fewer.</p>
       <p>We might interpret the concept of sloppiness to mean that the simulation which has more parameters is always the better choice. This would be wrong without a deeper analysis.</p>
       <p>What we need to find out is how many parameters are being actively used to fit the data in both simulations. In other words; how many parameters does each simulation have which the quality fit is sensitive to changing?</p>
+      <h2 id="learning-logicstructure-from-data">Learning logic/structure from data</h2>
+      <p>Which simulation logic/structure fits the data the best?</p>
       
             <div class="next-post">
         <div class="next-post-label">Next Post</div>

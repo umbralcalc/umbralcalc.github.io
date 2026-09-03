@@ -11,7 +11,7 @@ images:
 # Learning simulations of the real world
 <div style="height:0.75em;"></div>
 
-## How do we learn a simulation?
+## What is our objective?
 
 Unlike machine learning models, which typically come with standard training algorithms (like [backpropagation](https://en.wikipedia.org/wiki/Backpropagation) for neural networks), simulations often need us to explicitly choose and design procedures for learning their parameters from real-world data or optimising their outputs.
 
@@ -200,17 +200,19 @@ We might call this algorithm 'online simulation parameter estimation'; where 'on
 </script>
 ````
 
-## Learning logic/structure from data
+## Sensitivity and sloppiness
 
-Which simulation logic/structure fits the data the best? 
+So we have a simulation which is able to learn its parameters from real world data.
 
-How sensitive is this choice to changes in the data?
+How sensitive is these parameters to changes in the data?
 
 This question is about how _generalised_ our simulation is in representing the real world system of interest. With poor generalisation, the simulation logic/structure itself only applies when fit to a more specific form of data representing the world and we expect it to no longer predict as well when fit to different data of the same or similar system.
 
-How sensitive is this choice to changes in the parameters?
+How sensitive is the simulation-data fit to changes in the parameters?
 
 This question is about how _sloppy_ the simulation might be in fitting a particular dataset. If a simulation is [sloppy](https://sethna.lassp.cornell.edu/Teaching/BasicTraining/SloppyBT24.html) it means that it has many additional parameters which can be varied that do not strongly affect the quality of fit to the dataset of interest. 
+
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/sloppiness-vs-parsimony.svg" width="650"/></center>
 
 Simulation sloppiness sounds bad; but [it has been shown](https://arxiv.org/abs/2505.08915) that machine learning models with more sloppiness have a tendency to generalise better to new datasets. 
 
@@ -221,3 +223,7 @@ Let's say we have two different simulation structures which we are comparing by 
 We might interpret the concept of sloppiness to mean that the simulation which has more parameters is always the better choice. This would be wrong without a deeper analysis.
 
 What we need to find out is how many parameters are being actively used to fit the data in both simulations. In other words; how many parameters does each simulation have which the quality fit is sensitive to changing?
+
+## Learning logic/structure from data
+
+Which simulation logic/structure fits the data the best? 
