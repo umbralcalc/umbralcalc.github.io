@@ -503,15 +503,6 @@
       <a href="../follow.html">Follow</a>
     </nav>
 
-        <section class="series-nav" id="series-nav" data-series-tag="Trusting Actions on Simulated Systems" data-series-order="1">
-      <div class="series-hero">
-                <img class="series-cover" id="series-cover" src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/trusting-actions-on-simulated-systems-cover.svg" alt="Trusting Actions on Simulated Systems cover" onerror="this.style.display='none'" />
-                        <p class="series-blurb">A collection of posts on how we decide whether an action chosen with a simulation can be trusted. Written especially for programmers and non-technical readers wanting to learn about how to take better actions under uncertainty. No maths; just diagrams and straightforward descriptions all the way through.</p>
-              </div>
-      <div class="series-eyebrow">Collection</div>
-      <h2 class="series-title">Trusting Actions on Simulated Systems</h2>
-      <ol class="series-toc" id="series-toc"></ol>
-    </section>
     
     <main>
       <h1 id="what-makes-an-action-good">What makes an action good?</h1>
@@ -532,13 +523,6 @@
       … Note that this depends on the model
       … Conclude that all of this relies on the simulation being ‘correct’</p>
       
-            <div class="next-post">
-        <div class="next-post-label">Next Post</div>
-        <a href="/posts/how_can_a_simulation_be_wrong.html" class="next-post-card">
-                    <div class="next-post-images" id="next-post-images"></div>
-                    <div class="next-post-title">How can a simulation be wrong?</div>
-        </a>
-      </div>
           </main>
 
     <footer class="footer-disclaimer">
@@ -560,7 +544,7 @@
             images.forEach(imagePath => {
               const img = document.createElement('img');
               img.src = imagePath;
-              img.alt = 'How can a simulation be wrong?';
+              img.alt = '';
               imagesContainer.appendChild(img);
             });
           }

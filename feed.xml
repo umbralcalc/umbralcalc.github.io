@@ -6,14 +6,13 @@
     <description>Visual explorations in science and computation.</description>
     <language>en</language>
     <atom:link href="https://umbralcalc.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <lastBuildDate>Wed, 02 Sep 2026 08:27:58 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 03 Sep 2026 05:59:50 +0000</lastBuildDate>
     <pubDate>Sun, 30 Aug 2026 10:35:53 +0100</pubDate>
     <item>
       <title>Introduction</title>
       <link>https://umbralcalc.github.io/posts/trusting_actions_on_simulated_systems_introduction.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/trusting_actions_on_simulated_systems_introduction.html</guid>
       <pubDate>Sun, 30 Aug 2026 10:35:53 +0100</pubDate>
-      <category>Trusting Actions on Simulated Systems</category>
       <description>The Acting on Simulated Systems collection showed simulations informing real-world decisions through interactive dashboards.</description>
     </item>
     <item>
@@ -21,7 +20,6 @@
       <link>https://umbralcalc.github.io/posts/what_makes_an_action_good.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/what_makes_an_action_good.html</guid>
       <pubDate>Sun, 30 Aug 2026 10:35:53 +0100</pubDate>
-      <category>Trusting Actions on Simulated Systems</category>
       <description>What does it even mean to take a 'good' action?</description>
     </item>
     <item>
@@ -29,7 +27,6 @@
       <link>https://umbralcalc.github.io/posts/how_can_a_simulation_be_wrong.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/how_can_a_simulation_be_wrong.html</guid>
       <pubDate>Sun, 30 Aug 2026 10:35:53 +0100</pubDate>
-      <category>Trusting Actions on Simulated Systems</category>
       <description>Consider the logic which our action iteration might use when applied to the example of stopping mass treatment in a population when the prevalence of the disease has gone to 0.</description>
     </item>
     <item>
@@ -37,7 +34,6 @@
       <link>https://umbralcalc.github.io/posts/preparing_a_simulation_for_action_taking.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/preparing_a_simulation_for_action_taking.html</guid>
       <pubDate>Sun, 30 Aug 2026 10:35:53 +0100</pubDate>
-      <category>Trusting Actions on Simulated Systems</category>
       <description>Data Scientists will often ask the following question about their models: if I change this input, how will my model prediction change?</description>
     </item>
     <item>
@@ -45,7 +41,6 @@
       <link>https://umbralcalc.github.io/posts/backtesting_and_other_challenges.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/backtesting_and_other_challenges.html</guid>
       <pubDate>Sun, 30 Aug 2026 10:35:53 +0100</pubDate>
-      <category>Trusting Actions on Simulated Systems</category>
       <description>Cover these topics: - Lack of data on this generally because its hard to control for cause-to-effect - Quasi-experiments all kinds and the action2outcome project</description>
     </item>
     <item>

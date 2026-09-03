@@ -23,7 +23,7 @@
     "title": "Introduction",
     "slug": "trusting_actions_on_simulated_systems_introduction",
     "url": "/posts/trusting_actions_on_simulated_systems_introduction.html",
-    "tag": "Trusting Actions on Simulated Systems",
+    "tag": "",
     "date": "",
     "order": 0,
     "images": []
@@ -53,7 +53,7 @@
     "title": "What makes an action good?",
     "slug": "what_makes_an_action_good",
     "url": "/posts/what_makes_an_action_good.html",
-    "tag": "Trusting Actions on Simulated Systems",
+    "tag": "",
     "date": "",
     "order": 1,
     "images": []
@@ -83,7 +83,7 @@
     "title": "How can a simulation be wrong?",
     "slug": "how_can_a_simulation_be_wrong",
     "url": "/posts/how_can_a_simulation_be_wrong.html",
-    "tag": "Trusting Actions on Simulated Systems",
+    "tag": "",
     "date": "",
     "order": 2,
     "images": []
@@ -123,7 +123,7 @@
     "title": "Preparing a simulation for action-taking",
     "slug": "preparing_a_simulation_for_action_taking",
     "url": "/posts/preparing_a_simulation_for_action_taking.html",
-    "tag": "Trusting Actions on Simulated Systems",
+    "tag": "",
     "date": "",
     "order": 3,
     "images": []
@@ -153,7 +153,7 @@
     "title": "Backtesting and other challenges",
     "slug": "backtesting_and_other_challenges",
     "url": "/posts/backtesting_and_other_challenges.html",
-    "tag": "Trusting Actions on Simulated Systems",
+    "tag": "",
     "date": "",
     "order": 4,
     "images": []
