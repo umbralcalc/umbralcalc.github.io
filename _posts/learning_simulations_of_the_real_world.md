@@ -200,21 +200,19 @@ We might call this algorithm 'online simulation parameter estimation'; where 'on
 </script>
 ````
 
-## Sensitivity and sloppiness
+## Simulation sloppiness
 
 So we have a simulation which is able to learn its parameters from real world data.
 
-How sensitive is these parameters to changes in the data?
+How sensitive is the simulation-data fit to changes in the parameters? In other words, how _sloppy_ is the simulation?
 
-This question is about how _generalised_ our simulation is in representing the real world system of interest. With poor generalisation, the simulation logic/structure itself only applies when fit to a more specific form of data representing the world and we expect it to no longer predict as well when fit to different data of the same or similar system.
-
-How sensitive is the simulation-data fit to changes in the parameters?
-
-This question is about how _sloppy_ the simulation might be in fitting a particular dataset. If a simulation is [sloppy](https://sethna.lassp.cornell.edu/Teaching/BasicTraining/SloppyBT24.html) it means that it has many additional parameters which can be varied that do not strongly affect the quality of fit to the dataset of interest. 
+If a simulation is [sloppy](https://sethna.lassp.cornell.edu/Teaching/BasicTraining/SloppyBT24.html) it means that it has many additional parameters which can be varied that do not strongly affect the quality of fit to the dataset of interest. We typically call this kind of parameter 'unconstrained' by the data.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/sloppiness-vs-parsimony.svg" width="650"/></center>
 
-Simulation sloppiness sounds bad; but [it has been shown](https://arxiv.org/abs/2505.08915) that machine learning models with more sloppiness have a tendency to generalise better to new datasets. 
+Simulation sloppiness sounds bad; but [it has been shown](https://arxiv.org/abs/2505.08915) that machine learning models with more sloppiness have a tendency to generalise better to new datasets.
+
+## Learning simulation structure from data
 
 Simulations with lots of parameters can have their downsides. 
 
@@ -224,6 +222,14 @@ We might interpret the concept of sloppiness to mean that the simulation which h
 
 What we need to find out is how many parameters are being actively used to fit the data in both simulations. In other words; how many parameters does each simulation have which the quality fit is sensitive to changing?
 
-## Learning logic/structure from data
+In addition to answering this question, it's clearly important to have a way of discovering which simulation structure is better.
 
-Which simulation logic/structure fits the data the best? 
+...
+
+What I basically want to say is:
+- Choosing between models should, in principle, be as easy as selecting the one with the best overall value for the objective
+- It's more complicated than this because you can have complex or simple models which fit the data equally well
+- Deciding between these two depends on the context of the problem, but the [general wisdom](https://en.wikipedia.org/wiki/Occam%27s_razor) is to prefer simulations and models with fewer constrained parameters
+- Why is this? This sounds counterintuitive when you remember that sloppy simulations with more unconstrained parameters might generalise better to other problems
+- Think about the parameter sensitivity of the quality of fit; if there are more parameters being constrained by the data, then the fit quality is sensitive to more parameters, and so there are more 'moving parts' to the simulation which could be misaligned with the next set of data we try to fit it to
+- In this sense, we can think of simulations with fewer constrained parameters (but equal quality of fit to any alternative) to be more likely to generalise across different datasets within a domain - this is a valuable property to have, and indicates more fundamental mechanisms are being learned by the simulation
