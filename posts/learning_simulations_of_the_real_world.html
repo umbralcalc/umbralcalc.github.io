@@ -529,7 +529,7 @@
       <p>If we want to learn the parameters which correspond to simulation trajectories fitting real-world data trends more closely, it is natural to use an objective based on the probabilities of state partition histories that we computed in the previous post.</p>
       <p>We start by streaming time-series data into our simulation by specifying it as a state partition.</p>
       <center>
-      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/data-streaming.svg"/>
+      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/data-streaming.svg" width="650"/>
       </center>
       <p>We can then use a method to estimate the probabilities of state values within the data, e.g., the probabilistic sample weighting we discussed in the previous post.</p>
       <p>So we have a way to calculate these ‘data probabilities’ for any possible state values the data can take in time.</p>
@@ -707,6 +707,9 @@
       <p>We might interpret the concept of sloppiness to mean that the simulation which has more parameters is always the better choice. This would be wrong without a deeper analysis.</p>
       <p>What we need to find out is how many parameters are being actively used to fit the data in both simulations. In other words; how many parameters does each simulation have which the quality fit is sensitive to changing?</p>
       <p>In addition to answering this question, it’s clearly important to have a way of discovering which simulation structure is better.</p>
+      <center>
+      <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/simple-vs-complex-fit.svg" width="650"/>
+      </center>
       <p>…</p>
       <p>What I basically want to say is:
       - Choosing between models should, in principle, be as easy as selecting the one with the best overall value for the objective

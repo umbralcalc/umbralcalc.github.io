@@ -27,7 +27,7 @@ If we want to learn the parameters which correspond to simulation trajectories f
 
 We start by streaming time-series data into our simulation by specifying it as a state partition.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/data-streaming.svg"/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/data-streaming.svg" width="650"/></center>
 
 We can then use a method to estimate the probabilities of state values within the data, e.g., the probabilistic sample weighting we discussed in the previous post.
 
@@ -223,6 +223,8 @@ We might interpret the concept of sloppiness to mean that the simulation which h
 What we need to find out is how many parameters are being actively used to fit the data in both simulations. In other words; how many parameters does each simulation have which the quality fit is sensitive to changing?
 
 In addition to answering this question, it's clearly important to have a way of discovering which simulation structure is better.
+
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/simple-vs-complex-fit.svg" width="650"/></center>
 
 ...
 
