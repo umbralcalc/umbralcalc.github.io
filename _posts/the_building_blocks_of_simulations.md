@@ -1,6 +1,6 @@
 ---
 title: "The building blocks of simulations"
-tag: "Simulating Real-World Systems as a Programmer"
+tag: "How can I simulate the real world?"
 series-blurb: "A collection of posts on the foundations and patterns for building simulations of the real world. Written especially for programmers and non-technical readers wanting to learn the fundamentals of simulation technology and how it can be useful to the world. No maths; just diagrams and straightforward descriptions all the way through."
 order: 2
 images:

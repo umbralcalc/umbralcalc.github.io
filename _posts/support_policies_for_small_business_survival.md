@@ -1,6 +1,6 @@
 ---
 title: "Support policies for small business survival"
-tag: "Acting on Simulated Systems"
+tag: "How can simulations help me take better actions?"
 series-blurb: "A collection of simulated examples of real-world actions explored through interactive dashboards. Each post covers a specific real-world decision problem in turn, demonstrating how simulations can inform real-world action-taking with illustrative (not production-ready) research models. No maths; just diagrams and straightforward descriptions all the way through."
 order: 5
 images:

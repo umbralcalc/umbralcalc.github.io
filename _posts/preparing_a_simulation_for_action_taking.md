@@ -1,6 +1,6 @@
 ---
 title: "Preparing a simulation for action-taking"
-# tag: "Trusting Actions on Simulated Systems"
+# tag: "How can I trust the actions I take in simulations?"
 series-blurb: "A collection of posts on how we decide whether an action chosen with a simulation can be trusted. Written especially for programmers and non-technical readers wanting to learn about how to take better actions under uncertainty. No maths; just diagrams and straightforward descriptions all the way through."
 order: 3
 ---

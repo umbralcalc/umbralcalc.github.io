@@ -6,14 +6,14 @@
     <description>Visual explorations in science and computation.</description>
     <language>en</language>
     <atom:link href="https://umbralcalc.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <lastBuildDate>Sat, 05 Sep 2026 12:57:49 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 05 Sep 2026 13:04:30 +0000</lastBuildDate>
     <pubDate>Sun, 30 Aug 2026 10:35:53 +0100</pubDate>
     <item>
       <title>Introduction</title>
       <link>https://umbralcalc.github.io/posts/trusting_actions_on_simulated_systems_introduction.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/trusting_actions_on_simulated_systems_introduction.html</guid>
       <pubDate>Sun, 30 Aug 2026 10:35:53 +0100</pubDate>
-      <description>The Acting on Simulated Systems collection showed simulations informing real-world decisions through interactive dashboards.</description>
+      <description>The How can simulations help me take better actions? collection showed simulations informing real-world decisions through interactive dashboards.</description>
     </item>
     <item>
       <title>What makes an action good?</title>
@@ -48,7 +48,7 @@
       <link>https://umbralcalc.github.io/posts/acting_on_simulated_systems_introduction.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/acting_on_simulated_systems_introduction.html</guid>
       <pubDate>Sat, 16 May 2026 17:59:29 +0100</pubDate>
-      <category>Acting on Simulated Systems</category>
+      <category>How can simulations help me take better actions?</category>
       <description>This is a collection of simulated examples of real-world actions explored through interactive dashboards.</description>
     </item>
     <item>
@@ -56,7 +56,7 @@
       <link>https://umbralcalc.github.io/posts/simulating_real_world_systems_as_a_programmer_introduction.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/simulating_real_world_systems_as_a_programmer_introduction.html</guid>
       <pubDate>Sat, 16 May 2026 17:59:29 +0100</pubDate>
-      <category>Simulating Real-World Systems as a Programmer</category>
+      <category>How can I simulate the real world?</category>
       <description>This is a collection of posts aimed at programmers and non-technical readers wanting to learn the fundamentals of simulation technology and how it can be useful to the world.</description>
     </item>
     <item>
@@ -64,7 +64,7 @@
       <link>https://umbralcalc.github.io/posts/managing_antimicrobial_resistance_with_hospital_guidelines.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/managing_antimicrobial_resistance_with_hospital_guidelines.html</guid>
       <pubDate>Tue, 12 May 2026 08:38:31 +0100</pubDate>
-      <category>Acting on Simulated Systems</category>
+      <category>How can simulations help me take better actions?</category>
       <description>Antibiotic-resistant infections are rising in English hospitals: can stewardship policies bring them back down, and how much room is there to do so?</description>
     </item>
     <item>
@@ -72,7 +72,7 @@
       <link>https://umbralcalc.github.io/posts/managing_flood_damage_risk_under_climate_change.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/managing_flood_damage_risk_under_climate_change.html</guid>
       <pubDate>Tue, 12 May 2026 08:38:31 +0100</pubDate>
-      <category>Acting on Simulated Systems</category>
+      <category>How can simulations help me take better actions?</category>
       <description>Climate change is making UK flooding worse: how much can natural flood management interventions offset that risk, and is more spending always better?</description>
     </item>
     <item>
@@ -80,7 +80,7 @@
       <link>https://umbralcalc.github.io/posts/energy_demand_response_optimisation_for_the_national_grid.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/energy_demand_response_optimisation_for_the_national_grid.html</guid>
       <pubDate>Tue, 12 May 2026 08:38:31 +0100</pubDate>
-      <category>Acting on Simulated Systems</category>
+      <category>How can simulations help me take better actions?</category>
       <description>Grid-scale batteries promise to balance the intermittent renewables of a net-zero electricity system: but how should they be dispatched, and does the answer change as the grid gets greener?</description>
     </item>
     <item>
@@ -88,7 +88,7 @@
       <link>https://umbralcalc.github.io/posts/support_policies_for_small_business_survival.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/support_policies_for_small_business_survival.html</guid>
       <pubDate>Tue, 12 May 2026 08:38:31 +0100</pubDate>
-      <category>Acting on Simulated Systems</category>
+      <category>How can simulations help me take better actions?</category>
       <description>UK small business support comes in different flavours (rates relief, startup grants, incubators, mentoring, etc.): how should a cash-constrained policymaker has to choose between them? To maximise what?</description>
     </item>
     <item>
@@ -96,7 +96,7 @@
       <link>https://umbralcalc.github.io/posts/evaluating_rugby_manager_decision_making.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/evaluating_rugby_manager_decision_making.html</guid>
       <pubDate>Mon, 11 May 2026 22:17:59 +0100</pubDate>
-      <category>Acting on Simulated Systems</category>
+      <category>How can simulations help me take better actions?</category>
       <description>A rugby manager picks when to substitute each position group: bring on the front-row replacements early, or save them for the closing minutes?</description>
     </item>
     <item>
@@ -104,7 +104,7 @@
       <link>https://umbralcalc.github.io/posts/simulating_real_world_systems.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/simulating_real_world_systems.html</guid>
       <pubDate>Sun, 10 May 2026 19:04:21 +0100</pubDate>
-      <category>Simulating Real-World Systems as a Programmer</category>
+      <category>How can I simulate the real world?</category>
       <description>We started this collection of posts with a question: why simulate real-world systems at all?</description>
     </item>
     <item>
@@ -120,7 +120,7 @@
       <link>https://umbralcalc.github.io/posts/learning_simulations_of_the_real_world.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/learning_simulations_of_the_real_world.html</guid>
       <pubDate>Sun, 21 Dec 2025 12:40:52 +0000</pubDate>
-      <category>Simulating Real-World Systems as a Programmer</category>
+      <category>How can I simulate the real world?</category>
       <description>Unlike machine learning models, which typically come with standard training algorithms (like backpropagation for neural networks), simulations often need us to explicitly choose and design procedures for learning their parameters from real-world data or optimising their outputs.</description>
     </item>
     <item>
@@ -144,7 +144,7 @@
       <link>https://umbralcalc.github.io/posts/why_simulate_real_world_systems.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/why_simulate_real_world_systems.html</guid>
       <pubDate>Fri, 21 Nov 2025 18:44:32 +0000</pubDate>
-      <category>Simulating Real-World Systems as a Programmer</category>
+      <category>How can I simulate the real world?</category>
       <description>One of the most compelling uses for simulations of real-world systems is in powering decision-making technologies.</description>
     </item>
     <item>
@@ -152,7 +152,7 @@
       <link>https://umbralcalc.github.io/posts/the_building_blocks_of_simulations.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/the_building_blocks_of_simulations.html</guid>
       <pubDate>Fri, 21 Nov 2025 18:44:32 +0000</pubDate>
-      <category>Simulating Real-World Systems as a Programmer</category>
+      <category>How can I simulate the real world?</category>
       <description>Time is probably the most important variable to track in a simulation. This is because everything that happens within a simulation only has meaning with respect to the real world if we can trace what point in simulated time that it happened.</description>
     </item>
     <item>
@@ -160,7 +160,7 @@
       <link>https://umbralcalc.github.io/posts/probabilistic_thinking_for_simulations.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/probabilistic_thinking_for_simulations.html</guid>
       <pubDate>Fri, 21 Nov 2025 18:44:32 +0000</pubDate>
-      <category>Simulating Real-World Systems as a Programmer</category>
+      <category>How can I simulate the real world?</category>
       <description>The 'trajectory' of a simulation is the sequence of possible state values that its partitions actually take during a specific simulation run.</description>
     </item>
   </channel>
