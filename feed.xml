@@ -6,30 +6,21 @@
     <description>Visual explorations in science and computation.</description>
     <language>en</language>
     <atom:link href="https://umbralcalc.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <lastBuildDate>Sat, 05 Sep 2026 13:27:27 +0000</lastBuildDate>
-    <pubDate>Sat, 05 Sep 2026 13:27:27 +0000</pubDate>
+    <lastBuildDate>Sat, 05 Sep 2026 16:15:19 +0000</lastBuildDate>
+    <pubDate>Sat, 05 Sep 2026 16:15:19 +0000</pubDate>
     <item>
-      <title>Introduction</title>
-      <link>https://umbralcalc.github.io/posts/how_can_i_simulate_the_real_world_introduction.html</link>
-      <guid isPermaLink="true">https://umbralcalc.github.io/posts/how_can_i_simulate_the_real_world_introduction.html</guid>
-      <pubDate>Sat, 05 Sep 2026 13:27:27 +0000</pubDate>
-      <category>How can I simulate the real world?</category>
-      <description>This is a collection of posts aimed at programmers and non-technical readers wanting to learn the fundamentals of simulation technology and how it can be useful to the world.</description>
+      <title>On writing less and trying to say more</title>
+      <link>https://umbralcalc.github.io/posts/on_writing_less_and_trying_to_say_more.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/on_writing_less_and_trying_to_say_more.html</guid>
+      <pubDate>Sat, 05 Sep 2026 16:15:19 +0000</pubDate>
+      <description>Core ideas I want to put in this:</description>
     </item>
     <item>
       <title>Introduction</title>
       <link>https://umbralcalc.github.io/posts/how_can_i_trust_the_actions_i_take_in_simulations_introduction.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/how_can_i_trust_the_actions_i_take_in_simulations_introduction.html</guid>
-      <pubDate>Sat, 05 Sep 2026 13:27:27 +0000</pubDate>
+      <pubDate>Sun, 30 Aug 2026 10:35:53 +0100</pubDate>
       <description>The How can simulations help me take better actions? collection showed simulations informing real-world decisions through interactive dashboards.</description>
-    </item>
-    <item>
-      <title>Introduction</title>
-      <link>https://umbralcalc.github.io/posts/how_can_simulations_help_me_take_better_actions_introduction.html</link>
-      <guid isPermaLink="true">https://umbralcalc.github.io/posts/how_can_simulations_help_me_take_better_actions_introduction.html</guid>
-      <pubDate>Sat, 05 Sep 2026 13:27:27 +0000</pubDate>
-      <category>How can simulations help me take better actions?</category>
-      <description>This is a collection of simulated examples of real-world actions explored through interactive dashboards.</description>
     </item>
     <item>
       <title>What makes an action good?</title>
@@ -58,6 +49,22 @@
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/backtesting_and_other_challenges.html</guid>
       <pubDate>Sun, 30 Aug 2026 10:35:53 +0100</pubDate>
       <description>Cover these topics: - Lack of data on this generally because its hard to control for cause-to-effect - Quasi-experiments all kinds and the action2outcome project</description>
+    </item>
+    <item>
+      <title>Introduction</title>
+      <link>https://umbralcalc.github.io/posts/how_can_i_simulate_the_real_world_introduction.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/how_can_i_simulate_the_real_world_introduction.html</guid>
+      <pubDate>Sat, 16 May 2026 17:59:29 +0100</pubDate>
+      <category>How can I simulate the real world?</category>
+      <description>This is a collection of posts aimed at programmers and non-technical readers wanting to learn the fundamentals of simulation technology and how it can be useful to the world.</description>
+    </item>
+    <item>
+      <title>Introduction</title>
+      <link>https://umbralcalc.github.io/posts/how_can_simulations_help_me_take_better_actions_introduction.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/how_can_simulations_help_me_take_better_actions_introduction.html</guid>
+      <pubDate>Sat, 16 May 2026 17:59:29 +0100</pubDate>
+      <category>How can simulations help me take better actions?</category>
+      <description>This is a collection of simulated examples of real-world actions explored through interactive dashboards.</description>
     </item>
     <item>
       <title>Managing antimicrobial resistance (AMR) with hospital guidelines</title>
