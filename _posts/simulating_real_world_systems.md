@@ -22,7 +22,7 @@ State partitions and timesteps gave us a way to describe how a system evolves in
 
 Probabilistic thinking gave us a way to reason about its possible trajectories without enumerating them.
 
-Objectives and learning algorithms gave us a way to fit parameters to data, or to search for the best action-taking policy.
+Objectives and learning algorithms gave us a way to fit parameters to data.
 
 ```{=html}
 <style>

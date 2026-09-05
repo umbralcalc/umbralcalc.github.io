@@ -679,8 +679,9 @@
     <script>
         // Generate cover image URL from tag name
         function getCoverImageUrl(tag) {
-            // Convert tag to lowercase, replace spaces with hyphens, add -cover.svg
-            const slug = tag.toLowerCase().replace(/\s+/g, '-');
+            // Convert tag to lowercase, drop question marks, replace spaces
+            // with hyphens, add -cover.svg
+            const slug = tag.toLowerCase().replace(/\?/g, '').replace(/\s+/g, '-');
             return `https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/${slug}-cover.svg`;
         }
         

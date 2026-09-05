@@ -1,18 +1,8 @@
 [
   {
     "title": "Introduction",
-    "slug": "acting_on_simulated_systems_introduction",
-    "url": "/posts/acting_on_simulated_systems_introduction.html",
-    "tag": "How can simulations help me take better actions?",
-    "date": "",
-    "order": 0,
-    "images": []
-  }
-,
-  {
-    "title": "Introduction",
-    "slug": "simulating_real_world_systems_as_a_programmer_introduction",
-    "url": "/posts/simulating_real_world_systems_as_a_programmer_introduction.html",
+    "slug": "how_can_i_simulate_the_real_world_introduction",
+    "url": "/posts/how_can_i_simulate_the_real_world_introduction.html",
     "tag": "How can I simulate the real world?",
     "date": "",
     "order": 0,
@@ -21,9 +11,19 @@
 ,
   {
     "title": "Introduction",
-    "slug": "trusting_actions_on_simulated_systems_introduction",
-    "url": "/posts/trusting_actions_on_simulated_systems_introduction.html",
+    "slug": "how_can_i_trust_the_actions_i_take_in_simulations_introduction",
+    "url": "/posts/how_can_i_trust_the_actions_i_take_in_simulations_introduction.html",
     "tag": "",
+    "date": "",
+    "order": 0,
+    "images": []
+  }
+,
+  {
+    "title": "Introduction",
+    "slug": "how_can_simulations_help_me_take_better_actions_introduction",
+    "url": "/posts/how_can_simulations_help_me_take_better_actions_introduction.html",
+    "tag": "How can simulations help me take better actions?",
     "date": "",
     "order": 0,
     "images": []

@@ -7,12 +7,6 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://umbralcalc.github.io/posts/acting_on_simulated_systems_introduction.html</loc>
-    <lastmod>2026-09-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://umbralcalc.github.io/posts/backtesting_and_other_challenges.html</loc>
     <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
@@ -38,6 +32,24 @@
   </url>
   <url>
     <loc>https://umbralcalc.github.io/posts/how_can_a_simulation_be_wrong.html</loc>
+    <lastmod>2026-09-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://umbralcalc.github.io/posts/how_can_i_simulate_the_real_world_introduction.html</loc>
+    <lastmod>2026-09-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://umbralcalc.github.io/posts/how_can_i_trust_the_actions_i_take_in_simulations_introduction.html</loc>
+    <lastmod>2026-09-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://umbralcalc.github.io/posts/how_can_simulations_help_me_take_better_actions_introduction.html</loc>
     <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -85,12 +97,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://umbralcalc.github.io/posts/simulating_real_world_systems_as_a_programmer_introduction.html</loc>
-    <lastmod>2026-09-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://umbralcalc.github.io/posts/simulation_architectures_on_different_hardware.html</loc>
     <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
@@ -104,12 +110,6 @@
   </url>
   <url>
     <loc>https://umbralcalc.github.io/posts/the_building_blocks_of_simulations.html</loc>
-    <lastmod>2026-09-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://umbralcalc.github.io/posts/trusting_actions_on_simulated_systems_introduction.html</loc>
     <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

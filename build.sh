@@ -179,7 +179,7 @@ generate_html_pages() {
                 local tag_trimmed=$(echo "$tag" | sed -E 's/^[[:space:]]+|[[:space:]]+$//g')
                 local tag_lower=$(echo "$tag_trimmed" | tr '[:upper:]' '[:lower:]')
                 if [ "$tag_lower" != "loose threads" ]; then
-                    local tag_slug=$(echo "$tag_trimmed" | tr '[:upper:]' '[:lower:]' | sed -E 's/[[:space:]]+/-/g')
+                    local tag_slug=$(echo "$tag_trimmed" | tr '[:upper:]' '[:lower:]' | tr -d '?' | sed -E 's/[[:space:]]+/-/g')
                     local cover_url="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/${tag_slug}-cover.svg"
                     series_args+=(--metadata="series-tag:$tag_trimmed" --metadata="series-order:$order" --metadata="series-cover-url:$cover_url")
                 fi

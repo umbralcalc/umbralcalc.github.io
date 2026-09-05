@@ -505,7 +505,7 @@
 
         <section class="series-nav" id="series-nav" data-series-tag="How can I simulate the real world?" data-series-order="4">
       <div class="series-hero">
-                <img class="series-cover" id="series-cover" src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/how-can-i-simulate-the-real-world?-cover.svg" alt="How can I simulate the real world? cover" onerror="this.style.display='none'" />
+                <img class="series-cover" id="series-cover" src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/how-can-i-simulate-the-real-world-cover.svg" alt="How can I simulate the real world? cover" onerror="this.style.display='none'" />
                         <p class="series-blurb">A collection of posts on the foundations and patterns for building simulations of the real world. Written especially for programmers and non-technical readers wanting to learn the fundamentals of simulation technology and how it can be useful to the world. No maths; just diagrams and straightforward descriptions all the way through.</p>
               </div>
       <div class="series-eyebrow">Collection</div>
@@ -694,7 +694,7 @@
         document.getElementById("online-est-reset").addEventListener("click", () => { init(); render(); });
       })();
       </script>
-      <h2 id="simulation-sloppiness">Simulation sloppiness</h2>
+      <h2 id="simulation-sloppiness-isnt-bad">Simulation sloppiness isn’t bad</h2>
       <p>So we have a simulation which is able to learn its parameters from real world data.</p>
       <p>How sensitive is the simulation-data fit to changes in the parameters? In other words, how <em>sloppy</em> is the simulation?</p>
       <p>If a simulation is <a href="https://sethna.lassp.cornell.edu/Teaching/BasicTraining/SloppyBT24.html">sloppy</a> it means that it has many additional parameters which can be varied that do not strongly affect the quality of fit to the dataset of interest. We typically call this kind of parameter ‘unconstrained’ by the data.</p>
@@ -736,14 +736,11 @@
           <button id="cp-simple-btn" type="button" style="cursor:pointer;border:1px solid #3c78d8;background:#3c78d8;color:#ffffff;padding:0.4em 0.8em;border-radius:6px;font-size:1rem;">
             Simple structure (3 parameters)
           </button>
-          <button id="cp-complex-btn" type="button" style="cursor:pointer;border:1px solid #3c78d8;background:#ffffff;color:#3c78d8;padding:0.4em 0.8em;border-radius:6px;font-size:1rem;">
+          <button id="cp-complex-btn" type="button" style="cursor:pointer;border:1px solid #2c3e50;background:#ffffff;color:#2c3e50;padding:0.4em 0.8em;border-radius:6px;font-size:1rem;">
             Complex structure (7 parameters)
           </button>
           <button id="cp-trial-btn" type="button" style="cursor:pointer;border:1px solid #3c78d8;background:#3c78d8;color:#ffffff;padding:0.4em 0.8em;border-radius:6px;font-size:1rem;">
             Run a new trial
-          </button>
-          <button id="cp-reset-btn" type="button" style="cursor:pointer;border:1px solid #2c3e50;background:#ffffff;color:#2c3e50;padding:0.4em 0.8em;border-radius:6px;font-size:1rem;">
-            Reset
           </button>
         </div>
         <div id="cp-tally-text" style="font-size:1rem;color:#2c3e50;margin-top:0.6em;margin-bottom:1em;line-height:1.4;"></div>
@@ -986,9 +983,10 @@
         const renderButtons = () => {
           const simpleBtn = document.getElementById("cp-simple-btn");
           const complexBtn = document.getElementById("cp-complex-btn");
-          const selected = { background: "#3c78d8", color: "#ffffff" };
-          const unselected = { background: "#ffffff", color: "#3c78d8" };
+          const selected = { border: "#3c78d8", background: "#3c78d8", color: "#ffffff" };
+          const unselected = { border: "#2c3e50", background: "#ffffff", color: "#2c3e50" };
           const applyStyle = (btn, style) => {
+            btn.style.borderColor = style.border;
             btn.style.background = style.background;
             btn.style.color = style.color;
           };
@@ -1002,7 +1000,6 @@
         document.getElementById("cp-simple-btn").addEventListener("click", () => { state.shown = "simple"; render(); });
         document.getElementById("cp-complex-btn").addEventListener("click", () => { state.shown = "complex"; render(); });
         document.getElementById("cp-trial-btn").addEventListener("click", () => { runTrial(); render(); });
-        document.getElementById("cp-reset-btn").addEventListener("click", () => { init(); render(); });
       })();
       </script>
       

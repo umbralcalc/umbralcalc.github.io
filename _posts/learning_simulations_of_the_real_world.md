@@ -202,7 +202,7 @@ We might call this algorithm 'online simulation parameter estimation'; where 'on
 </script>
 ````
 
-## Simulation sloppiness
+## Simulation sloppiness isn't bad
 
 So we have a simulation which is able to learn its parameters from real world data.
 
@@ -262,14 +262,11 @@ Switching between the two structures, we can compare how many of their parameter
     <button id="cp-simple-btn" type="button" style="cursor:pointer;border:1px solid #3c78d8;background:#3c78d8;color:#ffffff;padding:0.4em 0.8em;border-radius:6px;font-size:1rem;">
       Simple structure (3 parameters)
     </button>
-    <button id="cp-complex-btn" type="button" style="cursor:pointer;border:1px solid #3c78d8;background:#ffffff;color:#3c78d8;padding:0.4em 0.8em;border-radius:6px;font-size:1rem;">
+    <button id="cp-complex-btn" type="button" style="cursor:pointer;border:1px solid #2c3e50;background:#ffffff;color:#2c3e50;padding:0.4em 0.8em;border-radius:6px;font-size:1rem;">
       Complex structure (7 parameters)
     </button>
     <button id="cp-trial-btn" type="button" style="cursor:pointer;border:1px solid #3c78d8;background:#3c78d8;color:#ffffff;padding:0.4em 0.8em;border-radius:6px;font-size:1rem;">
       Run a new trial
-    </button>
-    <button id="cp-reset-btn" type="button" style="cursor:pointer;border:1px solid #2c3e50;background:#ffffff;color:#2c3e50;padding:0.4em 0.8em;border-radius:6px;font-size:1rem;">
-      Reset
     </button>
   </div>
   <div id="cp-tally-text" style="font-size:1rem;color:#2c3e50;margin-top:0.6em;margin-bottom:1em;line-height:1.4;"></div>
@@ -512,9 +509,10 @@ Switching between the two structures, we can compare how many of their parameter
   const renderButtons = () => {
     const simpleBtn = document.getElementById("cp-simple-btn");
     const complexBtn = document.getElementById("cp-complex-btn");
-    const selected = { background: "#3c78d8", color: "#ffffff" };
-    const unselected = { background: "#ffffff", color: "#3c78d8" };
+    const selected = { border: "#3c78d8", background: "#3c78d8", color: "#ffffff" };
+    const unselected = { border: "#2c3e50", background: "#ffffff", color: "#2c3e50" };
     const applyStyle = (btn, style) => {
+      btn.style.borderColor = style.border;
       btn.style.background = style.background;
       btn.style.color = style.color;
     };
@@ -528,7 +526,6 @@ Switching between the two structures, we can compare how many of their parameter
   document.getElementById("cp-simple-btn").addEventListener("click", () => { state.shown = "simple"; render(); });
   document.getElementById("cp-complex-btn").addEventListener("click", () => { state.shown = "complex"; render(); });
   document.getElementById("cp-trial-btn").addEventListener("click", () => { runTrial(); render(); });
-  document.getElementById("cp-reset-btn").addEventListener("click", () => { init(); render(); });
 })();
 </script>
 ````
