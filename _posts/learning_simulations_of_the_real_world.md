@@ -35,6 +35,8 @@ So we have a way to calculate these 'data probabilities' for any possible state 
 
 By then evaluating these data probabilities at the points which coincide with simulation trajectories, we have an objective which quantifies how close the simulation is to the data.
 
+When talking about different values for this objective, we often use the terminology 'quality of fit' or 'fit to the data' to describe how close the simulation is to replicating the data, and hence how good the value of the objective is.
+
 ## Example: Online simulation parameter estimation
 
 The data probabilities of simulation trajectories can also be interpreted as probabilities of simulation parameters; often accompanied with some simulation noise to account for differences between trajectories even with the same parameters.
@@ -214,24 +216,22 @@ Simulation sloppiness sounds bad; but [it has been shown](https://arxiv.org/abs/
 
 ## Learning simulation structure from data
 
-Simulations with lots of parameters can have their downsides. 
+There is usually more than one simulation structure that can be a viable model for the real world system of interest, and these often have different numbers of parameters.
+
+Choosing between different simulation structures should, in principle, be as easy as selecting the one with the best overall value for the objective. But it is actually more complicated than this because you can have complex or simple models which fit the data equally well.
 
 Let's say we have two different simulation structures which we are comparing by fitting them to the same dataset. Let's also say that one of these simulations has lots of parameters and the other has much fewer.
 
 We might interpret the concept of sloppiness to mean that the simulation which has more parameters is always the better choice. This would be wrong without a deeper analysis.
 
-What we need to find out is how many parameters are being actively used to fit the data in both simulations. In other words; how many parameters does each simulation have which the quality fit is sensitive to changing?
+Remember that simulation sloppiness refers to parameters which _are not_ constrained by the data.
 
-In addition to answering this question, it's clearly important to have a way of discovering which simulation structure is better.
+What we need to find out is how many parameters _are_ constrained (or learned) by the data in both simulations. In other words; how many parameters does each simulation have which the objective value is sensitive to changing?
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/simple-vs-complex-fit.svg" width="650"/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/simple-vs-complex-fit.svg"/></center>
 
-...
+The [general wisdom](https://en.wikipedia.org/wiki/Occam%27s_razor) is to prefer simulations and models with fewer _constrained_ parameters.
 
-What I basically want to say is:
-- Choosing between models should, in principle, be as easy as selecting the one with the best overall value for the objective
-- It's more complicated than this because you can have complex or simple models which fit the data equally well
-- Deciding between these two depends on the context of the problem, but the [general wisdom](https://en.wikipedia.org/wiki/Occam%27s_razor) is to prefer simulations and models with fewer constrained parameters
-- Why is this? This sounds counterintuitive when you remember that sloppy simulations with more unconstrained parameters might generalise better to other problems
-- Think about the parameter sensitivity of the quality of fit; if there are more parameters being constrained by the data, then the fit quality is sensitive to more parameters, and so there are more 'moving parts' to the simulation which could be misaligned with the next set of data we try to fit it to
-- In this sense, we can think of simulations with fewer constrained parameters (but equal quality of fit to any alternative) to be more likely to generalise across different datasets within a domain - this is a valuable property to have, and indicates more fundamental mechanisms are being learned by the simulation
+Why? Think about the parameter sensitivity of the quality of fit: if there are more parameters being constrained by the data, this means that the objective value is sensitive to more parameters. So there are more 'moving parts' to the simulation which have a greater chance of being misaligned with some new data we haven't seen yet.
+
+We can think of simulations with fewer constrained parameters (but equal quality of fit) to be more likely to generalise across different datasets from a systems of the same, or similar, type in the real world. This also indicates more fundamental mechanisms are being learned from the data that are potentially transferrable to other systems.
