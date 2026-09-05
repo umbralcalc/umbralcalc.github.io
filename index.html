@@ -206,6 +206,11 @@
             overscroll-behavior: contain;
             scrollbar-width: none;       /* Firefox */
             -ms-overflow-style: none;    /* IE/Edge */
+            /* Leave room for a hovered card's lift and shadow, which the
+               scroll box would otherwise clip, then pull the padding back
+               out so the cards keep their position inside the window */
+            padding: 6px 10px;
+            margin: -6px -10px;
         }
 
         .collection-scroll::-webkit-scrollbar {
@@ -695,7 +700,12 @@
                 if (items.length > 3) {
                     const top = items[0].getBoundingClientRect().top;
                     const bottom = items[2].getBoundingClientRect().bottom;
-                    scroll.style.maxHeight = (bottom - top) + 'px';
+                    // maxHeight is a border-box height, so add back the
+                    // padding that keeps the hover lift from being clipped
+                    const style = getComputedStyle(scroll);
+                    const padding = parseFloat(style.paddingTop)
+                        + parseFloat(style.paddingBottom);
+                    scroll.style.maxHeight = (bottom - top + padding) + 'px';
                 }
                 updateScrollHint(scroll);
             });
@@ -878,15 +888,6 @@
                     container.appendChild(section);
                 });
 
-                // Size every collection's window to exactly three post cards
-                sizeCollectionWindows();
-                window.addEventListener('load', sizeCollectionWindows);
-                let resizeTimer = null;
-                window.addEventListener('resize', () => {
-                    clearTimeout(resizeTimer);
-                    resizeTimer = setTimeout(sizeCollectionWindows, 150);
-                });
-                
                 // Display Loose Threads posts separately as individual cards
                 if (hasLooseThreads) {
                     const looseThreadsSection = document.createElement('div');
@@ -945,9 +946,27 @@
                         postList.appendChild(postItem);
                     });
                     
-                    looseThreadsSection.appendChild(postList);
+                    const scroll = document.createElement('div');
+                    scroll.className = 'collection-scroll';
+                    scroll.appendChild(postList);
+                    scroll.addEventListener('scroll', () => updateScrollHint(scroll));
+
+                    const window_ = document.createElement('div');
+                    window_.className = 'collection-window';
+                    window_.appendChild(scroll);
+
+                    looseThreadsSection.appendChild(window_);
                     container.appendChild(looseThreadsSection);
                 }
+
+                // Size every collection's window to exactly three post cards
+                sizeCollectionWindows();
+                window.addEventListener('load', sizeCollectionWindows);
+                let resizeTimer = null;
+                window.addEventListener('resize', () => {
+                    clearTimeout(resizeTimer);
+                    resizeTimer = setTimeout(sizeCollectionWindows, 150);
+                });
             })
             .catch(error => {
                 console.error('Error loading posts:', error);
