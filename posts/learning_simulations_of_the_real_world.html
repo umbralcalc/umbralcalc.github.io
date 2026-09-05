@@ -715,6 +715,296 @@
       <p>The <a href="https://en.wikipedia.org/wiki/Occam%27s_razor">general wisdom</a> is to prefer simulations and models with fewer <em>constrained</em> parameters.</p>
       <p>Why? Think about the parameter sensitivity of the quality of fit: if there are more parameters being constrained by the data, this means that the objective value is sensitive to more parameters. So there are more ‘moving parts’ to the simulation which have a greater chance of being misaligned with some new data we haven’t seen yet.</p>
       <p>We can think of simulations with fewer constrained parameters (but equal quality of fit) to be more likely to generalise across different datasets from a systems of the same, or similar, type in the real world. This also indicates more fundamental mechanisms are being learned from the data that are potentially transferrable to other systems.</p>
+      <h2 id="example-counting-the-parameters-which-are-constrained">Example: Counting the parameters which are constrained</h2>
+      <p>Let’s imagine two different simulation structures being fit to the same dataset. The simple structure has 3 parameters, while the complex one has 7.</p>
+      <p>Let’s also imagine that the complex structure always fits the observed data at least as well as the simple one; so the objective value on its own can never tell you which structure to choose.</p>
+      <p>Switching between the two structures, we can compare how many of their parameters the data actually constrains, and then use this as a way to choose between them.</p>
+      <div id="constrained-params-demo" style="margin:1.3em 0 0.5em;padding:1em;background:#ffffff;">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0.9em;">
+          <div style="border:1px solid #2c3e50;border-radius:6px;padding:0.6em;background:#ffffff;">
+            <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;padding:0 0.75em;">Fit to the observed data</div>
+            <svg id="cp-fit-svg" width="100%" height="160" viewBox="0 0 320 160" role="img" aria-label="Observed data with the fitted simulation trajectory"></svg>
+            <div id="cp-fit-text" style="font-size:1rem;color:#2c3e50;margin-top:0.35em;line-height:1.4;padding:0 0.75em;"></div>
+          </div>
+          <div style="border:1px solid #2c3e50;border-radius:6px;padding:0.6em;background:#ffffff;">
+            <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;padding:0 0.75em;">How far can each parameter move before the fit notices?</div>
+            <svg id="cp-param-svg" width="100%" height="160" viewBox="0 0 320 160" role="img" aria-label="Wiggle room of each simulation parameter"></svg>
+            <div id="cp-param-text" style="font-size:1rem;color:#2c3e50;margin-top:0.35em;line-height:1.4;padding:0 0.75em;"></div>
+          </div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:0.75em;align-items:center;justify-content:flex-start;margin-top:0.5em;">
+          <button id="cp-simple-btn" type="button" style="cursor:pointer;border:1px solid #3c78d8;background:#3c78d8;color:#ffffff;padding:0.4em 0.8em;border-radius:6px;font-size:1rem;">
+            Simple structure (3 parameters)
+          </button>
+          <button id="cp-complex-btn" type="button" style="cursor:pointer;border:1px solid #3c78d8;background:#ffffff;color:#3c78d8;padding:0.4em 0.8em;border-radius:6px;font-size:1rem;">
+            Complex structure (7 parameters)
+          </button>
+          <button id="cp-trial-btn" type="button" style="cursor:pointer;border:1px solid #3c78d8;background:#3c78d8;color:#ffffff;padding:0.4em 0.8em;border-radius:6px;font-size:1rem;">
+            Run a new trial
+          </button>
+          <button id="cp-reset-btn" type="button" style="cursor:pointer;border:1px solid #2c3e50;background:#ffffff;color:#2c3e50;padding:0.4em 0.8em;border-radius:6px;font-size:1rem;">
+            Reset
+          </button>
+        </div>
+        <div id="cp-tally-text" style="font-size:1rem;color:#2c3e50;margin-top:0.6em;margin-bottom:1em;line-height:1.4;"></div>
+      </div>
+      <script>
+      (() => {
+        const createSvgEl = (name, attrs = {}) => {
+          const el = document.createElementNS("http://www.w3.org/2000/svg", name);
+          Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, v));
+          return el;
+        };
+        const randn = () => {
+          const u = Math.random(), v = Math.random();
+          return Math.sqrt(-2 * Math.log(u || 1e-10)) * Math.cos(2 * Math.PI * v);
+        };
+
+        const nData = 16;
+        const nUnseen = 60;
+        const noiseStd = 0.25;
+        const ridge = 1e-3;
+        const wiggleScale = 2;
+        const sloppyCut = 1.0;
+
+        const cyc = (k, t) => Math.cos(k * Math.PI * t);
+        const trueTrajectory = t => 1.0 + 0.6 * cyc(1, t) + 0.5 * cyc(2, t);
+
+        const structures = {
+          simple: {
+            label: "simple structure",
+            names: ["baseline", "trend", "seasonal"],
+            effective: 3,
+            basis: t => [1, cyc(1, t), cyc(2, t)]
+          },
+          complex: {
+            label: "complex structure",
+            names: ["baseline", "trend", "seasonal", "fast cycle", "faster cycle", "mechanism A", "mechanism B"],
+            effective: 6,
+            basis: t => [1, cyc(1, t), cyc(2, t), cyc(3, t), cyc(4, t), cyc(5, t), cyc(5, t)]
+          }
+        };
+
+        const invert = (A) => {
+          const n = A.length;
+          const M = A.map((row, i) => [...row, ...Array.from({ length: n }, (_, j) => (i === j ? 1 : 0))]);
+          for (let c = 0; c < n; c++) {
+            let piv = c;
+            for (let r = c + 1; r < n; r++) if (Math.abs(M[r][c]) > Math.abs(M[piv][c])) piv = r;
+            [M[c], M[piv]] = [M[piv], M[c]];
+            const d = M[c][c];
+            for (let j = 0; j < 2 * n; j++) M[c][j] /= d;
+            for (let r = 0; r < n; r++) {
+              if (r === c) continue;
+              const f = M[r][c];
+              if (f) for (let j = 0; j < 2 * n; j++) M[r][j] -= f * M[c][j];
+            }
+          }
+          return M.map(row => row.slice(n));
+        };
+
+        const predict = (structure, coef, t) =>
+          structure.basis(t).reduce((s, v, i) => s + v * coef[i], 0);
+
+        const rootMeanSqError = (structure, coef, dataset) =>
+          Math.sqrt(dataset.ts.reduce((s, t, i) =>
+            s + Math.pow(dataset.ys[i] - predict(structure, coef, t), 2), 0) / dataset.ts.length);
+
+        const fitStructure = (structure, dataset) => {
+          const X = dataset.ts.map(structure.basis);
+          const p = X[0].length;
+          const gram = Array.from({ length: p }, (_, i) =>
+            Array.from({ length: p }, (_, j) =>
+              X.reduce((s, x) => s + x[i] * x[j], 0) + (i === j ? ridge : 0)));
+          const rhs = Array.from({ length: p }, (_, i) =>
+            X.reduce((s, x, k) => s + x[i] * dataset.ys[k], 0));
+          const gramInv = invert(gram);
+          const coef = gramInv.map(row => row.reduce((s, v, j) => s + v * rhs[j], 0));
+
+          const residualSq = dataset.ts.reduce((s, t, i) =>
+            s + Math.pow(dataset.ys[i] - predict(structure, coef, t), 2), 0);
+          const varHat = Math.max(residualSq / Math.max(dataset.ts.length - structure.effective, 1), 1e-8);
+          const wiggle = gramInv.map((row, i) => wiggleScale * Math.sqrt(varHat * Math.max(row[i], 0)));
+
+          return { coef, wiggle, fitError: Math.sqrt(residualSq / dataset.ts.length) };
+        };
+
+        const drawDataset = (n) => {
+          const ts = Array.from({ length: n }, (_, i) => (i + 0.5) / n);
+          return { ts, ys: ts.map(t => trueTrajectory(t) + randn() * noiseStd) };
+        };
+
+        let state;
+
+        const runTrial = () => {
+          const observed = drawDataset(nData);
+          const unseen = drawDataset(nUnseen);
+          const fits = {};
+          const unseenError = {};
+          Object.keys(structures).forEach(key => {
+            fits[key] = fitStructure(structures[key], observed);
+            unseenError[key] = rootMeanSqError(structures[key], fits[key].coef, unseen);
+          });
+          state.observed = observed;
+          state.fits = fits;
+          state.unseenError = unseenError;
+          state.trials++;
+          if (unseenError.simple < unseenError.complex) state.simpleWins++;
+        };
+
+        const init = () => {
+          state = { shown: "simple", trials: 0, simpleWins: 0 };
+          runTrial();
+        };
+
+        const renderFit = () => {
+          const svg = document.getElementById("cp-fit-svg");
+          svg.innerHTML = "";
+          const w = 320, h = 160, padX = 18, padTop = 12, padBottom = 30;
+          const structure = structures[state.shown];
+          const coef = state.fits[state.shown].coef;
+
+          const grid = Array.from({ length: 121 }, (_, i) => i / 120);
+          const curve = grid.map(t => predict(structure, coef, t));
+          const truth = grid.map(trueTrajectory);
+          const allVals = [...state.observed.ys, ...curve, ...truth];
+          const minV = Math.min(...allVals) - 0.2, maxV = Math.max(...allVals) + 0.2;
+          const toX = t => padX + t * (w - 2 * padX);
+          const toY = v => h - padBottom - ((v - minV) / (maxV - minV || 1)) * (h - padTop - padBottom);
+
+          svg.appendChild(createSvgEl("line", {
+            x1: padX, y1: h - padBottom, x2: w - padX, y2: h - padBottom,
+            stroke: "#2c3e50", "stroke-width": "1"
+          }));
+          svg.appendChild(createSvgEl("path", {
+            d: truth.map((v, i) => `${i === 0 ? "M" : "L"}${toX(grid[i])},${toY(v)}`).join(" "),
+            fill: "none", stroke: "rgba(44,62,80,0.35)", "stroke-width": "2"
+          }));
+          svg.appendChild(createSvgEl("path", {
+            d: curve.map((v, i) => `${i === 0 ? "M" : "L"}${toX(grid[i])},${toY(v)}`).join(" "),
+            fill: "none", stroke: "#3c78d8", "stroke-width": "2"
+          }));
+          state.observed.ts.forEach((t, i) => {
+            svg.appendChild(createSvgEl("circle", {
+              cx: toX(t), cy: toY(state.observed.ys[i]), r: "2.4", fill: "#b0447a"
+            }));
+          });
+
+          const legend = [
+            { x: padX, colour: "#b0447a", text: "● Data" },
+            { x: padX + 52, colour: "rgba(44,62,80,0.55)", text: "— True system" },
+            { x: padX + 152, colour: "#3c78d8", text: "— Fitted" }
+          ];
+          legend.forEach(item => {
+            const el = createSvgEl("text", {
+              x: item.x, y: h - 8, fill: item.colour,
+              "font-size": "10", "font-family": "system-ui,sans-serif"
+            });
+            el.textContent = item.text;
+            svg.appendChild(el);
+          });
+
+          document.getElementById("cp-fit-text").textContent =
+            "Fit error on this data · simple " + state.fits.simple.fitError.toFixed(3) +
+            " · complex " + state.fits.complex.fitError.toFixed(3) +
+            ". The complex structure always fits at least as well.";
+        };
+
+        const renderParams = () => {
+          const svg = document.getElementById("cp-param-svg");
+          svg.innerHTML = "";
+          const w = 320, h = 160;
+          const axisX0 = 78, axisX1 = 306, axisY = 126;
+          const structure = structures[state.shown];
+          const wiggle = state.fits[state.shown].wiggle;
+
+          const logMin = Math.log(0.02), logMax = Math.log(20);
+          const toX = value => {
+            const clamped = Math.min(Math.max(value, 0.02), 20);
+            return axisX0 + ((Math.log(clamped) - logMin) / (logMax - logMin)) * (axisX1 - axisX0);
+          };
+
+          const rowH = 15, top = 16, barH = 8;
+          structure.names.forEach((name, i) => {
+            const cy = top + i * rowH;
+            const sloppy = wiggle[i] >= sloppyCut;
+            const label = createSvgEl("text", {
+              x: axisX0 - 6, y: cy + barH - 1, fill: "#2c3e50", "text-anchor": "end",
+              "font-size": "9", "font-family": "system-ui,sans-serif"
+            });
+            label.textContent = name;
+            svg.appendChild(label);
+            svg.appendChild(createSvgEl("rect", {
+              x: axisX0, y: cy, width: Math.max(toX(wiggle[i]) - axisX0, 1.5), height: barH,
+              fill: sloppy ? "rgba(44,62,80,0.35)" : "#3c78d8", rx: "1"
+            }));
+          });
+
+          svg.appendChild(createSvgEl("line", {
+            x1: axisX0, y1: axisY, x2: axisX1, y2: axisY, stroke: "#2c3e50", "stroke-width": "1"
+          }));
+          const cutX = toX(sloppyCut);
+          svg.appendChild(createSvgEl("line", {
+            x1: cutX, y1: 10, x2: cutX, y2: axisY,
+            stroke: "#b0447a", "stroke-width": "1.5", "stroke-dasharray": "4 3"
+          }));
+
+          const axisLabels = [
+            { x: axisX0, anchor: "start", colour: "#3c78d8", text: "pinned down by the data" },
+            { x: cutX + 4, anchor: "start", colour: "rgba(44,62,80,0.7)", text: "sloppy" }
+          ];
+          axisLabels.forEach(item => {
+            const el = createSvgEl("text", {
+              x: item.x, y: axisY + 13, fill: item.colour, "text-anchor": item.anchor,
+              "font-size": "9", "font-family": "system-ui,sans-serif"
+            });
+            el.textContent = item.text;
+            svg.appendChild(el);
+          });
+          const axisTitle = createSvgEl("text", {
+            x: axisX0, y: h - 4, fill: "#2c3e50",
+            "font-size": "9", "font-family": "system-ui,sans-serif"
+          });
+          axisTitle.textContent = "→ wiggle room, before the fit gets noticeably worse";
+          svg.appendChild(axisTitle);
+
+          const constrained = wiggle.filter(v => v < sloppyCut).length;
+          document.getElementById("cp-param-text").textContent = state.shown === "simple"
+            ? "The data pins down all " + constrained + " parameters, so there is nothing sloppy here."
+            : "The data pins down " + constrained + " of the " + wiggle.length +
+              " parameters. The last two are sloppy: they only ever affect the trajectory through their sum, so no amount of data can separate them.";
+        };
+
+        const renderTally = () => {
+          document.getElementById("cp-tally-text").textContent =
+            "On unseen data · simple " + state.unseenError.simple.toFixed(3) +
+            " · complex " + state.unseenError.complex.toFixed(3) +
+            ". The simple structure was closer in " + state.simpleWins + " of " + state.trials +
+            (state.trials === 1 ? " trial." : " trials.");
+        };
+
+        const renderButtons = () => {
+          const simpleBtn = document.getElementById("cp-simple-btn");
+          const complexBtn = document.getElementById("cp-complex-btn");
+          const selected = { background: "#3c78d8", color: "#ffffff" };
+          const unselected = { background: "#ffffff", color: "#3c78d8" };
+          const applyStyle = (btn, style) => {
+            btn.style.background = style.background;
+            btn.style.color = style.color;
+          };
+          applyStyle(simpleBtn, state.shown === "simple" ? selected : unselected);
+          applyStyle(complexBtn, state.shown === "complex" ? selected : unselected);
+        };
+
+        const render = () => { renderFit(); renderParams(); renderTally(); renderButtons(); };
+
+        init(); render();
+        document.getElementById("cp-simple-btn").addEventListener("click", () => { state.shown = "simple"; render(); });
+        document.getElementById("cp-complex-btn").addEventListener("click", () => { state.shown = "complex"; render(); });
+        document.getElementById("cp-trial-btn").addEventListener("click", () => { runTrial(); render(); });
+        document.getElementById("cp-reset-btn").addEventListener("click", () => { init(); render(); });
+      })();
+      </script>
       
             <div class="next-post">
         <div class="next-post-label">Next Post</div>
