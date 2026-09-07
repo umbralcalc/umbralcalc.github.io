@@ -55,7 +55,13 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://umbralcalc.github.io/posts/how_do_i_automate_taking_actions_with_simulations.html</loc>
+    <loc>https://umbralcalc.github.io/posts/how_do_i_automate_taking_actions_with_simulations_introduction.html</loc>
+    <lastmod>2026-09-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://umbralcalc.github.io/posts/how_do_i_design_using_simulations_introduction.html</loc>
     <lastmod>2026-09-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

@@ -31,8 +31,18 @@
 ,
   {
     "title": "Introduction",
-    "slug": "how_do_i_automate_taking_actions_with_simulations",
-    "url": "/posts/how_do_i_automate_taking_actions_with_simulations.html",
+    "slug": "how_do_i_automate_taking_actions_with_simulations_introduction",
+    "url": "/posts/how_do_i_automate_taking_actions_with_simulations_introduction.html",
+    "tag": "",
+    "date": "",
+    "order": 0,
+    "images": []
+  }
+,
+  {
+    "title": "Introduction",
+    "slug": "how_do_i_design_using_simulations_introduction",
+    "url": "/posts/how_do_i_design_using_simulations_introduction.html",
     "tag": "",
     "date": "",
     "order": 0,

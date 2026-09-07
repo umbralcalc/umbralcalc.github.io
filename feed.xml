@@ -6,34 +6,34 @@
     <description>Visual explorations in science and computation.</description>
     <language>en</language>
     <atom:link href="https://umbralcalc.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <lastBuildDate>Mon, 07 Sep 2026 19:11:51 +0000</lastBuildDate>
-    <pubDate>Mon, 07 Sep 2026 19:11:51 +0000</pubDate>
+    <lastBuildDate>Mon, 07 Sep 2026 19:22:15 +0000</lastBuildDate>
+    <pubDate>Mon, 07 Sep 2026 19:22:14 +0000</pubDate>
     <item>
       <title>Introduction</title>
-      <link>https://umbralcalc.github.io/posts/how_do_i_automate_taking_actions_with_simulations.html</link>
-      <guid isPermaLink="true">https://umbralcalc.github.io/posts/how_do_i_automate_taking_actions_with_simulations.html</guid>
-      <pubDate>Mon, 07 Sep 2026 19:11:51 +0000</pubDate>
+      <link>https://umbralcalc.github.io/posts/how_do_i_automate_taking_actions_with_simulations_introduction.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/how_do_i_automate_taking_actions_with_simulations_introduction.html</guid>
+      <pubDate>Mon, 07 Sep 2026 19:22:14 +0000</pubDate>
       <description>This collection should include: - The concept of a policy - Learning using the simulation itself (evolutionary strategies, monte carlo tree search and touch on how these are different to Deep RL but still in the same family of sample-driven - which depend on simulations existi...</description>
+    </item>
+    <item>
+      <title>Introduction</title>
+      <link>https://umbralcalc.github.io/posts/how_do_i_design_using_simulations_introduction.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/how_do_i_design_using_simulations_introduction.html</guid>
+      <pubDate>Mon, 07 Sep 2026 19:22:14 +0000</pubDate>
+      <description>Thinking this collection should be entirely synthetic so we can focus on defining the generalised software / declarative schemas for each domain which is the real challenge of this collection. We can potentially do real examples later in another collection.</description>
     </item>
     <item>
       <title>What is a policy?</title>
       <link>https://umbralcalc.github.io/posts/what_is_a_policy.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/what_is_a_policy.html</guid>
-      <pubDate>Mon, 07 Sep 2026 19:11:51 +0000</pubDate>
+      <pubDate>Mon, 07 Sep 2026 20:11:56 +0100</pubDate>
       <description>Action-taking policies define the logic which take in the state of the world and map it to a taken action at any moment in time.</description>
-    </item>
-    <item>
-      <title>Learning optimal policies with the simulation itself</title>
-      <link>https://umbralcalc.github.io/posts/learning_optimal_policies_with_the_simulation_itself.html</link>
-      <guid isPermaLink="true">https://umbralcalc.github.io/posts/learning_optimal_policies_with_the_simulation_itself.html</guid>
-      <pubDate>Mon, 07 Sep 2026 19:11:51 +0000</pubDate>
-      <description>Learning using the simulation itself (evolutionary strategies, monte carlo tree search and touch on how these are different to Deep RL but still in the same family of sample-driven - which depend on simulations existing)</description>
     </item>
     <item>
       <title>Learning optimal policies with a trained model</title>
       <link>https://umbralcalc.github.io/posts/learning_optimal_policies_with_a_trained_model.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/learning_optimal_policies_with_a_trained_model.html</guid>
-      <pubDate>Mon, 07 Sep 2026 19:11:51 +0000</pubDate>
+      <pubDate>Mon, 07 Sep 2026 20:11:56 +0100</pubDate>
       <description>Linear/Dynamic/Stochastic programming (all examples of model-driven - which don't use a simulation but instead a pre-existing model)</description>
     </item>
     <item>
@@ -63,6 +63,13 @@
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/how_can_a_simulation_be_wrong.html</guid>
       <pubDate>Sun, 30 Aug 2026 10:35:53 +0100</pubDate>
       <description>Consider the logic which our action iteration might use when applied to the example of stopping mass treatment in a population when the prevalence of the disease has gone to 0.</description>
+    </item>
+    <item>
+      <title>Learning optimal policies with the simulation itself</title>
+      <link>https://umbralcalc.github.io/posts/learning_optimal_policies_with_the_simulation_itself.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/learning_optimal_policies_with_the_simulation_itself.html</guid>
+      <pubDate>Sun, 30 Aug 2026 10:35:53 +0100</pubDate>
+      <description>Learning using the simulation itself (evolutionary strategies, monte carlo tree search and touch on how these are different to Deep RL but still in the same family of sample-driven - which depend on simulations existing)</description>
     </item>
     <item>
       <title>Preparing a simulation for action-taking</title>
