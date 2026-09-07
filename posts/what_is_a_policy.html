@@ -12,7 +12,7 @@
   <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
   <link rel="apple-touch-icon" href="../assets/umbralcalculations-logo.svg">
   
-  <title>Preparing a simulation for action-taking</title>
+  <title>What is a policy?</title>
   
   <!-- Fonts -->
   <style>
@@ -505,25 +505,18 @@
 
     
     <main>
-      <h1 id="preparing-a-simulation-for-action-taking">Preparing a simulation for action-taking</h1>
+      <h1 id="what-is-a-policy">What is a policy?</h1>
       <div style="height:0.75em;">
 
       </div>
-      <h2 id="the-two-kinds-of-sensitivity">The two kinds of sensitivity</h2>
-      <p>Data Scientists will often ask the following question about their models: if I change this input, how will my model prediction change?</p>
-      <p>Let’s give a name to this idea, and call it ‘prediction sensitivity’.</p>
-      <p>But the question we were asking at the end of the last post was more aligned with: if I change this input, how will my <em>taken action</em> change?</p>
-      <p>Let’s call this one ‘action-taking sensitivity’.</p>
-      <p>Both questions are referring to ‘inputs’ when this really means changing one of two things: changing logic/structure or changing parameters.</p>
-      <!-- Diagram of action-to-outcome iteration upstream to downstream with the labels of the changes and where they refer to -->
-      <h2 id="explaining-why-the-simulation-predicts-what-it-does">Explaining why the simulation predicts what it does</h2>
-      <p>Cover these topics:
-      - past-looking simulation graph analysis
-      - forward-looking counterfactual analysis: simulation differencing and why SHAP is better
-      - forward-looking counterfactual analysis: simulation SHAP analysis</p>
-      <h2 id="inferring-which-simulation-to-use">Inferring which simulation to use</h2>
-      <p>Cover these topics:
-      - Bayesian model selection applied to action-taking is the same as doing causal inference</p>
+      <h1 id="defining-it">Defining it</h1>
+      <p>Action-taking policies define the logic which take in the state of the world and map it to a taken action at any moment in time.</p>
+      <h1 id="sensitivity-and-generalisation">Sensitivity and generalisation</h1>
+      <p>Which action-taking policy logic finds the best actions?</p>
+      <p>How sensitive is this choice to changes in the data? How sensitive is this choice to changes in the outcome model?</p>
+      <p>Answers to both of these questions tell us how the action-taking policy generalises within the problem domain to alternative scenarios and underlying system mechanisms.</p>
+      <p>How sensitive is this choice to changes in the action parameters?</p>
+      <p>In much the same way as it does in <a href="https://umbralcalc.github.io/posts/learning_simulations_of_the_real_world.html">learning simulations of the real world</a> answering this question tells us how <em>sloppy</em> the action-taking policy is, and as a result how generalisable it could be to other problem domains.</p>
       
           </main>
 

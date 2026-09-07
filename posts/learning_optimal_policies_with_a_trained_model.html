@@ -12,7 +12,7 @@
   <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
   <link rel="apple-touch-icon" href="../assets/umbralcalculations-logo.svg">
   
-  <title>Preparing a simulation for action-taking</title>
+  <title>Learning optimal policies with a trained model</title>
   
   <!-- Fonts -->
   <style>
@@ -505,25 +505,11 @@
 
     
     <main>
-      <h1 id="preparing-a-simulation-for-action-taking">Preparing a simulation for action-taking</h1>
+      <h1 id="learning-optimal-policies-with-a-trained-model">Learning optimal policies with a trained model</h1>
       <div style="height:0.75em;">
 
       </div>
-      <h2 id="the-two-kinds-of-sensitivity">The two kinds of sensitivity</h2>
-      <p>Data Scientists will often ask the following question about their models: if I change this input, how will my model prediction change?</p>
-      <p>Let’s give a name to this idea, and call it ‘prediction sensitivity’.</p>
-      <p>But the question we were asking at the end of the last post was more aligned with: if I change this input, how will my <em>taken action</em> change?</p>
-      <p>Let’s call this one ‘action-taking sensitivity’.</p>
-      <p>Both questions are referring to ‘inputs’ when this really means changing one of two things: changing logic/structure or changing parameters.</p>
-      <!-- Diagram of action-to-outcome iteration upstream to downstream with the labels of the changes and where they refer to -->
-      <h2 id="explaining-why-the-simulation-predicts-what-it-does">Explaining why the simulation predicts what it does</h2>
-      <p>Cover these topics:
-      - past-looking simulation graph analysis
-      - forward-looking counterfactual analysis: simulation differencing and why SHAP is better
-      - forward-looking counterfactual analysis: simulation SHAP analysis</p>
-      <h2 id="inferring-which-simulation-to-use">Inferring which simulation to use</h2>
-      <p>Cover these topics:
-      - Bayesian model selection applied to action-taking is the same as doing causal inference</p>
+      <p>Linear/Dynamic/Stochastic programming (all examples of model-driven - which don’t use a simulation but instead a pre-existing model)</p>
       
           </main>
 

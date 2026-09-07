@@ -30,6 +30,16 @@
   }
 ,
   {
+    "title": "Introduction",
+    "slug": "how_do_i_automate_taking_actions_with_simulations",
+    "url": "/posts/how_do_i_automate_taking_actions_with_simulations.html",
+    "tag": "",
+    "date": "",
+    "order": 0,
+    "images": []
+  }
+,
+  {
     "title": "Evaluating rugby manager decision-making",
     "slug": "evaluating_rugby_manager_decision_making",
     "url": "/posts/evaluating_rugby_manager_decision_making.html",
@@ -43,6 +53,16 @@
     "title": "On writing less and trying to say more",
     "slug": "on_writing_less_and_trying_to_say_more",
     "url": "/posts/on_writing_less_and_trying_to_say_more.html",
+    "tag": "",
+    "date": "",
+    "order": 1,
+    "images": []
+  }
+,
+  {
+    "title": "What is a policy?",
+    "slug": "what_is_a_policy",
+    "url": "/posts/what_is_a_policy.html",
     "tag": "",
     "date": "",
     "order": 1,
@@ -73,6 +93,16 @@
     "title": "How can a simulation be wrong?",
     "slug": "how_can_a_simulation_be_wrong",
     "url": "/posts/how_can_a_simulation_be_wrong.html",
+    "tag": "",
+    "date": "",
+    "order": 2,
+    "images": []
+  }
+,
+  {
+    "title": "Learning optimal policies with the simulation itself",
+    "slug": "learning_optimal_policies_with_the_simulation_itself",
+    "url": "/posts/learning_optimal_policies_with_the_simulation_itself.html",
     "tag": "",
     "date": "",
     "order": 2,
@@ -117,6 +147,16 @@
     "date": "",
     "order": 3,
     "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/model-predict.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/data-grid-ai.svg"]
+  }
+,
+  {
+    "title": "Learning optimal policies with a trained model",
+    "slug": "learning_optimal_policies_with_a_trained_model",
+    "url": "/posts/learning_optimal_policies_with_a_trained_model.html",
+    "tag": "",
+    "date": "",
+    "order": 3,
+    "images": []
   }
 ,
   {
