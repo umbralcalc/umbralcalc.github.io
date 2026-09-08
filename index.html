@@ -131,13 +131,14 @@
             margin-top: 1.5rem;
         }
 
-        /* Grey box matching the collection header on each post page */
+        /* Grey box matching the collection header on each post page. The box
+           itself is a plain row: the link to the introduction sits on the left
+           and the expand/collapse arrow on the right, so that the arrow is not
+           nested inside the link. */
         .collection-header {
             display: flex;
             align-items: center;
             gap: 1rem;
-            text-decoration: none;
-            color: inherit;
             padding: 0.75rem 1rem;
             border: 1px solid #e0e0e0;
             background: #fafafa;
@@ -148,6 +149,49 @@
         .collection-header:hover {
             border-color: #3c78d8ff;
             box-shadow: 0 2px 8px rgba(52, 152, 219, 0.1);
+        }
+
+        /* The thumbnail and title, linking to the collection's introduction */
+        .collection-header-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1 1 auto;
+            min-width: 0;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Arrow that pivots to open and close the collection below */
+        .collection-toggle {
+            flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2rem;
+            height: 2rem;
+            padding: 0;
+            border: none;
+            background: none;
+            color: #2c3e50;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .collection-toggle:hover {
+            color: #3c78d8ff;
+        }
+
+        .collection-toggle svg {
+            width: 1rem;
+            height: 1rem;
+            /* Points down while open; the collapsed state pivots it to the
+               right, back towards the collection title */
+            transition: transform 0.3s ease;
+        }
+
+        .collection.is-collapsed .collection-toggle svg {
+            transform: rotate(-90deg);
         }
 
         .collection-thumb {
@@ -173,14 +217,16 @@
             transition: color 0.3s ease;
         }
 
-        .collection-header:hover .collection-title {
+        .collection-header-link:hover .collection-title {
             color: #3c78d8ff;
         }
 
         /* Posts scroll within a window sized to three cards by the script
-           below; the collection header stays static above it. */
+           below; the collection header stays static above it. The window is
+           also what collapses, its height animated inline by the script. */
         .collection-window {
             position: relative;
+            transition: max-height 0.35s ease;
         }
 
         /* Fade the last visible card to signal there is more to scroll to */
@@ -220,6 +266,13 @@
         /* Overflow stops the trailing margin collapsing out of the window */
         .collection-scroll .post-item:last-child .post-card {
             margin-bottom: 0;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .collection-toggle svg,
+            .collection-window {
+                transition: none;
+            }
         }
 
         .tag-title {
@@ -722,11 +775,80 @@
             );
         }
 
+        // Open or close a collection. The window's natural height is measured
+        // each time rather than cached, so the animation stays correct after a
+        // resize has re-sized the scroll window.
+        function setCollectionExpanded(section, expanded, animate) {
+            const window_ = section.querySelector('.collection-window');
+            const toggle = section.querySelector('.collection-toggle');
+            if (!window_ || !toggle) {
+                return;
+            }
+
+            section.classList.toggle('is-collapsed', !expanded);
+            toggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+            toggle.setAttribute(
+                'aria-label',
+                (expanded ? 'Collapse' : 'Expand') + ' this collection'
+            );
+
+            // A toggle part-way through a previous animation starts afresh
+            if (window_.collapseListener) {
+                window_.removeEventListener('transitionend', window_.collapseListener);
+                window_.collapseListener = null;
+            }
+
+            if (!animate) {
+                window_.style.transition = 'none';
+                applyCollapsedState(window_, expanded);
+                void window_.offsetHeight; // flush before transitions resume
+                window_.style.transition = '';
+                return;
+            }
+
+            const from = window_.getBoundingClientRect().height;
+            let to = 0;
+            if (expanded) {
+                // Measure the open height with the cap lifted, then put the
+                // window straight back where it was to animate from there
+                window_.style.maxHeight = '';
+                window_.style.overflow = 'hidden';
+                to = window_.getBoundingClientRect().height;
+            }
+            window_.style.overflow = 'hidden';
+            window_.style.maxHeight = from + 'px';
+            void window_.offsetHeight;
+            window_.style.maxHeight = to + 'px';
+
+            window_.collapseListener = event => {
+                if (event.target !== window_ || event.propertyName !== 'max-height') {
+                    return;
+                }
+                window_.removeEventListener('transitionend', window_.collapseListener);
+                window_.collapseListener = null;
+                // Drop the inline cap once open so the window can grow again
+                applyCollapsedState(window_, expanded);
+            };
+            window_.addEventListener('transitionend', window_.collapseListener);
+        }
+
+        // The settled open state carries no inline height, so that resizing or
+        // an image loading late can still change the window's height
+        function applyCollapsedState(window_, expanded) {
+            window_.style.maxHeight = expanded ? '' : '0px';
+            window_.style.overflow = expanded ? '' : 'hidden';
+        }
+
         // Load and display series covers
+        // Front-page collection order. Each string must match a post's
+        // `tag:` frontmatter exactly; collections not listed here fall to the
+        // end in alphabetical order, and 'Loose Threads' is always pinned last.
         const seriesOrder = [
             'How can I simulate the real world?',
-            'Engineering Smart Actions in Practice',
-            'Short Stories for the Sciency Mind'
+            'How can simulations help me take better actions?',
+            'How can I trust the actions I take in simulations?',
+            'How do I automate taking actions with simulations?',
+            'How do I design using simulations?'
         ];
         fetch('/posts.json')
             .then(response => response.json())
@@ -792,7 +914,8 @@
                 // Create one single-column section per collection: a static
                 // header with the cover thumbnail beside the collection title,
                 // then the collection's posts listed in order beneath it
-                coverSeriesTags.forEach(tag => {
+                const collectionSections = [];
+                coverSeriesTags.forEach((tag, collectionIndex) => {
                     const seriesPosts = postsByTag[tag]; // already sorted by order
                     const firstPost = seriesPosts[0];
                     // The header already links to the introduction, so the
@@ -802,10 +925,14 @@
                     const section = document.createElement('div');
                     section.className = 'collection';
 
-                    // Header: cover thumbnail + title, linking to the first post
-                    const header = document.createElement('a');
-                    header.href = firstPost.url;
+                    // Header: cover thumbnail + title, linking to the first
+                    // post, with the expand/collapse arrow beside them
+                    const header = document.createElement('div');
                     header.className = 'collection-header';
+
+                    const headerLink = document.createElement('a');
+                    headerLink.href = firstPost.url;
+                    headerLink.className = 'collection-header-link';
 
                     const coverImage = document.createElement('img');
                     coverImage.src = getCoverImageUrl(tag);
@@ -821,8 +948,9 @@
                     headerTitle.className = 'collection-title';
                     headerTitle.textContent = tag;
 
-                    header.appendChild(coverImage);
-                    header.appendChild(headerTitle);
+                    headerLink.appendChild(coverImage);
+                    headerLink.appendChild(headerTitle);
+                    header.appendChild(headerLink);
                     section.appendChild(header);
 
                     // Posts in a single column, styled like the other sections
@@ -880,10 +1008,27 @@
 
                         const window_ = document.createElement('div');
                         window_.className = 'collection-window';
+                        window_.id = `collection-posts-${collectionIndex}`;
                         window_.appendChild(scroll);
                         scroll.addEventListener('scroll', () => updateScrollHint(scroll));
 
                         section.appendChild(window_);
+
+                        // Only collections with something to show get an arrow
+                        const toggle = document.createElement('button');
+                        toggle.type = 'button';
+                        toggle.className = 'collection-toggle';
+                        toggle.setAttribute('aria-controls', window_.id);
+                        toggle.innerHTML = '<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">'
+                            + '<polyline points="3 6 8 11 13 6" fill="none" stroke="currentColor" '
+                            + 'stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+                        toggle.addEventListener('click', () => {
+                            setCollectionExpanded(
+                                section, section.classList.contains('is-collapsed'), true
+                            );
+                        });
+                        header.appendChild(toggle);
+                        collectionSections.push(section);
                     }
                     container.appendChild(section);
                 });
@@ -961,6 +1106,13 @@
 
                 // Size every collection's window to exactly three post cards
                 sizeCollectionWindows();
+
+                // Open the first collection on arrival and close the rest, so
+                // the page starts with one collection already scrollable
+                collectionSections.forEach((section, index) => {
+                    setCollectionExpanded(section, index === 0, false);
+                });
+
                 window.addEventListener('load', sizeCollectionWindows);
                 let resizeTimer = null;
                 window.addEventListener('resize', () => {

@@ -6,21 +6,21 @@
     <description>Visual explorations in science and computation.</description>
     <language>en</language>
     <atom:link href="https://umbralcalc.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <lastBuildDate>Mon, 07 Sep 2026 19:22:15 +0000</lastBuildDate>
-    <pubDate>Mon, 07 Sep 2026 19:22:14 +0000</pubDate>
-    <item>
-      <title>Introduction</title>
-      <link>https://umbralcalc.github.io/posts/how_do_i_automate_taking_actions_with_simulations_introduction.html</link>
-      <guid isPermaLink="true">https://umbralcalc.github.io/posts/how_do_i_automate_taking_actions_with_simulations_introduction.html</guid>
-      <pubDate>Mon, 07 Sep 2026 19:22:14 +0000</pubDate>
-      <description>This collection should include: - The concept of a policy - Learning using the simulation itself (evolutionary strategies, monte carlo tree search and touch on how these are different to Deep RL but still in the same family of sample-driven - which depend on simulations existi...</description>
-    </item>
+    <lastBuildDate>Tue, 08 Sep 2026 06:58:39 +0000</lastBuildDate>
+    <pubDate>Mon, 07 Sep 2026 20:22:19 +0100</pubDate>
     <item>
       <title>Introduction</title>
       <link>https://umbralcalc.github.io/posts/how_do_i_design_using_simulations_introduction.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/how_do_i_design_using_simulations_introduction.html</guid>
-      <pubDate>Mon, 07 Sep 2026 19:22:14 +0000</pubDate>
+      <pubDate>Mon, 07 Sep 2026 20:22:19 +0100</pubDate>
       <description>Thinking this collection should be entirely synthetic so we can focus on defining the generalised software / declarative schemas for each domain which is the real challenge of this collection. We can potentially do real examples later in another collection.</description>
+    </item>
+    <item>
+      <title>Introduction</title>
+      <link>https://umbralcalc.github.io/posts/how_do_i_automate_taking_actions_with_simulations_introduction.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/how_do_i_automate_taking_actions_with_simulations_introduction.html</guid>
+      <pubDate>Mon, 07 Sep 2026 20:11:56 +0100</pubDate>
+      <description>This collection should include: - The concept of a policy - Learning using the simulation itself (evolutionary strategies, monte carlo tree search and touch on how these are different to Deep RL but still in the same family of sample-driven - which depend on simulations existi...</description>
     </item>
     <item>
       <title>What is a policy?</title>
@@ -48,7 +48,7 @@
       <link>https://umbralcalc.github.io/posts/how_can_i_trust_the_actions_i_take_in_simulations_introduction.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/how_can_i_trust_the_actions_i_take_in_simulations_introduction.html</guid>
       <pubDate>Sun, 30 Aug 2026 10:35:53 +0100</pubDate>
-      <description>The How can simulations help me take better actions? collection showed simulations informing real-world decisions through interactive dashboards.</description>
+      <description>The 'How can simulations help me take better actions?' collection showed simulations informing real-world decisions through interactive dashboards.</description>
     </item>
     <item>
       <title>What makes an action good?</title>

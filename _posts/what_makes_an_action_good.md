@@ -12,7 +12,7 @@ order: 1
 
 What does it even mean to take a 'good' action?
 
-Let's formalise how action-taking generally looks within a simulation of the outcomes. It will be useful to separate the two into different partitions.
+Let's start by thinking about how action-taking generally looks within a simulation of the outcomes. One can separate the action-taking from outcome simulation into different partitions.
 
 <!-- Diagram of the iterate action and iterate output upstream-downstream -->
 
