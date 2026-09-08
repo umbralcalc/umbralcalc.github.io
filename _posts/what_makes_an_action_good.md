@@ -12,9 +12,9 @@ order: 1
 
 What does it even mean to take a 'good' action?
 
-Let's start by thinking about how action-taking generally looks within a simulation of the outcomes. One can separate the action-taking from outcome simulation into different partitions.
+Let's start by thinking about where action-taking fits into a simulation of the outcomes. One can separate the action-taking from outcome simulation into different partitions.
 
-<!-- Diagram of the iterate action and iterate output upstream-downstream -->
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/what_makes_an_action_good/action-taking.svg"/></center>
 
 Note that the downstream outcome iteration can be replaced by any kind of downstream simulation that is connected to the action iteration; we only think of it as a single iteration here for convenience.
 

@@ -16,7 +16,7 @@ We do this by defining an objective whose maximum/minimum possible value will be
 
 For instance, we may define some logic in a state partition iteration of the simulation which replicates taking 'actions' in the real world. This logic can depend on the simulation parameters so that the latter encodes the behaviour quantitatively.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/preparing_a_simulation_for_action_taking/action-taking.svg"/></center>
+<!-- diagram of setup -->
 
 Given this setup, a very common goal of interest is then in finding the best actions to take; which is analogous to optimising the parameters of the action-taking state partition iteration. We will refer to these parameters as 'policy parameters'.
 
@@ -24,7 +24,7 @@ But what should be use as an objective?
 
 The 'discounted future reward' is a quantity we can specify that a simulation trajectory will have accumulated into the future, accounting for increasing distance into the future by 'discounting' it gradually with a weighting.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/preparing_a_simulation_for_action_taking/discounted-future-reward.svg"/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_optimal_policies_with_the_simulation_itself/discounted-future-reward.svg"/></center>
 
 We are using this concept of discounted future reward in the same way that it is used in [reinforcement learning](https://en.wikipedia.org/wiki/Reinforcement_learning).
 
@@ -36,7 +36,7 @@ The [evolutionary strategies](https://en.wikipedia.org/wiki/Evolution_strategy) 
 
 This algorithm relies on sorting the sampled simulation trajectories according to their discounted future rewards and then using the top fraction of these to update the best known policy parameters (and the variance around them) after each timestep.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/preparing_a_simulation_for_action_taking/optimising-evolutionary-strategies.svg"/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_optimal_policies_with_the_simulation_itself/optimising-evolutionary-strategies.svg"/></center>
 
 ````{=html}
 <div id="evolutionary-strategies-demo" style="margin:1.3em 0 0.5em;padding:1em;background:#ffffff;">
