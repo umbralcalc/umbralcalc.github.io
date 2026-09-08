@@ -6,85 +6,8 @@
     <description>Visual explorations in science and computation.</description>
     <language>en</language>
     <atom:link href="https://umbralcalc.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <lastBuildDate>Tue, 08 Sep 2026 07:19:34 +0000</lastBuildDate>
-    <pubDate>Mon, 07 Sep 2026 20:22:19 +0100</pubDate>
-    <item>
-      <title>Introduction</title>
-      <link>https://umbralcalc.github.io/posts/how_do_i_design_using_simulations_introduction.html</link>
-      <guid isPermaLink="true">https://umbralcalc.github.io/posts/how_do_i_design_using_simulations_introduction.html</guid>
-      <pubDate>Mon, 07 Sep 2026 20:22:19 +0100</pubDate>
-      <description>Thinking this collection should be entirely synthetic so we can focus on defining the generalised software / declarative schemas for each domain which is the real challenge of this collection. We can potentially do real examples later in another collection.</description>
-    </item>
-    <item>
-      <title>Introduction</title>
-      <link>https://umbralcalc.github.io/posts/how_do_i_automate_taking_actions_with_simulations_introduction.html</link>
-      <guid isPermaLink="true">https://umbralcalc.github.io/posts/how_do_i_automate_taking_actions_with_simulations_introduction.html</guid>
-      <pubDate>Mon, 07 Sep 2026 20:11:56 +0100</pubDate>
-      <description>This collection should include: - The concept of a policy - Learning using the simulation itself (evolutionary strategies, monte carlo tree search and touch on how these are different to Deep RL but still in the same family of sample-driven - which depend on simulations existi...</description>
-    </item>
-    <item>
-      <title>What is a policy?</title>
-      <link>https://umbralcalc.github.io/posts/what_is_a_policy.html</link>
-      <guid isPermaLink="true">https://umbralcalc.github.io/posts/what_is_a_policy.html</guid>
-      <pubDate>Mon, 07 Sep 2026 20:11:56 +0100</pubDate>
-      <description>Action-taking policies define the logic which take in the state of the world and map it to a taken action at any moment in time.</description>
-    </item>
-    <item>
-      <title>Learning optimal policies with a trained model</title>
-      <link>https://umbralcalc.github.io/posts/learning_optimal_policies_with_a_trained_model.html</link>
-      <guid isPermaLink="true">https://umbralcalc.github.io/posts/learning_optimal_policies_with_a_trained_model.html</guid>
-      <pubDate>Mon, 07 Sep 2026 20:11:56 +0100</pubDate>
-      <description>Linear/Dynamic/Stochastic programming (all examples of model-driven - which don't use a simulation but instead a pre-existing model)</description>
-    </item>
-    <item>
-      <title>On writing less and trying to say more</title>
-      <link>https://umbralcalc.github.io/posts/on_writing_less_and_trying_to_say_more.html</link>
-      <guid isPermaLink="true">https://umbralcalc.github.io/posts/on_writing_less_and_trying_to_say_more.html</guid>
-      <pubDate>Sat, 05 Sep 2026 17:15:25 +0100</pubDate>
-      <description>Core ideas I want to put in this:</description>
-    </item>
-    <item>
-      <title>Introduction</title>
-      <link>https://umbralcalc.github.io/posts/how_can_i_trust_the_actions_i_take_in_simulations_introduction.html</link>
-      <guid isPermaLink="true">https://umbralcalc.github.io/posts/how_can_i_trust_the_actions_i_take_in_simulations_introduction.html</guid>
-      <pubDate>Sun, 30 Aug 2026 10:35:53 +0100</pubDate>
-      <description>The 'How can simulations help me take better actions?' collection showed simulations informing real-world decisions through interactive dashboards.</description>
-    </item>
-    <item>
-      <title>What makes an action good?</title>
-      <link>https://umbralcalc.github.io/posts/what_makes_an_action_good.html</link>
-      <guid isPermaLink="true">https://umbralcalc.github.io/posts/what_makes_an_action_good.html</guid>
-      <pubDate>Sun, 30 Aug 2026 10:35:53 +0100</pubDate>
-      <description>What does it even mean to take a 'good' action?</description>
-    </item>
-    <item>
-      <title>How can a simulation be wrong?</title>
-      <link>https://umbralcalc.github.io/posts/how_can_a_simulation_be_wrong.html</link>
-      <guid isPermaLink="true">https://umbralcalc.github.io/posts/how_can_a_simulation_be_wrong.html</guid>
-      <pubDate>Sun, 30 Aug 2026 10:35:53 +0100</pubDate>
-      <description>Consider the logic which our action iteration might use when applied to the example of stopping mass treatment in a population when the prevalence of the disease has gone to 0.</description>
-    </item>
-    <item>
-      <title>Learning optimal policies with the simulation itself</title>
-      <link>https://umbralcalc.github.io/posts/learning_optimal_policies_with_the_simulation_itself.html</link>
-      <guid isPermaLink="true">https://umbralcalc.github.io/posts/learning_optimal_policies_with_the_simulation_itself.html</guid>
-      <pubDate>Sun, 30 Aug 2026 10:35:53 +0100</pubDate>
-      <description>Learning using the simulation itself (evolutionary strategies, monte carlo tree search and touch on how these are different to Deep RL but still in the same family of sample-driven - which depend on simulations existing)</description>
-    </item>
-    <item>
-      <title>Preparing a simulation for action-taking</title>
-      <link>https://umbralcalc.github.io/posts/preparing_a_simulation_for_action_taking.html</link>
-      <guid isPermaLink="true">https://umbralcalc.github.io/posts/preparing_a_simulation_for_action_taking.html</guid>
-      <pubDate>Sun, 30 Aug 2026 10:35:53 +0100</pubDate>
-      <description>Data Scientists will often ask the following question about their models: if I change this input, how will my model prediction change?</description>
-    </item>
-    <item>
-      <title>Backtesting and other challenges</title>
-      <link>https://umbralcalc.github.io/posts/backtesting_and_other_challenges.html</link>
-      <guid isPermaLink="true">https://umbralcalc.github.io/posts/backtesting_and_other_challenges.html</guid>
-      <pubDate>Sun, 30 Aug 2026 10:35:53 +0100</pubDate>
-      <description>Cover these topics: - Lack of data on this generally because its hard to control for cause-to-effect - Quasi-experiments all kinds and the action2outcome project</description>
-    </item>
+    <lastBuildDate>Tue, 08 Sep 2026 07:30:59 +0000</lastBuildDate>
+    <pubDate>Sat, 16 May 2026 17:59:29 +0100</pubDate>
     <item>
       <title>Introduction</title>
       <link>https://umbralcalc.github.io/posts/how_can_i_simulate_the_real_world_introduction.html</link>

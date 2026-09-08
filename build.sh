@@ -427,6 +427,11 @@ def extract_description(slug):
 # Sort posts newest-first by commit date
 items = []
 for post in posts:
+    # Only tagged posts belong in the feed. An empty tag means the post is
+    # not part of a published collection yet, so the front page hides it too
+    # and subscribers should not see it ahead of everyone else.
+    if not post.get("tag", "").strip():
+        continue
     slug = post["slug"]
     date_str = dates.get(slug)
     if not date_str:
