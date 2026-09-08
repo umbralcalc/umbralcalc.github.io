@@ -8,11 +8,11 @@ order: 1
 # What is a policy?
 <div style="height:0.75em;"></div>
 
-# Defining it
+## Defining it
 
 Action-taking policies define the logic which take in the state of the world and map it to a taken action at any moment in time.
 
-# Sensitivity and generalisation
+## Sensitivity and generalisation
 
 Which action-taking policy logic finds the best actions?
 
