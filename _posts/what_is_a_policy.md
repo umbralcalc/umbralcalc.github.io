@@ -12,6 +12,10 @@ order: 1
 
 Action-taking policies define the logic which take in the state of the world and map it to a taken action at any moment in time.
 
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/what_is_a_policy/action-taking-policy.svg"/></center>
+
+Note that the downstream iteration of simulated 'outcomes' from a given action can be replaced by any kind of downstream simulation that is connected to the action iteration; we only think of it as a single 'iterate simulation partition' here for convenience.
+
 ## Sensitivity and generalisation
 
 Which action-taking policy logic finds the best actions?

@@ -1,7 +1,7 @@
 ---
 title: "What makes an action good?"
 # tag: "How can I trust the actions I take in simulations?"
-series-blurb: "A collection of posts on how we decide whether an action chosen with a simulation can be trusted. Written especially for programmers and non-technical readers wanting to learn about how to take better actions under uncertainty. No maths; just diagrams and straightforward descriptions all the way through."
+series-blurb: "A collection of posts on how we decide whether an action chosen with a simulation can be trusted. Written especially for programmers and non-technical readers wanting to learn about how to take better actions under uncertainty, while trusting the tools they use to help take them. No maths; just diagrams and straightforward descriptions all the way through."
 order: 1
 ---
 
@@ -12,11 +12,11 @@ order: 1
 
 What does it even mean to take a 'good' action?
 
-Let's start by thinking about where action-taking fits into a simulation of the outcomes. One can separate the action-taking from outcome simulation into different partitions.
+Let's start by thinking about how our action-taking fits into a simulation of the outcomes. 
+
+The simplest way to do this is to apply changes to parameters in the iterations of the simulation to change their behaviour. This can effectively simulate an action taken at any point in time, so long as the simulation logic supports it and exposes the relevant parameters.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/what_makes_an_action_good/action-taking.svg"/></center>
-
-Note that the downstream outcome iteration can be replaced by any kind of downstream simulation that is connected to the action iteration; we only think of it as a single iteration here for convenience.
 
 From the probabilistic perspective, we only ever see _one_ action-to-outcome pairing in most real world action-taking scenarios. The fuller range of possibilities that a simulation represents is much larger.
 
