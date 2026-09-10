@@ -1,7 +1,7 @@
 ---
 title: "Mathematical symbols vs diagrams"
 tag: "Loose Threads"
-order: 2
+order: 1
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/mathematical_symbols_vs_diagrams/diagrams-vs-symbols.svg"
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/mathematical_symbols_vs_diagrams/maths-to-diagrams.svg"
