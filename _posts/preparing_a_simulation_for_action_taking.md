@@ -3,6 +3,8 @@ title: "Preparing a simulation for action-taking"
 # tag: "How can I trust the actions I take in simulations?"
 series-blurb: "A collection of posts on how we decide whether an action chosen with a simulation can be trusted. Written especially for programmers and non-technical readers wanting to learn about how to take better actions under uncertainty, while trusting the tools they use to help take them. No maths; just diagrams and straightforward descriptions all the way through."
 order: 3
+images:
+- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/preparing_a_simulation_for_action_taking/changing-parameters.svg"
 ---
 
 # Preparing a simulation for action-taking
@@ -20,7 +22,9 @@ Let's call this one 'action-taking sensitivity'.
 
 Both questions are referring to 'inputs' when this really means changing one of two things: changing logic/structure or changing parameters.
 
-<!-- Diagram of action-to-outcome iteration upstream to downstream with the labels of the changes and where they refer to -->
+<center><img src=https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/preparing_a_simulation_for_action_taking/changing-parameters.svg /></center>
+
+<center><img src=https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/preparing_a_simulation_for_action_taking/changing-simulation.svg /></center>
 
 ## Explaining why the simulation predicts what it does
 
