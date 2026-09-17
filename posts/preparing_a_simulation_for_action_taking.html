@@ -510,17 +510,19 @@
 
       </div>
       <h2 id="the-two-kinds-of-sensitivity">The two kinds of sensitivity</h2>
-      <p>Data Scientists will often ask the following question about their models: if I change this input, how will my model prediction change?</p>
-      <p>Let’s give a name to this idea, and call it ‘prediction sensitivity’.</p>
-      <p>But the question we were asking at the end of the last post was more aligned with: if I change this input, how will my <em>taken action</em> change?</p>
+      <p>Data Scientists will often ask the following question: if I change this model or its parameters, how will my prediction change?</p>
+      <p>We discussed the same idea for simulations in <a href="https://umbralcalc.github.io/posts/learning_simulations_of_the_real_world.html">this post</a>. So let’s give a name to this idea, and call it ‘prediction sensitivity’.</p>
+      <p>But the question we were asking at the end of the last post was more aligned with: if I change this model (simulation) or its parameters, how will my <em>taken action</em> change?</p>
       <p>Let’s call this one ‘action-taking sensitivity’.</p>
-      <p>Both questions are referring to ‘inputs’ when this really means changing one of two things: changing logic/structure or changing parameters.</p>
+      <p>When we change the parameters of a simulation, its iteration at the same point in time may produce different outcomes, depending on the system state and its history (which may also have changed due to previous iterations in time being different).</p>
       <center>
       <img src=https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/preparing_a_simulation_for_action_taking/changing-parameters.svg />
       </center>
+      <p>Similarly, when we change the simulation itself, its iteration at the same point in time may also produce different outcomes.</p>
       <center>
       <img src=https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/preparing_a_simulation_for_action_taking/changing-simulation.svg />
       </center>
+      <p>In both cases, the simulated outcomes help us to determine which action to take, but in order to do this we need to define what outcomes we are targeting in the first place.</p>
       <h2 id="explaining-why-the-simulation-predicts-what-it-does">Explaining why the simulation predicts what it does</h2>
       <p>Cover these topics:
       - past-looking simulation graph analysis
