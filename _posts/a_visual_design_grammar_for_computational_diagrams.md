@@ -17,7 +17,7 @@ Understanding how best to visualise abstract concepts in computation and science
 
 The process of discovering this visual translation of concepts is a design question, and the design is still evolving.
 
-This post gives an outline of the visual design grammar this blog intentionally conforms to at present, learned through trial and error. There is still a lot to change and learn, but the intent behind these choices is still shared for clarity.
+This post gives an outline of the visual design grammar used throughout this blog, at present. However, it's likely that there is still a lot to change and learn!
 
 ## Text 
 
