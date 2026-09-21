@@ -500,7 +500,7 @@
     <nav>
       <a href="../index.html">Home</a>
       <a href="../about.html">About</a>
-      <a href="../follow.html">Follow</a>
+      <a href="../feed.xml">RSS</a>
     </nav>
 
     
@@ -526,9 +526,9 @@
       
             <div class="next-post">
         <div class="next-post-label">Next Post</div>
-        <a href="/posts/black_box_ai_is_an_accelerator_paradigm.html" class="next-post-card">
+        <a href="/posts/a_visual_design_grammar_for_computational_diagrams.html" class="next-post-card">
                     <div class="next-post-images" id="next-post-images"></div>
-                    <div class="next-post-title">Black box AI is an accelerator paradigm</div>
+                    <div class="next-post-title">A visual design grammar for computational diagrams</div>
         </a>
       </div>
           </main>
@@ -546,13 +546,13 @@
       const imagesContainer = document.getElementById('next-post-images');
       if (imagesContainer) {
         try {
-          const imagesJson = '["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/model-predict.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/data-grid-ai.svg"]';
+          const imagesJson = '["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/a_visual_design_grammar_for_computational_diagrams/blog-colour-scheme.svg"]';
           const images = JSON.parse(imagesJson);
           if (Array.isArray(images) && images.length > 0) {
             images.forEach(imagePath => {
               const img = document.createElement('img');
               img.src = imagePath;
-              img.alt = 'Black box AI is an accelerator paradigm';
+              img.alt = 'A visual design grammar for computational diagrams';
               imagesContainer.appendChild(img);
             });
           }

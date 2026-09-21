@@ -1,7 +1,7 @@
 ---
 title: "Black box AI is an accelerator paradigm"
 tag: "Loose Threads"
-order: 2
+order: 3
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/model-predict.svg"
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/data-grid-ai.svg"

@@ -100,13 +100,13 @@
   }
 ,
   {
-    "title": "Black box AI is an accelerator paradigm",
-    "slug": "black_box_ai_is_an_accelerator_paradigm",
-    "url": "/posts/black_box_ai_is_an_accelerator_paradigm.html",
+    "title": "A visual design grammar for computational diagrams",
+    "slug": "a_visual_design_grammar_for_computational_diagrams",
+    "url": "/posts/a_visual_design_grammar_for_computational_diagrams.html",
     "tag": "Loose Threads",
     "date": "",
     "order": 2,
-    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/model-predict.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/data-grid-ai.svg"]
+    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/a_visual_design_grammar_for_computational_diagrams/blog-colour-scheme.svg"]
   }
 ,
   {
@@ -150,6 +150,16 @@
   }
 ,
   {
+    "title": "Black box AI is an accelerator paradigm",
+    "slug": "black_box_ai_is_an_accelerator_paradigm",
+    "url": "/posts/black_box_ai_is_an_accelerator_paradigm.html",
+    "tag": "Loose Threads",
+    "date": "",
+    "order": 3,
+    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/model-predict.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/data-grid-ai.svg"]
+  }
+,
+  {
     "title": "Learning optimal policies with a trained model",
     "slug": "learning_optimal_policies_with_a_trained_model",
     "url": "/posts/learning_optimal_policies_with_a_trained_model.html",
@@ -190,16 +200,6 @@
   }
 ,
   {
-    "title": "Simulation architectures on different hardware",
-    "slug": "simulation_architectures_on_different_hardware",
-    "url": "/posts/simulation_architectures_on_different_hardware.html",
-    "tag": "Loose Threads",
-    "date": "",
-    "order": 3,
-    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/cpu-graph-edges.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/cpu-stepwise-architectures.svg"]
-  }
-,
-  {
     "title": "Backtesting and other challenges",
     "slug": "backtesting_and_other_challenges",
     "url": "/posts/backtesting_and_other_challenges.html",
@@ -227,6 +227,16 @@
     "date": "",
     "order": 4,
     "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/objectives.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/data-streaming.svg"]
+  }
+,
+  {
+    "title": "Simulation architectures on different hardware",
+    "slug": "simulation_architectures_on_different_hardware",
+    "url": "/posts/simulation_architectures_on_different_hardware.html",
+    "tag": "Loose Threads",
+    "date": "",
+    "order": 4,
+    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/cpu-graph-edges.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/cpu-stepwise-architectures.svg"]
   }
 ,
   {
