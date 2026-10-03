@@ -6,6 +6,8 @@ order: 4
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/objectives.svg"
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/data-streaming.svg"
+nocite: |
+  @cranmer2020, @gordon1993, @transtrum2015, @gutenkunst2007, @quinn2023, @mao2024, @kassraftery1995
 ---
 
 # Learning simulations of the real world
@@ -529,3 +531,8 @@ Switching between the two structures, we can compare how many of their parameter
 })();
 </script>
 ````
+
+## References and further reading
+
+::: {#refs}
+:::

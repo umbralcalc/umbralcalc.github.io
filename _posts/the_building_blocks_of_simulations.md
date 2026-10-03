@@ -6,6 +6,8 @@ order: 2
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/cumulative-timesteps-history.svg"
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/state-partitions.svg"
+nocite: |
+  @durbinkoopman2012, @sarkka2013, @lawkelton2014, @grimm2006
 ---
 
 # The building blocks of simulations
@@ -587,3 +589,8 @@ Consider how this might be used to create useful statistical operations over the
 })();
 </script>
 ```
+
+## References and further reading
+
+::: {#refs}
+:::

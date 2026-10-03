@@ -3,6 +3,8 @@ title: "Introduction"
 # tag: "How do I design using simulations?"
 series-blurb: "A collection of posts on ... No maths; just diagrams and straightforward descriptions all the way through."
 order: 0
+nocite: |
+  @epstein2008, @lawkelton2014
 ---
 
 # Introduction
@@ -22,3 +24,8 @@ Other possibilities to consider:
 - Designing physical products?
 - Designing visual patterns and layouts?
 - Designing materials?
+
+## References and further reading
+
+::: {#refs}
+:::

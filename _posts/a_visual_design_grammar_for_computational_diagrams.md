@@ -4,6 +4,8 @@ tag: "Loose Threads"
 order: 2
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/a_visual_design_grammar_for_computational_diagrams/blog-colour-scheme.svg"
+nocite: |
+  @bertin1983, @clevelandmcgill1984, @crameri2020, @tufte2001, @larkinsimon1987
 ---
 
 # A visual design grammar for computational diagrams
@@ -68,3 +70,8 @@ The blog uses dashed and dotted lines in different ways.
 Dashes in the outlines of objects and arrows are used to indicate a temporary or implied view of the object for additional context.
 
 Dotted lines are used to indicate continuations in various situations.
+
+## References and further reading
+
+::: {#refs}
+:::

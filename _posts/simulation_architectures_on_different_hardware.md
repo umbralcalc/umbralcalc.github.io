@@ -5,6 +5,8 @@ order: 4
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/cpu-graph-edges.svg"
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/cpu-stepwise-architectures.svg"
+nocite: |
+  @feynman1982, @lloyd1996, @preskill2018, @aaronson2015, @arute2019, @jouppi2017, @nielsenchuang2010
 ---
 
 # Simulation architectures on different hardware
@@ -85,3 +87,8 @@ Note also that the [no-cloning theorem](https://en.wikipedia.org/wiki/No-cloning
 Therefore, you only get a [quantum advantage](https://en.wikipedia.org/wiki/Quantum_supremacy) if you can store more than one timestep worth of simulation next state values in qubit memory. 
 
 Otherwise, if you only effectively have one instantaneous timestep of qubit memory to use, the processing time will likely be dominated by I/O writing to and from the qubits during the simulation. This is also known as the [quantum I/O bottleneck](https://ianreppel.org/io-bottleneck-in-quantum-computing/).
+
+## References and further reading
+
+::: {#refs}
+:::

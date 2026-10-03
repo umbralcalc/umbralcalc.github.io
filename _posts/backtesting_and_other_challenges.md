@@ -3,6 +3,8 @@ title: "Backtesting and other challenges"
 # tag: "How can I trust the actions I take in simulations?"
 series-blurb: "A collection of posts on how we decide whether an action chosen with a simulation can be trusted. Written especially for programmers and non-technical readers wanting to learn about how to take better actions under uncertainty, while trusting the tools they use to help take them. No maths; just diagrams and straightforward descriptions all the way through."
 order: 4
+nocite: |
+  @angristpischke2009, @imbensrubin2015, @gama2014, @levine2020
 ---
 
 # Backtesting and other challenges
@@ -26,4 +28,7 @@ Cover:
 - Concept drift and how it affects this
 - Adaptive simulations
 
+## References and further reading
 
+::: {#refs}
+:::

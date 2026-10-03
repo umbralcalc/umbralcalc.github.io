@@ -3,6 +3,8 @@ title: "What is a policy?"
 # tag: "How do I automate taking actions with simulations?"
 series-blurb: "A collection of posts on ... No maths; just diagrams and straightforward descriptions all the way through."
 order: 1
+nocite: |
+  @suttonbarto2018, @transtrum2015
 ---
 
 # What is a policy?
@@ -27,3 +29,8 @@ Answers to both of these questions tell us how the action-taking policy generali
 How sensitive is this choice to changes in the action parameters?
 
 In much the same way as it does in [learning simulations of the real world](https://umbralcalc.github.io/posts/learning_simulations_of_the_real_world.html) answering this question tells us how _sloppy_ the action-taking policy is, and as a result how generalisable it could be to other problem domains.
+
+## References and further reading
+
+::: {#refs}
+:::

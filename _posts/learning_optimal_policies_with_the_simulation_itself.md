@@ -3,6 +3,8 @@ title: "Learning optimal policies with the simulation itself"
 # tag: "How do I automate taking actions with simulations?"
 series-blurb: "A collection of posts on ... No maths; just diagrams and straightforward descriptions all the way through."
 order: 2
+nocite: |
+  @hansen2001, @salimans2017, @suttonbarto2018
 ---
 
 # Learning optimal policies with the simulation itself
@@ -190,3 +192,8 @@ This algorithm relies on sorting the sampled simulation trajectories according t
 })();
 </script>
 ````
+
+## References and further reading
+
+::: {#refs}
+:::

@@ -5,6 +5,8 @@ series-blurb: "A collection of simulated examples of real-world actions explored
 order: 1
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/evaluating_rugby_manager_decision_making/trywizard-simulation-code.svg"
+nocite: |
+  @dixoncoles1997, @mauboussin2012
 ---
 
 # Evaluating rugby manager decision-making
@@ -254,3 +256,8 @@ Drag the substitution-timing sliders for each position group and watch how the p
 The link to this project can be [found here](https://github.com/umbralcalc/trywizard).
 
 **Data and licence:** This is an entirely non-commercial research and learning model, built purely to demonstrate that a simulation can be fit to realistic match-event data. None of the underlying data is redistributed here; the dashboard ships only the fitted model coefficients, not any match records or source data. Unlike the other dashboards in this series there is no open-data licence to cite.
+
+## References and further reading
+
+::: {#refs}
+:::

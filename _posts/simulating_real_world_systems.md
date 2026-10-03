@@ -5,6 +5,8 @@ series-blurb: "A collection of posts on the foundations and patterns for buildin
 order: 5
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/trywizard-simulation-code.svg"
+nocite: |
+  @cranmer2020, @box1976, @epstein2008, @jumper2021
 ---
 
 # Simulating real-world systems
@@ -308,3 +310,8 @@ The simulation (here just one simple state partition) models how those choices s
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/business-survival-code.svg" width="200"/></center>
 
 The link to the interactive dashboard for this example can be [found here](https://umbralcalc.github.io/posts/support_policies_for_small_business_survival.html).
+
+## References and further reading
+
+::: {#refs}
+:::

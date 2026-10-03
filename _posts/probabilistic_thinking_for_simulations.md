@@ -6,6 +6,8 @@ order: 3
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/probabilites-vs-trajectories.svg"
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/evaluate-probability-partition-region.svg"
+nocite: |
+  @sarkka2013, @doucet2011, @chopin2020, @owen2013, @gordon1993
 ---
 
 # Probabilistic thinking for simulations
@@ -327,3 +329,8 @@ Using calculations of the estimated statistics for a single trajectory from the 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/prob-reweighting.svg" /></center>
 
 We can then use these statistics to calculate estimated probabilities for any possible state value in time.
+
+## References and further reading
+
+::: {#refs}
+:::

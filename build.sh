@@ -185,10 +185,19 @@ generate_html_pages() {
                 fi
             fi
             
+            # Citations: a post opts in with a '::: {#refs}' block plus [@key]
+            # citations or a 'nocite' frontmatter list. Posts with neither are
+            # unaffected by these flags.
+            local cite_args=()
+            if [ -f "$DOCS_DIR/_refs/references.bib" ]; then
+                cite_args+=(--citeproc --bibliography="$DOCS_DIR/_refs/references.bib")
+            fi
+
             pandoc --template "$DOCS_DIR/template.html" \
                 --wrap=preserve \
                 --mathjax \
                 --syntax-highlighting=pygments \
+                "${cite_args[@]}" \
                 --metadata="title:$title" \
                 --metadata="next-post-url:$next_post_url" \
                 --metadata="next-post-title:$next_post_title" \
@@ -417,6 +426,8 @@ def extract_description(slug):
         # Strip inline markdown emphasis/links for a clean teaser
         block = re.sub(r"!\[[^\]]*\]\([^)]*\)", "", block)
         block = re.sub(r"\[([^\]]+)\]\([^)]*\)", r"\1", block)
+        # Drop pandoc citations, e.g. " [@box1976; @lawkelton2014]"
+        block = re.sub(r"\s*\[-?@[^\]]*\]", "", block)
         block = re.sub(r"[_*`]", "", block)
         block = re.sub(r"\s+", " ", block).strip()
         if len(block) > 280:

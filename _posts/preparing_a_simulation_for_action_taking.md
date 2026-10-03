@@ -5,6 +5,8 @@ series-blurb: "A collection of posts on how we decide whether an action chosen w
 order: 3
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/preparing_a_simulation_for_action_taking/changing-parameters.svg"
+nocite: |
+  @saltelli2019, @sobol2001, @lundberg2017, @pearl2009, @kassraftery1995
 ---
 
 # Preparing a simulation for action-taking
@@ -42,5 +44,7 @@ Cover these topics:
 Cover these topics:
 - Bayesian model selection applied to action-taking is the same as doing causal inference
 
+## References and further reading
 
-
+::: {#refs}
+:::

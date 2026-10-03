@@ -3,6 +3,8 @@ title: "Introduction"
 # tag: "How do I automate taking actions with simulations?"
 series-blurb: "A collection of posts on ... No maths; just diagrams and straightforward descriptions all the way through."
 order: 0
+nocite: |
+  @suttonbarto2018
 ---
 
 # Introduction
@@ -16,3 +18,8 @@ This collection should include:
 - Refer to Warren Powell's work and "The Decision Factory"
 - Collect examples of decision-making domains where this automation is more possible/feasible than others due to action-taking cadence, regulatory requirements, ethical issues that are highly relevant to the problem and other situations
 - AI ethics potentially worth touching on as well
+
+## References and further reading
+
+::: {#refs}
+:::

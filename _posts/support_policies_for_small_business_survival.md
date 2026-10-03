@@ -5,6 +5,8 @@ series-blurb: "A collection of simulated examples of real-world actions explored
 order: 5
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/support_policies_for_small_business_survival/business-survival-code.svg"
+nocite: |
+  @mata1994, @geroski1995
 ---
 
 # Support policies for small business survival
@@ -269,3 +271,8 @@ Pick a support portfolio and a macro scenario, and compare how survival and stoc
 The link to this project can be [found here](https://github.com/umbralcalc/business-survival).
 
 **Data and licence:** This simulation is calibrated to [ONS business demography](https://www.ons.gov.uk/businessindustryandtrade/business/activitysizeandlocation/bulletins/businessdemography/latest) statistics and the [Companies House](http://download.companieshouse.gov.uk/en_output.html) register, with economic covariates from NOMIS and the Bank of England. ONS and Companies House data is Crown copyright and contains public sector information licensed under the [Open Government Licence v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).
+
+## References and further reading
+
+::: {#refs}
+:::

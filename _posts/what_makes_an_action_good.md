@@ -5,6 +5,8 @@ series-blurb: "A collection of posts on how we decide whether an action chosen w
 order: 1
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/what_makes_an_action_good/action-taking.svg"
+nocite: |
+  @mauboussin2012, @suttonbarto2018
 ---
 
 # What makes an action good?
@@ -50,3 +52,7 @@ This is where a simulation can be very helpful.
 ... Note that this depends on the model
 ... Conclude that all of this relies on the simulation being 'correct'
 
+## References and further reading
+
+::: {#refs}
+:::

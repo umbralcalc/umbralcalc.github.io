@@ -6,6 +6,8 @@ order: 1
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/why_simulate_real_world_systems/simulations-for-decisions.svg"
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/why_simulate_real_world_systems/simulations-decision-advantages.svg"
+nocite: |
+  @epstein2008, @box1976, @leutbecher2008, @lawkelton2014
 ---
 
 # Why simulate real-world systems?
@@ -250,3 +252,8 @@ This can be a real advantage for decision-making technologies, since human users
 })();
 </script>
 ```
+
+## References and further reading
+
+::: {#refs}
+:::

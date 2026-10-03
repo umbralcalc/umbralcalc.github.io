@@ -6,6 +6,8 @@ order: 2
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/how_can_a_simulation_be_wrong/sampling-prevalence.svg"
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/how_can_a_simulation_be_wrong/additional-uncertainty-with-trajectories.svg"
+nocite: |
+  @box1976, @sargent2013, @saltelli2019
 ---
 
 # How can a simulation be wrong?
@@ -43,5 +45,7 @@ One might imagine, given our example earlier, that stopping mass treatment on th
 
 The key takeaway from this is that simulations may always be wrong to some degree, but isolating how wrong they are to the parts of the system which we are using to learn better actions from is critical to trust.
 
+## References and further reading
 
-
+::: {#refs}
+:::

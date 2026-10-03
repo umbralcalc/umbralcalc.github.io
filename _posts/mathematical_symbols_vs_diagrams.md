@@ -5,6 +5,8 @@ order: 1
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/mathematical_symbols_vs_diagrams/diagrams-vs-symbols.svg"
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/mathematical_symbols_vs_diagrams/maths-to-diagrams.svg"
+nocite: |
+  @larkinsimon1987, @harel1988, @tufte2001
 ---
 
 # Mathematical symbols vs diagrams
@@ -29,3 +31,8 @@ The diagrammatic language we use owes its mathematical rigour to the fact that [
 Since all of the practically useful mathematical calculations that we typically talk about on this blog must ultimately be expressed in a computer, we can always find some diagrammatic description of the relevant mathematics that leverages the function abstractions.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/mathematical_symbols_vs_diagrams/maths-to-diagrams.svg" width=600/></center>
+
+## References and further reading
+
+::: {#refs}
+:::
