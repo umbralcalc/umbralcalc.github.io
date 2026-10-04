@@ -848,6 +848,8 @@
 
                     const coverImage = document.createElement('img');
                     coverImage.src = getCoverImageUrl(tag);
+                    coverImage.loading = 'lazy';
+                    coverImage.decoding = 'async';
                     coverImage.alt = `${tag} cover`;
                     coverImage.className = 'collection-thumb';
 
@@ -884,6 +886,8 @@
                             post.images.forEach(imagePath => {
                                 const img = document.createElement('img');
                                 img.src = imagePath;
+                                img.loading = 'lazy';
+                                img.decoding = 'async';
                                 img.alt = post.title;
                                 img.onerror = function() {
                                     this.style.display = 'none';
@@ -975,6 +979,8 @@
                             post.images.forEach(imagePath => {
                                 const img = document.createElement('img');
                                 img.src = imagePath;
+                                img.loading = 'lazy';
+                                img.decoding = 'async';
                                 img.alt = post.title;
                                 postImages.appendChild(img);
                             });

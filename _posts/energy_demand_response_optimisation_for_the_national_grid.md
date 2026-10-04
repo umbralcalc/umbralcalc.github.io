@@ -251,7 +251,18 @@ Pick a dispatch policy, a grid scenario, and tune the price thresholds; watch ho
             if (btn) btn.addEventListener('click', function () { startWorker(renderer); });
         }
         publishActions();
-        startWorker(renderer);
+        // Defer the WASM download and first run until the widget nears the
+        // viewport, so readers who never scroll this far don't pay for it.
+        if ('IntersectionObserver' in self) {
+            var observer = new IntersectionObserver(function (entries) {
+                if (!entries.some(function (e) { return e.isIntersecting; })) return;
+                observer.disconnect();
+                startWorker(renderer);
+            }, { rootMargin: '200px' });
+            observer.observe(widget);
+        } else {
+            startWorker(renderer);
+        }
     }).catch(function (err) {
         console.error(err);
         setStatus('Failed to load dexetera runtime: ' + err.message);
