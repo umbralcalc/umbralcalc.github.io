@@ -14,7 +14,7 @@ nocite: |
 
 UK small business support comes in different flavours (rates relief, startup grants, incubators, mentoring, etc.): how should a cash-constrained policymaker has to choose between them? To maximise what?
 
-The simulation below (in this case it's just one simple state partition!) is calibrated to ONS business demography and Companies House register data for Kingston upon Hull, evaluating how six support portfolios shift five-year survival and register stock under three macro scenarios.
+The simulation below (in this case it's just one simple state partition) is calibrated to ONS business demography and Companies House register data for Kingston upon Hull, evaluating how six support portfolios shift five-year survival and register stock under three macro scenarios.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/support_policies_for_small_business_survival/business-survival-code.svg" width="200"/></center>
 
