@@ -6,7 +6,7 @@
     <description>Visual explorations in science and computation.</description>
     <language>en</language>
     <atom:link href="https://umbralcalc.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <lastBuildDate>Sun, 04 Oct 2026 07:15:48 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 04 Oct 2026 08:35:44 +0000</lastBuildDate>
     <pubDate>Mon, 21 Sep 2026 07:06:33 +0100</pubDate>
     <item>
       <title>A visual design grammar for computational diagrams</title>
@@ -30,7 +30,7 @@
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/how_can_simulations_help_me_take_better_actions_introduction.html</guid>
       <pubDate>Sat, 16 May 2026 17:59:29 +0100</pubDate>
       <category>How can simulations help me take better actions?</category>
-      <description>This is a collection of simulated examples of real-world actions explored through interactive dashboards.</description>
+      <description>This is a collection of simulated examples of real-world actions explored through interactive dashboards. These dashboards are all powered by illustrative research models, not production-ready decision-support tools.</description>
     </item>
     <item>
       <title>Managing antimicrobial resistance (AMR) with hospital guidelines</title>
