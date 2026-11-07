@@ -113,6 +113,33 @@
             margin: 0.5rem 0 1.5rem;
         }
 
+        /* The cards sit in a window about four and a half cards tall; the
+           rest scrolls, and a fade shows while there is more below */
+        .results-window {
+            position: relative;
+            margin-top: 0.5rem;
+        }
+
+        .results-scroll {
+            overflow-y: auto;
+            padding-right: 0.25rem;
+        }
+
+        .results-window::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 3rem;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .results-window.is-scrollable:not(.is-at-end)::after { opacity: 1; }
+
         .results { list-style: none; }
 
         /* One card per question: its diagrams as thumbnails beside the
@@ -211,7 +238,11 @@
 
         <input class="ask" id="ask" type="search" placeholder="Ask something... e.g. how can a simulation be wrong?" autocomplete="off" />
         <p class="ask-hint" id="ask-hint">Matches question titles, first paragraphs and references.</p>
-        <ul class="results" id="results"></ul>
+        <div class="results-window" id="results-window">
+            <div class="results-scroll" id="results-scroll">
+                <ul class="results" id="results"></ul>
+            </div>
+        </div>
 
 
         <footer>
@@ -348,8 +379,34 @@
                     results.appendChild(li);
                 });
             }
-            ask.addEventListener('input', () => render(ask.value));
+            ask.addEventListener('input', () => { render(ask.value); sizeWindow(); });
             render('');
+            sizeWindow();
+            window.addEventListener('resize', sizeWindow);
+            scroll.addEventListener('scroll', updateHint);
+            // Thumbnails change card heights as they load
+            results.addEventListener('load', sizeWindow, true);
+        }
+
+        // Cap the window at the bottom of the fourth card plus half of the
+        // fifth, so it is clear there is more to scroll to
+        const win = document.getElementById('results-window');
+        const scroll = document.getElementById('results-scroll');
+        function sizeWindow() {
+            const cards = results.querySelectorAll('.result');
+            scroll.style.maxHeight = '';
+            if (cards.length > 5) {
+                const top = results.getBoundingClientRect().top;
+                const fourth = cards[3].getBoundingClientRect().bottom - top;
+                const fifth = cards[4].getBoundingClientRect();
+                scroll.style.maxHeight = Math.round(fourth + fifth.height / 2) + 'px';
+            }
+            updateHint();
+        }
+        function updateHint() {
+            const scrollable = scroll.scrollHeight > scroll.clientHeight + 1;
+            win.classList.toggle('is-scrollable', scrollable);
+            win.classList.toggle('is-at-end', scroll.scrollTop + scroll.clientHeight >= scroll.scrollHeight - 4);
         }
 
     })();
