@@ -36,7 +36,7 @@ FORECASTS_JSON = os.path.join(ROOT, "forecasts.json")
 FORECASTS_ROOT = "Forecasts"
 BASE_URL = "https://umbralcalc.github.io"
 SITE_NAME = "umbralcalculations"
-AUTHOR = "Hardwick, Robert"
+AUTHOR = "Hardwick, Robert J."
 ASSET_HOST = "r2.dev"
 
 REF_LINK = re.compile(r"\]\(#ref-([A-Za-z0-9_][A-Za-z0-9_:.#$%&+?<>~/-]*)\)")
