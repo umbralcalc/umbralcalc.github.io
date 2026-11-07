@@ -1,0 +1,55 @@
+name: pages
+# Builds the site with build.sh and publishes it to GitHub Pages. Nothing
+# generated is committed: every push to main rebuilds and deploys. Pull
+# requests build too, so a broken post or a bad citation fails before merge,
+# but only main deploys.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # post dates come from each file's first commit
+      - name: Install pandoc and PyYAML
+        run: |
+          wget -q https://github.com/jgm/pandoc/releases/download/3.8.2/pandoc-3.8.2-1-amd64.deb
+          sudo dpkg -i pandoc-3.8.2-1-amd64.deb
+          sudo apt-get install -y --no-install-recommends python3-yaml
+          pandoc --version | head -1
+      - run: ./build.sh
+      - name: Assemble the site
+        run: |
+          mkdir _site
+          cp -r index.html about.html cv.html forecasts.json posts posts.json questions.json feed.xml sitemap.xml robots.txt _site/
+          [ -f .nojekyll ] && cp .nojekyll _site/ || true
+      - if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
