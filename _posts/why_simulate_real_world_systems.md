@@ -6,7 +6,7 @@ images:
 aliases:
 - "Why simulate real-world systems?"
 cites:
-- "[[how_can_i_simulate_the_real_world_introduction]]"
+- "[[how_can_i_simulate_the_real_world]]"
 nocite: |
   @epstein2008, @box1976, @lawkelton2014
 ---

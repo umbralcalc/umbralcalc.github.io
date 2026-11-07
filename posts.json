@@ -1,14 +1,5 @@
 [
   {
-    "title": "What is the visual grammar of these diagrams?",
-    "slug": "a_visual_design_grammar_for_computational_diagrams",
-    "url": "/posts/a_visual_design_grammar_for_computational_diagrams.html",
-    "tag": "Loose Threads",
-    "draft": false,
-    "date": "",
-    "images": []
-  },
-  {
     "title": "Are diagrams mathematically rigorous?",
     "slug": "are_diagrams_mathematically_rigorous",
     "url": "/posts/are_diagrams_mathematically_rigorous.html",
@@ -18,35 +9,6 @@
     "images": [
       "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/mathematical_symbols_vs_diagrams/maths-to-diagrams.svg"
     ]
-  },
-  {
-    "title": "Can I backtest the actions a simulation recommends?",
-    "slug": "backtesting_and_other_challenges",
-    "url": "/posts/backtesting_and_other_challenges.html",
-    "tag": "How can I trust the actions I take in simulations?",
-    "draft": true,
-    "date": "",
-    "images": []
-  },
-  {
-    "title": "What is black box AI?",
-    "slug": "black_box_ai_is_an_accelerator_paradigm",
-    "url": "/posts/black_box_ai_is_an_accelerator_paradigm.html",
-    "tag": "Loose Threads",
-    "draft": false,
-    "date": "",
-    "images": [
-      "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/model-predict.svg"
-    ]
-  },
-  {
-    "title": "What makes a simulation output look trustworthy?",
-    "slug": "building_trust_with_visualisations",
-    "url": "/posts/building_trust_with_visualisations.html",
-    "tag": "How can I trust the actions I take in simulations?",
-    "draft": true,
-    "date": "",
-    "images": []
   },
   {
     "title": "Can a simulation learn as the data arrives?",
@@ -71,6 +33,35 @@
     ]
   },
   {
+    "title": "Can hospital prescribing guidelines bring resistance down?",
+    "slug": "can_hospital_prescribing_guidelines_bring_resistance_down",
+    "url": "/posts/can_hospital_prescribing_guidelines_bring_resistance_down.html",
+    "tag": "How can simulations help me take better actions?",
+    "draft": false,
+    "date": "",
+    "images": [
+      "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/managing_antimicrobial_resistance_with_hospital_guidelines/antimicrobial-resistance-code.svg"
+    ]
+  },
+  {
+    "title": "Can I backtest the actions a simulation recommends?",
+    "slug": "can_i_backtest_the_actions_a_simulation_recommends",
+    "url": "/posts/can_i_backtest_the_actions_a_simulation_recommends.html",
+    "tag": "How can I trust the actions I take in simulations?",
+    "draft": true,
+    "date": "",
+    "images": []
+  },
+  {
+    "title": "Can I find a policy without a simulation?",
+    "slug": "can_i_find_a_policy_without_a_simulation",
+    "url": "/posts/can_i_find_a_policy_without_a_simulation.html",
+    "tag": "How do I automate taking actions with simulations?",
+    "draft": true,
+    "date": "",
+    "images": []
+  },
+  {
     "title": "Can one trajectory be enough to estimate statistics?",
     "slug": "can_one_trajectory_be_enough_to_estimate_statistics",
     "url": "/posts/can_one_trajectory_be_enough_to_estimate_statistics.html",
@@ -90,28 +81,6 @@
     "date": "",
     "images": [
       "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/quantum-batch.svg"
-    ]
-  },
-  {
-    "title": "How should a grid battery be dispatched as the grid gets greener?",
-    "slug": "energy_demand_response_optimisation_for_the_national_grid",
-    "url": "/posts/energy_demand_response_optimisation_for_the_national_grid.html",
-    "tag": "How can simulations help me take better actions?",
-    "draft": false,
-    "date": "",
-    "images": [
-      "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/energy_demand_response_optimisation_for_the_national_grid/energy-balancer-code.svg"
-    ]
-  },
-  {
-    "title": "When should a rugby manager make substitutions?",
-    "slug": "evaluating_rugby_manager_decision_making",
-    "url": "/posts/evaluating_rugby_manager_decision_making.html",
-    "tag": "How can simulations help me take better actions?",
-    "draft": false,
-    "date": "",
-    "images": [
-      "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/evaluating_rugby_manager_decision_making/trywizard-simulation-code.svg"
     ]
   },
   {
@@ -149,8 +118,8 @@
   },
   {
     "title": "How can I simulate the real world?",
-    "slug": "how_can_i_simulate_the_real_world_introduction",
-    "url": "/posts/how_can_i_simulate_the_real_world_introduction.html",
+    "slug": "how_can_i_simulate_the_real_world",
+    "url": "/posts/how_can_i_simulate_the_real_world.html",
     "tag": "How can I simulate the real world?",
     "draft": false,
     "date": "",
@@ -171,8 +140,8 @@
   },
   {
     "title": "How can I trust the actions I take in simulations?",
-    "slug": "how_can_i_trust_the_actions_i_take_in_simulations_introduction",
-    "url": "/posts/how_can_i_trust_the_actions_i_take_in_simulations_introduction.html",
+    "slug": "how_can_i_trust_the_actions_i_take_in_simulations",
+    "url": "/posts/how_can_i_trust_the_actions_i_take_in_simulations.html",
     "tag": "How can I trust the actions I take in simulations?",
     "draft": true,
     "date": "",
@@ -191,8 +160,8 @@
   },
   {
     "title": "How can simulations help me take better actions?",
-    "slug": "how_can_simulations_help_me_take_better_actions_introduction",
-    "url": "/posts/how_can_simulations_help_me_take_better_actions_introduction.html",
+    "slug": "how_can_simulations_help_me_take_better_actions",
+    "url": "/posts/how_can_simulations_help_me_take_better_actions.html",
     "tag": "How can simulations help me take better actions?",
     "draft": false,
     "date": "",
@@ -213,8 +182,8 @@
   },
   {
     "title": "How do I automate taking actions with simulations?",
-    "slug": "how_do_i_automate_taking_actions_with_simulations_introduction",
-    "url": "/posts/how_do_i_automate_taking_actions_with_simulations_introduction.html",
+    "slug": "how_do_i_automate_taking_actions_with_simulations",
+    "url": "/posts/how_do_i_automate_taking_actions_with_simulations.html",
     "tag": "How do I automate taking actions with simulations?",
     "draft": true,
     "date": "",
@@ -233,12 +202,33 @@
   },
   {
     "title": "How do I design using simulations?",
-    "slug": "how_do_i_design_using_simulations_introduction",
-    "url": "/posts/how_do_i_design_using_simulations_introduction.html",
+    "slug": "how_do_i_design_using_simulations",
+    "url": "/posts/how_do_i_design_using_simulations.html",
     "tag": "How do I design using simulations?",
     "draft": true,
     "date": "",
     "images": []
+  },
+  {
+    "title": "How do I set up a simulation to learn a policy?",
+    "slug": "how_do_i_set_up_a_simulation_to_learn_a_policy",
+    "url": "/posts/how_do_i_set_up_a_simulation_to_learn_a_policy.html",
+    "tag": "How do I automate taking actions with simulations?",
+    "draft": true,
+    "date": "",
+    "images": []
+  },
+  {
+    "title": "How do simulations run on CPUs?",
+    "slug": "how_do_simulations_run_on_cpus",
+    "url": "/posts/how_do_simulations_run_on_cpus.html",
+    "tag": "Loose Threads",
+    "draft": false,
+    "date": "",
+    "images": [
+      "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/cpu-graph-edges.svg",
+      "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/cpu-stepwise-architectures.svg"
+    ]
   },
   {
     "title": "How do state partitions share information?",
@@ -319,6 +309,40 @@
     ]
   },
   {
+    "title": "How much flood risk can natural flood management offset?",
+    "slug": "how_much_flood_risk_can_natural_flood_management_offset",
+    "url": "/posts/how_much_flood_risk_can_natural_flood_management_offset.html",
+    "tag": "How can simulations help me take better actions?",
+    "draft": false,
+    "date": "",
+    "images": [
+      "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/managing_flood_damage_risk_under_climate_change/floodrisk-simulation-code.svg"
+    ]
+  },
+  {
+    "title": "How sensitive is my action to the simulation?",
+    "slug": "how_sensitive_is_my_action_to_the_simulation",
+    "url": "/posts/how_sensitive_is_my_action_to_the_simulation.html",
+    "tag": "How can I trust the actions I take in simulations?",
+    "draft": true,
+    "date": "",
+    "images": [
+      "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/preparing_a_simulation_for_action_taking/changing-parameters.svg",
+      "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/preparing_a_simulation_for_action_taking/changing-simulation.svg"
+    ]
+  },
+  {
+    "title": "How should a grid battery be dispatched as the grid gets greener?",
+    "slug": "how_should_a_grid_battery_be_dispatched_as_the_grid_gets_greener",
+    "url": "/posts/how_should_a_grid_battery_be_dispatched_as_the_grid_gets_greener.html",
+    "tag": "How can simulations help me take better actions?",
+    "draft": false,
+    "date": "",
+    "images": [
+      "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/energy_demand_response_optimisation_for_the_national_grid/energy-balancer-code.svg"
+    ]
+  },
+  {
     "title": "How well does a policy generalise?",
     "slug": "how_well_does_a_policy_generalise",
     "url": "/posts/how_well_does_a_policy_generalise.html",
@@ -346,123 +370,6 @@
     "draft": false,
     "date": "",
     "images": []
-  },
-  {
-    "title": "Can I find a policy without a simulation?",
-    "slug": "learning_optimal_policies_with_a_trained_model",
-    "url": "/posts/learning_optimal_policies_with_a_trained_model.html",
-    "tag": "How do I automate taking actions with simulations?",
-    "draft": true,
-    "date": "",
-    "images": []
-  },
-  {
-    "title": "How do I set up a simulation to learn a policy?",
-    "slug": "learning_optimal_policies_with_the_simulation_itself",
-    "url": "/posts/learning_optimal_policies_with_the_simulation_itself.html",
-    "tag": "How do I automate taking actions with simulations?",
-    "draft": true,
-    "date": "",
-    "images": []
-  },
-  {
-    "title": "What objective does a simulation learn against?",
-    "slug": "learning_simulations_of_the_real_world",
-    "url": "/posts/learning_simulations_of_the_real_world.html",
-    "tag": "How can I simulate the real world?",
-    "draft": false,
-    "date": "",
-    "images": [
-      "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/objectives.svg"
-    ]
-  },
-  {
-    "title": "Can hospital prescribing guidelines bring resistance down?",
-    "slug": "managing_antimicrobial_resistance_with_hospital_guidelines",
-    "url": "/posts/managing_antimicrobial_resistance_with_hospital_guidelines.html",
-    "tag": "How can simulations help me take better actions?",
-    "draft": false,
-    "date": "",
-    "images": [
-      "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/managing_antimicrobial_resistance_with_hospital_guidelines/antimicrobial-resistance-code.svg"
-    ]
-  },
-  {
-    "title": "How much flood risk can natural flood management offset?",
-    "slug": "managing_flood_damage_risk_under_climate_change",
-    "url": "/posts/managing_flood_damage_risk_under_climate_change.html",
-    "tag": "How can simulations help me take better actions?",
-    "draft": false,
-    "date": "",
-    "images": [
-      "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/managing_flood_damage_risk_under_climate_change/floodrisk-simulation-code.svg"
-    ]
-  },
-  {
-    "title": "Why no mathematical symbols?",
-    "slug": "mathematical_symbols_vs_diagrams",
-    "url": "/posts/mathematical_symbols_vs_diagrams.html",
-    "tag": "Loose Threads",
-    "draft": false,
-    "date": "",
-    "images": [
-      "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/mathematical_symbols_vs_diagrams/diagrams-vs-symbols.svg"
-    ]
-  },
-  {
-    "title": "How sensitive is my action to the simulation?",
-    "slug": "preparing_a_simulation_for_action_taking",
-    "url": "/posts/preparing_a_simulation_for_action_taking.html",
-    "tag": "How can I trust the actions I take in simulations?",
-    "draft": true,
-    "date": "",
-    "images": [
-      "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/preparing_a_simulation_for_action_taking/changing-parameters.svg",
-      "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/preparing_a_simulation_for_action_taking/changing-simulation.svg"
-    ]
-  },
-  {
-    "title": "Why think about a simulation probabilistically?",
-    "slug": "probabilistic_thinking_for_simulations",
-    "url": "/posts/probabilistic_thinking_for_simulations.html",
-    "tag": "How can I simulate the real world?",
-    "draft": false,
-    "date": "",
-    "images": [
-      "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/probabilites-vs-trajectories.svg"
-    ]
-  },
-  {
-    "title": "What does a complete simulation look like?",
-    "slug": "simulating_real_world_systems",
-    "url": "/posts/simulating_real_world_systems.html",
-    "tag": "How can I simulate the real world?",
-    "draft": false,
-    "date": "",
-    "images": []
-  },
-  {
-    "title": "How do simulations run on CPUs?",
-    "slug": "simulation_architectures_on_different_hardware",
-    "url": "/posts/simulation_architectures_on_different_hardware.html",
-    "tag": "Loose Threads",
-    "draft": false,
-    "date": "",
-    "images": [
-      "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/cpu-graph-edges.svg",
-      "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/cpu-stepwise-architectures.svg"
-    ]
-  },
-  {
-    "title": "Which support policies keep small businesses alive?",
-    "slug": "support_policies_for_small_business_survival",
-    "url": "/posts/support_policies_for_small_business_survival.html",
-    "tag": "How can simulations help me take better actions?",
-    "draft": false,
-    "date": "",
-    "images": [
-      "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/support_policies_for_small_business_survival/business-survival-code.svg"
-    ]
   },
   {
     "title": "What can a simulation do that a prediction cannot?",
@@ -529,6 +436,15 @@
     "images": [
       "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/a_visual_design_grammar_for_computational_diagrams/blog-objects.svg"
     ]
+  },
+  {
+    "title": "What does a complete simulation look like?",
+    "slug": "what_does_a_complete_simulation_look_like",
+    "url": "/posts/what_does_a_complete_simulation_look_like.html",
+    "tag": "How can I simulate the real world?",
+    "draft": false,
+    "date": "",
+    "images": []
   },
   {
     "title": "What happens when the system drifts?",
@@ -608,6 +524,17 @@
     ]
   },
   {
+    "title": "What is black box AI?",
+    "slug": "what_is_black_box_ai",
+    "url": "/posts/what_is_black_box_ai.html",
+    "tag": "Loose Threads",
+    "draft": false,
+    "date": "",
+    "images": [
+      "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/model-predict.svg"
+    ]
+  },
+  {
     "title": "What is discounted future reward?",
     "slug": "what_is_discounted_future_reward",
     "url": "/posts/what_is_discounted_future_reward.html",
@@ -628,6 +555,24 @@
     "images": []
   },
   {
+    "title": "What is the visual grammar of these diagrams?",
+    "slug": "what_is_the_visual_grammar_of_these_diagrams",
+    "url": "/posts/what_is_the_visual_grammar_of_these_diagrams.html",
+    "tag": "Loose Threads",
+    "draft": false,
+    "date": "",
+    "images": []
+  },
+  {
+    "title": "What makes a simulation output look trustworthy?",
+    "slug": "what_makes_a_simulation_output_look_trustworthy",
+    "url": "/posts/what_makes_a_simulation_output_look_trustworthy.html",
+    "tag": "How can I trust the actions I take in simulations?",
+    "draft": true,
+    "date": "",
+    "images": []
+  },
+  {
     "title": "What makes an action good?",
     "slug": "what_makes_an_action_good",
     "url": "/posts/what_makes_an_action_good.html",
@@ -636,6 +581,17 @@
     "date": "",
     "images": [
       "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/what_makes_an_action_good/possible-outcome-trajectories.svg"
+    ]
+  },
+  {
+    "title": "What objective does a simulation learn against?",
+    "slug": "what_objective_does_a_simulation_learn_against",
+    "url": "/posts/what_objective_does_a_simulation_learn_against.html",
+    "tag": "How can I simulate the real world?",
+    "draft": false,
+    "date": "",
+    "images": [
+      "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/objectives.svg"
     ]
   },
   {
@@ -661,6 +617,17 @@
     ]
   },
   {
+    "title": "When should a rugby manager make substitutions?",
+    "slug": "when_should_a_rugby_manager_make_substitutions",
+    "url": "/posts/when_should_a_rugby_manager_make_substitutions.html",
+    "tag": "How can simulations help me take better actions?",
+    "draft": false,
+    "date": "",
+    "images": [
+      "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/evaluating_rugby_manager_decision_making/trywizard-simulation-code.svg"
+    ]
+  },
+  {
     "title": "Which simulation should I use to take an action?",
     "slug": "which_simulation_should_i_use_to_take_an_action",
     "url": "/posts/which_simulation_should_i_use_to_take_an_action.html",
@@ -668,6 +635,17 @@
     "draft": true,
     "date": "",
     "images": []
+  },
+  {
+    "title": "Which support policies keep small businesses alive?",
+    "slug": "which_support_policies_keep_small_businesses_alive",
+    "url": "/posts/which_support_policies_keep_small_businesses_alive.html",
+    "tag": "How can simulations help me take better actions?",
+    "draft": false,
+    "date": "",
+    "images": [
+      "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/support_policies_for_small_business_survival/business-survival-code.svg"
+    ]
   },
   {
     "title": "Why can't we track every possible trajectory?",
@@ -701,6 +679,17 @@
     ]
   },
   {
+    "title": "Why no mathematical symbols?",
+    "slug": "why_no_mathematical_symbols",
+    "url": "/posts/why_no_mathematical_symbols.html",
+    "tag": "Loose Threads",
+    "draft": false,
+    "date": "",
+    "images": [
+      "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/mathematical_symbols_vs_diagrams/diagrams-vs-symbols.svg"
+    ]
+  },
+  {
     "title": "Why simulate real-world systems?",
     "slug": "why_simulate_real_world_systems",
     "url": "/posts/why_simulate_real_world_systems.html",
@@ -709,6 +698,17 @@
     "date": "",
     "images": [
       "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/why_simulate_real_world_systems/simulations-for-decisions.svg"
+    ]
+  },
+  {
+    "title": "Why think about a simulation probabilistically?",
+    "slug": "why_think_about_a_simulation_probabilistically",
+    "url": "/posts/why_think_about_a_simulation_probabilistically.html",
+    "tag": "How can I simulate the real world?",
+    "draft": false,
+    "date": "",
+    "images": [
+      "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/probabilites-vs-trajectories.svg"
     ]
   }
 ]

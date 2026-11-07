@@ -7,7 +7,7 @@ aliases:
 - "Why think about a simulation probabilistically?"
 cites:
 - "[[what_is_a_simulation_run]]"
-- "[[how_can_i_simulate_the_real_world_introduction]]"
+- "[[how_can_i_simulate_the_real_world]]"
 nocite: |
   @owen2013
 ---

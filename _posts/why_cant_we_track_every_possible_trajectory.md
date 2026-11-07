@@ -7,7 +7,7 @@ aliases:
   - Why can't we track every possible trajectory?
 cites:
   - "[[what_is_a_conditional_probability_in_a_simulation]]"
-  - "[[how_can_i_simulate_the_real_world_introduction]]"
+  - "[[how_can_i_simulate_the_real_world]]"
 nocite: |
   @owen2013, @chopin2020
 ---

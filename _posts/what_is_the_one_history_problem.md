@@ -6,7 +6,7 @@ aliases:
 - "What is the one-history problem?"
 cites:
 - "[[how_can_i_tell_luck_from_skill]]"
-- "[[how_can_i_trust_the_actions_i_take_in_simulations_introduction]]"
+- "[[how_can_i_trust_the_actions_i_take_in_simulations]]"
 nocite: |
   @imbensrubin2015, @levine2020
 ---

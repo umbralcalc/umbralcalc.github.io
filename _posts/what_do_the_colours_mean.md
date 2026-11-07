@@ -6,7 +6,7 @@ images:
 aliases:
 - "What do the colours mean?"
 cites:
-- "[[a_visual_design_grammar_for_computational_diagrams]]"
+- "[[what_is_the_visual_grammar_of_these_diagrams]]"
 nocite: |
   @crameri2020
 ---

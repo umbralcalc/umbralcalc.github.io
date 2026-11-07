@@ -8,7 +8,7 @@ images:
 aliases:
 - "Which support policies keep small businesses alive?"
 cites:
-- "[[how_can_simulations_help_me_take_better_actions_introduction]]"
+- "[[how_can_simulations_help_me_take_better_actions]]"
 - "[[what_is_a_state_partition]]"
 - "[[how_does_a_simulation_learn_its_parameters_from_data]]"
 nocite: |

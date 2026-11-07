@@ -5,8 +5,8 @@ draft: true
 aliases:
 - "Why does the simulation predict what it does?"
 cites:
-- "[[preparing_a_simulation_for_action_taking]]"
-- "[[how_can_i_trust_the_actions_i_take_in_simulations_introduction]]"
+- "[[how_sensitive_is_my_action_to_the_simulation]]"
+- "[[how_can_i_trust_the_actions_i_take_in_simulations]]"
 nocite: |
   @lundberg2017
 ---

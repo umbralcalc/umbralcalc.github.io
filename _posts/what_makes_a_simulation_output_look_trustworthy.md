@@ -6,7 +6,7 @@ aliases:
 - "What makes a simulation output look trustworthy?"
 cites:
 - "[[how_can_a_simulation_be_wrong]]"
-- "[[how_can_i_trust_the_actions_i_take_in_simulations_introduction]]"
+- "[[how_can_i_trust_the_actions_i_take_in_simulations]]"
 nocite: |
   @tufte2001, @bertin1983
 ---

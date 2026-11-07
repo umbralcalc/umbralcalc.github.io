@@ -8,7 +8,7 @@ aliases:
 cites:
   - "[[what_is_a_state_partition]]"
   - "[[what_decides_when_the_next_timestep_happens]]"
-  - "[[how_can_i_simulate_the_real_world_introduction]]"
+  - "[[how_can_i_simulate_the_real_world]]"
 nocite: |
   @durbinkoopman2012
 ---

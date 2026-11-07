@@ -4,7 +4,7 @@ tag: "Loose Threads"
 aliases:
 - "What is the visual grammar of these diagrams?"
 cites:
-- "[[mathematical_symbols_vs_diagrams]]"
+- "[[why_no_mathematical_symbols]]"
 - "[[what_do_the_colours_mean]]"
 - "[[what_do_the_arrows_mean]]"
 - "[[what_do_the_shapes_mean]]"

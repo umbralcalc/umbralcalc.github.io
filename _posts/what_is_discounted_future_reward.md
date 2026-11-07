@@ -7,8 +7,8 @@ images:
 aliases:
 - "What is discounted future reward?"
 cites:
-- "[[learning_optimal_policies_with_the_simulation_itself]]"
-- "[[how_do_i_automate_taking_actions_with_simulations_introduction]]"
+- "[[how_do_i_set_up_a_simulation_to_learn_a_policy]]"
+- "[[how_do_i_automate_taking_actions_with_simulations]]"
 nocite: |
   @suttonbarto2018
 ---

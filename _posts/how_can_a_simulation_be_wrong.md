@@ -8,7 +8,7 @@ aliases:
 - "How can a simulation be wrong?"
 cites:
 - "[[what_if_i_can_only_partly_observe_the_system]]"
-- "[[how_can_i_trust_the_actions_i_take_in_simulations_introduction]]"
+- "[[how_can_i_trust_the_actions_i_take_in_simulations]]"
 nocite: |
   @box1976, @sargent2013, @saltelli2019
 ---

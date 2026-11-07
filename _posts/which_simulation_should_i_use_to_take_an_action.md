@@ -6,8 +6,8 @@ aliases:
 - "Which simulation should I use to take an action?"
 cites:
 - "[[how_do_i_choose_between_simulation_structures]]"
-- "[[preparing_a_simulation_for_action_taking]]"
-- "[[how_can_i_trust_the_actions_i_take_in_simulations_introduction]]"
+- "[[how_sensitive_is_my_action_to_the_simulation]]"
+- "[[how_can_i_trust_the_actions_i_take_in_simulations]]"
 nocite: |
   @kassraftery1995, @pearl2009
 ---

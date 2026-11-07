@@ -8,8 +8,8 @@ aliases:
 - "What makes an action good?"
 cites:
 - "[[how_does_an_action_enter_a_simulation]]"
-- "[[probabilistic_thinking_for_simulations]]"
-- "[[how_can_i_trust_the_actions_i_take_in_simulations_introduction]]"
+- "[[why_think_about_a_simulation_probabilistically]]"
+- "[[how_can_i_trust_the_actions_i_take_in_simulations]]"
 nocite: |
   @mauboussin2012, @suttonbarto2018
 ---
@@ -17,7 +17,7 @@ nocite: |
 # What makes an action good?
 <div style="height:0.75em;"></div>
 
-From the [[probabilistic_thinking_for_simulations|probabilistic perspective]], we only ever see _one_ action-to-outcome pairing in most real world action-taking scenarios. The fuller range of possibilities that a simulation represents is much larger.
+From the [[why_think_about_a_simulation_probabilistically|probabilistic perspective]], we only ever see _one_ action-to-outcome pairing in most real world action-taking scenarios. The fuller range of possibilities that a simulation represents is much larger.
 
 Simulation trajectories follow different paths through the space of possible outcomes from our actions in time.
 

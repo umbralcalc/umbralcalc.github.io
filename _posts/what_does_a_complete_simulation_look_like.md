@@ -4,13 +4,13 @@ tag: "How can I simulate the real world?"
 aliases:
 - "What does a complete simulation look like?"
 cites:
-- "[[evaluating_rugby_manager_decision_making]]"
-- "[[managing_antimicrobial_resistance_with_hospital_guidelines]]"
-- "[[managing_flood_damage_risk_under_climate_change]]"
-- "[[energy_demand_response_optimisation_for_the_national_grid]]"
-- "[[support_policies_for_small_business_survival]]"
-- "[[simulation_architectures_on_different_hardware]]"
-- "[[how_can_i_simulate_the_real_world_introduction]]"
+- "[[when_should_a_rugby_manager_make_substitutions]]"
+- "[[can_hospital_prescribing_guidelines_bring_resistance_down]]"
+- "[[how_much_flood_risk_can_natural_flood_management_offset]]"
+- "[[how_should_a_grid_battery_be_dispatched_as_the_grid_gets_greener]]"
+- "[[which_support_policies_keep_small_businesses_alive]]"
+- "[[how_do_simulations_run_on_cpus]]"
+- "[[how_can_i_simulate_the_real_world]]"
 nocite: |
   @box1976, @epstein2008, @cranmer2020, @jumper2021, @stochadex
 ---
@@ -263,7 +263,7 @@ The four layers we've built up (building blocks, probabilities, learning, decisi
 
 The [stochadex project](#ref-stochadex) is built on exactly these foundations, and the examples below describe interactive dashboards built with it. Each one is devoted to a specific real-world decision problem.
 
-Note: if you're curious how all this runs on different kinds of hardware, there's a separate post on [[simulation_architectures_on_different_hardware|simulation architectures]].
+Note: if you're curious how all this runs on different kinds of hardware, there's a separate post on [[how_do_simulations_run_on_cpus|simulation architectures]].
 
 ## References and further reading
 

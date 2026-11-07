@@ -9,8 +9,8 @@ aliases:
 - "What if I can only partly observe the system?"
 cites:
 - "[[how_does_an_action_enter_a_simulation]]"
-- "[[probabilistic_thinking_for_simulations]]"
-- "[[how_can_i_trust_the_actions_i_take_in_simulations_introduction]]"
+- "[[why_think_about_a_simulation_probabilistically]]"
+- "[[how_can_i_trust_the_actions_i_take_in_simulations]]"
 nocite: |
   @sargent2013
 ---
@@ -26,7 +26,7 @@ Making this example more realistic; you are not normally able to test every indi
 
 This immediately introduces a problem: how do you _know_ precisely when you have eliminated the disease? There is uncertainty in the exact state of the system at any moment in time.
 
-So a more complete picture of the [[probabilistic_thinking_for_simulations|probabilistic view we had before]] must take into account additional uncertainty into the range of possible states and propagate this into additional uncertainty in the range in possible outcomes.
+So a more complete picture of the [[why_think_about_a_simulation_probabilistically|probabilistic view we had before]] must take into account additional uncertainty into the range of possible states and propagate this into additional uncertainty in the range in possible outcomes.
 
 This essentially means more paths and possible outcomes.
 

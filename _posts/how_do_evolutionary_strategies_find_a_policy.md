@@ -8,7 +8,7 @@ aliases:
 - "How do evolutionary strategies find a policy?"
 cites:
 - "[[what_is_discounted_future_reward]]"
-- "[[how_do_i_automate_taking_actions_with_simulations_introduction]]"
+- "[[how_do_i_automate_taking_actions_with_simulations]]"
 nocite: |
   @hansen2001, @salimans2017
 ---

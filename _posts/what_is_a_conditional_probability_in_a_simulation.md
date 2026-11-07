@@ -7,7 +7,7 @@ aliases:
   - What is a conditional probability in a simulation?
 cites:
   - "[[how_is_the_probability_of_a_state_partition_history_evaluated]]"
-  - "[[how_can_i_simulate_the_real_world_introduction]]"
+  - "[[how_can_i_simulate_the_real_world]]"
 nocite: |
   @sarkka2013, @chopin2020
 ---

@@ -7,7 +7,7 @@ aliases:
 - "Is a sloppy simulation a bad one?"
 cites:
 - "[[how_does_a_simulation_learn_its_parameters_from_data]]"
-- "[[how_can_i_simulate_the_real_world_introduction]]"
+- "[[how_can_i_simulate_the_real_world]]"
 nocite: |
   @transtrum2015, @gutenkunst2007, @mao2024
 ---

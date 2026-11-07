@@ -8,7 +8,7 @@ aliases:
 - "How can I tell luck from skill?"
 cites:
 - "[[what_makes_an_action_good]]"
-- "[[how_can_i_trust_the_actions_i_take_in_simulations_introduction]]"
+- "[[how_can_i_trust_the_actions_i_take_in_simulations]]"
 nocite: |
   @mauboussin2012
 ---

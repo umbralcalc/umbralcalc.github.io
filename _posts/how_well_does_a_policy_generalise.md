@@ -7,7 +7,7 @@ aliases:
 cites:
 - "[[what_is_a_policy]]"
 - "[[is_a_sloppy_simulation_a_bad_one]]"
-- "[[how_do_i_automate_taking_actions_with_simulations_introduction]]"
+- "[[how_do_i_automate_taking_actions_with_simulations]]"
 nocite: |
   @transtrum2015
 ---

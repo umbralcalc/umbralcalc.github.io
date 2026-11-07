@@ -8,7 +8,7 @@ aliases:
 - "What is a policy?"
 cites:
 - "[[how_does_an_action_enter_a_simulation]]"
-- "[[how_do_i_automate_taking_actions_with_simulations_introduction]]"
+- "[[how_do_i_automate_taking_actions_with_simulations]]"
 nocite: |
   @suttonbarto2018
 ---

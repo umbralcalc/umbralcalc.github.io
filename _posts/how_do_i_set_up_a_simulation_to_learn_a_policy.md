@@ -7,7 +7,7 @@ aliases:
 cites:
 - "[[what_is_a_policy]]"
 - "[[what_is_a_state_partition]]"
-- "[[how_do_i_automate_taking_actions_with_simulations_introduction]]"
+- "[[how_do_i_automate_taking_actions_with_simulations]]"
 nocite: |
   @suttonbarto2018
 ---

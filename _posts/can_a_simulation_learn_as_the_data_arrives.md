@@ -8,7 +8,7 @@ aliases:
 cites:
 - "[[how_does_a_simulation_learn_its_parameters_from_data]]"
 - "[[can_one_trajectory_be_enough_to_estimate_statistics]]"
-- "[[how_can_i_simulate_the_real_world_introduction]]"
+- "[[how_can_i_simulate_the_real_world]]"
 nocite: |
   @gordon1993, @doucet2011
 ---

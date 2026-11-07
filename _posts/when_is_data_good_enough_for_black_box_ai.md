@@ -6,7 +6,7 @@ images:
 aliases:
 - "When is data good enough for black box AI?"
 cites:
-- "[[black_box_ai_is_an_accelerator_paradigm]]"
+- "[[what_is_black_box_ai]]"
 nocite: |
   @sambasivan2021
 ---

@@ -8,7 +8,7 @@ aliases:
 - "What is a state partition?"
 cites:
 - "[[how_does_a_simulation_keep_track_of_time]]"
-- "[[how_can_i_simulate_the_real_world_introduction]]"
+- "[[how_can_i_simulate_the_real_world]]"
 nocite: |
   @grimm2006, @durbinkoopman2012
 ---

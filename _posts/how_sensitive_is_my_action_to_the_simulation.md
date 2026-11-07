@@ -10,7 +10,7 @@ aliases:
 cites:
 - "[[how_can_a_simulation_be_wrong]]"
 - "[[is_a_sloppy_simulation_a_bad_one]]"
-- "[[how_can_i_trust_the_actions_i_take_in_simulations_introduction]]"
+- "[[how_can_i_trust_the_actions_i_take_in_simulations]]"
 nocite: |
   @saltelli2019, @sobol2001
 ---

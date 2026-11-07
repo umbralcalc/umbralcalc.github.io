@@ -7,7 +7,7 @@ aliases:
 - "What objective does a simulation learn against?"
 cites:
 - "[[how_do_we_get_probabilities_back_from_statistics]]"
-- "[[how_can_i_simulate_the_real_world_introduction]]"
+- "[[how_can_i_simulate_the_real_world]]"
 nocite: |
   @cranmer2020
 ---

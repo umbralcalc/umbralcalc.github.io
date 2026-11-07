@@ -7,7 +7,7 @@ aliases:
   - How is the probability of a state partition history evaluated?
 cites:
   - "[[how_are_a_partitions_next_values_calculated]]"
-  - "[[how_can_i_simulate_the_real_world_introduction]]"
+  - "[[how_can_i_simulate_the_real_world]]"
 nocite: |
   @sarkka2013
 ---

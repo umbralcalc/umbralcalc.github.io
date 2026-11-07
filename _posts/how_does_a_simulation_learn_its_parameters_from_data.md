@@ -6,9 +6,9 @@ images:
 aliases:
 - "How does a simulation learn its parameters from data?"
 cites:
-- "[[learning_simulations_of_the_real_world]]"
+- "[[what_objective_does_a_simulation_learn_against]]"
 - "[[what_is_a_state_partition]]"
-- "[[how_can_i_simulate_the_real_world_introduction]]"
+- "[[how_can_i_simulate_the_real_world]]"
 nocite: |
   @cranmer2020, @gordon1993
 ---

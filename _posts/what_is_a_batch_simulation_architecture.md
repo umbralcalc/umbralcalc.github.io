@@ -6,7 +6,7 @@ images:
 aliases:
 - "What is a batch simulation architecture?"
 cites:
-- "[[simulation_architectures_on_different_hardware]]"
+- "[[how_do_simulations_run_on_cpus]]"
 nocite: |
   @jouppi2017
 ---

@@ -8,7 +8,7 @@ aliases:
 cites:
   - "[[how_do_we_estimate_statistics_across_trajectories]]"
   - "[[can_one_trajectory_be_enough_to_estimate_statistics]]"
-  - "[[how_can_i_simulate_the_real_world_introduction]]"
+  - "[[how_can_i_simulate_the_real_world]]"
 nocite: |
   @sarkka2013, @doucet2011
 ---

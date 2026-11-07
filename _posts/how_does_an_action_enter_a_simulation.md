@@ -10,7 +10,7 @@ aliases:
 cites:
 - "[[how_are_a_partitions_next_values_calculated]]"
 - "[[what_is_a_state_partition]]"
-- "[[how_can_i_trust_the_actions_i_take_in_simulations_introduction]]"
+- "[[how_can_i_trust_the_actions_i_take_in_simulations]]"
 nocite: |
   @suttonbarto2018
 ---

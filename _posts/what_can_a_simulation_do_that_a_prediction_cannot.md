@@ -7,7 +7,7 @@ aliases:
 - "What can a simulation do that a prediction cannot?"
 cites:
 - "[[why_simulate_real_world_systems]]"
-- "[[how_can_i_simulate_the_real_world_introduction]]"
+- "[[how_can_i_simulate_the_real_world]]"
 nocite: |
   @leutbecher2008, @epstein2008
 ---

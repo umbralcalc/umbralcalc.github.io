@@ -6,7 +6,7 @@ images:
 aliases:
 - "Are diagrams mathematically rigorous?"
 cites:
-- "[[mathematical_symbols_vs_diagrams]]"
+- "[[why_no_mathematical_symbols]]"
 nocite: |
   @harel1988
 ---

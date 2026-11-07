@@ -8,7 +8,7 @@ aliases:
 cites:
   - "[[what_is_a_simulation_run]]"
   - "[[how_do_state_partitions_share_information]]"
-  - "[[how_can_i_simulate_the_real_world_introduction]]"
+  - "[[how_can_i_simulate_the_real_world]]"
 nocite: |
   @sarkka2013
 ---

@@ -6,8 +6,8 @@ images:
 aliases:
 - "How do we estimate statistics across trajectories?"
 cites:
-- "[[probabilistic_thinking_for_simulations]]"
-- "[[how_can_i_simulate_the_real_world_introduction]]"
+- "[[why_think_about_a_simulation_probabilistically]]"
+- "[[how_can_i_simulate_the_real_world]]"
 nocite: |
   @owen2013
 ---

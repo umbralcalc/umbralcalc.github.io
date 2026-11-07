@@ -5,9 +5,9 @@ draft: true
 aliases:
 - "How can interaction build trust?"
 cites:
-- "[[building_trust_with_visualisations]]"
-- "[[how_can_simulations_help_me_take_better_actions_introduction]]"
-- "[[how_can_i_trust_the_actions_i_take_in_simulations_introduction]]"
+- "[[what_makes_a_simulation_output_look_trustworthy]]"
+- "[[how_can_simulations_help_me_take_better_actions]]"
+- "[[how_can_i_trust_the_actions_i_take_in_simulations]]"
 nocite: |
   @tufte2001
 ---

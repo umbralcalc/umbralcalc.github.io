@@ -7,7 +7,7 @@ aliases:
   - What is a simulation run?
 cites:
   - "[[how_are_the_histories_updated_after_a_step]]"
-  - "[[how_can_i_simulate_the_real_world_introduction]]"
+  - "[[how_can_i_simulate_the_real_world]]"
 nocite: |
   @lawkelton2014
 ---

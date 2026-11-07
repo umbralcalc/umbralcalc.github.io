@@ -7,7 +7,7 @@ aliases:
 - "How do I choose between simulation structures?"
 cites:
 - "[[is_a_sloppy_simulation_a_bad_one]]"
-- "[[how_can_i_simulate_the_real_world_introduction]]"
+- "[[how_can_i_simulate_the_real_world]]"
 nocite: |
   @kassraftery1995, @quinn2023
 ---

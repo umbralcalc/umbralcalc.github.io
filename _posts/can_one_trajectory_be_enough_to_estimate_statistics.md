@@ -7,7 +7,7 @@ aliases:
 - "Can one trajectory be enough to estimate statistics?"
 cites:
 - "[[how_do_we_estimate_statistics_across_trajectories]]"
-- "[[how_can_i_simulate_the_real_world_introduction]]"
+- "[[how_can_i_simulate_the_real_world]]"
 nocite: |
   @doucet2011, @gordon1993
 ---

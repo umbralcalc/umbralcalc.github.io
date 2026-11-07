@@ -49,6 +49,24 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://umbralcalc.github.io/posts/can_hospital_prescribing_guidelines_bring_resistance_down.html</loc>
+    <lastmod>2026-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://umbralcalc.github.io/posts/can_i_backtest_the_actions_a_simulation_recommends.html</loc>
+    <lastmod>2026-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://umbralcalc.github.io/posts/can_i_find_a_policy_without_a_simulation.html</loc>
+    <lastmod>2026-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://umbralcalc.github.io/posts/can_one_trajectory_be_enough_to_estimate_statistics.html</loc>
     <lastmod>2026-11-07</lastmod>
     <changefreq>monthly</changefreq>
@@ -91,6 +109,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://umbralcalc.github.io/posts/how_can_i_simulate_the_real_world.html</loc>
+    <lastmod>2026-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://umbralcalc.github.io/posts/how_can_i_simulate_the_real_world_introduction.html</loc>
     <lastmod>2026-11-07</lastmod>
     <changefreq>monthly</changefreq>
@@ -98,6 +122,12 @@
   </url>
   <url>
     <loc>https://umbralcalc.github.io/posts/how_can_i_tell_luck_from_skill.html</loc>
+    <lastmod>2026-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://umbralcalc.github.io/posts/how_can_i_trust_the_actions_i_take_in_simulations.html</loc>
     <lastmod>2026-11-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -115,6 +145,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://umbralcalc.github.io/posts/how_can_simulations_help_me_take_better_actions.html</loc>
+    <lastmod>2026-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://umbralcalc.github.io/posts/how_can_simulations_help_me_take_better_actions_introduction.html</loc>
     <lastmod>2026-11-07</lastmod>
     <changefreq>monthly</changefreq>
@@ -122,6 +158,12 @@
   </url>
   <url>
     <loc>https://umbralcalc.github.io/posts/how_do_evolutionary_strategies_find_a_policy.html</loc>
+    <lastmod>2026-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://umbralcalc.github.io/posts/how_do_i_automate_taking_actions_with_simulations.html</loc>
     <lastmod>2026-11-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -139,7 +181,25 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://umbralcalc.github.io/posts/how_do_i_design_using_simulations.html</loc>
+    <lastmod>2026-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://umbralcalc.github.io/posts/how_do_i_design_using_simulations_introduction.html</loc>
+    <lastmod>2026-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://umbralcalc.github.io/posts/how_do_i_set_up_a_simulation_to_learn_a_policy.html</loc>
+    <lastmod>2026-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://umbralcalc.github.io/posts/how_do_simulations_run_on_cpus.html</loc>
     <lastmod>2026-11-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -182,6 +242,24 @@
   </url>
   <url>
     <loc>https://umbralcalc.github.io/posts/how_is_the_probability_of_a_state_partition_history_evaluated.html</loc>
+    <lastmod>2026-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://umbralcalc.github.io/posts/how_much_flood_risk_can_natural_flood_management_offset.html</loc>
+    <lastmod>2026-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://umbralcalc.github.io/posts/how_sensitive_is_my_action_to_the_simulation.html</loc>
+    <lastmod>2026-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://umbralcalc.github.io/posts/how_should_a_grid_battery_be_dispatched_as_the_grid_gets_greener.html</loc>
     <lastmod>2026-11-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -313,6 +391,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://umbralcalc.github.io/posts/what_does_a_complete_simulation_look_like.html</loc>
+    <lastmod>2026-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://umbralcalc.github.io/posts/what_happens_when_the_system_drifts.html</loc>
     <lastmod>2026-11-07</lastmod>
     <changefreq>monthly</changefreq>
@@ -355,6 +439,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://umbralcalc.github.io/posts/what_is_black_box_ai.html</loc>
+    <lastmod>2026-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://umbralcalc.github.io/posts/what_is_discounted_future_reward.html</loc>
     <lastmod>2026-11-07</lastmod>
     <changefreq>monthly</changefreq>
@@ -367,7 +457,25 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://umbralcalc.github.io/posts/what_is_the_visual_grammar_of_these_diagrams.html</loc>
+    <lastmod>2026-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://umbralcalc.github.io/posts/what_makes_a_simulation_output_look_trustworthy.html</loc>
+    <lastmod>2026-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://umbralcalc.github.io/posts/what_makes_an_action_good.html</loc>
+    <lastmod>2026-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://umbralcalc.github.io/posts/what_objective_does_a_simulation_learn_against.html</loc>
     <lastmod>2026-11-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -385,7 +493,19 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://umbralcalc.github.io/posts/when_should_a_rugby_manager_make_substitutions.html</loc>
+    <lastmod>2026-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://umbralcalc.github.io/posts/which_simulation_should_i_use_to_take_an_action.html</loc>
+    <lastmod>2026-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://umbralcalc.github.io/posts/which_support_policies_keep_small_businesses_alive.html</loc>
     <lastmod>2026-11-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -409,7 +529,19 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://umbralcalc.github.io/posts/why_no_mathematical_symbols.html</loc>
+    <lastmod>2026-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://umbralcalc.github.io/posts/why_simulate_real_world_systems.html</loc>
+    <lastmod>2026-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://umbralcalc.github.io/posts/why_think_about_a_simulation_probabilistically.html</loc>
     <lastmod>2026-11-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
