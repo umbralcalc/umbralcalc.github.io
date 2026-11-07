@@ -58,16 +58,14 @@ the references alone, via `_build/questions.py`:
 
 ## Publishing
 
-Main is protected: changes land through pull requests, and every merge into
-main rebuilds the site and deploys it to GitHub Pages via
-`.github/workflows/pages.yml`. Nothing generated is committed; `posts/`,
-`posts.json`, `questions.json`, `feed.xml`, `sitemap.xml` and `robots.txt`
-are built on the runner (and locally by `./build.sh`, where they are
-ignored by git).
+Pushing to main is the deploy: `.github/workflows/pages.yml` builds the site
+and publishes it to GitHub Pages on every push, and pull requests build too.
+Nothing generated is committed; `posts/`, `posts.json`, `questions.json`,
+`feed.xml`, `sitemap.xml` and `robots.txt` are built on the runner (and
+locally by `./build.sh`, where they are ignored by git). Main allows direct
+pushes from the repository admin but no force pushes or deletion.
 
 `./publish.sh ["commit message"]` rebuilds locally, stops if the build or
-its lint fails, commits the changes on a `publish/...` branch, opens a pull
-request and sets it to merge itself once the build check passes. From
-Obsidian, the Shell Commands community plugin can run it as a command or
-ribbon button, with the vault root as the working directory. Pull requests
-also run the build, so a broken post fails before it merges.
+its lint fails, commits everything, pulls anything new on main and pushes.
+From Obsidian, the Shell Commands community plugin can run it as a command
+or ribbon button, with the vault root as the working directory.
