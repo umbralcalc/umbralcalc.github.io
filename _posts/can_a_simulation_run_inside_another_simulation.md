@@ -1,16 +1,14 @@
 ---
-title: "Can a simulation run inside another simulation?"
-tag: "How can I simulate the real world?"
+title: Can a simulation run inside another simulation?
+tag: How can I simulate the real world?
 images:
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/embedded-simulation-run.svg"
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/embedded-sim-iterate.svg"
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/embedded-sim-from-history.svg"
+  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/embedded-simulation-run.svg
 aliases:
-- "Can a simulation run inside another simulation?"
+  - Can a simulation run inside another simulation?
 cites:
-- "[[what_is_a_simulation_run]]"
-- "[[how_do_state_partitions_share_information]]"
-- "[[how_can_i_simulate_the_real_world_introduction]]"
+  - "[[what_is_a_simulation_run]]"
+  - "[[how_do_state_partitions_share_information]]"
+  - "[[how_can_i_simulate_the_real_world_introduction]]"
 nocite: |
   @sarkka2013
 ---

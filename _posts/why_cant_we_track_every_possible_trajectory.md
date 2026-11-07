@@ -1,14 +1,13 @@
 ---
-title: "Why can't we track every possible trajectory?"
-tag: "How can I simulate the real world?"
+title: Why can't we track every possible trajectory?
+tag: How can I simulate the real world?
 images:
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/coin-flips-tree.svg"
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/random-walker-grid.svg"
+  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/coin-flips-tree.svg
 aliases:
-- "Why can't we track every possible trajectory?"
+  - Why can't we track every possible trajectory?
 cites:
-- "[[what_is_a_conditional_probability_in_a_simulation]]"
-- "[[how_can_i_simulate_the_real_world_introduction]]"
+  - "[[what_is_a_conditional_probability_in_a_simulation]]"
+  - "[[how_can_i_simulate_the_real_world_introduction]]"
 nocite: |
   @owen2013, @chopin2020
 ---

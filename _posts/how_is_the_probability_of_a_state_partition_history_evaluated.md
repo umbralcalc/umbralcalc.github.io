@@ -1,15 +1,13 @@
 ---
-title: "How is the probability of a state partition history evaluated?"
-tag: "How can I simulate the real world?"
+title: How is the probability of a state partition history evaluated?
+tag: How can I simulate the real world?
 images:
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/evaluate-probability-partition.svg"
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/possible-region.svg"
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/evaluate-probability-partition-region.svg"
+  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/evaluate-probability-partition.svg
 aliases:
-- "How is the probability of a state partition history evaluated?"
+  - How is the probability of a state partition history evaluated?
 cites:
-- "[[how_are_a_partitions_next_values_calculated]]"
-- "[[how_can_i_simulate_the_real_world_introduction]]"
+  - "[[how_are_a_partitions_next_values_calculated]]"
+  - "[[how_can_i_simulate_the_real_world_introduction]]"
 nocite: |
   @sarkka2013
 ---

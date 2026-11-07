@@ -1,14 +1,13 @@
 ---
-title: "What is a conditional probability in a simulation?"
-tag: "How can I simulate the real world?"
+title: What is a conditional probability in a simulation?
+tag: How can I simulate the real world?
 images:
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/conditional-probability.svg"
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/evolving-state-partition-history-probability.svg"
+  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/conditional-probability.svg
 aliases:
-- "What is a conditional probability in a simulation?"
+  - What is a conditional probability in a simulation?
 cites:
-- "[[how_is_the_probability_of_a_state_partition_history_evaluated]]"
-- "[[how_can_i_simulate_the_real_world_introduction]]"
+  - "[[how_is_the_probability_of_a_state_partition_history_evaluated]]"
+  - "[[how_can_i_simulate_the_real_world_introduction]]"
 nocite: |
   @sarkka2013, @chopin2020
 ---
