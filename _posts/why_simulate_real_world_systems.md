@@ -1,6 +1,5 @@
 ---
 title: "Why simulate real-world systems?"
-tag: "How can I simulate the real world?"
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/why_simulate_real_world_systems/simulations-for-decisions.svg"
 aliases:

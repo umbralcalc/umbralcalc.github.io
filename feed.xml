@@ -6,14 +6,14 @@
     <description>Visual explorations in science and computation.</description>
     <language>en</language>
     <atom:link href="https://umbralcalc.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <lastBuildDate>Sat, 07 Nov 2026 16:08:16 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 07 Nov 2026 16:39:36 +0000</lastBuildDate>
     <pubDate>Sat, 07 Nov 2026 15:12:21 +0000</pubDate>
     <item>
       <title>Are diagrams mathematically rigorous?</title>
       <link>https://umbralcalc.github.io/posts/are_diagrams_mathematically_rigorous.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/are_diagrams_mathematically_rigorous.html</guid>
       <pubDate>Sat, 07 Nov 2026 15:12:21 +0000</pubDate>
-      <category>Loose Threads</category>
+      <category>Why no mathematical symbols?</category>
       <description>The diagrammatic language we use owes its mathematical rigour to the fact that any computation can be written as a series of function abstrations and applications.</description>
     </item>
     <item>
@@ -45,7 +45,7 @@
       <link>https://umbralcalc.github.io/posts/could_quantum_hardware_run_a_simulation.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/could_quantum_hardware_run_a_simulation.html</guid>
       <pubDate>Sat, 07 Nov 2026 15:12:21 +0000</pubDate>
-      <category>Loose Threads</category>
+      <category>How can I simulate the real world?</category>
       <description>Note that the concepts in this section are the most likely to change with future advancements in quantum computing.</description>
     </item>
     <item>
@@ -125,7 +125,7 @@
       <link>https://umbralcalc.github.io/posts/is_black_box_ai_an_accelerator.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/is_black_box_ai_an_accelerator.html</guid>
       <pubDate>Sat, 07 Nov 2026 15:12:21 +0000</pubDate>
-      <category>Loose Threads</category>
+      <category>How can I simulate the real world?</category>
       <description>Black box AI may not be the answer to all problems, but it is clearly an enormous accelerator for developing world models and making them more performant (in both runtime and predictivity).</description>
     </item>
     <item>
@@ -141,7 +141,7 @@
       <link>https://umbralcalc.github.io/posts/what_do_dashes_and_dots_mean.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/what_do_dashes_and_dots_mean.html</guid>
       <pubDate>Sat, 07 Nov 2026 15:12:21 +0000</pubDate>
-      <category>Loose Threads</category>
+      <category>Why no mathematical symbols?</category>
       <description>The blog uses dashed and dotted lines in different ways.</description>
     </item>
     <item>
@@ -149,7 +149,7 @@
       <link>https://umbralcalc.github.io/posts/what_do_the_arrows_mean.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/what_do_the_arrows_mean.html</guid>
       <pubDate>Sat, 07 Nov 2026 15:12:21 +0000</pubDate>
-      <category>Loose Threads</category>
+      <category>Why no mathematical symbols?</category>
       <description>The blog uses two main arrow types in all of the colours.</description>
     </item>
     <item>
@@ -157,7 +157,7 @@
       <link>https://umbralcalc.github.io/posts/what_do_the_colours_mean.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/what_do_the_colours_mean.html</guid>
       <pubDate>Sat, 07 Nov 2026 15:12:21 +0000</pubDate>
-      <category>Loose Threads</category>
+      <category>Why no mathematical symbols?</category>
       <description>The blog has a consistent visual scheme of 3 main colours in addition to plain white.</description>
     </item>
     <item>
@@ -165,7 +165,7 @@
       <link>https://umbralcalc.github.io/posts/what_do_the_shapes_mean.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/what_do_the_shapes_mean.html</guid>
       <pubDate>Sat, 07 Nov 2026 15:12:21 +0000</pubDate>
-      <category>Loose Threads</category>
+      <category>Why no mathematical symbols?</category>
       <description>The blog uses three main object types in all of the colours.</description>
     </item>
     <item>
@@ -173,7 +173,7 @@
       <link>https://umbralcalc.github.io/posts/what_is_a_batch_simulation_architecture.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/what_is_a_batch_simulation_architecture.html</guid>
       <pubDate>Sat, 07 Nov 2026 15:12:21 +0000</pubDate>
-      <category>Loose Threads</category>
+      <category>How can I simulate the real world?</category>
       <description>Batch simulation architectures evaluate multiple successive sequences of next state values for the system over a wider interval in time all as one computational block.</description>
     </item>
     <item>
@@ -205,7 +205,7 @@
       <link>https://umbralcalc.github.io/posts/when_does_specialised_hardware_help.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/when_does_specialised_hardware_help.html</guid>
       <pubDate>Sat, 07 Nov 2026 15:12:21 +0000</pubDate>
-      <category>Loose Threads</category>
+      <category>How can I simulate the real world?</category>
       <description>From the perspective of standard CPUs, batch simulation architectures are often designed to evaluate segments of the simulation timeline using specialised classical hardware.</description>
     </item>
     <item>
@@ -213,7 +213,7 @@
       <link>https://umbralcalc.github.io/posts/when_is_data_good_enough_for_black_box_ai.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/when_is_data_good_enough_for_black_box_ai.html</guid>
       <pubDate>Sat, 07 Nov 2026 15:12:21 +0000</pubDate>
-      <category>Loose Threads</category>
+      <category>How can I simulate the real world?</category>
       <description>For many high-value problems that humanity (or just businesses) would like solve, the truth is that data is often irrelevant, incomplete, scarce or wrong.</description>
     </item>
     <item>
@@ -229,7 +229,7 @@
       <link>https://umbralcalc.github.io/posts/why_keep_humans_in_the_loop_with_world_models.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/why_keep_humans_in_the_loop_with_world_models.html</guid>
       <pubDate>Sat, 07 Nov 2026 15:12:21 +0000</pubDate>
-      <category>Loose Threads</category>
+      <category>How can I simulate the real world?</category>
       <description>In order to tackle the data environments we described above, it helps to bring as much useful information into the problem as possible. This information could come in the form of inductive biases in the model structure or prior knowledge provided by an expert.</description>
     </item>
     <item>
@@ -237,7 +237,7 @@
       <link>https://umbralcalc.github.io/posts/what_is_the_visual_grammar_of_these_diagrams.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/what_is_the_visual_grammar_of_these_diagrams.html</guid>
       <pubDate>Mon, 21 Sep 2026 07:06:33 +0100</pubDate>
-      <category>Loose Threads</category>
+      <category>Why no mathematical symbols?</category>
       <description>The visual design of explanations is very important to this blog.</description>
     </item>
     <item>
@@ -309,7 +309,7 @@
       <link>https://umbralcalc.github.io/posts/how_do_simulations_run_on_cpus.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/how_do_simulations_run_on_cpus.html</guid>
       <pubDate>Sun, 10 May 2026 10:14:28 +0100</pubDate>
-      <category>Loose Threads</category>
+      <category>How can I simulate the real world?</category>
       <description>When we talk about 'classical' hardware here, we just mean standard CPUs.</description>
     </item>
     <item>
@@ -333,7 +333,7 @@
       <link>https://umbralcalc.github.io/posts/what_is_black_box_ai.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/what_is_black_box_ai.html</guid>
       <pubDate>Mon, 01 Dec 2025 09:24:35 +0000</pubDate>
-      <category>Loose Threads</category>
+      <category>How can I simulate the real world?</category>
       <description>Here are some opinions on the realistic potential for 'black box' AI methods to improve human prediction and decision-making processes.</description>
     </item>
     <item>
@@ -341,7 +341,7 @@
       <link>https://umbralcalc.github.io/posts/why_no_mathematical_symbols.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/why_no_mathematical_symbols.html</guid>
       <pubDate>Wed, 26 Nov 2025 08:37:23 +0000</pubDate>
-      <category>Loose Threads</category>
+      <category>Why no mathematical symbols?</category>
       <description>Mathematical concepts and tools are absolutely essential to understanding and deriving deeper relationships when analysing systems in the real world.</description>
     </item>
     <item>

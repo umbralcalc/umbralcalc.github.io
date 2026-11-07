@@ -1,6 +1,5 @@
 ---
 title: "Could quantum hardware run a simulation?"
-tag: "Loose Threads"
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/quantum-batch.svg"
 aliases:

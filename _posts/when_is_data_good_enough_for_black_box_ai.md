@@ -1,6 +1,5 @@
 ---
 title: "When is data good enough for black box AI?"
-tag: "Loose Threads"
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/data-grid-ai.svg"
 aliases:

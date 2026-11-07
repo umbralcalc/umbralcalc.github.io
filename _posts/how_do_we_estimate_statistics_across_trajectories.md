@@ -1,13 +1,12 @@
 ---
 title: "How do we estimate statistics across trajectories?"
-tag: "How can I simulate the real world?"
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/average-across-trajectories.svg"
 aliases:
 - "How do we estimate statistics across trajectories?"
 cites:
-- "[[why_think_about_a_simulation_probabilistically]]"
 - "[[how_can_i_simulate_the_real_world]]"
+- "[[why_think_about_a_simulation_probabilistically]]"
 nocite: |
   @owen2013
 ---

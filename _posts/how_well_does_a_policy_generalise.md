@@ -1,13 +1,12 @@
 ---
 title: "How well does a policy generalise?"
-tag: "How do I automate taking actions with simulations?"
 draft: true
 aliases:
 - "How well does a policy generalise?"
 cites:
+- "[[how_do_i_automate_taking_actions_with_simulations]]"
 - "[[what_is_a_policy]]"
 - "[[is_a_sloppy_simulation_a_bad_one]]"
-- "[[how_do_i_automate_taking_actions_with_simulations]]"
 nocite: |
   @transtrum2015
 ---

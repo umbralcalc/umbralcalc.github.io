@@ -1,6 +1,5 @@
 ---
 title: "What is a batch simulation architecture?"
-tag: "Loose Threads"
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/stepwise-vs-batch.svg"
 aliases:

@@ -1,12 +1,11 @@
 ---
 title: "What makes a simulation output look trustworthy?"
-tag: "How can I trust the actions I take in simulations?"
 draft: true
 aliases:
 - "What makes a simulation output look trustworthy?"
 cites:
-- "[[how_can_a_simulation_be_wrong]]"
 - "[[how_can_i_trust_the_actions_i_take_in_simulations]]"
+- "[[how_can_a_simulation_be_wrong]]"
 nocite: |
   @tufte2001, @bertin1983
 ---

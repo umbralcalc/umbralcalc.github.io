@@ -1,14 +1,13 @@
 ---
 title: "Can a simulation learn as the data arrives?"
-tag: "How can I simulate the real world?"
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/online-posterior-estimation.svg"
 aliases:
 - "Can a simulation learn as the data arrives?"
 cites:
+- "[[how_can_i_simulate_the_real_world]]"
 - "[[how_does_a_simulation_learn_its_parameters_from_data]]"
 - "[[can_one_trajectory_be_enough_to_estimate_statistics]]"
-- "[[how_can_i_simulate_the_real_world]]"
 nocite: |
   @gordon1993, @doucet2011
 ---

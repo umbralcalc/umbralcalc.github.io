@@ -26,17 +26,22 @@ Front matter, by example:
 
 ```yaml
 title: "How can a simulation be wrong?"
-tag: "How can I trust the actions I take in simulations?"   # its root question
 draft: true            # listed only at /?drafts=1, kept out of the feed
 images:                # thumbnails on the home page
 - "https://.../predictions-leading-to-actions.svg"
 aliases:
 - "How can a simulation be wrong?"
 cites:
+- "[[how_can_i_trust_the_actions_i_take_in_simulations]]"   # first entry = parent
 - "[[what_if_i_can_only_partly_observe_the_system]]"
 nocite: |
   @box1976, @sargent2013
 ```
+
+There is no collection field. A question's parent is the first entry of its
+`cites` list, and its root is found by following parents upward; a post with
+no `cites` is a root. The home page groups questions by root, and the feed
+uses the root as each item's category.
 
 Obsidian's graph view and backlinks follow the `cites` wikilinks and the
 wikilinks in the prose, so the editor shows the same tree the site builds.

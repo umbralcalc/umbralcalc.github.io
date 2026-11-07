@@ -1,13 +1,12 @@
 ---
 title: What decides when the next timestep happens?
-tag: How can I simulate the real world?
 images:
   - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/timeline.svg
 aliases:
   - What decides when the next timestep happens?
 cites:
-  - "[[how_does_a_simulation_keep_track_of_time]]"
   - "[[how_can_i_simulate_the_real_world]]"
+  - "[[how_does_a_simulation_keep_track_of_time]]"
 nocite: |
   @lawkelton2014
 ---

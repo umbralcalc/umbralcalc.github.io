@@ -1,16 +1,15 @@
 ---
 title: "What does a complete simulation look like?"
-tag: "How can I simulate the real world?"
 aliases:
 - "What does a complete simulation look like?"
 cites:
+- "[[how_can_i_simulate_the_real_world]]"
 - "[[when_should_a_rugby_manager_make_substitutions]]"
 - "[[can_hospital_prescribing_guidelines_bring_resistance_down]]"
 - "[[how_much_flood_risk_can_natural_flood_management_offset]]"
 - "[[how_should_a_grid_battery_be_dispatched_as_the_grid_gets_greener]]"
 - "[[which_support_policies_keep_small_businesses_alive]]"
 - "[[how_do_simulations_run_on_cpus]]"
-- "[[how_can_i_simulate_the_real_world]]"
 nocite: |
   @box1976, @epstein2008, @cranmer2020, @jumper2021, @stochadex
 ---

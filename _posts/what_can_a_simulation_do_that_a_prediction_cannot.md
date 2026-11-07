@@ -1,13 +1,12 @@
 ---
 title: "What can a simulation do that a prediction cannot?"
-tag: "How can I simulate the real world?"
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/why_simulate_real_world_systems/simulations-decision-advantages.svg"
 aliases:
 - "What can a simulation do that a prediction cannot?"
 cites:
-- "[[why_simulate_real_world_systems]]"
 - "[[how_can_i_simulate_the_real_world]]"
+- "[[why_simulate_real_world_systems]]"
 nocite: |
   @leutbecher2008, @epstein2008
 ---

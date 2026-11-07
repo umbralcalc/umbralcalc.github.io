@@ -1,14 +1,13 @@
 ---
 title: "What is a policy?"
-tag: "How do I automate taking actions with simulations?"
 draft: true
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/what_is_a_policy/action-taking-policy.svg"
 aliases:
 - "What is a policy?"
 cites:
-- "[[how_does_an_action_enter_a_simulation]]"
 - "[[how_do_i_automate_taking_actions_with_simulations]]"
+- "[[how_does_an_action_enter_a_simulation]]"
 nocite: |
   @suttonbarto2018
 ---

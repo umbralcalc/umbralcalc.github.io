@@ -1,6 +1,5 @@
 ---
 title: "Why keep humans in the loop with world models?"
-tag: "Loose Threads"
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/shape-statistics.svg"
 aliases:

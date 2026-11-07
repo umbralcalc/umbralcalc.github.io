@@ -1,12 +1,11 @@
 ---
 title: "What happens when the system drifts?"
-tag: "How can I trust the actions I take in simulations?"
 draft: true
 aliases:
 - "What happens when the system drifts?"
 cites:
-- "[[can_a_simulation_learn_as_the_data_arrives]]"
 - "[[how_can_i_trust_the_actions_i_take_in_simulations]]"
+- "[[can_a_simulation_learn_as_the_data_arrives]]"
 nocite: |
   @gama2014
 ---

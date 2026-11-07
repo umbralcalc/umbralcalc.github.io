@@ -1,6 +1,5 @@
 ---
 title: "How do simulations run on CPUs?"
-tag: "Loose Threads"
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/cpu-graph-edges.svg"
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/cpu-stepwise-architectures.svg"

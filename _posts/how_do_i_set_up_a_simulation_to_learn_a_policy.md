@@ -1,13 +1,12 @@
 ---
 title: "How do I set up a simulation to learn a policy?"
-tag: "How do I automate taking actions with simulations?"
 draft: true
 aliases:
 - "How do I set up a simulation to learn a policy?"
 cites:
+- "[[how_do_i_automate_taking_actions_with_simulations]]"
 - "[[what_is_a_policy]]"
 - "[[what_is_a_state_partition]]"
-- "[[how_do_i_automate_taking_actions_with_simulations]]"
 nocite: |
   @suttonbarto2018
 ---

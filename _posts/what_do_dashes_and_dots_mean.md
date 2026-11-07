@@ -1,6 +1,5 @@
 ---
 title: "What do dashes and dots mean?"
-tag: "Loose Threads"
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/a_visual_design_grammar_for_computational_diagrams/blog-dashes-and-dots.svg"
 aliases:

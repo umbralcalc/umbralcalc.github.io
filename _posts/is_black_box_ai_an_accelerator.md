@@ -1,6 +1,5 @@
 ---
 title: "Is black box AI an accelerator?"
-tag: "Loose Threads"
 aliases:
 - "Is black box AI an accelerator?"
 cites:

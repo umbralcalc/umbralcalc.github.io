@@ -271,9 +271,9 @@ def extract_description(slug):
 # Sort posts newest-first by commit date
 items = []
 for post in posts:
-    # Drafts and untagged posts stay out of the feed: the front page hides
-    # them too, and subscribers should not see them ahead of everyone else.
-    if post.get("draft") or not post.get("tag", "").strip():
+    # Drafts stay out of the feed: the front page hides them too, and
+    # subscribers should not see them ahead of everyone else.
+    if post.get("draft"):
         continue
     slug = post["slug"]
     date_str = dates.get(slug)
@@ -302,7 +302,7 @@ for dt, post in items:
     url = base_url + post["url"]
     title = escape(post["title"])
     desc = escape(extract_description(post["slug"]))
-    tag = post.get("tag", "")
+    tag = post.get("root_title", "")
     out.append('    <item>')
     out.append(f'      <title>{title}</title>')
     out.append(f'      <link>{url}</link>')

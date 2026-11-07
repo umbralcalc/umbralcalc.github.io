@@ -33,7 +33,7 @@ import yaml
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 POSTS_DIR = os.path.join(ROOT, "_posts")
 FORECASTS_JSON = os.path.join(ROOT, "forecasts.json")
-FORECASTS_TAG = "Forecasts"
+FORECASTS_ROOT = "Forecasts"
 BASE_URL = "https://umbralcalc.github.io"
 SITE_NAME = "umbralcalculations"
 AUTHOR = "Hardwick, Robert"
@@ -81,7 +81,6 @@ def parse_post(path):
     return {
         "slug": slug,
         "title": str(meta.get("title") or slug),
-        "tag": str(meta.get("tag") or "").strip(),
         "draft": bool(meta.get("draft")),
         "images": as_list(meta.get("images")),
         "cites": [m.group(1) for m in (WIKI_LINK.search(c) for c in as_list(meta.get("cites"))) if m],
@@ -112,7 +111,6 @@ def all_forecasts():
             "slug": slug,
             "title": f["title"],
             "url": f["url"],
-            "tag": FORECASTS_TAG,
             "draft": False,
             "excerpt": f.get("headline", ""),
             "images": [f["thumbnail"]] if f.get("thumbnail") else [],
@@ -303,15 +301,46 @@ def cmd_title(src):
     print(parse_post(src)["title"])
 
 
+def root_of_each(posts):
+    """A question's parent is the first entry of its `cites` property, and
+    its root is found by following parents upward. A post with no `cites`
+    is a root. Links in the prose do not count, so a root can still point
+    at other roots for context."""
+    by_slug = {p["slug"]: p for p in posts}
+
+    def first_post_cite(p):
+        for key in p["cites"]:
+            if key in by_slug and key != p["slug"]:
+                return key
+        return None
+
+    roots = {}
+    for p in posts:
+        seen = [p["slug"]]
+        cur = p
+        while True:
+            nxt = first_post_cite(cur)
+            if nxt is None or nxt in seen:
+                break
+            seen.append(nxt)
+            cur = by_slug[nxt]
+        roots[p["slug"]] = cur["slug"]
+    return roots
+
+
 def cmd_posts(out_path):
     """posts.json: the plain post list the feed and older scripts read."""
     posts = []
-    for post in all_posts():
+    all_ = all_posts()
+    roots = root_of_each(all_)
+    titles = {p["slug"]: p["title"] for p in all_}
+    for post in all_:
         posts.append({
             "title": post["title"],
             "slug": post["slug"],
             "url": f"/posts/{post['slug']}.html",
-            "tag": post["tag"],
+            "root": roots[post["slug"]],
+            "root_title": titles.get(roots[post["slug"]], roots[post["slug"]]),
             "draft": post["draft"],
             "date": "",
             "images": post["images"],
@@ -344,6 +373,8 @@ def cmd_json(bib_paths, out_path):
     entries = load_csl(bib_paths)
     posts = all_posts()
     forecasts = all_forecasts()
+    roots = root_of_each(posts)
+    titles = {p["slug"]: p["title"] for p in posts}
     slugs = {p["slug"] for p in posts} | {f["slug"] for f in forecasts}
     questions = []
     used = set()
@@ -352,7 +383,8 @@ def cmd_json(bib_paths, out_path):
             "slug": fc["slug"],
             "title": fc["title"],
             "url": fc["url"],
-            "tag": fc["tag"],
+            "root": "forecasts",
+            "root_title": FORECASTS_ROOT,
             "draft": False,
             "date": fc["date"],
             "excerpt": fc["excerpt"],
@@ -368,7 +400,8 @@ def cmd_json(bib_paths, out_path):
             "slug": post["slug"],
             "title": post["title"],
             "url": f"/posts/{post['slug']}.html",
-            "tag": post["tag"],
+            "root": roots[post["slug"]],
+            "root_title": titles[roots[post["slug"]]],
             "draft": post["draft"],
             "date": first_commit_date(post["slug"]).date().isoformat(),
             "excerpt": excerpt(post["body"]),

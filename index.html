@@ -288,6 +288,8 @@
 
         // Forecasts come first, as on the front page: each is a question
         // whose answer is a live dashboard
+        // Root questions, in home page order; any other root follows
+        // alphabetically
         const seriesOrder = [
             'Forecasts',
             'How can I simulate the real world?',
@@ -310,16 +312,16 @@
                 const rank = t => {
                     const i = seriesOrder.indexOf(t);
                     if (i >= 0) return i;
-                    return t === 'Loose Threads' ? 1000 : 500;
+                    return 500;
                 };
                 questions.sort((a, b) =>
-                    rank(a.tag) - rank(b.tag)
-                    || a.tag.localeCompare(b.tag)
-                    || (a.title === a.tag ? 0 : 1) - (b.title === b.tag ? 0 : 1)
+                    rank(a.root_title) - rank(b.root_title)
+                    || a.root_title.localeCompare(b.root_title)
+                    || (a.slug === a.root ? 0 : 1) - (b.slug === b.root ? 0 : 1)
                     || (a.date || '').localeCompare(b.date || '')
                     || a.title.localeCompare(b.title));
                 questions.forEach(q => {
-                    q.collection = q.tag;
+                    q.collection = q.root_title;
                     q.isDraft = !!q.draft;
                     q.external = q.references.filter(k => refs[k] && refs[k].type !== 'question');
                     q.haystack = [

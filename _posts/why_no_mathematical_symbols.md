@@ -1,6 +1,5 @@
 ---
 title: "Why no mathematical symbols?"
-tag: "Loose Threads"
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/mathematical_symbols_vs_diagrams/diagrams-vs-symbols.svg"
 aliases:

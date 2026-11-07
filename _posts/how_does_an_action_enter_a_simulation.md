@@ -1,6 +1,5 @@
 ---
 title: "How does an action enter a simulation?"
-tag: "How can I trust the actions I take in simulations?"
 draft: true
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/what_makes_an_action_good/action-taking.svg"
@@ -8,9 +7,9 @@ images:
 aliases:
 - "How does an action enter a simulation?"
 cites:
+- "[[how_can_i_trust_the_actions_i_take_in_simulations]]"
 - "[[how_are_a_partitions_next_values_calculated]]"
 - "[[what_is_a_state_partition]]"
-- "[[how_can_i_trust_the_actions_i_take_in_simulations]]"
 nocite: |
   @suttonbarto2018
 ---

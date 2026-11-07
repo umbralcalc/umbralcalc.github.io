@@ -1,14 +1,13 @@
 ---
 title: "How can I tell luck from skill?"
-tag: "How can I trust the actions I take in simulations?"
 draft: true
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/what_makes_an_action_good/data-outcomes-trajectory.svg"
 aliases:
 - "How can I tell luck from skill?"
 cites:
-- "[[what_makes_an_action_good]]"
 - "[[how_can_i_trust_the_actions_i_take_in_simulations]]"
+- "[[what_makes_an_action_good]]"
 nocite: |
   @mauboussin2012
 ---

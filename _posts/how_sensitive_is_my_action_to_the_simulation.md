@@ -1,6 +1,5 @@
 ---
 title: "How sensitive is my action to the simulation?"
-tag: "How can I trust the actions I take in simulations?"
 draft: true
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/preparing_a_simulation_for_action_taking/changing-parameters.svg"
@@ -8,9 +7,9 @@ images:
 aliases:
 - "How sensitive is my action to the simulation?"
 cites:
+- "[[how_can_i_trust_the_actions_i_take_in_simulations]]"
 - "[[how_can_a_simulation_be_wrong]]"
 - "[[is_a_sloppy_simulation_a_bad_one]]"
-- "[[how_can_i_trust_the_actions_i_take_in_simulations]]"
 nocite: |
   @saltelli2019, @sobol2001
 ---

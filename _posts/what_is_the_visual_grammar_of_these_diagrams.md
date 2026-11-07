@@ -1,6 +1,5 @@
 ---
 title: "What is the visual grammar of these diagrams?"
-tag: "Loose Threads"
 aliases:
 - "What is the visual grammar of these diagrams?"
 cites:

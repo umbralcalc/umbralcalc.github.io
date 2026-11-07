@@ -1,14 +1,13 @@
 ---
 title: "What is discounted future reward?"
-tag: "How do I automate taking actions with simulations?"
 draft: true
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_optimal_policies_with_the_simulation_itself/discounted-future-reward.svg"
 aliases:
 - "What is discounted future reward?"
 cites:
-- "[[how_do_i_set_up_a_simulation_to_learn_a_policy]]"
 - "[[how_do_i_automate_taking_actions_with_simulations]]"
+- "[[how_do_i_set_up_a_simulation_to_learn_a_policy]]"
 nocite: |
   @suttonbarto2018
 ---

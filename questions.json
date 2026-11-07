@@ -4,7 +4,8 @@
       "slug": "bathing_water_forecaster",
       "title": "What is the probability of bathing water pollution across England?",
       "url": "https://umbralcalc.github.io/bathing-water-forecaster/",
-      "tag": "Forecasts",
+      "root": "forecasts",
+      "root_title": "Forecasts",
       "draft": false,
       "date": "2026-09-22",
       "excerpt": "Probabilities for every designated bathing water in England, driven by recent rainfall and the season.",
@@ -19,7 +20,8 @@
       "slug": "are_diagrams_mathematically_rigorous",
       "title": "Are diagrams mathematically rigorous?",
       "url": "/posts/are_diagrams_mathematically_rigorous.html",
-      "tag": "Loose Threads",
+      "root": "why_no_mathematical_symbols",
+      "root_title": "Why no mathematical symbols?",
       "draft": false,
       "date": "2026-11-07",
       "excerpt": "The diagrammatic language we use owes its mathematical rigour to the fact that any computation can be written as a series of function abstrations and applications.",
@@ -40,7 +42,8 @@
       "slug": "can_a_simulation_learn_as_the_data_arrives",
       "title": "Can a simulation learn as the data arrives?",
       "url": "/posts/can_a_simulation_learn_as_the_data_arrives.html",
-      "tag": "How can I simulate the real world?",
+      "root": "how_can_i_simulate_the_real_world",
+      "root_title": "How can I simulate the real world?",
       "draft": false,
       "date": "2026-11-07",
       "excerpt": "The data probabilities of simulation trajectories can also be interpreted as probabilities of simulation parameters; often accompanied with some simulation noise to account for differences between trajectories even with the same parameters.",
@@ -50,14 +53,14 @@
       "references": [
         "gordon1993",
         "doucet2011",
+        "how_can_i_simulate_the_real_world",
         "how_does_a_simulation_learn_its_parameters_from_data",
-        "can_one_trajectory_be_enough_to_estimate_statistics",
-        "how_can_i_simulate_the_real_world"
+        "can_one_trajectory_be_enough_to_estimate_statistics"
       ],
       "cites": [
+        "how_can_i_simulate_the_real_world",
         "how_does_a_simulation_learn_its_parameters_from_data",
-        "can_one_trajectory_be_enough_to_estimate_statistics",
-        "how_can_i_simulate_the_real_world"
+        "can_one_trajectory_be_enough_to_estimate_statistics"
       ],
       "cited_by": [
         "what_happens_when_the_system_drifts"
@@ -67,7 +70,8 @@
       "slug": "can_a_simulation_run_inside_another_simulation",
       "title": "Can a simulation run inside another simulation?",
       "url": "/posts/can_a_simulation_run_inside_another_simulation.html",
-      "tag": "How can I simulate the real world?",
+      "root": "how_can_i_simulate_the_real_world",
+      "root_title": "How can I simulate the real world?",
       "draft": false,
       "date": "2026-11-07",
       "excerpt": "Enabling whole 'inner' simulation runs to start and complete within each timestep of an 'outer' simulation run is a very useful, and somewhat fundamental, building block for simulations in practice. We shall call these 'embedded simulation runs'.",
@@ -76,14 +80,14 @@
       ],
       "references": [
         "sarkka2013",
+        "how_can_i_simulate_the_real_world",
         "what_is_a_simulation_run",
-        "how_do_state_partitions_share_information",
-        "how_can_i_simulate_the_real_world"
+        "how_do_state_partitions_share_information"
       ],
       "cites": [
+        "how_can_i_simulate_the_real_world",
         "what_is_a_simulation_run",
-        "how_do_state_partitions_share_information",
-        "how_can_i_simulate_the_real_world"
+        "how_do_state_partitions_share_information"
       ],
       "cited_by": []
     },
@@ -91,7 +95,8 @@
       "slug": "can_hospital_prescribing_guidelines_bring_resistance_down",
       "title": "Can hospital prescribing guidelines bring resistance down?",
       "url": "/posts/can_hospital_prescribing_guidelines_bring_resistance_down.html",
-      "tag": "How can simulations help me take better actions?",
+      "root": "how_can_simulations_help_me_take_better_actions",
+      "root_title": "How can simulations help me take better actions?",
       "draft": false,
       "date": "2026-05-12",
       "excerpt": "Antibiotic-resistant infections are rising in English hospitals: can stewardship policies bring them back down, and how much room is there to do so?",
@@ -123,7 +128,8 @@
       "slug": "can_i_backtest_the_actions_a_simulation_recommends",
       "title": "Can I backtest the actions a simulation recommends?",
       "url": "/posts/can_i_backtest_the_actions_a_simulation_recommends.html",
-      "tag": "How can I trust the actions I take in simulations?",
+      "root": "how_can_i_trust_the_actions_i_take_in_simulations",
+      "root_title": "How can I trust the actions I take in simulations?",
       "draft": true,
       "date": "2026-08-30",
       "excerpt": "Cover these topics: - Lack of data on this generally because its hard to control for cause-to-effect - Quasi-experiments all kinds and the openaction2outcome project",
@@ -132,12 +138,12 @@
         "angristpischke2009",
         "imbensrubin2015",
         "openaction2outcome",
-        "how_can_i_tell_luck_from_skill",
-        "how_can_i_trust_the_actions_i_take_in_simulations"
+        "how_can_i_trust_the_actions_i_take_in_simulations",
+        "how_can_i_tell_luck_from_skill"
       ],
       "cites": [
-        "how_can_i_tell_luck_from_skill",
-        "how_can_i_trust_the_actions_i_take_in_simulations"
+        "how_can_i_trust_the_actions_i_take_in_simulations",
+        "how_can_i_tell_luck_from_skill"
       ],
       "cited_by": []
     },
@@ -145,7 +151,8 @@
       "slug": "can_i_find_a_policy_without_a_simulation",
       "title": "Can I find a policy without a simulation?",
       "url": "/posts/can_i_find_a_policy_without_a_simulation.html",
-      "tag": "How do I automate taking actions with simulations?",
+      "root": "how_do_i_automate_taking_actions_with_simulations",
+      "root_title": "How do I automate taking actions with simulations?",
       "draft": true,
       "date": "2026-09-07",
       "excerpt": "Linear/Dynamic/Stochastic programming (all examples of model-driven - which don't use a simulation but instead a pre-existing model)",
@@ -155,12 +162,12 @@
         "ha2018",
         "levine2020",
         "suttonbarto2018",
-        "what_is_a_policy",
-        "how_do_i_automate_taking_actions_with_simulations"
+        "how_do_i_automate_taking_actions_with_simulations",
+        "what_is_a_policy"
       ],
       "cites": [
-        "what_is_a_policy",
-        "how_do_i_automate_taking_actions_with_simulations"
+        "how_do_i_automate_taking_actions_with_simulations",
+        "what_is_a_policy"
       ],
       "cited_by": []
     },
@@ -168,7 +175,8 @@
       "slug": "can_one_trajectory_be_enough_to_estimate_statistics",
       "title": "Can one trajectory be enough to estimate statistics?",
       "url": "/posts/can_one_trajectory_be_enough_to_estimate_statistics.html",
-      "tag": "How can I simulate the real world?",
+      "root": "how_can_i_simulate_the_real_world",
+      "root_title": "How can I simulate the real world?",
       "draft": false,
       "date": "2026-11-07",
       "excerpt": "Yes! If we have an accurate 'weighting model' for the past values, we can get an estimated mean state value from a weighted average over the full state partition history.",
@@ -178,13 +186,13 @@
       "references": [
         "doucet2011",
         "gordon1993",
-        "how_do_we_estimate_statistics_across_trajectories",
         "how_can_i_simulate_the_real_world",
+        "how_do_we_estimate_statistics_across_trajectories",
         "wiki_ergodicity"
       ],
       "cites": [
-        "how_do_we_estimate_statistics_across_trajectories",
-        "how_can_i_simulate_the_real_world"
+        "how_can_i_simulate_the_real_world",
+        "how_do_we_estimate_statistics_across_trajectories"
       ],
       "cited_by": [
         "can_a_simulation_learn_as_the_data_arrives",
@@ -195,7 +203,8 @@
       "slug": "could_quantum_hardware_run_a_simulation",
       "title": "Could quantum hardware run a simulation?",
       "url": "/posts/could_quantum_hardware_run_a_simulation.html",
-      "tag": "Loose Threads",
+      "root": "how_can_i_simulate_the_real_world",
+      "root_title": "How can I simulate the real world?",
       "draft": false,
       "date": "2026-11-07",
       "excerpt": "Note that the concepts in this section are the most likely to change with future advancements in quantum computing.",
@@ -225,7 +234,8 @@
       "slug": "how_are_a_partitions_next_values_calculated",
       "title": "How are a partition's next values calculated?",
       "url": "/posts/how_are_a_partitions_next_values_calculated.html",
-      "tag": "How can I simulate the real world?",
+      "root": "how_can_i_simulate_the_real_world",
+      "root_title": "How can I simulate the real world?",
       "draft": false,
       "date": "2026-11-07",
       "excerpt": "For an overall simulation data view, we can create a 'state partition histories' structure. This is a collection of each state partition history that exists within the simulation.",
@@ -234,14 +244,14 @@
       ],
       "references": [
         "durbinkoopman2012",
+        "how_can_i_simulate_the_real_world",
         "what_is_a_state_partition",
-        "what_decides_when_the_next_timestep_happens",
-        "how_can_i_simulate_the_real_world"
+        "what_decides_when_the_next_timestep_happens"
       ],
       "cites": [
+        "how_can_i_simulate_the_real_world",
         "what_is_a_state_partition",
-        "what_decides_when_the_next_timestep_happens",
-        "how_can_i_simulate_the_real_world"
+        "what_decides_when_the_next_timestep_happens"
       ],
       "cited_by": [
         "how_are_the_histories_updated_after_a_step",
@@ -255,7 +265,8 @@
       "slug": "how_are_the_histories_updated_after_a_step",
       "title": "How are the histories updated after a step?",
       "url": "/posts/how_are_the_histories_updated_after_a_step.html",
-      "tag": "How can I simulate the real world?",
+      "root": "how_can_i_simulate_the_real_world",
+      "root_title": "How can I simulate the real world?",
       "draft": false,
       "date": "2026-11-07",
       "excerpt": "Having calculated the next values of each state partition and the next timestep, we should perform operations over the cumulative timesteps history and each state partition history to update their structures with this new data.",
@@ -263,12 +274,12 @@
         "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/update-time-history.svg"
       ],
       "references": [
-        "how_are_a_partitions_next_values_calculated",
-        "how_can_i_simulate_the_real_world"
+        "how_can_i_simulate_the_real_world",
+        "how_are_a_partitions_next_values_calculated"
       ],
       "cites": [
-        "how_are_a_partitions_next_values_calculated",
-        "how_can_i_simulate_the_real_world"
+        "how_can_i_simulate_the_real_world",
+        "how_are_a_partitions_next_values_calculated"
       ],
       "cited_by": [
         "what_is_a_simulation_run"
@@ -278,7 +289,8 @@
       "slug": "how_can_a_simulation_be_wrong",
       "title": "How can a simulation be wrong?",
       "url": "/posts/how_can_a_simulation_be_wrong.html",
-      "tag": "How can I trust the actions I take in simulations?",
+      "root": "how_can_i_trust_the_actions_i_take_in_simulations",
+      "root_title": "How can I trust the actions I take in simulations?",
       "draft": true,
       "date": "2026-08-30",
       "excerpt": "In addition to simulation states and parameters being uncertain, simulation logic can be wrong too. Simulations are only ever an approximation of the real world, after all.",
@@ -289,12 +301,12 @@
         "box1976",
         "sargent2013",
         "saltelli2019",
-        "what_if_i_can_only_partly_observe_the_system",
-        "how_can_i_trust_the_actions_i_take_in_simulations"
+        "how_can_i_trust_the_actions_i_take_in_simulations",
+        "what_if_i_can_only_partly_observe_the_system"
       ],
       "cites": [
-        "what_if_i_can_only_partly_observe_the_system",
-        "how_can_i_trust_the_actions_i_take_in_simulations"
+        "how_can_i_trust_the_actions_i_take_in_simulations",
+        "what_if_i_can_only_partly_observe_the_system"
       ],
       "cited_by": [
         "how_sensitive_is_my_action_to_the_simulation",
@@ -305,7 +317,8 @@
       "slug": "how_can_i_simulate_the_real_world",
       "title": "How can I simulate the real world?",
       "url": "/posts/how_can_i_simulate_the_real_world.html",
-      "tag": "How can I simulate the real world?",
+      "root": "how_can_i_simulate_the_real_world",
+      "root_title": "How can I simulate the real world?",
       "draft": false,
       "date": "2026-05-16",
       "excerpt": "This is a collection of posts aimed at programmers and non-technical readers wanting to learn the fundamentals of simulation technology and how it can be useful to the world.",
@@ -350,7 +363,8 @@
       "slug": "how_can_i_tell_luck_from_skill",
       "title": "How can I tell luck from skill?",
       "url": "/posts/how_can_i_tell_luck_from_skill.html",
-      "tag": "How can I trust the actions I take in simulations?",
+      "root": "how_can_i_trust_the_actions_i_take_in_simulations",
+      "root_title": "How can I trust the actions I take in simulations?",
       "draft": true,
       "date": "2026-11-07",
       "excerpt": "What else does this simulation with multiple trajectories help us understand about taking actions in the real world? Individual measurements of outcomes can be wrong, or misleading.",
@@ -359,12 +373,12 @@
       ],
       "references": [
         "mauboussin2012",
-        "what_makes_an_action_good",
-        "how_can_i_trust_the_actions_i_take_in_simulations"
+        "how_can_i_trust_the_actions_i_take_in_simulations",
+        "what_makes_an_action_good"
       ],
       "cites": [
-        "what_makes_an_action_good",
-        "how_can_i_trust_the_actions_i_take_in_simulations"
+        "how_can_i_trust_the_actions_i_take_in_simulations",
+        "what_makes_an_action_good"
       ],
       "cited_by": [
         "can_i_backtest_the_actions_a_simulation_recommends",
@@ -375,7 +389,8 @@
       "slug": "how_can_i_trust_the_actions_i_take_in_simulations",
       "title": "How can I trust the actions I take in simulations?",
       "url": "/posts/how_can_i_trust_the_actions_i_take_in_simulations.html",
-      "tag": "How can I trust the actions I take in simulations?",
+      "root": "how_can_i_trust_the_actions_i_take_in_simulations",
+      "root_title": "How can I trust the actions I take in simulations?",
       "draft": true,
       "date": "2026-08-30",
       "excerpt": "The '[[howcansimulationshelpmetakebetteractions|How can simulations help me take better actions?]]' collection showed simulations informing real-world decisions through interactive dashboards. So the value of simulating the outcomes of actions taken in the real world is quite...",
@@ -413,21 +428,22 @@
       "slug": "how_can_interaction_build_trust",
       "title": "How can interaction build trust?",
       "url": "/posts/how_can_interaction_build_trust.html",
-      "tag": "How can I trust the actions I take in simulations?",
+      "root": "how_can_i_trust_the_actions_i_take_in_simulations",
+      "root_title": "How can I trust the actions I take in simulations?",
       "draft": true,
       "date": "2026-11-07",
       "excerpt": "- How can interactions play a role?",
       "images": [],
       "references": [
         "tufte2001",
-        "what_makes_a_simulation_output_look_trustworthy",
+        "how_can_i_trust_the_actions_i_take_in_simulations",
         "how_can_simulations_help_me_take_better_actions",
-        "how_can_i_trust_the_actions_i_take_in_simulations"
+        "what_makes_a_simulation_output_look_trustworthy"
       ],
       "cites": [
-        "what_makes_a_simulation_output_look_trustworthy",
+        "how_can_i_trust_the_actions_i_take_in_simulations",
         "how_can_simulations_help_me_take_better_actions",
-        "how_can_i_trust_the_actions_i_take_in_simulations"
+        "what_makes_a_simulation_output_look_trustworthy"
       ],
       "cited_by": []
     },
@@ -435,7 +451,8 @@
       "slug": "how_can_simulations_help_me_take_better_actions",
       "title": "How can simulations help me take better actions?",
       "url": "/posts/how_can_simulations_help_me_take_better_actions.html",
-      "tag": "How can simulations help me take better actions?",
+      "root": "how_can_simulations_help_me_take_better_actions",
+      "root_title": "How can simulations help me take better actions?",
       "draft": false,
       "date": "2026-05-16",
       "excerpt": "This is a collection of simulated examples of real-world actions explored through interactive dashboards. These dashboards are all powered by illustrative research models, not production-ready decision-support tools.",
@@ -462,7 +479,8 @@
       "slug": "how_do_evolutionary_strategies_find_a_policy",
       "title": "How do evolutionary strategies find a policy?",
       "url": "/posts/how_do_evolutionary_strategies_find_a_policy.html",
-      "tag": "How do I automate taking actions with simulations?",
+      "root": "how_do_i_automate_taking_actions_with_simulations",
+      "root_title": "How do I automate taking actions with simulations?",
       "draft": true,
       "date": "2026-08-30",
       "excerpt": "The evolutionary strategies algorithm can be applied to search future simulation trajectories to find the best set of policy parameters needed to achieve some discounted future reward.",
@@ -472,13 +490,13 @@
       "references": [
         "hansen2001",
         "salimans2017",
-        "what_is_discounted_future_reward",
         "how_do_i_automate_taking_actions_with_simulations",
+        "what_is_discounted_future_reward",
         "wiki_evolution_strategy"
       ],
       "cites": [
-        "what_is_discounted_future_reward",
-        "how_do_i_automate_taking_actions_with_simulations"
+        "how_do_i_automate_taking_actions_with_simulations",
+        "what_is_discounted_future_reward"
       ],
       "cited_by": []
     },
@@ -486,7 +504,8 @@
       "slug": "how_do_i_automate_taking_actions_with_simulations",
       "title": "How do I automate taking actions with simulations?",
       "url": "/posts/how_do_i_automate_taking_actions_with_simulations.html",
-      "tag": "How do I automate taking actions with simulations?",
+      "root": "how_do_i_automate_taking_actions_with_simulations",
+      "root_title": "How do I automate taking actions with simulations?",
       "draft": true,
       "date": "2026-09-07",
       "excerpt": "This collection should include: - The concept of a policy - Learning using the simulation itself (evolutionary strategies, monte carlo tree search and touch on how these are different to Deep RL but still in the same family of sample-driven - which depend on simulations existi...",
@@ -508,7 +527,8 @@
       "slug": "how_do_i_choose_between_simulation_structures",
       "title": "How do I choose between simulation structures?",
       "url": "/posts/how_do_i_choose_between_simulation_structures.html",
-      "tag": "How can I simulate the real world?",
+      "root": "how_can_i_simulate_the_real_world",
+      "root_title": "How can I simulate the real world?",
       "draft": false,
       "date": "2025-12-21",
       "excerpt": "There is usually more than one simulation structure that can be a viable model for the real world system of interest, and these often have different numbers of parameters.",
@@ -518,13 +538,13 @@
       "references": [
         "kassraftery1995",
         "quinn2023",
-        "is_a_sloppy_simulation_a_bad_one",
         "how_can_i_simulate_the_real_world",
+        "is_a_sloppy_simulation_a_bad_one",
         "wiki_occams_razor"
       ],
       "cites": [
-        "is_a_sloppy_simulation_a_bad_one",
-        "how_can_i_simulate_the_real_world"
+        "how_can_i_simulate_the_real_world",
+        "is_a_sloppy_simulation_a_bad_one"
       ],
       "cited_by": [
         "which_simulation_should_i_use_to_take_an_action"
@@ -534,7 +554,8 @@
       "slug": "how_do_i_design_using_simulations",
       "title": "How do I design using simulations?",
       "url": "/posts/how_do_i_design_using_simulations.html",
-      "tag": "How do I design using simulations?",
+      "root": "how_do_i_design_using_simulations",
+      "root_title": "How do I design using simulations?",
       "draft": true,
       "date": "2026-09-07",
       "excerpt": "Thinking this collection should be entirely synthetic so we can focus on defining the generalised software / declarative schemas for each domain which is the real challenge of this collection. We can potentially do real examples later in another collection.",
@@ -550,21 +571,22 @@
       "slug": "how_do_i_set_up_a_simulation_to_learn_a_policy",
       "title": "How do I set up a simulation to learn a policy?",
       "url": "/posts/how_do_i_set_up_a_simulation_to_learn_a_policy.html",
-      "tag": "How do I automate taking actions with simulations?",
+      "root": "how_do_i_automate_taking_actions_with_simulations",
+      "root_title": "How do I automate taking actions with simulations?",
       "draft": true,
       "date": "2026-08-30",
       "excerpt": "Learning using the simulation itself (evolutionary strategies, monte carlo tree search and touch on how these are different to Deep RL but still in the same family of sample-driven - which depend on simulations existing)",
       "images": [],
       "references": [
         "suttonbarto2018",
+        "how_do_i_automate_taking_actions_with_simulations",
         "what_is_a_policy",
-        "what_is_a_state_partition",
-        "how_do_i_automate_taking_actions_with_simulations"
+        "what_is_a_state_partition"
       ],
       "cites": [
+        "how_do_i_automate_taking_actions_with_simulations",
         "what_is_a_policy",
-        "what_is_a_state_partition",
-        "how_do_i_automate_taking_actions_with_simulations"
+        "what_is_a_state_partition"
       ],
       "cited_by": [
         "what_is_discounted_future_reward"
@@ -574,7 +596,8 @@
       "slug": "how_do_simulations_run_on_cpus",
       "title": "How do simulations run on CPUs?",
       "url": "/posts/how_do_simulations_run_on_cpus.html",
-      "tag": "Loose Threads",
+      "root": "how_can_i_simulate_the_real_world",
+      "root_title": "How can I simulate the real world?",
       "draft": false,
       "date": "2026-05-10",
       "excerpt": "When we talk about 'classical' hardware here, we just mean standard CPUs.",
@@ -600,7 +623,8 @@
       "slug": "how_do_state_partitions_share_information",
       "title": "How do state partitions share information?",
       "url": "/posts/how_do_state_partitions_share_information.html",
-      "tag": "How can I simulate the real world?",
+      "root": "how_can_i_simulate_the_real_world",
+      "root_title": "How can I simulate the real world?",
       "draft": false,
       "date": "2026-11-07",
       "excerpt": "So far we have considered partition iterations as occurring separately within the simulation. But it is important for these separate partitions to be able to pass information to each other.",
@@ -609,12 +633,12 @@
       ],
       "references": [
         "grimm2006",
-        "how_are_a_partitions_next_values_calculated",
-        "how_can_i_simulate_the_real_world"
+        "how_can_i_simulate_the_real_world",
+        "how_are_a_partitions_next_values_calculated"
       ],
       "cites": [
-        "how_are_a_partitions_next_values_calculated",
-        "how_can_i_simulate_the_real_world"
+        "how_can_i_simulate_the_real_world",
+        "how_are_a_partitions_next_values_calculated"
       ],
       "cited_by": [
         "can_a_simulation_run_inside_another_simulation"
@@ -624,7 +648,8 @@
       "slug": "how_do_we_estimate_statistics_across_trajectories",
       "title": "How do we estimate statistics across trajectories?",
       "url": "/posts/how_do_we_estimate_statistics_across_trajectories.html",
-      "tag": "How can I simulate the real world?",
+      "root": "how_can_i_simulate_the_real_world",
+      "root_title": "How can I simulate the real world?",
       "draft": false,
       "date": "2026-11-07",
       "excerpt": "There is a way we can compute these probabilities without having to trace the path of every possible trajectory, and often without having to keep a record of every possible state value.",
@@ -633,12 +658,12 @@
       ],
       "references": [
         "owen2013",
-        "why_think_about_a_simulation_probabilistically",
-        "how_can_i_simulate_the_real_world"
+        "how_can_i_simulate_the_real_world",
+        "why_think_about_a_simulation_probabilistically"
       ],
       "cites": [
-        "why_think_about_a_simulation_probabilistically",
-        "how_can_i_simulate_the_real_world"
+        "how_can_i_simulate_the_real_world",
+        "why_think_about_a_simulation_probabilistically"
       ],
       "cited_by": [
         "can_one_trajectory_be_enough_to_estimate_statistics",
@@ -649,7 +674,8 @@
       "slug": "how_do_we_get_probabilities_back_from_statistics",
       "title": "How do we get probabilities back from statistics?",
       "url": "/posts/how_do_we_get_probabilities_back_from_statistics.html",
-      "tag": "How can I simulate the real world?",
+      "root": "how_can_i_simulate_the_real_world",
+      "root_title": "How can I simulate the real world?",
       "draft": false,
       "date": "2026-11-07",
       "excerpt": "So we have the statistics, but where have the probabilities gone?",
@@ -659,14 +685,14 @@
       "references": [
         "sarkka2013",
         "doucet2011",
+        "how_can_i_simulate_the_real_world",
         "how_do_we_estimate_statistics_across_trajectories",
-        "can_one_trajectory_be_enough_to_estimate_statistics",
-        "how_can_i_simulate_the_real_world"
+        "can_one_trajectory_be_enough_to_estimate_statistics"
       ],
       "cites": [
+        "how_can_i_simulate_the_real_world",
         "how_do_we_estimate_statistics_across_trajectories",
-        "can_one_trajectory_be_enough_to_estimate_statistics",
-        "how_can_i_simulate_the_real_world"
+        "can_one_trajectory_be_enough_to_estimate_statistics"
       ],
       "cited_by": [
         "what_objective_does_a_simulation_learn_against"
@@ -676,7 +702,8 @@
       "slug": "how_does_a_simulation_keep_track_of_time",
       "title": "How does a simulation keep track of time?",
       "url": "/posts/how_does_a_simulation_keep_track_of_time.html",
-      "tag": "How can I simulate the real world?",
+      "root": "how_can_i_simulate_the_real_world",
+      "root_title": "How can I simulate the real world?",
       "draft": false,
       "date": "2026-11-07",
       "excerpt": "Time is probably the most important variable to track in a simulation. This is because everything that happens within a simulation only has meaning with respect to the real world if we can trace what point in simulated time that it happened.",
@@ -699,7 +726,8 @@
       "slug": "how_does_a_simulation_learn_its_parameters_from_data",
       "title": "How does a simulation learn its parameters from data?",
       "url": "/posts/how_does_a_simulation_learn_its_parameters_from_data.html",
-      "tag": "How can I simulate the real world?",
+      "root": "how_can_i_simulate_the_real_world",
+      "root_title": "How can I simulate the real world?",
       "draft": false,
       "date": "2026-11-07",
       "excerpt": "If we want to learn the parameters which correspond to simulation trajectories fitting real-world data trends more closely, it is natural to use an objective based on the probabilities of state partition histories that we computed in the previous post.",
@@ -709,14 +737,14 @@
       "references": [
         "cranmer2020",
         "gordon1993",
+        "how_can_i_simulate_the_real_world",
         "what_objective_does_a_simulation_learn_against",
-        "what_is_a_state_partition",
-        "how_can_i_simulate_the_real_world"
+        "what_is_a_state_partition"
       ],
       "cites": [
+        "how_can_i_simulate_the_real_world",
         "what_objective_does_a_simulation_learn_against",
-        "what_is_a_state_partition",
-        "how_can_i_simulate_the_real_world"
+        "what_is_a_state_partition"
       ],
       "cited_by": [
         "can_a_simulation_learn_as_the_data_arrives",
@@ -732,7 +760,8 @@
       "slug": "how_does_an_action_enter_a_simulation",
       "title": "How does an action enter a simulation?",
       "url": "/posts/how_does_an_action_enter_a_simulation.html",
-      "tag": "How can I trust the actions I take in simulations?",
+      "root": "how_can_i_trust_the_actions_i_take_in_simulations",
+      "root_title": "How can I trust the actions I take in simulations?",
       "draft": true,
       "date": "2026-11-07",
       "excerpt": "What does it even mean to take a 'good' action?",
@@ -742,14 +771,14 @@
       ],
       "references": [
         "suttonbarto2018",
+        "how_can_i_trust_the_actions_i_take_in_simulations",
         "how_are_a_partitions_next_values_calculated",
-        "what_is_a_state_partition",
-        "how_can_i_trust_the_actions_i_take_in_simulations"
+        "what_is_a_state_partition"
       ],
       "cites": [
+        "how_can_i_trust_the_actions_i_take_in_simulations",
         "how_are_a_partitions_next_values_calculated",
-        "what_is_a_state_partition",
-        "how_can_i_trust_the_actions_i_take_in_simulations"
+        "what_is_a_state_partition"
       ],
       "cited_by": [
         "what_if_i_can_only_partly_observe_the_system",
@@ -761,7 +790,8 @@
       "slug": "how_is_the_probability_of_a_state_partition_history_evaluated",
       "title": "How is the probability of a state partition history evaluated?",
       "url": "/posts/how_is_the_probability_of_a_state_partition_history_evaluated.html",
-      "tag": "How can I simulate the real world?",
+      "root": "how_can_i_simulate_the_real_world",
+      "root_title": "How can I simulate the real world?",
       "draft": false,
       "date": "2026-11-07",
       "excerpt": "Evaluating the probability of a particular state partition history, given parameters and a cumulative timesteps history, looks a similar to the iterate computation. However, in contrast, this computation does not progress forward in time.",
@@ -770,12 +800,12 @@
       ],
       "references": [
         "sarkka2013",
-        "how_are_a_partitions_next_values_calculated",
-        "how_can_i_simulate_the_real_world"
+        "how_can_i_simulate_the_real_world",
+        "how_are_a_partitions_next_values_calculated"
       ],
       "cites": [
-        "how_are_a_partitions_next_values_calculated",
-        "how_can_i_simulate_the_real_world"
+        "how_can_i_simulate_the_real_world",
+        "how_are_a_partitions_next_values_calculated"
       ],
       "cited_by": [
         "what_is_a_conditional_probability_in_a_simulation"
@@ -785,7 +815,8 @@
       "slug": "how_much_flood_risk_can_natural_flood_management_offset",
       "title": "How much flood risk can natural flood management offset?",
       "url": "/posts/how_much_flood_risk_can_natural_flood_management_offset.html",
-      "tag": "How can simulations help me take better actions?",
+      "root": "how_can_simulations_help_me_take_better_actions",
+      "root_title": "How can simulations help me take better actions?",
       "draft": false,
       "date": "2026-05-12",
       "excerpt": "Climate change is making UK flooding worse: how much can natural flood management interventions offset that risk, and is more spending always better?",
@@ -818,7 +849,8 @@
       "slug": "how_sensitive_is_my_action_to_the_simulation",
       "title": "How sensitive is my action to the simulation?",
       "url": "/posts/how_sensitive_is_my_action_to_the_simulation.html",
-      "tag": "How can I trust the actions I take in simulations?",
+      "root": "how_can_i_trust_the_actions_i_take_in_simulations",
+      "root_title": "How can I trust the actions I take in simulations?",
       "draft": true,
       "date": "2026-08-30",
       "excerpt": "Data Scientists will often ask the following question: if I change this model or its parameters, how will my prediction change?",
@@ -829,14 +861,14 @@
       "references": [
         "saltelli2019",
         "sobol2001",
+        "how_can_i_trust_the_actions_i_take_in_simulations",
         "how_can_a_simulation_be_wrong",
-        "is_a_sloppy_simulation_a_bad_one",
-        "how_can_i_trust_the_actions_i_take_in_simulations"
+        "is_a_sloppy_simulation_a_bad_one"
       ],
       "cites": [
+        "how_can_i_trust_the_actions_i_take_in_simulations",
         "how_can_a_simulation_be_wrong",
-        "is_a_sloppy_simulation_a_bad_one",
-        "how_can_i_trust_the_actions_i_take_in_simulations"
+        "is_a_sloppy_simulation_a_bad_one"
       ],
       "cited_by": [
         "which_simulation_should_i_use_to_take_an_action",
@@ -847,7 +879,8 @@
       "slug": "how_should_a_grid_battery_be_dispatched_as_the_grid_gets_greener",
       "title": "How should a grid battery be dispatched as the grid gets greener?",
       "url": "/posts/how_should_a_grid_battery_be_dispatched_as_the_grid_gets_greener.html",
-      "tag": "How can simulations help me take better actions?",
+      "root": "how_can_simulations_help_me_take_better_actions",
+      "root_title": "How can simulations help me take better actions?",
       "draft": false,
       "date": "2026-05-12",
       "excerpt": "Grid-scale batteries promise to balance the intermittent renewables of a net-zero electricity system: but how should they be dispatched, and does the answer change as the grid gets greener?",
@@ -880,21 +913,22 @@
       "slug": "how_well_does_a_policy_generalise",
       "title": "How well does a policy generalise?",
       "url": "/posts/how_well_does_a_policy_generalise.html",
-      "tag": "How do I automate taking actions with simulations?",
+      "root": "how_do_i_automate_taking_actions_with_simulations",
+      "root_title": "How do I automate taking actions with simulations?",
       "draft": true,
       "date": "2026-11-07",
       "excerpt": "Which action-taking policy logic finds the best actions?",
       "images": [],
       "references": [
         "transtrum2015",
+        "how_do_i_automate_taking_actions_with_simulations",
         "what_is_a_policy",
-        "is_a_sloppy_simulation_a_bad_one",
-        "how_do_i_automate_taking_actions_with_simulations"
+        "is_a_sloppy_simulation_a_bad_one"
       ],
       "cites": [
+        "how_do_i_automate_taking_actions_with_simulations",
         "what_is_a_policy",
-        "is_a_sloppy_simulation_a_bad_one",
-        "how_do_i_automate_taking_actions_with_simulations"
+        "is_a_sloppy_simulation_a_bad_one"
       ],
       "cited_by": []
     },
@@ -902,7 +936,8 @@
       "slug": "is_a_sloppy_simulation_a_bad_one",
       "title": "Is a sloppy simulation a bad one?",
       "url": "/posts/is_a_sloppy_simulation_a_bad_one.html",
-      "tag": "How can I simulate the real world?",
+      "root": "how_can_i_simulate_the_real_world",
+      "root_title": "How can I simulate the real world?",
       "draft": false,
       "date": "2026-11-07",
       "excerpt": "So we have a simulation which is able to learn its parameters from real world data.",
@@ -913,14 +948,14 @@
         "transtrum2015",
         "gutenkunst2007",
         "mao2024",
-        "how_does_a_simulation_learn_its_parameters_from_data",
         "how_can_i_simulate_the_real_world",
+        "how_does_a_simulation_learn_its_parameters_from_data",
         "sethna2024sloppy",
         "mao2025"
       ],
       "cites": [
-        "how_does_a_simulation_learn_its_parameters_from_data",
-        "how_can_i_simulate_the_real_world"
+        "how_can_i_simulate_the_real_world",
+        "how_does_a_simulation_learn_its_parameters_from_data"
       ],
       "cited_by": [
         "how_do_i_choose_between_simulation_structures",
@@ -932,7 +967,8 @@
       "slug": "is_black_box_ai_an_accelerator",
       "title": "Is black box AI an accelerator?",
       "url": "/posts/is_black_box_ai_an_accelerator.html",
-      "tag": "Loose Threads",
+      "root": "how_can_i_simulate_the_real_world",
+      "root_title": "How can I simulate the real world?",
       "draft": false,
       "date": "2026-11-07",
       "excerpt": "Black box AI may not be the answer to all problems, but it is clearly an enormous accelerator for developing world models and making them more performant (in both runtime and predictivity).",
@@ -954,7 +990,8 @@
       "slug": "what_can_a_simulation_do_that_a_prediction_cannot",
       "title": "What can a simulation do that a prediction cannot?",
       "url": "/posts/what_can_a_simulation_do_that_a_prediction_cannot.html",
-      "tag": "How can I simulate the real world?",
+      "root": "how_can_i_simulate_the_real_world",
+      "root_title": "How can I simulate the real world?",
       "draft": false,
       "date": "2025-11-21",
       "excerpt": "With simulations of the real-world, in contrast to other predictive AI approaches, you can also interrogate the internal state of the system to help validate the assumptions used in making a decision.",
@@ -964,12 +1001,12 @@
       "references": [
         "leutbecher2008",
         "epstein2008",
-        "why_simulate_real_world_systems",
-        "how_can_i_simulate_the_real_world"
+        "how_can_i_simulate_the_real_world",
+        "why_simulate_real_world_systems"
       ],
       "cites": [
-        "why_simulate_real_world_systems",
-        "how_can_i_simulate_the_real_world"
+        "how_can_i_simulate_the_real_world",
+        "why_simulate_real_world_systems"
       ],
       "cited_by": [
         "what_is_black_box_ai",
@@ -980,7 +1017,8 @@
       "slug": "what_decides_when_the_next_timestep_happens",
       "title": "What decides when the next timestep happens?",
       "url": "/posts/what_decides_when_the_next_timestep_happens.html",
-      "tag": "How can I simulate the real world?",
+      "root": "how_can_i_simulate_the_real_world",
+      "root_title": "How can I simulate the real world?",
       "draft": false,
       "date": "2026-11-07",
       "excerpt": "So new states of the simulation may happen at different times. But what determines when these times are along the simulation timeline?",
@@ -989,12 +1027,12 @@
       ],
       "references": [
         "lawkelton2014",
-        "how_does_a_simulation_keep_track_of_time",
-        "how_can_i_simulate_the_real_world"
+        "how_can_i_simulate_the_real_world",
+        "how_does_a_simulation_keep_track_of_time"
       ],
       "cites": [
-        "how_does_a_simulation_keep_track_of_time",
-        "how_can_i_simulate_the_real_world"
+        "how_can_i_simulate_the_real_world",
+        "how_does_a_simulation_keep_track_of_time"
       ],
       "cited_by": [
         "how_are_a_partitions_next_values_calculated"
@@ -1004,7 +1042,8 @@
       "slug": "what_do_dashes_and_dots_mean",
       "title": "What do dashes and dots mean?",
       "url": "/posts/what_do_dashes_and_dots_mean.html",
-      "tag": "Loose Threads",
+      "root": "why_no_mathematical_symbols",
+      "root_title": "Why no mathematical symbols?",
       "draft": false,
       "date": "2026-11-07",
       "excerpt": "The blog uses dashed and dotted lines in different ways.",
@@ -1026,7 +1065,8 @@
       "slug": "what_do_the_arrows_mean",
       "title": "What do the arrows mean?",
       "url": "/posts/what_do_the_arrows_mean.html",
-      "tag": "Loose Threads",
+      "root": "why_no_mathematical_symbols",
+      "root_title": "Why no mathematical symbols?",
       "draft": false,
       "date": "2026-11-07",
       "excerpt": "The blog uses two main arrow types in all of the colours.",
@@ -1049,7 +1089,8 @@
       "slug": "what_do_the_colours_mean",
       "title": "What do the colours mean?",
       "url": "/posts/what_do_the_colours_mean.html",
-      "tag": "Loose Threads",
+      "root": "why_no_mathematical_symbols",
+      "root_title": "Why no mathematical symbols?",
       "draft": false,
       "date": "2026-11-07",
       "excerpt": "The blog has a consistent visual scheme of 3 main colours in addition to plain white.",
@@ -1072,7 +1113,8 @@
       "slug": "what_do_the_shapes_mean",
       "title": "What do the shapes mean?",
       "url": "/posts/what_do_the_shapes_mean.html",
-      "tag": "Loose Threads",
+      "root": "why_no_mathematical_symbols",
+      "root_title": "Why no mathematical symbols?",
       "draft": false,
       "date": "2026-11-07",
       "excerpt": "The blog uses three main object types in all of the colours.",
@@ -1095,7 +1137,8 @@
       "slug": "what_does_a_complete_simulation_look_like",
       "title": "What does a complete simulation look like?",
       "url": "/posts/what_does_a_complete_simulation_look_like.html",
-      "tag": "How can I simulate the real world?",
+      "root": "how_can_i_simulate_the_real_world",
+      "root_title": "How can I simulate the real world?",
       "draft": false,
       "date": "2026-05-10",
       "excerpt": "We started this collection of posts with a question: why simulate real-world systems at all?",
@@ -1106,22 +1149,22 @@
         "cranmer2020",
         "jumper2021",
         "stochadex",
+        "how_can_i_simulate_the_real_world",
         "when_should_a_rugby_manager_make_substitutions",
         "can_hospital_prescribing_guidelines_bring_resistance_down",
         "how_much_flood_risk_can_natural_flood_management_offset",
         "how_should_a_grid_battery_be_dispatched_as_the_grid_gets_greener",
         "which_support_policies_keep_small_businesses_alive",
-        "how_do_simulations_run_on_cpus",
-        "how_can_i_simulate_the_real_world"
+        "how_do_simulations_run_on_cpus"
       ],
       "cites": [
+        "how_can_i_simulate_the_real_world",
         "when_should_a_rugby_manager_make_substitutions",
         "can_hospital_prescribing_guidelines_bring_resistance_down",
         "how_much_flood_risk_can_natural_flood_management_offset",
         "how_should_a_grid_battery_be_dispatched_as_the_grid_gets_greener",
         "which_support_policies_keep_small_businesses_alive",
-        "how_do_simulations_run_on_cpus",
-        "how_can_i_simulate_the_real_world"
+        "how_do_simulations_run_on_cpus"
       ],
       "cited_by": []
     },
@@ -1129,19 +1172,20 @@
       "slug": "what_happens_when_the_system_drifts",
       "title": "What happens when the system drifts?",
       "url": "/posts/what_happens_when_the_system_drifts.html",
-      "tag": "How can I trust the actions I take in simulations?",
+      "root": "how_can_i_trust_the_actions_i_take_in_simulations",
+      "root_title": "How can I trust the actions I take in simulations?",
       "draft": true,
       "date": "2026-11-07",
       "excerpt": "Cover: - Concept drift and how it affects this - Adaptive simulations",
       "images": [],
       "references": [
         "gama2014",
-        "can_a_simulation_learn_as_the_data_arrives",
-        "how_can_i_trust_the_actions_i_take_in_simulations"
+        "how_can_i_trust_the_actions_i_take_in_simulations",
+        "can_a_simulation_learn_as_the_data_arrives"
       ],
       "cites": [
-        "can_a_simulation_learn_as_the_data_arrives",
-        "how_can_i_trust_the_actions_i_take_in_simulations"
+        "how_can_i_trust_the_actions_i_take_in_simulations",
+        "can_a_simulation_learn_as_the_data_arrives"
       ],
       "cited_by": []
     },
@@ -1149,7 +1193,8 @@
       "slug": "what_if_i_can_only_partly_observe_the_system",
       "title": "What if I can only partly observe the system?",
       "url": "/posts/what_if_i_can_only_partly_observe_the_system.html",
-      "tag": "How can I trust the actions I take in simulations?",
+      "root": "how_can_i_trust_the_actions_i_take_in_simulations",
+      "root_title": "How can I trust the actions I take in simulations?",
       "draft": true,
       "date": "2026-11-07",
       "excerpt": "Consider the logic which our [[whatmakesanactiongood|action-to-outcome simulation]] might use when applied to the example of stopping mass treatment in a population when the prevalence of the disease has gone to 0.",
@@ -1159,15 +1204,15 @@
       ],
       "references": [
         "sargent2013",
+        "how_can_i_trust_the_actions_i_take_in_simulations",
         "how_does_an_action_enter_a_simulation",
         "why_think_about_a_simulation_probabilistically",
-        "how_can_i_trust_the_actions_i_take_in_simulations",
         "what_makes_an_action_good"
       ],
       "cites": [
+        "how_can_i_trust_the_actions_i_take_in_simulations",
         "how_does_an_action_enter_a_simulation",
         "why_think_about_a_simulation_probabilistically",
-        "how_can_i_trust_the_actions_i_take_in_simulations",
         "what_makes_an_action_good"
       ],
       "cited_by": [
@@ -1178,7 +1223,8 @@
       "slug": "what_is_a_batch_simulation_architecture",
       "title": "What is a batch simulation architecture?",
       "url": "/posts/what_is_a_batch_simulation_architecture.html",
-      "tag": "Loose Threads",
+      "root": "how_can_i_simulate_the_real_world",
+      "root_title": "How can I simulate the real world?",
       "draft": false,
       "date": "2026-11-07",
       "excerpt": "Batch simulation architectures evaluate multiple successive sequences of next state values for the system over a wider interval in time all as one computational block.",
@@ -1201,7 +1247,8 @@
       "slug": "what_is_a_conditional_probability_in_a_simulation",
       "title": "What is a conditional probability in a simulation?",
       "url": "/posts/what_is_a_conditional_probability_in_a_simulation.html",
-      "tag": "How can I simulate the real world?",
+      "root": "how_can_i_simulate_the_real_world",
+      "root_title": "How can I simulate the real world?",
       "draft": false,
       "date": "2026-11-07",
       "excerpt": "We can relate two successive probability evaluations in time together by making the answer of the second depend on the outcome of the first.",
@@ -1211,12 +1258,12 @@
       "references": [
         "sarkka2013",
         "chopin2020",
-        "how_is_the_probability_of_a_state_partition_history_evaluated",
-        "how_can_i_simulate_the_real_world"
+        "how_can_i_simulate_the_real_world",
+        "how_is_the_probability_of_a_state_partition_history_evaluated"
       ],
       "cites": [
-        "how_is_the_probability_of_a_state_partition_history_evaluated",
-        "how_can_i_simulate_the_real_world"
+        "how_can_i_simulate_the_real_world",
+        "how_is_the_probability_of_a_state_partition_history_evaluated"
       ],
       "cited_by": [
         "why_cant_we_track_every_possible_trajectory"
@@ -1226,7 +1273,8 @@
       "slug": "what_is_a_policy",
       "title": "What is a policy?",
       "url": "/posts/what_is_a_policy.html",
-      "tag": "How do I automate taking actions with simulations?",
+      "root": "how_do_i_automate_taking_actions_with_simulations",
+      "root_title": "How do I automate taking actions with simulations?",
       "draft": true,
       "date": "2026-09-07",
       "excerpt": "Action-taking policies define the logic which take in the state of the world and map it to a taken action at any moment in time.",
@@ -1235,12 +1283,12 @@
       ],
       "references": [
         "suttonbarto2018",
-        "how_does_an_action_enter_a_simulation",
-        "how_do_i_automate_taking_actions_with_simulations"
+        "how_do_i_automate_taking_actions_with_simulations",
+        "how_does_an_action_enter_a_simulation"
       ],
       "cites": [
-        "how_does_an_action_enter_a_simulation",
-        "how_do_i_automate_taking_actions_with_simulations"
+        "how_do_i_automate_taking_actions_with_simulations",
+        "how_does_an_action_enter_a_simulation"
       ],
       "cited_by": [
         "can_i_find_a_policy_without_a_simulation",
@@ -1252,7 +1300,8 @@
       "slug": "what_is_a_simulation_run",
       "title": "What is a simulation run?",
       "url": "/posts/what_is_a_simulation_run.html",
-      "tag": "How can I simulate the real world?",
+      "root": "how_can_i_simulate_the_real_world",
+      "root_title": "How can I simulate the real world?",
       "draft": false,
       "date": "2026-11-07",
       "excerpt": "A 'simulation run' defines the evolution of a simulation state over some specified period in time.",
@@ -1261,12 +1310,12 @@
       ],
       "references": [
         "lawkelton2014",
-        "how_are_the_histories_updated_after_a_step",
-        "how_can_i_simulate_the_real_world"
+        "how_can_i_simulate_the_real_world",
+        "how_are_the_histories_updated_after_a_step"
       ],
       "cites": [
-        "how_are_the_histories_updated_after_a_step",
-        "how_can_i_simulate_the_real_world"
+        "how_can_i_simulate_the_real_world",
+        "how_are_the_histories_updated_after_a_step"
       ],
       "cited_by": [
         "can_a_simulation_run_inside_another_simulation",
@@ -1278,7 +1327,8 @@
       "slug": "what_is_a_state_partition",
       "title": "What is a state partition?",
       "url": "/posts/what_is_a_state_partition.html",
-      "tag": "How can I simulate the real world?",
+      "root": "how_can_i_simulate_the_real_world",
+      "root_title": "How can I simulate the real world?",
       "draft": false,
       "date": "2026-11-07",
       "excerpt": "Simulations also have a 'state' associated to them for each value of time.",
@@ -1289,12 +1339,12 @@
       "references": [
         "grimm2006",
         "durbinkoopman2012",
-        "how_does_a_simulation_keep_track_of_time",
-        "how_can_i_simulate_the_real_world"
+        "how_can_i_simulate_the_real_world",
+        "how_does_a_simulation_keep_track_of_time"
       ],
       "cites": [
-        "how_does_a_simulation_keep_track_of_time",
-        "how_can_i_simulate_the_real_world"
+        "how_can_i_simulate_the_real_world",
+        "how_does_a_simulation_keep_track_of_time"
       ],
       "cited_by": [
         "can_hospital_prescribing_guidelines_bring_resistance_down",
@@ -1312,7 +1362,8 @@
       "slug": "what_is_black_box_ai",
       "title": "What is black box AI?",
       "url": "/posts/what_is_black_box_ai.html",
-      "tag": "Loose Threads",
+      "root": "how_can_i_simulate_the_real_world",
+      "root_title": "How can I simulate the real world?",
       "draft": false,
       "date": "2025-12-01",
       "excerpt": "Here are some opinions on the realistic potential for 'black box' AI methods to improve human prediction and decision-making processes.",
@@ -1334,7 +1385,8 @@
       "slug": "what_is_discounted_future_reward",
       "title": "What is discounted future reward?",
       "url": "/posts/what_is_discounted_future_reward.html",
-      "tag": "How do I automate taking actions with simulations?",
+      "root": "how_do_i_automate_taking_actions_with_simulations",
+      "root_title": "How do I automate taking actions with simulations?",
       "draft": true,
       "date": "2026-11-07",
       "excerpt": "The 'discounted future reward' is a quantity we can specify that a simulation trajectory will have accumulated into the future, accounting for increasing distance into the future by 'discounting' it gradually with a weighting.",
@@ -1343,13 +1395,13 @@
       ],
       "references": [
         "suttonbarto2018",
-        "how_do_i_set_up_a_simulation_to_learn_a_policy",
         "how_do_i_automate_taking_actions_with_simulations",
+        "how_do_i_set_up_a_simulation_to_learn_a_policy",
         "wiki_reinforcement_learning"
       ],
       "cites": [
-        "how_do_i_set_up_a_simulation_to_learn_a_policy",
-        "how_do_i_automate_taking_actions_with_simulations"
+        "how_do_i_automate_taking_actions_with_simulations",
+        "how_do_i_set_up_a_simulation_to_learn_a_policy"
       ],
       "cited_by": [
         "how_do_evolutionary_strategies_find_a_policy"
@@ -1359,7 +1411,8 @@
       "slug": "what_is_the_one_history_problem",
       "title": "What is the one-history problem?",
       "url": "/posts/what_is_the_one_history_problem.html",
-      "tag": "How can I trust the actions I take in simulations?",
+      "root": "how_can_i_trust_the_actions_i_take_in_simulations",
+      "root_title": "How can I trust the actions I take in simulations?",
       "draft": true,
       "date": "2026-11-07",
       "excerpt": "Cover: - Relate back to single trajectory discussion in [[whatmakesanactiongood|the post on good actions]] - All ways around this make assumptions which might be broken",
@@ -1367,13 +1420,13 @@
       "references": [
         "imbensrubin2015",
         "levine2020",
-        "how_can_i_tell_luck_from_skill",
         "how_can_i_trust_the_actions_i_take_in_simulations",
+        "how_can_i_tell_luck_from_skill",
         "what_makes_an_action_good"
       ],
       "cites": [
-        "how_can_i_tell_luck_from_skill",
         "how_can_i_trust_the_actions_i_take_in_simulations",
+        "how_can_i_tell_luck_from_skill",
         "what_makes_an_action_good"
       ],
       "cited_by": []
@@ -1382,7 +1435,8 @@
       "slug": "what_is_the_visual_grammar_of_these_diagrams",
       "title": "What is the visual grammar of these diagrams?",
       "url": "/posts/what_is_the_visual_grammar_of_these_diagrams.html",
-      "tag": "Loose Threads",
+      "root": "why_no_mathematical_symbols",
+      "root_title": "Why no mathematical symbols?",
       "draft": false,
       "date": "2026-09-21",
       "excerpt": "The visual design of explanations is very important to this blog.",
@@ -1413,7 +1467,8 @@
       "slug": "what_makes_a_simulation_output_look_trustworthy",
       "title": "What makes a simulation output look trustworthy?",
       "url": "/posts/what_makes_a_simulation_output_look_trustworthy.html",
-      "tag": "How can I trust the actions I take in simulations?",
+      "root": "how_can_i_trust_the_actions_i_take_in_simulations",
+      "root_title": "How can I trust the actions I take in simulations?",
       "draft": true,
       "date": "2026-10-03",
       "excerpt": "- We now now how to make simulations trustworthy, and where the limitations of this are. - But what makes a simulation output look trustworthy? - How can we display that trustworthiness visually? (see Tufte)",
@@ -1421,12 +1476,12 @@
       "references": [
         "tufte2001",
         "bertin1983",
-        "how_can_a_simulation_be_wrong",
-        "how_can_i_trust_the_actions_i_take_in_simulations"
+        "how_can_i_trust_the_actions_i_take_in_simulations",
+        "how_can_a_simulation_be_wrong"
       ],
       "cites": [
-        "how_can_a_simulation_be_wrong",
-        "how_can_i_trust_the_actions_i_take_in_simulations"
+        "how_can_i_trust_the_actions_i_take_in_simulations",
+        "how_can_a_simulation_be_wrong"
       ],
       "cited_by": [
         "how_can_interaction_build_trust"
@@ -1436,7 +1491,8 @@
       "slug": "what_makes_an_action_good",
       "title": "What makes an action good?",
       "url": "/posts/what_makes_an_action_good.html",
-      "tag": "How can I trust the actions I take in simulations?",
+      "root": "how_can_i_trust_the_actions_i_take_in_simulations",
+      "root_title": "How can I trust the actions I take in simulations?",
       "draft": true,
       "date": "2026-08-30",
       "excerpt": "From the [[whythinkaboutasimulationprobabilistically|probabilistic perspective]], we only ever see one action-to-outcome pairing in most real world action-taking scenarios. The fuller range of possibilities that a simulation represents is much larger.",
@@ -1446,14 +1502,14 @@
       "references": [
         "mauboussin2012",
         "suttonbarto2018",
+        "how_can_i_trust_the_actions_i_take_in_simulations",
         "how_does_an_action_enter_a_simulation",
-        "why_think_about_a_simulation_probabilistically",
-        "how_can_i_trust_the_actions_i_take_in_simulations"
+        "why_think_about_a_simulation_probabilistically"
       ],
       "cites": [
+        "how_can_i_trust_the_actions_i_take_in_simulations",
         "how_does_an_action_enter_a_simulation",
-        "why_think_about_a_simulation_probabilistically",
-        "how_can_i_trust_the_actions_i_take_in_simulations"
+        "why_think_about_a_simulation_probabilistically"
       ],
       "cited_by": [
         "how_can_i_tell_luck_from_skill",
@@ -1465,7 +1521,8 @@
       "slug": "what_objective_does_a_simulation_learn_against",
       "title": "What objective does a simulation learn against?",
       "url": "/posts/what_objective_does_a_simulation_learn_against.html",
-      "tag": "How can I simulate the real world?",
+      "root": "how_can_i_simulate_the_real_world",
+      "root_title": "How can I simulate the real world?",
       "draft": false,
       "date": "2025-12-21",
       "excerpt": "Unlike machine learning models, which typically come with standard training algorithms (like backpropagation for neural networks), simulations often need us to explicitly choose and design procedures for learning their parameters from real-world data or optimising their outputs.",
@@ -1474,13 +1531,13 @@
       ],
       "references": [
         "cranmer2020",
-        "how_do_we_get_probabilities_back_from_statistics",
         "how_can_i_simulate_the_real_world",
+        "how_do_we_get_probabilities_back_from_statistics",
         "wiki_backpropagation"
       ],
       "cites": [
-        "how_do_we_get_probabilities_back_from_statistics",
-        "how_can_i_simulate_the_real_world"
+        "how_can_i_simulate_the_real_world",
+        "how_do_we_get_probabilities_back_from_statistics"
       ],
       "cited_by": [
         "how_does_a_simulation_learn_its_parameters_from_data"
@@ -1490,7 +1547,8 @@
       "slug": "when_does_specialised_hardware_help",
       "title": "When does specialised hardware help?",
       "url": "/posts/when_does_specialised_hardware_help.html",
-      "tag": "Loose Threads",
+      "root": "how_can_i_simulate_the_real_world",
+      "root_title": "How can I simulate the real world?",
       "draft": false,
       "date": "2026-11-07",
       "excerpt": "From the perspective of standard CPUs, batch simulation architectures are often designed to evaluate segments of the simulation timeline using specialised classical hardware.",
@@ -1513,7 +1571,8 @@
       "slug": "when_is_data_good_enough_for_black_box_ai",
       "title": "When is data good enough for black box AI?",
       "url": "/posts/when_is_data_good_enough_for_black_box_ai.html",
-      "tag": "Loose Threads",
+      "root": "how_can_i_simulate_the_real_world",
+      "root_title": "How can I simulate the real world?",
       "draft": false,
       "date": "2026-11-07",
       "excerpt": "For many high-value problems that humanity (or just businesses) would like solve, the truth is that data is often irrelevant, incomplete, scarce or wrong.",
@@ -1535,7 +1594,8 @@
       "slug": "when_should_a_rugby_manager_make_substitutions",
       "title": "When should a rugby manager make substitutions?",
       "url": "/posts/when_should_a_rugby_manager_make_substitutions.html",
-      "tag": "How can simulations help me take better actions?",
+      "root": "how_can_simulations_help_me_take_better_actions",
+      "root_title": "How can simulations help me take better actions?",
       "draft": false,
       "date": "2026-05-11",
       "excerpt": "A rugby manager picks when to substitute each position group: bring on the front-row replacements early, or save them for the closing minutes?",
@@ -1564,7 +1624,8 @@
       "slug": "which_simulation_should_i_use_to_take_an_action",
       "title": "Which simulation should I use to take an action?",
       "url": "/posts/which_simulation_should_i_use_to_take_an_action.html",
-      "tag": "How can I trust the actions I take in simulations?",
+      "root": "how_can_i_trust_the_actions_i_take_in_simulations",
+      "root_title": "How can I trust the actions I take in simulations?",
       "draft": true,
       "date": "2026-11-07",
       "excerpt": "Cover these topics: - Bayesian model selection applied to action-taking is the same as doing causal inference",
@@ -1572,14 +1633,14 @@
       "references": [
         "kassraftery1995",
         "pearl2009",
+        "how_can_i_trust_the_actions_i_take_in_simulations",
         "how_do_i_choose_between_simulation_structures",
-        "how_sensitive_is_my_action_to_the_simulation",
-        "how_can_i_trust_the_actions_i_take_in_simulations"
+        "how_sensitive_is_my_action_to_the_simulation"
       ],
       "cites": [
+        "how_can_i_trust_the_actions_i_take_in_simulations",
         "how_do_i_choose_between_simulation_structures",
-        "how_sensitive_is_my_action_to_the_simulation",
-        "how_can_i_trust_the_actions_i_take_in_simulations"
+        "how_sensitive_is_my_action_to_the_simulation"
       ],
       "cited_by": []
     },
@@ -1587,7 +1648,8 @@
       "slug": "which_support_policies_keep_small_businesses_alive",
       "title": "Which support policies keep small businesses alive?",
       "url": "/posts/which_support_policies_keep_small_businesses_alive.html",
-      "tag": "How can simulations help me take better actions?",
+      "root": "how_can_simulations_help_me_take_better_actions",
+      "root_title": "How can simulations help me take better actions?",
       "draft": false,
       "date": "2026-05-12",
       "excerpt": "UK small business support comes in different flavours (rates relief, startup grants, incubators, mentoring, etc.): how should a cash-constrained policymaker has to choose between them? To maximise what?",
@@ -1619,7 +1681,8 @@
       "slug": "why_cant_we_track_every_possible_trajectory",
       "title": "Why can't we track every possible trajectory?",
       "url": "/posts/why_cant_we_track_every_possible_trajectory.html",
-      "tag": "How can I simulate the real world?",
+      "root": "how_can_i_simulate_the_real_world",
+      "root_title": "How can I simulate the real world?",
       "draft": false,
       "date": "2026-11-07",
       "excerpt": "So why can’t we just use this recursive relationship to model all the trajectories of the simulation at once? For some simpler systems this is indeed possible, but for most simulations in practice this is computationally infeasible.",
@@ -1629,12 +1692,12 @@
       "references": [
         "owen2013",
         "chopin2020",
-        "what_is_a_conditional_probability_in_a_simulation",
-        "how_can_i_simulate_the_real_world"
+        "how_can_i_simulate_the_real_world",
+        "what_is_a_conditional_probability_in_a_simulation"
       ],
       "cites": [
-        "what_is_a_conditional_probability_in_a_simulation",
-        "how_can_i_simulate_the_real_world"
+        "how_can_i_simulate_the_real_world",
+        "what_is_a_conditional_probability_in_a_simulation"
       ],
       "cited_by": []
     },
@@ -1642,19 +1705,20 @@
       "slug": "why_does_the_simulation_predict_what_it_does",
       "title": "Why does the simulation predict what it does?",
       "url": "/posts/why_does_the_simulation_predict_what_it_does.html",
-      "tag": "How can I trust the actions I take in simulations?",
+      "root": "how_can_i_trust_the_actions_i_take_in_simulations",
+      "root_title": "How can I trust the actions I take in simulations?",
       "draft": true,
       "date": "2026-11-07",
       "excerpt": "Cover these topics: - past-looking simulation graph analysis - forward-looking counterfactual analysis: simulation differencing and why SHAP is better - forward-looking counterfactual analysis: simulation SHAP analysis",
       "images": [],
       "references": [
         "lundberg2017",
-        "how_sensitive_is_my_action_to_the_simulation",
-        "how_can_i_trust_the_actions_i_take_in_simulations"
+        "how_can_i_trust_the_actions_i_take_in_simulations",
+        "how_sensitive_is_my_action_to_the_simulation"
       ],
       "cites": [
-        "how_sensitive_is_my_action_to_the_simulation",
-        "how_can_i_trust_the_actions_i_take_in_simulations"
+        "how_can_i_trust_the_actions_i_take_in_simulations",
+        "how_sensitive_is_my_action_to_the_simulation"
       ],
       "cited_by": []
     },
@@ -1662,7 +1726,8 @@
       "slug": "why_keep_humans_in_the_loop_with_world_models",
       "title": "Why keep humans in the loop with world models?",
       "url": "/posts/why_keep_humans_in_the_loop_with_world_models.html",
-      "tag": "Loose Threads",
+      "root": "how_can_i_simulate_the_real_world",
+      "root_title": "How can I simulate the real world?",
       "draft": false,
       "date": "2026-11-07",
       "excerpt": "In order to tackle the data environments we described above, it helps to bring as much useful information into the problem as possible. This information could come in the form of inductive biases in the model structure or prior knowledge provided by an expert.",
@@ -1686,7 +1751,8 @@
       "slug": "why_no_mathematical_symbols",
       "title": "Why no mathematical symbols?",
       "url": "/posts/why_no_mathematical_symbols.html",
-      "tag": "Loose Threads",
+      "root": "why_no_mathematical_symbols",
+      "root_title": "Why no mathematical symbols?",
       "draft": false,
       "date": "2025-11-26",
       "excerpt": "Mathematical concepts and tools are absolutely essential to understanding and deriving deeper relationships when analysing systems in the real world.",
@@ -1706,7 +1772,8 @@
       "slug": "why_simulate_real_world_systems",
       "title": "Why simulate real-world systems?",
       "url": "/posts/why_simulate_real_world_systems.html",
-      "tag": "How can I simulate the real world?",
+      "root": "how_can_i_simulate_the_real_world",
+      "root_title": "How can I simulate the real world?",
       "draft": false,
       "date": "2025-11-21",
       "excerpt": "One of the most compelling uses for simulations of real-world systems is in powering decision-making technologies.",
@@ -1730,7 +1797,8 @@
       "slug": "why_think_about_a_simulation_probabilistically",
       "title": "Why think about a simulation probabilistically?",
       "url": "/posts/why_think_about_a_simulation_probabilistically.html",
-      "tag": "How can I simulate the real world?",
+      "root": "how_can_i_simulate_the_real_world",
+      "root_title": "How can I simulate the real world?",
       "draft": false,
       "date": "2025-11-21",
       "excerpt": "The 'trajectory' of a simulation is the sequence of possible state values that its partitions actually take during a specific simulation run.",
@@ -1739,12 +1807,12 @@
       ],
       "references": [
         "owen2013",
-        "what_is_a_simulation_run",
-        "how_can_i_simulate_the_real_world"
+        "how_can_i_simulate_the_real_world",
+        "what_is_a_simulation_run"
       ],
       "cites": [
-        "what_is_a_simulation_run",
-        "how_can_i_simulate_the_real_world"
+        "how_can_i_simulate_the_real_world",
+        "what_is_a_simulation_run"
       ],
       "cited_by": [
         "how_do_we_estimate_statistics_across_trajectories",

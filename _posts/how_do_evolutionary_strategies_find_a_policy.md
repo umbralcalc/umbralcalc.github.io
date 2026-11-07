@@ -1,14 +1,13 @@
 ---
 title: "How do evolutionary strategies find a policy?"
-tag: "How do I automate taking actions with simulations?"
 draft: true
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_optimal_policies_with_the_simulation_itself/optimising-evolutionary-strategies.svg"
 aliases:
 - "How do evolutionary strategies find a policy?"
 cites:
-- "[[what_is_discounted_future_reward]]"
 - "[[how_do_i_automate_taking_actions_with_simulations]]"
+- "[[what_is_discounted_future_reward]]"
 nocite: |
   @hansen2001, @salimans2017
 ---
