@@ -28,7 +28,8 @@
       ],
       "references": [
         "harel1988",
-        "why_no_mathematical_symbols"
+        "why_no_mathematical_symbols",
+        "wiki_lambda_calculus"
       ],
       "cites": [
         "why_no_mathematical_symbols"
@@ -104,7 +105,10 @@
         "stochadex",
         "how_can_simulations_help_me_take_better_actions",
         "what_is_a_state_partition",
-        "how_does_a_simulation_learn_its_parameters_from_data"
+        "how_does_a_simulation_learn_its_parameters_from_data",
+        "antimicrobial_resistance_sim",
+        "ukhsa_fingertips",
+        "ogl3"
       ],
       "cites": [
         "how_can_simulations_help_me_take_better_actions",
@@ -175,7 +179,8 @@
         "doucet2011",
         "gordon1993",
         "how_do_we_estimate_statistics_across_trajectories",
-        "how_can_i_simulate_the_real_world"
+        "how_can_i_simulate_the_real_world",
+        "wiki_ergodicity"
       ],
       "cites": [
         "how_do_we_estimate_statistics_across_trajectories",
@@ -204,7 +209,12 @@
         "aaronson2015",
         "arute2019",
         "nielsenchuang2010",
-        "what_is_a_batch_simulation_architecture"
+        "what_is_a_batch_simulation_architecture",
+        "wiki_qubit",
+        "wiki_ancilla_bit",
+        "wiki_no_cloning",
+        "wiki_quantum_supremacy",
+        "reppel2023io"
       ],
       "cites": [
         "what_is_a_batch_simulation_architecture"
@@ -463,7 +473,8 @@
         "hansen2001",
         "salimans2017",
         "what_is_discounted_future_reward",
-        "how_do_i_automate_taking_actions_with_simulations"
+        "how_do_i_automate_taking_actions_with_simulations",
+        "wiki_evolution_strategy"
       ],
       "cites": [
         "what_is_discounted_future_reward",
@@ -508,7 +519,8 @@
         "kassraftery1995",
         "quinn2023",
         "is_a_sloppy_simulation_a_bad_one",
-        "how_can_i_simulate_the_real_world"
+        "how_can_i_simulate_the_real_world",
+        "wiki_occams_razor"
       ],
       "cites": [
         "is_a_sloppy_simulation_a_bad_one",
@@ -787,7 +799,11 @@
         "stochadex",
         "how_can_simulations_help_me_take_better_actions",
         "what_is_a_state_partition",
-        "how_does_a_simulation_learn_its_parameters_from_data"
+        "how_does_a_simulation_learn_its_parameters_from_data",
+        "floodrisk",
+        "ea_hydrology",
+        "ea_flood_monitoring",
+        "ogl3"
       ],
       "cites": [
         "how_can_simulations_help_me_take_better_actions",
@@ -845,7 +861,11 @@
         "stochadex",
         "how_can_simulations_help_me_take_better_actions",
         "what_is_a_state_partition",
-        "how_does_a_simulation_learn_its_parameters_from_data"
+        "how_does_a_simulation_learn_its_parameters_from_data",
+        "energy_balancer",
+        "neso_data_portal",
+        "carbon_intensity_api",
+        "sheffield_pv_live"
       ],
       "cites": [
         "how_can_simulations_help_me_take_better_actions",
@@ -894,7 +914,9 @@
         "gutenkunst2007",
         "mao2024",
         "how_does_a_simulation_learn_its_parameters_from_data",
-        "how_can_i_simulate_the_real_world"
+        "how_can_i_simulate_the_real_world",
+        "sethna2024sloppy",
+        "mao2025"
       ],
       "cites": [
         "how_does_a_simulation_learn_its_parameters_from_data",
@@ -917,7 +939,11 @@
       "images": [],
       "references": [
         "jumper2021",
-        "why_keep_humans_in_the_loop_with_world_models"
+        "why_keep_humans_in_the_loop_with_world_models",
+        "cursor_agents",
+        "claude_code_docs",
+        "google_antigravity",
+        "deepmind_weathernext"
       ],
       "cites": [
         "why_keep_humans_in_the_loop_with_world_models"
@@ -1318,7 +1344,8 @@
       "references": [
         "suttonbarto2018",
         "how_do_i_set_up_a_simulation_to_learn_a_policy",
-        "how_do_i_automate_taking_actions_with_simulations"
+        "how_do_i_automate_taking_actions_with_simulations",
+        "wiki_reinforcement_learning"
       ],
       "cites": [
         "how_do_i_set_up_a_simulation_to_learn_a_policy",
@@ -1367,7 +1394,9 @@
         "what_do_the_colours_mean",
         "what_do_the_arrows_mean",
         "what_do_the_shapes_mean",
-        "what_do_dashes_and_dots_mean"
+        "what_do_dashes_and_dots_mean",
+        "comic_relief_font",
+        "excalidraw"
       ],
       "cites": [
         "why_no_mathematical_symbols",
@@ -1446,7 +1475,8 @@
       "references": [
         "cranmer2020",
         "how_do_we_get_probabilities_back_from_statistics",
-        "how_can_i_simulate_the_real_world"
+        "how_can_i_simulate_the_real_world",
+        "wiki_backpropagation"
       ],
       "cites": [
         "how_do_we_get_probabilities_back_from_statistics",
@@ -1469,7 +1499,10 @@
       ],
       "references": [
         "jouppi2017",
-        "what_is_a_batch_simulation_architecture"
+        "what_is_a_batch_simulation_architecture",
+        "wiki_gpu",
+        "wiki_tpu",
+        "graphcore_ipu"
       ],
       "cites": [
         "what_is_a_batch_simulation_architecture"
@@ -1515,7 +1548,8 @@
         "stochadex",
         "how_can_simulations_help_me_take_better_actions",
         "what_is_a_state_partition",
-        "how_does_a_simulation_learn_its_parameters_from_data"
+        "how_does_a_simulation_learn_its_parameters_from_data",
+        "trywizard"
       ],
       "cites": [
         "how_can_simulations_help_me_take_better_actions",
@@ -1566,7 +1600,11 @@
         "stochadex",
         "how_can_simulations_help_me_take_better_actions",
         "what_is_a_state_partition",
-        "how_does_a_simulation_learn_its_parameters_from_data"
+        "how_does_a_simulation_learn_its_parameters_from_data",
+        "business_survival",
+        "ons_business_demography",
+        "companies_house_data",
+        "ogl3"
       ],
       "cites": [
         "how_can_simulations_help_me_take_better_actions",
@@ -1745,6 +1783,15 @@
       "year": 2009,
       "url": ""
     },
+    "antimicrobial_resistance_sim": {
+      "type": "webpage",
+      "title": "antimicrobial-resistance: Antimicrobial resistance stewardship simulation",
+      "authors": [
+        "Hardwick"
+      ],
+      "year": 2026,
+      "url": "https://github.com/umbralcalc/antimicrobial-resistance"
+    },
     "arute2019": {
       "type": "article-journal",
       "title": "Quantum supremacy using a programmable superconducting processor",
@@ -1794,6 +1841,15 @@
       "year": 1976,
       "url": "https://doi.org/10.1080/01621459.1976.10480949"
     },
+    "business_survival": {
+      "type": "webpage",
+      "title": "business-survival: Small business survival and support policy simulation",
+      "authors": [
+        "Hardwick"
+      ],
+      "year": 2026,
+      "url": "https://github.com/umbralcalc/business-survival"
+    },
     "can_a_simulation_learn_as_the_data_arrives": {
       "type": "question",
       "title": "Can a simulation learn as the data arrives?",
@@ -1821,6 +1877,15 @@
       "year": 2026,
       "url": "https://umbralcalc.github.io/posts/can_one_trajectory_be_enough_to_estimate_statistics.html"
     },
+    "carbon_intensity_api": {
+      "type": "webpage",
+      "title": "Carbon intensity API",
+      "authors": [
+        "National Energy System Operator"
+      ],
+      "year": null,
+      "url": "https://carbonintensity.org.uk/"
+    },
     "chopin2020": {
       "type": "book",
       "title": "An introduction to sequential monte carlo",
@@ -1831,6 +1896,15 @@
       "year": 2020,
       "url": "https://doi.org/10.1007/978-3-030-47845-2"
     },
+    "claude_code_docs": {
+      "type": "webpage",
+      "title": "Claude code documentation: overview",
+      "authors": [
+        "Anthropic"
+      ],
+      "year": null,
+      "url": "https://code.claude.com/docs/en/overview"
+    },
     "clevelandmcgill1984": {
       "type": "article-journal",
       "title": "Graphical perception: Theory, experimentation, and application to the development of graphical methods",
@@ -1840,6 +1914,24 @@
       ],
       "year": 1984,
       "url": "https://doi.org/10.1080/01621459.1984.10478080"
+    },
+    "comic_relief_font": {
+      "type": "webpage",
+      "title": "Comic relief",
+      "authors": [
+        "Google Fonts"
+      ],
+      "year": null,
+      "url": "https://fonts.google.com/specimen/Comic+Relief"
+    },
+    "companies_house_data": {
+      "type": "webpage",
+      "title": "Free company data product",
+      "authors": [
+        "Companies House"
+      ],
+      "year": null,
+      "url": "http://download.companieshouse.gov.uk/en_output.html"
     },
     "crameri2020": {
       "type": "article-journal",
@@ -1862,6 +1954,24 @@
       ],
       "year": 2020,
       "url": "https://doi.org/10.1073/pnas.1912789117"
+    },
+    "cursor_agents": {
+      "type": "webpage",
+      "title": "Cursor agents",
+      "authors": [
+        "Anysphere"
+      ],
+      "year": null,
+      "url": "https://cursor.com/agents"
+    },
+    "deepmind_weathernext": {
+      "type": "webpage",
+      "title": "WeatherNext",
+      "authors": [
+        "Google DeepMind"
+      ],
+      "year": null,
+      "url": "https://deepmind.google/science/weathernext/"
     },
     "deisenroth2015": {
       "type": "article-journal",
@@ -1904,6 +2014,33 @@
       "year": 2012,
       "url": ""
     },
+    "ea_flood_monitoring": {
+      "type": "webpage",
+      "title": "Real-time flood monitoring API reference",
+      "authors": [
+        "Environment Agency"
+      ],
+      "year": null,
+      "url": "https://environment.data.gov.uk/flood-monitoring/doc/reference"
+    },
+    "ea_hydrology": {
+      "type": "webpage",
+      "title": "Hydrology data explorer",
+      "authors": [
+        "Environment Agency"
+      ],
+      "year": null,
+      "url": "https://environment.data.gov.uk/hydrology/explore"
+    },
+    "energy_balancer": {
+      "type": "webpage",
+      "title": "energy-balancer: Energy storage dispatch and demand response optimisation",
+      "authors": [
+        "Hardwick"
+      ],
+      "year": 2026,
+      "url": "https://github.com/umbralcalc/energy-balancer"
+    },
     "epstein2008": {
       "type": "article-journal",
       "title": "Why model?",
@@ -1913,6 +2050,15 @@
       "year": 2008,
       "url": "https://www.jasss.org/11/4/12.html"
     },
+    "excalidraw": {
+      "type": "webpage",
+      "title": "Excalidraw whiteboard",
+      "authors": [
+        "Excalidraw"
+      ],
+      "year": null,
+      "url": "https://excalidraw.com/"
+    },
     "feynman1982": {
       "type": "article-journal",
       "title": "Simulating physics with computers",
@@ -1921,6 +2067,15 @@
       ],
       "year": 1982,
       "url": "https://doi.org/10.1007/BF02650179"
+    },
+    "floodrisk": {
+      "type": "webpage",
+      "title": "floodrisk: Stochastic simulations of catchment-scale flood dynamics",
+      "authors": [
+        "Hardwick"
+      ],
+      "year": 2026,
+      "url": "https://github.com/umbralcalc/floodrisk"
     },
     "gama2014": {
       "type": "article-journal",
@@ -1944,6 +2099,15 @@
       "year": 1995,
       "url": "https://doi.org/10.1016/0167-7187(95)00498-X"
     },
+    "google_antigravity": {
+      "type": "webpage",
+      "title": "Google antigravity",
+      "authors": [
+        "Google"
+      ],
+      "year": null,
+      "url": "https://antigravity.google/"
+    },
     "gordon1993": {
       "type": "article-journal",
       "title": "Novel approach to nonlinear/non-gaussian bayesian state estimation",
@@ -1954,6 +2118,15 @@
       ],
       "year": 1993,
       "url": "https://doi.org/10.1049/ip-f-2.1993.0015"
+    },
+    "graphcore_ipu": {
+      "type": "webpage",
+      "title": "IPU: Intelligence processing unit",
+      "authors": [
+        "Graphcore"
+      ],
+      "year": null,
+      "url": "https://www.graphcore.ai/products/ipu"
     },
     "grimm2006": {
       "type": "article-journal",
@@ -2371,6 +2544,20 @@
       "year": 2024,
       "url": "https://doi.org/10.1073/pnas.2310002121"
     },
+    "mao2025": {
+      "type": "",
+      "title": "An analytical characterization of sloppiness in neural networks: Insights from linear models",
+      "authors": [
+        "Mao",
+        "Griniasty",
+        "Sun",
+        "Transtrum",
+        "Sethna",
+        "Chaudhari"
+      ],
+      "year": 2025,
+      "url": "https://arxiv.org/abs/2505.08915"
+    },
     "mata1994": {
       "type": "article-journal",
       "title": "Life duration of new firms",
@@ -2412,6 +2599,15 @@
       "year": 2022,
       "url": "https://doi.org/10.1016/S0140-6736(21)02724-0"
     },
+    "neso_data_portal": {
+      "type": "webpage",
+      "title": "NESO data portal",
+      "authors": [
+        "National Energy System Operator"
+      ],
+      "year": null,
+      "url": "https://www.neso.energy/data-portal"
+    },
     "nielsenchuang2010": {
       "type": "book",
       "title": "Quantum computation and quantum information",
@@ -2421,6 +2617,24 @@
       ],
       "year": 2010,
       "url": ""
+    },
+    "ogl3": {
+      "type": "webpage",
+      "title": "Open government licence for public sector information, version 3.0",
+      "authors": [
+        "The National Archives"
+      ],
+      "year": null,
+      "url": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+    },
+    "ons_business_demography": {
+      "type": "webpage",
+      "title": "Business demography, UK",
+      "authors": [
+        "Office for National Statistics"
+      ],
+      "year": null,
+      "url": "https://www.ons.gov.uk/businessindustryandtrade/business/activitysizeandlocation/bulletins/businessdemography/latest"
     },
     "openaction2outcome": {
       "type": "webpage",
@@ -2480,6 +2694,15 @@
       ],
       "year": 2023,
       "url": "https://doi.org/10.1088/1361-6633/aca6f8"
+    },
+    "reppel2023io": {
+      "type": "webpage",
+      "title": "The I/O bottleneck in quantum computing",
+      "authors": [
+        "Reppel"
+      ],
+      "year": 2023,
+      "url": "https://ianreppel.org/io-bottleneck-in-quantum-computing/"
     },
     "rudin2019": {
       "type": "article-journal",
@@ -2551,6 +2774,24 @@
       "year": 2013,
       "url": "https://doi.org/10.1017/CBO9781139344203"
     },
+    "sethna2024sloppy": {
+      "type": "webpage",
+      "title": "Sloppy models, information geometry, and emergent simplicity",
+      "authors": [
+        "Sethna"
+      ],
+      "year": 2024,
+      "url": "https://sethna.lassp.cornell.edu/Teaching/BasicTraining/SloppyBT24.html"
+    },
+    "sheffield_pv_live": {
+      "type": "webpage",
+      "title": "PV_Live API",
+      "authors": [
+        "Sheffield Solar"
+      ],
+      "year": null,
+      "url": "https://www.solar.sheffield.ac.uk/api/"
+    },
     "siano2014": {
       "type": "article-journal",
       "title": "Demand response and smart grids—a survey",
@@ -2602,6 +2843,15 @@
       "year": 2015,
       "url": "https://doi.org/10.1063/1.4923066"
     },
+    "trywizard": {
+      "type": "webpage",
+      "title": "trywizard: An event-based rugby match simulator written in Go",
+      "authors": [
+        "Hardwick"
+      ],
+      "year": 2023,
+      "url": "https://github.com/umbralcalc/trywizard"
+    },
     "tufte2001": {
       "type": "book",
       "title": "The visual display of quantitative information",
@@ -2610,6 +2860,15 @@
       ],
       "year": 2001,
       "url": ""
+    },
+    "ukhsa_fingertips": {
+      "type": "webpage",
+      "title": "Fingertips: Public health data",
+      "authors": [
+        "UK Health Security Agency"
+      ],
+      "year": null,
+      "url": "https://fingertips.phe.org.uk/"
     },
     "what_can_a_simulation_do_that_a_prediction_cannot": {
       "type": "question",
@@ -2835,6 +3094,114 @@
       ],
       "year": 2025,
       "url": "https://umbralcalc.github.io/posts/why_think_about_a_simulation_probabilistically.html"
+    },
+    "wiki_ancilla_bit": {
+      "type": "webpage",
+      "title": "Ancilla bit",
+      "authors": [
+        "Wikipedia contributors"
+      ],
+      "year": null,
+      "url": "https://en.wikipedia.org/wiki/Ancilla_bit"
+    },
+    "wiki_backpropagation": {
+      "type": "webpage",
+      "title": "Backpropagation",
+      "authors": [
+        "Wikipedia contributors"
+      ],
+      "year": null,
+      "url": "https://en.wikipedia.org/wiki/Backpropagation"
+    },
+    "wiki_ergodicity": {
+      "type": "webpage",
+      "title": "Ergodicity",
+      "authors": [
+        "Wikipedia contributors"
+      ],
+      "year": null,
+      "url": "https://en.wikipedia.org/wiki/Ergodicity"
+    },
+    "wiki_evolution_strategy": {
+      "type": "webpage",
+      "title": "Evolution strategy",
+      "authors": [
+        "Wikipedia contributors"
+      ],
+      "year": null,
+      "url": "https://en.wikipedia.org/wiki/Evolution_strategy"
+    },
+    "wiki_gpu": {
+      "type": "webpage",
+      "title": "Graphics processing unit",
+      "authors": [
+        "Wikipedia contributors"
+      ],
+      "year": null,
+      "url": "https://en.wikipedia.org/wiki/Graphics_processing_unit"
+    },
+    "wiki_lambda_calculus": {
+      "type": "webpage",
+      "title": "Lambda calculus",
+      "authors": [
+        "Wikipedia contributors"
+      ],
+      "year": null,
+      "url": "https://en.wikipedia.org/wiki/Lambda_calculus"
+    },
+    "wiki_no_cloning": {
+      "type": "webpage",
+      "title": "No-cloning theorem",
+      "authors": [
+        "Wikipedia contributors"
+      ],
+      "year": null,
+      "url": "https://en.wikipedia.org/wiki/No-cloning_theorem"
+    },
+    "wiki_occams_razor": {
+      "type": "webpage",
+      "title": "Occam’s razor",
+      "authors": [
+        "Wikipedia contributors"
+      ],
+      "year": null,
+      "url": "https://en.wikipedia.org/wiki/Occam%27s_razor"
+    },
+    "wiki_quantum_supremacy": {
+      "type": "webpage",
+      "title": "Quantum supremacy",
+      "authors": [
+        "Wikipedia contributors"
+      ],
+      "year": null,
+      "url": "https://en.wikipedia.org/wiki/Quantum_supremacy"
+    },
+    "wiki_qubit": {
+      "type": "webpage",
+      "title": "Qubit",
+      "authors": [
+        "Wikipedia contributors"
+      ],
+      "year": null,
+      "url": "https://en.wikipedia.org/wiki/Qubit"
+    },
+    "wiki_reinforcement_learning": {
+      "type": "webpage",
+      "title": "Reinforcement learning",
+      "authors": [
+        "Wikipedia contributors"
+      ],
+      "year": null,
+      "url": "https://en.wikipedia.org/wiki/Reinforcement_learning"
+    },
+    "wiki_tpu": {
+      "type": "webpage",
+      "title": "Tensor processing unit",
+      "authors": [
+        "Wikipedia contributors"
+      ],
+      "year": null,
+      "url": "https://en.wikipedia.org/wiki/Tensor_Processing_Unit"
     }
   }
 }

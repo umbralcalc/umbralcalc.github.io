@@ -16,7 +16,7 @@ nocite: |
 
 From the perspective of standard CPUs, batch simulation architectures are often designed to evaluate segments of the simulation timeline using specialised classical hardware.
 
-When we talk about 'specialised classical' hardware here, we mean [GPUs](https://en.wikipedia.org/wiki/Graphics_processing_unit), [TPUs](https://en.wikipedia.org/wiki/Tensor_Processing_Unit), [IPUs](https://www.graphcore.ai/products/ipu) and other specialised processors based on classical computing principles (as opposed to quantum processors).
+When we talk about 'specialised classical' hardware here, we mean [GPUs](#ref-wiki_gpu), [TPUs](#ref-wiki_tpu), [IPUs](#ref-graphcore_ipu) and other specialised processors based on classical computing principles (as opposed to quantum processors).
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/specialised-classical-batch.svg"/></center>
 

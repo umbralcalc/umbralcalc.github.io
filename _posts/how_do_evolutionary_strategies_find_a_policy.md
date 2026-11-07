@@ -16,7 +16,7 @@ nocite: |
 # How do evolutionary strategies find a policy?
 <div style="height:0.75em;"></div>
 
-The [evolutionary strategies](https://en.wikipedia.org/wiki/Evolution_strategy) algorithm can be applied to search future simulation trajectories to find the best set of policy parameters needed to achieve some discounted future reward.
+The [evolutionary strategies](#ref-wiki_evolution_strategy) algorithm can be applied to search future simulation trajectories to find the best set of policy parameters needed to achieve some discounted future reward.
 
 This algorithm relies on sorting the sampled simulation trajectories according to their discounted future rewards and then using the top fraction of these to update the best known policy parameters (and the variance around them) after each timestep.
 

@@ -29,7 +29,7 @@ What we need to find out is how many parameters _are_ constrained (or learned) b
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/simple-vs-complex-fit.svg"/></center>
 
-The [general wisdom](https://en.wikipedia.org/wiki/Occam%27s_razor) is to prefer simulations and models with fewer _constrained_ parameters.
+The [general wisdom](#ref-wiki_occams_razor) is to prefer simulations and models with fewer _constrained_ parameters.
 
 Why? Think about the parameter sensitivity of the quality of fit: if there are more parameters being constrained by the data, this means that the objective value is sensitive to more parameters. So there are more 'moving parts' to the simulation which have a greater chance of being misaligned with some new data we haven't seen yet.
 

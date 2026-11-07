@@ -285,9 +285,9 @@ Pick a support portfolio and a macro scenario, and compare how survival and stoc
 </script>
 ```
 
-The link to this project can be [found here](https://github.com/umbralcalc/business-survival).
+The link to this project can be [found here](#ref-business_survival).
 
-**Data and licence:** This simulation is calibrated to [ONS business demography](https://www.ons.gov.uk/businessindustryandtrade/business/activitysizeandlocation/bulletins/businessdemography/latest) statistics and the [Companies House](http://download.companieshouse.gov.uk/en_output.html) register, with economic covariates from NOMIS and the Bank of England. ONS and Companies House data is Crown copyright and contains public sector information licensed under the [Open Government Licence v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).
+**Data and licence:** This simulation is calibrated to [ONS business demography](#ref-ons_business_demography) statistics and the [Companies House](#ref-companies_house_data) register, with economic covariates from NOMIS and the Bank of England. ONS and Companies House data is Crown copyright and contains public sector information licensed under the [Open Government Licence v3.0](#ref-ogl3).
 
 ## References and further reading
 

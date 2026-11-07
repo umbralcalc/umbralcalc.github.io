@@ -26,7 +26,7 @@ This post gives an outline of the visual design grammar used throughout this blo
 
 ## Text
 
-The '[Comic Relief](https://fonts.google.com/specimen/Comic+Relief)' font is chosen to promote a sense of 'work in progress' akin to [Excalidraw](https://excalidraw.com/). 
+The '[Comic Relief](#ref-comic_relief_font)' font is chosen to promote a sense of 'work in progress' akin to [Excalidraw](#ref-excalidraw). 
 
 In this sense, this font choice also intended to draw the reader into the discussion more as an active participant in the narrative, instead of a bystander to a technical exposition.
 

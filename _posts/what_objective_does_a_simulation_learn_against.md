@@ -15,7 +15,7 @@ nocite: |
 # What objective does a simulation learn against?
 <div style="height:0.75em;"></div>
 
-Unlike machine learning models, which typically come with standard training algorithms (like [backpropagation](https://en.wikipedia.org/wiki/Backpropagation) for neural networks), simulations often need us to explicitly choose and design procedures for learning their parameters from real-world data or optimising their outputs.
+Unlike machine learning models, which typically come with standard training algorithms (like [backpropagation](#ref-wiki_backpropagation) for neural networks), simulations often need us to explicitly choose and design procedures for learning their parameters from real-world data or optimising their outputs.
 
 In order to do this, we must first have some objective which either characterises how close simulation trajectories are to replicating the data we have or define the quantity we want to optimise.
 

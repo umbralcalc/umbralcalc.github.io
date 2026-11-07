@@ -371,18 +371,18 @@
       <p>Quantum hardware seems to naturally fit the batch simulation architecture in the same way that specialised classical hardware does.</p>
       <p>In order to utilise this hardware within a given batch evaluation, one would need to:</p>
       <ul>
-      <li>prepare the initial state of <a href="https://en.wikipedia.org/wiki/Qubit">qubits</a></li>
+      <li>prepare the initial state of <a href="#ref-wiki_qubit">qubits</a></li>
       <li>encode the state partition histories from CPU memory into these qubits</li>
       <li>run quantum gates which encode the logic for multiple timesteps of the simulation</li>
-      <li>entangle the next state values at each timestep with <a href="https://en.wikipedia.org/wiki/Ancilla_bit">ancilla qubits</a> or rely on the qubits for state partition histories themselves</li>
+      <li>entangle the next state values at each timestep with <a href="#ref-wiki_ancilla_bit">ancilla qubits</a> or rely on the qubits for state partition histories themselves</li>
       <li>and measure these next state values in order to write the data to CPU memory.</li>
       </ul>
-      <p>Note also that the <a href="https://en.wikipedia.org/wiki/No-cloning_theorem">no-cloning theorem</a> means we cannot simply copy the qubits which have run the quantum gates; the circuit must run separately for each simulation trajectory.</p>
+      <p>Note also that the <a href="#ref-wiki_no_cloning">no-cloning theorem</a> means we cannot simply copy the qubits which have run the quantum gates; the circuit must run separately for each simulation trajectory.</p>
       <center>
       <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/quantum-batch.svg"/>
       </center>
-      <p>Therefore, you only get a <a href="https://en.wikipedia.org/wiki/Quantum_supremacy">quantum advantage</a> if you can store more than one timestep worth of simulation next state values in qubit memory.</p>
-      <p>Otherwise, if you only effectively have one instantaneous timestep of qubit memory to use, the processing time will likely be dominated by I/O writing to and from the qubits during the simulation. This is also known as the <a href="https://ianreppel.org/io-bottleneck-in-quantum-computing/">quantum I/O bottleneck</a>.</p>
+      <p>Therefore, you only get a <a href="#ref-wiki_quantum_supremacy">quantum advantage</a> if you can store more than one timestep worth of simulation next state values in qubit memory.</p>
+      <p>Otherwise, if you only effectively have one instantaneous timestep of qubit memory to use, the processing time will likely be dominated by I/O writing to and from the qubits during the simulation. This is also known as the <a href="#ref-reppel2023io">quantum I/O bottleneck</a>.</p>
       <h2 id="references-and-further-reading">References and further reading</h2>
       <div id="refs" class="references csl-bib-body hanging-indent" role="list">
       <div id="ref-aaronson2015" class="csl-entry" role="listitem">
@@ -405,6 +405,21 @@
       </div>
       <div id="ref-preskill2018" class="csl-entry" role="listitem">
       Preskill, John. 2018. <span>“Quantum Computing in the <span>NISQ</span> Era and Beyond.”</span> <em>Quantum</em> 2: 79. <a href="https://doi.org/10.22331/q-2018-08-06-79">https://doi.org/10.22331/q-2018-08-06-79</a>.
+      </div>
+      <div id="ref-reppel2023io" class="csl-entry" role="listitem">
+      Reppel, Ian. 2023. <span>“The <span>I/O</span> Bottleneck in Quantum Computing.”</span> <a href="https://ianreppel.org/io-bottleneck-in-quantum-computing/">https://ianreppel.org/io-bottleneck-in-quantum-computing/</a>.
+      </div>
+      <div id="ref-wiki_ancilla_bit" class="csl-entry" role="listitem">
+      Wikipedia contributors. n.d.-a. <span>“Ancilla Bit.”</span> Wikipedia. <a href="https://en.wikipedia.org/wiki/Ancilla_bit">https://en.wikipedia.org/wiki/Ancilla_bit</a>.
+      </div>
+      <div id="ref-wiki_no_cloning" class="csl-entry" role="listitem">
+      Wikipedia contributors. n.d.-b. <span>“No-Cloning Theorem.”</span> Wikipedia. <a href="https://en.wikipedia.org/wiki/No-cloning_theorem">https://en.wikipedia.org/wiki/No-cloning_theorem</a>.
+      </div>
+      <div id="ref-wiki_quantum_supremacy" class="csl-entry" role="listitem">
+      Wikipedia contributors. n.d.-c. <span>“Quantum Supremacy.”</span> Wikipedia. <a href="https://en.wikipedia.org/wiki/Quantum_supremacy">https://en.wikipedia.org/wiki/Quantum_supremacy</a>.
+      </div>
+      <div id="ref-wiki_qubit" class="csl-entry" role="listitem">
+      Wikipedia contributors. n.d.-d. <span>“Qubit.”</span> Wikipedia. <a href="https://en.wikipedia.org/wiki/Qubit">https://en.wikipedia.org/wiki/Qubit</a>.
       </div>
       </div>
 

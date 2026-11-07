@@ -20,7 +20,7 @@ The 'discounted future reward' is a quantity we can specify that a simulation tr
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_optimal_policies_with_the_simulation_itself/discounted-future-reward.svg"/></center>
 
-We are using this concept of discounted future reward in the same way that it is used in [reinforcement learning](https://en.wikipedia.org/wiki/Reinforcement_learning).
+We are using this concept of discounted future reward in the same way that it is used in [reinforcement learning](#ref-wiki_reinforcement_learning).
 
 The idea is that, as you go further into the future, the importance of the reward you have accumulated by then is increasingly irrelevant to actions you might take at the present moment.
 

@@ -130,7 +130,7 @@ Yes! If we have an accurate 'weighting model' for the past values, we can get an
 
 We might also train a machine learning model to predict the statistics of state values from the full state partition history as an alternative.
 
-Note that there are situations where using the state partition histories from one trajectory is not equivalent to using multiple trajectories (see [ergodicity](https://en.wikipedia.org/wiki/Ergodicity)). But this kind of technical problem can often be mitigated by using some mix of the two methods.
+Note that there are situations where using the state partition histories from one trajectory is not equivalent to using multiple trajectories (see [ergodicity](#ref-wiki_ergodicity)). But this kind of technical problem can often be mitigated by using some mix of the two methods.
 
 ## References and further reading
 

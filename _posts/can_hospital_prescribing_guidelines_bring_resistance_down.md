@@ -316,9 +316,9 @@ Pick a prescribing policy and watch how the resistance ratio and resistant infec
 </script>
 ```
 
-The link to this project can be [found here](https://github.com/umbralcalc/antimicrobial-resistance).
+The link to this project can be [found here](#ref-antimicrobial_resistance_sim).
 
-**Data and licence:** This simulation is fitted to AMR surveillance indicators from [UKHSA Fingertips](https://fingertips.phe.org.uk/) (with supporting data from OpenPrescribing.net, the ECDC Surveillance Atlas, and ESPAUR reports). UKHSA Fingertips data is Crown copyright and contains public sector information licensed under the [Open Government Licence v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).
+**Data and licence:** This simulation is fitted to AMR surveillance indicators from [UKHSA Fingertips](#ref-ukhsa_fingertips) (with supporting data from OpenPrescribing.net, the ECDC Surveillance Atlas, and ESPAUR reports). UKHSA Fingertips data is Crown copyright and contains public sector information licensed under the [Open Government Licence v3.0](#ref-ogl3).
 
 ## References and further reading
 
