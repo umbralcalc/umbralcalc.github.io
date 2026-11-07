@@ -36,9 +36,7 @@ nocite: |
   @box1976, @sargent2013
 ```
 
-There is no collection field. A question's parent is the first entry of its
-`cites` list, and its root is found by following parents upward; a post with
-no `cites` is a root. The home page groups questions by root, and the feed
+A question's parent is the first entry of its `cites` list, and its root is found by following parents upward; a post with no `cites` is a root. The home page groups questions by root, and the feed
 uses the root as each item's category.
 
 Obsidian's graph view and backlinks follow the `cites` wikilinks and the
@@ -60,8 +58,16 @@ the references alone, via `_build/questions.py`:
 
 ## Publishing
 
-`./publish.sh ["commit message"]` rebuilds the site, stops if the build or
-its lint fails, commits everything, and pushes to main, which is the deploy.
-From Obsidian, the Shell Commands community plugin can run it as a command
-or ribbon button: set the command to `./publish.sh` with the working
-directory as the vault root.
+Main is protected: changes land through pull requests, and every merge into
+main rebuilds the site and deploys it to GitHub Pages via
+`.github/workflows/pages.yml`. Nothing generated is committed; `posts/`,
+`posts.json`, `questions.json`, `feed.xml`, `sitemap.xml` and `robots.txt`
+are built on the runner (and locally by `./build.sh`, where they are
+ignored by git).
+
+`./publish.sh ["commit message"]` rebuilds locally, stops if the build or
+its lint fails, commits the changes on a `publish/...` branch, opens a pull
+request and sets it to merge itself once the build check passes. From
+Obsidian, the Shell Commands community plugin can run it as a command or
+ribbon button, with the vault root as the working directory. Pull requests
+also run the build, so a broken post fails before it merges.

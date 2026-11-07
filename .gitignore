@@ -20,3 +20,12 @@ Thumbs.db
 # Obsidian vault state
 .obsidian/
 .publish.log
+
+# Built by build.sh and deployed by the pages workflow; never committed
+/posts/
+/posts.json
+/questions.json
+/feed.xml
+/sitemap.xml
+/robots.txt
+/_site/
