@@ -60,13 +60,13 @@
   }
 ,
   {
-    "title": "Can a simulation run inside another simulation?",
+    "title": "title: Can a simulation run inside another simulation?",
     "slug": "can_a_simulation_run_inside_another_simulation",
     "url": "/posts/can_a_simulation_run_inside_another_simulation.html",
-    "tag": "How can I simulate the real world?",
+    "tag": "tag: How can I simulate the real world?",
     "draft": false,
     "date": "",
-    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/embedded-simulation-run.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/embedded-sim-iterate.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/embedded-sim-from-history.svg","Can a simulation run inside another simulation?","[[what_is_a_simulation_run]]","[[how_do_state_partitions_share_information]]","[[how_can_i_simulate_the_real_world_introduction]]"]
+    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/embedded-simulation-run.svg","Can a simulation run inside another simulation?","[[what_is_a_simulation_run]]","[[how_do_state_partitions_share_information]]","[[how_can_i_simulate_the_real_world_introduction]]"]
   }
 ,
   {
@@ -110,23 +110,23 @@
   }
 ,
   {
-    "title": "How are a partition's next values calculated?",
+    "title": "title: How are a partition's next values calculated?",
     "slug": "how_are_a_partitions_next_values_calculated",
     "url": "/posts/how_are_a_partitions_next_values_calculated.html",
-    "tag": "How can I simulate the real world?",
+    "tag": "tag: How can I simulate the real world?",
     "draft": false,
     "date": "",
-    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/state-partition-histories.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/partition-iteration.svg","How are a partition's next values calculated?","[[what_is_a_state_partition]]","[[what_decides_when_the_next_timestep_happens]]","[[how_can_i_simulate_the_real_world_introduction]]"]
+    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/state-partition-histories.svg","How are a partition's next values calculated?","[[what_is_a_state_partition]]","[[what_decides_when_the_next_timestep_happens]]","[[how_can_i_simulate_the_real_world_introduction]]"]
   }
 ,
   {
-    "title": "How are the histories updated after a step?",
+    "title": "title: How are the histories updated after a step?",
     "slug": "how_are_the_histories_updated_after_a_step",
     "url": "/posts/how_are_the_histories_updated_after_a_step.html",
-    "tag": "How can I simulate the real world?",
+    "tag": "tag: How can I simulate the real world?",
     "draft": false,
     "date": "",
-    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/update-time-history.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/update-state-partition-history.svg","How are the histories updated after a step?","[[how_are_a_partitions_next_values_calculated]]","[[how_can_i_simulate_the_real_world_introduction]]"]
+    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/update-time-history.svg","How are the histories updated after a step?","[[how_are_a_partitions_next_values_calculated]]","[[how_can_i_simulate_the_real_world_introduction]]"]
   }
 ,
   {
@@ -230,13 +230,13 @@
   }
 ,
   {
-    "title": "How do state partitions share information?",
+    "title": "title: How do state partitions share information?",
     "slug": "how_do_state_partitions_share_information",
     "url": "/posts/how_do_state_partitions_share_information.html",
-    "tag": "How can I simulate the real world?",
+    "tag": "tag: How can I simulate the real world?",
     "draft": false,
     "date": "",
-    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/partition-timeline-composition.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/partition-dependencies.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/composing-partitions.svg","How do state partitions share information?","[[how_are_a_partitions_next_values_calculated]]","[[how_can_i_simulate_the_real_world_introduction]]"]
+    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/partition-timeline-composition.svg","How do state partitions share information?","[[how_are_a_partitions_next_values_calculated]]","[[how_can_i_simulate_the_real_world_introduction]]"]
   }
 ,
   {
@@ -250,13 +250,13 @@
   }
 ,
   {
-    "title": "How do we get probabilities back from statistics?",
+    "title": "title: How do we get probabilities back from statistics?",
     "slug": "how_do_we_get_probabilities_back_from_statistics",
     "url": "/posts/how_do_we_get_probabilities_back_from_statistics.html",
-    "tag": "How can I simulate the real world?",
+    "tag": "tag: How can I simulate the real world?",
     "draft": false,
     "date": "",
-    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/distributions.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/prob-reweighting.svg","How do we get probabilities back from statistics?","[[how_do_we_estimate_statistics_across_trajectories]]","[[can_one_trajectory_be_enough_to_estimate_statistics]]","[[how_can_i_simulate_the_real_world_introduction]]"]
+    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/distributions.svg","How do we get probabilities back from statistics?","[[how_do_we_estimate_statistics_across_trajectories]]","[[can_one_trajectory_be_enough_to_estimate_statistics]]","[[how_can_i_simulate_the_real_world_introduction]]"]
   }
 ,
   {
@@ -290,13 +290,13 @@
   }
 ,
   {
-    "title": "How is the probability of a state partition history evaluated?",
+    "title": "title: How is the probability of a state partition history evaluated?",
     "slug": "how_is_the_probability_of_a_state_partition_history_evaluated",
     "url": "/posts/how_is_the_probability_of_a_state_partition_history_evaluated.html",
-    "tag": "How can I simulate the real world?",
+    "tag": "tag: How can I simulate the real world?",
     "draft": false,
     "date": "",
-    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/evaluate-probability-partition.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/possible-region.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/evaluate-probability-partition-region.svg","How is the probability of a state partition history evaluated?","[[how_are_a_partitions_next_values_calculated]]","[[how_can_i_simulate_the_real_world_introduction]]"]
+    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/evaluate-probability-partition.svg","How is the probability of a state partition history evaluated?","[[how_are_a_partitions_next_values_calculated]]","[[how_can_i_simulate_the_real_world_introduction]]"]
   }
 ,
   {
@@ -450,13 +450,13 @@
   }
 ,
   {
-    "title": "What decides when the next timestep happens?",
+    "title": "title: What decides when the next timestep happens?",
     "slug": "what_decides_when_the_next_timestep_happens",
     "url": "/posts/what_decides_when_the_next_timestep_happens.html",
-    "tag": "How can I simulate the real world?",
+    "tag": "tag: How can I simulate the real world?",
     "draft": false,
     "date": "",
-    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/timeline.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/advance-time.svg","What decides when the next timestep happens?","[[how_does_a_simulation_keep_track_of_time]]","[[how_can_i_simulate_the_real_world_introduction]]"]
+    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/timeline.svg","What decides when the next timestep happens?","[[how_does_a_simulation_keep_track_of_time]]","[[how_can_i_simulate_the_real_world_introduction]]"]
   }
 ,
   {
@@ -530,13 +530,13 @@
   }
 ,
   {
-    "title": "What is a conditional probability in a simulation?",
+    "title": "title: What is a conditional probability in a simulation?",
     "slug": "what_is_a_conditional_probability_in_a_simulation",
     "url": "/posts/what_is_a_conditional_probability_in_a_simulation.html",
-    "tag": "How can I simulate the real world?",
+    "tag": "tag: How can I simulate the real world?",
     "draft": false,
     "date": "",
-    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/conditional-probability.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/evolving-state-partition-history-probability.svg","What is a conditional probability in a simulation?","[[how_is_the_probability_of_a_state_partition_history_evaluated]]","[[how_can_i_simulate_the_real_world_introduction]]"]
+    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/conditional-probability.svg","What is a conditional probability in a simulation?","[[how_is_the_probability_of_a_state_partition_history_evaluated]]","[[how_can_i_simulate_the_real_world_introduction]]"]
   }
 ,
   {
@@ -550,13 +550,13 @@
   }
 ,
   {
-    "title": "What is a simulation run?",
+    "title": "title: What is a simulation run?",
     "slug": "what_is_a_simulation_run",
     "url": "/posts/what_is_a_simulation_run.html",
-    "tag": "How can I simulate the real world?",
+    "tag": "tag: How can I simulate the real world?",
     "draft": false,
     "date": "",
-    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/simulation-run.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/termination-condition.svg","What is a simulation run?","[[how_are_the_histories_updated_after_a_step]]","[[how_can_i_simulate_the_real_world_introduction]]"]
+    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/simulation-run.svg","What is a simulation run?","[[how_are_the_histories_updated_after_a_step]]","[[how_can_i_simulate_the_real_world_introduction]]"]
   }
 ,
   {
@@ -600,13 +600,13 @@
   }
 ,
   {
-    "title": "When does specialised hardware help?",
+    "title": "title: When does specialised hardware help?",
     "slug": "when_does_specialised_hardware_help",
     "url": "/posts/when_does_specialised_hardware_help.html",
-    "tag": "Loose Threads",
+    "tag": "tag: Loose Threads",
     "draft": false,
     "date": "",
-    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/specialised-classical-batch.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/processing-time-per-timestep.svg","When does specialised hardware help?","[[what_is_a_batch_simulation_architecture]]"]
+    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/specialised-classical-batch.svg","When does specialised hardware help?","[[what_is_a_batch_simulation_architecture]]"]
   }
 ,
   {
@@ -630,13 +630,13 @@
   }
 ,
   {
-    "title": "Why can't we track every possible trajectory?",
+    "title": "title: Why can't we track every possible trajectory?",
     "slug": "why_cant_we_track_every_possible_trajectory",
     "url": "/posts/why_cant_we_track_every_possible_trajectory.html",
-    "tag": "How can I simulate the real world?",
+    "tag": "tag: How can I simulate the real world?",
     "draft": false,
     "date": "",
-    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/coin-flips-tree.svg","https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/random-walker-grid.svg","Why can't we track every possible trajectory?","[[what_is_a_conditional_probability_in_a_simulation]]","[[how_can_i_simulate_the_real_world_introduction]]"]
+    "images": ["https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/coin-flips-tree.svg","Why can't we track every possible trajectory?","[[what_is_a_conditional_probability_in_a_simulation]]","[[how_can_i_simulate_the_real_world_introduction]]"]
   }
 ,
   {

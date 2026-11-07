@@ -160,16 +160,14 @@
     },
     {
       "slug": "can_a_simulation_run_inside_another_simulation",
-      "title": "Can a simulation run inside another simulation?",
+      "title": "can_a_simulation_run_inside_another_simulation",
       "url": "/posts/can_a_simulation_run_inside_another_simulation.html",
-      "tag": "How can I simulate the real world?",
+      "tag": "",
       "draft": false,
       "date": "2026-11-07",
       "excerpt": "Enabling whole 'inner' simulation runs to start and complete within each timestep of an 'outer' simulation run is a very useful, and somewhat fundamental, building block for simulations in practice. We shall call these 'embedded simulation runs'.",
       "images": [
-        "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/embedded-simulation-run.svg",
-        "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/embedded-sim-iterate.svg",
-        "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/embedded-sim-from-history.svg"
+        "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/embedded-simulation-run.svg"
       ],
       "references": [
         "sarkka2013",
@@ -294,15 +292,14 @@
     },
     {
       "slug": "how_are_a_partitions_next_values_calculated",
-      "title": "How are a partition's next values calculated?",
+      "title": "how_are_a_partitions_next_values_calculated",
       "url": "/posts/how_are_a_partitions_next_values_calculated.html",
-      "tag": "How can I simulate the real world?",
+      "tag": "",
       "draft": false,
       "date": "2026-11-07",
       "excerpt": "For an overall simulation data view, we can create a 'state partition histories' structure. This is a collection of each state partition history that exists within the simulation.",
       "images": [
-        "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/state-partition-histories.svg",
-        "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/partition-iteration.svg"
+        "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/state-partition-histories.svg"
       ],
       "references": [
         "durbinkoopman2012",
@@ -325,15 +322,14 @@
     },
     {
       "slug": "how_are_the_histories_updated_after_a_step",
-      "title": "How are the histories updated after a step?",
+      "title": "how_are_the_histories_updated_after_a_step",
       "url": "/posts/how_are_the_histories_updated_after_a_step.html",
-      "tag": "How can I simulate the real world?",
+      "tag": "",
       "draft": false,
       "date": "2026-11-07",
       "excerpt": "Having calculated the next values of each state partition and the next timestep, we should perform operations over the cumulative timesteps history and each state partition history to update their structures with this new data.",
       "images": [
-        "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/update-time-history.svg",
-        "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/update-state-partition-history.svg"
+        "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/update-time-history.svg"
       ],
       "references": [
         "how_are_a_partitions_next_values_calculated",
@@ -537,7 +533,7 @@
       "url": "/posts/how_do_evolutionary_strategies_find_a_policy.html",
       "tag": "How do I automate taking actions with simulations?",
       "draft": true,
-      "date": "2026-11-07",
+      "date": "2026-08-30",
       "excerpt": "The evolutionary strategies algorithm can be applied to search future simulation trajectories to find the best set of policy parameters needed to achieve some discounted future reward.",
       "images": [
         "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_optimal_policies_with_the_simulation_itself/optimising-evolutionary-strategies.svg"
@@ -582,7 +578,7 @@
       "url": "/posts/how_do_i_choose_between_simulation_structures.html",
       "tag": "How can I simulate the real world?",
       "draft": false,
-      "date": "2026-11-07",
+      "date": "2025-12-21",
       "excerpt": "There is usually more than one simulation structure that can be a viable model for the real world system of interest, and these often have different numbers of parameters.",
       "images": [
         "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/simple-vs-complex-fit.svg"
@@ -619,16 +615,14 @@
     },
     {
       "slug": "how_do_state_partitions_share_information",
-      "title": "How do state partitions share information?",
+      "title": "how_do_state_partitions_share_information",
       "url": "/posts/how_do_state_partitions_share_information.html",
-      "tag": "How can I simulate the real world?",
+      "tag": "",
       "draft": false,
       "date": "2026-11-07",
       "excerpt": "So far we have considered partition iterations as occurring separately within the simulation. But it is important for these separate partitions to be able to pass information to each other.",
       "images": [
-        "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/partition-timeline-composition.svg",
-        "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/partition-dependencies.svg",
-        "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/composing-partitions.svg"
+        "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/partition-timeline-composition.svg"
       ],
       "references": [
         "grimm2006",
@@ -670,15 +664,14 @@
     },
     {
       "slug": "how_do_we_get_probabilities_back_from_statistics",
-      "title": "How do we get probabilities back from statistics?",
+      "title": "how_do_we_get_probabilities_back_from_statistics",
       "url": "/posts/how_do_we_get_probabilities_back_from_statistics.html",
-      "tag": "How can I simulate the real world?",
+      "tag": "",
       "draft": false,
       "date": "2026-11-07",
       "excerpt": "So we have the statistics, but where have the probabilities gone?",
       "images": [
-        "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/distributions.svg",
-        "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/prob-reweighting.svg"
+        "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/distributions.svg"
       ],
       "references": [
         "sarkka2013",
@@ -783,16 +776,14 @@
     },
     {
       "slug": "how_is_the_probability_of_a_state_partition_history_evaluated",
-      "title": "How is the probability of a state partition history evaluated?",
+      "title": "how_is_the_probability_of_a_state_partition_history_evaluated",
       "url": "/posts/how_is_the_probability_of_a_state_partition_history_evaluated.html",
-      "tag": "How can I simulate the real world?",
+      "tag": "",
       "draft": false,
       "date": "2026-11-07",
       "excerpt": "Evaluating the probability of a particular state partition history, given parameters and a cumulative timesteps history, looks a similar to the iterate computation. However, in contrast, this computation does not progress forward in time.",
       "images": [
-        "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/evaluate-probability-partition.svg",
-        "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/possible-region.svg",
-        "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/evaluate-probability-partition-region.svg"
+        "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/evaluate-probability-partition.svg"
       ],
       "references": [
         "sarkka2013",
@@ -1173,7 +1164,7 @@
       "url": "/posts/what_can_a_simulation_do_that_a_prediction_cannot.html",
       "tag": "How can I simulate the real world?",
       "draft": false,
-      "date": "2026-11-07",
+      "date": "2025-11-21",
       "excerpt": "With simulations of the real-world, in contrast to other predictive AI approaches, you can also interrogate the internal state of the system to help validate the assumptions used in making a decision.",
       "images": [
         "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/why_simulate_real_world_systems/simulations-decision-advantages.svg"
@@ -1195,15 +1186,14 @@
     },
     {
       "slug": "what_decides_when_the_next_timestep_happens",
-      "title": "What decides when the next timestep happens?",
+      "title": "what_decides_when_the_next_timestep_happens",
       "url": "/posts/what_decides_when_the_next_timestep_happens.html",
-      "tag": "How can I simulate the real world?",
+      "tag": "",
       "draft": false,
       "date": "2026-11-07",
       "excerpt": "So new states of the simulation may happen at different times. But what determines when these times are along the simulation timeline?",
       "images": [
-        "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/timeline.svg",
-        "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/advance-time.svg"
+        "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/timeline.svg"
       ],
       "references": [
         "lawkelton2014",
@@ -1383,15 +1373,14 @@
     },
     {
       "slug": "what_is_a_conditional_probability_in_a_simulation",
-      "title": "What is a conditional probability in a simulation?",
+      "title": "what_is_a_conditional_probability_in_a_simulation",
       "url": "/posts/what_is_a_conditional_probability_in_a_simulation.html",
-      "tag": "How can I simulate the real world?",
+      "tag": "",
       "draft": false,
       "date": "2026-11-07",
       "excerpt": "We can relate two successive probability evaluations in time together by making the answer of the second depend on the outcome of the first.",
       "images": [
-        "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/conditional-probability.svg",
-        "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/evolving-state-partition-history-probability.svg"
+        "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/conditional-probability.svg"
       ],
       "references": [
         "sarkka2013",
@@ -1435,15 +1424,14 @@
     },
     {
       "slug": "what_is_a_simulation_run",
-      "title": "What is a simulation run?",
+      "title": "what_is_a_simulation_run",
       "url": "/posts/what_is_a_simulation_run.html",
-      "tag": "How can I simulate the real world?",
+      "tag": "",
       "draft": false,
       "date": "2026-11-07",
       "excerpt": "A 'simulation run' defines the evolution of a simulation state over some specified period in time.",
       "images": [
-        "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/simulation-run.svg",
-        "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/termination-condition.svg"
+        "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/simulation-run.svg"
       ],
       "references": [
         "lawkelton2014",
@@ -1572,15 +1560,14 @@
     },
     {
       "slug": "when_does_specialised_hardware_help",
-      "title": "When does specialised hardware help?",
+      "title": "when_does_specialised_hardware_help",
       "url": "/posts/when_does_specialised_hardware_help.html",
-      "tag": "Loose Threads",
+      "tag": "",
       "draft": false,
       "date": "2026-11-07",
       "excerpt": "From the perspective of standard CPUs, batch simulation architectures are often designed to evaluate segments of the simulation timeline using specialised classical hardware.",
       "images": [
-        "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/specialised-classical-batch.svg",
-        "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/processing-time-per-timestep.svg"
+        "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/specialised-classical-batch.svg"
       ],
       "references": [
         "jouppi2017",
@@ -1638,15 +1625,14 @@
     },
     {
       "slug": "why_cant_we_track_every_possible_trajectory",
-      "title": "Why can't we track every possible trajectory?",
+      "title": "why_cant_we_track_every_possible_trajectory",
       "url": "/posts/why_cant_we_track_every_possible_trajectory.html",
-      "tag": "How can I simulate the real world?",
+      "tag": "",
       "draft": false,
       "date": "2026-11-07",
       "excerpt": "So why can’t we just use this recursive relationship to model all the trajectories of the simulation at once? For some simpler systems this is indeed possible, but for most simulations in practice this is computationally infeasible.",
       "images": [
-        "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/coin-flips-tree.svg",
-        "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/random-walker-grid.svg"
+        "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/coin-flips-tree.svg"
       ],
       "references": [
         "owen2013",
@@ -2097,7 +2083,7 @@
     },
     "how_are_a_partitions_next_values_calculated": {
       "type": "question",
-      "title": "How are a partition's next values calculated?",
+      "title": "how_are_a_partitions_next_values_calculated",
       "authors": [
         "Hardwick"
       ],
@@ -2106,7 +2092,7 @@
     },
     "how_are_the_histories_updated_after_a_step": {
       "type": "question",
-      "title": "How are the histories updated after a step?",
+      "title": "how_are_the_histories_updated_after_a_step",
       "authors": [
         "Hardwick"
       ],
@@ -2173,12 +2159,12 @@
       "authors": [
         "Hardwick"
       ],
-      "year": 2026,
+      "year": 2025,
       "url": "https://umbralcalc.github.io/posts/how_do_i_choose_between_simulation_structures.html"
     },
     "how_do_state_partitions_share_information": {
       "type": "question",
-      "title": "How do state partitions share information?",
+      "title": "how_do_state_partitions_share_information",
       "authors": [
         "Hardwick"
       ],
@@ -2196,7 +2182,7 @@
     },
     "how_do_we_get_probabilities_back_from_statistics": {
       "type": "question",
-      "title": "How do we get probabilities back from statistics?",
+      "title": "how_do_we_get_probabilities_back_from_statistics",
       "authors": [
         "Hardwick"
       ],
@@ -2232,7 +2218,7 @@
     },
     "how_is_the_probability_of_a_state_partition_history_evaluated": {
       "type": "question",
-      "title": "How is the probability of a state partition history evaluated?",
+      "title": "how_is_the_probability_of_a_state_partition_history_evaluated",
       "authors": [
         "Hardwick"
       ],
@@ -2703,12 +2689,12 @@
       "authors": [
         "Hardwick"
       ],
-      "year": 2026,
+      "year": 2025,
       "url": "https://umbralcalc.github.io/posts/what_can_a_simulation_do_that_a_prediction_cannot.html"
     },
     "what_decides_when_the_next_timestep_happens": {
       "type": "question",
-      "title": "What decides when the next timestep happens?",
+      "title": "what_decides_when_the_next_timestep_happens",
       "authors": [
         "Hardwick"
       ],
@@ -2771,7 +2757,7 @@
     },
     "what_is_a_conditional_probability_in_a_simulation": {
       "type": "question",
-      "title": "What is a conditional probability in a simulation?",
+      "title": "what_is_a_conditional_probability_in_a_simulation",
       "authors": [
         "Hardwick"
       ],
@@ -2789,7 +2775,7 @@
     },
     "what_is_a_simulation_run": {
       "type": "question",
-      "title": "What is a simulation run?",
+      "title": "what_is_a_simulation_run",
       "authors": [
         "Hardwick"
       ],
