@@ -8,9 +8,9 @@ nocite: |
 # How do I design using simulations?
 <div style="height:0.75em;"></div>
 
-Thinking this collection should be entirely synthetic so we can focus on defining the generalised software / declarative schemas for each domain which is the real challenge of this collection. We can potentially do real examples later in another collection.
+Thinking this root question should be entirely synthetic so we can focus on defining the generalised software / declarative schemas for each domain which is the real challenge. We can potentially do real examples later.
 
-This collection should include:
+This root should produce these downstream posts:
 - Designing card games - card-game-studio project
 - Designing board games
 - Designing scientific experiments

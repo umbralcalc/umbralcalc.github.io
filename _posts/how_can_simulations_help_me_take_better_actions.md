@@ -5,15 +5,18 @@ images:
 nocite: |
   @epstein2008, @suttonbarto2018
 ---
-
 # How can simulations help me take better actions?
 <div style="height:0.75em;"></div>
 
-This is a collection of simulated examples of real-world actions explored through interactive dashboards. These dashboards are all powered by illustrative research models, not production-ready decision-support tools. 
+This is the root of a tree of questions about using simulations to inform real-world decisions, each one answered through an interactive dashboard built for a specific decision problem. The dashboards are all powered by illustrative research models, not production-ready decision-support tools.
 
-Each post covers a specific real-world decision problem in turn, demonstrating how simulations can inform real-world action-taking.
+So, how can a simulation help with a decision at all?
 
-You will learn what you want to know without maths; just diagrams and straightforward descriptions all the way through.
+The answer in short: a simulation lets us try an action before we take it. We change something in the simulated world, run it forward, and watch what follows, which is exactly the experiment that reality rarely lets us repeat.
+
+To see why this is so useful, it helps to think about what an action looks like inside a simulation.
+
+An action is a change to the simulation at some moment in time: a substitution made, a prescribing policy switched, a flood defence built, a battery charged or discharged, a support grant offered. Everything downstream of that change then plays out according to the rules of the simulated system.
 
 Those eager to follow along with code should also check out the [stochadex project](#ref-stochadex), which was used to create the simulations that power these dashboards.
 

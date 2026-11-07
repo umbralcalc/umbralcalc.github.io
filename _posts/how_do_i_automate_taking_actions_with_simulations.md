@@ -8,7 +8,7 @@ nocite: |
 # How do I automate taking actions with simulations?
 <div style="height:0.75em;"></div>
 
-This collection should include:
+This root question should lead to:
 - The concept of a policy
 - Learning using the simulation itself (evolutionary strategies, monte carlo tree search and touch on how these are different to Deep RL but still in the same family of sample-driven - which depend on simulations existing)
 - Linear/Dynamic/Stochastic programming (all examples of model-driven - which don't use a simulation but instead a pre-existing model)
