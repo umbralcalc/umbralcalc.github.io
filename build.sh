@@ -282,9 +282,10 @@ for post in posts:
     items.append((parse_iso(date_str), post))
 items.sort(key=lambda x: x[0], reverse=True)
 
-now = datetime.now(timezone.utc)
-last_build = rfc822(now)
-latest = rfc822(items[0][0]) if items else last_build
+# The build date is the newest item's date, not the clock, so rebuilding an
+# unchanged site leaves the feed byte-for-byte the same
+latest = rfc822(items[0][0]) if items else rfc822(datetime.now(timezone.utc))
+last_build = latest
 
 out = []
 out.append('<?xml version="1.0" encoding="UTF-8"?>')
