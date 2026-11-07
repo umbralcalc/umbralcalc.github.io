@@ -1,7 +1,6 @@
 ---
 title: "How do I automate taking actions with simulations?"
 draft: true
-series-blurb: "A collection of posts on ... No maths; just diagrams and straightforward descriptions all the way through."
 nocite: |
   @suttonbarto2018
 ---

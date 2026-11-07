@@ -1,7 +1,6 @@
 ---
 title: "How can I trust the actions I take in simulations?"
 draft: true
-series-blurb: "A collection of posts on how we decide whether an action chosen with a simulation can be trusted. Written especially for programmers and non-technical readers wanting to learn about how to take better actions under uncertainty, while trusting the tools they use to help take them. No maths; just diagrams and straightforward descriptions all the way through."
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/how-can-i-trust-the-actions-i-take-in-simulations-cover.svg"
 nocite: |
