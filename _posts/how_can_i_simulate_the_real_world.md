@@ -37,25 +37,25 @@ Objectives and learning algorithms give us a way to fit parameters to data.
 <div id="synth-loop-demo" style="margin:1.5em 0;padding:1em;background:#ffffff;">
   <div class="synth-loop-grid">
     <div style="border:1px solid #2c3e50;border-radius:6px;padding:0.6em;background:#ffffff;">
-      <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;padding:0 0.75em;">Decisions (post 1)</div>
+      <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;padding:0 0.75em;">Decisions</div>
       <svg id="synth-loop-decision-svg" width="100%" height="120" viewBox="0 0 220 120" role="img" aria-label="Current state vs target"></svg>
       <div id="synth-loop-decision-text" style="font-size:1rem;color:#2c3e50;margin-top:0.35em;padding:0 0.75em;line-height:1.4;"></div>
       <div style="font-size:0.9rem;color:#2c3e50;margin-top:0.35em;padding:0 0.75em;">The simulation is run to support a decision.</div>
     </div>
     <div style="border:1px solid #2c3e50;border-radius:6px;padding:0.6em;background:#ffffff;">
-      <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;padding:0 0.75em;">Building blocks (post 2)</div>
+      <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;padding:0 0.75em;">Building blocks</div>
       <svg id="synth-loop-state-svg" width="100%" height="120" viewBox="0 0 220 120" role="img" aria-label="State trajectory"></svg>
       <div id="synth-loop-state-text" style="font-size:1rem;color:#2c3e50;margin-top:0.35em;padding:0 0.75em;line-height:1.4;"></div>
       <div style="font-size:0.9rem;color:#2c3e50;margin-top:0.35em;padding:0 0.75em;">Time and state advance one step.</div>
     </div>
     <div style="border:1px solid #2c3e50;border-radius:6px;padding:0.6em;background:#ffffff;">
-      <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;padding:0 0.75em;">Probabilities (post 3)</div>
+      <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;padding:0 0.75em;">Probabilities</div>
       <svg id="synth-loop-prob-svg" width="100%" height="120" viewBox="0 0 220 120" role="img" aria-label="Posterior over theta"></svg>
       <div id="synth-loop-prob-text" style="font-size:1rem;color:#2c3e50;margin-top:0.35em;padding:0 0.75em;line-height:1.4;"></div>
       <div style="font-size:0.9rem;color:#2c3e50;margin-top:0.35em;padding:0 0.75em;">The states have probabilities.</div>
     </div>
     <div style="border:1px solid #2c3e50;border-radius:6px;padding:0.6em;background:#ffffff;">
-      <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;padding:0 0.75em;">Learning (post 4)</div>
+      <div style="font-weight:600;color:#2c3e50;margin-bottom:0.35em;padding:0 0.75em;">Learning</div>
       <svg id="synth-loop-learn-svg" width="100%" height="120" viewBox="0 0 220 120" role="img" aria-label="Cumulative reward"></svg>
       <div id="synth-loop-learn-text" style="font-size:1rem;color:#2c3e50;margin-top:0.35em;padding:0 0.75em;line-height:1.4;"></div>
       <div style="font-size:0.9rem;color:#2c3e50;margin-top:0.35em;padding:0 0.75em;">Parameters are updated using those probabilities.</div>
