@@ -396,12 +396,15 @@
         const scroll = document.getElementById('results-scroll');
         function sizeWindow() {
             const cards = results.querySelectorAll('.result');
-            scroll.style.maxHeight = '';
             if (cards.length > 5) {
+                // Measured relative to the list's own top, so the current
+                // scroll position plays no part and is left untouched
                 const top = results.getBoundingClientRect().top;
                 const fourth = cards[3].getBoundingClientRect().bottom - top;
                 const fifth = cards[4].getBoundingClientRect();
                 scroll.style.maxHeight = Math.round(fourth + fifth.height / 2) + 'px';
+            } else {
+                scroll.style.maxHeight = '';
             }
             updateHint();
         }
