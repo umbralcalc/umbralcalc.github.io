@@ -92,7 +92,7 @@
       "url": "/posts/can_hospital_prescribing_guidelines_bring_resistance_down.html",
       "tag": "How can simulations help me take better actions?",
       "draft": false,
-      "date": "2026-11-07",
+      "date": "2026-05-12",
       "excerpt": "Antibiotic-resistant infections are rising in English hospitals: can stewardship policies bring them back down, and how much room is there to do so?",
       "images": [
         "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/managing_antimicrobial_resistance_with_hospital_guidelines/antimicrobial-resistance-code.svg"
@@ -121,7 +121,7 @@
       "url": "/posts/can_i_backtest_the_actions_a_simulation_recommends.html",
       "tag": "How can I trust the actions I take in simulations?",
       "draft": true,
-      "date": "2026-11-07",
+      "date": "2026-08-30",
       "excerpt": "Cover these topics: - Lack of data on this generally because its hard to control for cause-to-effect - Quasi-experiments all kinds and the openaction2outcome project",
       "images": [],
       "references": [
@@ -143,7 +143,7 @@
       "url": "/posts/can_i_find_a_policy_without_a_simulation.html",
       "tag": "How do I automate taking actions with simulations?",
       "draft": true,
-      "date": "2026-11-07",
+      "date": "2026-09-07",
       "excerpt": "Linear/Dynamic/Stochastic programming (all examples of model-driven - which don't use a simulation but instead a pre-existing model)",
       "images": [],
       "references": [
@@ -297,7 +297,7 @@
       "url": "/posts/how_can_i_simulate_the_real_world.html",
       "tag": "How can I simulate the real world?",
       "draft": false,
-      "date": "2026-11-07",
+      "date": "2026-05-16",
       "excerpt": "This is a collection of posts aimed at programmers and non-technical readers wanting to learn the fundamentals of simulation technology and how it can be useful to the world.",
       "images": [
         "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/how-can-i-simulate-the-real-world-cover.svg"
@@ -367,7 +367,7 @@
       "url": "/posts/how_can_i_trust_the_actions_i_take_in_simulations.html",
       "tag": "How can I trust the actions I take in simulations?",
       "draft": true,
-      "date": "2026-11-07",
+      "date": "2026-08-30",
       "excerpt": "The '[[howcansimulationshelpmetakebetteractions|How can simulations help me take better actions?]]' collection showed simulations informing real-world decisions through interactive dashboards. So the value of simulating the outcomes of actions taken in the real world is quite...",
       "images": [
         "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/how-can-i-trust-the-actions-i-take-in-simulations-cover.svg"
@@ -427,7 +427,7 @@
       "url": "/posts/how_can_simulations_help_me_take_better_actions.html",
       "tag": "How can simulations help me take better actions?",
       "draft": false,
-      "date": "2026-11-07",
+      "date": "2026-05-16",
       "excerpt": "This is a collection of simulated examples of real-world actions explored through interactive dashboards. These dashboards are all powered by illustrative research models, not production-ready decision-support tools.",
       "images": [
         "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/how-can-simulations-help-me-take-better-actions-cover.svg"
@@ -524,7 +524,7 @@
       "url": "/posts/how_do_i_design_using_simulations.html",
       "tag": "How do I design using simulations?",
       "draft": true,
-      "date": "2026-11-07",
+      "date": "2026-09-07",
       "excerpt": "Thinking this collection should be entirely synthetic so we can focus on defining the generalised software / declarative schemas for each domain which is the real challenge of this collection. We can potentially do real examples later in another collection.",
       "images": [],
       "references": [
@@ -540,7 +540,7 @@
       "url": "/posts/how_do_i_set_up_a_simulation_to_learn_a_policy.html",
       "tag": "How do I automate taking actions with simulations?",
       "draft": true,
-      "date": "2026-11-07",
+      "date": "2026-08-30",
       "excerpt": "Learning using the simulation itself (evolutionary strategies, monte carlo tree search and touch on how these are different to Deep RL but still in the same family of sample-driven - which depend on simulations existing)",
       "images": [],
       "references": [
@@ -564,7 +564,7 @@
       "url": "/posts/how_do_simulations_run_on_cpus.html",
       "tag": "Loose Threads",
       "draft": false,
-      "date": "2026-11-07",
+      "date": "2026-05-10",
       "excerpt": "When we talk about 'classical' hardware here, we just mean standard CPUs.",
       "images": [
         "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/cpu-graph-edges.svg",
@@ -775,7 +775,7 @@
       "url": "/posts/how_much_flood_risk_can_natural_flood_management_offset.html",
       "tag": "How can simulations help me take better actions?",
       "draft": false,
-      "date": "2026-11-07",
+      "date": "2026-05-12",
       "excerpt": "Climate change is making UK flooding worse: how much can natural flood management interventions offset that risk, and is more spending always better?",
       "images": [
         "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/managing_flood_damage_risk_under_climate_change/floodrisk-simulation-code.svg"
@@ -804,7 +804,7 @@
       "url": "/posts/how_sensitive_is_my_action_to_the_simulation.html",
       "tag": "How can I trust the actions I take in simulations?",
       "draft": true,
-      "date": "2026-11-07",
+      "date": "2026-08-30",
       "excerpt": "Data Scientists will often ask the following question: if I change this model or its parameters, how will my prediction change?",
       "images": [
         "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/preparing_a_simulation_for_action_taking/changing-parameters.svg",
@@ -833,7 +833,7 @@
       "url": "/posts/how_should_a_grid_battery_be_dispatched_as_the_grid_gets_greener.html",
       "tag": "How can simulations help me take better actions?",
       "draft": false,
-      "date": "2026-11-07",
+      "date": "2026-05-12",
       "excerpt": "Grid-scale batteries promise to balance the intermittent renewables of a net-zero electricity system: but how should they be dispatched, and does the answer change as the grid gets greener?",
       "images": [
         "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/energy_demand_response_optimisation_for_the_national_grid/energy-balancer-code.svg"
@@ -1071,7 +1071,7 @@
       "url": "/posts/what_does_a_complete_simulation_look_like.html",
       "tag": "How can I simulate the real world?",
       "draft": false,
-      "date": "2026-11-07",
+      "date": "2026-05-10",
       "excerpt": "We started this collection of posts with a question: why simulate real-world systems at all?",
       "images": [],
       "references": [
@@ -1288,7 +1288,7 @@
       "url": "/posts/what_is_black_box_ai.html",
       "tag": "Loose Threads",
       "draft": false,
-      "date": "2026-11-07",
+      "date": "2025-12-01",
       "excerpt": "Here are some opinions on the realistic potential for 'black box' AI methods to improve human prediction and decision-making processes.",
       "images": [
         "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/model-predict.svg"
@@ -1357,7 +1357,7 @@
       "url": "/posts/what_is_the_visual_grammar_of_these_diagrams.html",
       "tag": "Loose Threads",
       "draft": false,
-      "date": "2026-11-07",
+      "date": "2026-09-21",
       "excerpt": "The visual design of explanations is very important to this blog.",
       "images": [],
       "references": [
@@ -1386,7 +1386,7 @@
       "url": "/posts/what_makes_a_simulation_output_look_trustworthy.html",
       "tag": "How can I trust the actions I take in simulations?",
       "draft": true,
-      "date": "2026-11-07",
+      "date": "2026-10-03",
       "excerpt": "- We now now how to make simulations trustworthy, and where the limitations of this are. - But what makes a simulation output look trustworthy? - How can we display that trustworthiness visually? (see Tufte)",
       "images": [],
       "references": [
@@ -1438,7 +1438,7 @@
       "url": "/posts/what_objective_does_a_simulation_learn_against.html",
       "tag": "How can I simulate the real world?",
       "draft": false,
-      "date": "2026-11-07",
+      "date": "2025-12-21",
       "excerpt": "Unlike machine learning models, which typically come with standard training algorithms (like backpropagation for neural networks), simulations often need us to explicitly choose and design procedures for learning their parameters from real-world data or optimising their outputs.",
       "images": [
         "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/objectives.svg"
@@ -1504,7 +1504,7 @@
       "url": "/posts/when_should_a_rugby_manager_make_substitutions.html",
       "tag": "How can simulations help me take better actions?",
       "draft": false,
-      "date": "2026-11-07",
+      "date": "2026-05-11",
       "excerpt": "A rugby manager picks when to substitute each position group: bring on the front-row replacements early, or save them for the closing minutes?",
       "images": [
         "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/evaluating_rugby_manager_decision_making/trywizard-simulation-code.svg"
@@ -1555,7 +1555,7 @@
       "url": "/posts/which_support_policies_keep_small_businesses_alive.html",
       "tag": "How can simulations help me take better actions?",
       "draft": false,
-      "date": "2026-11-07",
+      "date": "2026-05-12",
       "excerpt": "UK small business support comes in different flavours (rates relief, startup grants, incubators, mentoring, etc.): how should a cash-constrained policymaker has to choose between them? To maximise what?",
       "images": [
         "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/support_policies_for_small_business_survival/business-survival-code.svg"
@@ -1650,7 +1650,7 @@
       "url": "/posts/why_no_mathematical_symbols.html",
       "tag": "Loose Threads",
       "draft": false,
-      "date": "2026-11-07",
+      "date": "2025-11-26",
       "excerpt": "Mathematical concepts and tools are absolutely essential to understanding and deriving deeper relationships when analysing systems in the real world.",
       "images": [
         "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/mathematical_symbols_vs_diagrams/diagrams-vs-symbols.svg"
@@ -1694,7 +1694,7 @@
       "url": "/posts/why_think_about_a_simulation_probabilistically.html",
       "tag": "How can I simulate the real world?",
       "draft": false,
-      "date": "2026-11-07",
+      "date": "2025-11-21",
       "excerpt": "The 'trajectory' of a simulation is the sequence of possible state values that its partitions actually take during a specific simulation run.",
       "images": [
         "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/probabilites-vs-trajectories.svg"
@@ -2725,7 +2725,7 @@
       "authors": [
         "Hardwick"
       ],
-      "year": 2026,
+      "year": 2025,
       "url": "https://umbralcalc.github.io/posts/what_is_black_box_ai.html"
     },
     "what_is_discounted_future_reward": {
@@ -2770,7 +2770,7 @@
       "authors": [
         "Hardwick"
       ],
-      "year": 2026,
+      "year": 2025,
       "url": "https://umbralcalc.github.io/posts/what_objective_does_a_simulation_learn_against.html"
     },
     "when_is_data_good_enough_for_black_box_ai": {
@@ -2815,7 +2815,7 @@
       "authors": [
         "Hardwick"
       ],
-      "year": 2026,
+      "year": 2025,
       "url": "https://umbralcalc.github.io/posts/why_no_mathematical_symbols.html"
     },
     "why_simulate_real_world_systems": {
@@ -2833,7 +2833,7 @@
       "authors": [
         "Hardwick"
       ],
-      "year": 2026,
+      "year": 2025,
       "url": "https://umbralcalc.github.io/posts/why_think_about_a_simulation_probabilistically.html"
     }
   }
