@@ -198,17 +198,42 @@
 
         .empty { color: #777; font-style: italic; padding: 1rem 0; }
 
-        footer {
+        /* Footer links and disclaimers, as on the about page and posts */
+        .footer-links {
             margin-top: 4rem;
             padding-top: 2rem;
             border-top: 2px solid #e0e0e0;
-            text-align: center;
-            color: #666;
             font-size: 0.9rem;
+            color: #888;
         }
 
-        footer a { color: #2c3e50; text-decoration: none; margin: 0 0.5rem; }
-        footer a:hover { color: #b0447a; }
+        .footer-links a {
+            color: #3c78d8;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover { text-decoration: underline; }
+
+        .footer-disclaimer {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #eee;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            text-align: left;
+        }
+
+        .footer-disclaimer p {
+            color: #999;
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-disclaimer p:last-child { margin-bottom: 0; }
+
+        .footer-disclaimer a {
+            color: inherit;
+            text-decoration: underline;
+        }
 
         @media (max-width: 768px) {
             .container { padding: 1.5rem; }
@@ -245,13 +270,17 @@
         </div>
 
 
-        <footer>
-            <p>
-                <a href="https://github.com/umbralcalc">GitHub</a> |
-                <a href="https://orcid.org/0000-0001-8778-006X">ORCID</a> |
-                <a href="mailto:umbralcalc@gmail.com">Email</a> |
-                <a href="/cv.html">CV</a>
-            </p>
+        <p class="footer-links">
+            <a href="https://github.com/umbralcalc">GitHub</a> |
+            <a href="https://orcid.org/0000-0001-8778-006X">ORCID</a> |
+            <a href="mailto:umbralcalc@gmail.com">Email</a> |
+            <a href="/cv.html">CV</a>
+        </p>
+
+        <footer class="footer-disclaimer">
+            <p><strong>Heads-up:</strong> Everything on this site is written in a personal capacity and reflects my own views. Nothing here represents the views of my employer or any organisation I'm affiliated with.</p>
+            <p><strong>Terms of use:</strong> The writing and original code on this site are released under the <a href="https://github.com/umbralcalc/umbralcalc.github.io/blob/main/LICENSE">MIT License</a>. Feel free to reuse, remix, and redistribute (attribution appreciated!). This does not extend to third-party data or the models fitted from it, which remain under their original sources' licences and terms, as noted on each dashboard.</p>
+            <p><strong>Disclaimer:</strong> The interactive dashboards are all for learning, not deciding! These dashboards are simulation toys, based on simplified models fitted on incomplete data. Use them to build intuition about real-world simulations; don't use them to make real-world decisions.</p>
         </footer>
     </div>
 
