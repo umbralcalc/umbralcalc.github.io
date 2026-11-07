@@ -368,14 +368,13 @@
                     const a = document.createElement('div');
                     a.className = 'result-question';
                     a.textContent = q.title;
-                    const meta = document.createElement('div');
-                    meta.className = 'result-meta';
-                    const n = q.external.length;
-                    meta.textContent = (q.isDraft ? 'draft' : '')
-                        + (q.isDraft && n > 0 ? ' \u00b7 ' : '')
-                        + (n > 0 ? n + (n === 1 ? ' reference' : ' references') : '');
                     body.appendChild(a);
-                    body.appendChild(meta);
+                    if (q.isDraft) {
+                        const meta = document.createElement('div');
+                        meta.className = 'result-meta';
+                        meta.textContent = 'draft';
+                        body.appendChild(meta);
+                    }
                     card.appendChild(body);
                     li.appendChild(card);
                     results.appendChild(li);
