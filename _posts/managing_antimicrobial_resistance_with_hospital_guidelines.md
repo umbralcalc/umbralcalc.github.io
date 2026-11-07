@@ -1,15 +1,21 @@
 ---
-title: "Managing antimicrobial resistance (AMR) with hospital guidelines"
+title: "Can hospital prescribing guidelines bring resistance down?"
 tag: "How can simulations help me take better actions?"
 series-blurb: "A collection of simulated examples of real-world actions explored through interactive dashboards. Each post covers a specific real-world decision problem in turn, demonstrating how simulations can inform real-world action-taking with illustrative (not production-ready) research models. No maths; just diagrams and straightforward descriptions all the way through."
-order: 2
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/managing_antimicrobial_resistance_with_hospital_guidelines/antimicrobial-resistance-code.svg"
+
+aliases:
+- "Can hospital prescribing guidelines bring resistance down?"
+cites:
+- "[[how_can_simulations_help_me_take_better_actions_introduction]]"
+- "[[what_is_a_state_partition]]"
+- "[[how_does_a_simulation_learn_its_parameters_from_data]]"
 nocite: |
-  @murray2022, @bergstrom2004, @austin1999
+  @murray2022, @bergstrom2004, @austin1999, @stochadex
 ---
 
-# Managing antimicrobial resistance (AMR) with hospital guidelines
+# Can hospital prescribing guidelines bring resistance down?
 <div style="height:0.75em;"></div>
 
 Antibiotic-resistant infections are rising in English hospitals: can stewardship policies bring them back down, and how much room is there to do so?

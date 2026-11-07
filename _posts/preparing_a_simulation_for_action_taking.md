@@ -1,24 +1,28 @@
 ---
-title: "Preparing a simulation for action-taking"
-# tag: "How can I trust the actions I take in simulations?"
-series-blurb: "A collection of posts on how we decide whether an action chosen with a simulation can be trusted. Written especially for programmers and non-technical readers wanting to learn about how to take better actions under uncertainty, while trusting the tools they use to help take them. No maths; just diagrams and straightforward descriptions all the way through."
-order: 3
+title: "How sensitive is my action to the simulation?"
+tag: "How can I trust the actions I take in simulations?"
+draft: true
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/preparing_a_simulation_for_action_taking/changing-parameters.svg"
+- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/preparing_a_simulation_for_action_taking/changing-simulation.svg"
+aliases:
+- "How sensitive is my action to the simulation?"
+cites:
+- "[[how_can_a_simulation_be_wrong]]"
+- "[[is_a_sloppy_simulation_a_bad_one]]"
+- "[[how_can_i_trust_the_actions_i_take_in_simulations_introduction]]"
 nocite: |
-  @saltelli2019, @sobol2001, @lundberg2017, @pearl2009, @kassraftery1995
+  @saltelli2019, @sobol2001
 ---
 
-# Preparing a simulation for action-taking
+# How sensitive is my action to the simulation?
 <div style="height:0.75em;"></div>
-
-## The two kinds of sensitivity
 
 Data Scientists will often ask the following question: if I change this model or its parameters, how will my prediction change?
 
-We discussed the same idea for simulations in [this post](https://umbralcalc.github.io/posts/learning_simulations_of_the_real_world.html). So let's give a name to this idea, and call it 'prediction sensitivity'.
+We discussed the same idea for simulations in [[is_a_sloppy_simulation_a_bad_one|this post]]. So let's give a name to this idea, and call it 'prediction sensitivity'.
 
-But the question we were asking at the end of the last post was more aligned with: if I change this model (simulation) or its parameters, how will my _taken action_ change?
+But the question we were asking at the end of [[how_can_a_simulation_be_wrong|the last post]] was more aligned with: if I change this model (simulation) or its parameters, how will my _taken action_ change?
 
 Let's call this one 'action-taking sensitivity'.
 
@@ -31,18 +35,6 @@ Similarly, when we change the simulation itself, its iteration at the same point
 <center><img src=https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/preparing_a_simulation_for_action_taking/changing-simulation.svg /></center>
 
 In both cases, the simulated outcomes help us to determine which action to take, but in order to do this we need to define what outcomes we are targeting in the first place.
-
-## Explaining why the simulation predicts what it does
-
-Cover these topics:
-- past-looking simulation graph analysis
-- forward-looking counterfactual analysis: simulation differencing and why SHAP is better
-- forward-looking counterfactual analysis: simulation SHAP analysis
-
-## Inferring which simulation to use
-
-Cover these topics:
-- Bayesian model selection applied to action-taking is the same as doing causal inference
 
 ## References and further reading
 

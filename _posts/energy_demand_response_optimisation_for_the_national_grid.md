@@ -1,15 +1,21 @@
 ---
-title: "Energy demand response optimisation for the national grid"
+title: "How should a grid battery be dispatched as the grid gets greener?"
 tag: "How can simulations help me take better actions?"
 series-blurb: "A collection of simulated examples of real-world actions explored through interactive dashboards. Each post covers a specific real-world decision problem in turn, demonstrating how simulations can inform real-world action-taking with illustrative (not production-ready) research models. No maths; just diagrams and straightforward descriptions all the way through."
-order: 4
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/energy_demand_response_optimisation_for_the_national_grid/energy-balancer-code.svg"
+
+aliases:
+- "How should a grid battery be dispatched as the grid gets greener?"
+cites:
+- "[[how_can_simulations_help_me_take_better_actions_introduction]]"
+- "[[what_is_a_state_partition]]"
+- "[[how_does_a_simulation_learn_its_parameters_from_data]]"
 nocite: |
-  @albadi2008, @palensky2011, @siano2014
+  @albadi2008, @palensky2011, @siano2014, @stochadex
 ---
 
-# Energy demand response optimisation for the national grid
+# How should a grid battery be dispatched as the grid gets greener?
 <div style="height:0.75em;"></div>
 
 Grid-scale batteries promise to balance the intermittent renewables of a net-zero electricity system: but how should they be dispatched, and does the answer change as the grid gets greener?

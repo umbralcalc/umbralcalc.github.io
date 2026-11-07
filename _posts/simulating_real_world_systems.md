@@ -1,18 +1,22 @@
 ---
-title: "Simulating real-world systems"
+title: "What does a complete simulation look like?"
 tag: "How can I simulate the real world?"
-series-blurb: "A collection of posts on the foundations and patterns for building simulations of the real world. Written especially for programmers and non-technical readers wanting to learn the fundamentals of simulation technology and how it can be useful to the world. No maths; just diagrams and straightforward descriptions all the way through."
-order: 5
-images:
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/trywizard-simulation-code.svg"
+aliases:
+- "What does a complete simulation look like?"
+cites:
+- "[[evaluating_rugby_manager_decision_making]]"
+- "[[managing_antimicrobial_resistance_with_hospital_guidelines]]"
+- "[[managing_flood_damage_risk_under_climate_change]]"
+- "[[energy_demand_response_optimisation_for_the_national_grid]]"
+- "[[support_policies_for_small_business_survival]]"
+- "[[simulation_architectures_on_different_hardware]]"
+- "[[how_can_i_simulate_the_real_world_introduction]]"
 nocite: |
-  @cranmer2020, @box1976, @epstein2008, @jumper2021
+  @box1976, @epstein2008, @cranmer2020, @jumper2021, @stochadex
 ---
 
-# Simulating real-world systems
+# What does a complete simulation look like?
 <div style="height:0.75em;"></div>
-
-## What you now know
 
 We started this collection of posts with a question: why simulate real-world systems at all?
 
@@ -257,59 +261,9 @@ Objectives and learning algorithms gave us a way to fit parameters to data.
 
 The four layers we've built up (building blocks, probabilities, learning, decisions) all fit together into a real piece of software. 
 
-The [stochadex project](https://stochadex.github.io/) is built on exactly these foundations, and the examples below describe interactive dashboards built with it. Each one is devoted to a specific real-world decision problem.
+The [stochadex project](#ref-stochadex) is built on exactly these foundations, and the examples below describe interactive dashboards built with it. Each one is devoted to a specific real-world decision problem.
 
-Note: if you're curious how all this runs on different kinds of hardware, there's a separate post on [simulation architectures](/posts/simulation_architectures_on_different_hardware.html).
-
-## Example: Evaluating rugby manager decision-making
-
-A rugby manager picks when to substitute each position group; early relief versus late impact. 
-
-The simulation models how those choices affect the match state and can therefore be used to derive the win probability over multiple trajectories. It can also be fitted to real match events.
-
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/trywizard-simulation-code.svg" width="700"/></center>
-
-The link to the interactive dashboard for this example can be [found here](https://umbralcalc.github.io/posts/evaluating_rugby_manager_decision_making.html).
-
-## Example: Managing antimicrobial resistance (AMR) with hospital guidelines
-
-A medicines management committee picks a cephalosporin prescribing policy; keep pressure high and resistance builds inside the wards, ease off and prevent some of that buildup.
-
-The simulation models how those choices shape the resistant E. coli fraction in a hospital and the bloodstream infections that follow. It can also be fitted to real surveillance data.
-
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/antimicrobial-resistance-code.svg" width=400/></center>
-
-The link to the interactive dashboard for this example can be [found here](https://umbralcalc.github.io/posts/managing_antimicrobial_resistance_with_hospital_guidelines.html).
-
-## Example: Managing flood damage risk under climate change
-
-A catchment authority picks a portfolio of natural flood management interventions; pay more upstream and trim peak flows downstream, or save the money and accept the climate-driven rise.
-
-The simulation models how those choices shape downstream peak flow distributions under different climate scenarios. It can also be fitted to real Environment Agency flow records.
-
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/floodrisk-simulation-code.svg" width="400"/></center>
-
-The link to the interactive dashboard for this example can be [found here](https://umbralcalc.github.io/posts/managing_flood_damage_risk_under_climate_change.html).
-
-## Example: Energy demand response optimisation for the national grid
-
-A battery operator picks a dispatch policy; chase the price spreads of today's grid, or chase the carbon swings of a renewables-heavy one.
-
-The simulation models how those choices shape the battery's revenue, degradation, and carbon savings under different grid mixes. It can also be fitted to real NESO half-hourly demand data.
-
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/energy-balancer-code.svg" width="550"/></center>
-
-The link to the interactive dashboard for this example can be [found here](https://umbralcalc.github.io/posts/energy_demand_response_optimisation_for_the_national_grid.html).
-
-## Example: Support policies for small business survival
-
-A local policymaker picks a small business support portfolio; tilt towards rates relief to keep more young firms alive, or tilt towards startup grants to grow the register count.
-
-The simulation (here just one simple state partition) models how those choices shape five-year cohort survival and register stock under different macro scenarios. It can also be fitted to real ONS business demography and Companies House register data.
-
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulating_real_world_systems/business-survival-code.svg" width="200"/></center>
-
-The link to the interactive dashboard for this example can be [found here](https://umbralcalc.github.io/posts/support_policies_for_small_business_survival.html).
+Note: if you're curious how all this runs on different kinds of hardware, there's a separate post on [[simulation_architectures_on_different_hardware|simulation architectures]].
 
 ## References and further reading
 

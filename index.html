@@ -1,47 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <meta name="description" content="umbralcalculations - Visual explorations in science and computation. Every post answers one question; search them, and see how their answers rest on each other." />
     <link rel="icon" type="image/svg+xml" href="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations-logo.svg">
     <link rel="icon" type="image/x-icon" href="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/favicon.ico">
     <link rel="apple-touch-icon" href="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations-logo.svg">
-    <link rel="alternate" type="application/rss+xml" title="umbralcalculations RSS feed" href="/feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="umbralcalculations RSS feed" href="/feed.xml" />
     <title>umbralcalculations</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Open+Sans:wght@300;400;600&display=swap');
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+    </style>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
             font-family: 'Open Sans', sans-serif;
             line-height: 1.6;
             color: #333;
             background: #fafafa;
-            padding: 0;
-            margin: 0;
         }
-        
+
         .container {
             max-width: 800px;
             margin: 0 auto;
             padding: 2rem;
             background: #fff;
             min-height: 100vh;
-            overflow-x: hidden;
         }
-        
+
         nav {
             margin-bottom: 3rem;
             padding-bottom: 1.5rem;
             border-bottom: 2px solid #e0e0e0;
             white-space: nowrap;
         }
-        
+
         nav a {
             color: #2c3e50;
             text-decoration: none;
@@ -51,26 +46,24 @@
             font-size: 1.1rem;
             display: inline-block;
         }
-        
-        nav a:hover {
-            color: #b0447aff;
-        }
-        
+
+        nav a:hover { color: #b0447a; }
+
         header {
-            margin-bottom: 1rem;
+            margin-bottom: 2rem;
         }
-        
+
         header img {
             vertical-align: middle;
             margin-right: 1rem;
         }
-        
+
         .header-content {
             display: flex;
             align-items: center;
             margin-bottom: 0.25rem;
         }
-        
+
         h1 {
             font-family: 'Merriweather', serif;
             font-size: 2rem;
@@ -78,465 +71,125 @@
             margin: 0;
             font-weight: 700;
         }
-        
+
         #site-title.typing::after {
             content: '|';
             animation: blink 1s infinite;
             margin-left: 2px;
         }
-        
+
         @keyframes blink {
             0%, 50% { opacity: 1; }
             51%, 100% { opacity: 0; }
         }
-        
+
         .subtitle {
             font-size: 1.2rem;
             color: #666;
             font-style: italic;
         }
-        
-        .intro {
-            font-size: 1.1rem;
-            color: #555;
-            margin-bottom: 3rem;
-            line-height: 1.8;
-        }
-        
-        .posts-section {
-            margin-top: 2rem;
-        }
 
-        .posts-header {
-            margin-bottom: 1rem;
-            border-bottom: 2px solid #3c78d8ff;
-            padding-bottom: 0.5rem;
-        }
-        
-        .posts-section h2 {
-            font-family: 'Merriweather', serif;
-            font-size: 2rem;
-            color: #2c3e50;
-            margin: 0 0 1rem 0;
-            border-bottom: 2px solid #3c78d8ff;
-            padding-bottom: 0.5rem;
-        }
+        a { color: #3c78d8; }
 
-        /* ---- Collections: one single-column section per series ---- */
-        .collection {
-            margin-top: 2rem;
-        }
-
-        .collection:first-child {
-            margin-top: 1.5rem;
-        }
-
-        /* Grey box matching the collection header on each post page. The box
-           itself is a plain row: the link to the introduction sits on the left
-           and the expand/collapse arrow on the right, so that the arrow is not
-           nested inside the link. */
-        .collection-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 0.75rem 1rem;
-            border: 1px solid #e0e0e0;
-            background: #fafafa;
-            margin-bottom: 1rem;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .collection-header:hover {
-            border-color: #3c78d8ff;
-            box-shadow: 0 2px 8px rgba(52, 152, 219, 0.1);
-        }
-
-        /* The thumbnail and title, linking to the collection's introduction */
-        .collection-header-link {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            flex: 1 1 auto;
-            min-width: 0;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        /* Arrow that pivots to open and close the collection below */
-        .collection-toggle {
-            flex: 0 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 2rem;
-            height: 2rem;
-            padding: 0;
-            border: none;
-            background: none;
-            color: #2c3e50;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-
-        .collection-toggle:hover {
-            color: #3c78d8ff;
-        }
-
-        .collection-toggle svg {
-            width: 1rem;
-            height: 1rem;
-            /* Points down while open; the collapsed state pivots it to the
-               right, back towards the collection title */
-            transition: transform 0.3s ease;
-        }
-
-        .collection.is-collapsed .collection-toggle svg {
-            transform: rotate(-90deg);
-        }
-
-        .collection-thumb {
-            flex: 0 0 auto;
-            height: 72px;
-            width: auto;
+        /* Ask box */
+        .ask {
             display: block;
+            width: 100%;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1.1rem;
+            padding: 0.75rem 1rem;
+            border: 2px solid #2c3e50;
+            border-radius: 0;
             background: #fff;
-            border: 1px solid #e0e0e0;
+            color: #333;
+            outline: none;
         }
 
-        /* Overrides `.posts-section h2`, which the header title sits inside */
-        .posts-section .collection-title {
-            font-family: 'Merriweather', serif;
-            font-size: 1.5rem;
-            color: #2c3e50;
-            font-weight: 600;
-            line-height: 1.3;
-            min-width: 0;
-            margin: 0;
-            padding: 0;
-            border-bottom: none;
-            transition: color 0.3s ease;
+        .ask:focus { border-color: #3c78d8; }
+
+        .ask-hint {
+            font-size: 0.85rem;
+            color: #777;
+            margin: 0.5rem 0 1.5rem;
         }
 
-        .collection-header-link:hover .collection-title {
-            color: #3c78d8ff;
-        }
+        .results { list-style: none; }
 
-        /* Posts scroll within a window sized to three cards by the script
-           below; the collection header stays static above it. The window is
-           also what collapses, its height animated inline by the script. */
-        .collection-window {
-            position: relative;
-            transition: max-height 0.35s ease;
-        }
-
-        /* Fade the last visible card to signal there is more to scroll to */
-        .collection-window::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            height: 3rem;
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff);
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .collection-window.is-scrollable:not(.is-at-end)::after {
-            opacity: 1;
-        }
-
-        .collection-scroll {
-            overflow-y: auto;
-            overscroll-behavior: contain;
-            scrollbar-width: none;       /* Firefox */
-            -ms-overflow-style: none;    /* IE/Edge */
-            /* Leave room for a hovered card's lift and shadow, which the
-               scroll box would otherwise clip, then pull the padding back
-               out so the cards keep their position inside the window */
-            padding: 6px 10px;
-            margin: -6px -10px;
-        }
-
-        .collection-scroll::-webkit-scrollbar {
-            display: none;               /* Chrome/Safari */
-        }
-
-        /* Overflow stops the trailing margin collapsing out of the window */
-        .collection-scroll .post-item:last-child .post-card {
-            margin-bottom: 0;
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            .collection-toggle svg,
-            .collection-window {
-                transition: none;
-            }
-        }
-
-        .tag-title {
-            font-family: 'Merriweather', serif;
-            font-size: 1.5rem;
-            color: #2c3e50;
-            margin-bottom: 1rem;
-            font-weight: 600;
-            border-bottom: 2px solid #3c78d8ff;
-            padding-bottom: 0.5rem;
-        }
-        
-        .post-list {
-            list-style: none;
-        }
-        
-        .post-item {
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-        
-        .post-card {
+        /* One card per question: its diagrams as thumbnails beside the
+           question, as the collection cards had before */
+        .result {
             display: flex;
             align-items: center;
             gap: 1.25rem;
-            text-decoration: none;
-            color: inherit;
             padding: 1.25rem;
             border: 1px solid #e0e0e0;
-            border-radius: 0;
-            transition: all 0.3s ease;
-            margin-bottom: 0.75rem;
             background: #fff;
-        }
-        
-        .post-card:hover {
-            border-color: #3c78d8ff;
-            box-shadow: 0 2px 8px rgba(52, 152, 219, 0.1);
-            transform: translateY(-2px);
-        }
-        
-        .post-body {
-            flex: 1;
-            min-width: 0;
+            margin-bottom: 0.75rem;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
         }
 
-        .post-title {
-            font-family: 'Merriweather', serif;
-            font-size: 1.3rem;
-            color: #2c3e50;
-            line-height: 1.3;
+        .result:hover {
+            border-color: #3c78d8;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
         }
-        
-        .post-card:hover .post-title {
-            color: #3c78d8ff;
-        }
-        
-        .post-meta {
-            color: #888;
-            font-size: 0.85rem;
-            margin-top: 0.35rem;
-        }
-        
-        .post-excerpt {
-            color: #555;
-            line-height: 1.7;
-        }
-        
-        .post-images {
+
+        .result-images {
             flex: 0 0 auto;
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
         }
-        
-        .post-images img {
+
+        .result-images img {
             height: 100px;
             width: auto;
-            border-radius: 0;
             display: block;
         }
-        
-        .empty-state {
-            text-align: center;
-            padding: 3rem 0;
-            color: #888;
-            font-style: italic;
-        }
-        
-        /* ---- Forecasts band ---- */
-        .forecasts-section {
-            margin-top: 2rem;
-        }
 
-        .forecasts-section h2 {
+        .result-body { flex: 1; min-width: 0; }
+
+        .result-question {
             font-family: 'Merriweather', serif;
-            font-size: 2rem;
+            font-size: 1.05rem;
+            font-weight: 700;
             color: #2c3e50;
-            margin: 0 0 1rem 0;
-            border-bottom: 2px solid #b0447a;   /* magenta, not blue */
-            padding-bottom: 0.5rem;
-        }
-
-        .forecast-card {
-            display: flex;
-            gap: 1.5rem;
-            align-items: center;
             text-decoration: none;
-            color: inherit;
-            padding: 1.25rem;
-            border: 1px solid #e0e0e0;
-            border-left: 4px solid #b0447a;     /* magenta spine = "live" marker */
-            background: #fff;
-            transition: all 0.3s ease;
         }
 
-        .forecast-card:hover {
-            border-color: #b0447a;
-            box-shadow: 0 2px 8px rgba(176, 68, 122, 0.15);
-            transform: translateY(-2px);
-        }
+        .result:hover .result-question { color: #3c78d8; }
 
-        .forecast-thumb {
-            flex: 0 0 140px;
-            width: 140px;
-            height: auto;
-            display: block;
-            background: #fafafa;
-        }
-
-        .forecast-body { flex: 1; min-width: 0; }
-
-        .forecast-date {
-            color: #b0447a;
+        .result-meta {
             font-size: 0.8rem;
+            color: #3c78d8;
             font-weight: 600;
-            text-transform: uppercase;
             letter-spacing: 0.04em;
-            margin-bottom: 0.4rem;
+            margin: 0.15rem 0 0.3rem;
         }
 
-        .forecast-title {
-            font-family: 'Merriweather', serif;
-            font-size: 1.3rem;
-            color: #2c3e50;
-            line-height: 1.3;
-            margin-bottom: 0.5rem;
-        }
 
-        .forecast-card:hover .forecast-title { color: #b0447a; }
-        .forecast-headline { color: #555; line-height: 1.6; }
-
+        .empty { color: #777; font-style: italic; padding: 1rem 0; }
 
         footer {
-            margin-top: 2.5rem;
-            padding-top: 1.5rem;
+            margin-top: 4rem;
+            padding-top: 2rem;
             border-top: 2px solid #e0e0e0;
             text-align: center;
-            color: #888;
+            color: #666;
             font-size: 0.9rem;
         }
-        
-        footer a {
-            color: #3c78d8ff;
-            text-decoration: none;
-        }
-        
-        footer a:hover {
-            text-decoration: underline;
-        }
 
-        .footer-disclaimer {
-            margin-top: 1.5rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid #eee;
-            color: #999;
-            font-size: 0.8rem;
-            line-height: 1.5;
-            text-align: left;
-        }
-
-        .footer-disclaimer p {
-            margin-bottom: 0.75rem;
-        }
-
-        .footer-disclaimer p:last-child {
-            margin-bottom: 0;
-        }
-
-        .footer-disclaimer a {
-            color: inherit;
-            text-decoration: underline;
-        }
+        footer a { color: #2c3e50; text-decoration: none; margin: 0 0.5rem; }
+        footer a:hover { color: #b0447a; }
 
         @media (max-width: 768px) {
-            .container {
-                padding: 1.5rem;
-            }
-            
-            h1 {
-                font-size: 1.8rem;
-            }
-            
-            .subtitle {
-                font-size: 1rem;
-            }
-            
-            nav a {
-                margin-right: 1.5rem;
-                font-size: 1rem;
-            }
-            
-            .tags-scroll-container {
-                margin: 0;
-            }
-            
-            .posts-section h2 {
-                font-size: 1.5rem;
-            }
-
-            .forecasts-section h2 {
-                font-size: 1.5rem;
-            }
-
-            .forecast-card {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            /* Match the Loose Threads tablets: small image above the title */
-            .forecast-thumb {
-                flex-basis: auto;
-                width: auto;
-                height: 80px;
-            }
-
-            /* Not enough width for images beside the title on a phone */
-            .post-card {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.75rem;
-            }
-
-            .post-images img {
-                height: 80px;
-            }
-
-            .post-title {
-                font-size: 1.2rem;
-            }
-
-            /* Shrink the collection header so the thumbnail and title
-               still sit side-by-side on a phone screen. */
-            .collection-header {
-                gap: 0.75rem;
-            }
-
-            .collection-thumb {
-                height: 56px;
-            }
-
-            .posts-section .collection-title {
-                font-size: 1.25rem;
-            }
+            .container { padding: 1.5rem; }
+            h1 { font-size: 1.8rem; }
+            .subtitle { font-size: 1.05rem; }
+            .result { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+            .result-images img { height: 80px; }
+            nav a { margin-right: 1.5rem; font-size: 1rem; }
         }
     </style>
 </head>
@@ -547,7 +200,7 @@
             <a href="/about.html">About</a>
             <a href="/feed.xml">RSS</a>
         </nav>
-        
+
         <header>
             <div class="header-content">
                 <img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations-logo.svg" width="80"/>
@@ -555,23 +208,12 @@
             </div>
             <p class="subtitle">Visual explorations in science and computation.</p>
         </header>
-        
-        <section class="forecasts-section">
-            <h2>Forecasts</h2>
-            <div id="forecast-container"></div>
-        </section>
 
-        <section class="posts-section">
-            <h2>Collections</h2>
-            <div id="posts-container">
-                <ul class="post-list">
-                    <li class="post-item empty-state">
-                        <p>Loading collections...</p>
-                    </li>
-                </ul>
-            </div>
-        </section>
-        
+        <input class="ask" id="ask" type="search" placeholder="Ask something... e.g. how can a simulation be wrong?" autocomplete="off" />
+        <p class="ask-hint" id="ask-hint">Matches question titles, first paragraphs and references.</p>
+        <ul class="results" id="results"></ul>
+
+
         <footer>
             <p>
                 <a href="https://github.com/umbralcalc">GitHub</a> |
@@ -579,470 +221,138 @@
                 <a href="mailto:umbralcalc@gmail.com">Email</a> |
                 <a href="/cv.html">CV</a>
             </p>
-            <div class="footer-disclaimer">
-                <p><strong>Heads-up:</strong> Everything on this site is written in a personal capacity and reflects my own views. Nothing here represents the views of my employer or any organisation I'm affiliated with.</p>
-                <p><strong>Terms of use:</strong> The writing and original code on this site are released under the <a href="https://github.com/umbralcalc/umbralcalc.github.io/blob/main/LICENSE">MIT License</a>. Feel free to reuse, remix, and redistribute (attribution appreciated!). This does not extend to third-party data or the models fitted from it, which remain under their original sources' licences and terms, as noted on each dashboard.</p>
-                <p><strong>Disclaimer:</strong> The interactive dashboards are all for learning, not deciding! These dashboards are simulation toys, based on simplified models fitted on incomplete data. Use them to build intuition about real-world simulations; don't use them to make real-world decisions.</p>
-            </div>
         </footer>
     </div>
-    
+
     <script>
         // Typing animation for site title
         (function() {
             const titleElement = document.getElementById('site-title');
             const titleText = 'umbralcalculations';
             let index = 0;
-            
+
             titleElement.classList.add('typing');
-            
+
             function typeCharacter() {
                 if (index < titleText.length) {
                     titleElement.textContent = titleText.substring(0, index + 1);
                     index++;
-                    setTimeout(typeCharacter, 100); // Adjust speed here (milliseconds per character)
+                    setTimeout(typeCharacter, 100);
                 } else {
-                    // Remove cursor after typing is complete
                     setTimeout(() => {
                         titleElement.classList.remove('typing');
                     }, 500);
                 }
             }
-            
-            // Start typing animation when page loads
+
             typeCharacter();
         })();
     </script>
-    
-    <script>
-        // Load and display forecast
-        fetch('/forecasts.json')
-            .then(r => r.json())
-            .then(forecasts => {
-                const container = document.getElementById('forecast-container');
-                if (!forecasts || forecasts.length === 0) {
-                    document.querySelector('.forecasts-section').style.display = 'none';
-                    return;
-                }
-                const f = forecasts[0]; // most recent
-                const niceDate = new Date(f.date + 'T00:00:00').toLocaleDateString('en-GB', {
-                    day: 'numeric', month: 'long', year: 'numeric'
-                });
-                const card = document.createElement('a');
-                card.href = f.url;
-                card.className = 'forecast-card';
-                card.innerHTML = `
-                    ${f.thumbnail ? `<img src="${f.thumbnail}" alt="" class="forecast-thumb"
-                         onerror="this.style.display='none'">` : ''}
-                    <div class="forecast-body">
-                        <div class="forecast-date">Updated ${niceDate}</div>
-                        <div class="forecast-title">${f.title}</div>
-                        <div class="forecast-headline">${f.headline}</div>
-                    </div>`;
-                container.appendChild(card);
-            })
-            .catch(() => {
-                document.querySelector('.forecasts-section').style.display = 'none';
-            });
-    </script>
 
     <script>
-        // Generate cover image URL from tag name
-        function getCoverImageUrl(tag) {
-            // Convert tag to lowercase, drop question marks, replace spaces
-            // with hyphens, add -cover.svg
-            const slug = tag.toLowerCase().replace(/\?/g, '').replace(/\s+/g, '-');
-            return `https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/${slug}-cover.svg`;
-        }
-        
-        // Cap each collection's scroll window at the height of three post
-        // cards (including the gaps between them), leaving the rest to scroll
-        function sizeCollectionWindows() {
-            document.querySelectorAll('.collection-scroll').forEach(scroll => {
-                const items = scroll.querySelectorAll('.post-item');
-                scroll.style.maxHeight = '';
-                // Four posts or more: cap the window at the first three
-                if (items.length > 3) {
-                    const top = items[0].getBoundingClientRect().top;
-                    const bottom = items[2].getBoundingClientRect().bottom;
-                    // maxHeight is a border-box height, so add back the
-                    // padding that keeps the hover lift from being clipped
-                    const style = getComputedStyle(scroll);
-                    const padding = parseFloat(style.paddingTop)
-                        + parseFloat(style.paddingBottom);
-                    scroll.style.maxHeight = (bottom - top + padding) + 'px';
-                }
-                updateScrollHint(scroll);
-            });
-        }
+    (function() {
+        // Draft posts (draft: true in the front matter) are listed only with /?drafts=1,
+        // so unfinished answers can be previewed without being published.
+        const showDrafts = new URLSearchParams(window.location.search).get('drafts') === '1';
 
-        // Show the fade only while there is more of the collection below
-        function updateScrollHint(scroll) {
-            const window_ = scroll.parentElement;
-            const scrollable = scroll.scrollHeight > scroll.clientHeight + 1;
-            window_.classList.toggle('is-scrollable', scrollable);
-            window_.classList.toggle(
-                'is-at-end',
-                scroll.scrollTop + scroll.clientHeight >= scroll.scrollHeight - 1
-            );
-        }
-
-        // Open or close a collection. The window's natural height is measured
-        // each time rather than cached, so the animation stays correct after a
-        // resize has re-sized the scroll window.
-        function setCollectionExpanded(section, expanded, animate) {
-            const window_ = section.querySelector('.collection-window');
-            const toggle = section.querySelector('.collection-toggle');
-            if (!window_ || !toggle) {
-                return;
-            }
-
-            section.classList.toggle('is-collapsed', !expanded);
-            toggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
-            toggle.setAttribute(
-                'aria-label',
-                (expanded ? 'Collapse' : 'Expand') + ' this collection'
-            );
-
-            // A toggle part-way through a previous animation starts afresh
-            if (window_.collapseListener) {
-                window_.removeEventListener('transitionend', window_.collapseListener);
-                window_.collapseListener = null;
-            }
-
-            if (!animate) {
-                window_.style.transition = 'none';
-                applyCollapsedState(window_, expanded);
-                void window_.offsetHeight; // flush before transitions resume
-                window_.style.transition = '';
-                return;
-            }
-
-            const from = window_.getBoundingClientRect().height;
-            let to = 0;
-            if (expanded) {
-                // Measure the open height with the cap lifted, then put the
-                // window straight back where it was to animate from there
-                window_.style.maxHeight = '';
-                window_.style.overflow = 'hidden';
-                to = window_.getBoundingClientRect().height;
-            }
-            window_.style.overflow = 'hidden';
-            window_.style.maxHeight = from + 'px';
-            void window_.offsetHeight;
-            window_.style.maxHeight = to + 'px';
-
-            window_.collapseListener = event => {
-                if (event.target !== window_ || event.propertyName !== 'max-height') {
-                    return;
-                }
-                window_.removeEventListener('transitionend', window_.collapseListener);
-                window_.collapseListener = null;
-                // Drop the inline cap once open so the window can grow again
-                applyCollapsedState(window_, expanded);
-            };
-            window_.addEventListener('transitionend', window_.collapseListener);
-        }
-
-        // The settled open state carries no inline height, so that resizing or
-        // an image loading late can still change the window's height
-        function applyCollapsedState(window_, expanded) {
-            window_.style.maxHeight = expanded ? '' : '0px';
-            window_.style.overflow = expanded ? '' : 'hidden';
-        }
-
-        // Load and display series covers
-        // Front-page collection order. Each string must match a post's
-        // `tag:` frontmatter exactly; collections not listed here fall to the
-        // end in alphabetical order, and 'Loose Threads' is always pinned last.
+        // Forecasts come first, as on the front page: each is a question
+        // whose answer is a live dashboard
         const seriesOrder = [
+            'Forecasts',
             'How can I simulate the real world?',
             'How can simulations help me take better actions?',
             'How can I trust the actions I take in simulations?',
             'How do I automate taking actions with simulations?',
             'How do I design using simulations?'
         ];
-        fetch('/posts.json')
-            .then(response => response.json())
-            .then(posts => {
-                const container = document.getElementById('posts-container');
-                container.innerHTML = '';
-                
-                if (posts.length === 0) {
-                    container.innerHTML = '<ul class="post-list"><li class="post-item empty-state"><p>No posts yet. Check back soon!</p></li></ul>';
-                    return;
-                }
-                
-                // Group posts by tag (exclude posts without tags)
-                const postsByTag = {};
-                posts.forEach(post => {
-                    // Skip posts without a tag
-                    if (!post.tag || post.tag.trim() === '') {
-                        return;
-                    }
-                    const tag = post.tag;
-                    if (!postsByTag[tag]) {
-                        postsByTag[tag] = [];
-                    }
-                    postsByTag[tag].push(post);
+
+        const results = document.getElementById('results');
+        const ask = document.getElementById('ask');
+
+        fetch('/questions.json')
+            .then(r => r.json())
+            .then(graph => {
+                const refs = graph.references || {};
+                const questions = graph.questions.filter(q => !q.draft || showDrafts);
+                // Grouped by root question, the root itself first, then in
+                // publication order
+                const rank = t => {
+                    const i = seriesOrder.indexOf(t);
+                    if (i >= 0) return i;
+                    return t === 'Loose Threads' ? 1000 : 500;
+                };
+                questions.sort((a, b) =>
+                    rank(a.tag) - rank(b.tag)
+                    || a.tag.localeCompare(b.tag)
+                    || (a.title === a.tag ? 0 : 1) - (b.title === b.tag ? 0 : 1)
+                    || (a.date || '').localeCompare(b.date || '')
+                    || a.title.localeCompare(b.title));
+                questions.forEach(q => {
+                    q.collection = q.tag;
+                    q.isDraft = !!q.draft;
+                    q.external = q.references.filter(k => refs[k] && refs[k].type !== 'question');
+                    q.haystack = [
+                        q.title, q.collection, q.excerpt,
+                        q.references.map(k => refs[k] ? (refs[k].title + ' ' + refs[k].authors.join(' ')) : k).join(' ')
+                    ].join(' ').toLowerCase();
                 });
-                
-                // Sort posts within each tag by order (then by title)
-                Object.keys(postsByTag).forEach(tag => {
-                    postsByTag[tag].sort((a, b) => {
-                        const orderA = a.order !== undefined ? a.order : 999;
-                        const orderB = b.order !== undefined ? b.order : 999;
-                        if (orderA !== orderB) {
-                            return orderA - orderB;
-                        }
-                        return (a.title || '').localeCompare(b.title || '');
-                    });
-                });
-                
-                // Get sorted tags
-                const sortedTags = Object.keys(postsByTag).sort((a, b) => {
-                    const aIndex = seriesOrder.indexOf(a);
-                    const bIndex = seriesOrder.indexOf(b);
-                    const aRank = aIndex === -1 ? Number.MAX_SAFE_INTEGER : aIndex;
-                    const bRank = bIndex === -1 ? Number.MAX_SAFE_INTEGER : bIndex;
-                    if (aRank !== bRank) {
-                        return aRank - bRank;
-                    }
-                    return a.localeCompare(b);
-                });
-                
-                if (sortedTags.length === 0) {
-                    container.innerHTML = '<ul class="post-list"><li class="post-item empty-state"><p>No posts yet. Check back soon!</p></li></ul>';
-                    return;
-                }
-                
-                // Separate tags into cover series and loose threads
-                const looseThreadsTagKey = sortedTags.find(tag => tag.trim().toLowerCase() === 'loose threads');
-                const coverSeriesTags = looseThreadsTagKey
-                    ? sortedTags.filter(tag => tag !== looseThreadsTagKey)
-                    : sortedTags;
-                const hasLooseThreads = Boolean(looseThreadsTagKey);
-                
-                // Create one single-column section per collection: a static
-                // header with the cover thumbnail beside the collection title,
-                // then the collection's posts listed in order beneath it
-                const collectionSections = [];
-                coverSeriesTags.forEach((tag, collectionIndex) => {
-                    const seriesPosts = postsByTag[tag]; // already sorted by order
-                    const firstPost = seriesPosts[0];
-                    // The header already links to the introduction, so the
-                    // list below starts at the post after it
-                    const listedPosts = seriesPosts.slice(1);
-
-                    const section = document.createElement('div');
-                    section.className = 'collection';
-
-                    // Header: cover thumbnail + title, linking to the first
-                    // post, with the expand/collapse arrow beside them
-                    const header = document.createElement('div');
-                    header.className = 'collection-header';
-
-                    const headerLink = document.createElement('a');
-                    headerLink.href = firstPost.url;
-                    headerLink.className = 'collection-header-link';
-
-                    const coverImage = document.createElement('img');
-                    coverImage.src = getCoverImageUrl(tag);
-                    coverImage.loading = 'lazy';
-                    coverImage.decoding = 'async';
-                    coverImage.alt = `${tag} cover`;
-                    coverImage.className = 'collection-thumb';
-
-                    // Add error handling for missing covers
-                    coverImage.onerror = function() {
-                        this.style.display = 'none';
-                    };
-
-                    const headerTitle = document.createElement('h2');
-                    headerTitle.className = 'collection-title';
-                    headerTitle.textContent = tag;
-
-                    headerLink.appendChild(coverImage);
-                    headerLink.appendChild(headerTitle);
-                    header.appendChild(headerLink);
-                    section.appendChild(header);
-
-                    // Posts in a single column, styled like the other sections
-                    const postList = document.createElement('ul');
-                    postList.className = 'post-list';
-
-                    listedPosts.forEach(post => {
-                        const postItem = document.createElement('li');
-                        postItem.className = 'post-item';
-
-                        const postCard = document.createElement('a');
-                        postCard.href = post.url;
-                        postCard.className = 'post-card';
-
-                        // Images sit beside the title, as in the other sections
-                        if (post.images && Array.isArray(post.images) && post.images.length > 0) {
-                            const postImages = document.createElement('div');
-                            postImages.className = 'post-images';
-                            post.images.forEach(imagePath => {
-                                const img = document.createElement('img');
-                                img.src = imagePath;
-                                img.loading = 'lazy';
-                                img.decoding = 'async';
-                                img.alt = post.title;
-                                img.onerror = function() {
-                                    this.style.display = 'none';
-                                };
-                                postImages.appendChild(img);
-                            });
-                            postCard.appendChild(postImages);
-                        }
-
-                        const postBody = document.createElement('div');
-                        postBody.className = 'post-body';
-
-                        const postTitle = document.createElement('div');
-                        postTitle.className = 'post-title';
-                        postTitle.textContent = post.title;
-                        postBody.appendChild(postTitle);
-
-                        if (post.date) {
-                            const postMeta = document.createElement('div');
-                            postMeta.className = 'post-meta';
-                            postMeta.textContent = post.date;
-                            postBody.appendChild(postMeta);
-                        }
-
-                        postCard.appendChild(postBody);
-                        postItem.appendChild(postCard);
-                        postList.appendChild(postItem);
-                    });
-
-                    if (listedPosts.length > 0) {
-                        const scroll = document.createElement('div');
-                        scroll.className = 'collection-scroll';
-                        scroll.appendChild(postList);
-
-                        const window_ = document.createElement('div');
-                        window_.className = 'collection-window';
-                        window_.id = `collection-posts-${collectionIndex}`;
-                        window_.appendChild(scroll);
-                        scroll.addEventListener('scroll', () => updateScrollHint(scroll));
-
-                        section.appendChild(window_);
-
-                        // Only collections with something to show get an arrow
-                        const toggle = document.createElement('button');
-                        toggle.type = 'button';
-                        toggle.className = 'collection-toggle';
-                        toggle.setAttribute('aria-controls', window_.id);
-                        toggle.innerHTML = '<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">'
-                            + '<polyline points="3 6 8 11 13 6" fill="none" stroke="currentColor" '
-                            + 'stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-                        toggle.addEventListener('click', () => {
-                            setCollectionExpanded(
-                                section, section.classList.contains('is-collapsed'), true
-                            );
-                        });
-                        header.appendChild(toggle);
-                        collectionSections.push(section);
-                    }
-                    container.appendChild(section);
-                });
-
-                // Display Loose Threads posts separately as individual cards
-                if (hasLooseThreads) {
-                    const looseThreadsSection = document.createElement('div');
-                    looseThreadsSection.className = 'posts-section';
-                    looseThreadsSection.style.marginTop = '2rem';
-                    
-                    const looseThreadsTitle = document.createElement('h2');
-                    looseThreadsTitle.textContent = looseThreadsTagKey;
-                    looseThreadsTitle.className = 'tag-title';
-                    looseThreadsSection.appendChild(looseThreadsTitle);
-
-                    const postList = document.createElement('ul');
-                    postList.className = 'post-list';
-                    
-                    postsByTag[looseThreadsTagKey].forEach(post => {
-                        const postItem = document.createElement('li');
-                        postItem.className = 'post-item';
-                        
-                        // Create card link that wraps everything
-                        const postCard = document.createElement('a');
-                        postCard.href = post.url;
-                        postCard.className = 'post-card';
-                        
-                        // Add images above title if they exist
-                        if (post.images && Array.isArray(post.images) && post.images.length > 0) {
-                            const postImages = document.createElement('div');
-                            postImages.className = 'post-images';
-                            post.images.forEach(imagePath => {
-                                const img = document.createElement('img');
-                                img.src = imagePath;
-                                img.loading = 'lazy';
-                                img.decoding = 'async';
-                                img.alt = post.title;
-                                postImages.appendChild(img);
-                            });
-                            postCard.appendChild(postImages);
-                        }
-                        
-                        // Title (and date) sit beside the images, not below them
-                        const postBody = document.createElement('div');
-                        postBody.className = 'post-body';
-
-                        const postTitle = document.createElement('div');
-                        postTitle.className = 'post-title';
-                        postTitle.textContent = post.title;
-                        postBody.appendChild(postTitle);
-
-                        if (post.date) {
-                            const postMeta = document.createElement('div');
-                            postMeta.className = 'post-meta';
-                            postMeta.textContent = post.date;
-                            postBody.appendChild(postMeta);
-                        }
-
-                        postCard.appendChild(postBody);
-
-                        postItem.appendChild(postCard);
-                        postList.appendChild(postItem);
-                    });
-                    
-                    const scroll = document.createElement('div');
-                    scroll.className = 'collection-scroll';
-                    scroll.appendChild(postList);
-                    scroll.addEventListener('scroll', () => updateScrollHint(scroll));
-
-                    const window_ = document.createElement('div');
-                    window_.className = 'collection-window';
-                    window_.appendChild(scroll);
-
-                    looseThreadsSection.appendChild(window_);
-                    container.appendChild(looseThreadsSection);
-                }
-
-                // Size every collection's window to exactly three post cards
-                sizeCollectionWindows();
-
-                // Open the first collection on arrival and close the rest, so
-                // the page starts with one collection already scrollable
-                collectionSections.forEach((section, index) => {
-                    setCollectionExpanded(section, index === 0, false);
-                });
-
-                window.addEventListener('load', sizeCollectionWindows);
-                let resizeTimer = null;
-                window.addEventListener('resize', () => {
-                    clearTimeout(resizeTimer);
-                    resizeTimer = setTimeout(sizeCollectionWindows, 150);
-                });
+                buildSearch(questions, refs);
             })
             .catch(error => {
-                console.error('Error loading posts:', error);
-                const container = document.getElementById('posts-container');
-                container.innerHTML = '<ul class="post-list"><li class="post-item empty-state"><p>Error loading posts. Please try again later.</p></li></ul>';
+                console.error('Error loading question graph:', error);
+                results.innerHTML = '<li class="empty">The question graph could not be loaded.</li>';
             });
+
+        function buildSearch(questions, refs) {
+            function render(term) {
+                const words = term.toLowerCase().split(/\s+/).filter(Boolean);
+                const hits = questions.filter(q => words.every(w => q.haystack.includes(w)));
+                results.innerHTML = '';
+                if (hits.length === 0) {
+                    results.innerHTML = '<li class="empty">Nothing answers that yet.</li>';
+                    return;
+                }
+                hits.forEach(q => {
+                    const li = document.createElement('li');
+                    const card = document.createElement('a');
+                    card.className = 'result';
+                    card.href = q.url;
+                    if (q.images && q.images.length > 0) {
+                        const images = document.createElement('div');
+                        images.className = 'result-images';
+                        q.images.forEach(src => {
+                            const img = document.createElement('img');
+                            img.src = src;
+                            img.alt = '';
+                            img.loading = 'lazy';
+                            img.onerror = () => { img.style.display = 'none'; };
+                            images.appendChild(img);
+                        });
+                        card.appendChild(images);
+                    }
+                    const body = document.createElement('div');
+                    body.className = 'result-body';
+                    const a = document.createElement('div');
+                    a.className = 'result-question';
+                    a.textContent = q.title;
+                    const meta = document.createElement('div');
+                    meta.className = 'result-meta';
+                    const n = q.external.length;
+                    meta.textContent = (q.isDraft ? 'draft' : '')
+                        + (q.isDraft && n > 0 ? ' \u00b7 ' : '')
+                        + (n > 0 ? n + (n === 1 ? ' reference' : ' references') : '');
+                    body.appendChild(a);
+                    body.appendChild(meta);
+                    card.appendChild(body);
+                    li.appendChild(card);
+                    results.appendChild(li);
+                });
+            }
+            ask.addEventListener('input', () => render(ask.value));
+            render('');
+        }
+
+    })();
     </script>
 </body>
 </html>

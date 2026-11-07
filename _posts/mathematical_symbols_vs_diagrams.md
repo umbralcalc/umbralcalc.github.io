@@ -1,18 +1,16 @@
 ---
-title: "Mathematical symbols vs diagrams"
+title: "Why no mathematical symbols?"
 tag: "Loose Threads"
-order: 1
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/mathematical_symbols_vs_diagrams/diagrams-vs-symbols.svg"
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/mathematical_symbols_vs_diagrams/maths-to-diagrams.svg"
+aliases:
+- "Why no mathematical symbols?"
 nocite: |
-  @larkinsimon1987, @harel1988, @tufte2001
+  @larkinsimon1987
 ---
 
-# Mathematical symbols vs diagrams
+# Why no mathematical symbols?
 <div style="height:0.75em;"></div>
-
-## Why no mathematical symbols?
 
 Mathematical concepts and tools are absolutely essential to understanding and deriving deeper relationships when analysing systems in the real world.
 
@@ -23,14 +21,6 @@ Instead of communicating conceptual understanding with mathematical symbols, the
 The intention is to transfer some level of analytical power from the world of symbols into the world of diagrams and engage a wider group of analytical thinkers in understanding the deeper aspects of mathematical modeling.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/mathematical_symbols_vs_diagrams/diagrams-vs-symbols.svg" width="700"/></center>
-
-## Mathematical rigour
-
-The diagrammatic language we use owes its mathematical rigour to the fact that [any computation can be written as a series of function abstrations and applications](https://en.wikipedia.org/wiki/Lambda_calculus). 
-
-Since all of the practically useful mathematical calculations that we typically talk about on this blog must ultimately be expressed in a computer, we can always find some diagrammatic description of the relevant mathematics that leverages the function abstractions.
-
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/mathematical_symbols_vs_diagrams/maths-to-diagrams.svg" width=600/></center>
 
 ## References and further reading
 

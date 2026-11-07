@@ -1,13 +1,15 @@
 ---
-title: "Introduction"
-# tag: "How do I automate taking actions with simulations?"
+title: "How do I automate taking actions with simulations?"
+tag: "How do I automate taking actions with simulations?"
+draft: true
 series-blurb: "A collection of posts on ... No maths; just diagrams and straightforward descriptions all the way through."
-order: 0
+aliases:
+- "How do I automate taking actions with simulations?"
 nocite: |
   @suttonbarto2018
 ---
 
-# Introduction
+# How do I automate taking actions with simulations?
 <div style="height:0.75em;"></div>
 
 This collection should include:

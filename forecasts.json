@@ -1,7 +1,7 @@
 [
   {
     "date": "2026-09-22",
-    "title": "Bathing water pollution exceedance forecast",
+    "title": "What is the probability of bathing water pollution across England?",
     "headline": "Probabilities for every designated bathing water in England, driven by recent rainfall and the season.",
     "thumbnail": "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/bathing-water-forecaster/bathing-water-forecaster-code.svg",
     "url": "https://umbralcalc.github.io/bathing-water-forecaster/"

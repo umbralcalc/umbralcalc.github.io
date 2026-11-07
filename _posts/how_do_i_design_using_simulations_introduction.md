@@ -1,13 +1,15 @@
 ---
-title: "Introduction"
-# tag: "How do I design using simulations?"
+title: "How do I design using simulations?"
+tag: "How do I design using simulations?"
+draft: true
 series-blurb: "A collection of posts on ... No maths; just diagrams and straightforward descriptions all the way through."
-order: 0
+aliases:
+- "How do I design using simulations?"
 nocite: |
   @epstein2008, @lawkelton2014
 ---
 
-# Introduction
+# How do I design using simulations?
 <div style="height:0.75em;"></div>
 
 Thinking this collection should be entirely synthetic so we can focus on defining the generalised software / declarative schemas for each domain which is the real challenge of this collection. We can potentially do real examples later in another collection.

@@ -1,15 +1,21 @@
 ---
-title: "Evaluating rugby manager decision-making"
+title: "When should a rugby manager make substitutions?"
 tag: "How can simulations help me take better actions?"
 series-blurb: "A collection of simulated examples of real-world actions explored through interactive dashboards. Each post covers a specific real-world decision problem in turn, demonstrating how simulations can inform real-world action-taking with illustrative (not production-ready) research models. No maths; just diagrams and straightforward descriptions all the way through."
-order: 1
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/evaluating_rugby_manager_decision_making/trywizard-simulation-code.svg"
+
+aliases:
+- "When should a rugby manager make substitutions?"
+cites:
+- "[[how_can_simulations_help_me_take_better_actions_introduction]]"
+- "[[what_is_a_state_partition]]"
+- "[[how_does_a_simulation_learn_its_parameters_from_data]]"
 nocite: |
-  @dixoncoles1997, @mauboussin2012
+  @dixoncoles1997, @mauboussin2012, @stochadex
 ---
 
-# Evaluating rugby manager decision-making
+# When should a rugby manager make substitutions?
 <div style="height:0.75em;"></div>
 
 A rugby manager picks when to substitute each position group: bring on the front-row replacements early, or save them for the closing minutes?

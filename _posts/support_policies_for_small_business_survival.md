@@ -1,15 +1,21 @@
 ---
-title: "Support policies for small business survival"
+title: "Which support policies keep small businesses alive?"
 tag: "How can simulations help me take better actions?"
 series-blurb: "A collection of simulated examples of real-world actions explored through interactive dashboards. Each post covers a specific real-world decision problem in turn, demonstrating how simulations can inform real-world action-taking with illustrative (not production-ready) research models. No maths; just diagrams and straightforward descriptions all the way through."
-order: 5
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/support_policies_for_small_business_survival/business-survival-code.svg"
+
+aliases:
+- "Which support policies keep small businesses alive?"
+cites:
+- "[[how_can_simulations_help_me_take_better_actions_introduction]]"
+- "[[what_is_a_state_partition]]"
+- "[[how_does_a_simulation_learn_its_parameters_from_data]]"
 nocite: |
-  @mata1994, @geroski1995
+  @mata1994, @geroski1995, @stochadex
 ---
 
-# Support policies for small business survival
+# Which support policies keep small businesses alive?
 <div style="height:0.75em;"></div>
 
 UK small business support comes in different flavours (rates relief, startup grants, incubators, mentoring, etc.): how should a cash-constrained policymaker has to choose between them? To maximise what?

@@ -1,18 +1,18 @@
 ---
-title: "Black box AI is an accelerator paradigm"
+title: "What is black box AI?"
 tag: "Loose Threads"
-order: 3
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/model-predict.svg"
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/data-grid-ai.svg"
+aliases:
+- "What is black box AI?"
+cites:
+- "[[what_can_a_simulation_do_that_a_prediction_cannot]]"
 nocite: |
-  @rudin2019, @sambasivan2021, @ha2018
+  @rudin2019
 ---
 
-# Black box AI is an accelerator paradigm
+# What is black box AI?
 <div style="height:0.75em;"></div>
-
-## Some opinions
 
 Here are some opinions on the realistic potential for 'black box' AI methods to improve human prediction and decision-making processes.
 
@@ -21,38 +21,6 @@ A black box AI method for prediction here means a tool we can use to predict out
 Inductive bias is another concept which is worthy of discussion here. This can be thought of as information which is brought in which does not come from the data itself.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/model-predict.svg"/></center>
-
-## Data is often irrelevant, incomplete, scarce or wrong
-
-For many high-value problems that humanity (or just businesses) would like solve, the truth is that data is often irrelevant, incomplete, scarce or wrong.
-
-In other words, you often do _not_ have data: which is directly relevant the the problem; which forms a complete set; which is enough for model training; or which is without any false entries, etc.
-
-In situations where you do actually have data which satisfies these (or most of these) conditions, then training black box AI models becomes viable.
-
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/data-grid-ai.svg"/></center>
-
-## Keeping humans in the loop with world models
-
-In order to tackle the data environments we described above, it helps to bring as much useful information into the problem as possible. This information could come in the form of inductive biases in the model structure or prior knowledge provided by an expert.
-
-Black box AI at best encodes only generic statistical or architectural inductive biases, but usually lacks the rich, domain‑specific structure that an explicit 'world model' can provide.
-
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/shape-statistics.svg"/></center>
-
-In contrast to black box AI, world models represent the state of the system _separately from the data_. Simulations can be thought of as a kind of world model, for instance.
-
-A true world model should enable sources of information _distinct from the data_ to be included in its prediction, i.e., domain-specific structure with expert interpretation. This is the only clear way to circumvent data limitations.
-
-Humans 'in the loop' can also interrogate their world models to find explanations for their predictions. In this sense, world models can provide _insights_, not just predictive outputs.
-
-## Black box AI as an accelerator
-
-Black box AI may not be the answer to all problems, but it is clearly an enormous accelerator for developing world models and making them more performant (in both runtime and predictivity).
-
-With the rise of agentic coding tools (e.g., [Cursor](https://cursor.com/agents), [Claude Code](https://code.claude.com/docs/en/overview) or [Antigravity](https://antigravity.google/)) the acceleration in developing world models is obvious: developers can focus more on higher-level conceptual design while the AI tool fills in the programmatic details within minutes.
-
-As for computational and predictive performance: these have already been well-established capabilities of black box AI models with enough compute capacity through bespoke simulation emulators (e.g., [AlphaFold](https://deepmind.google/science/alphafold/) or [WeatherNext](https://deepmind.google/science/weathernext/)).
 
 ## References and further reading
 
