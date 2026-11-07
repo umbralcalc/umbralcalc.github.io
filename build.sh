@@ -106,8 +106,8 @@ generate_html_pages() {
     for filename in "$DOCS_DIR"/_posts/*.md; do
         if [ -f "$filename" ]; then
             local basename=$(basename "$filename" .md)
-            local title=$(grep -E '^title:' "$filename" | head -1 | sed 's/title: *"\(.*\)"/\1/' || echo "$basename")
-            
+            local title=$(python3 "$DOCS_DIR/_build/questions.py" title "$filename")
+
             log_info "Generating post: $basename"
             
             # Citations: a post opts in with a '::: {#refs}' block plus [@key]
@@ -155,130 +155,13 @@ EOF
     log_success "HTML posts generated"
 }
 
-# Generate posts metadata JSON
+# Generate posts metadata JSON (front matter parsed as YAML, so it reads
+# what Obsidian writes)
 generate_posts_metadata() {
     log_info "Generating posts metadata..."
-    
-    local posts_json="$DOCS_DIR/posts.json"
-    local temp_dir="$TEMP_DIR/posts_metadata"
-    
-    # Create temp directory for storing post metadata
-    mkdir -p "$temp_dir"
-    
-    # First pass: extract metadata from all posts
-    for filename in "$DOCS_DIR"/_posts/*.md; do
-        if [ -f "$filename" ]; then
-            local basename=$(basename "$filename" .md)
-            local title=$(grep -E '^title:' "$filename" | head -1 | sed 's/title: *"\(.*\)"/\1/' || echo "$basename")
-            local tag=$(grep -E '^tag:' "$filename" | head -1 | sed 's/tag: *"\(.*\)"/\1/' || echo "")
-            local draft=false
-            if grep -qE '^draft: *true' "$filename"; then
-                draft=true
-            fi
-            local date=$(grep -E '^date:' "$filename" | head -1 | sed 's/date: *"\(.*\)"/\1/' || echo "")
-            
-            # Escape JSON special characters in title and tag
-            title=$(echo "$title" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g')
-            tag=$(echo "$tag" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g')
-            
-            # Extract images from frontmatter (supports YAML array format and list format)
-            # Handles: images: ["img1.jpg", "img2.jpg"] or images: img1.jpg or images:\n- "img1.jpg"\n- "img2.jpg"
-            local images_json="[]"
-            
-            # Check if images field exists
-            if grep -q '^images:' "$filename"; then
-                # Check if it's a YAML list format (multi-line with dashes)
-                if grep -A 5 '^images:' "$filename" | grep -q '^[[:space:]]*-'; then
-                    # Extract YAML list items (lines starting with - after images:, stop at ---)
-                    local images_list=$(awk '/^images:/{flag=1; next} /^---$/{flag=0} flag && /^[[:space:]]*-/{gsub(/^[[:space:]]*-[[:space:]]*"/, ""); gsub(/"[[:space:]]*$/, ""); gsub(/^[[:space:]]*-[[:space:]]*/, ""); print}' "$filename")
-                    if [ -n "$images_list" ]; then
-                        # Convert to JSON array using awk
-                        images_json=$(echo "$images_list" | awk 'BEGIN{json="["} {if(NR>1) json=json","; gsub(/^[[:space:]]+|[[:space:]]+$/, ""); if($0 != "" && $0 != "---") json=json"\""$0"\""} END{json=json"]"; print json}')
-                    fi
-                else
-                    # Single line format: images: ["img1.jpg", "img2.jpg"] or images: img1.jpg
-                    local images_line=$(grep -E '^images:' "$filename" | head -1)
-                    if echo "$images_line" | grep -q '\['; then
-                        # Use Python to parse the YAML array and convert to JSON
-                        images_json=$(echo "$images_line" | python3 -c "
-import sys
-import re
-line = sys.stdin.read().strip()
-# Match: images: [\"img1\", \"img2\"]
-match = re.search(r'images:\s*\[(.*?)\]', line)
-if match:
-    content = match.group(1).strip()
-    if content:
-        # Split by comma, handling quoted strings
-        items = []
-        current = ''
-        in_quotes = False
-        for i, char in enumerate(content):
-            if char == '\"' and (i == 0 or content[i-1] != '\\\\'):
-                in_quotes = not in_quotes
-                if not in_quotes:
-                    items.append(current.strip('\"').strip())
-                    current = ''
-                continue
-            if in_quotes:
-                current += char
-        if current.strip():
-            items.append(current.strip('\"').strip())
-        # Build JSON array
-        json_items = [f'\"{item.strip()}\"' for item in items if item.strip()]
-        print('[' + ','.join(json_items) + ']')
-    else:
-        print('[]')
-else:
-    print('[]')
-" 2>/dev/null)
-                        # Fallback if Python fails
-                        if [ -z "$images_json" ] || [ "$images_json" = "[]" ]; then
-                            images_json="[]"
-                        fi
-                    else
-                        # Single image: images: img1.jpg or images: "img1.jpg"
-                        local single_img=$(echo "$images_line" | sed 's/^images: *"\(.*\)".*/\1/' | sed 's/^images: *\(.*\)/\1/' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | sed 's/^"//;s/"$//')
-                        if [ -n "$single_img" ]; then
-                            images_json="[\"$single_img\"]"
-                        fi
-                    fi
-                fi
-            fi
-            
-            # Write post metadata to a temp file; combined in name order below
-            cat > "$temp_dir/${basename}.json" << EOF
-  {
-    "title": "$title",
-    "slug": "$basename",
-    "url": "/posts/$basename.html",
-    "tag": "$tag",
-    "draft": $draft,
-    "date": "$date",
-    "images": $images_json
-  }
-EOF
-        fi
-    done
-    
-    # Combine into a JSON array, in file name order
-    echo "[" > "$posts_json"
-    local first=true
-    for json_file in $(ls -1 "$temp_dir"/*.json 2>/dev/null | sort); do
-        if [ -f "$json_file" ]; then
-            if [ "$first" = true ]; then
-                first=false
-            else
-                echo "," >> "$posts_json"
-            fi
-            cat "$json_file" >> "$posts_json"
-        fi
-    done
-    echo "]" >> "$posts_json"
-    
-    # Clean up temp directory
-    rm -rf "$temp_dir"
-    
+
+    python3 "$DOCS_DIR/_build/questions.py" posts "$DOCS_DIR/posts.json"
+
     log_success "Posts metadata generated"
 }
 

@@ -6,7 +6,7 @@
     <description>Visual explorations in science and computation.</description>
     <language>en</language>
     <atom:link href="https://umbralcalc.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <lastBuildDate>Sat, 07 Nov 2026 15:33:50 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 07 Nov 2026 15:39:25 +0000</lastBuildDate>
     <pubDate>Sat, 07 Nov 2026 15:12:21 +0000</pubDate>
     <item>
       <title>Are diagrams mathematically rigorous?</title>
@@ -25,11 +25,11 @@
       <description>The data probabilities of simulation trajectories can also be interpreted as probabilities of simulation parameters; often accompanied with some simulation noise to account for differences between trajectories even with the same parameters.</description>
     </item>
     <item>
-      <title>title: Can a simulation run inside another simulation?</title>
+      <title>Can a simulation run inside another simulation?</title>
       <link>https://umbralcalc.github.io/posts/can_a_simulation_run_inside_another_simulation.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/can_a_simulation_run_inside_another_simulation.html</guid>
       <pubDate>Sat, 07 Nov 2026 15:12:21 +0000</pubDate>
-      <category>tag: How can I simulate the real world?</category>
+      <category>How can I simulate the real world?</category>
       <description>Enabling whole 'inner' simulation runs to start and complete within each timestep of an 'outer' simulation run is a very useful, and somewhat fundamental, building block for simulations in practice. We shall call these 'embedded simulation runs'.</description>
     </item>
     <item>
@@ -49,27 +49,27 @@
       <description>Note that the concepts in this section are the most likely to change with future advancements in quantum computing.</description>
     </item>
     <item>
-      <title>title: How are a partition's next values calculated?</title>
+      <title>How are a partition's next values calculated?</title>
       <link>https://umbralcalc.github.io/posts/how_are_a_partitions_next_values_calculated.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/how_are_a_partitions_next_values_calculated.html</guid>
       <pubDate>Sat, 07 Nov 2026 15:12:21 +0000</pubDate>
-      <category>tag: How can I simulate the real world?</category>
+      <category>How can I simulate the real world?</category>
       <description>For an overall simulation data view, we can create a 'state partition histories' structure. This is a collection of each state partition history that exists within the simulation.</description>
     </item>
     <item>
-      <title>title: How are the histories updated after a step?</title>
+      <title>How are the histories updated after a step?</title>
       <link>https://umbralcalc.github.io/posts/how_are_the_histories_updated_after_a_step.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/how_are_the_histories_updated_after_a_step.html</guid>
       <pubDate>Sat, 07 Nov 2026 15:12:21 +0000</pubDate>
-      <category>tag: How can I simulate the real world?</category>
+      <category>How can I simulate the real world?</category>
       <description>Having calculated the next values of each state partition and the next timestep, we should perform operations over the cumulative timesteps history and each state partition history to update their structures with this new data.</description>
     </item>
     <item>
-      <title>title: How do state partitions share information?</title>
+      <title>How do state partitions share information?</title>
       <link>https://umbralcalc.github.io/posts/how_do_state_partitions_share_information.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/how_do_state_partitions_share_information.html</guid>
       <pubDate>Sat, 07 Nov 2026 15:12:21 +0000</pubDate>
-      <category>tag: How can I simulate the real world?</category>
+      <category>How can I simulate the real world?</category>
       <description>So far we have considered partition iterations as occurring separately within the simulation. But it is important for these separate partitions to be able to pass information to each other.</description>
     </item>
     <item>
@@ -81,11 +81,11 @@
       <description>There is a way we can compute these probabilities without having to trace the path of every possible trajectory, and often without having to keep a record of every possible state value.</description>
     </item>
     <item>
-      <title>title: How do we get probabilities back from statistics?</title>
+      <title>How do we get probabilities back from statistics?</title>
       <link>https://umbralcalc.github.io/posts/how_do_we_get_probabilities_back_from_statistics.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/how_do_we_get_probabilities_back_from_statistics.html</guid>
       <pubDate>Sat, 07 Nov 2026 15:12:21 +0000</pubDate>
-      <category>tag: How can I simulate the real world?</category>
+      <category>How can I simulate the real world?</category>
       <description>So we have the statistics, but where have the probabilities gone?</description>
     </item>
     <item>
@@ -105,11 +105,11 @@
       <description>If we want to learn the parameters which correspond to simulation trajectories fitting real-world data trends more closely, it is natural to use an objective based on the probabilities of state partition histories that we computed in the previous post.</description>
     </item>
     <item>
-      <title>title: How is the probability of a state partition history evaluated?</title>
+      <title>How is the probability of a state partition history evaluated?</title>
       <link>https://umbralcalc.github.io/posts/how_is_the_probability_of_a_state_partition_history_evaluated.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/how_is_the_probability_of_a_state_partition_history_evaluated.html</guid>
       <pubDate>Sat, 07 Nov 2026 15:12:21 +0000</pubDate>
-      <category>tag: How can I simulate the real world?</category>
+      <category>How can I simulate the real world?</category>
       <description>Evaluating the probability of a particular state partition history, given parameters and a cumulative timesteps history, looks a similar to the iterate computation. However, in contrast, this computation does not progress forward in time.</description>
     </item>
     <item>
@@ -129,11 +129,11 @@
       <description>Black box AI may not be the answer to all problems, but it is clearly an enormous accelerator for developing world models and making them more performant (in both runtime and predictivity).</description>
     </item>
     <item>
-      <title>title: What decides when the next timestep happens?</title>
+      <title>What decides when the next timestep happens?</title>
       <link>https://umbralcalc.github.io/posts/what_decides_when_the_next_timestep_happens.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/what_decides_when_the_next_timestep_happens.html</guid>
       <pubDate>Sat, 07 Nov 2026 15:12:21 +0000</pubDate>
-      <category>tag: How can I simulate the real world?</category>
+      <category>How can I simulate the real world?</category>
       <description>So new states of the simulation may happen at different times. But what determines when these times are along the simulation timeline?</description>
     </item>
     <item>
@@ -177,19 +177,19 @@
       <description>Batch simulation architectures evaluate multiple successive sequences of next state values for the system over a wider interval in time all as one computational block.</description>
     </item>
     <item>
-      <title>title: What is a conditional probability in a simulation?</title>
+      <title>What is a conditional probability in a simulation?</title>
       <link>https://umbralcalc.github.io/posts/what_is_a_conditional_probability_in_a_simulation.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/what_is_a_conditional_probability_in_a_simulation.html</guid>
       <pubDate>Sat, 07 Nov 2026 15:12:21 +0000</pubDate>
-      <category>tag: How can I simulate the real world?</category>
+      <category>How can I simulate the real world?</category>
       <description>We can relate two successive probability evaluations in time together by making the answer of the second depend on the outcome of the first.</description>
     </item>
     <item>
-      <title>title: What is a simulation run?</title>
+      <title>What is a simulation run?</title>
       <link>https://umbralcalc.github.io/posts/what_is_a_simulation_run.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/what_is_a_simulation_run.html</guid>
       <pubDate>Sat, 07 Nov 2026 15:12:21 +0000</pubDate>
-      <category>tag: How can I simulate the real world?</category>
+      <category>How can I simulate the real world?</category>
       <description>A 'simulation run' defines the evolution of a simulation state over some specified period in time.</description>
     </item>
     <item>
@@ -201,11 +201,11 @@
       <description>Simulations also have a 'state' associated to them for each value of time.</description>
     </item>
     <item>
-      <title>title: When does specialised hardware help?</title>
+      <title>When does specialised hardware help?</title>
       <link>https://umbralcalc.github.io/posts/when_does_specialised_hardware_help.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/when_does_specialised_hardware_help.html</guid>
       <pubDate>Sat, 07 Nov 2026 15:12:21 +0000</pubDate>
-      <category>tag: Loose Threads</category>
+      <category>Loose Threads</category>
       <description>From the perspective of standard CPUs, batch simulation architectures are often designed to evaluate segments of the simulation timeline using specialised classical hardware.</description>
     </item>
     <item>
@@ -217,11 +217,11 @@
       <description>For many high-value problems that humanity (or just businesses) would like solve, the truth is that data is often irrelevant, incomplete, scarce or wrong.</description>
     </item>
     <item>
-      <title>title: Why can't we track every possible trajectory?</title>
+      <title>Why can't we track every possible trajectory?</title>
       <link>https://umbralcalc.github.io/posts/why_cant_we_track_every_possible_trajectory.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/why_cant_we_track_every_possible_trajectory.html</guid>
       <pubDate>Sat, 07 Nov 2026 15:12:21 +0000</pubDate>
-      <category>tag: How can I simulate the real world?</category>
+      <category>How can I simulate the real world?</category>
       <description>So why can’t we just use this recursive relationship to model all the trajectories of the simulation at once? For some simpler systems this is indeed possible, but for most simulations in practice this is computationally infeasible.</description>
     </item>
     <item>

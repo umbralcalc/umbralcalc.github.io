@@ -14,6 +14,8 @@ Sub-commands, all run from build.sh:
   prepare SRC OUT      copy a post for pandoc, adding every #ref-KEY the
                        answer links to into its nocite list so the entry is
                        printed under References
+  title SRC            print a post's title
+  posts OUT.json       write posts.json (title, slug, url, tag, draft, images)
   json REFS.bib ... -o questions.json
                        write the question graph: each post with its
                        references, which other questions it cites, and which
@@ -25,6 +27,8 @@ import re
 import subprocess
 import sys
 from datetime import datetime
+
+import yaml
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 POSTS_DIR = os.path.join(ROOT, "_posts")
@@ -53,70 +57,38 @@ def split_frontmatter(text):
 
 
 def parse_post(path):
+    """Read a post's YAML front matter (as Obsidian writes it, quoted or not)
+    and its body."""
     slug = os.path.basename(path)[:-3]
     text = open(path, encoding="utf-8").read()
-    fm, body = split_frontmatter(text)
-    post = {
+    fm_lines, body = split_frontmatter(text)
+    try:
+        meta = yaml.safe_load("\n".join(fm_lines)) or {}
+    except yaml.YAMLError as e:
+        print(f"[ERROR] {slug}: front matter is not valid YAML: {e}")
+        sys.exit(1)
+
+    def as_list(v):
+        if v is None:
+            return []
+        if isinstance(v, str):
+            return [v]
+        return [str(x) for x in v]
+
+    nocite = meta.get("nocite") or ""
+    if isinstance(nocite, list):
+        nocite = " ".join(str(x) for x in nocite)
+    return {
         "slug": slug,
-        "title": slug,
-        "tag": "",
-        "draft": False,
-        "images": [],
-        "nocite": [],
-        "cites": [],
+        "title": str(meta.get("title") or slug),
+        "tag": str(meta.get("tag") or "").strip(),
+        "draft": bool(meta.get("draft")),
+        "images": as_list(meta.get("images")),
+        "cites": [m.group(1) for m in (WIKI_LINK.search(c) for c in as_list(meta.get("cites"))) if m],
+        "nocite": re.findall(r"@([A-Za-z0-9_][A-Za-z0-9_:.#$%&+?<>~/-]*)", str(nocite)),
         "body": body,
-        "frontmatter": fm,
+        "frontmatter": fm_lines,
     }
-    i = 0
-    while i < len(fm):
-        line = fm[i]
-        m = re.match(r'^title:\s*"(.*)"\s*$', line)
-        if m:
-            post["title"] = m.group(1)
-        m = re.match(r'^tag:\s*"(.*)"\s*$', line)
-        if m:
-            post["tag"] = m.group(1).strip()
-        if re.match(r"^draft:\s*true\s*$", line):
-            post["draft"] = True
-        m = re.match(r"^cites:\s*$", line)
-        if m:
-            j = i + 1
-            while j < len(fm) and re.match(r"^\s*-\s*", fm[j]):
-                w = WIKI_LINK.search(fm[j])
-                if w:
-                    post["cites"].append(w.group(1))
-                j += 1
-            i = j
-            continue
-        m = re.match(r"^images:\s*(.*)$", line)
-        if m:
-            rest = m.group(1).strip()
-            if rest.startswith("["):
-                post["images"] = re.findall(r'"([^"]+)"', rest)
-            elif rest:
-                post["images"] = [rest.strip('"')]
-            else:
-                j = i + 1
-                while j < len(fm) and re.match(r"^\s*-\s*", fm[j]):
-                    post["images"].append(re.sub(r'^\s*-\s*"?|"?\s*$', "", fm[j]))
-                    j += 1
-                i = j
-                continue
-        m = re.match(r"^nocite:\s*(.*)$", line)
-        if m:
-            rest = m.group(1).strip()
-            keys = []
-            if rest and rest != "|":
-                keys.append(rest)
-            j = i + 1
-            while j < len(fm) and (fm[j].startswith(" ") or fm[j] == ""):
-                keys.append(fm[j])
-                j += 1
-            post["nocite"] = re.findall(r"@([A-Za-z0-9_][A-Za-z0-9_:.#$%&+?<>~/-]*)", " ".join(keys))
-            i = j
-            continue
-        i += 1
-    return post
 
 
 def all_posts():
@@ -319,23 +291,34 @@ def cmd_prepare(src, out):
     # Rewrite [[slug|text]] outside fenced blocks only
     chunks = re.split(r"(```.*?```)", post["body"], flags=re.S)
     body = "".join(c if c.startswith("```") else WIKI_LINK.sub(to_ref_link, c) for c in chunks)
-    post["body"] = body
-    fm = []
-    skip = False
-    for line in post["frontmatter"]:
-        if re.match(r"^(nocite|cites|aliases):", line):
-            skip = True
-            continue
-        if skip and (line.startswith(" ") or line.startswith("-") or line == ""):
-            continue
-        skip = False
-        fm.append(line)
+    fm = {"title": post["title"]}
     if keys:
-        fm.append("nocite: |")
-        fm.append("  " + ", ".join(f"@{k}" for k in keys))
+        fm["nocite"] = ", ".join(f"@{k}" for k in keys)
     os.makedirs(os.path.dirname(out), exist_ok=True)
     with open(out, "w", encoding="utf-8") as f:
-        f.write("---\n" + "\n".join(fm) + "\n---" + post["body"])
+        f.write("---\n" + yaml.safe_dump(fm, allow_unicode=True, sort_keys=False) + "---" + body)
+
+
+def cmd_title(src):
+    print(parse_post(src)["title"])
+
+
+def cmd_posts(out_path):
+    """posts.json: the plain post list the feed and older scripts read."""
+    posts = []
+    for post in all_posts():
+        posts.append({
+            "title": post["title"],
+            "slug": post["slug"],
+            "url": f"/posts/{post['slug']}.html",
+            "tag": post["tag"],
+            "draft": post["draft"],
+            "date": "",
+            "images": post["images"],
+        })
+    with open(out_path, "w", encoding="utf-8") as f:
+        json.dump(posts, f, indent=2, ensure_ascii=False)
+        f.write("\n")
 
 
 # ------------------------------------------------------------------ json
@@ -428,6 +411,10 @@ def main(argv):
         cmd_lint(args)
     elif cmd == "prepare" and len(args) == 2:
         cmd_prepare(args[0], args[1])
+    elif cmd == "title" and len(args) == 1:
+        cmd_title(args[0])
+    elif cmd == "posts" and len(args) == 1:
+        cmd_posts(args[0])
     elif cmd == "json" and "-o" in args:
         i = args.index("-o")
         cmd_json(args[:i], args[i + 1])
