@@ -2,8 +2,6 @@
 title: How are a partition's next values calculated?
 images:
   - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/state-partition-histories.svg
-aliases:
-  - How are a partition's next values calculated?
 cites:
   - "[[how_can_i_simulate_the_real_world]]"
   - "[[what_is_a_state_partition]]"

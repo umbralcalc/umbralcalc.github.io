@@ -1,7 +1,5 @@
 ---
 title: "What does a complete simulation look like?"
-aliases:
-- "What does a complete simulation look like?"
 cites:
 - "[[how_can_i_simulate_the_real_world]]"
 - "[[when_should_a_rugby_manager_make_substitutions]]"

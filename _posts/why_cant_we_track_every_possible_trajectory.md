@@ -2,8 +2,6 @@
 title: Why can't we track every possible trajectory?
 images:
   - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/coin-flips-tree.svg
-aliases:
-  - Why can't we track every possible trajectory?
 cites:
   - "[[how_can_i_simulate_the_real_world]]"
   - "[[what_is_a_conditional_probability_in_a_simulation]]"

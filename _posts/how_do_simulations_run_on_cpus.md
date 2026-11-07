@@ -3,8 +3,6 @@ title: "How do simulations run on CPUs?"
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/cpu-graph-edges.svg"
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/cpu-stepwise-architectures.svg"
-aliases:
-- "How do simulations run on CPUs?"
 cites:
 - "[[what_is_a_simulation_run]]"
 - "[[how_are_a_partitions_next_values_calculated]]"

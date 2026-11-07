@@ -2,8 +2,6 @@
 title: "Are diagrams mathematically rigorous?"
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/mathematical_symbols_vs_diagrams/maths-to-diagrams.svg"
-aliases:
-- "Are diagrams mathematically rigorous?"
 cites:
 - "[[why_no_mathematical_symbols]]"
 nocite: |

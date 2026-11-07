@@ -1,8 +1,6 @@
 ---
 title: "How do I set up a simulation to learn a policy?"
 draft: true
-aliases:
-- "How do I set up a simulation to learn a policy?"
 cites:
 - "[[how_do_i_automate_taking_actions_with_simulations]]"
 - "[[what_is_a_policy]]"

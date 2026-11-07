@@ -2,8 +2,6 @@
 title: "When is data good enough for black box AI?"
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/data-grid-ai.svg"
-aliases:
-- "When is data good enough for black box AI?"
 cites:
 - "[[what_is_black_box_ai]]"
 nocite: |

@@ -2,8 +2,6 @@
 title: "What do the arrows mean?"
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/a_visual_design_grammar_for_computational_diagrams/blog-arrows.svg"
-aliases:
-- "What do the arrows mean?"
 cites:
 - "[[what_do_the_colours_mean]]"
 nocite: |

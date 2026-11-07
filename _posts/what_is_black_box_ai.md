@@ -2,8 +2,6 @@
 title: "What is black box AI?"
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/model-predict.svg"
-aliases:
-- "What is black box AI?"
 cites:
 - "[[what_can_a_simulation_do_that_a_prediction_cannot]]"
 nocite: |

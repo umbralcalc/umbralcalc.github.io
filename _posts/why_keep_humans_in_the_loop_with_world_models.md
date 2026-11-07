@@ -2,8 +2,6 @@
 title: "Why keep humans in the loop with world models?"
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/shape-statistics.svg"
-aliases:
-- "Why keep humans in the loop with world models?"
 cites:
 - "[[when_is_data_good_enough_for_black_box_ai]]"
 - "[[what_can_a_simulation_do_that_a_prediction_cannot]]"

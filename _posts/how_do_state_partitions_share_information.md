@@ -2,8 +2,6 @@
 title: How do state partitions share information?
 images:
   - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/partition-timeline-composition.svg
-aliases:
-  - How do state partitions share information?
 cites:
   - "[[how_can_i_simulate_the_real_world]]"
   - "[[how_are_a_partitions_next_values_calculated]]"

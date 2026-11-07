@@ -1,8 +1,6 @@
 ---
 title: "How well does a policy generalise?"
 draft: true
-aliases:
-- "How well does a policy generalise?"
 cites:
 - "[[how_do_i_automate_taking_actions_with_simulations]]"
 - "[[what_is_a_policy]]"

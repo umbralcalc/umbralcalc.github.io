@@ -4,8 +4,6 @@ series-blurb: "A collection of simulated examples of real-world actions explored
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/evaluating_rugby_manager_decision_making/trywizard-simulation-code.svg"
 
-aliases:
-- "When should a rugby manager make substitutions?"
 cites:
 - "[[how_can_simulations_help_me_take_better_actions]]"
 - "[[what_is_a_state_partition]]"

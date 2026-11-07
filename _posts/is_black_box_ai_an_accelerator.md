@@ -1,7 +1,5 @@
 ---
 title: "Is black box AI an accelerator?"
-aliases:
-- "Is black box AI an accelerator?"
 cites:
 - "[[why_keep_humans_in_the_loop_with_world_models]]"
 nocite: |

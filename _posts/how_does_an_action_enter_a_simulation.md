@@ -4,8 +4,6 @@ draft: true
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/what_makes_an_action_good/action-taking.svg"
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/what_makes_an_action_good/iterate-simulated-action.svg"
-aliases:
-- "How does an action enter a simulation?"
 cites:
 - "[[how_can_i_trust_the_actions_i_take_in_simulations]]"
 - "[[how_are_a_partitions_next_values_calculated]]"

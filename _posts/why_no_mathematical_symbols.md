@@ -2,8 +2,6 @@
 title: "Why no mathematical symbols?"
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/mathematical_symbols_vs_diagrams/diagrams-vs-symbols.svg"
-aliases:
-- "Why no mathematical symbols?"
 nocite: |
   @larkinsimon1987
 ---

@@ -2,8 +2,6 @@
 title: "How does a simulation keep track of time?"
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/cumulative-timesteps-history.svg"
-aliases:
-- "How does a simulation keep track of time?"
 cites:
 - "[[how_can_i_simulate_the_real_world]]"
 nocite: |

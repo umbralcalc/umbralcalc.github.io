@@ -4,8 +4,6 @@ draft: true
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/preparing_a_simulation_for_action_taking/changing-parameters.svg"
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/preparing_a_simulation_for_action_taking/changing-simulation.svg"
-aliases:
-- "How sensitive is my action to the simulation?"
 cites:
 - "[[how_can_i_trust_the_actions_i_take_in_simulations]]"
 - "[[how_can_a_simulation_be_wrong]]"

@@ -1,8 +1,6 @@
 ---
 title: "What is the one-history problem?"
 draft: true
-aliases:
-- "What is the one-history problem?"
 cites:
 - "[[how_can_i_trust_the_actions_i_take_in_simulations]]"
 - "[[how_can_i_tell_luck_from_skill]]"

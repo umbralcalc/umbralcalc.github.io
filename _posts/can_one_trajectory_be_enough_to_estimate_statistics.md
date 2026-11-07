@@ -2,8 +2,6 @@
 title: "Can one trajectory be enough to estimate statistics?"
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/weighted-average.svg"
-aliases:
-- "Can one trajectory be enough to estimate statistics?"
 cites:
 - "[[how_can_i_simulate_the_real_world]]"
 - "[[how_do_we_estimate_statistics_across_trajectories]]"

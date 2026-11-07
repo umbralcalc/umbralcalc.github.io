@@ -2,8 +2,6 @@
 title: "How do I choose between simulation structures?"
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/simple-vs-complex-fit.svg"
-aliases:
-- "How do I choose between simulation structures?"
 cites:
 - "[[how_can_i_simulate_the_real_world]]"
 - "[[is_a_sloppy_simulation_a_bad_one]]"

@@ -2,8 +2,6 @@
 title: "What do the colours mean?"
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/a_visual_design_grammar_for_computational_diagrams/blog-colour-scheme.svg"
-aliases:
-- "What do the colours mean?"
 cites:
 - "[[what_is_the_visual_grammar_of_these_diagrams]]"
 nocite: |

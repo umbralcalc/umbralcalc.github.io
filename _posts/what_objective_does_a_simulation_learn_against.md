@@ -2,8 +2,6 @@
 title: "What objective does a simulation learn against?"
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/objectives.svg"
-aliases:
-- "What objective does a simulation learn against?"
 cites:
 - "[[how_can_i_simulate_the_real_world]]"
 - "[[how_do_we_get_probabilities_back_from_statistics]]"

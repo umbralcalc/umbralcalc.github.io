@@ -2,8 +2,6 @@
 title: "What do the shapes mean?"
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/a_visual_design_grammar_for_computational_diagrams/blog-objects.svg"
-aliases:
-- "What do the shapes mean?"
 cites:
 - "[[what_do_the_arrows_mean]]"
 nocite: |

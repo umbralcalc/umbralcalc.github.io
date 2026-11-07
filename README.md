@@ -7,8 +7,8 @@ Visual explorations in science and computation.
 Every post in `_posts/` answers one question, and the folder doubles as an
 Obsidian vault: open the repository root in Obsidian and each post is a note.
 
-- **Question.** The post's title, in plain words, repeated in `aliases` so
-  Obsidian finds the note by its question.
+- **Question.** The post's title, in plain words. The file is named by the
+  same words in lower case with underscores.
 - **Answer.** Free prose, with diagrams and widgets wherever they help. Any
   assumptions, justifications and caveats are written into the answer. When
   the answer leans on another question, link it as a wikilink,
@@ -29,8 +29,6 @@ title: "How can a simulation be wrong?"
 draft: true            # listed only at /?drafts=1, kept out of the feed
 images:                # thumbnails on the home page
 - "https://.../predictions-leading-to-actions.svg"
-aliases:
-- "How can a simulation be wrong?"
 cites:
 - "[[how_can_i_trust_the_actions_i_take_in_simulations]]"   # first entry = parent
 - "[[what_if_i_can_only_partly_observe_the_system]]"

@@ -1,8 +1,6 @@
 ---
 title: "Can I find a policy without a simulation?"
 draft: true
-aliases:
-- "Can I find a policy without a simulation?"
 cites:
 - "[[how_do_i_automate_taking_actions_with_simulations]]"
 - "[[what_is_a_policy]]"

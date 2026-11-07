@@ -2,8 +2,6 @@
 title: "Could quantum hardware run a simulation?"
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/quantum-batch.svg"
-aliases:
-- "Could quantum hardware run a simulation?"
 cites:
 - "[[what_is_a_batch_simulation_architecture]]"
 nocite: |

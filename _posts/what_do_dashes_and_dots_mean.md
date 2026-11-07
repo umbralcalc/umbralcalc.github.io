@@ -2,8 +2,6 @@
 title: "What do dashes and dots mean?"
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/a_visual_design_grammar_for_computational_diagrams/blog-dashes-and-dots.svg"
-aliases:
-- "What do dashes and dots mean?"
 cites:
 - "[[what_do_the_shapes_mean]]"
 nocite: |

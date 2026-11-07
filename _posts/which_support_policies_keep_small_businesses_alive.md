@@ -4,8 +4,6 @@ series-blurb: "A collection of simulated examples of real-world actions explored
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/support_policies_for_small_business_survival/business-survival-code.svg"
 
-aliases:
-- "Which support policies keep small businesses alive?"
 cites:
 - "[[how_can_simulations_help_me_take_better_actions]]"
 - "[[what_is_a_state_partition]]"

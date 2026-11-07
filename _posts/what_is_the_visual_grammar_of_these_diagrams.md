@@ -1,7 +1,5 @@
 ---
 title: "What is the visual grammar of these diagrams?"
-aliases:
-- "What is the visual grammar of these diagrams?"
 cites:
 - "[[why_no_mathematical_symbols]]"
 - "[[what_do_the_colours_mean]]"

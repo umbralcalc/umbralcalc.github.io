@@ -2,8 +2,6 @@
 title: "Can a simulation learn as the data arrives?"
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/online-posterior-estimation.svg"
-aliases:
-- "Can a simulation learn as the data arrives?"
 cites:
 - "[[how_can_i_simulate_the_real_world]]"
 - "[[how_does_a_simulation_learn_its_parameters_from_data]]"

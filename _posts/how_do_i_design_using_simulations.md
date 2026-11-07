@@ -2,8 +2,6 @@
 title: "How do I design using simulations?"
 draft: true
 series-blurb: "A collection of posts on ... No maths; just diagrams and straightforward descriptions all the way through."
-aliases:
-- "How do I design using simulations?"
 nocite: |
   @epstein2008, @lawkelton2014
 ---
