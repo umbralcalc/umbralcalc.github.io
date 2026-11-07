@@ -19,3 +19,4 @@ Thumbs.db
 
 # Obsidian vault state
 .obsidian/
+.publish.log

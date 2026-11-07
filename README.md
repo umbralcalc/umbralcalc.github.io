@@ -57,3 +57,11 @@ the references alone, via `_build/questions.py`:
 - A warning for any link in an answer that bypasses the references, and a
   failed build for any citation that no bibliography defines.
 - Redirect pages for old post URLs listed in `_build/redirects.txt`.
+
+## Publishing
+
+`./publish.sh ["commit message"]` rebuilds the site, stops if the build or
+its lint fails, commits everything, and pushes to main, which is the deploy.
+From Obsidian, the Shell Commands community plugin can run it as a command
+or ribbon button: set the command to `./publish.sh` with the working
+directory as the vault root.
