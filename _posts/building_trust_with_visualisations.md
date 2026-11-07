@@ -1,21 +1,22 @@
 ---
-title: "Building trust with visualisations"
-# tag: "How can I trust the actions I take in simulations?"
-series-blurb: "A collection of posts on how we decide whether an action chosen with a simulation can be trusted. Written especially for programmers and non-technical readers wanting to learn about how to take better actions under uncertainty, while trusting the tools they use to help take them. No maths; just diagrams and straightforward descriptions all the way through."
-order: 5
-# nocite: |
-#  @angristpischke2009, @imbensrubin2015, @gama2014, @levine2020
+title: "What makes a simulation output look trustworthy?"
+tag: "How can I trust the actions I take in simulations?"
+draft: true
+aliases:
+- "What makes a simulation output look trustworthy?"
+cites:
+- "[[how_can_a_simulation_be_wrong]]"
+- "[[how_can_i_trust_the_actions_i_take_in_simulations_introduction]]"
+nocite: |
+  @tufte2001, @bertin1983
 ---
 
-# Building trust with visualisations
+# What makes a simulation output look trustworthy?
 <div style="height:0.75em;"></div>
-
-## Topics
 
 - We now now how to make simulations trustworthy, and where the limitations of this are.
 - But what makes a simulation output _look_ trustworthy?
-- How can we display that trustworthiness visually? (cite tufte)
-- How can interactions play a role?
+- How can we display that trustworthiness visually? (see [Tufte](#ref-tufte2001))
 
 ## References and further reading
 

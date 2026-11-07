@@ -1,15 +1,21 @@
 ---
-title: "Managing flood damage risk under climate change"
+title: "How much flood risk can natural flood management offset?"
 tag: "How can simulations help me take better actions?"
 series-blurb: "A collection of simulated examples of real-world actions explored through interactive dashboards. Each post covers a specific real-world decision problem in turn, demonstrating how simulations can inform real-world action-taking with illustrative (not production-ready) research models. No maths; just diagrams and straightforward descriptions all the way through."
-order: 3
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/managing_flood_damage_risk_under_climate_change/floodrisk-simulation-code.svg"
+
+aliases:
+- "How much flood risk can natural flood management offset?"
+cites:
+- "[[how_can_simulations_help_me_take_better_actions_introduction]]"
+- "[[what_is_a_state_partition]]"
+- "[[how_does_a_simulation_learn_its_parameters_from_data]]"
 nocite: |
-  @merz2010, @hall2005, @jongman2012
+  @merz2010, @hall2005, @jongman2012, @stochadex
 ---
 
-# Managing flood damage risk under climate change
+# How much flood risk can natural flood management offset?
 <div style="height:0.75em;"></div>
 
 Climate change is making UK flooding worse: how much can natural flood management interventions offset that risk, and is more spending always better?

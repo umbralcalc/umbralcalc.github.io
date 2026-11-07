@@ -75,6 +75,10 @@ clean_build() {
         rm -f "$DOCS_DIR/feed.xml"
     fi
 
+    if [ -f "$DOCS_DIR/questions.json" ]; then
+        rm -f "$DOCS_DIR/questions.json"
+    fi
+
     if [ -d "$TEMP_DIR" ]; then
         rm -rf "$TEMP_DIR"
     fi
@@ -90,108 +94,34 @@ generate_html_pages() {
     
     # Create posts directory
     mkdir -p "$DOCS_DIR/posts"
-    
-    # First, build lists of posts grouped by tag for next post lookup
-    # Create a directory structure: tag/order|basename
-    local posts_by_tag_dir="$TEMP_DIR/posts_by_tag"
-    rm -rf "$posts_by_tag_dir"
-    mkdir -p "$posts_by_tag_dir"
-    
-    for filename in "$DOCS_DIR"/_posts/*.md; do
-        if [ -f "$filename" ]; then
-            local basename=$(basename "$filename" .md)
-            local order=$(grep -E '^order:' "$filename" | head -1 | sed 's/order: *\([0-9][0-9]*\).*/\1/' 2>/dev/null)
-            if [ -z "$order" ]; then
-                order=999
-            fi
-            local tag=$(grep -E '^tag:' "$filename" | head -1 | sed 's/tag: *"\(.*\)"/\1/' || echo "")
-            # Only include posts with tags
-            if [ -n "$tag" ] && [ "$tag" != "" ]; then
-                # Create a safe filename for the tag (replace spaces and special chars)
-                local tag_file=$(echo "$tag" | sed 's/[^a-zA-Z0-9]/_/g')
-                echo "$order|$basename" >> "$posts_by_tag_dir/${tag_file}.txt"
-            fi
-        fi
-    done
-    
-    # Sort each tag's posts by order
-    for tag_file in "$posts_by_tag_dir"/*.txt; do
-        if [ -f "$tag_file" ]; then
-            sort -t'|' -k1,1n "$tag_file" > "${tag_file}.sorted"
-            mv "${tag_file}.sorted" "$tag_file"
-        fi
-    done
+
+    # Every post answers one question and can be cited by another, so each
+    # post gets a bibliography entry of its own. Citation keys an answer
+    # links to as #ref-KEY must exist in one of the bibliographies.
+    local questions_bib="$TEMP_DIR/questions-bib.json"
+    python3 "$DOCS_DIR/_build/questions.py" bib "$questions_bib"
+    python3 "$DOCS_DIR/_build/questions.py" lint "$DOCS_DIR/_refs/references.bib" "$questions_bib"
     
     # Generate posts from _posts directory
     for filename in "$DOCS_DIR"/_posts/*.md; do
         if [ -f "$filename" ]; then
             local basename=$(basename "$filename" .md)
             local title=$(grep -E '^title:' "$filename" | head -1 | sed 's/title: *"\(.*\)"/\1/' || echo "$basename")
-            local order=$(grep -E '^order:' "$filename" | head -1 | sed 's/order: *\([0-9][0-9]*\).*/\1/' 2>/dev/null)
-            if [ -z "$order" ]; then
-                order=999
-            fi
-            local tag=$(grep -E '^tag:' "$filename" | head -1 | sed 's/tag: *"\(.*\)"/\1/' || echo "")
-            
-            # Find next post (same tag, next order)
-            local next_post_url=""
-            local next_post_title=""
-            local next_post_images="[]"
-            if [ -n "$tag" ] && [ "$tag" != "" ]; then
-                # Get the tag's sorted list file
-                local tag_file=$(echo "$tag" | sed 's/[^a-zA-Z0-9]/_/g')
-                local tag_posts_file="$posts_by_tag_dir/${tag_file}.txt"
-                
-                if [ -f "$tag_posts_file" ]; then
-                    # Get current post's position in this tag's sorted list
-                    local current_line=$(grep -n "^$order|$basename$" "$tag_posts_file" | cut -d: -f1)
-                    if [ -n "$current_line" ]; then
-                        # Get next line in the same tag's list
-                        local next_line=$((current_line + 1))
-                        local next_post=$(sed -n "${next_line}p" "$tag_posts_file")
-                        if [ -n "$next_post" ]; then
-                            local next_basename=$(echo "$next_post" | cut -d'|' -f2)
-                            local next_title=$(grep -E '^title:' "$DOCS_DIR/_posts/${next_basename}.md" | head -1 | sed 's/title: *"\(.*\)"/\1/' 2>/dev/null || echo "$next_basename")
-                            next_post_url="/posts/${next_basename}.html"
-                            next_post_title="$next_title"
-                            
-                            # Get next post images
-                            if grep -q '^images:' "$DOCS_DIR/_posts/${next_basename}.md"; then
-                                if grep -A 5 '^images:' "$DOCS_DIR/_posts/${next_basename}.md" | grep -q '^[[:space:]]*-'; then
-                                    local next_images_list=$(awk '/^images:/{flag=1; next} /^---$/{flag=0} flag && /^[[:space:]]*-/{gsub(/^[[:space:]]*-[[:space:]]*"/, ""); gsub(/"[[:space:]]*$/, ""); gsub(/^[[:space:]]*-[[:space:]]*/, ""); print}' "$DOCS_DIR/_posts/${next_basename}.md")
-                                    if [ -n "$next_images_list" ]; then
-                                        next_post_images=$(echo "$next_images_list" | awk 'BEGIN{json="["} {if(NR>1) json=json","; gsub(/^[[:space:]]+|[[:space:]]+$/, ""); if($0 != "" && $0 != "---") json=json"\""$0"\""} END{json=json"]"; print json}')
-                                    fi
-                                fi
-                            fi
-                        fi
-                    fi
-                fi
-            fi
             
             log_info "Generating post: $basename"
-            
-            # Escape metadata for pandoc
-            next_post_title=$(echo "$next_post_title" | sed 's/"/\\"/g')
-
-            local series_args=()
-            if [ -n "$tag" ] && [ "$tag" != "" ]; then
-                local tag_trimmed=$(echo "$tag" | sed -E 's/^[[:space:]]+|[[:space:]]+$//g')
-                local tag_lower=$(echo "$tag_trimmed" | tr '[:upper:]' '[:lower:]')
-                if [ "$tag_lower" != "loose threads" ]; then
-                    local tag_slug=$(echo "$tag_trimmed" | tr '[:upper:]' '[:lower:]' | tr -d '?' | sed -E 's/[[:space:]]+/-/g')
-                    local cover_url="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/${tag_slug}-cover.svg"
-                    series_args+=(--metadata="series-tag:$tag_trimmed" --metadata="series-order:$order" --metadata="series-cover-url:$cover_url")
-                fi
-            fi
             
             # Citations: a post opts in with a '::: {#refs}' block plus [@key]
             # citations or a 'nocite' frontmatter list. Posts with neither are
             # unaffected by these flags.
             local cite_args=()
             if [ -f "$DOCS_DIR/_refs/references.bib" ]; then
-                cite_args+=(--citeproc --bibliography="$DOCS_DIR/_refs/references.bib")
+                cite_args+=(--citeproc --bibliography="$DOCS_DIR/_refs/references.bib" --bibliography="$questions_bib")
             fi
+
+            # The prepared copy adds every #ref-KEY the answer links to into
+            # the nocite list, so each cited entry is printed under References
+            local prepared="$TEMP_DIR/src/${basename}.md"
+            python3 "$DOCS_DIR/_build/questions.py" prepare "$filename" "$prepared"
 
             pandoc --template "$DOCS_DIR/template.html" \
                 --wrap=preserve \
@@ -199,20 +129,29 @@ generate_html_pages() {
                 --syntax-highlighting=pygments \
                 "${cite_args[@]}" \
                 --metadata="title:$title" \
-                --metadata="next-post-url:$next_post_url" \
-                --metadata="next-post-title:$next_post_title" \
-                --metadata="next-post-images:$next_post_images" \
-                "${series_args[@]}" \
                 -f markdown \
                 -t html \
                 -o "$DOCS_DIR/posts/${basename}.html" \
-                "$filename"
+                "$prepared"
         fi
     done
     
-    # Clean up
-    rm -rf "$posts_by_tag_dir"
-    
+    # Old post URLs that moved: emit a redirect page for each line of
+    # _build/redirects.txt ("old_slug new_slug")
+    if [ -f "$DOCS_DIR/_build/redirects.txt" ]; then
+        while read -r old new; do
+            [ -z "$old" ] && continue
+            cat > "$DOCS_DIR/posts/${old}.html" << EOF
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8" />
+<meta http-equiv="refresh" content="0; url=/posts/${new}.html" />
+<link rel="canonical" href="https://umbralcalc.github.io/posts/${new}.html" />
+<title>Moved</title></head>
+<body><p>This post has moved to <a href="/posts/${new}.html">/posts/${new}.html</a>.</p></body></html>
+EOF
+        done < "$DOCS_DIR/_build/redirects.txt"
+    fi
+
     log_success "HTML posts generated"
 }
 
@@ -232,11 +171,11 @@ generate_posts_metadata() {
             local basename=$(basename "$filename" .md)
             local title=$(grep -E '^title:' "$filename" | head -1 | sed 's/title: *"\(.*\)"/\1/' || echo "$basename")
             local tag=$(grep -E '^tag:' "$filename" | head -1 | sed 's/tag: *"\(.*\)"/\1/' || echo "")
-            local date=$(grep -E '^date:' "$filename" | head -1 | sed 's/date: *"\(.*\)"/\1/' || echo "")
-            local order=$(grep -E '^order:' "$filename" | head -1 | sed 's/order: *\([0-9][0-9]*\).*/\1/' 2>/dev/null)
-            if [ -z "$order" ]; then
-                order=999
+            local draft=false
+            if grep -qE '^draft: *true' "$filename"; then
+                draft=true
             fi
+            local date=$(grep -E '^date:' "$filename" | head -1 | sed 's/date: *"\(.*\)"/\1/' || echo "")
             
             # Escape JSON special characters in title and tag
             title=$(echo "$title" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g')
@@ -307,24 +246,22 @@ else:
                 fi
             fi
             
-            # Write post metadata to temp file with order prefix for sorting
-            # Format: ORDER_BASENAME.json (padded order for proper numeric sort)
-            local order_padded=$(printf "%04d" "$order")
-            cat > "$temp_dir/${order_padded}_${basename}.json" << EOF
+            # Write post metadata to a temp file; combined in name order below
+            cat > "$temp_dir/${basename}.json" << EOF
   {
     "title": "$title",
     "slug": "$basename",
     "url": "/posts/$basename.html",
     "tag": "$tag",
+    "draft": $draft,
     "date": "$date",
-    "order": $order,
     "images": $images_json
   }
 EOF
         fi
     done
     
-    # Sort posts by order (numeric sort on filename prefix) and combine into JSON array
+    # Combine into a JSON array, in file name order
     echo "[" > "$posts_json"
     local first=true
     for json_file in $(ls -1 "$temp_dir"/*.json 2>/dev/null | sort); do
@@ -343,6 +280,19 @@ EOF
     rm -rf "$temp_dir"
     
     log_success "Posts metadata generated"
+}
+
+# Generate the question graph: each post with its references, the questions
+# it cites and the questions that cite it. Read only from titles and
+# references; the answers' prose is never parsed.
+generate_questions_metadata() {
+    log_info "Generating question graph..."
+
+    python3 "$DOCS_DIR/_build/questions.py" json \
+        "$DOCS_DIR/_refs/references.bib" "$TEMP_DIR/questions-bib.json" \
+        -o "$DOCS_DIR/questions.json"
+
+    log_success "Question graph generated"
 }
 
 # Generate RSS feed
@@ -438,10 +388,9 @@ def extract_description(slug):
 # Sort posts newest-first by commit date
 items = []
 for post in posts:
-    # Only tagged posts belong in the feed. An empty tag means the post is
-    # not part of a published collection yet, so the front page hides it too
-    # and subscribers should not see it ahead of everyone else.
-    if not post.get("tag", "").strip():
+    # Drafts and untagged posts stay out of the feed: the front page hides
+    # them too, and subscribers should not see them ahead of everyone else.
+    if post.get("draft") or not post.get("tag", "").strip():
         continue
     slug = post["slug"]
     date_str = dates.get(slug)
@@ -573,7 +522,7 @@ validate_build() {
     for html_file in "$DOCS_DIR"/posts/*.html; do
         if [ -f "$html_file" ]; then
             # This is a basic check - in production you might want to use a proper link checker
-            if grep -q "href=\"#" "$html_file"; then
+            if grep 'href="#' "$html_file" | grep -qv 'href="#ref-'; then
                 log_warning "Potential broken internal links in $(basename "$html_file")"
             fi
         fi
@@ -595,6 +544,7 @@ main() {
     clean_build
     generate_html_pages
     generate_posts_metadata
+    generate_questions_metadata
     generate_feed
     generate_sitemap
     generate_robots

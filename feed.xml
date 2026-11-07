@@ -6,10 +6,250 @@
     <description>Visual explorations in science and computation.</description>
     <language>en</language>
     <atom:link href="https://umbralcalc.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <lastBuildDate>Sun, 04 Oct 2026 20:25:42 +0000</lastBuildDate>
-    <pubDate>Mon, 21 Sep 2026 07:06:33 +0100</pubDate>
+    <lastBuildDate>Sat, 07 Nov 2026 15:09:07 +0000</lastBuildDate>
+    <pubDate>Sat, 07 Nov 2026 15:09:07 +0000</pubDate>
     <item>
-      <title>A visual design grammar for computational diagrams</title>
+      <title>What decides when the next timestep happens?</title>
+      <link>https://umbralcalc.github.io/posts/what_decides_when_the_next_timestep_happens.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/what_decides_when_the_next_timestep_happens.html</guid>
+      <pubDate>Sat, 07 Nov 2026 15:09:07 +0000</pubDate>
+      <category>How can I simulate the real world?</category>
+      <description>So new states of the simulation may happen at different times. But what determines when these times are along the simulation timeline?</description>
+    </item>
+    <item>
+      <title>What do dashes and dots mean?</title>
+      <link>https://umbralcalc.github.io/posts/what_do_dashes_and_dots_mean.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/what_do_dashes_and_dots_mean.html</guid>
+      <pubDate>Sat, 07 Nov 2026 15:09:07 +0000</pubDate>
+      <category>Loose Threads</category>
+      <description>The blog uses dashed and dotted lines in different ways.</description>
+    </item>
+    <item>
+      <title>What do the arrows mean?</title>
+      <link>https://umbralcalc.github.io/posts/what_do_the_arrows_mean.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/what_do_the_arrows_mean.html</guid>
+      <pubDate>Sat, 07 Nov 2026 15:09:07 +0000</pubDate>
+      <category>Loose Threads</category>
+      <description>The blog uses two main arrow types in all of the colours.</description>
+    </item>
+    <item>
+      <title>What do the colours mean?</title>
+      <link>https://umbralcalc.github.io/posts/what_do_the_colours_mean.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/what_do_the_colours_mean.html</guid>
+      <pubDate>Sat, 07 Nov 2026 15:09:07 +0000</pubDate>
+      <category>Loose Threads</category>
+      <description>The blog has a consistent visual scheme of 3 main colours in addition to plain white.</description>
+    </item>
+    <item>
+      <title>What do the shapes mean?</title>
+      <link>https://umbralcalc.github.io/posts/what_do_the_shapes_mean.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/what_do_the_shapes_mean.html</guid>
+      <pubDate>Sat, 07 Nov 2026 15:09:07 +0000</pubDate>
+      <category>Loose Threads</category>
+      <description>The blog uses three main object types in all of the colours.</description>
+    </item>
+    <item>
+      <title>What is a batch simulation architecture?</title>
+      <link>https://umbralcalc.github.io/posts/what_is_a_batch_simulation_architecture.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/what_is_a_batch_simulation_architecture.html</guid>
+      <pubDate>Sat, 07 Nov 2026 15:09:07 +0000</pubDate>
+      <category>Loose Threads</category>
+      <description>Batch simulation architectures evaluate multiple successive sequences of next state values for the system over a wider interval in time all as one computational block.</description>
+    </item>
+    <item>
+      <title>What is a conditional probability in a simulation?</title>
+      <link>https://umbralcalc.github.io/posts/what_is_a_conditional_probability_in_a_simulation.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/what_is_a_conditional_probability_in_a_simulation.html</guid>
+      <pubDate>Sat, 07 Nov 2026 15:09:07 +0000</pubDate>
+      <category>How can I simulate the real world?</category>
+      <description>We can relate two successive probability evaluations in time together by making the answer of the second depend on the outcome of the first.</description>
+    </item>
+    <item>
+      <title>What is a simulation run?</title>
+      <link>https://umbralcalc.github.io/posts/what_is_a_simulation_run.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/what_is_a_simulation_run.html</guid>
+      <pubDate>Sat, 07 Nov 2026 15:09:07 +0000</pubDate>
+      <category>How can I simulate the real world?</category>
+      <description>A 'simulation run' defines the evolution of a simulation state over some specified period in time.</description>
+    </item>
+    <item>
+      <title>What is a state partition?</title>
+      <link>https://umbralcalc.github.io/posts/what_is_a_state_partition.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/what_is_a_state_partition.html</guid>
+      <pubDate>Sat, 07 Nov 2026 15:09:07 +0000</pubDate>
+      <category>How can I simulate the real world?</category>
+      <description>Simulations also have a 'state' associated to them for each value of time.</description>
+    </item>
+    <item>
+      <title>When does specialised hardware help?</title>
+      <link>https://umbralcalc.github.io/posts/when_does_specialised_hardware_help.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/when_does_specialised_hardware_help.html</guid>
+      <pubDate>Sat, 07 Nov 2026 15:09:07 +0000</pubDate>
+      <category>Loose Threads</category>
+      <description>From the perspective of standard CPUs, batch simulation architectures are often designed to evaluate segments of the simulation timeline using specialised classical hardware.</description>
+    </item>
+    <item>
+      <title>When is data good enough for black box AI?</title>
+      <link>https://umbralcalc.github.io/posts/when_is_data_good_enough_for_black_box_ai.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/when_is_data_good_enough_for_black_box_ai.html</guid>
+      <pubDate>Sat, 07 Nov 2026 15:09:07 +0000</pubDate>
+      <category>Loose Threads</category>
+      <description>For many high-value problems that humanity (or just businesses) would like solve, the truth is that data is often irrelevant, incomplete, scarce or wrong.</description>
+    </item>
+    <item>
+      <title>Why can't we track every possible trajectory?</title>
+      <link>https://umbralcalc.github.io/posts/why_cant_we_track_every_possible_trajectory.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/why_cant_we_track_every_possible_trajectory.html</guid>
+      <pubDate>Sat, 07 Nov 2026 15:09:07 +0000</pubDate>
+      <category>How can I simulate the real world?</category>
+      <description>So why can’t we just use this recursive relationship to model all the trajectories of the simulation at once? For some simpler systems this is indeed possible, but for most simulations in practice this is computationally infeasible.</description>
+    </item>
+    <item>
+      <title>Why keep humans in the loop with world models?</title>
+      <link>https://umbralcalc.github.io/posts/why_keep_humans_in_the_loop_with_world_models.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/why_keep_humans_in_the_loop_with_world_models.html</guid>
+      <pubDate>Sat, 07 Nov 2026 15:09:07 +0000</pubDate>
+      <category>Loose Threads</category>
+      <description>In order to tackle the data environments we described above, it helps to bring as much useful information into the problem as possible. This information could come in the form of inductive biases in the model structure or prior knowledge provided by an expert.</description>
+    </item>
+    <item>
+      <title>Are diagrams mathematically rigorous?</title>
+      <link>https://umbralcalc.github.io/posts/are_diagrams_mathematically_rigorous.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/are_diagrams_mathematically_rigorous.html</guid>
+      <pubDate>Sat, 07 Nov 2026 15:09:06 +0000</pubDate>
+      <category>Loose Threads</category>
+      <description>The diagrammatic language we use owes its mathematical rigour to the fact that any computation can be written as a series of function abstrations and applications.</description>
+    </item>
+    <item>
+      <title>Can a simulation learn as the data arrives?</title>
+      <link>https://umbralcalc.github.io/posts/can_a_simulation_learn_as_the_data_arrives.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/can_a_simulation_learn_as_the_data_arrives.html</guid>
+      <pubDate>Sat, 07 Nov 2026 15:09:06 +0000</pubDate>
+      <category>How can I simulate the real world?</category>
+      <description>The data probabilities of simulation trajectories can also be interpreted as probabilities of simulation parameters; often accompanied with some simulation noise to account for differences between trajectories even with the same parameters.</description>
+    </item>
+    <item>
+      <title>Can a simulation run inside another simulation?</title>
+      <link>https://umbralcalc.github.io/posts/can_a_simulation_run_inside_another_simulation.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/can_a_simulation_run_inside_another_simulation.html</guid>
+      <pubDate>Sat, 07 Nov 2026 15:09:06 +0000</pubDate>
+      <category>How can I simulate the real world?</category>
+      <description>Enabling whole 'inner' simulation runs to start and complete within each timestep of an 'outer' simulation run is a very useful, and somewhat fundamental, building block for simulations in practice. We shall call these 'embedded simulation runs'.</description>
+    </item>
+    <item>
+      <title>Can one trajectory be enough to estimate statistics?</title>
+      <link>https://umbralcalc.github.io/posts/can_one_trajectory_be_enough_to_estimate_statistics.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/can_one_trajectory_be_enough_to_estimate_statistics.html</guid>
+      <pubDate>Sat, 07 Nov 2026 15:09:06 +0000</pubDate>
+      <category>How can I simulate the real world?</category>
+      <description>Yes! If we have an accurate 'weighting model' for the past values, we can get an estimated mean state value from a weighted average over the full state partition history.</description>
+    </item>
+    <item>
+      <title>Could quantum hardware run a simulation?</title>
+      <link>https://umbralcalc.github.io/posts/could_quantum_hardware_run_a_simulation.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/could_quantum_hardware_run_a_simulation.html</guid>
+      <pubDate>Sat, 07 Nov 2026 15:09:06 +0000</pubDate>
+      <category>Loose Threads</category>
+      <description>Note that the concepts in this section are the most likely to change with future advancements in quantum computing.</description>
+    </item>
+    <item>
+      <title>How are a partition's next values calculated?</title>
+      <link>https://umbralcalc.github.io/posts/how_are_a_partitions_next_values_calculated.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/how_are_a_partitions_next_values_calculated.html</guid>
+      <pubDate>Sat, 07 Nov 2026 15:09:06 +0000</pubDate>
+      <category>How can I simulate the real world?</category>
+      <description>For an overall simulation data view, we can create a 'state partition histories' structure. This is a collection of each state partition history that exists within the simulation.</description>
+    </item>
+    <item>
+      <title>How are the histories updated after a step?</title>
+      <link>https://umbralcalc.github.io/posts/how_are_the_histories_updated_after_a_step.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/how_are_the_histories_updated_after_a_step.html</guid>
+      <pubDate>Sat, 07 Nov 2026 15:09:06 +0000</pubDate>
+      <category>How can I simulate the real world?</category>
+      <description>Having calculated the next values of each state partition and the next timestep, we should perform operations over the cumulative timesteps history and each state partition history to update their structures with this new data.</description>
+    </item>
+    <item>
+      <title>How do I choose between simulation structures?</title>
+      <link>https://umbralcalc.github.io/posts/how_do_i_choose_between_simulation_structures.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/how_do_i_choose_between_simulation_structures.html</guid>
+      <pubDate>Sat, 07 Nov 2026 15:09:06 +0000</pubDate>
+      <category>How can I simulate the real world?</category>
+      <description>There is usually more than one simulation structure that can be a viable model for the real world system of interest, and these often have different numbers of parameters.</description>
+    </item>
+    <item>
+      <title>How do state partitions share information?</title>
+      <link>https://umbralcalc.github.io/posts/how_do_state_partitions_share_information.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/how_do_state_partitions_share_information.html</guid>
+      <pubDate>Sat, 07 Nov 2026 15:09:06 +0000</pubDate>
+      <category>How can I simulate the real world?</category>
+      <description>So far we have considered partition iterations as occurring separately within the simulation. But it is important for these separate partitions to be able to pass information to each other.</description>
+    </item>
+    <item>
+      <title>How do we estimate statistics across trajectories?</title>
+      <link>https://umbralcalc.github.io/posts/how_do_we_estimate_statistics_across_trajectories.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/how_do_we_estimate_statistics_across_trajectories.html</guid>
+      <pubDate>Sat, 07 Nov 2026 15:09:06 +0000</pubDate>
+      <category>How can I simulate the real world?</category>
+      <description>There is a way we can compute these probabilities without having to trace the path of every possible trajectory, and often without having to keep a record of every possible state value.</description>
+    </item>
+    <item>
+      <title>How do we get probabilities back from statistics?</title>
+      <link>https://umbralcalc.github.io/posts/how_do_we_get_probabilities_back_from_statistics.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/how_do_we_get_probabilities_back_from_statistics.html</guid>
+      <pubDate>Sat, 07 Nov 2026 15:09:06 +0000</pubDate>
+      <category>How can I simulate the real world?</category>
+      <description>So we have the statistics, but where have the probabilities gone?</description>
+    </item>
+    <item>
+      <title>How does a simulation keep track of time?</title>
+      <link>https://umbralcalc.github.io/posts/how_does_a_simulation_keep_track_of_time.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/how_does_a_simulation_keep_track_of_time.html</guid>
+      <pubDate>Sat, 07 Nov 2026 15:09:06 +0000</pubDate>
+      <category>How can I simulate the real world?</category>
+      <description>Time is probably the most important variable to track in a simulation. This is because everything that happens within a simulation only has meaning with respect to the real world if we can trace what point in simulated time that it happened.</description>
+    </item>
+    <item>
+      <title>How does a simulation learn its parameters from data?</title>
+      <link>https://umbralcalc.github.io/posts/how_does_a_simulation_learn_its_parameters_from_data.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/how_does_a_simulation_learn_its_parameters_from_data.html</guid>
+      <pubDate>Sat, 07 Nov 2026 15:09:06 +0000</pubDate>
+      <category>How can I simulate the real world?</category>
+      <description>If we want to learn the parameters which correspond to simulation trajectories fitting real-world data trends more closely, it is natural to use an objective based on the probabilities of state partition histories that we computed in the previous post.</description>
+    </item>
+    <item>
+      <title>How is the probability of a state partition history evaluated?</title>
+      <link>https://umbralcalc.github.io/posts/how_is_the_probability_of_a_state_partition_history_evaluated.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/how_is_the_probability_of_a_state_partition_history_evaluated.html</guid>
+      <pubDate>Sat, 07 Nov 2026 15:09:06 +0000</pubDate>
+      <category>How can I simulate the real world?</category>
+      <description>Evaluating the probability of a particular state partition history, given parameters and a cumulative timesteps history, looks a similar to the iterate computation. However, in contrast, this computation does not progress forward in time.</description>
+    </item>
+    <item>
+      <title>Is a sloppy simulation a bad one?</title>
+      <link>https://umbralcalc.github.io/posts/is_a_sloppy_simulation_a_bad_one.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/is_a_sloppy_simulation_a_bad_one.html</guid>
+      <pubDate>Sat, 07 Nov 2026 15:09:06 +0000</pubDate>
+      <category>How can I simulate the real world?</category>
+      <description>So we have a simulation which is able to learn its parameters from real world data.</description>
+    </item>
+    <item>
+      <title>Is black box AI an accelerator?</title>
+      <link>https://umbralcalc.github.io/posts/is_black_box_ai_an_accelerator.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/is_black_box_ai_an_accelerator.html</guid>
+      <pubDate>Sat, 07 Nov 2026 15:09:06 +0000</pubDate>
+      <category>Loose Threads</category>
+      <description>Black box AI may not be the answer to all problems, but it is clearly an enormous accelerator for developing world models and making them more performant (in both runtime and predictivity).</description>
+    </item>
+    <item>
+      <title>What can a simulation do that a prediction cannot?</title>
+      <link>https://umbralcalc.github.io/posts/what_can_a_simulation_do_that_a_prediction_cannot.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/what_can_a_simulation_do_that_a_prediction_cannot.html</guid>
+      <pubDate>Sat, 07 Nov 2026 15:09:06 +0000</pubDate>
+      <category>How can I simulate the real world?</category>
+      <description>With simulations of the real-world, in contrast to other predictive AI approaches, you can also interrogate the internal state of the system to help validate the assumptions used in making a decision.</description>
+    </item>
+    <item>
+      <title>What is the visual grammar of these diagrams?</title>
       <link>https://umbralcalc.github.io/posts/a_visual_design_grammar_for_computational_diagrams.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/a_visual_design_grammar_for_computational_diagrams.html</guid>
       <pubDate>Mon, 21 Sep 2026 07:06:33 +0100</pubDate>
@@ -17,7 +257,7 @@
       <description>The visual design of explanations is very important to this blog.</description>
     </item>
     <item>
-      <title>Introduction</title>
+      <title>How can I simulate the real world?</title>
       <link>https://umbralcalc.github.io/posts/how_can_i_simulate_the_real_world_introduction.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/how_can_i_simulate_the_real_world_introduction.html</guid>
       <pubDate>Sat, 16 May 2026 17:59:29 +0100</pubDate>
@@ -25,7 +265,7 @@
       <description>This is a collection of posts aimed at programmers and non-technical readers wanting to learn the fundamentals of simulation technology and how it can be useful to the world.</description>
     </item>
     <item>
-      <title>Introduction</title>
+      <title>How can simulations help me take better actions?</title>
       <link>https://umbralcalc.github.io/posts/how_can_simulations_help_me_take_better_actions_introduction.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/how_can_simulations_help_me_take_better_actions_introduction.html</guid>
       <pubDate>Sat, 16 May 2026 17:59:29 +0100</pubDate>
@@ -33,23 +273,7 @@
       <description>This is a collection of simulated examples of real-world actions explored through interactive dashboards. These dashboards are all powered by illustrative research models, not production-ready decision-support tools.</description>
     </item>
     <item>
-      <title>Managing antimicrobial resistance (AMR) with hospital guidelines</title>
-      <link>https://umbralcalc.github.io/posts/managing_antimicrobial_resistance_with_hospital_guidelines.html</link>
-      <guid isPermaLink="true">https://umbralcalc.github.io/posts/managing_antimicrobial_resistance_with_hospital_guidelines.html</guid>
-      <pubDate>Tue, 12 May 2026 08:38:31 +0100</pubDate>
-      <category>How can simulations help me take better actions?</category>
-      <description>Antibiotic-resistant infections are rising in English hospitals: can stewardship policies bring them back down, and how much room is there to do so?</description>
-    </item>
-    <item>
-      <title>Managing flood damage risk under climate change</title>
-      <link>https://umbralcalc.github.io/posts/managing_flood_damage_risk_under_climate_change.html</link>
-      <guid isPermaLink="true">https://umbralcalc.github.io/posts/managing_flood_damage_risk_under_climate_change.html</guid>
-      <pubDate>Tue, 12 May 2026 08:38:31 +0100</pubDate>
-      <category>How can simulations help me take better actions?</category>
-      <description>Climate change is making UK flooding worse: how much can natural flood management interventions offset that risk, and is more spending always better?</description>
-    </item>
-    <item>
-      <title>Energy demand response optimisation for the national grid</title>
+      <title>How should a grid battery be dispatched as the grid gets greener?</title>
       <link>https://umbralcalc.github.io/posts/energy_demand_response_optimisation_for_the_national_grid.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/energy_demand_response_optimisation_for_the_national_grid.html</guid>
       <pubDate>Tue, 12 May 2026 08:38:31 +0100</pubDate>
@@ -57,7 +281,23 @@
       <description>Grid-scale batteries promise to balance the intermittent renewables of a net-zero electricity system: but how should they be dispatched, and does the answer change as the grid gets greener?</description>
     </item>
     <item>
-      <title>Support policies for small business survival</title>
+      <title>Can hospital prescribing guidelines bring resistance down?</title>
+      <link>https://umbralcalc.github.io/posts/managing_antimicrobial_resistance_with_hospital_guidelines.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/managing_antimicrobial_resistance_with_hospital_guidelines.html</guid>
+      <pubDate>Tue, 12 May 2026 08:38:31 +0100</pubDate>
+      <category>How can simulations help me take better actions?</category>
+      <description>Antibiotic-resistant infections are rising in English hospitals: can stewardship policies bring them back down, and how much room is there to do so?</description>
+    </item>
+    <item>
+      <title>How much flood risk can natural flood management offset?</title>
+      <link>https://umbralcalc.github.io/posts/managing_flood_damage_risk_under_climate_change.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/managing_flood_damage_risk_under_climate_change.html</guid>
+      <pubDate>Tue, 12 May 2026 08:38:31 +0100</pubDate>
+      <category>How can simulations help me take better actions?</category>
+      <description>Climate change is making UK flooding worse: how much can natural flood management interventions offset that risk, and is more spending always better?</description>
+    </item>
+    <item>
+      <title>Which support policies keep small businesses alive?</title>
       <link>https://umbralcalc.github.io/posts/support_policies_for_small_business_survival.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/support_policies_for_small_business_survival.html</guid>
       <pubDate>Tue, 12 May 2026 08:38:31 +0100</pubDate>
@@ -65,7 +305,7 @@
       <description>UK small business support comes in different flavours (rates relief, startup grants, incubators, mentoring, etc.): how should a cash-constrained policymaker has to choose between them? To maximise what?</description>
     </item>
     <item>
-      <title>Evaluating rugby manager decision-making</title>
+      <title>When should a rugby manager make substitutions?</title>
       <link>https://umbralcalc.github.io/posts/evaluating_rugby_manager_decision_making.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/evaluating_rugby_manager_decision_making.html</guid>
       <pubDate>Mon, 11 May 2026 22:17:59 +0100</pubDate>
@@ -73,7 +313,7 @@
       <description>A rugby manager picks when to substitute each position group: bring on the front-row replacements early, or save them for the closing minutes?</description>
     </item>
     <item>
-      <title>Simulating real-world systems</title>
+      <title>What does a complete simulation look like?</title>
       <link>https://umbralcalc.github.io/posts/simulating_real_world_systems.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/simulating_real_world_systems.html</guid>
       <pubDate>Sun, 10 May 2026 19:04:21 +0100</pubDate>
@@ -81,7 +321,7 @@
       <description>We started this collection of posts with a question: why simulate real-world systems at all?</description>
     </item>
     <item>
-      <title>Simulation architectures on different hardware</title>
+      <title>How do simulations run on CPUs?</title>
       <link>https://umbralcalc.github.io/posts/simulation_architectures_on_different_hardware.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/simulation_architectures_on_different_hardware.html</guid>
       <pubDate>Sun, 10 May 2026 10:14:28 +0100</pubDate>
@@ -89,7 +329,7 @@
       <description>When we talk about 'classical' hardware here, we just mean standard CPUs.</description>
     </item>
     <item>
-      <title>Learning simulations of the real world</title>
+      <title>What objective does a simulation learn against?</title>
       <link>https://umbralcalc.github.io/posts/learning_simulations_of_the_real_world.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/learning_simulations_of_the_real_world.html</guid>
       <pubDate>Sun, 21 Dec 2025 12:40:52 +0000</pubDate>
@@ -97,7 +337,7 @@
       <description>Unlike machine learning models, which typically come with standard training algorithms (like backpropagation for neural networks), simulations often need us to explicitly choose and design procedures for learning their parameters from real-world data or optimising their outputs.</description>
     </item>
     <item>
-      <title>Black box AI is an accelerator paradigm</title>
+      <title>What is black box AI?</title>
       <link>https://umbralcalc.github.io/posts/black_box_ai_is_an_accelerator_paradigm.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/black_box_ai_is_an_accelerator_paradigm.html</guid>
       <pubDate>Mon, 01 Dec 2025 09:24:35 +0000</pubDate>
@@ -105,12 +345,20 @@
       <description>Here are some opinions on the realistic potential for 'black box' AI methods to improve human prediction and decision-making processes.</description>
     </item>
     <item>
-      <title>Mathematical symbols vs diagrams</title>
+      <title>Why no mathematical symbols?</title>
       <link>https://umbralcalc.github.io/posts/mathematical_symbols_vs_diagrams.html</link>
       <guid isPermaLink="true">https://umbralcalc.github.io/posts/mathematical_symbols_vs_diagrams.html</guid>
       <pubDate>Wed, 26 Nov 2025 08:37:23 +0000</pubDate>
       <category>Loose Threads</category>
       <description>Mathematical concepts and tools are absolutely essential to understanding and deriving deeper relationships when analysing systems in the real world.</description>
+    </item>
+    <item>
+      <title>Why think about a simulation probabilistically?</title>
+      <link>https://umbralcalc.github.io/posts/probabilistic_thinking_for_simulations.html</link>
+      <guid isPermaLink="true">https://umbralcalc.github.io/posts/probabilistic_thinking_for_simulations.html</guid>
+      <pubDate>Fri, 21 Nov 2025 18:44:32 +0000</pubDate>
+      <category>How can I simulate the real world?</category>
+      <description>The 'trajectory' of a simulation is the sequence of possible state values that its partitions actually take during a specific simulation run.</description>
     </item>
     <item>
       <title>Why simulate real-world systems?</title>
@@ -119,22 +367,6 @@
       <pubDate>Fri, 21 Nov 2025 18:44:32 +0000</pubDate>
       <category>How can I simulate the real world?</category>
       <description>One of the most compelling uses for simulations of real-world systems is in powering decision-making technologies.</description>
-    </item>
-    <item>
-      <title>The building blocks of simulations</title>
-      <link>https://umbralcalc.github.io/posts/the_building_blocks_of_simulations.html</link>
-      <guid isPermaLink="true">https://umbralcalc.github.io/posts/the_building_blocks_of_simulations.html</guid>
-      <pubDate>Fri, 21 Nov 2025 18:44:32 +0000</pubDate>
-      <category>How can I simulate the real world?</category>
-      <description>Time is probably the most important variable to track in a simulation. This is because everything that happens within a simulation only has meaning with respect to the real world if we can trace what point in simulated time that it happened.</description>
-    </item>
-    <item>
-      <title>Probabilistic thinking for simulations</title>
-      <link>https://umbralcalc.github.io/posts/probabilistic_thinking_for_simulations.html</link>
-      <guid isPermaLink="true">https://umbralcalc.github.io/posts/probabilistic_thinking_for_simulations.html</guid>
-      <pubDate>Fri, 21 Nov 2025 18:44:32 +0000</pubDate>
-      <category>How can I simulate the real world?</category>
-      <description>The 'trajectory' of a simulation is the sequence of possible state values that its partitions actually take during a specific simulation run.</description>
     </item>
   </channel>
 </rss>
