@@ -25,8 +25,16 @@ jobs:
           fetch-depth: 0   # post dates come from each file's first commit
       - name: Install pandoc and PyYAML
         run: |
-          wget -q https://github.com/jgm/pandoc/releases/download/3.8.2/pandoc-3.8.2-1-amd64.deb
-          sudo dpkg -i pandoc-3.8.2-1-amd64.deb
+          # Pinned to the version used locally; retried because the release
+          # download occasionally fails on the runner. Falls back to apt's
+          # pandoc rather than failing the deploy.
+          if wget -q --tries=5 --waitretry=10 --retry-connrefused \
+               https://github.com/jgm/pandoc/releases/download/3.8.2/pandoc-3.8.2-1-amd64.deb; then
+            sudo dpkg -i pandoc-3.8.2-1-amd64.deb
+          else
+            echo "::warning::pandoc 3.8.2 download failed; using the distribution package"
+            sudo apt-get update && sudo apt-get install -y --no-install-recommends pandoc
+          fi
           sudo apt-get install -y --no-install-recommends python3-yaml
           pandoc --version | head -1
       - run: ./build.sh
