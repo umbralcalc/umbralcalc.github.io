@@ -12,6 +12,8 @@ nocite: |
 # How do I choose between simulation structures?
 <div style="height:0.75em;"></div>
 
+By comparing how many parameters the data actually constrains in each, not just how well each fits.
+
 There is usually more than one simulation structure that can be a viable model for the real world system of interest, and these often have different numbers of parameters.
 
 Choosing between different simulation structures should, in principle, be as easy as selecting the one with the best overall value for the objective. But it is actually more complicated than this because you can have complex or simple models which fit the data equally well.

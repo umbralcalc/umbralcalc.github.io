@@ -12,7 +12,7 @@ nocite: "@mata1994, @geroski1995, @stochadex"
 # Which support policies keep small businesses alive?
 <div style="height:0.75em;"></div>
 
-UK small business support comes in different flavours (rates relief, startup grants, incubators, mentoring, etc.): how should a cash-constrained policymaker has to choose between them? To maximise what?
+UK small business support comes in different flavours (rates relief, startup grants, incubators, mentoring, etc.): how should a cash-constrained policymaker choose between them, and to maximise what?
 
 The simulation below (in this case it's just one simple state partition) is calibrated to ONS business demography and Companies House register data for Kingston upon Hull, evaluating how six support portfolios shift five-year survival and register stock under three macro scenarios.
 

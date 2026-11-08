@@ -13,7 +13,7 @@ nocite: |
 # How does a simulation learn its parameters from data?
 <div style="height:0.75em;"></div>
 
-If we want to learn the parameters which correspond to simulation trajectories fitting real-world data trends more closely, it is natural to use an objective based on the probabilities of state partition histories.
+By streaming the data in as a state partition, turning it into probabilities, and scoring simulation trajectories against them. If we want to learn the parameters which correspond to simulation trajectories fitting real-world data trends more closely, it is natural to use an objective based on the probabilities of state partition histories.
 
 We start by streaming time-series data into our simulation by specifying it as a state partition.
 

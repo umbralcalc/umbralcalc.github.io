@@ -12,9 +12,7 @@ nocite: |
 # Is a sloppy simulation a bad one?
 <div style="height:0.75em;"></div>
 
-So we have a simulation which is able to learn its parameters from real world data.
-
-How sensitive is the simulation-data fit to changes in the parameters? In other words, how _sloppy_ is the simulation?
+Not necessarily, and often the opposite. Once a simulation can learn its parameters from real-world data, a natural next question is how sensitive the simulation-data fit is to changes in those parameters. In other words, how _sloppy_ is the simulation?
 
 If a simulation is [sloppy](#ref-sethna2024sloppy) it means that it has many additional parameters which can be varied that do not strongly affect the quality of fit to the dataset of interest. We typically call this kind of parameter 'unconstrained' by the data.
 

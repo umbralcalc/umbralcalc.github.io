@@ -12,7 +12,7 @@ nocite: |
 # How do we estimate statistics across trajectories?
 <div style="height:0.75em;"></div>
 
-There is a way we can compute these probabilities without having to trace the path of every possible trajectory, and often without having to keep a record of every possible state value.
+By averaging over many simulation runs, timestep by timestep. There is a way to get at the probabilities of state values without tracing the path of every possible trajectory, and often without keeping a record of every possible state value.
 
 We start by estimating the statistics of these probabilities. 
 

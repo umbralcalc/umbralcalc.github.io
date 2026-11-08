@@ -11,6 +11,8 @@ cites:
 # How are the histories updated after a step?
 <div style="height:0.75em;"></div>
 
+All at once, so that every partition stays in step with the simulation's clock.
+
 Having calculated the next values of each state partition and the next timestep, we should perform operations over the cumulative timesteps history and each state partition history to update their structures with this new data.
 
 This is an important procedure to perform all at once to ensure that the all of the state partitions in the simulation are synchronised against its virtual clock.

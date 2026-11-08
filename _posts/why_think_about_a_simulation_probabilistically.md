@@ -12,7 +12,7 @@ nocite: |
 # Why think about a simulation probabilistically?
 <div style="height:0.75em;"></div>
 
-The 'trajectory' of a simulation is the sequence of possible state values that its partitions actually take during a specific simulation run.
+Because it lets us reason about every path the simulation could take at once, rather than one run at a time. The 'trajectory' of a simulation is the sequence of possible state values that its partitions actually take during a specific simulation run.
 
 Probabilities can represent sampling all of the possible trajectories that a simulation could take in time, simultaneously.
 

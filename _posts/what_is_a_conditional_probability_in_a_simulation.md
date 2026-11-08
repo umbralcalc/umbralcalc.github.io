@@ -12,7 +12,7 @@ nocite: |
 # What is a conditional probability in a simulation?
 <div style="height:0.75em;"></div>
 
-We can relate two successive probability evaluations in time together by making the answer of the second depend on the outcome of the first.
+It is the probability of the next state given everything that came before it. We can relate two successive probability evaluations in time together by making the answer of the second depend on the outcome of the first.
 
 We call the second of these two evaluations a conditional probability because its probability is _conditional_ on the probability of the first.
 

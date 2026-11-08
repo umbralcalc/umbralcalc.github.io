@@ -11,7 +11,7 @@ nocite: |
 # Could quantum hardware run a simulation?
 <div style="height:0.75em;"></div>
 
-Note that the concepts in this section are the most likely to change with future advancements in quantum computing.
+In principle yes, as a batch architecture, but with an advantage only if more than one timestep's worth of state fits in qubit memory. The ideas here are the ones on this blog most likely to change with future advancements in quantum computing.
 
 Quantum hardware seems to naturally fit the batch simulation architecture in the same way that specialised classical hardware does.
 

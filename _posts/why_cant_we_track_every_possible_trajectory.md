@@ -12,7 +12,7 @@ nocite: |
 # Why can't we track every possible trajectory?
 <div style="height:0.75em;"></div>
 
-So why can’t we just use this recursive relationship to model all the trajectories of the simulation at once? For some simpler systems this is indeed possible, but for most simulations in practice this is computationally infeasible.
+Because the number of possible histories grows every step, and quickly becomes impossible to store. The recursive relationship between conditional probabilities suggests we could model all the trajectories of the simulation at once, and for some simpler systems this is indeed possible, but for most simulations in practice it is computationally infeasible.
 
 Think about how one might store the set of all possible state partition histories for a sequence of coin flips, and then how this can proliferate in time as the simulation advances.
 

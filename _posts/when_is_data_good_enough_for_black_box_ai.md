@@ -11,6 +11,8 @@ nocite: |
 # When is data good enough for black box AI?
 <div style="height:0.75em;"></div>
 
+When it is relevant, complete, plentiful and correct, which for many high-value problems it is not.
+
 For many high-value problems that humanity (or just businesses) would like solve, the truth is that data is often irrelevant, incomplete, scarce or wrong.
 
 In other words, you often do _not_ have data: which is directly relevant the the problem; which forms a complete set; which is enough for model training; or which is without any false entries, etc.

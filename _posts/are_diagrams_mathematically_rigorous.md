@@ -11,7 +11,7 @@ nocite: |
 # Are diagrams mathematically rigorous?
 <div style="height:0.75em;"></div>
 
-The diagrammatic language we use in this blog owes its mathematical rigour to the fact that [any computation can be written as a series of function abstrations and applications](#ref-wiki_lambda_calculus). 
+Yes. The diagrammatic language we use in this blog owes its mathematical rigour to the fact that [any computation can be written as a series of function abstrations and applications](#ref-wiki_lambda_calculus). 
 
 Since all of the practically useful mathematical calculations that we typically talk about on this blog must ultimately be expressed in a computer, we can always find some diagrammatic description of the relevant mathematics that leverages the function abstractions.
 

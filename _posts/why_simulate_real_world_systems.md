@@ -11,7 +11,7 @@ nocite: |
 # Why simulate real-world systems?
 <div style="height:0.75em;"></div>
 
-One of the most compelling uses for simulations of real-world systems is in powering decision-making technologies.
+Because they let us ask "what happens next if I do this?" about systems we cannot freely experiment on. One of the most compelling uses for simulations of real-world systems is in powering decision-making technologies.
 
 If you want to answer questions like 'if I take this action, then what will happen in my system?', then it is often essential to build a simulation of your system and use this to simulate what might happen in the future.
 

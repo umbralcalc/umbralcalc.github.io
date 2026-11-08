@@ -11,7 +11,7 @@ nocite: |
 # What is black box AI?
 <div style="height:0.75em;"></div>
 
-Here are some opinions on the realistic potential for 'black box' AI methods to improve human prediction and decision-making processes.
+A predictive tool that gives you outcomes without the reasons behind them. What follows are some opinions on the realistic potential for 'black box' AI methods to improve human prediction and decision-making processes.
 
 A black box AI method for prediction here means a tool we can use to predict outcomes (provided sufficient relevant data), but which cannot be easily interrogated for insights into _why_ a specific prediction was made.
 

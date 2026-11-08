@@ -12,7 +12,7 @@ nocite: |
 # Why keep humans in the loop with world models?
 <div style="height:0.75em;"></div>
 
-In order to tackle the data environments we described above, it helps to bring as much useful information into the problem as possible. This information could come in the form of inductive biases in the model structure or prior knowledge provided by an expert.
+To bring in knowledge that the data alone cannot supply. In order to tackle data that is irrelevant, incomplete, scarce or wrong, it helps to bring as much useful information into the problem as possible. This information could come in the form of inductive biases in the model structure or prior knowledge provided by an expert.
 
 Black box AI at best encodes only generic statistical or architectural inductive biases, but usually lacks the rich, domain‑specific structure that an explicit 'world model' can provide.
 

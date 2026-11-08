@@ -13,7 +13,7 @@ nocite: |
 # Can a simulation run inside another simulation?
 <div style="height:0.75em;"></div>
 
-Enabling whole 'inner' simulation runs to start and complete within each timestep of an 'outer' simulation run is a very useful, and somewhat fundamental, building block for simulations in practice. We shall call these 'embedded simulation runs'.
+Yes, and it turns out to be one of the more fundamental building blocks in practice. Enabling whole 'inner' simulation runs to start and complete within each timestep of an 'outer' simulation run is very useful. We shall call these 'embedded simulation runs'.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/embedded-simulation-run.svg"/></center>
 

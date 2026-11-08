@@ -13,7 +13,7 @@ nocite: |
 # How are a partition's next values calculated?
 <div style="height:0.75em;"></div>
 
-For an overall simulation data view, we can create a 'state partition histories' structure. This is a collection of each state partition history that exists within the simulation.
+By a calculation chosen for that partition, which reads the simulation's histories and the partition's own parameters and returns its next values. To see what that calculation has to read, it helps to have an overall simulation data view: a 'state partition histories' structure, which is a collection of each state partition history that exists within the simulation.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/state-partition-histories.svg" width=600/></center>
 

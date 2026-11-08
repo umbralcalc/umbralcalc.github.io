@@ -13,7 +13,7 @@ nocite: |
 # What is a state partition?
 <div style="height:0.75em;"></div>
 
-Simulations also have a 'state' associated to them for each value of time.
+A state partition is one piece of a simulation's state. Simulations have a 'state' associated to them for each value of time.
 
 A simulation state holds all of the essential information we want to track to make the simulation useful to us which, crucially, includes _all of the information that is needed for the simulation to proceed_.
 

@@ -12,7 +12,7 @@ nocite: |
 # How is the probability of a state partition history evaluated?
 <div style="height:0.75em;"></div>
 
-Evaluating the probability of a particular state partition history, given parameters and a cumulative timesteps history, looks a similar to the iterate computation. However, in contrast, this computation does _not_ progress forward in time.
+With a calculation that looks much like the one which computes a partition's next values, except that it reads a history and returns how probable it is instead of advancing it. Evaluating the probability of a particular state partition history, given parameters and a cumulative timesteps history, therefore does _not_ progress forward in time.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/evaluate-probability-partition.svg" /></center>
 

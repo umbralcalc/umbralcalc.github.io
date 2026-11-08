@@ -13,6 +13,8 @@ nocite: |
 # What is the visual grammar of these diagrams?
 <div style="height:0.75em;"></div>
 
+A small set of conventions for text, colour, arrows, shapes and line styles, each with one fixed meaning.
+
 The visual design of explanations is very important to this blog.
 
 Understanding how best to visualise abstract concepts in computation and science for as many non-technically trained readers as possible has always been an interesting challenge. 
