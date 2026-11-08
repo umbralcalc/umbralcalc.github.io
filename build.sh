@@ -126,7 +126,6 @@ generate_html_pages() {
             pandoc --template "$DOCS_DIR/template.html" \
                 --wrap=preserve \
                 --mathjax \
-                --syntax-highlighting=pygments \
                 "${cite_args[@]}" \
                 --metadata="title:$title" \
                 -f markdown \
