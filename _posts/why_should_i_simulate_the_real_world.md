@@ -1,7 +1,7 @@
 ---
 title: Why should I simulate the real world?
 images:
-  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/how-can-i-simulate-the-real-world-cover.svg
+  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/why-should-i-simulate-the-real-world-cover.svg
 nocite: "@box1976, @cranmer2020, @epstein2008, @jumper2021, @lawkelton2014, @stochadex"
 ---
 # Why should I simulate the real world?
