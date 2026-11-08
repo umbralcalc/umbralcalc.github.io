@@ -187,6 +187,12 @@
 
         .result:hover .result-question { color: #3c78d8; }
 
+        .result-root {
+            font-size: 0.85rem;
+            color: #888;
+            margin-top: 0.2rem;
+        }
+
         .result-meta {
             font-size: 0.8rem;
             color: #3c78d8;
@@ -399,6 +405,12 @@
                     a.className = 'result-question';
                     a.textContent = q.title;
                     body.appendChild(a);
+                    if (q.root && q.root !== q.slug && q.root !== 'forecasts') {
+                        const from = document.createElement('div');
+                        from.className = 'result-root';
+                        from.textContent = 'From root: ' + q.root_title;
+                        body.appendChild(from);
+                    }
                     if (q.isDraft) {
                         const meta = document.createElement('div');
                         meta.className = 'result-meta';

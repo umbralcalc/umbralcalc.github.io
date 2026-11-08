@@ -107,6 +107,12 @@ generate_html_pages() {
         if [ -f "$filename" ]; then
             local basename=$(basename "$filename" .md)
             local title=$(python3 "$DOCS_DIR/_build/questions.py" title "$filename")
+            # The root question this post descends from (empty for a root)
+            local root_line=$(python3 "$DOCS_DIR/_build/questions.py" root "$filename")
+            local root_args=()
+            if [ -n "$root_line" ]; then
+                root_args+=(--metadata="root-url:/posts/${root_line%%	*}.html" --metadata="root-title:${root_line#*	}")
+            fi
 
             log_info "Generating post: $basename"
             
@@ -128,6 +134,7 @@ generate_html_pages() {
                 --mathjax \
                 "${cite_args[@]}" \
                 --metadata="title:$title" \
+                "${root_args[@]}" \
                 -f markdown \
                 -t html \
                 -o "$DOCS_DIR/posts/${basename}.html" \

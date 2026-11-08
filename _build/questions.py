@@ -15,6 +15,7 @@ Sub-commands, all run from build.sh:
                        answer links to into its nocite list so the entry is
                        printed under References
   title SRC            print a post's title
+  root SRC             print the slug and title of the post's root question
   posts OUT.json       write posts.json (title, slug, url, tag, draft, images)
   json REFS.bib ... -o questions.json
                        write the question graph: each post with its
@@ -301,6 +302,16 @@ def cmd_title(src):
     print(parse_post(src)["title"])
 
 
+def cmd_root(src):
+    """Print 'slug<TAB>title' of the post's root, or nothing if it is a root."""
+    post = parse_post(src)
+    posts = all_posts()
+    root = root_of_each(posts)[post["slug"]]
+    if root != post["slug"]:
+        titles = {p["slug"]: p["title"] for p in posts}
+        print(f"{root}\t{titles[root]}")
+
+
 def root_of_each(posts):
     """A question's parent is the first entry of its `cites` property, and
     its root is found by following parents upward. A post with no `cites`
@@ -446,6 +457,8 @@ def main(argv):
         cmd_prepare(args[0], args[1])
     elif cmd == "title" and len(args) == 1:
         cmd_title(args[0])
+    elif cmd == "root" and len(args) == 1:
+        cmd_root(args[0])
     elif cmd == "posts" and len(args) == 1:
         cmd_posts(args[0])
     elif cmd == "json" and "-o" in args:

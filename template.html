@@ -237,6 +237,21 @@
       box-shadow: -0.75rem 0 0 #fdf3f8, calc(-0.75rem - 3px) 0 0 #b0447a;
     }
 
+    /* The root question a post descends from, shown above its title */
+    .root-eyebrow {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 0.85rem;
+      color: #888;
+      margin-bottom: 0.4rem;
+    }
+
+    .root-eyebrow a {
+      color: #3c78d8;
+      text-decoration: none;
+    }
+
+    .root-eyebrow a:hover { text-decoration: underline; }
+
     /* Questions whose answers cite this one (built from questions.json) */
     .cited-by {
       margin-top: 2rem;
@@ -369,6 +384,9 @@
 
 
     <main>
+      $if(root-title)$
+      <div class="root-eyebrow">From root: <a href="$root-url$">$root-title$</a></div>
+      $endif$
       $body$
 
       <section class="cited-by" id="cited-by" hidden>
