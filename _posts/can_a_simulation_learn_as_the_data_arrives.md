@@ -3,7 +3,7 @@ title: "Can a simulation learn as the data arrives?"
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/online-posterior-estimation.svg"
 cites:
-- "[[how_can_i_simulate_the_real_world]]"
+- "[[why_should_i_simulate_the_real_world]]"
 - "[[how_does_a_simulation_learn_its_parameters_from_data]]"
 - "[[can_one_trajectory_be_enough_to_estimate_statistics]]"
 nocite: |

@@ -3,7 +3,7 @@ title: "How does a simulation learn its parameters from data?"
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/data-streaming.svg"
 cites:
-- "[[how_can_i_simulate_the_real_world]]"
+- "[[why_should_i_simulate_the_real_world]]"
 - "[[what_objective_does_a_simulation_learn_against]]"
 - "[[what_is_a_state_partition]]"
 nocite: |

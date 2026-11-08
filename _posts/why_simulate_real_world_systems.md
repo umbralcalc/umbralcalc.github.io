@@ -3,7 +3,7 @@ title: "Why simulate real-world systems?"
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/why_simulate_real_world_systems/simulations-for-decisions.svg"
 cites:
-- "[[how_can_i_simulate_the_real_world]]"
+- "[[why_should_i_simulate_the_real_world]]"
 nocite: |
   @epstein2008, @box1976, @lawkelton2014
 ---

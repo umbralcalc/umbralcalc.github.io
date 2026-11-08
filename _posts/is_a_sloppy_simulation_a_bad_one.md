@@ -3,7 +3,7 @@ title: "Is a sloppy simulation a bad one?"
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/sloppiness-vs-parsimony.svg"
 cites:
-- "[[how_can_i_simulate_the_real_world]]"
+- "[[why_should_i_simulate_the_real_world]]"
 - "[[how_does_a_simulation_learn_its_parameters_from_data]]"
 nocite: |
   @transtrum2015, @gutenkunst2007, @mao2024

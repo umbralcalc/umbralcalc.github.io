@@ -3,7 +3,7 @@ title: What is a conditional probability in a simulation?
 images:
   - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/conditional-probability.svg
 cites:
-  - "[[how_can_i_simulate_the_real_world]]"
+  - "[[why_should_i_simulate_the_real_world]]"
   - "[[how_is_the_probability_of_a_state_partition_history_evaluated]]"
 nocite: |
   @sarkka2013, @chopin2020

@@ -3,7 +3,7 @@ title: What is a simulation run?
 images:
   - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/simulation-run.svg
 cites:
-  - "[[how_can_i_simulate_the_real_world]]"
+  - "[[why_should_i_simulate_the_real_world]]"
   - "[[how_are_the_histories_updated_after_a_step]]"
 nocite: |
   @lawkelton2014
