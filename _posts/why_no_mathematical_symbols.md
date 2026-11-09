@@ -4,6 +4,9 @@ images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/mathematical_symbols_vs_diagrams/diagrams-vs-symbols.svg"
 nocite: |
   @larkinsimon1987
+cites:
+- "[[how_should_i_design_information_for_humans_in_the_age_of_ai]]"
+
 ---
 
 # Why no mathematical symbols?
