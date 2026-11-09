@@ -409,7 +409,7 @@
                     if (q.ancestors && q.ancestors.length > 0) {
                         const from = document.createElement('div');
                         from.className = 'result-root';
-                        from.textContent = 'Builds on: ' + q.ancestors.map(a => a.title).join(' \u203a ');
+                        from.textContent = 'Builds on: ' + q.ancestors[q.ancestors.length - 1].title;
                         body.appendChild(from);
                     }
                     if (q.isDraft) {
