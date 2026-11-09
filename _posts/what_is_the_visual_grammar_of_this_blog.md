@@ -1,17 +1,10 @@
 ---
-title: "What is the visual grammar of these diagrams?"
-cites:
-- "[[how_should_i_design_information_for_humans_in_the_age_of_ai]]"
-- "[[why_no_mathematical_symbols]]"
-- "[[what_do_the_colours_mean]]"
-- "[[what_do_the_arrows_mean]]"
-- "[[what_do_the_shapes_mean]]"
-- "[[what_do_dashes_and_dots_mean]]"
+title: "What is the visual grammar of this blog?"
 nocite: |
   @larkinsimon1987, @tufte2001
 ---
 
-# What is the visual grammar of these diagrams?
+# What is the visual grammar of this blog?
 <div style="height:0.75em;"></div>
 
 A small set of conventions for text, colour, arrows, shapes and line styles, each with one fixed meaning.

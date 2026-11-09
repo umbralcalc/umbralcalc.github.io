@@ -5,7 +5,8 @@ images:
 nocite: |
   @larkinsimon1987
 cites:
-- "[[how_should_i_design_information_for_humans_in_the_age_of_ai]]"
+cites:
+- "[[what_is_the_visual_grammar_of_this_blog]]"
 
 ---
 
