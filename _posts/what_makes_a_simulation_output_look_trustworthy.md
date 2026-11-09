@@ -2,7 +2,6 @@
 title: "What makes a simulation output look trustworthy?"
 draft: true
 cites:
-- "[[how_can_i_trust_the_actions_i_take_in_simulations]]"
 - "[[how_can_a_simulation_be_wrong]]"
 nocite: |
   @tufte2001, @bertin1983

@@ -5,7 +5,6 @@ images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/preparing_a_simulation_for_action_taking/changing-parameters.svg"
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/preparing_a_simulation_for_action_taking/changing-simulation.svg"
 cites:
-- "[[how_can_i_trust_the_actions_i_take_in_simulations]]"
 - "[[how_can_a_simulation_be_wrong]]"
 - "[[is_a_sloppy_simulation_a_bad_one]]"
 nocite: |

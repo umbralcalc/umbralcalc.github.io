@@ -4,7 +4,6 @@ draft: true
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/how_can_a_simulation_be_wrong/predictions-leading-to-actions.svg"
 cites:
-- "[[how_can_i_trust_the_actions_i_take_in_simulations]]"
 - "[[what_if_i_can_only_partly_observe_the_system]]"
 nocite: |
   @box1976, @sargent2013, @saltelli2019

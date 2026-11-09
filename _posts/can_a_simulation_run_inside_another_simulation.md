@@ -3,9 +3,8 @@ title: Can a simulation run inside another simulation?
 images:
   - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/embedded-simulation-run.svg
 cites:
-  - "[[why_should_i_simulate_the_real_world]]"
-  - "[[what_is_a_simulation_run]]"
-  - "[[how_do_state_partitions_share_information]]"
+- "[[what_is_a_simulation_run]]"
+- "[[how_do_state_partitions_share_information]]"
 nocite: |
   @sarkka2013
 ---

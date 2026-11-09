@@ -15,7 +15,7 @@ Sub-commands, all run from build.sh:
                        answer links to into its nocite list so the entry is
                        printed under References
   title SRC            print a post's title
-  root SRC             print the slug and title of the post's root question
+  chain SRC            print the post's parents, root first, as markdown links
   posts OUT.json       write posts.json (title, slug, url, tag, draft, images)
   json REFS.bib ... -o questions.json
                        write the question graph: each post with its
@@ -291,6 +291,10 @@ def cmd_prepare(src, out):
     chunks = re.split(r"(```.*?```)", post["body"], flags=re.S)
     body = "".join(c if c.startswith("```") else WIKI_LINK.sub(to_ref_link, c) for c in chunks)
     fm = {"title": post["title"]}
+    posts = all_posts()
+    chain = ancestors_of_each(posts)[post["slug"]]
+    if chain:
+        fm["chain"] = " \u203a ".join(f"[{titles[s]}](/posts/{s}.html)" for s in chain)
     if keys:
         fm["nocite"] = ", ".join(f"@{k}" for k in keys)
     os.makedirs(os.path.dirname(out), exist_ok=True)
@@ -302,14 +306,15 @@ def cmd_title(src):
     print(parse_post(src)["title"])
 
 
-def cmd_root(src):
-    """Print 'slug<TAB>title' of the post's root, or nothing if it is a root."""
+def cmd_chain(src):
+    """Print the post's parents as a markdown breadcrumb, root first, or
+    nothing if it is a root."""
     post = parse_post(src)
     posts = all_posts()
-    root = root_of_each(posts)[post["slug"]]
-    if root != post["slug"]:
+    chain = ancestors_of_each(posts)[post["slug"]]
+    if chain:
         titles = {p["slug"]: p["title"] for p in posts}
-        print(f"{root}\t{titles[root]}")
+        print(" \u203a ".join(f"[{titles[s]}](/posts/{s}.html)" for s in chain))
 
 
 def root_of_each(posts):
@@ -327,16 +332,35 @@ def root_of_each(posts):
 
     roots = {}
     for p in posts:
-        seen = [p["slug"]]
-        cur = p
-        while True:
-            nxt = first_post_cite(cur)
-            if nxt is None or nxt in seen:
-                break
-            seen.append(nxt)
-            cur = by_slug[nxt]
-        roots[p["slug"]] = cur["slug"]
+        roots[p["slug"]] = ancestors_of(p, by_slug, first_post_cite)[0] if ancestors_of(p, by_slug, first_post_cite) else p["slug"]
     return roots
+
+
+def ancestors_of(p, by_slug, first_post_cite):
+    """The chain of parents above a post, root first; empty for a root."""
+    chain = []
+    seen = {p["slug"]}
+    cur = p
+    while True:
+        nxt = first_post_cite(cur)
+        if nxt is None or nxt in seen:
+            break
+        chain.append(nxt)
+        seen.add(nxt)
+        cur = by_slug[nxt]
+    return list(reversed(chain))
+
+
+def ancestors_of_each(posts):
+    by_slug = {p["slug"]: p for p in posts}
+
+    def first_post_cite(p):
+        for key in p["cites"]:
+            if key in by_slug and key != p["slug"]:
+                return key
+        return None
+
+    return {p["slug"]: ancestors_of(p, by_slug, first_post_cite) for p in posts}
 
 
 def cmd_posts(out_path):
@@ -385,6 +409,7 @@ def cmd_json(bib_paths, out_path):
     posts = all_posts()
     forecasts = all_forecasts()
     roots = root_of_each(posts)
+    ancestors = ancestors_of_each(posts)
     titles = {p["slug"]: p["title"] for p in posts}
     slugs = {p["slug"] for p in posts} | {f["slug"] for f in forecasts}
     questions = []
@@ -396,6 +421,8 @@ def cmd_json(bib_paths, out_path):
             "url": fc["url"],
             "root": "forecasts",
             "root_title": FORECASTS_ROOT,
+            "parent": "",
+            "ancestors": [],
             "draft": False,
             "date": fc["date"],
             "excerpt": fc["excerpt"],
@@ -413,6 +440,8 @@ def cmd_json(bib_paths, out_path):
             "url": f"/posts/{post['slug']}.html",
             "root": roots[post["slug"]],
             "root_title": titles[roots[post["slug"]]],
+            "parent": ancestors[post["slug"]][-1] if ancestors[post["slug"]] else "",
+            "ancestors": [{"slug": s, "title": titles[s]} for s in ancestors[post["slug"]]],
             "draft": post["draft"],
             "date": first_commit_date(post["slug"]).date().isoformat(),
             "excerpt": excerpt(post["body"]),
@@ -457,8 +486,8 @@ def main(argv):
         cmd_prepare(args[0], args[1])
     elif cmd == "title" and len(args) == 1:
         cmd_title(args[0])
-    elif cmd == "root" and len(args) == 1:
-        cmd_root(args[0])
+    elif cmd == "chain" and len(args) == 1:
+        cmd_chain(args[0])
     elif cmd == "posts" and len(args) == 1:
         cmd_posts(args[0])
     elif cmd == "json" and "-o" in args:

@@ -237,7 +237,7 @@
       box-shadow: -0.75rem 0 0 #fdf3f8, calc(-0.75rem - 3px) 0 0 #b0447a;
     }
 
-    /* The root question a post descends from, shown above its title */
+    /* The questions a post builds on, root first, shown above its title */
     .root-eyebrow {
       font-family: 'Open Sans', sans-serif;
       font-size: 0.85rem;
@@ -384,8 +384,8 @@
 
 
     <main>
-      $if(root-title)$
-      <div class="root-eyebrow">From root: <a href="$root-url$">$root-title$</a></div>
+      $if(chain)$
+      <div class="root-eyebrow">Builds on: $chain$</div>
       $endif$
       $body$
 

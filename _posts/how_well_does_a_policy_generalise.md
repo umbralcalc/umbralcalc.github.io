@@ -2,7 +2,6 @@
 title: "How well does a policy generalise?"
 draft: true
 cites:
-- "[[how_do_i_automate_taking_actions_with_simulations]]"
 - "[[what_is_a_policy]]"
 - "[[is_a_sloppy_simulation_a_bad_one]]"
 nocite: |

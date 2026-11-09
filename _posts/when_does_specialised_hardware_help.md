@@ -3,7 +3,7 @@ title: When does specialised hardware help?
 images:
   - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/specialised-classical-batch.svg
 cites:
-  - "[[what_is_a_batch_simulation_architecture]]"
+- "[[what_is_a_batch_simulation_architecture]]"
 nocite: |
   @jouppi2017
 ---

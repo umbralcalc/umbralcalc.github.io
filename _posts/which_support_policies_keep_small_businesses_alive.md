@@ -3,9 +3,9 @@ title: Which support policies keep small businesses alive?
 images:
   - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/support_policies_for_small_business_survival/business-survival-code.svg
 cites:
-  - "[[how_can_simulations_help_me_take_better_actions]]"
-  - "[[what_is_a_state_partition]]"
-  - "[[how_does_a_simulation_learn_its_parameters_from_data]]"
+- "[[how_can_simulations_help_me_take_better_actions]]"
+- "[[what_is_a_state_partition]]"
+- "[[how_does_a_simulation_learn_its_parameters_from_data]]"
 nocite: "@mata1994, @geroski1995, @stochadex"
 ---
 

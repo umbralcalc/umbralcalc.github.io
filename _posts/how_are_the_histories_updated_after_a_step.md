@@ -3,8 +3,7 @@ title: How are the histories updated after a step?
 images:
   - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/update-time-history.svg
 cites:
-  - "[[why_should_i_simulate_the_real_world]]"
-  - "[[how_are_a_partitions_next_values_calculated]]"
+- "[[how_are_a_partitions_next_values_calculated]]"
 
 ---
 

@@ -2,7 +2,6 @@
 title: "Can I backtest the actions a simulation recommends?"
 draft: true
 cites:
-- "[[how_can_i_trust_the_actions_i_take_in_simulations]]"
 - "[[how_can_i_tell_luck_from_skill]]"
 nocite: |
   @angristpischke2009, @imbensrubin2015, @openaction2outcome

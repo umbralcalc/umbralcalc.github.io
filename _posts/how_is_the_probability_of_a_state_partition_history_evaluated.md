@@ -3,8 +3,8 @@ title: How is the probability of a state partition history evaluated?
 images:
   - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/evaluate-probability-partition.svg
 cites:
-  - "[[why_should_i_simulate_the_real_world]]"
-  - "[[how_are_a_partitions_next_values_calculated]]"
+- "[[why_think_about_a_simulation_probabilistically]]"
+- "[[how_are_a_partitions_next_values_calculated]]"
 nocite: |
   @sarkka2013
 ---

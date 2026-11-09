@@ -3,7 +3,7 @@ title: "How do we estimate statistics across trajectories?"
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/average-across-trajectories.svg"
 cites:
-- "[[why_should_i_simulate_the_real_world]]"
+- "[[why_cant_we_track_every_possible_trajectory]]"
 - "[[why_think_about_a_simulation_probabilistically]]"
 nocite: |
   @owen2013

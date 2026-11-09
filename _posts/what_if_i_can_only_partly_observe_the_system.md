@@ -5,7 +5,6 @@ images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/how_can_a_simulation_be_wrong/sampling-prevalence.svg"
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/how_can_a_simulation_be_wrong/additional-uncertainty-with-trajectories.svg"
 cites:
-- "[[how_can_i_trust_the_actions_i_take_in_simulations]]"
 - "[[how_does_an_action_enter_a_simulation]]"
 - "[[why_think_about_a_simulation_probabilistically]]"
 nocite: |

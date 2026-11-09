@@ -2,7 +2,6 @@
 title: "Why does the simulation predict what it does?"
 draft: true
 cites:
-- "[[how_can_i_trust_the_actions_i_take_in_simulations]]"
 - "[[how_sensitive_is_my_action_to_the_simulation]]"
 nocite: |
   @lundberg2017

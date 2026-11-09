@@ -2,9 +2,8 @@
 title: "Which simulation should I use to take an action?"
 draft: true
 cites:
-- "[[how_can_i_trust_the_actions_i_take_in_simulations]]"
-- "[[how_do_i_choose_between_simulation_structures]]"
 - "[[how_sensitive_is_my_action_to_the_simulation]]"
+- "[[how_do_i_choose_between_simulation_structures]]"
 nocite: |
   @kassraftery1995, @pearl2009
 ---
