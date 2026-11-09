@@ -9,15 +9,7 @@ nocite: |
 
 A small set of conventions for text, colour, arrows, shapes and line styles, each with one fixed meaning.
 
-The visual design of explanations is very important to this blog.
-
-Understanding how best to visualise abstract concepts in computation and science for as many non-technically trained readers as possible has always been an interesting challenge. 
-
-The process of discovering this visual translation of concepts is a design question, and the design is still evolving.
-
-This post gives an outline of the visual design grammar used throughout this blog, at present. However, it's likely that there is still a lot to change and learn!
-
-## Text
+The visual design of explanations is very important to this blog. The process of discovering this visual translation of concepts is a design question, and the design is still evolving.
 
 The '[Comic Relief](#ref-comic_relief_font)' font is chosen to promote a sense of 'work in progress' akin to [Excalidraw](#ref-excalidraw). 
 

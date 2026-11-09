@@ -1,10 +1,11 @@
 ---
+
 title: "Why no mathematical symbols?"
 images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/mathematical_symbols_vs_diagrams/diagrams-vs-symbols.svg"
 nocite: |
   @larkinsimon1987
-cites:
+
 cites:
 - "[[what_is_the_visual_grammar_of_this_blog]]"
 
