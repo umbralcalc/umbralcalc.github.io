@@ -7,11 +7,7 @@ nocite: "@box1976, @cranmer2020, @epstein2008, @jumper2021, @lawkelton2014, @sto
 # Why should I simulate the real world?
 <div style="height:0.75em;"></div>
 
-This is the root of a tree of questions aimed at programmers and non-technical readers wanting to learn the fundamentals of simulation technology and how it can be useful to the world.
-
-So, why simulate real-world systems at all?
-
-The answer in short: simulations can help us discover better actions to take in our decision-making and interrogate the reasoning behind a decision in ways other predictive AI approaches cannot match.
+Simulations can help us discover better actions to take in our decision-making and interrogate the reasoning behind a decision in ways other predictive AI approaches cannot match.
 
 To understand this answer properly, we can build up our understanding in layers.
 

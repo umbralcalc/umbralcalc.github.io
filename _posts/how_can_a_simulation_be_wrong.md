@@ -1,18 +1,15 @@
 ---
-title: "How can a simulation be wrong?"
-draft: true
+title: How can a simulation be wrong?
 images:
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/how_can_a_simulation_be_wrong/predictions-leading-to-actions.svg"
+  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/how_can_a_simulation_be_wrong/predictions-leading-to-actions.svg
 cites:
-- "[[what_if_i_can_only_partly_observe_the_system]]"
+  - "[[what_if_i_can_only_partly_observe_the_system]]"
 nocite: |
   @box1976, @sargent2013, @saltelli2019
 ---
 
 # How can a simulation be wrong?
 <div style="height:0.75em;"></div>
-
-In addition to simulation states and parameters being uncertain, simulation logic can be wrong too. Simulations are only ever an approximation of the real world, after all.
 
 The real world is complicated, and all of its inner workings are unlikely to be reduced into a single simulation modelled by us. Simulations are typically more focused on the details surrounding the system of interest.
 

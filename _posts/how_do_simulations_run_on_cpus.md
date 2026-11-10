@@ -13,7 +13,7 @@ nocite: |
 # How do simulations run on CPUs?
 <div style="height:0.75em;"></div>
 
-As a stepwise loop built from memory, threads and channels between threads, with separate processes reserved for trajectories that need not talk to each other. When we talk about 'classical' hardware here, we just mean standard CPUs.
+As a stepwise loop built from memory, threads and channels between threads, with separate processes reserved for trajectories that need not talk to each other.
 
 On CPUs, simulation architectures may be constructed out of several ingredients. Loosely speaking, these are: memory, threads, channels between threads, processes and Inter-Process Communication (IPC).
 

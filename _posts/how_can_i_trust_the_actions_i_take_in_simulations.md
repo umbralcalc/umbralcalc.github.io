@@ -1,20 +1,18 @@
 ---
-title: "How can I trust the actions I take in simulations?"
-draft: true
+title: How can I trust the actions I take in simulations?
 images:
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/how-can-i-trust-the-actions-i-take-in-simulations-cover.svg"
-nocite: |
-  @sargent2013, @box1976
+  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/how-can-i-trust-the-actions-i-take-in-simulations-cover.svg
+nocite: "@sargent2013, @box1976, @stochadex"
 ---
 
 # How can I trust the actions I take in simulations?
 <div style="height:0.75em;"></div>
 
-Answering the root question '[[how_can_simulations_help_me_take_better_actions|How can simulations help me take better actions?]]' showed simulations informing real-world decisions through interactive dashboards. So the value of simulating the outcomes of actions taken in the real world is quite clear.
+At a fundamental level, we need to trust that the simulation logic is correct and we are interpreting it correctly. The simulation also needs to accurately represent the real world and we can verify this through data we also trust.
 
-So once we have simulated an action, how do we trust it shows us what might happen?
+Getting to this point of trust requires many layers of reassurance.
 
-Those eager to follow along with any code should also check out the [stochadex project](#ref-stochadex).
+It helps to apply a systematic approach to verifying simulation behaviour and how seriously its approximation to reality should be taken.
 
 ## References and further reading
 

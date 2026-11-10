@@ -7,11 +7,7 @@ nocite: "@epstein2008, @suttonbarto2018, @stochadex"
 # How can simulations help me take better actions?
 <div style="height:0.75em;"></div>
 
-This is the root of a tree of questions about using simulations to inform real-world decisions, each one answered through an interactive dashboard built for a specific decision problem. The dashboards are all powered by illustrative research models, not production-ready decision-support tools.
-
-So, how can a simulation help with a decision at all?
-
-The answer in short: a simulation lets us try an action before we take it. We change something in the simulated world, run it forward, and watch what follows, which is exactly the experiment that reality rarely lets us repeat.
+A simulation lets us try an action before we take it. We change something in the simulated world, run it forward, and watch what follows, which is exactly the experiment that reality rarely lets us repeat.
 
 To see why this is so useful, it helps to think about what an action looks like inside a simulation.
 

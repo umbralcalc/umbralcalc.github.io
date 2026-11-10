@@ -12,7 +12,9 @@ nocite: |
 # Can a simulation learn as the data arrives?
 <div style="height:0.75em;"></div>
 
-Yes, by updating its parameter estimates each time a new data point arrives rather than refitting to the whole batch. The data probabilities of simulation trajectories can be interpreted as probabilities of simulation parameters, often accompanied by some simulation noise to account for differences between trajectories even with the same parameters.
+Yes, by updating its parameter estimates each time a new data point arrives rather than refitting to the whole batch. 
+
+The data probabilities of simulation trajectories can be interpreted as probabilities of simulation parameters, often accompanied by some simulation noise to account for differences between trajectories even with the same parameters.
 
 We can create an algorithm which uses this sequence of probabilities to estimate the probabilities of simulation parameters in a very similar way to probabilistic sample weighting.
 

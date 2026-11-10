@@ -11,7 +11,9 @@ nocite: |
 # What decides when the next timestep happens?
 <div style="height:0.75em;"></div>
 
-A calculation of our own choosing, which we call 'advance time'. New states of the simulation may happen at different times, so something has to determine where those times fall along the simulation timeline.
+A calculation of our own choosing, which we call 'advance time'.
+
+New states of the simulation may happen at different times, so something has to determine where those times fall along the simulation timeline.
 
 When simulating systems in the real world, it can be desireable in some situations to be able to structure the times along the timeline at regular intervals.
 

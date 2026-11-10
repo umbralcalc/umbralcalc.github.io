@@ -11,7 +11,7 @@ nocite: |
 # Could quantum hardware run a simulation?
 <div style="height:0.75em;"></div>
 
-In principle yes, as a batch architecture, but with an advantage only if more than one timestep's worth of state fits in qubit memory. The ideas here are the ones on this blog most likely to change with future advancements in quantum computing.
+In principle, yes, as a batch architecture. However this only comes with an advantage if more than one timestep's worth of state fits in qubit memory.
 
 Quantum hardware seems to naturally fit the batch simulation architecture in the same way that specialised classical hardware does.
 
@@ -30,6 +30,8 @@ Note also that the [no-cloning theorem](#ref-wiki_no_cloning) means we cannot si
 Therefore, you only get a [quantum advantage](#ref-wiki_quantum_supremacy) if you can store more than one timestep worth of simulation next state values in qubit memory. 
 
 Otherwise, if you only effectively have one instantaneous timestep of qubit memory to use, the processing time will likely be dominated by I/O writing to and from the qubits during the simulation. This is also known as the [quantum I/O bottleneck](#ref-reppel2023io).
+
+Note that the ideas here are likely to change with future advancements in quantum computing.
 
 ## References and further reading
 

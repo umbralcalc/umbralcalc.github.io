@@ -11,7 +11,9 @@ nocite: |
 # How do state partitions share information?
 <div style="height:0.75em;"></div>
 
-In two ways: by reading each other's histories, and by passing freshly calculated values straight into each other's parameters. Partition iterations can be thought of as occurring separately within the simulation, but it is important for these separate partitions to be able to pass information to each other.
+In two ways: by reading each other's histories, and by passing freshly calculated values straight into each other's parameters.
+
+Partition iterations can be thought of as occurring separately within the simulation, but it is important for these separate partitions to be able to pass information to each other.
 
 To understand why this is important, think of a sports team and how each player might change their behaviour depending on the positions of other players on the field. They need to know about each other.
 

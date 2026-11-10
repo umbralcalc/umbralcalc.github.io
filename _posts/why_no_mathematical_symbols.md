@@ -14,8 +14,6 @@ cites:
 # Why no mathematical symbols?
 <div style="height:0.75em;"></div>
 
-Because the readers this blog is for have not all learned the symbols, and diagrams can carry the same reasoning.
-
 Mathematical concepts and tools are absolutely essential to understanding and deriving deeper relationships when analysing systems in the real world.
 
 While the explanatory power of mathematical symbols is enormous, their power to effectively communicate ideas is limited by layers of pre-requiste knowledge. Wouldn't it be cool to try something a bit different?

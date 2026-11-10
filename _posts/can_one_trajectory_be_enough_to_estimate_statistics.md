@@ -11,7 +11,7 @@ nocite: |
 # Can one trajectory be enough to estimate statistics?
 <div style="height:0.75em;"></div>
 
-Yes! If we have an accurate 'weighting model' for the past values, we can get an estimated mean state value from a weighted average over the full state partition history.
+Yes. If we have an accurate 'weighting model' for the past values, we can get an estimated mean state value from a weighted average over the full state partition history.
 
 <center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/weighted-average.svg" /></center>
 

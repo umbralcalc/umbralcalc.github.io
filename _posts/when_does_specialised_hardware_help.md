@@ -11,7 +11,9 @@ nocite: |
 # When does specialised hardware help?
 <div style="height:0.75em;"></div>
 
-When a batch of timesteps can be evaluated as dense arithmetic and fits in the device's memory, so that the time saved outweighs the time spent moving data to and from the CPU. From the perspective of standard CPUs, batch simulation architectures are often designed to evaluate segments of the simulation timeline using specialised classical hardware.
+When a batch of timesteps can be evaluated as dense arithmetic and fits in the device's memory, so that the time saved outweighs the time spent moving data to and from the CPU.
+
+From the perspective of standard CPUs, batch simulation architectures are often designed to evaluate segments of the simulation timeline using specialised classical hardware.
 
 When we talk about 'specialised classical' hardware here, we mean [GPUs](#ref-wiki_gpu), [TPUs](#ref-wiki_tpu), [IPUs](#ref-graphcore_ipu) and other specialised processors based on classical computing principles (as opposed to quantum processors).
 

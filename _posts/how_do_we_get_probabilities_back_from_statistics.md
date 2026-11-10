@@ -12,7 +12,7 @@ nocite: |
 # How do we get probabilities back from statistics?
 <div style="height:0.75em;"></div>
 
-Through a model that maps estimated statistics back onto probabilities of state values. Once we have the statistics, where have the probabilities gone?
+Through a model that maps estimated statistics back onto probabilities of state values.
 
 There are many different types of mathematical formulae or machine learning model which can provide a map back from these estimated statistics into probabilities of state values in time for either one or multiple trajectories, depending on the right circumstances.
 

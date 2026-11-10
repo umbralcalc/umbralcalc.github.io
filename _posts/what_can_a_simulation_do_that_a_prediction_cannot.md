@@ -11,7 +11,9 @@ nocite: |
 # What can a simulation do that a prediction cannot?
 <div style="height:0.75em;"></div>
 
-It can show you why. With simulations of the real world, in contrast to other predictive AI approaches, you can interrogate the internal state of the system to help validate the assumptions used in making a decision.
+In short: you can ask a simulation 'why'.
+
+With simulations of the real world, in contrast to other predictive AI approaches, you can interrogate the internal state of the system to help validate the assumptions used in making a decision.
 
 This can be a real advantage for decision-making technologies, since human users usually need to justify their decisions through structured reasoning.
 

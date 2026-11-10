@@ -1,10 +1,10 @@
 ---
-title: "How can I tell luck from skill?"
+title: How can I tell luck from skill?
 draft: true
 images:
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/what_makes_an_action_good/data-outcomes-trajectory.svg"
+  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/what_makes_an_action_good/data-outcomes-trajectory.svg
 cites:
-- "[[what_makes_an_action_good]]"
+  - "[[what_makes_an_action_good]]"
 nocite: |
   @mauboussin2012
 ---
