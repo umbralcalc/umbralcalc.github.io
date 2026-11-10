@@ -4,6 +4,10 @@
     "title": "What is the probability of bathing water pollution across England?",
     "headline": "Probabilities for every designated bathing water in England, driven by recent rainfall and the season.",
     "thumbnail": "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/bathing-water-forecaster/bathing-water-forecaster-code.svg",
-    "url": "https://umbralcalc.github.io/bathing-water-forecaster/"
+    "url": "https://umbralcalc.github.io/bathing-water-forecaster/",
+    "cites": [
+      "how_can_simulations_help_me_take_better_actions",
+      "what_can_a_simulation_do_that_a_prediction_cannot"
+    ]
   }
 ]

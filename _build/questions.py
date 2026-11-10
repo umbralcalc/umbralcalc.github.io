@@ -116,6 +116,8 @@ def all_forecasts():
             "excerpt": f.get("headline", ""),
             "images": [f["thumbnail"]] if f.get("thumbnail") else [],
             "date": f.get("date", ""),
+            # Blog questions the forecast builds on; the first is its parent
+            "cites": list(f.get("cites", [])),
         })
     return forecasts
 
@@ -415,20 +417,26 @@ def cmd_json(bib_paths, out_path):
     questions = []
     used = set()
     for fc in forecasts:
+        # Forecasts keep their own group on the home page, but carry a parent
+        # chain and citations like any post, so the card shows what they
+        # build on and the cited questions list them as citing answers
+        cites = [k for k in fc["cites"] if k in titles]
+        parent = cites[0] if cites else ""
+        chain = (ancestors[parent] + [parent]) if parent else []
         questions.append({
             "slug": fc["slug"],
             "title": fc["title"],
             "url": fc["url"],
             "root": "forecasts",
             "root_title": FORECASTS_ROOT,
-            "parent": "",
-            "ancestors": [],
+            "parent": parent,
+            "ancestors": [{"slug": s, "title": titles[s]} for s in chain],
             "draft": False,
             "date": fc["date"],
             "excerpt": fc["excerpt"],
             "images": fc["images"],
-            "references": [],
-            "cites": [],
+            "references": cites,
+            "cites": cites,
             "cited_by": [],
         })
     for post in posts:
