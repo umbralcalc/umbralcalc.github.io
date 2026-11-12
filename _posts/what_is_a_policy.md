@@ -1,11 +1,10 @@
 ---
-title: "What is a policy?"
-draft: true
+title: What is a policy?
 images:
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/what_is_a_policy/action-taking-policy.svg"
+  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/what_is_a_policy/action-taking-policy.svg
 cites:
-- "[[how_do_i_automate_taking_actions_with_simulations]]"
-- "[[how_does_an_action_enter_a_simulation]]"
+  - "[[how_do_i_automate_taking_actions_with_simulations]]"
+  - "[[how_does_an_action_enter_a_simulation]]"
 nocite: |
   @suttonbarto2018
 ---

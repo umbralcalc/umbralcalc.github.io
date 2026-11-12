@@ -1,10 +1,9 @@
 ---
-title: "How do evolutionary strategies find a policy?"
-draft: true
+title: How do evolutionary strategies find a policy?
 images:
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_optimal_policies_with_the_simulation_itself/optimising-evolutionary-strategies.svg"
+  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_optimal_policies_with_the_simulation_itself/optimising-evolutionary-strategies.svg
 cites:
-- "[[what_is_discounted_future_reward]]"
+  - "[[what_is_discounted_future_reward]]"
 nocite: |
   @hansen2001, @salimans2017
 ---

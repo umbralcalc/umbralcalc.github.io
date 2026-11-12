@@ -1,9 +1,8 @@
 ---
-title: "How well does a policy generalise?"
-draft: true
+title: How well does a policy generalise?
 cites:
-- "[[what_is_a_policy]]"
-- "[[is_a_sloppy_simulation_a_bad_one]]"
+  - "[[what_is_a_policy]]"
+  - "[[is_a_sloppy_simulation_a_bad_one]]"
 nocite: |
   @transtrum2015
 ---
@@ -19,7 +18,7 @@ Answers to both of these questions tell us how the action-taking policy generali
 
 How sensitive is this choice to changes in the action parameters?
 
-In much the same way as it does in [[is_a_sloppy_simulation_a_bad_one|learning simulations of the real world]] answering this question tells us how _sloppy_ the action-taking policy is, and as a result how generalisable it could be to other problem domains.
+In much the same way as it does in [[is_a_sloppy_simulation_a_bad_one|learning simulations of the real world]], answering this question tells us how _sloppy_ the action-taking policy is, and as a result how generalisable it could be to other problem domains.
 
 ## References and further reading
 

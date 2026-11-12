@@ -1,21 +1,21 @@
 ---
-title: "How do I automate taking actions with simulations?"
-draft: true
+title: How do I automate taking actions with simulations?
 nocite: |
-  @suttonbarto2018
+  @suttonbarto2018, @powell2022
 ---
 
 # How do I automate taking actions with simulations?
 <div style="height:0.75em;"></div>
 
-This root question should lead to:
-- The concept of a policy
-- Learning using the simulation itself (evolutionary strategies, monte carlo tree search and touch on how these are different to Deep RL but still in the same family of sample-driven - which depend on simulations existing)
-- Linear/Dynamic/Stochastic programming (all examples of model-driven - which don't use a simulation but instead a pre-existing model)
-- How the simulation can be used to test all of these policies anyway
-- Refer to Warren Powell's work and 'The Decision Factory'
-- Collect examples of decision-making domains where this automation is more possible/feasible than others due to action-taking cadence, regulatory requirements, ethical issues that are highly relevant to the problem and other situations
-- AI ethics potentially worth touching on as well
+By learning the rules or action-taking behaviours you would follow as code, and then using simulations to stress test this code.
+
+The fuller answer to this question requires a few new concepts, the first of which is a 'policy': the logic which takes in the state of the world at any moment and returns the action to take.
+
+Automating a decision then means learning a policy. In the literature this is the language of sequential decision-making and reinforcement learning.
+
+To find a good policy, we need to first find out what 'good' even means. Defining this through 'rewards' is common practice.
+
+It's important to note that not every decision should be automated. How often actions are taken, what regulation demands, and what is ethically at stake all determine how far a policy should act on its own, and whether or not there should be humans in-the-loop anyway.
 
 ## References and further reading
 
