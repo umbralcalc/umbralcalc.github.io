@@ -1,7 +1,7 @@
 ---
 title: When does specialised hardware help?
 images:
-  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/specialised-classical-batch.svg
+  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/specialised-classical-batch.svg
 cites:
 - "[[what_is_a_batch_simulation_architecture]]"
 nocite: |
@@ -17,7 +17,7 @@ From the perspective of standard CPUs, batch simulation architectures are often 
 
 When we talk about 'specialised classical' hardware here, we mean [GPUs](#ref-wiki_gpu), [TPUs](#ref-wiki_tpu), [IPUs](#ref-graphcore_ipu) and other specialised processors based on classical computing principles (as opposed to quantum processors).
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/specialised-classical-batch.svg"/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/specialised-classical-batch.svg"/></center>
 
 This architecture can be used to reduce the overall processing time taken to complete a simulation run relative to a stepwise equivalent, but there are tradeoffs which mean this isn't always efficient.
 
@@ -27,7 +27,7 @@ So there are basically certain types of simulation algorithm that can be written
 
 In addition, this specialised hardware typically requires data transfer to/from CPU memory (at the very least for initialisation and final results), which also takes processing time.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/processing-time-per-timestep.svg"/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/processing-time-per-timestep.svg"/></center>
 
 So, when deciding on the number of timesteps a batch simulation architecture should use for the best performance, software engineers must take into account:
 

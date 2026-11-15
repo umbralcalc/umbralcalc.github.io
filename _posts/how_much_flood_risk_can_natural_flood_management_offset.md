@@ -1,7 +1,7 @@
 ---
 title: "How much flood risk can natural flood management offset?"
 images:
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/managing_flood_damage_risk_under_climate_change/floodrisk-simulation-code.svg"
+- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/floodrisk-simulation-code.svg"
 
 cites:
 - "[[how_can_simulations_help_me_take_better_actions]]"
@@ -18,7 +18,7 @@ Climate change is making UK flooding worse: how much can natural flood managemen
 
 The simulation below is calibrated to 16 years of Environment Agency data from the Upper Calder Valley, modelling how rainfall and catchment dynamics translate into peak river flows under different policies and climate scenarios.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/managing_flood_damage_risk_under_climate_change/floodrisk-simulation-code.svg" width="400"/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/floodrisk-simulation-code.svg" width="400"/></center>
 
 Pick an NFM portfolio and a climate scenario, and watch how peak flows and intervention cost-effectiveness shift.
 

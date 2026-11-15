@@ -1,7 +1,7 @@
 ---
 title: How do evolutionary strategies find a policy?
 images:
-  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_optimal_policies_with_the_simulation_itself/optimising-evolutionary-strategies.svg
+  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/optimising-evolutionary-strategies.svg
 cites:
   - "[[what_is_discounted_future_reward]]"
 nocite: |
@@ -15,7 +15,7 @@ The [evolutionary strategies](#ref-wiki_evolution_strategy) algorithm can be app
 
 This algorithm relies on sorting the sampled simulation trajectories according to their discounted future rewards and then using the top fraction of these to update the best known policy parameters (and the variance around them) after each timestep.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_optimal_policies_with_the_simulation_itself/optimising-evolutionary-strategies.svg"/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/optimising-evolutionary-strategies.svg"/></center>
 
 ````{=html}
 <div id="evolutionary-strategies-demo" style="margin:1.3em 0 0.5em;padding:1em;background:#ffffff;">

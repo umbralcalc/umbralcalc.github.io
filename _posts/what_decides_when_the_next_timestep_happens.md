@@ -1,7 +1,7 @@
 ---
 title: What decides when the next timestep happens?
 images:
-  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/timeline.svg
+  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/timeline.svg
 cites:
 - "[[how_does_a_simulation_keep_track_of_time]]"
 nocite: |
@@ -19,11 +19,11 @@ When simulating systems in the real world, it can be desireable in some situatio
 
 In other situations it can be desirable to have an unstructured or randomly-drawn set of times along the timeline.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/timeline.svg" /></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/timeline.svg" /></center>
 
 In order to allow this flexibility in choice between situations, let's specify an 'advance time' calculation which takes in the current cumulative timesteps history and outputs the next timestep following the latest time found in the history (at index 0).
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/advance-time.svg" /></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/advance-time.svg" /></center>
 
 ## References and further reading
 

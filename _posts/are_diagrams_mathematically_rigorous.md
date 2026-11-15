@@ -1,7 +1,7 @@
 ---
 title: "Are diagrams mathematically rigorous?"
 images:
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/mathematical_symbols_vs_diagrams/maths-to-diagrams.svg"
+- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/maths-to-diagrams.svg"
 cites:
 - "[[why_no_mathematical_symbols]]"
 nocite: |
@@ -15,7 +15,7 @@ Yes. The diagrammatic language we use in this blog owes its mathematical rigour 
 
 Since all of the practically useful mathematical calculations that we typically talk about on this blog must ultimately be expressed in a computer, we can always find some diagrammatic description of the relevant mathematics that leverages the function abstractions.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/mathematical_symbols_vs_diagrams/maths-to-diagrams.svg" width=600/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/maths-to-diagrams.svg" width=600/></center>
 
 ## References and further reading
 

@@ -1,7 +1,7 @@
 ---
 title: "When should a rugby manager make substitutions?"
 images:
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/evaluating_rugby_manager_decision_making/trywizard-simulation-code.svg"
+- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/trywizard-simulation-code.svg"
 
 cites:
 - "[[how_can_simulations_help_me_take_better_actions]]"
@@ -18,7 +18,7 @@ A rugby manager picks when to substitute each position group: bring on the front
 
 The simulation below is fitted to thousands of real match events and learns the rate at which scoring events happen, minute by minute, with an intensity that depends on which players are on the pitch and how long they have been there.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/evaluating_rugby_manager_decision_making/trywizard-simulation-code.svg" width="700"/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/trywizard-simulation-code.svg" width="700"/></center>
 
 Drag the substitution-timing sliders for each position group and watch how the predicted win probability shifts.
 

@@ -1,7 +1,7 @@
 ---
 title: "What do the shapes mean?"
 images:
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/a_visual_design_grammar_for_computational_diagrams/blog-objects.svg"
+- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/blog-objects.svg"
 cites:
 - "[[what_is_the_visual_grammar_of_this_blog]]"
 - "[[what_do_the_arrows_mean]]"
@@ -14,7 +14,7 @@ nocite: |
 
 The blog uses three main object types in all of the colours.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/a_visual_design_grammar_for_computational_diagrams/blog-objects.svg" width="700"/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/blog-objects.svg" width="700"/></center>
 
 Curved boxes with labels are used primarily for data objects.
 

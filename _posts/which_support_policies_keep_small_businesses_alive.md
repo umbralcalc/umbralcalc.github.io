@@ -1,7 +1,7 @@
 ---
 title: Which support policies keep small businesses alive?
 images:
-  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/support_policies_for_small_business_survival/business-survival-code.svg
+  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/business-survival-code.svg
 cites:
 - "[[how_can_simulations_help_me_take_better_actions]]"
 - "[[what_is_a_state_partition]]"
@@ -16,7 +16,7 @@ UK small business support comes in different flavours (rates relief, startup gra
 
 The simulation below (in this case it's just one simple state partition) is calibrated to ONS business demography and Companies House register data for Kingston upon Hull, evaluating how six support portfolios shift five-year survival and register stock under three macro scenarios.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/support_policies_for_small_business_survival/business-survival-code.svg" width="200"/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/business-survival-code.svg" width="200"/></center>
 
 Pick a support portfolio and a macro scenario, and compare how survival and stock shift against the alternatives.
 

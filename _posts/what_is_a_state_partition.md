@@ -1,8 +1,8 @@
 ---
 title: "What is a state partition?"
 images:
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/state-partitions.svg"
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/state-partition-history.svg"
+- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/state-partitions.svg"
+- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/state-partition-history.svg"
 cites:
 - "[[how_does_a_simulation_keep_track_of_time]]"
 nocite: |
@@ -20,13 +20,13 @@ In order to simplify how all of this state data is processed and retrieved, we'r
 
 For example, one of these partitions might hold all the data associated to a player in a sports team, and the whole simulation needs all of the players within its overall state.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/state-partitions.svg" width=600/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/state-partitions.svg" width=600/></center>
 
 Each state partition carries data that can be different for each moment in time of the simulation. In order to track this evolution, we create a 'state partition history' data structure for each state partition.
 
 Each state partition history has indices which always match those of the cumulative timesteps history, so they are always synchronised with each other.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/state-partition-history.svg" width=600/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/state-partition-history.svg" width=600/></center>
 
 ## Example: Energy usage in a smart building
 

@@ -1,7 +1,7 @@
 ---
 title: "How do I choose between simulation structures?"
 images:
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/simple-vs-complex-fit.svg"
+- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/simple-vs-complex-fit.svg"
 cites:
 - "[[is_a_sloppy_simulation_a_bad_one]]"
 nocite: |
@@ -25,7 +25,7 @@ Remember that simulation sloppiness refers to parameters which _are not_ constra
 
 What we need to find out is how many parameters _are_ constrained (or learned) by the data in both simulations. In other words; how many parameters does each simulation have which the objective value is sensitive to changing?
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/simple-vs-complex-fit.svg"/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/simple-vs-complex-fit.svg"/></center>
 
 The [general wisdom](#ref-wiki_occams_razor) is to prefer simulations and models with fewer _constrained_ parameters.
 

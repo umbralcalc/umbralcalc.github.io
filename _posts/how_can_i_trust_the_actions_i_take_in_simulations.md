@@ -1,7 +1,7 @@
 ---
 title: How can I trust the actions I take in simulations?
 images:
-  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/how-can-i-trust-the-actions-i-take-in-simulations-cover.svg
+  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/how-can-i-trust-the-actions-i-take-in-simulations-cover.svg
 nocite: "@sargent2013, @box1976, @stochadex"
 ---
 

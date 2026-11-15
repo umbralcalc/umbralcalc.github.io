@@ -1,7 +1,7 @@
 ---
 title: "What do the colours mean?"
 images:
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/a_visual_design_grammar_for_computational_diagrams/blog-colour-scheme.svg"
+- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/blog-colour-scheme.svg"
 cites:
 - "[[what_is_the_visual_grammar_of_this_blog]]"
 nocite: |
@@ -13,7 +13,7 @@ nocite: |
 
 The blog has a consistent visual scheme of 3 main colours in addition to plain white.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/a_visual_design_grammar_for_computational_diagrams/blog-colour-scheme.svg" width="700"/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/blog-colour-scheme.svg" width="700"/></center>
 
 The blue colour is used to define data objects.
 

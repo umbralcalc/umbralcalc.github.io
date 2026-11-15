@@ -1,7 +1,7 @@
 ---
 title: What makes an action good?
 images:
-  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/what_makes_an_action_good/possible-outcome-trajectories.svg
+  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/possible-outcome-trajectories.svg
 cites:
   - "[[how_does_an_action_enter_a_simulation]]"
   - "[[why_think_about_a_simulation_probabilistically]]"
@@ -16,7 +16,7 @@ From the [[why_think_about_a_simulation_probabilistically|probabilistic perspect
 
 Simulation trajectories follow different paths through the space of possible outcomes from our actions in time.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/what_makes_an_action_good/possible-outcome-trajectories.svg"/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/possible-outcome-trajectories.svg"/></center>
 
 Some paths may be more likely than others, depending on our actions. So the challenge of taking 'good' actions under an uncertain future is to pick those which make the the desireable outcomes more likely, or perhaps making undesireable outcomes less likely (if risk averse).
 

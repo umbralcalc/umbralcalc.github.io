@@ -1,7 +1,7 @@
 ---
 title: "What is black box AI?"
 images:
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/model-predict.svg"
+- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/model-predict.svg"
 cites:
 - "[[what_can_a_simulation_do_that_a_prediction_cannot]]"
 nocite: |
@@ -17,7 +17,7 @@ A black box AI method for prediction here means a tool we can use to predict out
 
 Inductive bias is another concept which is worthy of discussion here. This can be thought of as information which is brought in which does not come from the data itself.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/model-predict.svg"/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/model-predict.svg"/></center>
 
 ## References and further reading
 

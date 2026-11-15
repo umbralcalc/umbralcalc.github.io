@@ -1,7 +1,7 @@
 ---
 title: "Could quantum hardware run a simulation?"
 images:
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/quantum-batch.svg"
+- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/quantum-batch.svg"
 cites:
 - "[[what_is_a_batch_simulation_architecture]]"
 nocite: |
@@ -25,7 +25,7 @@ In order to utilise this hardware within a given batch evaluation, one would nee
 
 Note also that the [no-cloning theorem](#ref-wiki_no_cloning) means we cannot simply copy the qubits which have run the quantum gates; the circuit must run separately for each simulation trajectory.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/simulation_architectures_on_different_hardware/quantum-batch.svg"/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/quantum-batch.svg"/></center>
 
 Therefore, you only get a [quantum advantage](#ref-wiki_quantum_supremacy) if you can store more than one timestep worth of simulation next state values in qubit memory. 
 

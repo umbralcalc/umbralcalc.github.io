@@ -1,7 +1,7 @@
 ---
 title: "What do the arrows mean?"
 images:
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/a_visual_design_grammar_for_computational_diagrams/blog-arrows.svg"
+- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/blog-arrows.svg"
 cites:
 - "[[what_is_the_visual_grammar_of_this_blog]]"
 - "[[what_do_the_colours_mean]]"
@@ -14,7 +14,7 @@ nocite: |
 
 The blog uses two main arrow types in all of the colours.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/a_visual_design_grammar_for_computational_diagrams/blog-arrows.svg" width="700"/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/blog-arrows.svg" width="700"/></center>
 
 Solid arrow tips are used for both concept relationships and motion of data.
 

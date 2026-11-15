@@ -1,7 +1,7 @@
 ---
 title: What is discounted future reward?
 images:
-  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_optimal_policies_with_the_simulation_itself/discounted-future-reward.svg
+  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/discounted-future-reward.svg
 cites:
   - "[[how_do_i_set_up_a_simulation_to_learn_a_policy]]"
 nocite: |
@@ -13,7 +13,7 @@ nocite: |
 
 The 'discounted future reward' is a quantity we can specify that a simulation trajectory will have accumulated into the future, accounting for increasing distance into the future by 'discounting' it gradually with a weighting.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_optimal_policies_with_the_simulation_itself/discounted-future-reward.svg"/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/discounted-future-reward.svg"/></center>
 
 We are using this concept of discounted future reward in the same way that it is used in [reinforcement learning](#ref-wiki_reinforcement_learning).
 

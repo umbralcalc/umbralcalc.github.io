@@ -1,7 +1,7 @@
 ---
 title: "Can a simulation learn as the data arrives?"
 images:
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/online-posterior-estimation.svg"
+- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/online-posterior-estimation.svg"
 cites:
 - "[[how_does_a_simulation_learn_its_parameters_from_data]]"
 - "[[can_one_trajectory_be_enough_to_estimate_statistics]]"
@@ -18,7 +18,7 @@ The data probabilities of simulation trajectories can be interpreted as probabil
 
 We can create an algorithm which uses this sequence of probabilities to estimate the probabilities of simulation parameters in a very similar way to probabilistic sample weighting.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/online-posterior-estimation.svg"/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/online-posterior-estimation.svg"/></center>
 
 We might call this algorithm 'online simulation parameter estimation'; where 'online' here means that the simulation is being adaptively learned to the data iteratively in time, as opposed to a whole batch all at once.
 

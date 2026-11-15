@@ -1,7 +1,7 @@
 ---
 title: "Why keep humans in the loop with world models?"
 images:
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/shape-statistics.svg"
+- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/shape-statistics.svg"
 cites:
 - "[[when_is_data_good_enough_for_black_box_ai]]"
 - "[[what_can_a_simulation_do_that_a_prediction_cannot]]"
@@ -18,7 +18,7 @@ In order to tackle data that is irrelevant, incomplete, scarce or wrong, it help
 
 Black box AI at best encodes only generic statistical or architectural inductive biases, but usually lacks the rich, domain‑specific structure that an explicit 'world model' can provide.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/shape-statistics.svg"/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/shape-statistics.svg"/></center>
 
 In contrast to black box AI, world models represent the state of the system _separately from the data_. Simulations can be thought of as a kind of world model, for instance.
 

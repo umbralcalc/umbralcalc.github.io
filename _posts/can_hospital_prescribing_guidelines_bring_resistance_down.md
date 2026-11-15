@@ -1,7 +1,7 @@
 ---
 title: "Can hospital prescribing guidelines bring resistance down?"
 images:
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/managing_antimicrobial_resistance_with_hospital_guidelines/antimicrobial-resistance-code.svg"
+- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/antimicrobial-resistance-code.svg"
 
 cites:
 - "[[how_can_simulations_help_me_take_better_actions]]"
@@ -18,7 +18,7 @@ Antibiotic-resistant infections are rising in English hospitals: can stewardship
 
 The simulation below is fitted to ten years of UKHSA surveillance data and models how cephalosporin prescribing pressure shapes the balance of susceptible and resistant E. coli inside a hospital, generating bloodstream infections as a stochastic consequence.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/managing_antimicrobial_resistance_with_hospital_guidelines/antimicrobial-resistance-code.svg" width="400"/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/antimicrobial-resistance-code.svg" width="400"/></center>
 
 Pick a prescribing policy and watch how the resistance ratio and resistant infection burden evolve over time.
 

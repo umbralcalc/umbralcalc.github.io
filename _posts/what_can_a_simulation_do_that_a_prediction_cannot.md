@@ -1,7 +1,7 @@
 ---
 title: "What can a simulation do that a prediction cannot?"
 images:
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/why_simulate_real_world_systems/simulations-decision-advantages.svg"
+- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/simulations-decision-advantages.svg"
 cites:
 - "[[what_are_simulations_for]]"
 nocite: |
@@ -17,7 +17,7 @@ With simulations of the real world, in contrast to other predictive AI approache
 
 This can be a real advantage for decision-making technologies, since human users usually need to justify their decisions through structured reasoning.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/why_simulate_real_world_systems/simulations-decision-advantages.svg" /></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/simulations-decision-advantages.svg" /></center>
 
 ## Example: Predictions only vs simulations
 

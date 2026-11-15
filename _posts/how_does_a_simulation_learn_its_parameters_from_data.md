@@ -1,7 +1,7 @@
 ---
 title: "How does a simulation learn its parameters from data?"
 images:
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/data-streaming.svg"
+- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/data-streaming.svg"
 cites:
 - "[[what_objective_does_a_simulation_learn_against]]"
 - "[[what_is_a_state_partition]]"
@@ -16,7 +16,7 @@ By streaming the data in as a state partition, turning it into probabilities, an
 
 We start by streaming time-series data into our simulation by specifying it as a state partition.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/learning_simulations_of_the_real_world/data-streaming.svg" width="650"/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/data-streaming.svg" width="650"/></center>
 
 We can then use a method to estimate the probabilities of state values within the data, e.g., probabilistic sample weighting.
 

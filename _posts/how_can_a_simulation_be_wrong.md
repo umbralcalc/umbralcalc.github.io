@@ -1,7 +1,7 @@
 ---
 title: How can a simulation be wrong?
 images:
-  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/how_can_a_simulation_be_wrong/predictions-leading-to-actions.svg
+  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/predictions-leading-to-actions.svg
 cites:
   - "[[what_if_i_can_only_partly_observe_the_system]]"
 nocite: |
@@ -17,7 +17,7 @@ So [all simulations are wrong, but some are useful](#ref-box1976). The pertinent
 
 One might imagine, given our example earlier, that stopping mass treatment on the population depends much more on the accuracy of our prediction for the prevalence of the disease itself than, e.g., the number of new births (which might also be part of the simulation for other reasons).
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/how_can_a_simulation_be_wrong/predictions-leading-to-actions.svg"/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/predictions-leading-to-actions.svg"/></center>
 
 The key takeaway from this is that simulations may always be wrong to some degree, but isolating how wrong they are to the parts of the system which we are using to learn better actions from is critical to trust.
 

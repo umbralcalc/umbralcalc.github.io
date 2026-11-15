@@ -1,7 +1,7 @@
 ---
 title: "When is data good enough for black box AI?"
 images:
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/data-grid-ai.svg"
+- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/data-grid-ai.svg"
 cites:
 - "[[what_is_black_box_ai]]"
 nocite: |
@@ -19,7 +19,7 @@ In other words, you often do _not_ have data: which is directly relevant the the
 
 In situations where you do actually have data which satisfies these (or most of these) conditions, then training black box AI models becomes viable.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/black_box_ai_is_an_accelerator_paradigm/data-grid-ai.svg"/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/data-grid-ai.svg"/></center>
 
 ## References and further reading
 

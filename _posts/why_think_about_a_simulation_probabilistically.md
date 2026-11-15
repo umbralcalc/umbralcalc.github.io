@@ -1,7 +1,7 @@
 ---
 title: "Why think about a simulation probabilistically?"
 images:
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/probabilites-vs-trajectories.svg"
+- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/probabilites-vs-trajectories.svg"
 cites:
 - "[[why_should_i_simulate_the_real_world]]"
 - "[[what_is_a_simulation_run]]"
@@ -18,7 +18,7 @@ The 'trajectory' of a simulation is the sequence of possible state values that i
 
 Probabilities can represent sampling all of the possible trajectories that a simulation could take in time, simultaneously.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/probabilites-vs-trajectories.svg" /></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/probabilites-vs-trajectories.svg" /></center>
 
 Using this representation of a simulation, there are two important use cases.
 

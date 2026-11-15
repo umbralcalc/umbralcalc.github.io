@@ -2,7 +2,7 @@
 
 title: "Why no mathematical symbols?"
 images:
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/mathematical_symbols_vs_diagrams/diagrams-vs-symbols.svg"
+- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/diagrams-vs-symbols.svg"
 nocite: |
   @larkinsimon1987
 
@@ -22,7 +22,7 @@ Instead of communicating conceptual understanding with mathematical symbols, the
 
 The intention is to transfer some level of analytical power from the world of symbols into the world of diagrams and engage a wider group of analytical thinkers in understanding the deeper aspects of mathematical modeling.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/mathematical_symbols_vs_diagrams/diagrams-vs-symbols.svg" width="700"/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/diagrams-vs-symbols.svg" width="700"/></center>
 
 ## References and further reading
 

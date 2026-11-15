@@ -1,7 +1,7 @@
 ---
 title: Why can't we track every possible trajectory?
 images:
-  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/coin-flips-tree.svg
+  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/coin-flips-tree.svg
 cites:
 - "[[what_is_a_conditional_probability_in_a_simulation]]"
 nocite: |
@@ -17,7 +17,7 @@ The recursive relationship between conditional probabilities suggests we could m
 
 Think about how one might store the set of all possible state partition histories for a sequence of coin flips, and then how this can proliferate in time as the simulation advances.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/coin-flips-tree.svg" /></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/coin-flips-tree.svg" /></center>
 
 The possible state partition histories grow even though the possible state values of a coin flip always remain the same (heads or tails).
 
@@ -25,7 +25,7 @@ The possible state partition histories grow even though the possible state value
 
 In practice, for most real-world systems, the set of possible state values _also_ grows. To see how this can be the case, consider the trajectories of a randomly moving point on a simple 2-dimensional grid.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/random-walker-grid.svg" /></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/random-walker-grid.svg" /></center>
 
 ```{=html}
 <div id="random-walker-demo" style="margin:1.3em 0 0.5em;padding:1em;background:#ffffff;border:1px solid #2c3e50;border-radius:6px;">

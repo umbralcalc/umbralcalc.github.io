@@ -1,7 +1,7 @@
 ---
 title: "How should a grid battery be dispatched as the grid gets greener?"
 images:
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/energy_demand_response_optimisation_for_the_national_grid/energy-balancer-code.svg"
+- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/energy-balancer-code.svg"
 
 cites:
 - "[[how_can_simulations_help_me_take_better_actions]]"
@@ -18,7 +18,7 @@ Grid-scale batteries promise to balance the intermittent renewables of a net-zer
 
 The simulation below is fitted to five years of NESO half-hourly demand data and tracks how a 100 MW / 200 MWh battery's state of charge, revenue, and carbon savings evolve under different dispatch strategies and grid mixes.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/energy_demand_response_optimisation_for_the_national_grid/energy-balancer-code.svg" width="550"/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/energy-balancer-code.svg" width="550"/></center>
 
 Pick a dispatch policy, a grid scenario, and tune the price thresholds; watch how the battery's revenue and carbon impact evolve over a year.
 

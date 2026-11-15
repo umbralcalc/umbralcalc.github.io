@@ -1,7 +1,7 @@
 ---
 title: Can a simulation run inside another simulation?
 images:
-  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/embedded-simulation-run.svg
+  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/embedded-simulation-run.svg
 cites:
 - "[[what_is_a_simulation_run]]"
 - "[[how_do_state_partitions_share_information]]"
@@ -16,19 +16,19 @@ Yes, and it turns out to be one of the more fundamental building blocks in pract
 
 Enabling whole 'inner' simulation runs to start and complete within each timestep of an 'outer' simulation run is very useful. We shall call these 'embedded simulation runs'.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/embedded-simulation-run.svg"/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/embedded-simulation-run.svg"/></center>
 
 There are then several ways one can think of to pass information from the outer simulation into the inner simulation prior to running it on each timestep.
 
 Treating the inner simulation as a partition of the outer simulation, one example is to simply pass parameters from the outer simulation into the inner simulation, and nothing else.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/embedded-sim-iterate.svg" width=600/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/embedded-sim-iterate.svg" width=600/></center>
 
 Another example is to pass both the cumulative timesteps history and state partition histories from the outer simulation into the inner simulation, in addition to the parameters.
 
 Consider how this might be used to create useful statistical operations over the history of the outer simulation, e.g., like rolling window averages.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/embedded-sim-from-history.svg" width=600/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/embedded-sim-from-history.svg" width=600/></center>
 
 ## Example: Rolling future temperature forecast
 

@@ -1,7 +1,7 @@
 ---
 title: What is a conditional probability in a simulation?
 images:
-  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/conditional-probability.svg
+  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/conditional-probability.svg
 cites:
 - "[[how_is_the_probability_of_a_state_partition_history_evaluated]]"
 nocite: |
@@ -17,11 +17,11 @@ We can relate two successive probability evaluations in time together by making 
 
 We call the second of these two evaluations a conditional probability because its probability is _conditional_ on the probability of the first.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/conditional-probability.svg" /></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/conditional-probability.svg" /></center>
 
 The probabilities for the whole state partition history change as the simulation advances in time by adding the next state partition values into the history.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/probabilistic_thinking_for_simulations/evolving-state-partition-history-probability.svg" /></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/evolving-state-partition-history-probability.svg" /></center>
 
 This concept also applies to the probability of regions.
 

@@ -1,7 +1,7 @@
 ---
 title: "How does a simulation keep track of time?"
 images:
-- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/cumulative-timesteps-history.svg"
+- "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/cumulative-timesteps-history.svg"
 cites:
 - "[[why_should_i_simulate_the_real_world]]"
 nocite: |
@@ -19,7 +19,7 @@ Time is a variable in the simulation which always increases in value. We often w
 
 The data structure that does this is a 'cumulative timesteps history', which indexes simulated times that the simulation _had_ according to _decreasing recency_.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/the_building_blocks_of_simulations/cumulative-timesteps-history.svg" width=600/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/cumulative-timesteps-history.svg" width=600/></center>
 
 ## References and further reading
 

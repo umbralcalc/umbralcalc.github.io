@@ -1,8 +1,8 @@
 ---
 title: What if I can only partly observe the system?
 images:
-  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/how_can_a_simulation_be_wrong/sampling-prevalence.svg
-  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/how_can_a_simulation_be_wrong/additional-uncertainty-with-trajectories.svg
+  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/sampling-prevalence.svg
+  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/additional-uncertainty-with-trajectories.svg
 cites:
   - "[[how_does_an_action_enter_a_simulation]]"
   - "[[why_think_about_a_simulation_probabilistically]]"
@@ -17,7 +17,7 @@ Consider the logic which our [[what_makes_an_action_good|action-to-outcome simul
 
 Making this example more realistic; you are not normally able to test every individual person in the population for the true disease prevalence because this takes too long and it is too expensive. So you only regularly sample, e.g., 1000 random people out of 1 million.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/how_can_a_simulation_be_wrong/sampling-prevalence.svg"/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/sampling-prevalence.svg"/></center>
 
 This immediately introduces a problem: how do you _know_ precisely when you have eliminated the disease? There is uncertainty in the exact state of the system at any moment in time.
 
@@ -25,7 +25,7 @@ So a more complete picture of the [[why_think_about_a_simulation_probabilistical
 
 This essentially means more paths and possible outcomes.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/how_can_a_simulation_be_wrong/additional-uncertainty-with-trajectories.svg"/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/additional-uncertainty-with-trajectories.svg"/></center>
 
 The key takeaway from this is that even with a perfect simulation of the real world, the realities of real-world data gathering very often mean we can only get a _partial view_ of the true state of the system at best. This leads to additional uncertainty.
 

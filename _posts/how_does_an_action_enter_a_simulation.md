@@ -1,7 +1,7 @@
 ---
 title: How does an action enter a simulation?
 images:
-  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/what_makes_an_action_good/action-taking.svg
+  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/action-taking.svg
 cites:
   - "[[how_can_i_trust_the_actions_i_take_in_simulations]]"
   - "[[how_are_a_partitions_next_values_calculated]]"
@@ -17,13 +17,13 @@ The simplest way to do this is to apply changes to parameters in the iterations 
 
 This can effectively simulate an action taken at any point in time, so long as the simulation logic supports this behaviour and exposes the relevant parameters.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/what_makes_an_action_good/action-taking.svg"/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/action-taking.svg"/></center>
 
 For simplicity, we can think of the entire simulation as one operation that produces outcomes as the result of our actions.
 
 This operation represents applying the relevant iteration logic to every [[what_is_a_state_partition|state partition]] given it parameters, and outputting the next values of all partitions for that point in time.
 
-<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/what_makes_an_action_good/iterate-simulated-action.svg"/></center>
+<center><img src="https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/iterate-simulated-action.svg"/></center>
 
 ## References and further reading
 
