@@ -1,7 +1,5 @@
 ---
 title: How can simulations help me take better actions?
-images:
-  - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/how-can-simulations-help-me-take-better-actions-cover.svg
 nocite: "@epstein2008, @suttonbarto2018, @stochadex"
 ---
 # How can simulations help me take better actions?
