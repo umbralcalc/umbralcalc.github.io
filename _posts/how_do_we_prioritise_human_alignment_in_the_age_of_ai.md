@@ -28,7 +28,7 @@ To resolve this issue, we can draw experience from how humans aligned before AI.
 
 
 
-The question this raises is: if we really want to optimise for _human_ alignment in this system, should we consider [removing the private AI chats altogether](#ref-shneidermanmaes1997)? 
+The question this raises is: if we really want to prioritise _human_ alignment in this system, should we consider [removing the private AI chats altogether](#ref-shneidermanmaes1997)? 
 
 Communication would still occur between all components of the system, however, their tendencies to reach misaligned outcomes are [controlled through this artefact](#ref-heylighen2016). Perhaps we should be designing applications this way?
 
