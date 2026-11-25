@@ -2,6 +2,7 @@
 title: How do I set up a simulation to learn a policy?
 cites:
   - "[[what_is_a_policy]]"
+  - "[[what_objective_does_a_simulation_learn_against]]"
   - "[[what_is_a_state_partition]]"
 nocite: |
   @suttonbarto2018

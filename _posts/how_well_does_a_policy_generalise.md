@@ -1,7 +1,7 @@
 ---
 title: How well does a policy generalise?
 cites:
-  - "[[what_is_a_policy]]"
+  - "[[how_do_i_set_up_a_simulation_to_learn_a_policy]]"
   - "[[is_a_sloppy_simulation_a_bad_one]]"
 nocite: |
   @transtrum2015

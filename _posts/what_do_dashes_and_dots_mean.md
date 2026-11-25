@@ -5,6 +5,7 @@ images:
 cites:
 - "[[what_is_the_visual_grammar_of_this_blog]]"
 - "[[what_do_the_shapes_mean]]"
+- "[[what_do_the_arrows_mean]]"
 nocite: |
   @clevelandmcgill1984
 ---

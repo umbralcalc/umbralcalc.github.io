@@ -4,7 +4,7 @@ images:
   - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/sampling-prevalence.svg
   - https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/additional-uncertainty-with-trajectories.svg
 cites:
-  - "[[how_does_an_action_enter_a_simulation]]"
+  - "[[what_makes_an_action_good]]"
   - "[[why_think_about_a_simulation_probabilistically]]"
 nocite: |
   @sargent2013
@@ -13,7 +13,7 @@ nocite: |
 # What if I can only partly observe the system?
 <div style="height:0.75em;"></div>
 
-Consider the logic which our [[what_makes_an_action_good|action-to-outcome simulation]] might use when applied to the example of stopping mass treatment in a population when the prevalence of the disease has gone to 0.
+Consider the logic which our [[what_makes_an_action_good|action-to-outcome simulation]] might use when applied to an example: stopping mass treatment in a population when the prevalence of the disease has gone to 0.
 
 Making this example more realistic; you are not normally able to test every individual person in the population for the true disease prevalence because this takes too long and it is too expensive. So you only regularly sample, e.g., 1000 random people out of 1 million.
 

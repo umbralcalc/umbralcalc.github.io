@@ -4,7 +4,7 @@ images:
 - "https://pub-afdb1348ec964ca5b530aa758c0bdc56.r2.dev/assets/umbralcalculations/online-posterior-estimation.svg"
 cites:
 - "[[how_does_a_simulation_learn_its_parameters_from_data]]"
-- "[[can_one_trajectory_be_enough_to_estimate_statistics]]"
+- "[[how_do_we_get_probabilities_back_from_statistics]]"
 nocite: |
   @gordon1993, @doucet2011
 ---
